@@ -1,0 +1,12 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Required docs exist (placeholder until W1)
+        run: |
+          for f in README.md docs/INVENTORY.md docs/ARCHITECTURE.md docs/TRUST-LEVELS.md docs/spec/event-schema-v1.md docs/spec/artifact-manifest-v1.md; do
+            test -s "$f" || { echo "missing $f"; exit 1; }
+          done
