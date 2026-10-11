@@ -63,3 +63,5 @@ Not in v1: comments fed back to agents, cloud sync/hosted storage, multiple agen
 
 ## License
 **TBD** — pending the provenance and license review in [docs/INVENTORY.md](docs/INVENTORY.md). Until then, all rights reserved; no code is ported before the review is done.
+
+> **Security note:** Bei gleicher UID kann sich der Agent selbst freigeben; Schutz erst mit eigenem Unix-User/Sandbox. The approval gate is not a sandbox. See `docs/TRUST-LEVELS.md`.

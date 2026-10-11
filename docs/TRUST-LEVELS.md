@@ -32,3 +32,9 @@ Principles:
 - The gate re-verifies the ledger (with the key) before acting, requires a valid UTC `expires_at`, and records `action.executed` **before** running the command.
 - **The gate is not a sandbox.** It protects only actions that need a capability the agent does not hold (`--gate-env`) and that go through `truthlens request`.
 - **Residual risk:** the agent runs under the same OS user. If it knows the key file path it can read it and forge signed events. Real isolation needs a separate OS user/container or a key held by another process (post-MVP). The gate also only controls actions that need the gated capability; anything the agent can do with its own permissions it can still do directly (and the wrapper sees only the resulting git changes).
+
+## Same-UID risk for workers (2026-10-11)
+**Bei gleicher UID kann sich der Agent selbst freigeben; Schutz erst mit eigenem Unix-User/Sandbox.**
+- A worker running as the box user can read everything that user can: the HMAC key file (path visible in `/proc/$PPID/cmdline`, also via `/proc/$PPID/fd`, `/proc/$PPID/mem` or by searching), the Cursor token in `~/.cursor`, the `gh` token and the OpenRouter key. Hiding the key path is not a fix. `tests/test_round5.py::test_a_same_uid_agent_cannot_read_key` performs this attack and is marked xfail (known risk).
+- Mitigation started: a dedicated Unix user `tl-agent` (owner-approved 2026-10-11 05:00) with its own home `/srv/tl-agent` and worktree root `/srv/tl-agent/wt`. Run as `sudo -u tl-agent env -i ...`, the same attack sees the key path but cannot read the key (`test_a_separate_uid_agent_cannot_read_key`, local only).
+- Not done yet: `tl-cycle.sh` workers (OpenCode, Cursor) still run as the box user; moving them to `tl-agent` needs their binaries/logins under `/srv/tl-agent`. Until then every run on this box is same-UID.
