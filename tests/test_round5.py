@@ -174,3 +174,12 @@ def test_d2_cli_act_rollback_refused_via_external_anchor(tmp_path, monkeypatch, 
     led.write_bytes(snap)  # rollback to the state right after approval.granted
     assert main(["act", str(led), "--", "touch", str(flag)]) != 0
     assert not flag.exists()
+
+
+def test_6_key_redacted_in_binary_blob():
+    from truthlens.wrapper import _scrub_bytes
+    key = "hmac-key-outside-agent"
+    out = _scrub_bytes(b"\xff\x00" + key.encode() + b"\x01", [key])
+    assert key.encode() not in out and out.startswith(b"\xff\x00")
+    raw = b"\xfe\xffkey\x80"  # non-UTF-8 key bytes
+    assert raw not in _scrub_bytes(b"x" + raw, [raw.decode("utf-8", "surrogateescape")])

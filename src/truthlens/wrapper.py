@@ -136,7 +136,12 @@ def child_env(pass_env: list[str], drop: set[str]) -> dict[str, str]:
 
 
 def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
-    """Redact text blobs (diffs, file contents, headers) before they enter the store; binary stays as is."""
+    """Redact blobs before they enter the store. Known secrets (incl. the HMAC key) are removed at byte level
+    first, so they never survive inside binary / non-UTF-8 data; pattern redaction applies to text."""
+    for sec in secrets:
+        b = sec.encode("utf-8", "surrogateescape") if sec else b""
+        if len(b) >= 4:
+            data = data.replace(b, b"[REDACTED]")
     try:
         text = data.decode("utf-8")
     except UnicodeDecodeError:
@@ -183,7 +188,7 @@ def run(cfg: RunConfig) -> dict:
     run_id = new_id("run")
     secrets = [os.environ.get(k, "") for k in cfg.pass_env + cfg.gate_env]
     if cfg.hmac_key:
-        secrets.append(cfg.hmac_key.decode("utf-8", "replace"))  # never store the key in clear if the agent leaks it
+        secrets.append(cfg.hmac_key.decode("utf-8", "surrogateescape"))  # never store the key in clear if the agent leaks it
     drop = {k for k, v in os.environ.items() if cfg.hmac_key and v.encode() == cfg.hmac_key}
 
     def emit(actor: dict, t: str, payload: dict) -> dict:
