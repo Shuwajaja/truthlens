@@ -29,7 +29,6 @@ ENV_ALLOW = ("PATH", "HOME", "LANG", "LC_ALL", "TERM", "USER", "SHELL", "TMPDIR"
              "XDG_DATA_HOME", "XDG_CACHE_HOME", "XDG_STATE_HOME")
 TEST_PATH = os.pathsep.join(dict.fromkeys([os.path.dirname(sys.executable), "/usr/local/bin", "/usr/bin", "/bin"]))
 CLAIM_TRAILER = re.compile(r"^TRUTHLENS_CLAIMS:\s*(\[.*\])\s*$", re.MULTILINE)
-_COUNT = re.compile(r"(\d+) (passed|failed|skipped|errors?|error)\b")
 
 
 @dataclass
@@ -63,15 +62,21 @@ def parse_test_spec(spec: str) -> TestSpec:
     return TestSpec([i.strip() for i in ids.split(",") if i.strip()], cmd.strip())
 
 
-def parse_pytest_counts(output: str, returncode: int) -> dict:
-    """Counts from the pytest summary line. A non-zero exit without counted failures is a failure
-    (crash, collection error) – except exit 5 = no tests collected, which stays passed=0 (unverified, D27)."""
-    c = {"passed": 0, "failed": 0, "skipped": 0}
-    tail = output.strip().splitlines()[-1:] or [""]
-    for n, word in _COUNT.findall(tail[0]):
-        key = "failed" if word.startswith("error") else word
-        c[key] += int(n)
-    if returncode not in (0, 5) and c["failed"] == 0:
+def junit_counts(xml: Path, rc: int) -> dict[str, int]:
+    """Counts from pytest's JUnit XML, never from stdout. Missing/invalid XML -> nothing passed.
+    A non-zero exit (except 5 = no tests collected, D27) is always at least one failure."""
+    import xml.etree.ElementTree as ET
+    bad = rc not in (0, 5)
+    c = {"passed": 0, "failed": int(bad), "skipped": 0}
+    try:
+        root = ET.parse(xml).getroot()
+    except (OSError, ET.ParseError):
+        return c
+    suites = [root] if root.tag == "testsuite" else root.findall("testsuite")
+    tot = {k: sum(int(su.get(k, 0) or 0) for su in suites) for k in ("tests", "failures", "errors", "skipped")}
+    failed = tot["failures"] + tot["errors"]
+    c = {"passed": max(tot["tests"] - failed - tot["skipped"], 0), "failed": failed, "skipped": tot["skipped"]}
+    if bad and c["failed"] == 0:
         c["failed"] = 1
     return c
 
@@ -300,13 +305,15 @@ def run(cfg: RunConfig) -> dict:
             test_env = {"PATH": TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8", "TMPDIR": td,
                         "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
             try:
-                tp = subprocess.run(t.command, shell=True, cwd=work, env=test_env, stdin=subprocess.DEVNULL,
+                jx = Path(td) / "junit" / "report.xml"  # outside the copied tree
+                cmd = t.command + (f" --junitxml={jx}" if "pytest" in t.command else "")
+                tp = subprocess.run(cmd, shell=True, cwd=work, env=test_env, stdin=subprocess.DEVNULL,
                                     capture_output=True, timeout=600, check=False)
                 text, trc = (tp.stdout + tp.stderr).decode("utf-8", "replace"), tp.returncode
             except subprocess.TimeoutExpired:
                 text, trc = "[truthlens: test timeout]", 124
+            counts = junit_counts(jx, trc)  # counts never come from stdout (forgeable by printing)
         text = _scrub(text, secrets)
-        counts = parse_pytest_counts(text, trc)
         if "No module named pytest" in text:  # #32.4: missing runner is not evidence of failure -> not decisive
             counts = {"passed": 0, "failed": 0, "skipped": 0}
             text += "\n[truthlens: test runner unavailable in clean env; result not decisive]"

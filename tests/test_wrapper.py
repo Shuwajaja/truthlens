@@ -6,7 +6,7 @@ import textwrap
 
 from truthlens.cli import main
 from truthlens.ledger import Ledger, verify
-from truthlens.wrapper import parse_pytest_counts
+from truthlens.wrapper import junit_counts
 
 AGENT = textwrap.dedent("""
     import os, pathlib
@@ -106,11 +106,13 @@ def test_gate_blocks_until_human_approval(tmp_path, monkeypatch, capsys):
     assert verify(led).ok
 
 
-def test_pytest_counts():
-    assert parse_pytest_counts("1 failed, 2 passed, 1 skipped in 0.1s", 1) == {"passed": 2, "failed": 1, "skipped": 1}
-    assert parse_pytest_counts("no tests ran in 0.01s", 5) == {"passed": 0, "failed": 0, "skipped": 0}
-    assert parse_pytest_counts("ImportError", 2)["failed"] == 1
-    assert parse_pytest_counts("1 passed, 1 error in 0.1s", 1) == {"passed": 1, "failed": 1, "skipped": 0}
+def test_junit_counts_not_stdout(tmp_path):
+    x = tmp_path / "r.xml"
+    assert junit_counts(x, 0) == {"passed": 0, "failed": 0, "skipped": 0}  # "5 passed" printed, no XML -> nothing
+    x.write_text('<testsuites><testsuite tests="4" failures="1" errors="0" skipped="1"/></testsuites>')
+    assert junit_counts(x, 1) == {"passed": 2, "failed": 1, "skipped": 1}
+    x.write_text('<testsuite tests="3" failures="0" errors="0" skipped="0"/>')
+    assert junit_counts(x, 2)["failed"] == 1  # non-zero exit always fails
 
 
 GATE_AGENT = textwrap.dedent("""
