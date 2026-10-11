@@ -23,3 +23,8 @@ def test_32_6_long_names_and_input_cap():
     t = time.monotonic()
     redact_str("a" * 1_000_000 + "=1")  # linear, no catastrophic backtracking
     assert time.monotonic() - t < 2
+
+
+def test_39_r6_neighbour_field_not_consumed():
+    assert "hunter2secret" not in redact_str("curl --silent --password hunter2secret https://x")
+    assert "hunter2secret" not in redact_str("info: password=hunter2secret")

@@ -66,6 +66,24 @@ def _flag_val(m: re.Match) -> str:
 MAX_INPUT = 4 * 1024 * 1024  # #32.6: bound the total input instead of the whitespace run
 
 
+def _sub_rescan(pat: re.Pattern, fn, s: str) -> str:
+    """Like pat.sub(fn, s), but a match whose name is NOT secret does not consume its value: scanning resumes
+    right after the name, so a secret field next to it (`--silent --password v`, `info: password=v`) is seen."""
+    out, pos = [], 0
+    while True:
+        m = pat.search(s, pos)
+        if not m:
+            out.append(s[pos:])
+            return "".join(out)
+        r = fn(m)
+        if r == m.group(0):
+            out.append(s[pos:m.end(1)])
+            pos = m.end(1)
+        else:
+            out.append(s[pos:m.start()] + r)
+            pos = m.end()
+
+
 def redact_str(value: str) -> str:
     if len(value) > MAX_INPUT:
         return REDACTED + " [input too large to redact safely]"
@@ -82,8 +100,8 @@ def redact_str(value: str) -> str:
             return m.group(1) + REDACTED + val[cut:]
         return m.group(1) + REDACTED
 
-    value = _ASSIGN.sub(_assign, value)
-    value = _FLAG_VAL.sub(_flag_val, value)
+    value = _sub_rescan(_ASSIGN, _assign, value)
+    value = _sub_rescan(_FLAG_VAL, _flag_val, value)
     value = _USER_FLAG.sub(lambda m: m.group(1) + " " + REDACTED, value)
     return value
 
