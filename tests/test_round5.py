@@ -72,7 +72,7 @@ def test_c_shadow_pytest_and_ignored_conftest_do_not_count(tmp_path):
     subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"], check=True)
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
-                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider test_mail.py",
+                 "--test", f"c2={sys.executable} -m pytest -q  test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
@@ -202,7 +202,7 @@ def test_witnessed_tests_run_as_test_user_cannot_read_key(tmp_path):
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--test-user", "tl-agent",
                  "--test-path", "/srv/tl-agent/venv/bin:/usr/bin:/bin",
-                 "--test", "c1=python -m pytest -q -p no:cacheprovider test_k.py",
+                 "--test", "c1=python -m pytest -q  test_k.py",
                  "--hmac-key-file", str(keyf), "--hmac-key-id", "k1", "--", "true"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["passed"] == 1 and rep["failed"] == 0
@@ -233,7 +233,7 @@ def test_34_review_symlinked_tests_dir_and_key_filename(tmp_path):
     subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"], check=True)
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
-                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider test_mail.py",
+                 "--test", f"c2={sys.executable} -m pytest -q  test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
@@ -406,7 +406,7 @@ def test_r6_absolute_test_path_into_live_repo_runs_the_copy(tmp_path):
     subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"], check=True)
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
-                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider {r.resolve()}/test_mail.py",
+                 "--test", f"c2={sys.executable} -m pytest -q  {r.resolve()}/test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
@@ -502,7 +502,7 @@ def test_r6_wrapper_short_opt_path_mapped(tmp_path):
                    check=True, capture_output=True)
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
-                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider -c{r.resolve() / 'pytest.ini'} test_mail.py",
+                 "--test", f"c2={sys.executable} -m pytest -q  test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
@@ -525,7 +525,7 @@ def test_r6_symlink_in_test_command_mapped_to_copy(tmp_path):
         os.symlink(str(r), str(link))
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
-                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider {link}/test_pass.py",
+                 "--test", f"c2={sys.executable} -m pytest -q  {link}/test_pass.py",
 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                   "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
@@ -595,7 +595,7 @@ def test_r6_symlink_quoted_path_in_test_command(tmp_path):
         os.symlink(str(r.resolve()), str(link))
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
-                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider '{link}/test_mail.py'",
+                 "--test", f"c2={sys.executable} -m pytest -q  '{link}/test_mail.py'",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
@@ -659,7 +659,7 @@ def test_r6_live_path_fail_closed_qc_opt(tmp_path):
                    check=True, capture_output=True)
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
-                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider -qc{r.resolve() / 'pytest.ini'} test_mail.py",
+                 "--test", f"c2={sys.executable} -m pytest -q  -qc{r.resolve() / 'pytest.ini'} test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
@@ -675,7 +675,7 @@ def test_r6_live_path_fail_closed_pytest_addopts(tmp_path):
                    check=True, capture_output=True)
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
-                 "--test", f"c2=env PYTEST_ADDOPTS=-c{r.resolve()}/x.ini {sys.executable} -m pytest -q -p no:cacheprovider test_mail.py",
+                 "--test", f"c2=env PYTEST_ADDOPTS=-c{r.resolve()}/x.ini {sys.executable} -m pytest -q  test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
@@ -691,7 +691,7 @@ def test_r6_live_path_fail_closed_o_option(tmp_path):
                    check=True, capture_output=True)
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
-                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider -o 'pythonpath=/x {r.resolve()}' test_mail.py",
+                 "--test", f"c2={sys.executable} -m pytest -q  -o 'pythonpath=/x {r.resolve()}' test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
@@ -707,7 +707,7 @@ def test_r6_live_path_fail_closed_override_ini(tmp_path):
                    check=True, capture_output=True)
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
-                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider --override-ini=pythonpath={r.resolve()}/src test_mail.py",
+                 "--test", f"c2={sys.executable} -m pytest -q  --override-ini=pythonpath={r.resolve()}/src test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
@@ -723,8 +723,128 @@ def test_r6_live_path_fail_closed_pythonpath(tmp_path):
                    check=True, capture_output=True)
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
-                 "--test", f"c2=env PYTHONPATH={r.resolve()}/a:{r.resolve()}/b {sys.executable} -m pytest -q -p no:cacheprovider test_mail.py",
+                 "--test", f"c2=env PYTHONPATH={r.resolve()}/a:{r.resolve()}/b {sys.executable} -m pytest -q  test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
+
+
+# --- fail-closed relative/.git args and shell -c (round 5 gate blocker) ---
+
+def test_r6_gate_dotdot_git_relative_arg_refused(tmp_path):
+    """A relative arg like `../<rootname>/repo/.git/x.py` is checked against the live root but executed in
+    the snapshot copy, so `.git` (never in the snapshot) could run post-approval code -> refused."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / ".git").mkdir()
+    (repo / ".git" / "x.py").write_text("print('evil')\n")
+    escaped = f"../{tmp_path.name}/repo/.git/x.py"
+    with pytest.raises(LedgerError, match="outside"):
+        gate.act(led, {"kind": "agent", "id": "a"}, [sys.executable, escaped], str(repo))
+
+
+def test_r6_gate_sh_dash_c_refused(tmp_path):
+    """`sh -c '...'` runs arbitrary code not in the snapshot -> refused."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    with pytest.raises(LedgerError, match="shell -c"):
+        gate.act(led, {"kind": "agent", "id": "a"}, ["sh", "-c", "echo hi"], str(repo))
+
+
+def test_r6_gate_bash_dash_ec_refused(tmp_path):
+    """`bash -ec '...'`: the bundled -c in a flag word is refused like bare `-c`."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    with pytest.raises(LedgerError, match="shell -c"):
+        gate.act(led, {"kind": "agent", "id": "a"}, ["bash", "-ec", "echo hi"], str(repo))
+
+
+def test_r6_gate_abs_git_arg_refused(tmp_path):
+    """An absolute in-tree path into `.git` (excluded from the snapshot) must be refused even if it exists."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    hooks = repo / ".git" / "hooks"
+    hooks.mkdir(parents=True)
+    (hooks / "x").write_text("evil")
+    with pytest.raises(LedgerError, match=".git"):
+        gate.act(led, {"kind": "agent", "id": "a"}, [sys.executable, str(repo / ".git" / "hooks" / "x")], str(repo))
+
+
+def test_r6_symlink_alias_in_override_ini_refused(tmp_path):
+    """--override-ini=pythonpath=<tmp>/alias with alias -> live repo: symlink bypass -> refused (125)."""
+    r, crit = _repo(tmp_path)
+    alias = tmp_path / "alias"
+    try:
+        alias.symlink_to(r)
+    except AttributeError:
+        os.symlink(str(r), str(alias))
+    (r / "evil.py").write_text("open('test_mail.py','w').write('def test_mail():\\n    assert True\\n')\n")
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"],
+                   check=True, capture_output=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2={sys.executable} -m pytest -q --override-ini=pythonpath={alias}/src test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
+
+
+def test_r6_symlink_alias_in_env_pythonpath_refused(tmp_path):
+    """env PYTHONPATH=<tmp>/alias with alias -> live repo: symlink bypass via env -> refused (125)."""
+    r, crit = _repo(tmp_path)
+    alias = tmp_path / "alias"
+    try:
+        alias.symlink_to(r)
+    except AttributeError:
+        os.symlink(str(r), str(alias))
+    (r / "evil.py").write_text("open('test_mail.py','w').write('def test_mail():\\n    assert True\\n')\n")
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"],
+                   check=True, capture_output=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2=env PYTHONPATH={alias} {sys.executable} -m pytest -q test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
+
+
+def test_r6_gate_symlink_alias_in_argv_refused(tmp_path):
+    """--x=<tmp>/alias/file with alias -> live root: realpath resolves into live tree -> LedgerError."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / "d.sh").write_text("#!/bin/sh\necho ok\n")
+    alias = tmp_path / "alias"
+    try:
+        alias.symlink_to(repo)
+    except AttributeError:
+        os.symlink(str(repo), str(alias))
+    f = alias / "d.sh"
+    with pytest.raises(LedgerError):
+        gate.act(led, {"kind": "agent", "id": "a"}, ["sh", f"--x={f}"], str(repo))
+
+
+def test_r6_gate_symlink_alias_in_pathlist_refused(tmp_path):
+    """PATHLIST=<tmp>/a:<tmp>/alias with alias -> live root: pathlist element resolves into live tree -> LedgerError."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / "d.sh").write_text("#!/bin/sh\necho ok\n")
+    a_dir = tmp_path / "a"
+    a_dir.mkdir()
+    alias = tmp_path / "alias"
+    try:
+        alias.symlink_to(repo)
+    except AttributeError:
+        os.symlink(str(repo), str(alias))
+    with pytest.raises(LedgerError, match="live repo path via symlink"):
+        gate.act(led, {"kind": "agent", "id": "a"}, ["sh", f"PATHLIST={a_dir}:{alias}"], str(repo))
