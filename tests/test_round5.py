@@ -289,3 +289,15 @@ def test_42_review_absolute_in_tree_paths_modes_and_git_file(tmp_path):
     gate.approve(led, "shu", info["action_hash"])
     rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, ["sh", str(repo / "d.sh")], str(repo))
     assert rc == 0 and out.read_text() == "ok\n"  # absolute in-tree path ran from the approved copy
+
+
+def test_46_review_isolation_failure_is_no_evidence_and_run_finishes(tmp_path):
+    r, crit = _repo(tmp_path)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test-user", "no-such-user-tl", "--test", "c1=python -m pytest -q test_page.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+    ev = Ledger(out / "ledger.jsonl").read()
+    rep = next(e for e in ev if e["type"] == "test.reported")["payload"]
+    assert rep["passed"] == 0 and rep["failed"] == 0 and rep["exit_code"] == 125
+    assert ev[-1]["type"] == "run.finished"

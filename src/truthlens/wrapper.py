@@ -64,6 +64,10 @@ def parse_test_spec(spec: str) -> TestSpec:
     return TestSpec([i.strip() for i in ids.split(",") if i.strip()], cmd.strip())
 
 
+class _HelperError(Exception):
+    pass
+
+
 def junit_counts(xml: Path, rc: int) -> dict[str, int]:
     """Counts from pytest's JUnit XML, never from stdout. Missing/invalid XML -> nothing passed.
     A non-zero exit (except 5 = no tests collected, D27) is always at least one failure."""
@@ -296,7 +300,7 @@ def run(cfg: RunConfig) -> dict:
                                             "sha256": blob("\n".join(tampered).encode()), "refers_to": "protected",
                                             "changed": [_scrub(c, secrets) for c in tampered], "result": "info"})
     for t in cfg.tests:
-        with tempfile.TemporaryDirectory(prefix="tl-test-") as td:
+        with tempfile.TemporaryDirectory(prefix="tl-test-", ignore_cleanup_errors=True) as td:
             work, home = Path(td) / "w", Path(td) / "home"
             # round-5 finding c: copy only tracked + non-ignored files (git-ignored conftest.py never enters),
             # drop shadow modules (pytest.py, _pytest/, sitecustomize.py, *.pth), run with PYTHONSAFEPATH
@@ -335,25 +339,48 @@ def run(cfg: RunConfig) -> dict:
             test_env["PYTEST_ADDOPTS"] = f"--junitxml={jx}"
             cmd = t.command
             argv, env_ = ["/bin/sh", "-c", cmd], test_env
+            helper_err = None
             if cfg.test_user:
                 # separate UID: test code cannot read the HMAC key, the rollback anchors or other box secrets.
-                # Kill leftover processes of that user first so an agent daemon cannot plant the XML later.
+                # Leftover processes of that user are killed first (pkill exit 1 = none; anything else aborts).
                 u = cfg.test_user
-                subprocess.run(["sudo", "-n", "-u", u, "pkill", "-KILL", "-u", u], capture_output=True, check=False)
-                os.chmod(td, 0o711)
-                subprocess.run(["sudo", "-n", "chown", "-R", u, str(work), str(home), str(jx.parent)], check=True)
+                try:
+                    pk = subprocess.run(["sudo", "-n", "-u", u, "pkill", "-KILL", "-u", u], capture_output=True,
+                                        check=False)
+                except OSError as e:
+                    pk = subprocess.CompletedProcess([], 127, b"", str(e).encode())
+                if pk.returncode not in (0, 1):
+                    helper_err = f"pkill failed (exit {pk.returncode})"
+                else:
+                    os.chmod(td, 0o711)
+                    try:
+                        ch = subprocess.run(["sudo", "-n", "chown", "-R", u, str(work), str(home), str(jx.parent)],
+                                            capture_output=True, check=False)
+                    except OSError:
+                        ch = subprocess.CompletedProcess([], 127)
+                    if ch.returncode != 0:
+                        helper_err = f"chown to {u} failed (exit {ch.returncode})"
                 argv = ["sudo", "-n", "-u", u, "env", "-i", *[f"{k}={v}" for k, v in test_env.items()], *argv]
                 env_ = None
             try:
+                if helper_err:
+                    raise _HelperError(helper_err)
                 tp = subprocess.run(argv, cwd=work, env=env_, stdin=subprocess.DEVNULL,
                                     capture_output=True, timeout=600, check=False)
                 text, trc = _strip_secret_bytes(tp.stdout + tp.stderr, secrets).decode("utf-8", "replace"), tp.returncode
             except subprocess.TimeoutExpired:
                 text, trc = "[truthlens: test timeout]", 124
-            counts = junit_counts(jx, trc)  # counts never come from stdout (forgeable by printing)
-            if cfg.test_user:  # hand the copy back so the temp dir can be removed
-                subprocess.run(["sudo", "-n", "chown", "-R", str(os.getuid()), str(work), str(home), str(jx.parent)],
-                               capture_output=True, check=False)
+            except _HelperError as e:  # isolation could not be established: no evidence, run still finishes
+                text, trc = f"[truthlens: test isolation failed: {e}; tests not run]", 125
+            counts = junit_counts(jx, trc) if not helper_err else {"passed": 0, "failed": 0, "skipped": 0}
+            if cfg.test_user:  # hand the copy back so the temp dir can be removed; failure is reported
+                try:
+                    back = subprocess.run(["sudo", "-n", "chown", "-R", str(os.getuid()), str(work), str(home),
+                                           str(jx.parent)], capture_output=True, check=False)
+                except OSError:
+                    back = subprocess.CompletedProcess([], 127)
+                if back.returncode != 0 and not helper_err:
+                    text += f"\n[truthlens: chown back failed (exit {back.returncode}); temp dir may remain]"
         text = _scrub(text, secrets)
         if "pytest" in t.command and not runner_ok:  # #32.4: decided independently of the test output
             counts = {"passed": 0, "failed": 0, "skipped": 0}
