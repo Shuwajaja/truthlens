@@ -292,11 +292,14 @@ def run(cfg: RunConfig) -> dict:
                 if is_protected(rel) and rel not in protected_before:
                     (work / rel).unlink(missing_ok=True)
             for rel, data in protected_before.items():
+                if not Path(os.path.realpath(work / rel)).parent.is_relative_to(work.resolve()):
+                    continue  # #32.5: check containment BEFORE creating anything (no mkdir through symlinks)
                 (work / rel).parent.mkdir(parents=True, exist_ok=True)
-                if not (work / rel).parent.resolve().is_relative_to(work.resolve()):
-                    continue  # #32.5: never restore through a directory symlink out of the copy
                 (work / rel).unlink(missing_ok=True)
                 (work / rel).write_bytes(data)
+            runner_ok = subprocess.run([sys.executable, "-s", "-c", "import pytest"], cwd=td, capture_output=True,
+                                       env={"PATH": TEST_PATH, "HOME": str(home), "PYTHONNOUSERSITE": "1"},
+                                       check=False).returncode == 0
             test_env = {"PATH": TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8", "TMPDIR": td,
                         "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
             try:
@@ -307,9 +310,9 @@ def run(cfg: RunConfig) -> dict:
                 text, trc = "[truthlens: test timeout]", 124
         text = _scrub(text, secrets)
         counts = parse_pytest_counts(text, trc)
-        if "No module named pytest" in text:  # #32.4: missing runner is not evidence of failure -> not decisive
+        if "pytest" in t.command and not runner_ok:  # #32.4: decided independently of the test output
             counts = {"passed": 0, "failed": 0, "skipped": 0}
-            text += "\n[truthlens: test runner unavailable in clean env; result not decisive]"
+            text += "\n[truthlens: pytest not importable in the clean env; result not decisive]"
         rep_ = blob(f"$ {t.command}\nexit {trc}\n{text}".encode())
         emit(WRAPPER, "test.reported", {"suite": t.command, **counts, "exit_code": trc,
                                         "report_artifact_id": rep_,
