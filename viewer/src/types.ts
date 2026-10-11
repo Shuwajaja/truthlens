@@ -11,4 +11,6 @@ export interface RunDoc {
   run: { run_id: string; project: string; agent: string; command: string; started: string; finished: string | null; exit_code: number | null; ledger_last_hash: string; events: number }
   counts: Record<Card, number>
   criteria: Criterion[]; claims: Claim[]; artifacts: Artifact[]; events: RunEvent[]
+  /** sha256 hex → exported text (optional; present when export embeds blob bodies). */
+  blobs?: Record<string, string>
 }
