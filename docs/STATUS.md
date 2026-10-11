@@ -55,5 +55,4 @@ Total cap 10.00 USD · measured 05:25: $0.4413 total.
 1. CodexChat review of #34/#38/#39/#40; then demo-2 rerun.
 2. Developer/Client lens toggle.
 3. Run tests as tl-agent (needs a venv readable by tl-agent); decide on Cursor under tl-agent (requires copying Shu's token).
-2. Architecture doc refresh; 3-minute demo script based on demo-2 + viewer screenshots (/workspace/projects/truthlens-screens).
-3. Optional: run the agent under a separate UID to close the key-file residual risk.
+4. Architecture doc refresh; 3-minute demo script based on demo-2 + viewer screenshots (/workspace/projects/truthlens-screens).
