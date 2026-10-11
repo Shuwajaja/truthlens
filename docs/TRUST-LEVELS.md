@@ -42,3 +42,5 @@ Principles:
 - Not done yet: `tl-cycle.sh` workers (OpenCode, Cursor) still run as the box user; moving them to `tl-agent` needs their binaries/logins under `/srv/tl-agent`. Until then every run on this box is same-UID.
 
 - **Accepted v1 limit (Shu, 2026-10-11):** "met" means the restored test command reported success; app code running in the test process can forge it.
+
+- **Known limit (gate snapshot execution):** an approved action runs a private copy of the bound program bytes inside the snapshot directory. Interpreters that locate their stdlib relative to the binary (uv-managed / relocatable Python builds) cannot start from such a copy, so approved actions using them fail. Use a system interpreter (e.g. `/usr/bin/python3`) for gated actions.
