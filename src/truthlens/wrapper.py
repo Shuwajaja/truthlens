@@ -75,7 +75,12 @@ def junit_counts(xml: Path, rc: int) -> dict[str, int]:
     except (OSError, ET.ParseError):
         return c
     suites = [root] if root.tag == "testsuite" else root.findall("testsuite")
-    tot = {k: sum(int(su.get(k, 0) or 0) for su in suites) for k in ("tests", "failures", "errors", "skipped")}
+    try:
+        tot = {k: sum(int(su.get(k, 0) or 0) for su in suites) for k in ("tests", "failures", "errors", "skipped")}
+    except ValueError:
+        return c
+    if not suites or min(tot.values()) < 0 or tot["failures"] + tot["errors"] + tot["skipped"] > tot["tests"]:
+        return c  # malformed / inconsistent XML is no evidence
     failed = tot["failures"] + tot["errors"]
     c = {"passed": max(tot["tests"] - failed - tot["skipped"], 0), "failed": failed, "skipped": tot["skipped"]}
     if bad and c["failed"] == 0:
@@ -137,13 +142,19 @@ def child_env(pass_env: list[str], drop: set[str]) -> dict[str, str]:
     return env
 
 
-def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
-    """Redact blobs before they enter the store. Known secrets (incl. the HMAC key) are removed at byte level
-    first, so they never survive inside binary / non-UTF-8 data; pattern redaction applies to text."""
+def _strip_secret_bytes(data: bytes, secrets: list[str]) -> bytes:
+    """Remove known secrets at byte level (before any decoding, so non-UTF-8 keys match too)."""
     for sec in secrets:
         b = sec.encode("utf-8", "surrogateescape") if sec else b""
         if len(b) >= 4:
             data = data.replace(b, b"[REDACTED]")
+    return data
+
+
+def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
+    """Redact blobs before they enter the store. Known secrets (incl. the HMAC key) are removed at byte level
+    first, so they never survive inside binary / non-UTF-8 data; pattern redaction applies to text."""
+    data = _strip_secret_bytes(data, secrets)
     try:
         text = data.decode("utf-8")
     except UnicodeDecodeError:
@@ -227,7 +238,7 @@ def run(cfg: RunConfig) -> dict:
 
     # before snapshot
     before = snapshot(cfg.repo)
-    pre_diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD", "--binary")
+    pre_diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD")
     sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
     protected_before = {rel: _read(cfg.repo / rel) for rel in before if is_protected(rel)}
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "sha256": sha, "kind": "file_changed",
@@ -247,8 +258,8 @@ def run(cfg: RunConfig) -> dict:
     except subprocess.TimeoutExpired as e:
         rc, out, err = 124, e.stdout or b"", (e.stderr or b"") + b"\n[truthlens: timeout]"
     server.stop()
-    stdout = _scrub(out.decode("utf-8", "replace"), secrets)
-    stderr = _scrub(err.decode("utf-8", "replace"), secrets)
+    stdout = _scrub(_strip_secret_bytes(out, secrets).decode("utf-8", "replace"), secrets)
+    stderr = _scrub(_strip_secret_bytes(err, secrets).decode("utf-8", "replace"), secrets)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "command_run",
                                         "sha256": blob(f"$ {_scrub(' '.join(cfg.command), secrets)}\n--- stdout\n{stdout}\n"
                                                        f"--- stderr\n{stderr}".encode()),
@@ -263,10 +274,10 @@ def run(cfg: RunConfig) -> dict:
     # after snapshot: diff + one artifact per changed file
     after = snapshot(cfg.repo)
     changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
-    diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD", "--binary")
+    diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD")
     for rel in changed:
         if rel not in before and rel in after:
-            diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-index", "--binary", "/dev/null", rel, check=False)
+            diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-index", "/dev/null", rel, check=False)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
                                         "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
                                         "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
@@ -319,9 +330,10 @@ def run(cfg: RunConfig) -> dict:
                                             "PYTHONNOUSERSITE": "1"}).returncode == 0
             test_env = {"PATH": cfg.test_path or TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8",
                         "TMPDIR": str(home), "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
-            jx = Path(td) / "junit" / "report.xml"  # outside the copied tree
+            jx = Path(td) / "junit" / "report.xml"  # outside the copied tree; via env, not appended to the line
             jx.parent.mkdir()
-            cmd = t.command + (f" --junitxml={jx}" if "pytest" in t.command else "")
+            test_env["PYTEST_ADDOPTS"] = f"--junitxml={jx}"
+            cmd = t.command
             argv, env_ = ["/bin/sh", "-c", cmd], test_env
             if cfg.test_user:
                 # separate UID: test code cannot read the HMAC key, the rollback anchors or other box secrets.
@@ -335,7 +347,7 @@ def run(cfg: RunConfig) -> dict:
             try:
                 tp = subprocess.run(argv, cwd=work, env=env_, stdin=subprocess.DEVNULL,
                                     capture_output=True, timeout=600, check=False)
-                text, trc = (tp.stdout + tp.stderr).decode("utf-8", "replace"), tp.returncode
+                text, trc = _strip_secret_bytes(tp.stdout + tp.stderr, secrets).decode("utf-8", "replace"), tp.returncode
             except subprocess.TimeoutExpired:
                 text, trc = "[truthlens: test timeout]", 124
             counts = junit_counts(jx, trc)  # counts never come from stdout (forgeable by printing)
@@ -346,8 +358,8 @@ def run(cfg: RunConfig) -> dict:
         if "pytest" in t.command and not runner_ok:  # #32.4: decided independently of the test output
             counts = {"passed": 0, "failed": 0, "skipped": 0}
             text += "\n[truthlens: pytest not importable in the clean env; result not decisive]"
-        rep_ = blob(f"$ {t.command}\nexit {trc}\n{text}".encode())
-        emit(WRAPPER, "test.reported", {"suite": t.command, **counts, "exit_code": trc,
+        rep_ = blob(f"$ {_scrub(t.command, secrets)}\nexit {trc}\n{text}".encode())
+        emit(WRAPPER, "test.reported", {"suite": _scrub(t.command, secrets), **counts, "exit_code": trc,
                                         "report_artifact_id": rep_,
                                         "criterion_ids": [i for i in t.criterion_ids if i in texts]})
 

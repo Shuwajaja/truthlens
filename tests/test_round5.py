@@ -255,3 +255,21 @@ def test_34_review_relative_path_entry_fifo_and_external_symlink(tmp_path):
     os.symlink(tmp_path / "fifo", repo / "ext")
     with pytest.raises(LedgerError, match="symlink points outside"):
         gate.act(led, {"kind": "agent", "id": "a"}, ["cat", "ext"], str(repo))
+
+
+def test_45_review_non_utf8_key_in_agent_stdout_not_stored(tmp_path):
+    r, crit = _repo(tmp_path)
+    raw = b"\xfe\xffnon-utf8-key\x80"
+    keyf = tmp_path / "kd" / "key"
+    keyf.parent.mkdir()
+    keyf.write_bytes(raw)
+    keyf.chmod(0o600)
+    (r / "leak.py").write_text(f"import sys\nsys.stdout.buffer.write(b'DONE: ' + {raw!r} + b'\\n')\n")
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"], check=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--hmac-key-file", str(keyf),
+                 "--hmac-key-id", "k1", "--", sys.executable, "leak.py"]) == 0
+    stored = (out / "ledger.jsonl").read_bytes() + b"".join(p.read_bytes() for p in (out / "blobs").rglob("*")
+                                                             if p.is_file())
+    assert b"non-utf8-key" not in stored
