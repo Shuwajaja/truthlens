@@ -56,8 +56,11 @@ Later: #29 gate channel · #30 viewer · #31 MCP/demo/README · #32 fixes for Co
 | Quality | clean split (detect/view/blob helpers), React text only, plain fallback, "Content not exported" | works, but double-escapes text (`escapeHtml` inside React text → `<` shown as `&lt;`) |
 Result: Cursor merged, OpenCode branch discarded. Cursor = UI worker; OpenCode stays for small bounded tasks.
 
-## Security PRs waiting for CodexChat (do not merge)
-Stack #34 → #39 → #40 → #42 → #43 → #45 → #46, all CI green, labeled `needs-codex-review`; latest fix 751f79f on #46 (07:22), waiting for CodexChat's re-review. Minor findings tracked as security-followup issues #48–#52 (after v1).
+## Security stack: merged (2026-10-11 ~16:50)
+CodexChat approved the stack #34 → #40 → #42 → #43 → #45 → #46 (head 5f0eb6f). It was merged top-down with merge commits after main was merged into the top branch (conflicts in mcp/wrapper/TRUST-LEVELS resolved, CI green). Merge commit on main: 6e01556. New follow-up: #83 (separate `-c <path>` / `--config-file` in the gate, post-v1). Older follow-ups: #48–#52.
+
+## Demo-2 rerun (2026-10-11)
+Real OpenCode (DeepSeek V4 Flash) via `demo/run-demo.sh` on the merged main, run as the box user (not tl-agent). Verify OK (16 events, anchored, manifest consistent). c1 met, c2 unmet, c3 unverified; 1 claim supported, 2 claims unwitnessed. The tamper copy fails closed (hash + HMAC mismatch on line 15). Committed to `demo/runs/demo-2`.
 
 ## Worker isolation
 - OpenCode worker runs as unix user `tl-agent` (agent-config #9): own binary/config under `/srv/tl-agent`, OpenRouter key only in that process from a 600 file owned by tl-agent, worktree under `/srv/tl-agent/wt`. tl-agent cannot read `/home/box` (HMAC key, gh, ~/.cursor) or `/workspace/projects`.
@@ -70,10 +73,9 @@ Stack #34 → #39 → #40 → #42 → #43 → #45 → #46, all CI green, labeled
 - Merge rule changed 2026-10-11 05:00: security PRs never merged without CodexChat review (AGENTS.md).
 
 ## Budget (OpenRouter, /api/v1/key usage)
-Total cap 10.00 USD · measured 08:16: $0.6701 · 08:31: $0.6878 (≈ $0.018, Hermes QA only) · 10:11: $0.6878 · 10:27: $0.8037 (this session ≈ $0.116, OpenCode + Hermes QA, incl. 3 wasted attempts from the permission bug).
+Total cap 10.00 USD · measured 08:16: $0.6701 · 08:31: $0.6878 (≈ $0.018, Hermes QA only) · 10:11: $0.6878 · 10:27: $0.8037 (this session ≈ $0.116, OpenCode + Hermes QA, incl. 3 wasted attempts from the permission bug) · 16:50: $1.8188.
 
 ## Next task
-1. CodexChat re-review of the security stack (#34 … #46); merge in order only after review.
-2. Shu: review README PR #77 (#68).
-3. After the security stack: demo-2 rerun with real OpenCode agent as tl-agent (#62), then #64–#66, #70, #71 (need `agent-ready` + contract lines).
+1. Shu: review README PR #77 (#68).
+2. Optional: demo-2 rerun as tl-agent (#62); then #64–#66, #70, #71 (need `agent-ready` + contract lines).
 4. 3-minute product demo / video (still open).

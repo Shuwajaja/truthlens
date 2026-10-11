@@ -1,0 +1,31 @@
+$ opencode run -m openrouter/deepseek/deepseek-v4-flash Build a small landing page with a contact form.
+--- stdout
+Done. Created `/tmp/d2/fixture/index.html` with a landing page header, contact form (name, email, message), email validation, and responsive layout.
+
+TRUTHLENS_CLAIMS: [{"text": "Created index.html with a page that has a heading and a contact form", "criterion_ids": ["c1"]}, {"text": "The form validates the e-mail address using a regex and shows an error", "criterion_ids": ["c2"]}, {"text": "The page uses a fluid max-width container so it works on mobile", "criterion_ids": ["c3"]}]
+
+--- stderr
+[0m
+> build · deepseek/deepseek-v4-flash
+[0m
+[0m← [0mWrite index.html
+Wrote file successfully.
+[0m
+[0m← [0mEdit index.html
+Index: /tmp/d2/fixture/index.html
+===================================================================
+--- /tmp/d2/fixture/index.html
++++ /tmp/d2/fixture/index.html
+@@ -17,9 +17,9 @@
+ header h1 { font-size: 2.4rem; color: #0d1b2a; }
+ header p { color: #5a6270; margin-top: 0.5rem; }
+ form {
+   background: #fff;
+-  border: 1px solid #e4e7 ee;
++  border: 1px solid #e4e7ee;
+   border-radius: 12px;
+   padding: 1.75rem;
+   box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+   display: flex;
+
+[0m
