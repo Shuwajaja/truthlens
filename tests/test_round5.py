@@ -241,3 +241,57 @@ def test_42_review_absolute_in_tree_paths_modes_and_git_file(tmp_path):
     gate.approve(led, "shu", info["action_hash"])
     rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, ["sh", str(repo / "d.sh")], str(repo))
     assert rc == 0 and out.read_text() == "ok\n"  # absolute in-tree path ran from the approved copy
+
+def test_34_r6_cwd_bound_in_action_hash(tmp_path):
+    a, b = tmp_path / "a", tmp_path / "b"
+    a.mkdir()
+    b.mkdir()
+    assert gate.action_hash(["true"], str(a)) != gate.action_hash(["true"], str(b))
+
+
+def _approve_and_run(tmp_path, repo, argv, env=None, during=None, monkeypatch=None):
+    led = _open_ledger(tmp_path)
+    rc, info = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo), env=env)
+    assert rc == gate.BLOCKED
+    gate.approve(led, "shu", info["action_hash"])
+    if during:
+        real = gate._materialize
+
+        def swap(snap, td):
+            during()  # live tree / program changes after the hash was taken, before execution
+            real(snap, td)
+        monkeypatch.setattr(gate, "_materialize", swap)
+    return gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo), env=env)
+
+
+def test_42_r6_dotdot_program_refused(tmp_path):
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (tmp_path / "evil.sh").write_text("#!/bin/sh\necho evil\n")
+    (tmp_path / "evil.sh").chmod(0o755)
+    with pytest.raises(LedgerError, match="outside"):
+        gate.act(_open_ledger(tmp_path), {"kind": "agent", "id": "a"}, ["../evil.sh"], str(repo))
+
+
+def test_42_r6_external_program_not_re_resolved(tmp_path, monkeypatch):
+    repo, bind, out = tmp_path / "repo", tmp_path / "bin", tmp_path / "out"
+    repo.mkdir()
+    bind.mkdir()
+    (bind / "tool").write_text(f"#!/bin/sh\necho old > {out}\n")
+    (bind / "tool").chmod(0o755)
+    rc, _ = _approve_and_run(tmp_path, repo, ["tool"], env={"PATH": f"{bind}:/usr/bin:/bin"}, monkeypatch=monkeypatch,
+                             during=lambda: (bind / "tool").write_text(f"#!/bin/sh\necho new > {out}\n"))
+    assert rc == 0 and out.read_text() == "old\n"
+
+
+def test_42_r6_arg_mapping_ignores_live_symlink(tmp_path, monkeypatch):
+    repo, out = tmp_path / "repo", tmp_path / "out"
+    repo.mkdir()
+    (repo / "d.sh").write_text(f"echo approved > {out}\n")
+    (tmp_path / "evil.sh").write_text(f"echo evil > {out}\n")
+
+    def swap():
+        (repo / "d.sh").unlink()
+        os.symlink(tmp_path / "evil.sh", repo / "d.sh")
+    rc, _ = _approve_and_run(tmp_path, repo, ["sh", str(repo / "d.sh")], during=swap, monkeypatch=monkeypatch)
+    assert rc == 0 and out.read_text() == "approved\n"
