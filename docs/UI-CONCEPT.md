@@ -13,18 +13,7 @@ This document is the Week 3 web-viewer concept: what a run looks like in the bro
 
 ## Status colors
 
-One status list only: the schema's criterion `status`. Each value maps to exactly one color.
-
-| Status | Color | Meaning |
-|---|---|---|
-| `met` | green | witnessed evidence passes the criterion |
-| `unmet` | red | witnessed evidence fails the criterion |
-| `unverified` | gray | no witnessed evidence yet |
-| `proposed` | amber | derived criterion awaiting human `criteria.confirmed` (D22) |
-| `claimed` | blue | `agent.claim` only, no witness covers it (D20) |
-| `human-approved` | violet | a human explicitly confirmed it (`criteria.confirmed` / `approval.granted`, `actor.kind = human` (D17)) |
-
-No second status list. Trust-level labels (`imported`, `integrity_verified`, `review_required`, `verification_failed`) are shown as an adjacent trust badge per artifact — they never replace a criterion's status color.
+Visual direction and colours are defined once in [DESIGN.md](../DESIGN.md) (v2, dark mission-control): green = `met`, yellow = claimed only (`claim_unwitnessed`), red = `unmet`, gray = `unverified` (not claimed), dashed outline = `proposed`. The main view shows plain language and counts only; hashes and IDs appear only in the detail drawer and Timeline/audit. Approved concept mockups: `v2-01-truth-overview`, `v2-02-claimed-vs-proven`, `v2-03-timeline` (Drive `Projekte/truthlens`).
 
 ## MVP views
 
@@ -40,7 +29,7 @@ One screen per run, the default view.
 - Clicking a row opens the artifact/evidence detail drawer.
 - "Review required" banner when `review_required` trust or unconfirmed `proposed` criteria exist (D7).
 
-### 2. Claimed vs Witnessed (signature view)
+### 2. Claimed vs Proven (signature view: "What your agent said vs. what we saw")
 
 The split panel that makes the pitch visible.
 
@@ -76,3 +65,9 @@ Out of the Week 3 MVP, deferred or cut:
 - **Trust meters / percentages** — deliberately never planned; counts are truthful, percentages overreach.
 
 Cut order: provenance tree → evidence graph → mode switch. Integrity indicators are never cut.
+## Post-v1 ideas (concept mockups v3/v4, not scheduled)
+- **Markdown proof margin** – rendered markdown report with a margin marking each sentence as proven / claimed / failed (v3-01).
+- **Claim extraction in markdown** – highlight claims inside an agent's markdown answer and link each to its criterion (v4-02); markdown diff as a story (v4-01).
+- **Evidence graph** – criteria ↔ evidence ↔ artifacts (v3-02); charts over runs, counts only (v3-03).
+- **File provenance** – per file: who/what created or changed it, from which run (v3-04).
+- **Artifact gallery** – visual grid of produced artifacts with their status (v4-03).

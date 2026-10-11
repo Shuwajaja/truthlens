@@ -16,7 +16,7 @@ Lean: only tests that guard an acceptance criterion (ledger, tamper, crash, reda
 ## Branches & PRs
 - Branch `w<N>/issue-<n>-<slug>`; one issue per branch/worktree; only touch the issue's `Allowed paths:`.
 - PR to `main` only, squash merge after green CI. No force-push, no direct push to `main`.
-- PRs touching specs, ledger, redaction or approval gate get `needs-codex-review` and wait for an independent review.
+- PRs touching specs, ledger, redaction or approval gate get `needs-codex-review`. Since 2026-10-11 (owner rule) the admin may merge them once all known findings are fixed with targeted tests and CI is green; CodexChat reviews additionally, findings go into follow-up PRs.
 
 ## Secrets
 Never write secrets/keys/tokens to files, logs, commits, prompts or test fixtures. Use env vars; use fake values like `sk-test-...` in tests.
@@ -25,3 +25,8 @@ Never write secrets/keys/tokens to files, logs, commits, prompts or test fixture
 - Python work: `.agents/skills/python-conventions.md`.
 - UI work (viewer, mockups, page): `DESIGN.md` first, then `.agents/skills/no-slop-ui/`, final check `.agents/skills/web-interface-review.md`. Vetting record: `.agents/skills/README.md`.
 - Demo golden path: `docs/DEMO-TASK.md`.
+
+## Repo hygiene
+- No prompts, task files, run logs or interim reports in the repo. They stay in `/workspace/projects/truthlens-runs/` (outside the repo). Exception: deliberately published demo ledgers under `demo/runs/`.
+- Decisions go into the specs as D-numbers, not into new files. New living docs must be added to `docs/README.md`.
+- Old run dirs: `agent-config/scripts/tl-prune-runs.sh` (manual, not scheduled).
