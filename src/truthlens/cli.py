@@ -61,6 +61,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("dir")
     p.add_argument("--hmac-key-env", metavar="VAR")
     p.add_argument("--json", action="store_true")
+    p = sub.add_parser("export", help="write viewer JSON for a verified run dir")
+    p.add_argument("dir")
+    p.add_argument("--hmac-key-env", metavar="VAR")
+    p.add_argument("-o", "--output", default="-")
     p = sub.add_parser("project", help="(re)build the SQLite projection of a verified run dir")
     p.add_argument("dir")
     p.add_argument("--hmac-key-env", metavar="VAR")
@@ -86,7 +90,7 @@ def main(argv: list[str] | None = None) -> int:
         rc, info = request(box, action, a.timeout)
         print(json.dumps(info))
         return rc
-    if a.cmd in ("run", "report", "project", "act", "approve"):
+    if a.cmd in ("run", "report", "project", "export", "act", "approve"):
         return _w2(a)
 
     if a.cmd == "init":
@@ -171,12 +175,21 @@ def _w2(a) -> int:
         print(json.dumps(res))
         return 0
     key = _key(a.hmac_key_env)
-    if a.cmd in ("report", "project"):
+    if a.cmd in ("report", "project", "export"):
         events, errs = _verified_dir(a.dir, key)
         if events is None:
             for e in errs:
                 print(f"FAIL {e}")
             return 1
+        if a.cmd == "export":
+            from truthlens import export
+            mf = json.loads((Path(a.dir) / "manifest.json").read_text())
+            doc = json.dumps(export.build(events, mf), indent=1)
+            if a.output == "-":
+                print(doc)
+            else:
+                Path(a.output).write_text(doc + "\n")
+            return 0
         if a.cmd == "project":
             print(projection.build(events, Path(a.dir) / "projection.sqlite"))
             return 0
