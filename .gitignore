@@ -9,3 +9,6 @@ dist/
 .env
 .env.*
 .truthlens/
+*.egg-info/
+uv.lock
+projection.sqlite
