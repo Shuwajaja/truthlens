@@ -30,3 +30,20 @@ def test_27_review_kindless_claim_empty_agent_and_bad_agent_type():
     m = build_manifest(e, {"name": ""})
     m["agent"] = "evil"
     assert "manifest agent must be an object" in check_manifest(m, e)
+
+
+def test_r6_swapped_blob_bytes_do_not_verify(tmp_path):
+    import shutil
+    from pathlib import Path
+
+    from truthlens.cli import _verified_dir
+    src = Path(__file__).parent.parent / "demo" / "runs" / "demo-2"
+    shutil.copytree(src, tmp_path / "d")
+    ok, errs = _verified_dir(str(tmp_path / "d"), None)
+    assert ok is not None, errs
+    for blob in [p for p in (tmp_path / "d" / "blobs").rglob("*") if p.is_file()]:
+        orig = blob.read_bytes()
+        blob.write_bytes(b"forged artifact")
+        ok, errs = _verified_dir(str(tmp_path / "d"), None)
+        assert ok is None and errs, blob.name
+        blob.write_bytes(orig)

@@ -158,7 +158,24 @@ def _verified_dir(d: str, key: bytes | None):
         return None, [f"line {n}: {m}" for n, m in r.errors]
     events = Ledger(root / "ledger.jsonl").read()
     store = BlobStore(root / "blobs")
-    errs = check_manifest(mf, events, lambda s: store.path(s).exists())
+    def blob_ok(s: str) -> bool:  # re-hash: swapped artifact bytes must not verify
+        import hashlib
+        try:
+            p = store.path(s)
+            return p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest() == s
+        except Exception:  # noqa: BLE001  invalid sha / path
+            return False
+    errs = check_manifest(mf, events, blob_ok)
+    for ev in events:  # every stored blob a ledger event points to must match its hash (reports, diffs)
+        for k in ("sha256", "report_artifact_id"):
+            v = ev.get("payload", {}).get(k)
+            if isinstance(v, str) and len(v) == 64:
+                try:
+                    present = store.path(v).exists()
+                except Exception:  # noqa: BLE001
+                    present = False
+                if present and not blob_ok(v):
+                    errs.append(f"blob content mismatch: {v[:12]}")
     return (None, errs) if errs else (events, [])
 
 
