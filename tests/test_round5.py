@@ -149,3 +149,28 @@ def test_b2_argv0_script_bound_and_proc_args_ignored(tmp_path):
     (tmp_path / "deploy.sh").write_text("#!/bin/sh\necho EVIL\n")
     assert gate.action_hash(["./deploy.sh"], str(tmp_path)) != h1
     gate.action_hash(["echo", "/proc/self/mem"], str(tmp_path))  # must not raise
+
+
+def test_34_review_symlinked_tests_dir_and_key_filename(tmp_path):
+    r, crit = _repo(tmp_path)
+    ext = tmp_path / "ext"
+    ext.mkdir()
+    (ext / "test_mail.py").write_text("def test_mail():\n    assert True\n")
+    key = "hmac-key-outside-agent"
+    (r / "evil.py").write_text(textwrap.dedent(f"""
+        import os, pathlib, subprocess
+        subprocess.run(["git", "rm", "-q", "--cached", "test_mail.py"])
+        os.remove("test_mail.py")
+        os.symlink({str(ext / "test_mail.py")!r}, "test_mail.py")
+        pathlib.Path({key!r}).write_text("x")
+    """))
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"], check=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["passed"] == 0 and rep["failed"] >= 1  # original failing test restored, external one not run
+    assert key.encode() not in (out / "ledger.jsonl").read_bytes()
