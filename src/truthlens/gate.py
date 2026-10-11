@@ -9,11 +9,64 @@ Flow: `truthlens act` -> action.requested + action.blocked, exit 3, command NOT 
 from __future__ import annotations
 
 import hashlib
+import re
 import subprocess
 from datetime import UTC, datetime, timedelta
 
 from truthlens.canonical import canonical_bytes
 from truthlens.ledger import Ledger, LedgerError, _parse_ts, verify
+
+_SHORT_OPT_PATH = re.compile(r"^(-[A-Za-z])(/.*)$")
+_SHORT_OPT_ANY = re.compile(r"^(-[A-Za-z])(.+)$")
+SHELL_NAMES = frozenset({"sh", "bash", "dash", "zsh", "ksh", "fish", "busybox"})
+
+
+
+def _has_path(s: str, p: str) -> bool:
+    """True if path p occurs in s as a whole path (followed by end, '/', or a separator), not as a prefix of a
+    sibling like p + '-flag'."""
+    import re as _re
+    return bool(p) and _re.search(_re.escape(p) + r"(?![^/\s:;,'\"=)])", s) is not None
+
+def _iter_abs_pairs(tok: str):
+    """Yield (prefix, abs_path) for each absolute-path form in an argv token:
+    the whole token, after '=', and after a leading short option -X (single-dash + one letter).
+    """
+    import os
+    m = _SHORT_OPT_PATH.match(tok)
+    if m:
+        yield m.group(1), m.group(2)
+    if "=" in tok and not tok.startswith("="):
+        opt, val = tok.split("=", 1)
+        if val and os.path.isabs(val):
+            yield opt + "=", val
+    if os.path.isabs(tok):
+        yield "", tok
+
+
+def _iter_path_pairs(tok: str):
+    """Yield (prefix, value) for every path-position candidate in an argv token: the value attached to a
+    leading short option -X (single dash + one letter), the value after the first '=', and the whole token."""
+    m = _SHORT_OPT_ANY.match(tok)
+    if m:
+        yield m.group(1), m.group(2)
+    if "=" in tok and not tok.startswith("="):
+        opt, val = tok.split("=", 1)
+        if val:
+            yield opt + "=", val
+    yield "", tok
+
+
+def _map_path_arg(tok: str, resolve) -> str:
+    """Rewrite an argv token: for each absolute-path form try resolve(prefix+path); if resolve
+    returns a non-None string (the copy path), replace the form's value.
+    If none match, return tok unchanged.
+    """
+    for prefix, val in _iter_abs_pairs(tok):
+        repl = resolve(val)
+        if repl is not None:
+            return prefix + repl
+    return tok
 
 APPROVAL_TTL = timedelta(minutes=10)  # D6
 BLOCKED = 3
@@ -93,13 +146,10 @@ def _in_tree(arg: str, root: str) -> str | None:
 
 
 def _map_into_copy(arg: str, root: str, td: str) -> str:
-    """Absolute in-tree paths are mapped lexically onto the approved copy (decided on the path string only)."""
+    """Absolute in-tree paths are mapped lexically onto the approved copy (decided on the path string only).
+    Handles all forms: whole token, after --opt=, and after a leading short option -X (single dash+letter)."""
     import os
-    if os.path.isabs(arg):
-        rel = _in_tree(arg, root)
-        if rel is not None:
-            return os.path.join(td, rel)
-    return arg
+    return _map_path_arg(arg, lambda p: os.path.join(td, rel) if (rel := _in_tree(p, root)) is not None else None)
 
 
 def tree_hash(snap: dict[str, tuple[str, bytes]]) -> str:
@@ -146,9 +196,79 @@ def _read_program(prog: str) -> bytes:
     return data
 
 
-def _check_args(args: list[str], root: str) -> None:
+def _norm_against_root(val: str, root: str) -> str:
+    """Lexical resolution of an arg value against the gate root (no live symlink is followed)."""
+    import os
+    return os.path.normpath(val if os.path.isabs(val) else os.path.join(root, val))
+
+
+def _contains_git_component(norm: str, root: str) -> bool:
+    """True if an in-tree path crosses a `.git` component, which the snapshot/hash never covers."""
+    import os
+    rel = os.path.relpath(norm, root)
+    return ".git" in rel.split(os.sep)
+
+
+def _looks_like_rel_path(val: str, root: str, snap: dict | None) -> bool:
+    """A relative arg value the gate must resolve as a path: it has a separator or '..', is exactly a `.git`
+    component, or names a file already bound in the approved snapshot."""
+    import os
+    if os.path.isabs(val):
+        return False
+    if "/" in val or ".." in val or val == ".git":
+        return True
+    if snap is not None:
+        return os.path.normpath(val) in snap
+    return False
+
+
+def _bundled_value_opt(tok: str) -> bool:
+    """True if a single-dash bundle (e.g. -qc<x>, -qo<x>, -vp<x>) reaches c/o/p before any other value-taking
+    flag (k/m) or a non-letter; `-p no:<plugin>` (disabling) is allowed."""
+    if len(tok) < 2 or tok[0] != "-" or tok[1] == "-":
+        return False
+    for j, ch in enumerate(tok[1:], 1):
+        if ch in "cop":
+            return not (ch == "p" and tok[j + 1:].startswith("no:"))
+        if ch in "km" or not ch.isalpha():
+            return False
+    return False
+
+
+def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
+    """Fail closed on argv that could run code not bound in the approved snapshot: relative paths are
+    resolved lexically against the root and must stay inside it and outside `.git`; the same applies to
+    absolute in-tree paths (`.git` is never in the snapshot)."""
+    import os as _os
+    for a in args:  # a bundled -c/-o/-p carries a config/ini/plugin outside the approved binding
+        if len(a) > 2 and _bundled_value_opt(a):
+            raise LedgerError(f"bundled short option with -c/-o/-p in gated action: {a}")
+    for a in args:  # an outside alias (symlink) resolving into the live tree would bypass the snapshot
+        cands = [a, a.split("=", 1)[1] if "=" in a else ""]
+        if len(a) > 2 and a[0] == "-" and a[1] != "-":
+            cands.append(a[2:])
+        for c in list(cands):  # split fully (not only at the first '='): --override-ini=pythonpath=<alias>
+            cands.extend(re.split(r"[=:,]", c))
+        for c in cands:
+            if c and _os.path.isabs(c) and _in_tree(c, root) is None:
+                real = _os.path.realpath(c)
+                if real == root or real.startswith(root + _os.sep):
+                    raise LedgerError(f"live repo path via symlink in gated action: {a}")
     import os
     for a in args:
+        for prefix, val in _iter_path_pairs(a):
+            norm = _norm_against_root(val, root)
+            in_tree = norm == root or norm.startswith(root + os.sep)
+            if os.path.isabs(val):
+                if not in_tree and (os.path.lexists(val) or os.path.lexists(os.path.realpath(val))):
+                    raise LedgerError(f"gated action references a path outside the working tree: {a}")
+                if in_tree and _contains_git_component(norm, root):
+                    raise LedgerError(f"gated action references a path inside .git: {a}")
+            elif _looks_like_rel_path(val, root, snap):
+                if in_tree and _contains_git_component(norm, root):
+                    raise LedgerError(f"gated action references a path inside .git: {a}")
+                if not in_tree:
+                    raise LedgerError(f"gated action references a path outside the working tree: {a}")
         f = os.path.join(root, a)
         if os.path.lexists(f) and _in_tree(a, root) is None:
             raise LedgerError(f"gated action references a path outside the working tree: {a}")
@@ -158,11 +278,32 @@ def _check_args(args: list[str], root: str) -> None:
                 raise LedgerError(f"gated action references a path outside the working tree: {a}")
 
 
+def _is_shell_argv(argv: list[str], prog: str | None) -> bool:
+    """True if the action runs a shell (basename of argv[0] or of the resolved program)."""
+    import os
+    bases = [os.path.basename(argv[0])]
+    if prog is not None:
+        p = prog.removeprefix("tree:")
+        bases.append(os.path.basename(p))
+    return any(b in SHELL_NAMES for b in bases)
+
+
+def _reject_shell_c(argv: list[str], prog: str | None = None) -> None:
+    """Fail closed: a gated shell with `-c` (or a bundled flag word containing 'c' like -ec/-xc) runs
+    arbitrary commands that are never bound in the snapshot."""
+    if not _is_shell_argv(argv, prog):
+        return
+    for a in argv[1:]:
+        if a == "-c" or (a.startswith("-") and not a.startswith("--") and "c" in a and "/" not in a and "=" not in a):
+            raise LedgerError("shell -c is not allowed in gated actions")
+
+
 def _check_argv(argv: list[str], root: str, env: dict[str, str] | None = None, snap: dict | None = None) -> str | None:
     """Refuse args naming existing paths outside the tree; sha256 of an external program (tree programs are
     bound by the tree hash)."""
-    _check_args(argv[1:], root)
+    _check_args(argv[1:], root, snap)
     prog = resolve_program(argv[0], root, env, snap)
+    _reject_shell_c(argv, prog)
     if prog.startswith("tree:"):
         return None
     return hashlib.sha256(_read_program(prog)).hexdigest()
@@ -180,7 +321,8 @@ def action_hash(argv: list[str], cwd: str | None = None, snap: dict | None = Non
             doc["program"] = resolve_program(argv[0], root, env, snap)
             doc["program_sha256"] = _check_argv(argv, root, env, snap)
         else:  # exactly the bytes that will be executed
-            _check_args(argv[1:], root)
+            _check_args(argv[1:], root, snap)
+            _reject_shell_c(argv, bound[0])
             doc["program"] = bound[0]
             doc["program_sha256"] = None if bound[1] is None else hashlib.sha256(bound[1]).hexdigest()
         doc["tree_sha256"] = tree_hash(snap)
@@ -297,6 +439,29 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
                 with os.fdopen(fd, "wb") as fh:
                     fh.write(pbytes)
             run_argv = [exe, *[_map_into_copy(a, root, td) for a in argv[1:]]]
+            _root_given = cwd or os.getcwd()
+            for _a in run_argv:
+                if _has_path(_a, _root_given) or _has_path(_a, root):
+                    raise LedgerError(f"live repo path in gated action argv: {_a}")
+                for _prefix, _val in _iter_path_pairs(_a):
+                    _real = os.path.realpath(_val)
+                    if (_real == root or _real.startswith(root + os.sep)) and not _val.startswith(td):
+                        raise LedgerError(f"live repo path via symlink in gated action argv: {_a}")
+                    if os.pathsep in _val:
+                        for _part in _val.split(os.pathsep):
+                            if _part:
+                                _realp = os.path.realpath(_part)
+                                if (_realp == root or _realp.startswith(root + os.sep)) and not _part.startswith(td):
+                                    raise LedgerError(f"live repo path via symlink in gated action argv: {_a}")
+            if env is not None:
+                for _v in env.values():
+                    if _v and (_has_path(_v, _root_given) or _has_path(_v, root)):
+                        raise LedgerError("live repo path in gated action env")
+                    for _part in _v.split(os.pathsep):
+                        if _part:
+                            _real = os.path.realpath(_part)
+                            if _real == root or _real.startswith(root + os.sep):
+                                raise LedgerError("live repo path via symlink in gated action env")
             proc = subprocess.run(run_argv, cwd=td, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
         except (OSError, LedgerError) as e:  # #29.3: never kills the gate, never leaves only "started"
             proc = subprocess.CompletedProcess(argv, 127, b"", f"[truthlens gate: {type(e).__name__}]".encode())

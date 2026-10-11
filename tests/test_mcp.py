@@ -33,3 +33,38 @@ def test_mcp_read_only_report_and_tamper(tmp_path):
     led.write_bytes(led.read_bytes().replace(b'"failed":1', b'"failed":0', 1))
     bad = json.loads(_rpc(tmp_path, _call(6, "run_report", run="demo-2"))[0]["result"]["content"][0]["text"])
     assert bad["verified"] is False
+
+
+def test_mcp_report_matches_export(tmp_path):
+    from truthlens import export
+    from truthlens.cli import _verified_dir
+    shutil.copytree(DEMO / "demo-2", tmp_path / "demo-2")
+    events, _errs = _verified_dir(str(tmp_path / "demo-2"), None)
+    assert events is not None
+    mf = json.loads((tmp_path / "demo-2" / "manifest.json").read_text())
+    expected = export.build(events, mf)
+    r = _rpc(tmp_path, _call(1, "run_report", run="demo-2"))
+    rep = json.loads(r[0]["result"]["content"][0]["text"])
+    assert {c["criterion_id"]: c["status"] for c in rep["criteria"]} == {c["criterion_id"]: c["status"] for c in expected["criteria"]}
+
+
+def test_mcp_no_key_integrity_hash_only(tmp_path):
+    shutil.copytree(DEMO / "demo-2", tmp_path / "demo-2")
+    r = _rpc(tmp_path, _call(1, "run_report", run="demo-2"))
+    rep = json.loads(r[0]["result"]["content"][0]["text"])
+    assert rep["verified"] is False
+    assert rep["integrity"] == "hash-only"
+    assert "criteria" in rep
+    assert "claims" in rep
+    assert "counts" in rep
+
+
+def test_mcp_tamper_verified_false(tmp_path):
+    shutil.copytree(DEMO / "demo-2", tmp_path / "demo-2")
+    led = tmp_path / "demo-2" / "ledger.jsonl"
+    led.write_bytes(led.read_bytes().replace(b'"failed":1', b'"failed":0', 1))
+    r = _rpc(tmp_path, _call(1, "run_report", run="demo-2"))
+    rep = json.loads(r[0]["result"]["content"][0]["text"])
+    assert rep["verified"] is False
+    assert rep["integrity"] == "failed"
+    assert "errors" in rep
