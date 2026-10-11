@@ -1,4 +1,6 @@
-# Inventory & provenance (Week 0)
+# Inventory & provenance (Week 0, updated at schema freeze)
+
+All listed repos are the owner's reusable code pool. WERKAgent UI components are coupled to internal modules (`unifiedActionRegistry`, `ActionBar`, `MediaVisualizer`, `reviewVerdict`) and need 2–3 days of decoupling before reuse. Default branches: agent-control-plane `master`, WERKAgent `goose-refine` — record the commit SHA when porting.
 
 Source repos (all owned by Shuwajaja) were shallow-cloned read-only on 2026-10-11. Nothing was copied into TruthLens in this commit.
 
@@ -22,7 +24,7 @@ Since the owner wrote the unlicensed repos, he can relicense them — provided n
 | 3 | Projection rebuild | agent-control-plane `packages/projection/python/projection/replay.py` | Double-verify ledger, build fresh SQLite in temp file, validate references, atomic replace | 805 | test_replay (9) | none | **Port (adapt)** | Exactly the "projections of truth"; must be rewritten against Schema v1 (depends on `acp_contracts` events) |
 | 4 | Projection DB schema | agent-control-plane `.../projection/database.py` | Versioned SQLite schema, drift detection, FK enforcement | 192 | test_database (8) | none | **Port** | Small, generic |
 | 5 | ACP event ledger | agent-control-plane `packages/ledger/python/ledger/event_ledger.py` | Chain + DuplicateEventError + external schema validation | 214 | test_event_ledger (6) | none | **Skip** (ideas only) | Superseded by #1/#2 |
-| 6 | Approvals + gateway ledger | werktools `src/werktools/hub/approvals.py`, `ledger.py`, `hub/ledger.py` | One-use argument-bound approvals, deny-by-default policy, fcntl/msvcrt lock | 461 + 167 + 64 | test_hub_approvals, _server, test_ledger, test_hub_ledger | **AGPL-3.0** | **Clean-room reimplementation from concept** | AGPL; concept (hash-bound, one-use, timeout=deny) is described in TRUST-LEVELS and reimplemented without copying. WERKCommander `approval_store.py` (241, unlicensed) can serve as owner-only reference. |
+| 6 | Approvals + gateway ledger | werktools `src/werktools/hub/approvals.py`, `ledger.py`, `hub/ledger.py` | One-use argument-bound approvals, deny-by-default policy, fcntl/msvcrt lock | 461 + 167 + 64 | test_hub_approvals, _server, test_ledger, test_hub_ledger | **AGPL-3.0** | **Reusable pool (evaluate/reuse)** | Owner's own code; part of the owner's reusable code pool per mission (2026-10-11). Reuse only code the owner authored himself; note AGPL origin in the port header. |
 | 7 | UI components | WERKAgent `src/components/v2/projections/` (DiffSurface 98, TableSurface 90, InboxSurface 556, SearchRenderer 258), `ArtifactCanvas.tsx` 353, `src/data/evidence.ts` 66 | Diff/table/inbox surfaces, artifact canvas, evidence projection | ~1,420 | component tests present | none | **Port selectively** (DiffSurface, TableSurface, ArtifactCanvas ideas) | Coupled to WERKCommander bridge + design system; strip to plain props |
 | 8 | Event store | CrewTYY `crewtty/event_store.py` | Append-only JSONL, monotonic IDs, best-effort lock, **no hash chain** | 176 | in 462-test suite | MIT (undeclared file) | **Skip** | No integrity features; nothing #1/#2 lacks |
 
@@ -36,4 +38,4 @@ Since the owner wrote the unlicensed repos, he can relicense them — provided n
 Naming of hash fields, sequence numbers, entity model and taxonomy all differ. TruthLens defines its own run-centric Schema v1 and adapts ported logic to it rather than merging models.
 
 ## Rule for porting
-Every ported file: header with source repo, commit SHA, path, and what changed; commit message `port(<area>): from <repo>@<sha>:<path>`. No werktools code is copied.
+Every ported file: header with source repo, commit SHA, path, and what changed; commit message `port(<area>): from <repo>@<sha>:<path>`. werktools code may be reused (owner-authored only), with AGPL origin noted in the header.

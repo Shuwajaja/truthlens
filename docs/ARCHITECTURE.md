@@ -23,4 +23,4 @@ agent (OpenCode) ──► capture (CLI wrapper) ──► core.ledger (JSONL, h
 3. On finish the wrapper hashes outputs into the artifact store (`artifact.recorded`), runs tests (`test.reported`), attaches evidence, writes `run.finished`.
 4. `rebuild` verifies the chain and regenerates SQLite; web and MCP read only from projection + store.
 
-Stack (proposed): Python 3.12 stdlib-first core, pytest; Vite + React + TypeScript web; GitHub Actions.
+Stack: Python 3.12 + 3.13 (CI matrix) stdlib-first core, pytest; Vite + React + TypeScript web; GitHub Actions.
