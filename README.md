@@ -1,8 +1,9 @@
 # TruthLens
 
-**See what your AI agent really did.**
+**See what your AI agent really did.**  
+*Here's what's actually proven.*
 
-For vibe coders and anyone handing work to AI agents — coding, research, writing, admin. Agents produce documents, file changes, visited sources, sent messages, commands and test runs scattered across terminals and folders, and then *tell* you it went well. TruthLens records a run as a self-contained work package — events in a tamper-evident ledger, artifacts with a manifest, evidence, approvals — and shows it in plain language: *"You asked for X — done, witnessed by Y"* or *"claimed, not witnessed"* (Client Lens, primary view), with a Developer Lens for full detail. The v1 capture adapter is OpenCode (code work); the model is agent- and task-agnostic. It is honest about what it can prove: see [docs/TRUST-LEVELS.md](docs/TRUST-LEVELS.md).
+For vibe coders and anyone handing work to AI agents — coding, research, writing, admin. Agents produce documents, file changes, visited sources, sent messages, commands and test runs scattered across terminals and folders, and then *tell* you it went well. TruthLens records a run as a self-contained work package — events in a hash-chained, HMAC-signed ledger, artifacts with a manifest, evidence, approvals — and shows it in plain language: *"You asked for X — done, witnessed by Y"* or *"claimed, not witnessed"* (Client Lens, primary view), with a Developer Lens for full detail. The v1 capture adapter is OpenCode (code work); the model is agent- and task-agnostic. It is honest about what it can prove: Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user. "met" means the restored test command that TruthLens started reported success. See [docs/TRUST-LEVELS.md](docs/TRUST-LEVELS.md).
 
 ## Quickstart (reproducible demo)
 ```bash
@@ -36,7 +37,7 @@ MCP client config example: `{"command": "python", "args": ["-m", "truthlens", "m
 4. The ledger records the provable steps and references unmodified, hash-addressed artifacts.
 5. The browser renders the run in the Client Lens (primary, plain language) and the Developer Lens (detail).
 6. A read-only MCP server returns the same information to an external client.
-7. After deliberate tampering, `truthlens verify` fails reproducibly and names the line.
+7. After deliberate tampering, `truthlens verify` fails reproducibly and names the line. Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user.
 
 ## Scope / non-goals
 In scope: ledger, verification, redaction, artifact manifest, evidence store, SQLite projections, one capture adapter (OpenCode), approval gate, read-only stdio MCP, web viewer.
@@ -46,7 +47,7 @@ Not in v1: comments fed back to agents, cloud sync/hosted storage, multiple agen
 ## 4-week plan
 | Week | Deliverable | Acceptance |
 |---|---|---|
-| W1 Truth Core | Event Schema v1, ledger, verify, redaction, CLI, CI, tests | A tampered ledger is reliably detected |
+| W1 Truth Core | Event Schema v1, ledger, verify, redaction, CLI, CI, tests | A tampered ledger is detected (key with the human, agent as separate user) |
 | W2 Artifacts & Capture | Artifact Manifest, evidence store, universal CLI wrapper (start → outputs → tests → evidence → finish), one real OpenCode capture, atomic SQLite projections | A real agent run becomes a complete, reproducible work package |
 | W3 Web | React UI: Markdown, diff, test reports, timeline, Developer/Client lens | A real run can be followed in the browser |
 | W4 Integration & Portfolio | Approval gate hardening/integration (minimal gate already in W2), read-only stdio MCP, tamper demo, GitHub Actions, docs, video | End-to-end reproducible Golden Path |
@@ -64,4 +65,4 @@ Not in v1: comments fed back to agents, cloud sync/hosted storage, multiple agen
 ## License
 **TBD** — pending the provenance and license review in [docs/INVENTORY.md](docs/INVENTORY.md). Until then, all rights reserved; no code is ported before the review is done.
 
-> **Security note:** Bei gleicher UID kann sich der Agent selbst freigeben; Schutz erst mit eigenem Unix-User/Sandbox. The approval gate is not a sandbox. See `docs/TRUST-LEVELS.md`.
+> **Security note:** Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user. Bei gleicher UID kann sich der Agent selbst freigeben; Schutz erst mit eigenem Unix-User/Sandbox. The approval gate is not a sandbox. See `docs/TRUST-LEVELS.md`.
