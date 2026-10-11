@@ -50,6 +50,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--timeout", type=int, default=1800)
     p.add_argument("--hmac-key-env", metavar="VAR")
     p.add_argument("--hmac-key-id", metavar="ID")
+    p.add_argument("--test-user", help="run witnessed tests as this unix user via sudo -n -u (e.g. tl-agent)")
+    p.add_argument("--test-path", help="PATH for witnessed tests (e.g. the test user's venv/bin)")
     p.add_argument("--gate-env", action="append", default=[], metavar="VAR",
                    help="capability only gated actions get (never the agent)")
     p.add_argument("--hmac-key-file", metavar="PATH", help="key file outside repo/out dir (preferred over env)")
@@ -158,7 +160,24 @@ def _verified_dir(d: str, key: bytes | None):
         return None, [f"line {n}: {m}" for n, m in r.errors]
     events = Ledger(root / "ledger.jsonl").read()
     store = BlobStore(root / "blobs")
-    errs = check_manifest(mf, events, lambda s: store.path(s).exists())
+    def blob_ok(s: str) -> bool:  # re-hash: swapped artifact bytes must not verify
+        import hashlib
+        try:
+            p = store.path(s)
+            return p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest() == s
+        except Exception:  # noqa: BLE001  invalid sha / path
+            return False
+    errs = check_manifest(mf, events, blob_ok)
+    for ev in events:  # every stored blob a ledger event points to must match its hash (reports, diffs)
+        for k in ("sha256", "report_artifact_id"):
+            v = ev.get("payload", {}).get(k)
+            if isinstance(v, str) and len(v) == 64:
+                try:
+                    present = store.path(v).exists()
+                except Exception:  # noqa: BLE001
+                    present = False
+                if present and not blob_ok(v):
+                    errs.append(f"blob content mismatch: {v[:12]}")
     return (None, errs) if errs else (events, [])
 
 
@@ -178,7 +197,7 @@ def _w2(a) -> int:
                         criteria=json.loads(Path(a.criteria).read_text()) if a.criteria else {},
                         confirm=[c for c in a.confirm.split(",") if c], tests=[parse_test_spec(t) for t in a.test],
                         pass_env=a.pass_env, hmac_key=_run_key(a), hmac_key_id=a.hmac_key_id,
-                        gate_env=a.gate_env,
+                        gate_env=a.gate_env, test_user=a.test_user, test_path=a.test_path,
                         timeout=a.timeout, agent=a.agent, human=getpass.getuser())
         res = run(cfg)
         print(json.dumps(res))
@@ -193,7 +212,16 @@ def _w2(a) -> int:
         if a.cmd == "export":
             from truthlens import export
             mf = json.loads((Path(a.dir) / "manifest.json").read_text())
-            doc = json.dumps(export.build(events, mf), indent=1)
+            from truthlens.store import BlobStore
+            store = BlobStore(Path(a.dir) / "blobs")
+
+            def _rb(sha: str) -> bytes | None:
+                try:
+                    f = store.path(sha)
+                except Exception:  # noqa: BLE001 - invalid sha in a payload -> no content
+                    return None
+                return f.read_bytes() if f.is_file() and not f.is_symlink() else None
+            doc = json.dumps(export.build(events, mf, _rb), indent=1)
             if a.output == "-":
                 print(doc)
             else:
