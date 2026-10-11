@@ -88,4 +88,4 @@ E               subprocess.CalledProcessError: Command '['node', '-e', 'const {i
 /home/box/.local/share/uv/python/cpython-3.14.7-linux-x86_64-gnu/lib/python3.14/subprocess.py:578: CalledProcessError
 =========================== short test summary info ============================
 FAILED tests/test_email_validation.py::test_email_validation - subprocess.Cal...
-1 failed in 0.18s
+1 failed in 0.17s

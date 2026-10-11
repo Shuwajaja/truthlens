@@ -1,0 +1,124 @@
+diff --git a/dev/null b/index.html
+new file mode 100644
+--- /dev/null
++++ b/index.html
+--- a/index.html
++++ b/index.html
+@@ -0,0 +1,117 @@
++<!DOCTYPE html>
++<html lang="en">
++<head>
++  <meta charset="UTF-8">
++  <meta name="viewport" content="width=device-width, initial-scale=1.0">
++  <title>Acme — Contact Us</title>
++  <style>
++    * { box-sizing: border-box; margin: 0; padding: 0; }
++    body {
++      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
++      line-height: 1.6;
++      color: #1f2430;
++      background: #f6f7fb;
++    }
++    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
++    header { text-align: center; padding: 3rem 1rem 1.5rem; }
++    header h1 { font-size: 2.4rem; color: #0d1b2a; }
++    header p { color: #5a6270; margin-top: 0.5rem; }
++    form {
++      background: #fff;
++      border: 1px solid #e4e7ee;
++      border-radius: 12px;
++      padding: 1.75rem;
++      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
++      display: flex;
++      flex-direction: column;
++      gap: 1.1rem;
++    }
++    label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; display: block; }
++    input, textarea {
++      width: 100%;
++      padding: 0.7rem 0.8rem;
++      border: 1px solid #cdd2dd;
++      border-radius: 8px;
++      font: inherit;
++    }
++    input:focus, textarea:focus {
++      outline: none;
++      border-color: #2563eb;
++      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
++    }
++    .error { color: #dc2626; font-size: 0.85rem; display: none; }
++    .field.invalid input, .field.invalid textarea { border-color: #dc2626; }
++    .field.invalid .error { display: block; }
++    button {
++      background: #2563eb;
++      color: #fff;
++      border: none;
++      padding: 0.8rem 1.2rem;
++      border-radius: 8px;
++      font-size: 1rem;
++      font-weight: 600;
++      cursor: pointer;
++      transition: background 0.15s;
++    }
++    button:hover { background: #1d4ed8; }
++    .success {
++      display: none;
++      background: #ecfdf5;
++      border: 1px solid #34d399;
++      color: #065f46;
++      border-radius: 8px;
++      padding: 0.9rem 1rem;
++      margin-top: 1rem;
++    }
++  </style>
++</head>
++<body>
++  <header>
++    <h1>Get in touch</h1>
++    <p>Tell us a little about your project and we'll get back to you within a day.</p>
++  </header>
++
++  <main class="wrap">
++    <form id="contactForm" novalidate>
++      <div class="field">
++        <label for="name">Name</label>
++        <input type="text" id="name" name="name" autocomplete="name">
++      </div>
++      <div class="field">
++        <label for="email">Email</label>
++        <input type="email" id="email" name="email" autocomplete="email">
++        <span class="error">Please enter a valid email address.</span>
++      </div>
++      <div class="field">
++        <label for="message">Message</label>
++        <textarea id="message" name="message" rows="5"></textarea>
++      </div>
++      <button type="submit">Send message</button>
++    </form>
++    <div class="success" id="success">Thanks! Your message has been sent.</div>
++  </main>
++
++  <script>
++    const form = document.getElementById('contactForm');
++    const email = document.getElementById('email');
++    const emailField = email.closest('.field');
++    const success = document.getElementById('success');
++    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
++
++    form.addEventListener('submit', (e) => {
++      e.preventDefault();
++      success.style.display = 'none';
++      emailField.classList.remove('invalid');
++
++      let valid = true;
++      if (!emailRegex.test(email.value.trim())) {
++        emailField.classList.add('invalid');
++        valid = false;
++      }
++      if (valid) success.style.display = 'block';
++    });
++
++    email.addEventListener('input', () => emailField.classList.remove('invalid'));
++  </script>
++</body>
++</html>
