@@ -6,6 +6,7 @@ executes itself are evidence. One ledger per run, closed with run.finished, mani
 
 from __future__ import annotations
 
+import difflib
 import hashlib
 import json
 import os
@@ -77,8 +78,8 @@ def parse_pytest_counts(output: str, returncode: int) -> dict:
     return c
 
 
-GIT_SAFE = ("-c", "core.hooksPath=/dev/null", "-c", "diff.external=", "-c", "core.fsmonitor=false",
-            "-c", "core.pager=cat", "-c", "protocol.allow=never")
+GIT_SAFE = ("-c", "core.hooksPath=/dev/null", "-c", "core.attributesFile=/dev/null", "-c", "diff.external=",
+             "-c", "core.fsmonitor=false", "-c", "core.pager=cat", "-c", "protocol.allow=never")
 PROTECTED = ("tests/", "test/", "conftest.py", "pytest.ini", "pyproject.toml", "setup.cfg", "tox.ini",
              "package.json")
 
@@ -88,9 +89,34 @@ def _git_env() -> dict[str, str]:
             "GIT_CONFIG_GLOBAL": "/dev/null", "LC_ALL": "C"}
 
 
+def _disable_filters(repo: Path) -> list[str]:
+    """Query repo-configured git filter drivers and return -c overrides to disable them."""
+    extra = []
+    try:
+        out = subprocess.run(["git", *GIT_SAFE, "-C", str(repo), "config", "--name-only", "--get-regexp", r"^filter\."],
+                             capture_output=True, check=False, stdin=subprocess.DEVNULL,
+                             env=_git_env()).stdout.decode()
+        seen = set()
+        for line in out.strip().split("\n"):
+            line = line.strip()
+            if line.startswith("filter."):
+                rest = line[len("filter."):]
+                dot = rest.rfind(".")
+                if dot == -1:
+                    continue
+                name = rest[:rest.rfind(".")]
+                if name and name not in seen:
+                    seen.add(name)
+                    extra.extend(["-c", f"filter.{name}.clean=cat", "-c", f"filter.{name}.smudge=cat",
+                                  "-c", f"filter.{name}.process=", "-c", f"filter.{name}.required=false"])
+    except OSError:
+        pass
+    return extra
+
+
 def _git(repo: Path, *args: str, check: bool = True) -> bytes:
     """Git with a filtered env and agent-controllable hooks/external diff/fsmonitor disabled (#26 review)."""
-    return subprocess.run(["git", *GIT_SAFE, "-C", str(repo), *args], capture_output=True, check=check,
+    return subprocess.run(["git", *GIT_SAFE, *_disable_filters(repo), "-C", str(repo), *args], capture_output=True, check=check,
                           stdin=subprocess.DEVNULL, env=_git_env()).stdout
 
 
@@ -104,6 +130,58 @@ def is_protected(rel: str) -> bool:
 def _read(f: Path) -> bytes:
     """File content; a symlink is recorded as its link text and never followed out of the repo."""
     return b"symlink:" + os.readlink(f).encode() if f.is_symlink() else f.read_bytes()
+
+
+def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
+    path = repo / rel
+    if path.exists() and not path.is_symlink():
+        sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        if sha == before_snapshot.get(rel):
+            return path.read_bytes()
+    return b""
+
+
+def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> bytes:
+    lines: list[str] = []
+    all_keys = sorted(set(before) | set(after))
+    for rel in all_keys:
+        sha_b = before.get(rel)
+        sha_a = after.get(rel)
+        if sha_b == sha_a:
+            continue
+        path = repo / rel
+        if rel not in before:
+            lines.append(f"diff --git a/dev/null b/{rel}")
+            lines.append("new file mode 100644")
+            lines.append("--- /dev/null")
+            lines.append(f"+++ b/{rel}")
+            try:
+                data = _read(path)
+            except OSError:
+                continue
+        elif rel not in after:
+            lines.append(f"diff --git a/{rel} b/dev/null")
+            lines.append("deleted file mode 100644")
+            lines.append(f"--- a/{rel}")
+            lines.append("+++ /dev/null")
+            data = b""
+        else:
+            lines.append(f"diff --git a/{rel} b/{rel}")
+            lines.append(f"--- a/{rel}")
+            lines.append(f"+++ b/{rel}")
+            try:
+                data = _read(path)
+            except OSError:
+                continue
+        if b"\0" in data:
+            lines.append("Binary files differ")
+        else:
+            text = data.decode("utf-8", "replace")
+            src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
+                                             fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
+            lines.extend(l.rstrip("\n") for l in diff)
+    return "\n".join(lines).encode()
 
 
 def snapshot(repo: Path) -> dict[str, str]:
@@ -202,7 +280,15 @@ def run(cfg: RunConfig) -> dict:
 
     # before snapshot
     before = snapshot(cfg.repo)
-    pre_diff = _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "HEAD")
+    head_files = {}
+    for line in _git(cfg.repo, "ls-tree", "-r", "-z", "HEAD").decode().split("\0"):
+        if line:
+            parts = line.split("\t", 1)
+            if len(parts) == 2:
+                meta, rel = parts
+                sha = meta.split(" ")[2] if " " in meta else ""
+                head_files[rel] = sha
+    pre_diff = _make_diff(cfg.repo, head_files, before)
     sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
     protected_before = {rel: _read(cfg.repo / rel) for rel in before if is_protected(rel)}
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "sha256": sha, "kind": "file_changed",
@@ -238,10 +324,7 @@ def run(cfg: RunConfig) -> dict:
     # after snapshot: diff + one artifact per changed file
     after = snapshot(cfg.repo)
     changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
-    diff = _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "HEAD")
-    for rel in changed:
-        if rel not in before and rel in after:
-            diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "--no-index", "/dev/null", rel, check=False)
+    diff = _make_diff(cfg.repo, before, after)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
                                         "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
                                         "changed": changed, "result": "info"})

@@ -51,3 +51,25 @@ def test_39_r6_agent_textconv_driver_not_run(tmp_path):
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     assert not marker.exists()
+
+
+def test_39_r6_agent_filter_driver_not_run(tmp_path):
+    import subprocess
+    import sys
+
+    from tests.test_wrapper import _keyfile, _repo
+    from truthlens.cli import main
+    r, crit = _repo(tmp_path)
+    marker = tmp_path / "filter-ran"
+    (r / "evil.py").write_text(
+        "import subprocess, pathlib\n"
+        f"subprocess.run(['git', 'config', 'filter.evil.driver.clean', 'touch {marker}'], check=True)\n"
+        "pathlib.Path('.gitattributes').write_text('* filter=evil.driver\\n')\n"
+        "pathlib.Path('index.html').write_text('changed')\n"
+        "pathlib.Path('README.md').write_text('changed by agent\\n')\n")
+    subprocess.run(["git", "-C", str(r), "add", "evil.py"], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"], check=True)
+    assert main(["run", "--out", str(tmp_path / "run"), "--repo", str(r), "--criteria", str(crit),
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    assert not marker.exists()
