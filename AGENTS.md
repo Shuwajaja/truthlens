@@ -16,7 +16,17 @@ Lean: only tests that guard an acceptance criterion (ledger, tamper, crash, reda
 ## Branches & PRs
 - Branch `w<N>/issue-<n>-<slug>`; one issue per branch/worktree; only touch the issue's `Allowed paths:`.
 - PR to `main` only, squash merge after green CI. No force-push, no direct push to `main`.
-- PRs touching specs, ledger, redaction or approval gate get `needs-codex-review`. Since 2026-10-11 (owner rule) the admin may merge them once all known findings are fixed with targeted tests and CI is green; CodexChat reviews additionally, findings go into follow-up PRs.
+- **Security review rule (owner, binding since 2026-10-11 05:00):** any PR touching `gate.py`, `ledger.py`, `redaction.py`, `wrapper.py`, `manifest.py` or anything HMAC gets `needs-codex-review` (set automatically by `tl-cycle.sh` from a fixed path list, not by a model) and is **never merged without CodexChat's review**. Other low-risk PRs: merge after green CI + admin diff check.
+- Acceptance criteria are fixed in the issue before the run; the issue's test command is the deterministic check.
+
+## Worker roles
+| Role | Who | Does | Never |
+|---|---|---|---|
+| Plan / label / QA comments | Hermes (DeepSeek V4 Flash) | cuts issues, proposes `worker:opencode` or `worker:cursor`, comments QA | starts workers, approves alone |
+| Small bounded tasks | OpenCode (DeepSeek) | docs, single functions, tests | — |
+| UI tasks | Cursor CLI (composer-2.5, owner's Pro plan) | `viewer/` work only | security paths (script refuses) |
+| Mandatory security review | CodexChat | reviews every `needs-codex-review` PR | — |
+| Supervise / verify / merge | Admin | runs `tl-cycle.sh`, checks diffs, merges non-security PRs | merges security PRs without CodexChat |
 
 ## Secrets
 Never write secrets/keys/tokens to files, logs, commits, prompts or test fixtures. Use env vars; use fake values like `sk-test-...` in tests.
