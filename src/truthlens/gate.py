@@ -13,7 +13,7 @@ import subprocess
 from datetime import UTC, datetime, timedelta
 
 from truthlens.canonical import canonical_bytes
-from truthlens.ledger import Ledger, LedgerError
+from truthlens.ledger import Ledger, LedgerError, _parse_ts, verify
 
 APPROVAL_TTL = timedelta(minutes=10)  # D6
 BLOCKED = 3
@@ -28,19 +28,24 @@ def _iso(dt: datetime) -> str:
 
 
 def _usable_approval(events: list[dict], ah: str) -> dict | None:
+    """Strict: human, same hash, not simulated, not consumed, valid UTC expires_at in the future (D30)."""
     consumed = {e["payload"].get("approval_event_id") for e in events if e["type"] == "action.executed"}
-    now = _iso(datetime.now(UTC))
+    now = datetime.now(UTC)
     for e in reversed(events):
         p = e["payload"]
-        if (e["type"] == "approval.granted" and e["actor"]["kind"] == "human" and p.get("action_hash") == ah
-                and p.get("simulated") is not True and e["id"] not in consumed
-                and str(p.get("expires_at", ""))[:19] >= now[:19]):
+        if e["type"] != "approval.granted" or e["actor"].get("kind") != "human" or p.get("action_hash") != ah:
+            continue
+        exp = _parse_ts(p.get("expires_at"))
+        if p.get("simulated") is not True and e["id"] not in consumed and exp is not None and exp >= now:
             return e
     return None
 
 
 def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
         env: dict[str, str] | None = None) -> tuple[int, dict]:
+    vr = verify(led.path, led.hmac_key)
+    if not vr.ok:
+        raise LedgerError(f"ledger does not verify, refusing to act: line {vr.errors[0][0]}: {vr.errors[0][1]}")
     events = led.read()
     if not events:
         raise LedgerError("act needs an open run ledger")
@@ -54,10 +59,14 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
             led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "action.blocked",
                        {"action_hash": ah, "policy": "requires_human_approval", "reason": "no valid approval"})
         return BLOCKED, {"action_hash": ah, "status": "blocked"}
-    proc = subprocess.run(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
+    # reserve first (consumes the approval in the ledger), then execute, then record the outcome
     ev = led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "action.executed",
-                    {"action_hash": ah, "approval_event_id": appr["id"],
-                     "result": {"exit_code": proc.returncode}})
+                    {"action_hash": ah, "approval_event_id": appr["id"], "result": "started"})
+    proc = subprocess.run(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
+    led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "evidence.attached",
+               {"evidence_id": ev["id"].replace("evt_", "evd_"), "kind": "command_run", "refers_to": ev["id"],
+                "sha256": hashlib.sha256(proc.stdout + proc.stderr).hexdigest(), "exit_code": proc.returncode,
+                "result": "info"})
     return proc.returncode, {"action_hash": ah, "status": "executed", "event": ev["id"],
                              "exit_code": proc.returncode}
 

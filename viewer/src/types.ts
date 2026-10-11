@@ -6,6 +6,8 @@ export interface Artifact { artifact_id: string; path: string; sha256: string; k
 export interface RunEvent { seq: number; id: string; ts: string; type: string; actor: { kind: string; id: string }; summary: string; hash: string; payload: Record<string, unknown> }
 export interface RunDoc {
   verified: boolean
+  headline: string[]
+  review_required: boolean
   run: { run_id: string; project: string; agent: string; command: string; started: string; finished: string | null; exit_code: number | null; ledger_last_hash: string; events: number }
   counts: Record<Card, number>
   criteria: Criterion[]; claims: Claim[]; artifacts: Artifact[]; events: RunEvent[]

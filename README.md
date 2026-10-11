@@ -23,6 +23,8 @@ Expected: c1 `met`, c2 `unmet`, c3 `unverified`, the agent's "all done" claim `c
 | `truthlens report DIR` / `export DIR` / `project DIR` | criteria + claims vs witnessed / viewer JSON / SQLite projection |
 | `truthlens mcp --root DIR` | read-only MCP server over stdio (`list_runs`, `run_report`, `run_events`) |
 
+The approval gate is **not a sandbox**: it protects actions that need a capability only the wrapper holds; the agent's own shell is unrestricted (same OS user). See [TRUST-LEVELS](docs/TRUST-LEVELS.md).
+
 MCP client config example: `{"command": "python", "args": ["-m", "truthlens", "mcp", "--root", "demo/runs"]}`.
 
 > Status: **Schema frozen (v1).** Event Schema v1 and Artifact Manifest v1 are FROZEN. Live progress: [docs/STATUS.md](docs/STATUS.md). The week plan is an effort estimate, not approval phases; a minimal approval gate lands early (W2), W4 hardens and integrates it.

@@ -131,7 +131,9 @@ def _run_key(a) -> bytes | None:
     """HMAC key for a run. A key file must live outside the agent's repo and the run dir (D17)."""
     from pathlib import Path
     if not a.hmac_key_file:
-        return _key(a.hmac_key_env)
+        print("error: truthlens run requires --hmac-key-file (outside repo and run dir) and --hmac-key-id;"
+              " an env var would be readable by the agent via /proc", file=sys.stderr)
+        raise SystemExit(2)
     kf = Path(a.hmac_key_file).resolve()
     for d in (Path(a.repo).resolve(), Path(a.out).resolve()):
         if kf == d or d in kf.parents:
