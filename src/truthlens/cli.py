@@ -221,7 +221,8 @@ def _w2(a) -> int:
             print(f"approved until {ev['payload']['expires_at']}")
             return 0
         action = a.action[1:] if a.action[:1] == ["--"] else a.action
-        rc, info = gate.act(led, {"kind": "human", "id": getpass.getuser()}, action)
+        import os
+        rc, info = gate.act(led, {"kind": "human", "id": getpass.getuser()}, action, os.getcwd())  # cwd bound
         print(json.dumps(info))
         return rc
     except LedgerError as e:

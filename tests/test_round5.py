@@ -411,3 +411,17 @@ def test_r6_absolute_test_path_into_live_repo_runs_the_copy(tmp_path):
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["passed"] == 0 and rep["failed"] >= 1
+
+def test_34_r6_cli_act_binds_cwd(tmp_path, monkeypatch, capsys):
+    led = tmp_path / "l.jsonl"
+    assert main(["init", str(led)]) == 0
+    a, b = tmp_path / "a", tmp_path / "b"
+    a.mkdir()
+    b.mkdir()
+    monkeypatch.chdir(a)
+    assert main(["act", str(led), "--", "true"]) == 3
+    ha = json.loads(capsys.readouterr().out.strip().splitlines()[-1])["action_hash"]
+    monkeypatch.chdir(b)
+    assert main(["act", str(led), "--", "true"]) == 3
+    hb = json.loads(capsys.readouterr().out.strip().splitlines()[-1])["action_hash"]
+    assert ha != hb  # approval for dir A does not cover dir B
