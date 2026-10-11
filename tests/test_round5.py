@@ -355,3 +355,45 @@ def test_42_r6_arg_mapping_ignores_live_symlink(tmp_path, monkeypatch):
         os.symlink(tmp_path / "evil.sh", repo / "d.sh")
     rc, _ = _approve_and_run(tmp_path, repo, ["sh", str(repo / "d.sh")], during=swap, monkeypatch=monkeypatch)
     assert rc == 0 and out.read_text() == "approved\n"
+
+
+def test_46_r6_sudo_failure_not_read_as_no_processes(tmp_path, monkeypatch):
+    import truthlens.wrapper as w
+    real = subprocess.run
+
+    def fake(argv, *a, **k):
+        j = " ".join(map(str, argv)) if isinstance(argv, list) else str(argv)
+        if "pkill" in j or "/bin/true" in j:  # sudo itself fails with exit 1 (e.g. not permitted)
+            return subprocess.CompletedProcess(argv, 1, b"", b"sudo: not allowed")
+        if "chown" in j:
+            return subprocess.CompletedProcess(argv, 0, b"", b"")
+        return real(argv, *a, **k)
+    monkeypatch.setattr(w.subprocess, "run", fake)
+    r, crit = _repo(tmp_path)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test-user", "no-such-user-tl", "--test", "c1=python -m pytest -q test_page.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["exit_code"] == 125  # isolation not established -> tests not run
+
+
+def test_46_r6_key_filename_in_blobs_and_probe_ignores_test_path_sudo(tmp_path):
+    r, crit = _repo(tmp_path)
+    key = "hmac-key-outside-agent"
+    (r / key).write_text("x")  # key as filename already in the start snapshot
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "k"], check=True)
+    fake = tmp_path / "fakebin"
+    fake.mkdir()
+    marker = tmp_path / "fake-sudo-ran"
+    (fake / "sudo").write_text(f"#!/bin/sh\ntouch {marker}\nexit 1\n")
+    (fake / "sudo").chmod(0o755)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test-user", "no-such-user-tl", "--test-path", f"{fake}:/usr/bin:/bin",
+                 "--test", "c1=python -m pytest -q test_page.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+    assert not marker.exists()
+    stored = b"".join(p.read_bytes() for p in (out / "blobs").rglob("*") if p.is_file())
+    assert key.encode() not in stored + (out / "ledger.jsonl").read_bytes()

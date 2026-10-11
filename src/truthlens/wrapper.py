@@ -64,6 +64,10 @@ def parse_test_spec(spec: str) -> TestSpec:
     return TestSpec([i.strip() for i in ids.split(",") if i.strip()], cmd.strip())
 
 
+SUDO = "/usr/bin/sudo"
+HELPER_ENV = {"PATH": "/usr/sbin:/usr/bin:/sbin:/bin", "LANG": "C.UTF-8"}
+
+
 class _HelperError(Exception):
     pass
 
@@ -212,7 +216,7 @@ def run(cfg: RunConfig) -> dict:
         return led.append(run_id, actor, t, payload)
 
     def blob(data: bytes) -> str:
-        return store.put(data)
+        return store.put(_strip_secret_bytes(data, secrets))  # every blob: known secrets removed before hashing
 
     head = _git(cfg.repo, "rev-parse", "HEAD").decode().strip()
     emit(WRAPPER, "run.started", {"repo": str(cfg.repo), "ref": head,
@@ -325,13 +329,17 @@ def run(cfg: RunConfig) -> dict:
                 (work / rel).unlink(missing_ok=True)
                 (work / rel).write_bytes(data)
             if cfg.test_user:
-                rc_cmd = ["sudo", "-n", "-u", cfg.test_user, "env", "-i", f"PATH={cfg.test_path or TEST_PATH}",
+                rc_cmd = [SUDO, "-n", "-u", cfg.test_user, "/usr/bin/env", "-i", f"PATH={cfg.test_path or TEST_PATH}",
                           "python", "-s", "-c", "import pytest"]
             else:
                 rc_cmd = [sys.executable, "-s", "-c", "import pytest"]
-            runner_ok = subprocess.run(rc_cmd, cwd="/", capture_output=True, check=False,
-                                       env={"PATH": cfg.test_path or TEST_PATH, "HOME": str(home),
-                                            "PYTHONNOUSERSITE": "1"}).returncode == 0
+            try:  # sudo is absolute and started with a trusted env, never from --test-path
+                runner_ok = subprocess.run(rc_cmd, cwd="/", capture_output=True, check=False,
+                                           env=HELPER_ENV if cfg.test_user else
+                                           {"PATH": TEST_PATH, "HOME": str(home), "PYTHONNOUSERSITE": "1"}
+                                           ).returncode == 0
+            except OSError:
+                runner_ok = False
             test_env = {"PATH": cfg.test_path or TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8",
                         "TMPDIR": str(home), "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
             jx = Path(td) / "junit" / "report.xml"  # outside the copied tree; via env, not appended to the line
@@ -344,23 +352,29 @@ def run(cfg: RunConfig) -> dict:
                 # separate UID: test code cannot read the HMAC key, the rollback anchors or other box secrets.
                 # Leftover processes of that user are killed first (pkill exit 1 = none; anything else aborts).
                 u = cfg.test_user
-                try:
-                    pk = subprocess.run(["sudo", "-n", "-u", u, "pkill", "-KILL", "-u", u], capture_output=True,
-                                        check=False)
-                except OSError as e:
-                    pk = subprocess.CompletedProcess([], 127, b"", str(e).encode())
-                if pk.returncode not in (0, 1):
-                    helper_err = f"pkill failed (exit {pk.returncode})"
+                try:  # sudo as u must provably work first; only then is pkill exit 1 an unambiguous "none"
+                    ok = subprocess.run([SUDO, "-n", "-u", u, "/bin/true"], capture_output=True, check=False,
+                                        env=HELPER_ENV).returncode == 0
+                    pk = subprocess.run([SUDO, "-n", "-u", u, "/usr/bin/pkill", "-KILL", "-u", u],
+                                        capture_output=True, check=False, env=HELPER_ENV) if ok else None
+                except OSError:
+                    ok, pk = False, None
+                if ok and pk is not None and pk.returncode in (0, 1):
+                    pk = subprocess.CompletedProcess([], 0, b"TL_PKILL_OK", b"")
+                else:
+                    pk = subprocess.CompletedProcess([], 1, b"", b"")
+                if b"TL_PKILL_OK" not in pk.stdout:
+                    helper_err = f"sudo/pkill as {u} failed"
                 else:
                     os.chmod(td, 0o711)
                     try:
-                        ch = subprocess.run(["sudo", "-n", "chown", "-R", u, str(work), str(home), str(jx.parent)],
-                                            capture_output=True, check=False)
+                        ch = subprocess.run([SUDO, "-n", "chown", "-R", u, str(work), str(home), str(jx.parent)],
+                                            capture_output=True, check=False, env=HELPER_ENV)
                     except OSError:
                         ch = subprocess.CompletedProcess([], 127)
                     if ch.returncode != 0:
                         helper_err = f"chown to {u} failed (exit {ch.returncode})"
-                argv = ["sudo", "-n", "-u", u, "env", "-i", *[f"{k}={v}" for k, v in test_env.items()], *argv]
+                argv = [SUDO, "-n", "-u", u, "/usr/bin/env", "-i", *[f"{k}={v}" for k, v in test_env.items()], *argv]
                 env_ = None
             try:
                 if helper_err:
@@ -375,8 +389,8 @@ def run(cfg: RunConfig) -> dict:
             counts = junit_counts(jx, trc) if not helper_err else {"passed": 0, "failed": 0, "skipped": 0}
             if cfg.test_user:  # hand the copy back so the temp dir can be removed; failure is reported
                 try:
-                    back = subprocess.run(["sudo", "-n", "chown", "-R", str(os.getuid()), str(work), str(home),
-                                           str(jx.parent)], capture_output=True, check=False)
+                    back = subprocess.run([SUDO, "-n", "chown", "-R", str(os.getuid()), str(work), str(home),
+                                           str(jx.parent)], capture_output=True, check=False, env=HELPER_ENV)
                 except OSError:
                     back = subprocess.CompletedProcess([], 127)
                 if back.returncode != 0 and not helper_err:
