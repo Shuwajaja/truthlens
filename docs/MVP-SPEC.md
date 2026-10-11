@@ -8,7 +8,7 @@ Zieltermin: **2026-10-25**. Status jeder Zeile steht nur in `docs/STATUS.md`.
 Das Versprechen (wortgleich in README, Bewerbungsseite und Video):
 
 > Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user.
-> "met" means: the restored test command that TruthLens started reported success.
+> "met" means: the restored test command that TruthLens started reported success; app code running in the test process can forge it (accepted v1 limit).
 
 **Blocker (verhindern den Merge, nur diese):** Unter den genannten Bedingungen (Key beim Menschen, Agent als eigener User) kann der Agent
 - [ ] sich nicht selbst freigeben (keine gültige Approval ohne Key; Approval nicht wiederverwendbar, nicht auf andere Aktion/Ordner/Bytes übertragbar),
