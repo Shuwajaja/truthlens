@@ -1,5 +1,6 @@
 """Regression tests for CodexChat round-5 findings (one per finding)."""
 import json
+import os
 import subprocess
 import sys
 import textwrap
@@ -207,3 +208,19 @@ def test_34_review_symlinked_tests_dir_and_key_filename(tmp_path):
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["passed"] == 0 and rep["failed"] >= 1  # original failing test restored, external one not run
     assert key.encode() not in (out / "ledger.jsonl").read_bytes()
+
+
+def test_34_review_relative_path_entry_fifo_and_external_symlink(tmp_path):
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    (repo / "bin").mkdir(parents=True)
+    (repo / "bin" / "tool").write_text("#!/bin/sh\necho ok\n")
+    (repo / "bin" / "tool").chmod(0o755)
+    with pytest.raises(LedgerError, match="absolute PATH"):  # relative PATH entry ignored
+        gate.act(led, {"kind": "agent", "id": "a"}, ["tool"], str(repo), env={"PATH": "bin"})
+    os.mkfifo(tmp_path / "fifo")
+    with pytest.raises(LedgerError, match="outside"):
+        gate.act(led, {"kind": "agent", "id": "a"}, ["cat", str(tmp_path / "fifo")], str(repo))
+    os.symlink(tmp_path / "fifo", repo / "ext")
+    with pytest.raises(LedgerError, match="symlink points outside"):
+        gate.act(led, {"kind": "agent", "id": "a"}, ["cat", "ext"], str(repo))

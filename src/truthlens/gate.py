@@ -27,6 +27,7 @@ def snapshot(cwd: str, exclude: set[str] = frozenset()) -> dict[str, tuple[str, 
     (minus .git). The approval binds its tree hash and the action runs from a copy of exactly these bytes,
     so later edits (scripts, sourced files, Makefile, package.json, node_modules) cannot change what runs."""
     import os
+    import stat
     root = os.path.realpath(cwd)
     out: dict[str, tuple[str, bytes]] = {}
     total = 0
@@ -38,10 +39,19 @@ def snapshot(cwd: str, exclude: set[str] = frozenset()) -> dict[str, tuple[str, 
             if f in exclude:
                 continue
             if os.path.islink(f):
+                tgt = os.path.realpath(f)
+                if not (tgt == root or tgt.startswith(root + os.sep)):
+                    raise LedgerError(f"symlink points outside the working tree: {rel}")
                 out[rel] = ("link", os.readlink(f).encode())
-            elif os.path.isfile(f):
-                with open(f, "rb") as fh:
-                    data = fh.read(MAX_SNAPSHOT_BYTES + 1)
+            else:
+                try:
+                    fd = os.open(f, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+                except OSError:
+                    continue
+                with os.fdopen(fd, "rb") as fh:
+                    if not stat.S_ISREG(os.fstat(fh.fileno()).st_mode):
+                        continue  # FIFOs/devices are not copied, so the action cannot use them either
+                    data = fh.read(MAX_SNAPSHOT_BYTES - total + 1)
                 total += len(data)
                 out[rel] = ("file", data)
             if total > MAX_SNAPSHOT_BYTES or len(out) > MAX_SNAPSHOT_FILES:
@@ -54,28 +64,57 @@ def tree_hash(snap: dict[str, tuple[str, bytes]]) -> str:
                           ).hexdigest()
 
 
-def _check_argv(argv: list[str], root: str) -> str | None:
-    """sha256 of the resolved program (argv[0]); refuse arguments naming files outside the snapshot."""
+def resolve_program(argv0: str, root: str, env: dict[str, str] | None) -> str:
+    """Absolute program path used for BOTH hashing and execution. Bare names are looked up only in absolute
+    PATH entries of the action env (relative entries like `bin` are ignored); relative paths are taken from
+    the snapshot copy at execution time (returned unchanged, covered by the tree hash)."""
     import os
     import shutil
-    prog = argv[0] if "/" in argv[0] else (shutil.which(argv[0]) or argv[0])
+    if "/" in argv0:
+        return argv0
+    path = (env or {}).get("PATH", os.environ.get("PATH", ""))
+    found = shutil.which(argv0, path=os.pathsep.join(p for p in path.split(os.pathsep) if os.path.isabs(p)))
+    if not found:
+        raise LedgerError(f"program not found in absolute PATH entries: {argv0}")
+    return os.path.realpath(found)
+
+
+def _check_argv(argv: list[str], root: str, env: dict[str, str] | None = None) -> str | None:
+    """sha256 of the resolved program (bounded, regular file only); refuse args naming paths outside the
+    tree or non-regular files."""
+    import os
+    import stat
     for a in argv[1:]:
-        f = os.path.realpath(os.path.join(root, a))
-        if os.path.exists(f) and not (f == root or f.startswith(root + os.sep)):
-            raise LedgerError(f"gated action references a path outside the working tree: {a}")
+        f = os.path.join(root, a)
+        if os.path.lexists(f):
+            real = os.path.realpath(f)
+            if not (real == root or real.startswith(root + os.sep)):
+                raise LedgerError(f"gated action references a path outside the working tree: {a}")
+    prog = resolve_program(argv[0], root, env)
     p = os.path.join(root, prog)
-    if os.path.isfile(p) and os.path.getsize(p) <= MAX_SNAPSHOT_BYTES:
-        with open(p, "rb") as fh:
-            return hashlib.sha256(fh.read()).hexdigest()
-    return None
+    if not os.path.isabs(prog):
+        return None  # inside the tree: bound by the tree hash
+    try:
+        fd = os.open(p, os.O_RDONLY | os.O_NONBLOCK)
+    except OSError as e:
+        raise LedgerError(f"cannot open program {prog}: {e}") from e
+    with os.fdopen(fd, "rb") as fh:
+        if not stat.S_ISREG(os.fstat(fh.fileno()).st_mode):
+            raise LedgerError(f"program is not a regular file: {prog}")
+        data = fh.read(MAX_SNAPSHOT_BYTES + 1)
+    if len(data) > MAX_SNAPSHOT_BYTES:
+        raise LedgerError(f"program too large to bind: {prog}")
+    return hashlib.sha256(data).hexdigest()
 
 
-def action_hash(argv: list[str], cwd: str | None = None, snap: dict | None = None) -> str:
+def action_hash(argv: list[str], cwd: str | None = None, snap: dict | None = None,
+                env: dict[str, str] | None = None) -> str:
     import os
     doc: dict = {"kind": "command", "argv": argv}
     if cwd is not None:
         root = os.path.realpath(cwd)
-        doc["program_sha256"] = _check_argv(argv, root)
+        doc["program"] = resolve_program(argv[0], root, env)
+        doc["program_sha256"] = _check_argv(argv, root, env)
         doc["tree_sha256"] = tree_hash(snap if snap is not None else snapshot(root))
     return hashlib.sha256(canonical_bytes(doc)).hexdigest()
 
@@ -149,7 +188,7 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
             raise LedgerError("ledger rollback detected: remembered head is missing")
     root = os.path.realpath(cwd or os.getcwd())
     snap = snapshot(root, {os.path.realpath(led.path)})
-    run_id, ah = events[0]["run_id"], action_hash(argv, root, snap)
+    run_id, ah = events[0]["run_id"], action_hash(argv, root, snap, env)
     appr = _usable_approval(events, ah)
     if appr is not None and appr["id"] in state["consumed"]:
         appr = None
@@ -179,7 +218,8 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
                     fh.write(data)
                 os.chmod(dst, os.stat(os.path.join(root, rel)).st_mode & 0o755 if os.path.exists(os.path.join(root, rel)) else 0o644)
         try:
-            proc = subprocess.run(argv, cwd=td, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
+            run_argv = [resolve_program(argv[0], root, env), *argv[1:]]  # same absolute path as hashed
+            proc = subprocess.run(run_argv, cwd=td, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
         except OSError as e:  # #29.3: execution failure is recorded as a result, never kills the gate
             proc = subprocess.CompletedProcess(argv, 127, b"", f"[truthlens gate: {type(e).__name__}]".encode())
     led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "evidence.attached",
