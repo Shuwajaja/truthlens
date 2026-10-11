@@ -245,8 +245,14 @@ class GateServer:
                 rc, info = act(self.led, self.requester, argv, self.cwd, self.env, self.state)
             except Exception as e:  # noqa: BLE001  #29.3: one bad request must not stop the gate thread
                 rc, info = 2, {"status": "error", "error": f"{type(e).__name__}: {e}"}
-            req.unlink(missing_ok=True)
-            _write_response(res, json.dumps({"rc": rc, **info}).encode())
+            try:  # cleanup + answer are guarded too (directory x.req / x.res, planted temp names)
+                if req.is_dir() and not req.is_symlink():
+                    req.rename(req.with_suffix(".bad"))
+                else:
+                    req.unlink(missing_ok=True)
+                _write_response(res, json.dumps({"rc": rc, **info}).encode())
+            except OSError:
+                continue
 
     def _loop(self):
         while not self._stop.wait(0.2):

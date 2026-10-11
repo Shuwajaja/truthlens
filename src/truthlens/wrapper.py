@@ -257,11 +257,11 @@ def run(cfg: RunConfig) -> dict:
             diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-index", "--binary", "/dev/null", rel, check=False)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
                                         "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
-                                        "changed": changed, "result": "info"})
+                                        "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
     for rel in changed:
         if rel in after:
             s = blob(_scrub_bytes(_read(cfg.repo / rel), secrets))
-            emit(WRAPPER, "artifact.recorded", {"artifact_id": new_id("art"), "sha256": s, "path": rel,
+            emit(WRAPPER, "artifact.recorded", {"artifact_id": new_id("art"), "sha256": s, "path": _scrub(rel, secrets),
                                                 "manifest_ref": "manifest.json", "kind": "file",
                                                 "provenance": "original"})
 
@@ -271,7 +271,7 @@ def run(cfg: RunConfig) -> dict:
     if tampered:
         emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "test_files_changed",
                                             "sha256": blob("\n".join(tampered).encode()), "refers_to": "protected",
-                                            "changed": tampered, "result": "info"})
+                                            "changed": [_scrub(c, secrets) for c in tampered], "result": "info"})
     for t in cfg.tests:
         with tempfile.TemporaryDirectory(prefix="tl-test-") as td:
             work, home = Path(td) / "w", Path(td) / "home"
@@ -282,21 +282,24 @@ def run(cfg: RunConfig) -> dict:
                 if _is_shadow(rel) or (rel not in before and rel.split("/")[-1] in NEW_IMPORT_HOOKS):
                     continue
                 src, dst = cfg.repo / rel, work / rel
+                # symlinks never enter the test copy (external pytest packages, tests/ -> foreign tests)
+                if src.is_symlink() or not src.resolve().is_relative_to(cfg.repo.resolve()):
+                    continue
                 dst.parent.mkdir(parents=True, exist_ok=True)
-                if src.is_symlink():
-                    os.symlink(os.readlink(src), dst)
-                else:
-                    dst.write_bytes(src.read_bytes())
+                dst.write_bytes(src.read_bytes())
             home.mkdir()
             for rel in after:
                 if is_protected(rel) and rel not in protected_before:
                     (work / rel).unlink(missing_ok=True)
             for rel, data in protected_before.items():
+                if not Path(os.path.realpath(work / rel)).parent.is_relative_to(work.resolve()):
+                    continue  # #32.5: check containment BEFORE creating anything (no mkdir through symlinks)
                 (work / rel).parent.mkdir(parents=True, exist_ok=True)
-                if not (work / rel).parent.resolve().is_relative_to(work.resolve()):
-                    continue  # #32.5: never restore through a directory symlink out of the copy
                 (work / rel).unlink(missing_ok=True)
                 (work / rel).write_bytes(data)
+            runner_ok = subprocess.run([sys.executable, "-s", "-c", "import pytest"], cwd=td, capture_output=True,
+                                       env={"PATH": TEST_PATH, "HOME": str(home), "PYTHONNOUSERSITE": "1"},
+                                       check=False).returncode == 0
             test_env = {"PATH": TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8", "TMPDIR": td,
                         "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
             try:
@@ -307,9 +310,9 @@ def run(cfg: RunConfig) -> dict:
                 text, trc = "[truthlens: test timeout]", 124
         text = _scrub(text, secrets)
         counts = parse_pytest_counts(text, trc)
-        if "No module named pytest" in text:  # #32.4: missing runner is not evidence of failure -> not decisive
+        if "pytest" in t.command and not runner_ok:  # #32.4: decided independently of the test output
             counts = {"passed": 0, "failed": 0, "skipped": 0}
-            text += "\n[truthlens: test runner unavailable in clean env; result not decisive]"
+            text += "\n[truthlens: pytest not importable in the clean env; result not decisive]"
         rep_ = blob(f"$ {t.command}\nexit {trc}\n{text}".encode())
         emit(WRAPPER, "test.reported", {"suite": t.command, **counts, "exit_code": trc,
                                         "report_artifact_id": rep_,
