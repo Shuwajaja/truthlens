@@ -40,3 +40,7 @@ Never write secrets/keys/tokens to files, logs, commits, prompts or test fixture
 - No prompts, task files, run logs or interim reports in the repo. They stay in `/workspace/projects/truthlens-runs/` (outside the repo). Exception: deliberately published demo ledgers under `demo/runs/`.
 - Decisions go into the specs as D-numbers, not into new files. New living docs must be added to `docs/README.md`.
 - Old run dirs: `agent-config/scripts/tl-prune-runs.sh` (manual, not scheduled).
+
+## Docs rules
+- Docs are updated in the same PR as the code they describe.
+- `docs/STATUS.md` is the only status file; do not add other status/progress files.
