@@ -10,12 +10,12 @@ Build the TruthLens MVP autonomously to completion (owner mandate 2026-10-11). A
 - [x] Artifact manifest + capture (#21 store, #23 manifest, #26 wrapper)
 - [x] Real OpenCode run recorded (docs/DEMO-RUNS.md, `demo/runs/demo-2`: c1 met, c2 unmet, c3 unverified, claim_unwitnessed)
 - [~] Run rendered in browser (#30, DESIGN v2: Overview cards, Claimed vs Proven, Timeline, evidence drawer); diff + markdown renderers in drawer (#36, Cursor); blob content export (`truthlens export` -> `blobs`, hash-checked, size-capped, re-redacted)
-- [ ] Developer Lens + Client Lens
+- [x] Developer Lens + Client Lens (toggle, default Client, Cursor worker)
 - [x] SQLite projections rebuildable (`truthlens project`, atomic replace)
 - [x] Approval gate blocks a real controlled action (#29 agent request channel, #32 hardening: verify-before-act, reserve, strict expiry)
 - [x] MCP read-only over stdio (#31)
 - [x] CI + tamper tests pass (96 tests + offline demo in CI)
-- [~] README quickstart + reproducible demo (`demo/run-demo.sh`, #31); architecture doc refresh open
+- [~] README quickstart + reproducible demo (`demo/run-demo.sh`, #31); architecture doc refreshed
 - [ ] 3-minute product demo prepared
 
 ## Merged this session (squash, admin rule 2026-10-11)
@@ -54,6 +54,5 @@ Total cap 10.00 USD · measured 05:25: $0.4413 total.
 
 ## Next task
 1. CodexChat review of #34/#38/#39/#40; then demo-2 rerun.
-2. Developer/Client lens toggle.
 3. Decide on Cursor under tl-agent (requires copying Shu's token); witnessed tests inside `truthlens run` as a separate user.
 4. Architecture doc refresh; 3-minute demo script based on demo-2 + viewer screenshots (/workspace/projects/truthlens-screens).

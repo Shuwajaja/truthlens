@@ -29,12 +29,7 @@ export function Overview({ doc, onOpenDrawer }: {
       <h1 className="text-4xl font-bold leading-tight mb-2">
         {doc.headline.map((l, i) => <span key={i} className="block">{l}</span>)}
       </h1>
-      <p className="text-[#8b949e] text-base mb-4">
-        Project: {doc.run.project}
-        {doc.review_required && (
-          <span className="ml-3 text-xs px-2 py-[1px] rounded-[4px] border border-[#30363d] text-[#e6edf3]">Review required</span>
-        )}
-      </p>
+      <p className="text-[#8b949e] text-base mb-4">Project: {doc.run.project}</p>
       <p className="text-base mb-6">{countParts.join(' ')}</p>
 
       <div className="space-y-4">

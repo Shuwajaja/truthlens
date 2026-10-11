@@ -1,13 +1,15 @@
 import type { Criterion, RunEvent } from '../types.ts'
-import { EvidenceBlobContent } from './EvidenceBlobContent.tsx'
+import type { Lens } from '../lens.ts'
+import { EventDetail } from './EventDetail.tsx'
 
 export type DrawerTarget =
   | { kind: 'criterion'; criterion: Criterion; matched: RunEvent[] }
   | { kind: 'event'; event: RunEvent }
 
-export function Drawer({ target, blobs, onClose }: {
+export function Drawer({ target, blobs, lens, onClose }: {
   target: DrawerTarget
   blobs?: Record<string, string>
+  lens: Lens
   onClose: () => void
 }) {
   if (target.kind === 'criterion') {
@@ -17,19 +19,26 @@ export function Drawer({ target, blobs, onClose }: {
         <div className="drawer-backdrop" onClick={onClose} />
         <div className="drawer-pane" role="dialog" aria-label="Evidence detail" onKeyDown={(e) => { if (e.key === 'Escape') onClose() }} tabIndex={0}>
           <div className="flex items-center justify-between px-4 py-3 border-b border-[#30363d]">
-            <h3 className="text-base font-medium">Evidence</h3>
+            <h3 className="text-base font-medium">{lens === 'client' ? 'Details' : 'Evidence'}</h3>
             <button type="button" className="text-[#8b949e] text-lg leading-none px-2" onClick={onClose} aria-label="Close">&times;</button>
           </div>
           <div className="px-4 py-4">
             <div className="mb-4">
-              <div className="text-xs text-[#8b949e] uppercase tracking-wider mb-1">Criterion</div>
-              <div className="text-sm">{criterion.text}</div>
+              {lens === 'developer' && (
+                <div className="text-xs text-[#8b949e] uppercase tracking-wider mb-1">Criterion</div>
+              )}
+              <div className="text-sm">{lens === 'client' ? criterion.plain : criterion.text}</div>
+              {lens === 'client' && (
+                <div className="text-[#8b949e] text-sm mt-1">{criterion.text}</div>
+              )}
             </div>
             {matched.length === 0 ? (
               <p className="text-sm text-[#8b949e]">No evidence events for this criterion.</p>
             ) : (
               <div className="space-y-4">
-                {matched.map(e => renderEventDetail(e, blobs))}
+                {matched.map(e => (
+                  <EventDetail key={e.id} evt={e} blobs={blobs} lens={lens} />
+                ))}
               </div>
             )}
           </div>
@@ -44,41 +53,13 @@ export function Drawer({ target, blobs, onClose }: {
       <div className="drawer-backdrop" onClick={onClose} />
       <div className="drawer-pane" role="dialog" aria-label="Event detail" onKeyDown={(e) => { if (e.key === 'Escape') onClose() }} tabIndex={0}>
         <div className="flex items-center justify-between px-4 py-3 border-b border-[#30363d]">
-          <h3 className="text-base font-medium">Event</h3>
+          <h3 className="text-base font-medium">{lens === 'client' ? 'Details' : 'Event'}</h3>
           <button type="button" className="text-[#8b949e] text-lg leading-none px-2" onClick={onClose} aria-label="Close">&times;</button>
         </div>
         <div className="px-4 py-4">
-          {renderEventDetail(event, blobs)}
+          <EventDetail evt={event} blobs={blobs} lens={lens} />
         </div>
       </div>
     </>
-  )
-}
-
-function renderEventDetail(evt: RunEvent, blobs?: Record<string, string>) {
-  return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-[100px_1fr] gap-1 text-sm">
-        <span className="text-xs text-[#8b949e]">Type</span>
-        <span>{evt.type}</span>
-        <span className="text-xs text-[#8b949e]">Actor</span>
-        <span>{evt.actor.kind} / {evt.actor.id}</span>
-        <span className="text-xs text-[#8b949e]">Timestamp</span>
-        <span>{evt.ts}</span>
-        <span className="text-xs text-[#8b949e]">Hash</span>
-        <span className="font-mono text-xs break-all">{evt.hash}</span>
-        <span className="text-xs text-[#8b949e]">ID</span>
-        <span className="font-mono text-xs break-all">{evt.id}</span>
-      </div>
-      {evt.payload && Object.keys(evt.payload).length > 0 && (
-        <div>
-          <EvidenceBlobContent payload={evt.payload} blobs={blobs} />
-          <div className="text-xs text-[#8b949e] uppercase tracking-wider mb-1">Payload</div>
-          <pre className="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]">
-            {JSON.stringify(evt.payload, null, 2)}
-          </pre>
-        </div>
-      )}
-    </div>
   )
 }
