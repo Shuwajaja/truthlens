@@ -55,11 +55,13 @@ def test_tamper_detected(tmp_path, attack):
     elif attack == "insert":
         ls.insert(2, ls[1])
     elif attack == "drop_finish":
+        r = verify(p)
+        last_hash = r.last_hash
         del ls[-1]
     write(p, ls)
     r = verify(p)
-    if attack == "drop_finish":  # truncation after anchor: no longer anchored (manifest holds last_hash, D15)
-        assert r.ok and not r.anchored
+    if attack == "drop_finish":
+        assert not verify(p, expected_last_hash=last_hash).ok
     else:
         assert not r.ok
 

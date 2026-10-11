@@ -33,8 +33,11 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("verify", help="verify a ledger (fail-closed)")
     p.add_argument("ledger")
     p.add_argument("--hmac-key-env", metavar="VAR")
+    p.add_argument("--expect-last-hash", metavar="HEX")
     p = sub.add_parser("repair", help="truncate a torn tail (manual, D9)")
     p.add_argument("ledger")
+    p.add_argument("--hmac-key-env", metavar="VAR")
+    p.add_argument("--hmac-key-id", metavar="ID")
     a = ap.parse_args(argv)
 
     if a.cmd == "init":
@@ -47,7 +50,7 @@ def main(argv: list[str] | None = None) -> int:
         print(run_id)
         return 0
     if a.cmd == "verify":
-        r = verify(a.ledger, _key(a.hmac_key_env))
+        r = verify(a.ledger, _key(a.hmac_key_env), a.expect_last_hash)
         if r.ok:
             print(f"OK {r.events} events, {'anchored' if r.anchored else 'unanchored'}")
             return 0
@@ -55,7 +58,8 @@ def main(argv: list[str] | None = None) -> int:
             print(f"FAIL line {n}: {msg}")
         return 1
     try:
-        ev = repair(a.ledger, {"kind": "human", "id": getpass.getuser()})
+        ev = repair(a.ledger, {"kind": "human", "id": getpass.getuser()},
+                    _key(a.hmac_key_env), a.hmac_key_id)
     except LedgerError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
