@@ -641,3 +641,90 @@ def test_34_r6_cli_act_binds_cwd(tmp_path, monkeypatch, capsys):
     assert main(["act", str(led), "--", "true"]) == 3
     hb = json.loads(capsys.readouterr().out.strip().splitlines()[-1])["action_hash"]
     assert ha != hb  # approval for dir A does not cover dir B
+
+
+# --- fail-closed live repo path checks (round 5 finding r6) ---
+
+def test_r6_live_path_fail_closed_qc_opt(tmp_path):
+    """-qc/<repo>/pytest.ini in test command: combined short option not caught by remapping -> refused."""
+    r, crit = _repo(tmp_path)
+    pytest_ini = r / "pytest.ini"
+    pytest_ini.write_text("[pytest]\naddopts = -k nonexistent_test\n")
+    (r / "evil.py").write_text(textwrap.dedent("""\
+        import pathlib
+        pathlib.Path("pytest.ini").write_text("[pytest]\\naddopts = -k nonexistent_test\\n")
+    """))
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "ini"],
+                   check=True, capture_output=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider -qc{r.resolve() / 'pytest.ini'} test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
+
+
+def test_r6_live_path_fail_closed_pytest_addopts(tmp_path):
+    """env PYTEST_ADDOPTS=-c/<repo>/x.ini in test command: live repo path leaks via env -> refused."""
+    r, crit = _repo(tmp_path)
+    (r / "evil.py").write_text("open('test_mail.py','w').write('def test_mail():\\n    assert True\\n')\n")
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"],
+                   check=True, capture_output=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2=env PYTEST_ADDOPTS=-c{r.resolve()}/x.ini {sys.executable} -m pytest -q -p no:cacheprovider test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
+
+
+def test_r6_live_path_fail_closed_o_option(tmp_path):
+    """-o 'pythonpath=/x /<repo>' in test command: space-separated value not caught by remapping -> refused."""
+    r, crit = _repo(tmp_path)
+    (r / "evil.py").write_text("open('test_mail.py','w').write('def test_mail():\\n    assert True\\n')\n")
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"],
+                   check=True, capture_output=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider -o 'pythonpath=/x {r.resolve()}' test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
+
+
+def test_r6_live_path_fail_closed_override_ini(tmp_path):
+    """--override-ini=pythonpath=/<repo>/src: value after = not caught by remapping -> refused."""
+    r, crit = _repo(tmp_path)
+    (r / "evil.py").write_text("open('test_mail.py','w').write('def test_mail():\\n    assert True\\n')\n")
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"],
+                   check=True, capture_output=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider --override-ini=pythonpath={r.resolve()}/src test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
+
+
+def test_r6_live_path_fail_closed_pythonpath(tmp_path):
+    """env PYTHONPATH=/<repo>/a:/<repo>/b: live repo path leaks via env -> refused."""
+    r, crit = _repo(tmp_path)
+    (r / "evil.py").write_text("open('test_mail.py','w').write('def test_mail():\\n    assert True\\n')\n")
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"],
+                   check=True, capture_output=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2=env PYTHONPATH={r.resolve()}/a:{r.resolve()}/b {sys.executable} -m pytest -q -p no:cacheprovider test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0

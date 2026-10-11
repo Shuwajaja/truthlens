@@ -58,6 +58,13 @@ class RunConfig:
     test_path: str | None = None  # PATH for the test user (its own venv); default TEST_PATH
 
 
+
+def _has_path(s: str, p: str) -> bool:
+    """True if path p occurs in s as a whole path (followed by end, '/', or a separator), not as a prefix of a
+    sibling like p + '-flag'."""
+    import re as _re
+    return bool(p) and _re.search(_re.escape(p) + r"(?![^/\s:;,'\"=)])", s) is not None
+
 def parse_test_spec(spec: str) -> TestSpec:
     """'c1,c2=pytest -q tests/x.py' -> TestSpec(['c1','c2'], 'pytest -q tests/x.py')."""
     ids, sep, cmd = spec.partition("=")
@@ -451,66 +458,78 @@ def run(cfg: RunConfig) -> dict:
             cmd = shlex.join(tokens)
             argv, env_ = ["/bin/sh", "-c", cmd], test_env
             helper_err = None
-            if cfg.test_user:
-                # separate UID: test code cannot read the HMAC key, the rollback anchors or other box secrets.
-                # Leftover processes of that user are killed first (pkill exit 1 = none; anything else aborts).
-                u = cfg.test_user
-                try:
-                    ok = subprocess.run([SUDO, "-n", "-u", u, "/bin/true"], capture_output=True, check=False,
-                                        env=HELPER_ENV).returncode == 0
-                    pk = subprocess.run([SUDO, "-n", "-u", u, "/usr/bin/pkill", "-KILL", "-u", u],
-                                        capture_output=True, check=False, env=HELPER_ENV) if ok else None
-                except OSError:
-                    ok, pk = False, None
-                if ok and pk is not None and pk.returncode in (0, 1):
-                    if pk.returncode == 1:
-                        pg = subprocess.run([SUDO, "-n", "-u", u, "/usr/bin/pgrep", "-u", u],
-                                            capture_output=True, check=False, env=HELPER_ENV)
-                        if pg.returncode != 1:
-                            helper_err = f"sudo/pkill as {u} failed (pkill rc 1 but pgrep rc {pg.returncode})"
-                            ok_clean = False
+            _repo_given = str(cfg.repo)
+            _check_tokens = list(argv)
+            if env_ is not None:
+                _check_tokens.extend(f"{k}={v}" for k, v in env_.items())
+            _live_refused = any(
+                _has_path(_val, _repo_given) or _has_path(_val, _repo_real)
+                for _val in _check_tokens
+            )
+            if _live_refused:
+                text, trc = "[truthlens: live repo path in test command/env; refused]", 125
+                counts = {"passed": 0, "failed": 0, "skipped": 0}
+            else:
+                if cfg.test_user:
+                    # separate UID: test code cannot read the HMAC key, the rollback anchors or other box secrets.
+                    # Leftover processes of that user are killed first (pkill exit 1 = none; anything else aborts).
+                    u = cfg.test_user
+                    try:
+                        ok = subprocess.run([SUDO, "-n", "-u", u, "/bin/true"], capture_output=True, check=False,
+                                            env=HELPER_ENV).returncode == 0
+                        pk = subprocess.run([SUDO, "-n", "-u", u, "/usr/bin/pkill", "-KILL", "-u", u],
+                                            capture_output=True, check=False, env=HELPER_ENV) if ok else None
+                    except OSError:
+                        ok, pk = False, None
+                    if ok and pk is not None and pk.returncode in (0, 1):
+                        if pk.returncode == 1:
+                            pg = subprocess.run([SUDO, "-n", "-u", u, "/usr/bin/pgrep", "-u", u],
+                                                capture_output=True, check=False, env=HELPER_ENV)
+                            if pg.returncode != 1:
+                                helper_err = f"sudo/pkill as {u} failed (pkill rc 1 but pgrep rc {pg.returncode})"
+                                ok_clean = False
+                            else:
+                                ok_clean = True
                         else:
                             ok_clean = True
                     else:
-                        ok_clean = True
-                else:
-                    ok_clean = False
-                    if pk is None:
-                        helper_err = f"sudo as {u} failed"
-                    elif pk.returncode not in (0, 1):
-                        helper_err = f"sudo/pkill as {u} failed (exit {pk.returncode})"
-                    else:
-                        helper_err = f"sudo/pkill as {u} failed"
-                if ok_clean:
-                    os.chmod(td, 0o711)
-                    try:
-                        ch = subprocess.run([SUDO, "-n", "chown", "-R", u, str(work), str(home), str(jx.parent)],
-                                            capture_output=True, check=False, env=HELPER_ENV)
-                    except OSError:
-                        ch = subprocess.CompletedProcess([], 127)
-                    if ch.returncode != 0:
-                        helper_err = f"chown to {u} failed (exit {ch.returncode})"
-                argv = [SUDO, "-n", "-u", u, "/usr/bin/env", "-i", *[f"{k}={v}" for k, v in test_env.items()], *argv]
-                env_ = None
-            try:
-                if helper_err:
-                    raise _HelperError(helper_err)
-                tp = subprocess.run(argv, cwd=work, env=env_, stdin=subprocess.DEVNULL,
-                                    capture_output=True, timeout=600, check=False)
-                text, trc = _strip_secret_bytes(tp.stdout + tp.stderr, secrets).decode("utf-8", "replace"), tp.returncode
-            except subprocess.TimeoutExpired:
-                text, trc = "[truthlens: test timeout]", 124
-            except _HelperError as e:  # isolation could not be established: no evidence, run still finishes
-                text, trc = f"[truthlens: test isolation failed: {e}; tests not run]", 125
-            counts = junit_counts(jx, trc) if not helper_err else {"passed": 0, "failed": 0, "skipped": 0}
-            if cfg.test_user:  # hand the copy back so the temp dir can be removed; failure is reported
+                        ok_clean = False
+                        if pk is None:
+                            helper_err = f"sudo as {u} failed"
+                        elif pk.returncode not in (0, 1):
+                            helper_err = f"sudo/pkill as {u} failed (exit {pk.returncode})"
+                        else:
+                            helper_err = f"sudo/pkill as {u} failed"
+                    if ok_clean:
+                        os.chmod(td, 0o711)
+                        try:
+                            ch = subprocess.run([SUDO, "-n", "chown", "-R", u, str(work), str(home), str(jx.parent)],
+                                                capture_output=True, check=False, env=HELPER_ENV)
+                        except OSError:
+                            ch = subprocess.CompletedProcess([], 127)
+                        if ch.returncode != 0:
+                            helper_err = f"chown to {u} failed (exit {ch.returncode})"
+                    argv = [SUDO, "-n", "-u", u, "/usr/bin/env", "-i", *[f"{k}={v}" for k, v in test_env.items()], *argv]
+                    env_ = None
                 try:
-                    back = subprocess.run([SUDO, "-n", "chown", "-R", str(os.getuid()), str(work), str(home),
-                                           str(jx.parent)], capture_output=True, check=False, env=HELPER_ENV)
-                except OSError:
-                    back = subprocess.CompletedProcess([], 127)
-                if back.returncode != 0 and not helper_err:
-                    text += f"\n[truthlens: chown back failed (exit {back.returncode}); temp dir may remain]"
+                    if helper_err:
+                        raise _HelperError(helper_err)
+                    tp = subprocess.run(argv, cwd=work, env=env_, stdin=subprocess.DEVNULL,
+                                        capture_output=True, timeout=600, check=False)
+                    text, trc = _strip_secret_bytes(tp.stdout + tp.stderr, secrets).decode("utf-8", "replace"), tp.returncode
+                except subprocess.TimeoutExpired:
+                    text, trc = "[truthlens: test timeout]", 124
+                except _HelperError as e:  # isolation could not be established: no evidence, run still finishes
+                    text, trc = f"[truthlens: test isolation failed: {e}; tests not run]", 125
+                counts = junit_counts(jx, trc) if not helper_err else {"passed": 0, "failed": 0, "skipped": 0}
+                if cfg.test_user:  # hand the copy back so the temp dir can be removed; failure is reported
+                    try:
+                        back = subprocess.run([SUDO, "-n", "chown", "-R", str(os.getuid()), str(work), str(home),
+                                               str(jx.parent)], capture_output=True, check=False, env=HELPER_ENV)
+                    except OSError:
+                        back = subprocess.CompletedProcess([], 127)
+                    if back.returncode != 0 and not helper_err:
+                        text += f"\n[truthlens: chown back failed (exit {back.returncode}); temp dir may remain]"
         text = _scrub(text, secrets)
         if "pytest" in t.command and not runner_ok:  # #32.4: decided independently of the test output
             counts = {"passed": 0, "failed": 0, "skipped": 0}

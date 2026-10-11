@@ -19,6 +19,13 @@ from truthlens.ledger import Ledger, LedgerError, _parse_ts, verify
 _SHORT_OPT_PATH = re.compile(r"^(-[A-Za-z])(/.*)$")
 
 
+
+def _has_path(s: str, p: str) -> bool:
+    """True if path p occurs in s as a whole path (followed by end, '/', or a separator), not as a prefix of a
+    sibling like p + '-flag'."""
+    import re as _re
+    return bool(p) and _re.search(_re.escape(p) + r"(?![^/\s:;,'\"=)])", s) is not None
+
 def _iter_abs_pairs(tok: str):
     """Yield (prefix, abs_path) for each absolute-path form in an argv token:
     the whole token, after '=', and after a leading short option -X (single-dash + one letter).
@@ -329,6 +336,14 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
                 with os.fdopen(fd, "wb") as fh:
                     fh.write(pbytes)
             run_argv = [exe, *[_map_into_copy(a, root, td) for a in argv[1:]]]
+            _root_given = cwd or os.getcwd()
+            for _a in run_argv:
+                if _has_path(_a, _root_given) or _has_path(_a, root):
+                    raise LedgerError(f"live repo path in gated action argv: {_a}")
+            if env is not None:
+                for _v in env.values():
+                    if _v and (_has_path(_v, _root_given) or _has_path(_v, root)):
+                        raise LedgerError("live repo path in gated action env")
             proc = subprocess.run(run_argv, cwd=td, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
         except (OSError, LedgerError) as e:  # #29.3: never kills the gate, never leaves only "started"
             proc = subprocess.CompletedProcess(argv, 127, b"", f"[truthlens gate: {type(e).__name__}]".encode())
