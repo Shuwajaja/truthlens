@@ -45,7 +45,9 @@ export default function App() {
         {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} />}
         {view === 'timeline' && <Timeline events={doc.events} onOpenDrawer={setDrawerTarget} />}
       </main>
-      {drawerTarget && <Drawer target={drawerTarget} onClose={() => setDrawerTarget(null)} />}
+      {drawerTarget && (
+        <Drawer target={drawerTarget} blobs={doc.blobs} onClose={() => setDrawerTarget(null)} />
+      )}
     </div>
   )
 }
