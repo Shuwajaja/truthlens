@@ -96,8 +96,8 @@ def junit_counts(xml: Path, rc: int) -> dict[str, int]:
     return c
 
 
-GIT_SAFE = ("-c", "core.hooksPath=/dev/null", "-c", "diff.external=", "-c", "core.fsmonitor=false",
-            "-c", "core.pager=cat", "-c", "protocol.allow=never")
+GIT_SAFE = ("-c", "core.hooksPath=/dev/null", "-c", "core.attributesFile=/dev/null", "-c", "diff.external=",
+             "-c", "core.fsmonitor=false", "-c", "core.pager=cat", "-c", "protocol.allow=never")
 PROTECTED = ("tests/", "test/", "conftest.py", "pytest.ini", "pyproject.toml", "setup.cfg", "tox.ini",
              "package.json")
 
@@ -107,10 +107,31 @@ def _git_env() -> dict[str, str]:
             "GIT_CONFIG_GLOBAL": "/dev/null", "LC_ALL": "C"}
 
 
+def _disable_filters(repo: Path) -> list[str]:
+    """Query repo-configured git filter drivers and return -c overrides to disable them."""
+    extra = []
+    try:
+        out = subprocess.run(["git", *GIT_SAFE, "-C", str(repo), "config", "--name-only", "--get-regexp", r"^filter\."],
+                             capture_output=True, check=False, stdin=subprocess.DEVNULL,
+                             env=_git_env()).stdout.decode()
+        seen = set()
+        for line in out.strip().split("\n"):
+            line = line.strip()
+            if line.startswith("filter."):
+                name = line.split(".", 1)[1].split(".", 1)[0]
+                if name and name not in seen:
+                    seen.add(name)
+                    extra.extend(["-c", f"filter.{name}.clean=cat", "-c", f"filter.{name}.smudge=cat",
+                                  "-c", f"filter.{name}.process=", "-c", f"filter.{name}.required=false"])
+    except OSError:
+        pass
+    return extra
+
+
 def _git(repo: Path, *args: str, check: bool = True) -> bytes:
     """Git with a filtered env and agent-controllable hooks/external diff/fsmonitor disabled (#26 review)."""
-    return subprocess.run(["git", *GIT_SAFE, "-C", str(repo), *args], capture_output=True, check=check,
-                          stdin=subprocess.DEVNULL, env=_git_env()).stdout
+    return subprocess.run(["git", *GIT_SAFE, *_disable_filters(repo), "-C", str(repo), *args],
+                          capture_output=True, check=check, stdin=subprocess.DEVNULL, env=_git_env()).stdout
 
 
 def is_protected(rel: str) -> bool:
@@ -345,7 +366,16 @@ def run(cfg: RunConfig) -> dict:
             jx = Path(td) / "junit" / "report.xml"  # outside the copied tree; via env, not appended to the line
             jx.parent.mkdir()
             test_env["PYTEST_ADDOPTS"] = f"--junitxml={jx}"
-            cmd = t.command.replace(str(cfg.repo.resolve()), str(work))  # abs paths into the live repo -> clean copy
+            _repo_str = str(cfg.repo)
+            _repo_real = str(cfg.repo.resolve())
+            cmd = t.command.replace(_repo_real, str(work)).replace(_repo_str, str(work))
+            tokens = []
+            for tok in cmd.split():
+                rp = os.path.realpath(tok)
+                if rp.startswith(_repo_real):
+                    tok = rp.replace(_repo_real, str(work), 1)
+                tokens.append(tok)
+            cmd = " ".join(tokens)
             argv, env_ = ["/bin/sh", "-c", cmd], test_env
             helper_err = None
             if cfg.test_user:

@@ -149,6 +149,11 @@ def _read_program(prog: str) -> bytes:
 def _check_args(args: list[str], root: str) -> None:
     import os
     for a in args:
+        if "=" in a and not a.startswith("="):
+            _, val = a.split("=", 1)
+            if val and os.path.isabs(val) and (os.path.lexists(val) or os.path.lexists(os.path.realpath(val))) \
+                    and not (val == root or val.startswith(root + os.sep)):
+                raise LedgerError(f"gated action references a path outside the working tree: {a}")
         f = os.path.join(root, a)
         if os.path.lexists(f) and _in_tree(a, root) is None:
             raise LedgerError(f"gated action references a path outside the working tree: {a}")

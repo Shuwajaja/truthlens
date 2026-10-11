@@ -412,6 +412,75 @@ def test_r6_absolute_test_path_into_live_repo_runs_the_copy(tmp_path):
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["passed"] == 0 and rep["failed"] >= 1
 
+def test_46_r6_isolation_failure_blob_mentions_failed(tmp_path):
+    """When isolation fails, the report blob text must mention 'isolation failed'."""
+    r, crit = _repo(tmp_path)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test-user", "no-such-user-tl", "--test", "c1=python -m pytest -q test_page.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+    ev = Ledger(out / "ledger.jsonl").read()
+    rep = next(e for e in ev if e["type"] == "test.reported")["payload"]
+    assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
+    blobs = sorted([p for p in (out / "blobs").rglob("*") if p.is_file()],
+                    key=lambda p: p.stat().st_mtime, reverse=True)
+    assert any(b"isolation failed" in p.read_bytes() for p in blobs[:5])
+
+
+def test_r6_git_filter_evil_does_not_run(tmp_path):
+    """Agent-configured filter.evil.clean must not execute during snapshot/diff."""
+    r, crit = _repo(tmp_path)
+    marker = tmp_path / "filter-evil-ran"
+    subprocess.run(["git", "-C", str(r), "config", "filter.evil.clean",
+                    f"touch {marker}"], check=True, capture_output=True)
+    subprocess.run(["git", "-C", str(r), "config", "filter.evil.required", "true"],
+                   check=True, capture_output=True)
+    (r / ".gitattributes").write_text("* filter=evil\n")
+    subprocess.run(["git", "-C", str(r), "-c", "filter.evil.clean=cat", "-c", "filter.evil.required=false",
+                    "add", "-f", ".gitattributes"], check=True, capture_output=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a",
+                    "-c", "filter.evil.clean=cat", "-c", "filter.evil.required=false",
+                    "commit", "-qm", "attr"], check=True, capture_output=True)
+    marker.unlink(missing_ok=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit),
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+    assert not marker.exists()
+
+
+def test_r6_gate_config_value_outside_path_refused(tmp_path):
+    """--config=/outside/file must be refused with LedgerError."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    outside = tmp_path / "outside" / "file"
+    outside.parent.mkdir()
+    outside.write_text("config")
+    with pytest.raises(LedgerError, match="outside"):
+        gate.act(led, {"kind": "agent", "id": "a"}, ["cat", f"--config={outside}"], str(repo))
+
+
+def test_r6_symlink_in_test_command_mapped_to_copy(tmp_path):
+    """A symlink path to the repo in the test command must map onto the clean copy."""
+    r, crit = _repo(tmp_path)
+    (r / "test_pass.py").write_text("def test_pass():\n    assert True\n")
+    subprocess.run(["git", "-C", str(r), "add", "test_pass.py"], check=True, capture_output=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "t"],
+                   check=True, capture_output=True)
+    link = tmp_path / "link-to-repo"
+    try:
+        link.symlink_to(r)
+    except AttributeError:
+        os.symlink(str(r), str(link))
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider {link}/test_pass.py",
+"--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                  "--", "true"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["passed"] == 1 and rep["failed"] == 0
+
+
 def test_34_r6_cli_act_binds_cwd(tmp_path, monkeypatch, capsys):
     led = tmp_path / "l.jsonl"
     assert main(["init", str(led)]) == 0
