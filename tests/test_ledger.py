@@ -82,7 +82,7 @@ def test_append_refused_on_tampered_ledger(tmp_path):
 def test_approval_granted_requires_human_and_single_use(tmp_path):
     p = tmp_path / "l.jsonl"
     led = Ledger(p)
-    g = led.append(RUN, {"kind": "human", "id": "u"}, "approval.granted", {"action_hash": "h", "approver": "u", "expires_at": "z"})
+    g = led.append(RUN, {"kind": "human", "id": "u"}, "approval.granted", {"action_hash": "h", "approver": "u", "expires_at": "2999-01-01T00:00:00Z"})
     use = {"action_hash": "h", "approval_event_id": g["id"], "result": "ok"}
     led.append(RUN, A, "action.executed", use)
     with pytest.raises(LedgerError, match="consumed"):
@@ -211,3 +211,20 @@ def test_blocked_action_needs_unexpired_approval(tmp_path):
     g = led.append(RUN, H, "approval.granted", {"action_hash": "h9", "approver": "u", "expires_at": "2000-01-01T00:00:00Z"})
     with pytest.raises(LedgerError, match="expired"):
         led.append(RUN, A, "action.executed", {"action_hash": "h9", "approval_event_id": g["id"], "result": "ok"})
+
+
+@pytest.mark.parametrize("extra", [{}, {"expires_at": "soon"}, {"expires_at": 9999999999},
+                                   {"expires_at": "2999-01-01T00:00:00+05:00"}, {"expires_at": ""}])
+def test_r3_approval_missing_or_invalid_expiry_denies(tmp_path, extra):
+    led = Ledger(tmp_path / "l.jsonl")
+    led.append(RUN, A, "action.blocked", {"action_hash": "h7", "policy": "p", "reason": "r"})
+    g = led.append(RUN, H, "approval.granted", {"action_hash": "h7", "approver": "u", **extra})
+    with pytest.raises(LedgerError, match="valid expires_at"):
+        led.append(RUN, A, "action.executed", {"action_hash": "h7", "approval_event_id": g["id"], "result": "ok"})
+
+
+def test_r3_valid_future_approval_still_releases(tmp_path):
+    led = Ledger(tmp_path / "l.jsonl")
+    led.append(RUN, A, "action.blocked", {"action_hash": "h8", "policy": "p", "reason": "r"})
+    g = led.append(RUN, H, "approval.granted", {"action_hash": "h8", "approver": "u", "expires_at": "2999-01-01T00:00:00.000Z"})
+    led.append(RUN, A, "action.executed", {"action_hash": "h8", "approval_event_id": g["id"], "result": "ok"})

@@ -20,7 +20,10 @@ _NAME = (
 )
 _KEY_PATTERN = re.compile(rf"(?i){_NAME}")
 _FLAG = re.compile(rf"(?i)^--?[a-z0-9_-]*{_NAME}[a-z0-9_-]*$")
-_FLAG_VAL = re.compile(rf"(?i)(?<![A-Za-z0-9_-])(--?[a-z0-9_-]{{0,64}}?{_NAME}[a-z0-9_-]{{0,64}})\s+([^\s;&|]+)")
+_QV = r'''(?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|[^\s;&|]+)'''
+_FLAG_VAL = re.compile(rf"(?i)(?<![A-Za-z0-9_-])(--?[a-z0-9_-]{{0,64}}?{_NAME}[a-z0-9_-]{{0,64}})(?:\s+|=)({_QV})")
+_USER_FLAG = re.compile(rf"(?<![A-Za-z0-9_-])(-u|--user|--proxy-user)(?:\s+|=)({_QV})")
+_USER_FLAGS = frozenset({"-u", "--user", "--proxy-user"})
 
 _COUNTER_NAMES = frozenset({
     "max_tokens", "max_token", "num_tokens", "total_tokens",
@@ -44,8 +47,8 @@ _VALUE_PATTERN = re.compile(
     r"|-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----"
 )
 # NAME=value / NAME: value / --name=value inside free text (env dumps, logs, commands)
-_ASSIGN = re.compile(rf"(?i)(?<![A-Za-z0-9_.-])([\"']?[A-Za-z0-9_.-]{{0,64}}?{_NAME}[A-Za-z0-9_.-]{{0,64}}[\"']?\s{{0,4}}[=:]\s{{0,4}})(\"[^\"]*\"|'[^']*'|[^\s&|]+)")
-_URL_CRED = re.compile(r"(?<=://)(?:[^/\s:@]+(?::[^/\s@]+)?|:[^/\s@]+)(?=@)")
+_ASSIGN = re.compile(rf"(?i)(?<![A-Za-z0-9_.-])([\"']?[A-Za-z0-9_.-]{{0,64}}?{_NAME}[A-Za-z0-9_.-]{{0,64}}[\"']?\s{{0,4}}[=:]\s{{0,4}})({_QV})")
+_URL_CRED = re.compile(r"(?<=://)(?:[^/\s:@]+(?::[^/\s@]*)?|:[^/\s@]+)(?=@)")
 
 
 def is_secret_key(key: str) -> bool:
@@ -67,6 +70,7 @@ def redact_str(value: str) -> str:
 
     value = _ASSIGN.sub(_assign, value)
     value = _FLAG_VAL.sub(_flag_val, value)
+    value = _USER_FLAG.sub(lambda m: m.group(1) + " " + REDACTED, value)
     return value
 
 
@@ -77,7 +81,8 @@ def _redact_seq(items) -> list:
             out.append(REDACTED)
             hide_next = False
             continue
-        hide_next = isinstance(item, str) and bool(_FLAG.match(item)) and not _is_counter(item.lstrip("-"))
+        hide_next = isinstance(item, str) and ((bool(_FLAG.match(item)) and not _is_counter(item.lstrip("-")))
+                                               or item in _USER_FLAGS)
         out.append(redact(item))
     return out
 
