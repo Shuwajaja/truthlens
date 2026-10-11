@@ -223,7 +223,7 @@ def run(cfg: RunConfig) -> dict:
 
     # agent run: no shell, stdin closed, filtered env, HMAC key never passed
     env = child_env(cfg.pass_env, drop | set(cfg.gate_env))
-    gate_dir = cfg.out_dir / "gate"
+    gate_dir = Path(tempfile.mkdtemp(prefix="tl-gate-"))  # #29.4: inbox outside the run dir, mode 700
     env["TRUTHLENS_GATE_DIR"] = str(gate_dir)
     gated_env = child_env(cfg.gate_env, drop - set(cfg.gate_env))
     server = GateServer(led, gate_dir, str(cfg.repo), gated_env,
@@ -293,6 +293,8 @@ def run(cfg: RunConfig) -> dict:
                     (work / rel).unlink(missing_ok=True)
             for rel, data in protected_before.items():
                 (work / rel).parent.mkdir(parents=True, exist_ok=True)
+                if not (work / rel).parent.resolve().is_relative_to(work.resolve()):
+                    continue  # #32.5: never restore through a directory symlink out of the copy
                 (work / rel).unlink(missing_ok=True)
                 (work / rel).write_bytes(data)
             test_env = {"PATH": TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8", "TMPDIR": td,
@@ -305,6 +307,9 @@ def run(cfg: RunConfig) -> dict:
                 text, trc = "[truthlens: test timeout]", 124
         text = _scrub(text, secrets)
         counts = parse_pytest_counts(text, trc)
+        if "No module named pytest" in text:  # #32.4: missing runner is not evidence of failure -> not decisive
+            counts = {"passed": 0, "failed": 0, "skipped": 0}
+            text += "\n[truthlens: test runner unavailable in clean env; result not decisive]"
         rep_ = blob(f"$ {t.command}\nexit {trc}\n{text}".encode())
         emit(WRAPPER, "test.reported", {"suite": t.command, **counts, "exit_code": trc,
                                         "report_artifact_id": rep_,

@@ -110,7 +110,10 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
         state["head"] = (ev["seq"], ev["hash"])
     if action_hash(argv, cwd) != ah:  # re-check right before execution (TOCTOU)
         raise LedgerError("referenced files changed after approval check, refusing to execute")
-    proc = subprocess.run(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
+    try:
+        proc = subprocess.run(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
+    except OSError as e:  # #29.3: execution failure is recorded as a result, never kills the gate
+        proc = subprocess.CompletedProcess(argv, 127, b"", f"[truthlens gate: {type(e).__name__}]".encode())
     led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "evidence.attached",
                {"evidence_id": ev["id"].replace("evt_", "evd_"), "kind": "command_run", "refers_to": ev["id"],
                 "sha256": hashlib.sha256(proc.stdout + proc.stderr).hexdigest(), "exit_code": proc.returncode,
@@ -126,6 +129,18 @@ def approve(led: Ledger, approver: str, ah: str) -> dict:
     return led.append(events[0]["run_id"], {"kind": "human", "id": approver}, "approval.granted",
                       {"action_hash": ah, "approver": approver,
                        "expires_at": _iso(datetime.now(UTC) + APPROVAL_TTL)})
+
+
+def _write_response(res, data: bytes) -> None:
+    """#29.4: never follow a pre-planted symlink / existing file: O_CREAT|O_EXCL|O_NOFOLLOW, then rename."""
+    import os
+
+    from truthlens.ids import new_id
+    tmp = res.with_name(f".{new_id('res')}.tmp")
+    fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+    with os.fdopen(fd, "wb") as fh:
+        fh.write(data)
+    os.replace(tmp, res)
 
 
 class GateServer:
@@ -160,12 +175,10 @@ class GateServer:
                 if not (isinstance(argv, list) and argv and all(isinstance(a, str) for a in argv)):
                     raise ValueError("argv must be a non-empty list of strings")
                 rc, info = act(self.led, self.requester, argv, self.cwd, self.env, self.state)
-            except Exception as e:  # noqa: BLE001 - one bad request must never stop the gate thread
-                rc, info = 2, {"status": "error", "error": str(e)}
-            req.unlink()
-            tmp = res.with_suffix(".tmp")
-            tmp.write_text(json.dumps({"rc": rc, **info}))
-            tmp.replace(res)
+            except Exception as e:  # noqa: BLE001  #29.3: one bad request must not stop the gate thread
+                rc, info = 2, {"status": "error", "error": f"{type(e).__name__}: {e}"}
+            req.unlink(missing_ok=True)
+            _write_response(res, json.dumps({"rc": rc, **info}).encode())
 
     def _loop(self):
         while not self._stop.wait(0.2):
