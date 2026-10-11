@@ -1,0 +1,252 @@
+diff --git a/app.js b/app.js
+new file mode 100644
+index 0000000..fd34d3e
+--- /dev/null
++++ b/app.js
+@@ -0,0 +1,26 @@
++document.addEventListener('DOMContentLoaded', function () {
++  var form = document.getElementById('contact-form');
++  var emailInput = document.getElementById('email');
++  var emailError = document.getElementById('email-error');
++
++  function validate() {
++    var valid = isValidEmail(emailInput.value);
++    if (!valid) {
++      emailInput.classList.add('invalid');
++      emailError.textContent = 'Please enter a valid email address.';
++    } else {
++      emailInput.classList.remove('invalid');
++      emailError.textContent = '';
++    }
++    return valid;
++  }
++
++  emailInput.addEventListener('blur', validate);
++  emailInput.addEventListener('input', function () {
++    if (emailInput.classList.contains('invalid')) validate();
++  });
++
++  form.addEventListener('submit', function (e) {
++    if (!validate()) e.preventDefault();
++  });
++});
+\ No newline at end of file
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000..2aa2579
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1,38 @@
++<!DOCTYPE html>
++<html lang="en">
++<head>
++  <meta charset="UTF-8">
++  <meta name="viewport" content="width=device-width, initial-scale=1.0">
++  <title>Acme Corp</title>
++  <link rel="stylesheet" href="style.css">
++</head>
++<body>
++  <header>
++    <h1>Acme Corp</h1>
++    <p>Building better tools for tomorrow.</p>
++  </header>
++  <main>
++    <section>
++      <h2>Contact Us</h2>
++      <form id="contact-form" novalidate>
++        <div>
++          <label for="name">Name</label>
++          <input type="text" id="name" name="name" required>
++        </div>
++        <div>
++          <label for="email">Email</label>
++          <input type="email" id="email" name="email" required>
++          <span id="email-error" class="error"></span>
++        </div>
++        <div>
++          <label for="message">Message</label>
++          <textarea id="message" name="message" rows="4" required></textarea>
++        </div>
++        <button type="submit">Send</button>
++      </form>
++    </section>
++  </main>
++  <script src="validate.js"></script>
++  <script src="app.js"></script>
++</body>
++</html>
+\ No newline at end of file
+diff --git a/style.css b/style.css
+new file mode 100644
+index 0000000..720af8f
+--- /dev/null
++++ b/style.css
+@@ -0,0 +1,83 @@
++*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
++
++body {
++  font-family: system-ui, -apple-system, sans-serif;
++  line-height: 1.6;
++  color: #222;
++  background: #f5f5f5;
++  min-height: 100vh;
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++}
++
++header {
++  background: #1a3a5c;
++  color: #fff;
++  width: 100%;
++  text-align: center;
++  padding: 3rem 1rem;
++}
++
++header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
++header p  { font-size: 1.1rem; opacity: 0.85; }
++
++main {
++  width: 100%;
++  max-width: 480px;
++  padding: 2rem 1rem;
++}
++
++section h2 { margin-bottom: 1.5rem; font-size: 1.5rem; }
++
++form div { margin-bottom: 1rem; }
++
++label {
++  display: block;
++  font-weight: 600;
++  margin-bottom: 0.25rem;
++}
++
++input, textarea {
++  width: 100%;
++  padding: 0.6rem 0.75rem;
++  border: 1px solid #ccc;
++  border-radius: 6px;
++  font-size: 1rem;
++  font-family: inherit;
++}
++
++input:focus, textarea:focus {
++  outline: none;
++  border-color: #1a3a5c;
++  box-shadow: 0 0 0 2px rgba(26,58,92,0.2);
++}
++
++input.invalid, textarea.invalid { border-color: #d32f2f; }
++
++.error {
++  color: #d32f2f;
++  font-size: 0.85rem;
++  margin-top: 0.25rem;
++  display: block;
++  min-height: 1.2em;
++}
++
++button {
++  background: #1a3a5c;
++  color: #fff;
++  border: none;
++  padding: 0.75rem 2rem;
++  font-size: 1rem;
++  border-radius: 6px;
++  cursor: pointer;
++  width: 100%;
++}
++
++button:hover { background: #0f2a45; }
++
++@media (max-width: 480px) {
++  header { padding: 2rem 1rem; }
++  header h1 { font-size: 1.8rem; }
++  main { padding: 1.5rem 1rem; }
++}
+\ No newline at end of file
+diff --git a/tests/__pycache__/test_email_validation.cpython-313-pytest-9.1.1.pyc b/tests/__pycache__/test_email_validation.cpython-313-pytest-9.1.1.pyc
+new file mode 100644
+index 0000000000000000000000000000000000000000..c09a6e5ed2cd6346d074fbc3e18a318fc23e4cef
+GIT binary patch
+literal 2922
+zcmb_eOKcNI7@l3PpCO?XS{|*a8<pY}$~t!903i;6kb<ZLD2pkQrLH#XjoGl?U1ruz
+zY)X|w5A-3yrBV+Z(udUc)?<&HdvbU*XoS>5PrX6YQ`JNN*_R!N6p%Xh&is#W{`nuX
+zGrQj3pFz<6efsOdLk^)o7!$TsK&+nu;wvO0nR_2$&Kvo&F~VojSpmnhz9xYao+gQt
+zG7rC4^b@2cPRa3o2&e0unD~>KJ$LavG1*S2Q*)ALxA!)QjwMTN=!aajKBX_I4ad|a
+z8`mkKamQ2*s~rPuJ3h4})%12s&CX3}Kxu)C-mne&7(DBH;-0@;HPX)V5g8GKs0uj0
+zRTCjqf-JBWjzgfaP&Ld2n)UMKW5RwAv3M&eACm>|7e6Y@GH;$~R<B0`&nSVl2M1Aw
+z3s<&cU9V<e*#v!R5S0S474ODUiH8<!t&$jr;@OM20C$?J{e@8V)zI4Pu8``E5KW?z
+z9OdNX<*`w|B={ORRee3g%<c)P?%4I^7zk@`ZCGVr7Z*~H{g8}u9eSw(zQ@NmBVa^q
+zHv2pWK6WG9bXJ8Ab0eo;DxNnsc(iFe-O5FAK*qN8D5^L3pWYH3i~P^Ll>aYMkD$`s
+zy&uK#BK3G~HpG*W`~G(?pL<hZ%FE|wgO`0<W?cxgz9lkx_qIePLYwk7DeavyDY;)B
+zsHBEDk4smfW`66jl?`Rx5zdTsXe%6bIHk*+#lsVWCkc;G=A27)ByK;~Ry5lpZuYuC
+zE~%zbn`x+qd83T=YfS^|xr0*vBPLc|U0NUq#bXR@!*Oid_1szc{5grZ*s$uxd@FZ=
+zNDbA=^%@dIkqVX#r!+sLUle0>KvNyJiFL(px=z!jf~zmNG_GCIwW}ic4__{eT>IMt
+zIj2<;N#=S$WXoAb6+;mafoNDH;EGx!nHxC<84-z?xsfgV6AGi@3`PZ04vWNt79w+u
+z3X}yf=r7BtKzIZefh;t2whEYsKNS{;ZP6HnK?Tzw5X1Bdc}5n~H0HF1SyyD;2<u9$
+zJIuNxRB&2_VXrTG{b+l;O5nnCy$B0qBJspy;tt#gWu@_2v*8fj4>V@C1kI4<oP%vm
+zCxpgu)1nFD)|eY{FAp@~drC7?PRrGatEianP&Cyv6|6g0vm1_zb-E4I%3RYhUBe<Y
+zVcLKobdN%=*iEzML6y2`&#9)uu40;2h&rz`3v}Rw=dfX0GZ@>L?o{S&+)!ObUxM4&
+zQeDu98OkpZ%<etf$CmPgEc7y?z06VHqX1Uez>V|*$9$E)WTCWyJ51PxoQ)d2kYBX%
+zRpO|co`<9@=$cFNE^fM4Ox+?wkUo;H=?#0Rke@e}*v8DWoB@VqPG|3e66}8nN^)BC
+zwM{j+0PC{P4PwA2!!ml5UU<;Bw$@m@*I0b8^zq*aeZo!i>j<^DQ*5xf8U86knHhfh
+z<m1e)Thiy!*YB>p^CREcd+3)_cioQs!D{C6T1HvTD9h82`?lX2|7^S?6mO2-*1k9n
+z#P_8iCcc>fVrAmHNf_?bRwnQ7F9OxsUtH}gt_i{aK1@0uaX#@-D1JE_$yU1@C~l5N
+z3ZHl&6mM&h48S4Bz|UF+@SR#OxQFw_zcJr?5g`ZWRwjG}_`EV1kq}UX?<MXDMaU#V
+zu+>uGM#gW0fbLcNtuOhziB%5ki`Z~s8%H9V3}l!ct=`Lq*;VenWnMjhLb%8T!^~!C
+zqG8vXrap;}0L#7$39I>&7{_tHBlIa+L%SdC-2HRyZoG4$()m#9SmX&pC;8K?(CIV$
+Na(tbSaU-6|{{W8rQ;h%s
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/__pycache__/test_page_exists.cpython-313-pytest-9.1.1.pyc b/tests/__pycache__/test_page_exists.cpython-313-pytest-9.1.1.pyc
+new file mode 100644
+index 0000000000000000000000000000000000000000..d66104db93693e0d754abc46f2697f6bf69b44fb
+GIT binary patch
+literal 3477
+zcmeHKO=uid9Dg%A`<;)H`cbRkvRKHV`!SQ<B&$hLQA%4{%?^_Ys|=IuB-y%|8Q#p&
+zBofHMgNo2xMDgUY6~Pt)_S&21r6H}shv31JHzijQ|8L&B+1auXJa{QCdGG!H-@o^t
+z_hvW8qoX+lpTGY6;o3f|zfpmI#1I_U0DOitqzRW17J^m0l<>p?x+LLbfmu>G6<E?Z
+zt%+w5&a4S?;&+<j>Pna>SZKWjjN_NnG;1reHF>>AgHRD_)&-_$CS!&W*2C3C6=Vyo
+z6!&OmIO?yqsEKwW<`e9^Z>Pw4y@=ka>QbFDq_XZ<lMEvBMTBC}!z!e;gq?}`46E=t
+zRM^$CQH8JVl%C=>E{N^F5z-_r*%}GUqUIP!{k4er&R+p#`*~n?id&l#9QD^?j5+To
+zuW6ngh<>6U#nG_nw*=tWuQ@bI7kRA{JrmqhOZ}^zKRdvE=+1S-b4NRVY9MMj_b3W>
+zntDv0hr~N^;`2yyPc2<em*8GGcbZT0^Uz=QJohUgJ<0ofK``N3YnjKRYfEXq$CJ9Y
+zl;NKLpW^@St+JHmT|V)7<hZAn4NvjCp{IC+`xWBv(KG#X&QTHRf|jd?-&9pZZ-zap
+z<+Txgv?>JBSPR}s>=Wbn9M|<%$Ti06^3{TG*LlHC!4P1GFcL5%7)cmu7@2v&{c;V-
+zqgS_c9lLF9me>7_?sjHwU1`1RoqumTH@E8G4TkM=lkS$H%3kgRjtcVy3Ts>kAXI@{
+z*|SW%vYy+Sq(0NK_fp_I!+}!eVHAaNvk-SNw<G6vh=?sBQ9g2-B-|~PPBl7B(`klI
+zvqS<))nHb)eOgD2$WRn!RiJvv8W2~4eUPI9)fq{p!I2tmm?FMAARN*Ja+E_Yn5To8
+zv1(AP2HaFNz%@*t_4c^wc^3AAW~k7Oz&0a~leBC4>)p;Wk=_PCve+`)hHq{9Sb{i`
+zV*Mn-MKbcLyJal*I$ghGdnDC$R?MzPa-j7s&o@j=&KTah)9bbkY`NH2>pIJ3*RahE
+zi)0PYT(zj0q)gYf>^2!Q=u<X*W7%=Kj!VW~3mA4B`%R1;OipvVwdr<E+w{RAk7N29
+zisUI3wj(7jOvQzITxc-*Vaz~Kb-+{~kY?hNstia|Ok%rG1|&7i!ffhv+*6(P#$gYI
+z!4J7yx$fZiJ=a{ZDlT@eSu4I*@o^6xj%9l#+_Sw(+uCqSN@caP>G!Zzp=}2r+I-hs
+zvkYsq1B$Y{MNU1c#441e2f_OhevIy-U-A<-=02JGV&pJ??kHb5$X5>Y%I+IKON*bX
+zHyR%|?n{e%EttL$zm;xD06uE$wQfp>`O<;3_%L7EFMcQAkwJg=3QP|cw4(+6U_l3b
+zTL#sFeyA=UNss;=()5uUGI8l4Ex-)mv)77z7<eEpe)U46gSeQ))IU+GaStv*=9>~T
+zK<4}TQse|&k76RzL+<@z<Pwu0&uux%bN5Q*!vHY+z82{qE+#QGFr;nbJpq?Ugxt_E
+zW}+mAwJr*b1E_io&lJg7lHnH<!;fJ^o-x?1EVBa-SEr1v>$u~?Rg6?59qKTBx#K74
+zL@#}CSZ*OaMX>@C$;@py?OxY9j~gJ;e`mbYF#VAb1mRbNK14@o;#d@gB_Rm<2ezbv
+AmjD0&
+
+literal 0
+HcmV?d00001
+
+diff --git a/validate.js b/validate.js
+new file mode 100644
+index 0000000..ad84c48
+--- /dev/null
++++ b/validate.js
+@@ -0,0 +1,7 @@
++function isValidEmail(s) {
++  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
++}
++
++if (typeof module !== 'undefined' && module.exports) {
++  module.exports = { isValidEmail };
++}
+\ No newline at end of file
