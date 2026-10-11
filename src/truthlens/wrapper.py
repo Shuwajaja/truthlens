@@ -225,7 +225,7 @@ def run(cfg: RunConfig) -> dict:
 
     # before snapshot
     before = snapshot(cfg.repo)
-    pre_diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD")
+    pre_diff = _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "HEAD")
     sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
     protected_before = {rel: _read(cfg.repo / rel) for rel in before if is_protected(rel)}
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "sha256": sha, "kind": "file_changed",
@@ -261,10 +261,10 @@ def run(cfg: RunConfig) -> dict:
     # after snapshot: diff + one artifact per changed file
     after = snapshot(cfg.repo)
     changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
-    diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD")
+    diff = _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "HEAD")
     for rel in changed:
         if rel not in before and rel in after:
-            diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-index", "/dev/null", rel, check=False)
+            diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "--no-index", "/dev/null", rel, check=False)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
                                         "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
                                         "changed": [_scrub(c, secrets) for c in changed], "result": "info"})

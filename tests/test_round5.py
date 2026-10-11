@@ -295,3 +295,17 @@ def test_42_r6_arg_mapping_ignores_live_symlink(tmp_path, monkeypatch):
         os.symlink(tmp_path / "evil.sh", repo / "d.sh")
     rc, _ = _approve_and_run(tmp_path, repo, ["sh", str(repo / "d.sh")], during=swap, monkeypatch=monkeypatch)
     assert rc == 0 and out.read_text() == "approved\n"
+
+def test_34_r6_cli_act_binds_cwd(tmp_path, monkeypatch, capsys):
+    led = tmp_path / "l.jsonl"
+    assert main(["init", str(led)]) == 0
+    a, b = tmp_path / "a", tmp_path / "b"
+    a.mkdir()
+    b.mkdir()
+    monkeypatch.chdir(a)
+    assert main(["act", str(led), "--", "true"]) == 3
+    ha = json.loads(capsys.readouterr().out.strip().splitlines()[-1])["action_hash"]
+    monkeypatch.chdir(b)
+    assert main(["act", str(led), "--", "true"]) == 3
+    hb = json.loads(capsys.readouterr().out.strip().splitlines()[-1])["action_hash"]
+    assert ha != hb  # approval for dir A does not cover dir B
