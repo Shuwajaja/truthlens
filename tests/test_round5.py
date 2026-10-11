@@ -460,6 +460,56 @@ def test_r6_gate_config_value_outside_path_refused(tmp_path):
         gate.act(led, {"kind": "agent", "id": "a"}, ["cat", f"--config={outside}"], str(repo))
 
 
+def test_r6_gate_short_opt_value_arg_mapped(tmp_path, monkeypatch):
+    """-C/<root>/cfg changed after approval via monkeypatched _materialize -> approved content used."""
+    import truthlens.gate as g
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    marker = tmp_path / "marker"
+    (repo / "config.sh").write_text("original-content\n")
+    (repo / "d.sh").write_text(
+        '! read -r line < "${1#-C}"\necho "$line" > "$2"\n')
+    real_materialize = g._materialize
+
+    def swap(snap, td):
+        (repo / "config.sh").write_text("evil-content\n")
+        real_materialize(snap, td)
+    monkeypatch.setattr(g, "_materialize", swap)
+    rc, info = g.act(led, {"kind": "agent", "id": "a"},
+                     ["sh", str(repo / "d.sh"), f"-C{repo}/config.sh", str(marker)],
+                     str(repo))
+    assert rc == g.BLOCKED
+    g.approve(led, "shu", info["action_hash"])
+    rc, _ = g.act(led, {"kind": "agent", "id": "a"},
+                  ["sh", str(repo / "d.sh"), f"-C{repo}/config.sh", str(marker)],
+                  str(repo))
+    assert rc == 0
+    assert marker.read_text().strip() == "original-content"
+
+
+def test_r6_wrapper_short_opt_path_mapped(tmp_path):
+    """-c/<repo>/pytest.ini path in test command: agent changes pytest.ini, must use the copy."""
+    r, crit = _repo(tmp_path)
+    pytest_ini = r / "pytest.ini"
+    pytest_ini.write_text("")  # original: empty ini (no override)
+    (r / "evil.py").write_text(textwrap.dedent("""\
+        import pathlib
+        pathlib.Path("pytest.ini").write_text("[pytest]\\naddopts = -k nonexistent_test\\n")
+    """))
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "ini"],
+                   check=True, capture_output=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider -c{r.resolve() / 'pytest.ini'} test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    # The copy has the original empty ini (-c is remapped to the copy path), so test_mail.py (assert False) runs and fails
+    assert rep["passed"] == 0 and rep["failed"] >= 1
+
+
 def test_r6_symlink_in_test_command_mapped_to_copy(tmp_path):
     """Agent changes test file, symlink path in test command must map to the restored copy."""
     r, crit = _repo(tmp_path)

@@ -9,11 +9,42 @@ Flow: `truthlens act` -> action.requested + action.blocked, exit 3, command NOT 
 from __future__ import annotations
 
 import hashlib
+import re
 import subprocess
 from datetime import UTC, datetime, timedelta
 
 from truthlens.canonical import canonical_bytes
 from truthlens.ledger import Ledger, LedgerError, _parse_ts, verify
+
+_SHORT_OPT_PATH = re.compile(r"^(-[A-Za-z])(/.*)$")
+
+
+def _iter_abs_pairs(tok: str):
+    """Yield (prefix, abs_path) for each absolute-path form in an argv token:
+    the whole token, after '=', and after a leading short option -X (single-dash + one letter).
+    """
+    import os
+    m = _SHORT_OPT_PATH.match(tok)
+    if m:
+        yield m.group(1), m.group(2)
+    if "=" in tok and not tok.startswith("="):
+        opt, val = tok.split("=", 1)
+        if val and os.path.isabs(val):
+            yield opt + "=", val
+    if os.path.isabs(tok):
+        yield "", tok
+
+
+def _map_path_arg(tok: str, resolve) -> str:
+    """Rewrite an argv token: for each absolute-path form try resolve(prefix+path); if resolve
+    returns a non-None string (the copy path), replace the form's value.
+    If none match, return tok unchanged.
+    """
+    for prefix, val in _iter_abs_pairs(tok):
+        repl = resolve(val)
+        if repl is not None:
+            return prefix + repl
+    return tok
 
 APPROVAL_TTL = timedelta(minutes=10)  # D6
 BLOCKED = 3
@@ -94,19 +125,9 @@ def _in_tree(arg: str, root: str) -> str | None:
 
 def _map_into_copy(arg: str, root: str, td: str) -> str:
     """Absolute in-tree paths are mapped lexically onto the approved copy (decided on the path string only).
-    Also handles --opt=/abs/in-tree/path style arguments."""
+    Handles all forms: whole token, after --opt=, and after a leading short option -X (single dash+letter)."""
     import os
-    if os.path.isabs(arg):
-        rel = _in_tree(arg, root)
-        if rel is not None:
-            return os.path.join(td, rel)
-    if "=" in arg and not arg.startswith("="):
-        opt, val = arg.split("=", 1)
-        if val and os.path.isabs(val):
-            rel = _in_tree(val, root)
-            if rel is not None:
-                return f"{opt}={os.path.join(td, rel)}"
-    return arg
+    return _map_path_arg(arg, lambda p: os.path.join(td, rel) if (rel := _in_tree(p, root)) is not None else None)
 
 
 def tree_hash(snap: dict[str, tuple[str, bytes]]) -> str:
@@ -156,10 +177,9 @@ def _read_program(prog: str) -> bytes:
 def _check_args(args: list[str], root: str) -> None:
     import os
     for a in args:
-        if "=" in a and not a.startswith("="):
-            _, val = a.split("=", 1)
-            if val and os.path.isabs(val) and (os.path.lexists(val) or os.path.lexists(os.path.realpath(val))) \
-                    and not (val == root or val.startswith(root + os.sep)):
+        for prefix, val in _iter_abs_pairs(a):
+            if os.path.isabs(val) and _in_tree(val, root) is None \
+                    and (os.path.lexists(val) or os.path.lexists(os.path.realpath(val))):
                 raise LedgerError(f"gated action references a path outside the working tree: {a}")
         f = os.path.join(root, a)
         if os.path.lexists(f) and _in_tree(a, root) is None:

@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from truthlens.canonical import canonical_bytes
-from truthlens.gate import GateServer
+from truthlens.gate import GateServer, _map_path_arg
 from truthlens.ids import new_id
 from truthlens.ledger import Ledger
 from truthlens.manifest import build_manifest
@@ -444,20 +444,10 @@ def run(cfg: RunConfig) -> dict:
             test_env["PYTEST_ADDOPTS"] = f"--junitxml={jx}"
             _repo_real = str(cfg.repo.resolve())
             _work_str = str(work)
-            tokens = []
-            for tok in shlex.split(t.command):
-                if "=" in tok and not tok.startswith("="):
-                    opt, val = tok.split("=", 1)
-                    if val:
-                        rp = os.path.realpath(val)
-                        if rp.startswith(_repo_real):
-                            val = rp.replace(_repo_real, _work_str, 1)
-                        tokens.append(f"{opt}={val}")
-                        continue
-                rp = os.path.realpath(tok)
-                if rp.startswith(_repo_real):
-                    tok = rp.replace(_repo_real, _work_str, 1)
-                tokens.append(tok)
+            resolve = lambda p, _repo_real=_repo_real, _work_str=_work_str: (os.path.realpath(p).replace(_repo_real, _work_str, 1)
+                                  if os.path.realpath(p).startswith(_repo_real)
+                                  else None)
+            tokens = [_map_path_arg(tok, resolve) for tok in shlex.split(t.command)]
             cmd = shlex.join(tokens)
             argv, env_ = ["/bin/sh", "-c", cmd], test_env
             helper_err = None
