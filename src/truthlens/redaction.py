@@ -76,9 +76,12 @@ def _sub_rescan(pat: re.Pattern, fn, s: str) -> str:
             out.append(s[pos:])
             return "".join(out)
         r = fn(m)
-        if r == m.group(0):
-            out.append(s[pos:m.end(1)])
+        if r == m.group(0) and _KEY_PATTERN.search(s, m.end(1), m.end()):
+            out.append(s[pos:m.end(1)])  # the value holds a secret-like name: rescan it
             pos = m.end(1)
+        elif r == m.group(0):
+            out.append(s[pos:m.end()])
+            pos = m.end()
         else:
             out.append(s[pos:m.start()] + r)
             pos = m.end()
