@@ -19,8 +19,25 @@ APPROVAL_TTL = timedelta(minutes=10)  # D6
 BLOCKED = 3
 
 
-def action_hash(argv: list[str]) -> str:
-    return hashlib.sha256(canonical_bytes({"kind": "command", "argv": argv})).hexdigest()
+def referenced_files(argv: list[str], cwd: str | None) -> dict[str, str]:
+    """sha256 of every argv element that names an existing regular file (relative to cwd), e.g. `sh deploy.sh`.
+    Bound into the action hash so that editing the script after approval changes the hash (round-5 finding b)."""
+    import os
+    out = {}
+    for a in argv[1:]:
+        f = os.path.join(cwd or ".", a)
+        if os.path.isfile(f):
+            with open(f, "rb") as fh:
+                out[a] = hashlib.sha256(fh.read()).hexdigest()
+    return out
+
+
+def action_hash(argv: list[str], cwd: str | None = None) -> str:
+    doc = {"kind": "command", "argv": argv}
+    files = referenced_files(argv, cwd)
+    if files:
+        doc["files"] = files
+    return hashlib.sha256(canonical_bytes(doc)).hexdigest()
 
 
 def _iso(dt: datetime) -> str:
@@ -42,7 +59,9 @@ def _usable_approval(events: list[dict], ah: str) -> dict | None:
 
 
 def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
-        env: dict[str, str] | None = None) -> tuple[int, dict]:
+        env: dict[str, str] | None = None, state: dict | None = None) -> tuple[int, dict]:
+    """`state` (held in the gate process memory) remembers the last seen ledger head and consumed approvals,
+    so restoring an older signed ledger cannot re-arm a used approval (round-5 finding d)."""
     vr = verify(led.path, led.hmac_key)
     if not vr.ok:
         raise LedgerError(f"ledger does not verify, refusing to act: line {vr.errors[0][0]}: {vr.errors[0][1]}")
@@ -51,17 +70,31 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
         raise LedgerError("act needs an open run ledger")
     if events[-1]["type"] == "run.finished":
         raise LedgerError("run is closed")
-    run_id, ah = events[0]["run_id"], action_hash(argv)
+    if state is not None and state.get("head"):
+        seq, h = state["head"]
+        if not any(e["seq"] == seq and e["hash"] == h for e in events):
+            raise LedgerError("ledger rollback detected: remembered head is missing")
+    run_id, ah = events[0]["run_id"], action_hash(argv, cwd)
     appr = _usable_approval(events, ah)
+    if appr is not None and state is not None and appr["id"] in state.setdefault("consumed", set()):
+        appr = None
     if appr is None:
         if not any(e["type"] == "action.blocked" and e["payload"].get("action_hash") == ah for e in events):
             led.append(run_id, actor, "action.requested", {"action_hash": ah, "action": {"argv": argv}})
             led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "action.blocked",
                        {"action_hash": ah, "policy": "requires_human_approval", "reason": "no valid approval"})
+        if state is not None:
+            last = led.read()[-1]
+            state["head"] = (last["seq"], last["hash"])
         return BLOCKED, {"action_hash": ah, "status": "blocked"}
     # reserve first (consumes the approval in the ledger), then execute, then record the outcome
     ev = led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "action.executed",
                     {"action_hash": ah, "approval_event_id": appr["id"], "result": "started"})
+    if state is not None:
+        state["consumed"].add(appr["id"])
+        state["head"] = (ev["seq"], ev["hash"])
+    if action_hash(argv, cwd) != ah:  # re-check right before execution (TOCTOU)
+        raise LedgerError("referenced files changed after approval check, refusing to execute")
     proc = subprocess.run(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
     led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "evidence.attached",
                {"evidence_id": ev["id"].replace("evt_", "evd_"), "kind": "command_run", "refers_to": ev["id"],
@@ -90,6 +123,7 @@ class GateServer:
         from pathlib import Path
         self.led, self.inbox, self.cwd, self.env, self.requester = led, Path(inbox), cwd, env, requester
         self.inbox.mkdir(parents=True, exist_ok=True)
+        self.state: dict = {"consumed": set()}
         self._stop = threading.Event()
         self._t = threading.Thread(target=self._loop, daemon=True)
 
@@ -110,7 +144,7 @@ class GateServer:
                 argv = json.loads(req.read_text())["argv"]
                 if not (isinstance(argv, list) and argv and all(isinstance(a, str) for a in argv)):
                     raise ValueError("argv must be a non-empty list of strings")
-                rc, info = act(self.led, self.requester, argv, self.cwd, self.env)
+                rc, info = act(self.led, self.requester, argv, self.cwd, self.env, self.state)
             except (ValueError, KeyError, LedgerError) as e:
                 rc, info = 2, {"status": "error", "error": str(e)}
             req.unlink()

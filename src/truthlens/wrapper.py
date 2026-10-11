@@ -10,7 +10,6 @@ import hashlib
 import json
 import os
 import re
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -101,6 +100,14 @@ def is_protected(rel: str) -> bool:
     return any(rel.startswith(p) if p.endswith("/") else (rel == p or name == "conftest.py") for p in PROTECTED)
 
 
+SHADOW = {"pytest.py", "sitecustomize.py", "usercustomize.py", "py.py"}
+
+
+def _is_shadow(rel: str) -> bool:
+    parts = rel.split("/")
+    return parts[-1] in SHADOW or parts[-1].endswith(".pth") or "_pytest" in parts or parts[0] == "pytest"
+
+
 def _read(f: Path) -> bytes:
     """File content; a symlink is recorded as its link text and never followed out of the repo."""
     return b"symlink:" + os.readlink(f).encode() if f.is_symlink() else f.read_bytes()
@@ -169,6 +176,8 @@ def run(cfg: RunConfig) -> dict:
     store = BlobStore(cfg.out_dir / "blobs")
     run_id = new_id("run")
     secrets = [os.environ.get(k, "") for k in cfg.pass_env + cfg.gate_env]
+    if cfg.hmac_key:
+        secrets.append(cfg.hmac_key.decode("utf-8", "replace"))  # never store the key in clear if the agent leaks it
     drop = {k for k, v in os.environ.items() if cfg.hmac_key and v.encode() == cfg.hmac_key}
 
     def emit(actor: dict, t: str, payload: dict) -> dict:
@@ -265,7 +274,18 @@ def run(cfg: RunConfig) -> dict:
     for t in cfg.tests:
         with tempfile.TemporaryDirectory(prefix="tl-test-") as td:
             work, home = Path(td) / "w", Path(td) / "home"
-            shutil.copytree(cfg.repo, work, symlinks=True, ignore=shutil.ignore_patterns(".git"))
+            # round-5 finding c: copy only tracked + non-ignored files (git-ignored conftest.py never enters),
+            # drop shadow modules (pytest.py, _pytest/, sitecustomize.py, *.pth), run with PYTHONSAFEPATH
+            work.mkdir()
+            for rel in after:
+                if _is_shadow(rel):
+                    continue
+                src, dst = cfg.repo / rel, work / rel
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                if src.is_symlink():
+                    os.symlink(os.readlink(src), dst)
+                else:
+                    dst.write_bytes(src.read_bytes())
             home.mkdir()
             for rel in after:
                 if is_protected(rel) and rel not in protected_before:
@@ -274,7 +294,8 @@ def run(cfg: RunConfig) -> dict:
                 (work / rel).parent.mkdir(parents=True, exist_ok=True)
                 (work / rel).unlink(missing_ok=True)
                 (work / rel).write_bytes(data)
-            test_env = {"PATH": TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8", "TMPDIR": td}
+            test_env = {"PATH": TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8", "TMPDIR": td,
+                        "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
             try:
                 tp = subprocess.run(t.command, shell=True, cwd=work, env=test_env, stdin=subprocess.DEVNULL,
                                     capture_output=True, timeout=600, check=False)

@@ -41,7 +41,11 @@ class Server:
         events, errs = _verified_dir(str(d), self.key)
         if events is None:
             return {"verified": False, "errors": errs}
-        return export.build(events, json.loads((d / "manifest.json").read_text()))
+        doc = export.build(events, json.loads((d / "manifest.json").read_text()))
+        if self.key is None and any("hmac" in e for e in events):
+            # round-5 finding e: without the key HMACs are not checked; a rewritten ledger would still pass
+            doc["verified"] = doc["integrity"] = "hash-only, unsigned"
+        return doc
 
     def call(self, name: str, args: dict) -> dict:
         if name == "list_runs":
