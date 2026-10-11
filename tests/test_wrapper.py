@@ -90,6 +90,7 @@ def test_tampered_run_fails_report_and_projection_rebuilds(tmp_path, monkeypatch
 
 
 def test_gate_blocks_until_human_approval(tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(tmp_path)
     led = tmp_path / "l.jsonl"
     assert main(["init", str(led)]) == 0
     flag = tmp_path / "deployed"
@@ -114,7 +115,7 @@ def test_pytest_counts():
 
 GATE_AGENT = textwrap.dedent("""
     import json, os, subprocess, sys, time, pathlib
-    act = [sys.executable, "-c", "import os,pathlib;pathlib.Path('deployed').write_text(str(bool(os.environ.get('DEPLOY_TOKEN'))))"]
+    act = [sys.executable, "-c", "import os,pathlib;pathlib.Path(%r).write_text(str(bool(os.environ.get('DEPLOY_TOKEN'))))" % os.path.abspath('deployed')]
     subprocess.run(act)  # bypass attempt: agent runs it itself -> no capability
     bypass = pathlib.Path('deployed').read_text()
     req = [sys.executable, "-m", "truthlens", "request", "--", *act]

@@ -17,42 +17,95 @@ from truthlens.ledger import Ledger, LedgerError, _parse_ts, verify
 
 APPROVAL_TTL = timedelta(minutes=10)  # D6
 BLOCKED = 3
-MAX_BIND = 16 * 1024 * 1024
 
 
-def referenced_files(argv: list[str], cwd: str | None) -> dict[str, str]:
-    """sha256 of every argv element that names an existing regular file (relative to cwd), e.g. `sh deploy.sh`.
-    Bound into the action hash so that editing the script after approval changes the hash (round-5 finding b)."""
+MAX_SNAPSHOT_BYTES, MAX_SNAPSHOT_FILES = 64 * 1024 * 1024, 20000
+
+
+def snapshot(cwd: str, exclude: set[str] = frozenset()) -> dict[str, tuple[str, bytes]]:
+    """Immutable copy source for gated execution: rel path -> ("file"|"link", bytes) of the whole cwd tree
+    (minus .git). The approval binds its tree hash and the action runs from a copy of exactly these bytes,
+    so later edits (scripts, sourced files, Makefile, package.json, node_modules) cannot change what runs."""
     import os
-    import shutil
-    import stat
-    root = os.path.realpath(cwd or ".")
-    out = {}
-    for i, a in enumerate(argv):
-        f = os.path.join(root, a)
-        if i == 0 and "/" not in a:  # program from PATH: bind its resolved binary too
-            f = shutil.which(a) or f
-        try:
-            st = os.stat(f)
-        except (OSError, ValueError):
-            continue
-        real = os.path.realpath(f)
-        in_repo = real == root or real.startswith(root + os.sep)
-        if not stat.S_ISREG(st.st_mode) or (i > 0 and not in_repo):
-            continue  # only regular files; arguments only inside the repo (no /proc, devices)
-        if st.st_size > MAX_BIND:
-            raise LedgerError(f"referenced file too large to bind: {a}")
-        with open(real, "rb") as fh:
-            out[a] = hashlib.sha256(fh.read()).hexdigest()
+    root = os.path.realpath(cwd)
+    out: dict[str, tuple[str, bytes]] = {}
+    total = 0
+    for dp, dns, fns in os.walk(root):
+        dns[:] = sorted(d for d in dns if d != ".git")
+        for n in sorted(fns) + [d for d in dns if os.path.islink(os.path.join(dp, d))]:
+            f = os.path.join(dp, n)
+            rel = os.path.relpath(f, root)
+            if f in exclude:
+                continue
+            if os.path.islink(f):
+                out[rel] = ("link", os.readlink(f).encode())
+            elif os.path.isfile(f):
+                with open(f, "rb") as fh:
+                    data = fh.read(MAX_SNAPSHOT_BYTES + 1)
+                total += len(data)
+                out[rel] = ("file", data)
+            if total > MAX_SNAPSHOT_BYTES or len(out) > MAX_SNAPSHOT_FILES:
+                raise LedgerError("working tree too large for a gated snapshot; run the action from a smaller dir")
     return out
 
 
-def action_hash(argv: list[str], cwd: str | None = None) -> str:
-    doc = {"kind": "command", "argv": argv}
-    files = referenced_files(argv, cwd)
-    if files:
-        doc["files"] = files
+def tree_hash(snap: dict[str, tuple[str, bytes]]) -> str:
+    return hashlib.sha256(canonical_bytes({r: [k, hashlib.sha256(d).hexdigest()] for r, (k, d) in snap.items()})
+                          ).hexdigest()
+
+
+def _check_argv(argv: list[str], root: str) -> str | None:
+    """sha256 of the resolved program (argv[0]); refuse arguments naming files outside the snapshot."""
+    import os
+    import shutil
+    prog = argv[0] if "/" in argv[0] else (shutil.which(argv[0]) or argv[0])
+    for a in argv[1:]:
+        f = os.path.realpath(os.path.join(root, a))
+        if os.path.exists(f) and not (f == root or f.startswith(root + os.sep)):
+            raise LedgerError(f"gated action references a path outside the working tree: {a}")
+    p = os.path.join(root, prog)
+    if os.path.isfile(p) and os.path.getsize(p) <= MAX_SNAPSHOT_BYTES:
+        with open(p, "rb") as fh:
+            return hashlib.sha256(fh.read()).hexdigest()
+    return None
+
+
+def action_hash(argv: list[str], cwd: str | None = None, snap: dict | None = None) -> str:
+    import os
+    doc: dict = {"kind": "command", "argv": argv}
+    if cwd is not None:
+        root = os.path.realpath(cwd)
+        doc["program_sha256"] = _check_argv(argv, root)
+        doc["tree_sha256"] = tree_hash(snap if snap is not None else snapshot(root))
     return hashlib.sha256(canonical_bytes(doc)).hexdigest()
+
+
+def _anchor_path(run_id: str):
+    """External rollback anchor (outside the run dir): last ledger head + consumed approvals per run."""
+    import os
+    from pathlib import Path
+    base = Path(os.environ.get("TRUTHLENS_ANCHOR_DIR") or Path.home() / ".truthlens" / "anchors")
+    base.mkdir(parents=True, exist_ok=True, mode=0o700)
+    return base / f"{run_id}.json"
+
+
+def _load_anchor(run_id: str, state: dict) -> None:
+    import json
+    f = _anchor_path(run_id)
+    if f.exists():
+        d = json.loads(f.read_text())
+        state.setdefault("consumed", set()).update(d.get("consumed", []))
+        if d.get("head") and (not state.get("head") or d["head"][0] > state["head"][0]):
+            state["head"] = tuple(d["head"])
+
+
+def _save_anchor(run_id: str, state: dict) -> None:
+    import json
+    import os
+    f = _anchor_path(run_id)
+    tmp = f.with_suffix(f".{os.getpid()}.tmp")
+    tmp.write_text(json.dumps({"head": list(state["head"]), "consumed": sorted(state.get("consumed", ()))}))
+    os.replace(tmp, f)
 
 
 def _iso(dt: datetime) -> str:
@@ -75,8 +128,10 @@ def _usable_approval(events: list[dict], ah: str) -> dict | None:
 
 def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
         env: dict[str, str] | None = None, state: dict | None = None) -> tuple[int, dict]:
-    """`state` (held in the gate process memory) remembers the last seen ledger head and consumed approvals,
-    so restoring an older signed ledger cannot re-arm a used approval (round-5 finding d)."""
+    """Rollback: last ledger head + consumed approvals are kept in memory (`state`) AND in an external anchor
+    file outside the run dir (all callers incl. CLI `truthlens act`). Execution: from an immutable snapshot."""
+    import os
+    import tempfile
     vr = verify(led.path, led.hmac_key)
     if not vr.ok:
         raise LedgerError(f"ledger does not verify, refusing to act: line {vr.errors[0][0]}: {vr.errors[0][1]}")
@@ -85,35 +140,48 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
         raise LedgerError("act needs an open run ledger")
     if events[-1]["type"] == "run.finished":
         raise LedgerError("run is closed")
-    if state is not None and state.get("head"):
+    state = state if state is not None else {}
+    state.setdefault("consumed", set())
+    _load_anchor(events[0]["run_id"], state)
+    if state.get("head"):
         seq, h = state["head"]
         if not any(e["seq"] == seq and e["hash"] == h for e in events):
             raise LedgerError("ledger rollback detected: remembered head is missing")
-    run_id, ah = events[0]["run_id"], action_hash(argv, cwd)
+    root = os.path.realpath(cwd or os.getcwd())
+    snap = snapshot(root, {os.path.realpath(led.path)})
+    run_id, ah = events[0]["run_id"], action_hash(argv, root, snap)
     appr = _usable_approval(events, ah)
-    if appr is not None and state is not None and appr["id"] in state.setdefault("consumed", set()):
+    if appr is not None and appr["id"] in state["consumed"]:
         appr = None
     if appr is None:
         if not any(e["type"] == "action.blocked" and e["payload"].get("action_hash") == ah for e in events):
             led.append(run_id, actor, "action.requested", {"action_hash": ah, "action": {"argv": argv}})
             led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "action.blocked",
                        {"action_hash": ah, "policy": "requires_human_approval", "reason": "no valid approval"})
-        if state is not None:
-            last = led.read()[-1]
-            state["head"] = (last["seq"], last["hash"])
+        last = led.read()[-1]
+        state["head"] = (last["seq"], last["hash"])
+        _save_anchor(run_id, state)
         return BLOCKED, {"action_hash": ah, "status": "blocked"}
     # reserve first (consumes the approval in the ledger), then execute, then record the outcome
     ev = led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "action.executed",
                     {"action_hash": ah, "approval_event_id": appr["id"], "result": "started"})
-    if state is not None:
-        state["consumed"].add(appr["id"])
-        state["head"] = (ev["seq"], ev["hash"])
-    if action_hash(argv, cwd) != ah:  # re-check right before execution (TOCTOU)
-        raise LedgerError("referenced files changed after approval check, refusing to execute")
-    try:
-        proc = subprocess.run(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
-    except OSError as e:  # #29.3: execution failure is recorded as a result, never kills the gate
-        proc = subprocess.CompletedProcess(argv, 127, b"", f"[truthlens gate: {type(e).__name__}]".encode())
+    state["consumed"].add(appr["id"])
+    state["head"] = (ev["seq"], ev["hash"])
+    _save_anchor(run_id, state)
+    with tempfile.TemporaryDirectory(prefix="tl-act-") as td:  # run from the approved bytes, not the live tree
+        for rel, (kind, data) in snap.items():
+            dst = os.path.join(td, rel)
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            if kind == "link":
+                os.symlink(data.decode(), dst)
+            else:
+                with open(dst, "wb") as fh:
+                    fh.write(data)
+                os.chmod(dst, os.stat(os.path.join(root, rel)).st_mode & 0o755 if os.path.exists(os.path.join(root, rel)) else 0o644)
+        try:
+            proc = subprocess.run(argv, cwd=td, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
+        except OSError as e:  # #29.3: execution failure is recorded as a result, never kills the gate
+            proc = subprocess.CompletedProcess(argv, 127, b"", f"[truthlens gate: {type(e).__name__}]".encode())
     led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "evidence.attached",
                {"evidence_id": ev["id"].replace("evt_", "evd_"), "kind": "command_run", "refers_to": ev["id"],
                 "sha256": hashlib.sha256(proc.stdout + proc.stderr).hexdigest(), "exit_code": proc.returncode,

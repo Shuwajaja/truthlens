@@ -48,12 +48,14 @@ def test_a_same_uid_agent_cannot_read_key(tmp_path):
 
 def test_b_approval_binds_referenced_script(tmp_path):
     led = _open_ledger(tmp_path)
-    (tmp_path / "deploy.sh").write_text("echo ok > out\n")
-    assert _approve_and_act(led, ["sh", "deploy.sh"], str(tmp_path))[0] == 0
-    gate.approve(led, "shu", gate.action_hash(["sh", "deploy.sh"], str(tmp_path)))  # second approval, old content
-    (tmp_path / "deploy.sh").write_text("echo EVIL > out\n")
-    rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, ["sh", "deploy.sh"], str(tmp_path))
-    assert rc == gate.BLOCKED and (tmp_path / "out").read_text() == "ok\n"
+    repo, out = tmp_path / "repo", tmp_path / "out"
+    repo.mkdir()
+    (repo / "deploy.sh").write_text(f"echo ok > {out}\n")
+    assert _approve_and_act(led, ["sh", "deploy.sh"], str(repo))[0] == 0
+    gate.approve(led, "shu", gate.action_hash(["sh", "deploy.sh"], str(repo)))  # second approval, old content
+    (repo / "deploy.sh").write_text(f"echo EVIL > {out}\n")
+    rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, ["sh", "deploy.sh"], str(repo))
+    assert rc == gate.BLOCKED and out.read_text() == "ok\n"
 
 
 def test_c_shadow_pytest_and_ignored_conftest_do_not_count(tmp_path):
@@ -143,9 +145,32 @@ def test_a_separate_uid_agent_cannot_read_key(tmp_path):
         assert json.loads(p.stdout.strip().splitlines()[-1])["exit_code"] == 42
 
 
-def test_b2_argv0_script_bound_and_proc_args_ignored(tmp_path):
-    (tmp_path / "deploy.sh").write_text("#!/bin/sh\necho ok\n")
-    h1 = gate.action_hash(["./deploy.sh"], str(tmp_path))
-    (tmp_path / "deploy.sh").write_text("#!/bin/sh\necho EVIL\n")
-    assert gate.action_hash(["./deploy.sh"], str(tmp_path)) != h1
-    gate.action_hash(["echo", "/proc/self/mem"], str(tmp_path))  # must not raise
+def test_b2_snapshot_covers_sourced_files_and_refuses_outside_paths(tmp_path):
+    led = _open_ledger(tmp_path)
+    repo, out = tmp_path / "repo", tmp_path / "out"
+    repo.mkdir()
+    (repo / "lib.sh").write_text(f"echo ok > {out}\n")
+    (repo / "d2.sh").write_text(". ./lib.sh\n")
+    _, info = gate.act(led, {"kind": "agent", "id": "a"}, ["sh", "d2.sh"], str(repo))
+    gate.approve(led, "shu", info["action_hash"])
+    (repo / "lib.sh").write_text(f"echo EVIL > {out}\n")  # sourced file changed after approval
+    assert gate.act(led, {"kind": "agent", "id": "a"}, ["sh", "d2.sh"], str(repo))[0] == gate.BLOCKED
+    assert not out.exists()
+    (tmp_path / "out2").write_text("x")
+    with pytest.raises(LedgerError, match="outside"):
+        gate.act(led, {"kind": "agent", "id": "a"}, ["cat", str(tmp_path / "out2")], str(repo))
+
+
+def test_d2_cli_act_rollback_refused_via_external_anchor(tmp_path, monkeypatch, capsys):
+    monkeypatch.chdir(tmp_path)
+    led, flag = tmp_path / "l.jsonl", tmp_path.parent / f"{tmp_path.name}-flag"
+    assert main(["init", str(led)]) == 0
+    assert main(["act", str(led), "--", "touch", str(flag)]) == 3
+    ah = json.loads(capsys.readouterr().out.strip().splitlines()[-1])["action_hash"]
+    assert main(["approve", str(led), ah]) == 0
+    snap = led.read_bytes()
+    assert main(["act", str(led), "--", "touch", str(flag)]) == 0 and flag.exists()
+    flag.unlink()
+    led.write_bytes(snap)  # rollback to the state right after approval.granted
+    assert main(["act", str(led), "--", "touch", str(flag)]) != 0
+    assert not flag.exists()

@@ -64,8 +64,9 @@ def test_f3_gate_refuses_forged_or_invalid_approval(tmp_path):
     led.append("run_1", {"kind": "system", "id": "s"}, "run.started", {"repo": "", "ref": "", "command": "", "agent": ""})
     flag = tmp_path / "ran"
     argv = ["touch", str(flag)]
-    assert gate.act(led, {"kind": "agent", "id": "a"}, argv)[0] == gate.BLOCKED
-    ah = gate.action_hash(argv)
+    rc0, info0 = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(tmp_path))
+    assert rc0 == gate.BLOCKED
+    ah = info0["action_hash"]
     # forged unsigned approval appended raw by the agent
     evs = led.read()
     forged = {"schema_version": 1, "id": "evt_X", "seq": len(evs) + 1, "ts": evs[-1]["ts"], "run_id": "run_1",
@@ -75,14 +76,14 @@ def test_f3_gate_refuses_forged_or_invalid_approval(tmp_path):
     raw = p.read_bytes()
     p.write_bytes(raw + canonical_bytes(forged) + b"\n")
     with pytest.raises(LedgerError, match="does not verify"):
-        gate.act(led, {"kind": "agent", "id": "a"}, argv)
+        gate.act(led, {"kind": "agent", "id": "a"}, argv, str(tmp_path))
     assert not flag.exists()
     p.write_bytes(raw)
     led.append("run_1", {"kind": "human", "id": "me"}, "approval.granted",
                {"action_hash": ah, "approver": "me", "expires_at": "soon"})
-    assert gate.act(led, {"kind": "agent", "id": "a"}, argv)[0] == gate.BLOCKED and not flag.exists()
+    assert gate.act(led, {"kind": "agent", "id": "a"}, argv, str(tmp_path))[0] == gate.BLOCKED and not flag.exists()
     gate.approve(led, "me", ah)
-    assert gate.act(led, {"kind": "agent", "id": "a"}, argv)[0] == 0 and flag.exists()
+    assert gate.act(led, {"kind": "agent", "id": "a"}, argv, str(tmp_path))[0] == 0 and flag.exists()
     types = [e["type"] for e in led.read()]
     assert types[-2:] == ["action.executed", "evidence.attached"]  # reserved before execution
     assert verify(p, b"k").ok
