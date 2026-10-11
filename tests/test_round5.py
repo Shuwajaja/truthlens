@@ -750,7 +750,7 @@ def test_r6_gate_sh_dash_c_refused(tmp_path):
     led = _open_ledger(tmp_path)
     repo = tmp_path / "repo"
     repo.mkdir()
-    with pytest.raises(LedgerError, match="shell -c"):
+    with pytest.raises(LedgerError, match="shell -c|bundled"):
         gate.act(led, {"kind": "agent", "id": "a"}, ["sh", "-c", "echo hi"], str(repo))
 
 
@@ -759,7 +759,7 @@ def test_r6_gate_bash_dash_ec_refused(tmp_path):
     led = _open_ledger(tmp_path)
     repo = tmp_path / "repo"
     repo.mkdir()
-    with pytest.raises(LedgerError, match="shell -c"):
+    with pytest.raises(LedgerError, match="shell -c|bundled"):
         gate.act(led, {"kind": "agent", "id": "a"}, ["bash", "-ec", "echo hi"], str(repo))
 
 
@@ -874,3 +874,13 @@ def test_r7_gate_nested_override_ini_alias_into_git_refused(tmp_path):
     with pytest.raises(LedgerError, match="symlink"):
         gate.act(led, {"kind": "agent", "id": "a"}, [sys.executable, "-m", "pytest",
                  f"--override-ini=pythonpath={alias}"], str(repo))
+
+
+def test_r8_gate_bundled_short_c_refused(tmp_path):
+    """-qc<path>: bundled -c in a gated action would load an unbound ini -> LedgerError."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    with pytest.raises(LedgerError, match="bundled"):
+        gate.act(led, {"kind": "agent", "id": "a"}, [sys.executable, "-m", "pytest", "-qc/tmp/x/pytest.ini"],
+                 str(repo))

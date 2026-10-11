@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from truthlens.canonical import canonical_bytes
-from truthlens.gate import GateServer, _map_path_arg
+from truthlens.gate import GateServer, _bundled_value_opt, _map_path_arg
 from truthlens.ids import new_id
 from truthlens.ledger import Ledger
 from truthlens.manifest import build_manifest
@@ -455,7 +455,7 @@ def run(cfg: RunConfig) -> dict:
                                   if os.path.realpath(p).startswith(_repo_real)
                                   else None)
             _raw_tokens = shlex.split(t.command)
-            _refused_opts = frozenset({"PYTHONPATH", "PYTEST_ADDOPTS", "-o", "--override-ini", "-c", "--rootdir", "-p", "--confcutdir"})
+            _refused_opts = frozenset({"PYTHONPATH", "PYTEST_ADDOPTS", "-o", "--override-ini", "-c", "--rootdir", "-p", "--confcutdir", "--config-file"})
             _refused = bool(_raw_tokens and _raw_tokens[0] == "env")
             if not _refused:
                 for _i, _tok in enumerate(_raw_tokens):
@@ -471,17 +471,9 @@ def run(cfg: RunConfig) -> dict:
                            for _p in _refused_opts):
                         _refused = True
                         break
-                    if len(_tok) > 2 and _tok[0] == "-" and _tok[1] != "-":
-                        # bundled short options (-qc<x>, -qo<x>, -vp<x>): walk until the first value-taking flag
-                        for _j, _ch in enumerate(_tok[1:], 1):
-                            if _ch in "cop":
-                                if not (_ch == "p" and _tok[_j + 1:].startswith("no:")):
-                                    _refused = True
-                                break
-                            if _ch in "km" or not _ch.isalpha():
-                                break
-                        if _refused:
-                            break
+                    if len(_tok) > 2 and _bundled_value_opt(_tok):  # -qc<x>, -qo<x>, -vp<x>
+                        _refused = True
+                        break
             if _refused:
                 text, trc = "[truthlens: forbidden option in test command; refused]", 125
                 counts = {"passed": 0, "failed": 0, "skipped": 0}

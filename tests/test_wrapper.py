@@ -1,8 +1,10 @@
 import json
+import os
 import sqlite3
 import subprocess
 import sys
 import textwrap
+from pathlib import Path
 
 from truthlens.cli import main
 from truthlens.ledger import Ledger, verify
@@ -121,7 +123,9 @@ def test_junit_counts_not_stdout(tmp_path):
 
 GATE_AGENT = textwrap.dedent("""
     import json, os, subprocess, sys, time, pathlib
-    act = [sys.executable, "-c", "import os,pathlib;pathlib.Path(%r).write_text(str(bool(os.environ.get('DEPLOY_TOKEN'))))" % os.path.abspath('../deployed')]
+    # the gate runs a private copy of the binary; uv/relocatable builds cannot start from a copy, system python can
+    py = "/usr/bin/python3" if os.path.exists("/usr/bin/python3") else sys.executable
+    act = [py, "-c", "import os,pathlib;pathlib.Path(%r).write_text(str(bool(os.environ.get('DEPLOY_TOKEN'))))" % os.path.abspath('../deployed')]
     subprocess.run(act)  # bypass attempt: agent runs it itself -> no capability
     bypass = pathlib.Path('../deployed').read_text()
     req = [sys.executable, "-m", "truthlens", "request", "--", *act]
@@ -146,6 +150,9 @@ def test_gate_channel_blocks_until_human_approves(tmp_path, monkeypatch):
     keyf.write_text("hmac-outside")
     keyf.chmod(0o600)
     monkeypatch.setenv("TL_HMAC", "hmac-outside")
+    # the agent runs `python -m truthlens` itself; make the package importable without an installed dist
+    src = str(Path(__file__).resolve().parents[1] / "src")
+    monkeypatch.setenv("PYTHONPATH", src + os.pathsep + os.environ.get("PYTHONPATH", ""))
     out = tmp_path / "run"
     ledger = out / "ledger.jsonl"
 

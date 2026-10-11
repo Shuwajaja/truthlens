@@ -222,11 +222,27 @@ def _looks_like_rel_path(val: str, root: str, snap: dict | None) -> bool:
     return False
 
 
+def _bundled_value_opt(tok: str) -> bool:
+    """True if a single-dash bundle (e.g. -qc<x>, -qo<x>, -vp<x>) reaches c/o/p before any other value-taking
+    flag (k/m) or a non-letter; `-p no:<plugin>` (disabling) is allowed."""
+    if len(tok) < 2 or tok[0] != "-" or tok[1] == "-":
+        return False
+    for j, ch in enumerate(tok[1:], 1):
+        if ch in "cop":
+            return not (ch == "p" and tok[j + 1:].startswith("no:"))
+        if ch in "km" or not ch.isalpha():
+            return False
+    return False
+
+
 def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
     """Fail closed on argv that could run code not bound in the approved snapshot: relative paths are
     resolved lexically against the root and must stay inside it and outside `.git`; the same applies to
     absolute in-tree paths (`.git` is never in the snapshot)."""
     import os as _os
+    for a in args:  # a bundled -c/-o/-p carries a config/ini/plugin outside the approved binding
+        if len(a) > 2 and _bundled_value_opt(a):
+            raise LedgerError(f"bundled short option with -c/-o/-p in gated action: {a}")
     for a in args:  # an outside alias (symlink) resolving into the live tree would bypass the snapshot
         cands = [a, a.split("=", 1)[1] if "=" in a else ""]
         if len(a) > 2 and a[0] == "-" and a[1] != "-":
