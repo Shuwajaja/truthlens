@@ -55,6 +55,17 @@ def _now() -> str:
     return t.strftime("%Y-%m-%dT%H:%M:%S.") + f"{t.microsecond // 1000:03d}Z"
 
 
+def _parse_ts(v: Any) -> datetime | None:
+    """Strict UTC timestamp 'YYYY-MM-DDTHH:MM:SS[.fff]Z'; anything else is invalid (fail closed)."""
+    if not isinstance(v, str) or not v.endswith("Z"):
+        return None
+    try:
+        t = datetime.fromisoformat(v)
+    except ValueError:
+        return None
+    return t if t.utcoffset() is not None and t.utcoffset().total_seconds() == 0 else None
+
+
 def _body_bytes(event: dict) -> bytes:
     return canonical_bytes({k: v for k, v in event.items() if k not in ("hash", "hmac")})
 
@@ -201,9 +212,11 @@ def verify_bytes(data: bytes, hmac_key: bytes | None = None) -> VerifyResult:
                 elif aid in consumed:
                     err(n, "approval already consumed")
                 else:
-                    expires = granted[aid].get("expires_at")
-                    ts = ev.get("ts")
-                    if isinstance(expires, str) and isinstance(ts, str) and expires[:19] < ts[:19]:
+                    exp = _parse_ts(granted[aid].get("expires_at"))
+                    ts = _parse_ts(ev.get("ts"))
+                    if exp is None:
+                        err(n, "approval without valid expires_at (D30)")
+                    elif ts is None or exp < ts:
                         err(n, "approval expired")
                     consumed.add(aid)
         if t == "run.finished" and p.get("last_hash") != prev:

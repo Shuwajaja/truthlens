@@ -1,6 +1,8 @@
 import copy
 import json
 
+import pytest
+
 from truthlens.redaction import REDACTED, redact
 
 
@@ -128,3 +130,15 @@ def test_quoted_keys_json_in_string():
     assert "zzz" not in result
     result = redact("{'password': 'zzz'}")
     assert "zzz" not in result
+
+
+@pytest.mark.parametrize("raw,leak", [
+    ('run --api-key "two words" x', "two words"), (r'--password "a \"b\" c" next', "b\\\" c"),
+    ("--token 'x y'", "x y"), (r'API_KEY="a \"q\" b"', "q\\\" b"), ("https://tok:@host/x", "tok"),
+    ("curl -u user:pw https://h", "user:pw"), ("curl --user=user:pw h", "user:pw")])
+def test_r3_quoted_escaped_userinfo_and_curl_u(raw, leak):
+    assert leak not in redact(raw)
+
+
+def test_r3_curl_u_in_argv():
+    assert redact(["curl", "-u", "user:pw", "h"]) == ["curl", "-u", "[REDACTED]", "h"]
