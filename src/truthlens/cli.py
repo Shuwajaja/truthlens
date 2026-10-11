@@ -54,6 +54,9 @@ def main(argv: list[str] | None = None) -> int:
                    help="capability only gated actions get (never the agent)")
     p.add_argument("--hmac-key-file", metavar="PATH", help="key file outside repo/out dir (preferred over env)")
     p.add_argument("agent_cmd", nargs=argparse.REMAINDER)
+    p = sub.add_parser("mcp", help="read-only MCP server over stdio for run dirs under --root")
+    p.add_argument("--root", required=True)
+    p.add_argument("--hmac-key-env", metavar="VAR")
     p = sub.add_parser("request", help="(agent side) ask the running wrapper to execute a gated action")
     p.add_argument("--timeout", type=float, default=30)
     p.add_argument("action", nargs=argparse.REMAINDER)
@@ -80,6 +83,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--hmac-key-id", metavar="ID")
     a = ap.parse_args(argv)
 
+    if a.cmd == "mcp":
+        from truthlens.mcp import serve
+        serve(a.root, _key(a.hmac_key_env))
+        return 0
     if a.cmd == "request":
         from truthlens.gate import request
         box = os.environ.get("TRUTHLENS_GATE_DIR")

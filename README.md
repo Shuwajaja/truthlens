@@ -4,6 +4,27 @@
 
 For vibe coders and anyone handing work to AI agents — coding, research, writing, admin. Agents produce documents, file changes, visited sources, sent messages, commands and test runs scattered across terminals and folders, and then *tell* you it went well. TruthLens records a run as a self-contained work package — events in a tamper-evident ledger, artifacts with a manifest, evidence, approvals — and shows it in plain language: *"You asked for X — done, witnessed by Y"* or *"claimed, not witnessed"* (Client Lens, primary view), with a Developer Lens for full detail. The v1 capture adapter is OpenCode (code work); the model is agent- and task-agnostic. It is honest about what it can prove: see [docs/TRUST-LEVELS.md](docs/TRUST-LEVELS.md).
 
+## Quickstart (reproducible demo)
+```bash
+pip install -e '.[dev]'
+demo/run-demo.sh /tmp/tl-demo --offline   # scripted agent, no API key, deterministic
+demo/run-demo.sh /tmp/tl-demo2            # real OpenCode run (OPENROUTER_API_KEY, opencode on PATH)
+cp /tmp/tl-demo/run.json viewer/public/run.json && cd viewer && npm i && npm run dev
+```
+Expected: c1 `met`, c2 `unmet`, c3 `unverified`, the agent's "all done" claim `claim_unwitnessed`, and the tampered copy fails `verify`. Recorded real runs: [docs/DEMO-RUNS.md](docs/DEMO-RUNS.md).
+
+## CLI
+| Command | What it does |
+|---|---|
+| `truthlens run --out DIR [--criteria F --confirm ids --test 'c1=CMD' --pass-env VAR --gate-env VAR --hmac-key-file F] -- <agent>` | witnesses one agent run (git before/after, agent output as claims, tests run by TruthLens, manifest) |
+| `truthlens request -- <cmd>` | (inside a run, agent side) ask for a gated action – blocked until a human approves |
+| `truthlens approve LEDGER HASH` | human approval for exactly one action, single use, expires after 10 min |
+| `truthlens verify LEDGER [--expect-last-hash H]` | fail-closed integrity check |
+| `truthlens report DIR` / `export DIR` / `project DIR` | criteria + claims vs witnessed / viewer JSON / SQLite projection |
+| `truthlens mcp --root DIR` | read-only MCP server over stdio (`list_runs`, `run_report`, `run_events`) |
+
+MCP client config example: `{"command": "python", "args": ["-m", "truthlens", "mcp", "--root", "demo/runs"]}`.
+
 > Status: **Schema frozen (v1).** Event Schema v1 and Artifact Manifest v1 are FROZEN. Live progress: [docs/STATUS.md](docs/STATUS.md). The week plan is an effort estimate, not approval phases; a minimal approval gate lands early (W2), W4 hardens and integrates it.
 
 ## Golden Path v1
@@ -33,9 +54,10 @@ Not in v1: comments fed back to agents, cloud sync/hosted storage, multiple agen
 ## Docs
 - [Inventory & provenance](docs/INVENTORY.md)
 - [Architecture](docs/ARCHITECTURE.md)
-- [Event Schema v1 (draft)](docs/spec/event-schema-v1.md)
-- [Artifact Manifest v1 (draft)](docs/spec/artifact-manifest-v1.md)
+- [Event Schema v1 (frozen)](docs/spec/event-schema-v1.md)
+- [Artifact Manifest v1 (frozen)](docs/spec/artifact-manifest-v1.md)
 - [Trust levels](docs/TRUST-LEVELS.md)
+- [All docs index](docs/README.md) · [Design v2](DESIGN.md) · [Wrapper design](docs/WRAPPER-DESIGN.md)
 
 ## License
 **TBD** — pending the provenance and license review in [docs/INVENTORY.md](docs/INVENTORY.md). Until then, all rights reserved; no code is ported before the review is done.
