@@ -345,7 +345,7 @@ def run(cfg: RunConfig) -> dict:
             jx = Path(td) / "junit" / "report.xml"  # outside the copied tree; via env, not appended to the line
             jx.parent.mkdir()
             test_env["PYTEST_ADDOPTS"] = f"--junitxml={jx}"
-            cmd = t.command
+            cmd = t.command.replace(str(cfg.repo.resolve()), str(work))  # abs paths into the live repo -> clean copy
             argv, env_ = ["/bin/sh", "-c", cmd], test_env
             helper_err = None
             if cfg.test_user:

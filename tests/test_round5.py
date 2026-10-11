@@ -397,3 +397,17 @@ def test_46_r6_key_filename_in_blobs_and_probe_ignores_test_path_sudo(tmp_path):
     assert not marker.exists()
     stored = b"".join(p.read_bytes() for p in (out / "blobs").rglob("*") if p.is_file())
     assert key.encode() not in stored + (out / "ledger.jsonl").read_bytes()
+
+
+def test_r6_absolute_test_path_into_live_repo_runs_the_copy(tmp_path):
+    r, crit = _repo(tmp_path)
+    (r / "evil.py").write_text("open('test_mail.py','w').write('def test_mail():\\n    assert True\\n')\n")
+    subprocess.run(["git", "-C", str(r), "add", "evil.py"], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"], check=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider {r.resolve()}/test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["passed"] == 0 and rep["failed"] >= 1
