@@ -1,6 +1,6 @@
 # TruthLens – Build Status (persistent supervisor state)
 
-Updated: 2026-10-11 03:45 Europe/Berlin · by supervisor (actor.kind=agent)
+Updated: 2026-10-11 04:15 Europe/Berlin · by supervisor (actor.kind=agent)
 
 ## Mission
 Build the TruthLens MVP autonomously to completion (owner mandate 2026-10-11). Agent decisions are never recorded as human approval.
@@ -19,21 +19,19 @@ Build the TruthLens MVP autonomously to completion (owner mandate 2026-10-11). A
 - [ ] 3-minute product demo prepared
 
 ## Milestones done
-- [x] Preflight · Schema freeze v1 (#9, #11) · CI (#10) · canonical JSON (#12) · AGENTS.md (#15) · UI-CONCEPT (#16) · skills/DESIGN.md/demo task (#17) · evidence store (#21)
+- [x] Preflight · Schema freeze v1 (#9, #11) · CI (#10) · canonical JSON (#12) · AGENTS.md (#15) · UI-CONCEPT (#16) · skills/DESIGN.md/demo task (#17) · evidence store (#21) · wrapper design (#24)
 
-## Review gate (needs-codex-review: merge only after independent review comment, findings addressed)
-- #14 redaction – review findings 1–5 addressed (3d35c3d, 1a4bf19), waiting for re-review
-- #20 spec fixes D23–D29 (post-review of #9/#11) – waiting for review
-- #18 ledger-core (stacked on #14, enforces D23–D25/D28) – waiting
-- #19 verify-cli + tamper/crash tests (stacked on #18) – waiting
-Merge order: #20 → #14 → #18 (merge main in) → #19.
+## Review gate (needs-codex-review: merge only after a new approving review comment)
+Round-2 findings addressed 2026-10-11 ~04:10, re-review requested on all:
+- #20 spec D23–D31 · #14 redaction (e8d2694) · #18 ledger (cce3c42 + merge) · #19 CLI + tamper · #23 manifest/acceptance/claims (new)
+Merge order: #20 → #14 → #18 (merge main in) → #19 → #23.
 
 ## Blockers
 - Branch protection unavailable (private repo, free plan) – supervisor self-enforces PR-only, green CI, no force-push.
 - Critical path waits for independent review.
 
 ## Budget (OpenRouter, measured via /api/v1/key usage)
-Total cap 10.00 USD · usage 2026-10-11 03:45: $0.1289 · this session spent $0.00 (cap 2.50)
+Total cap 10.00 USD · usage 2026-10-11 04:15: $0.3468 · this session cap 2.50
 
 ## Next task
-After reviews: merge chain, then W2 manifest builder + process wrapper (git diff before/after, command + test witnessing, real OpenCode run).
+After reviews: merge chain; then implement `truthlens run` per docs/WRAPPER-DESIGN.md + first real OpenCode run on the demo task (docs/DEMO-TASK.md).
