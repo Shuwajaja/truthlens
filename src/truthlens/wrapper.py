@@ -140,13 +140,19 @@ def child_env(pass_env: list[str], drop: set[str]) -> dict[str, str]:
     return env
 
 
-def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
-    """Redact blobs before they enter the store. Known secrets (incl. the HMAC key) are removed at byte level
-    first, so they never survive inside binary / non-UTF-8 data; pattern redaction applies to text."""
+def _strip_secret_bytes(data: bytes, secrets: list[str]) -> bytes:
+    """Remove known secrets at byte level (before any decoding, so non-UTF-8 keys match too)."""
     for sec in secrets:
         b = sec.encode("utf-8", "surrogateescape") if sec else b""
         if len(b) >= 4:
             data = data.replace(b, b"[REDACTED]")
+    return data
+
+
+def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
+    """Redact blobs before they enter the store. Known secrets (incl. the HMAC key) are removed at byte level
+    first, so they never survive inside binary / non-UTF-8 data; pattern redaction applies to text."""
+    data = _strip_secret_bytes(data, secrets)
     try:
         text = data.decode("utf-8")
     except UnicodeDecodeError:
@@ -250,8 +256,8 @@ def run(cfg: RunConfig) -> dict:
     except subprocess.TimeoutExpired as e:
         rc, out, err = 124, e.stdout or b"", (e.stderr or b"") + b"\n[truthlens: timeout]"
     server.stop()
-    stdout = _scrub(out.decode("utf-8", "replace"), secrets)
-    stderr = _scrub(err.decode("utf-8", "replace"), secrets)
+    stdout = _scrub(_strip_secret_bytes(out, secrets).decode("utf-8", "replace"), secrets)
+    stderr = _scrub(_strip_secret_bytes(err, secrets).decode("utf-8", "replace"), secrets)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "command_run",
                                         "sha256": blob(f"$ {_scrub(' '.join(cfg.command), secrets)}\n--- stdout\n{stdout}\n"
                                                        f"--- stderr\n{stderr}".encode()),
@@ -323,7 +329,7 @@ def run(cfg: RunConfig) -> dict:
                 cmd = t.command
                 tp = subprocess.run(cmd, shell=True, cwd=work, env=test_env, stdin=subprocess.DEVNULL,
                                     capture_output=True, timeout=600, check=False)
-                text, trc = (tp.stdout + tp.stderr).decode("utf-8", "replace"), tp.returncode
+                text, trc = _strip_secret_bytes(tp.stdout + tp.stderr, secrets).decode("utf-8", "replace"), tp.returncode
             except subprocess.TimeoutExpired:
                 text, trc = "[truthlens: test timeout]", 124
             counts = junit_counts(jx, trc)  # counts never come from stdout (forgeable by printing)
