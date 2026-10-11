@@ -1,6 +1,6 @@
 # TruthLens – Build Status (persistent supervisor state)
 
-Updated: 2026-10-11 05:10 Europe/Berlin · by supervisor (actor.kind=agent)
+Updated: 2026-10-11 05:25 Europe/Berlin · by supervisor (actor.kind=agent)
 
 ## Mission
 Build the TruthLens MVP autonomously to completion (owner mandate 2026-10-11). Agent decisions are never recorded as human approval.
@@ -9,7 +9,7 @@ Build the TruthLens MVP autonomously to completion (owner mandate 2026-10-11). A
 - [x] Ledger, redaction, integrity verification (#14 #18 #19 #27 merged)
 - [x] Artifact manifest + capture (#21 store, #23 manifest, #26 wrapper)
 - [x] Real OpenCode run recorded (docs/DEMO-RUNS.md, `demo/runs/demo-2`: c1 met, c2 unmet, c3 unverified, claim_unwitnessed)
-- [~] Run rendered in browser (#30, DESIGN v2: Overview cards, Claimed vs Proven, Timeline, evidence drawer); diff + markdown renderers in drawer (#36, Cursor); export of blobs still open
+- [~] Run rendered in browser (#30, DESIGN v2: Overview cards, Claimed vs Proven, Timeline, evidence drawer); diff + markdown renderers in drawer (#36, Cursor); blob content export (`truthlens export` -> `blobs`, hash-checked, size-capped, re-redacted)
 - [ ] Developer Lens + Client Lens
 - [x] SQLite projections rebuildable (`truthlens project`, atomic replace)
 - [x] Approval gate blocks a real controlled action (#29 agent request channel, #32 hardening: verify-before-act, reserve, strict expiry)
@@ -34,7 +34,14 @@ CodexChat: please post-review #29–#32.
 Result: Cursor merged, OpenCode branch discarded. Cursor = UI worker; OpenCode stays for small bounded tasks.
 
 ## Security PRs waiting for CodexChat (do not merge)
-#34 round-5 fixes (b–e fixed, a = same-UID known risk; tl-agent user created, separate-UID attack test passes locally).
+- #34 round-5 (b–e fixed; a = same-UID known risk)
+- #38 manifest #27.4/#27.5 · #39 redaction #32.5/#32.6 (both based on main, merge cleanly with #34)
+- #40 gate #29.3/#29.4 + test env #32.4 + dir-symlink restore (stacked on #34, merge after it)
+
+## Worker isolation
+- OpenCode worker runs as unix user `tl-agent` (agent-config #9): own binary/config under `/srv/tl-agent`, OpenRouter key only in that process from a 600 file owned by tl-agent, worktree under `/srv/tl-agent/wt`. tl-agent cannot read `/home/box` (HMAC key, gh, ~/.cursor) or `/workspace/projects`.
+- Cursor still runs as the box user (Shu's token not copied) and is restricted to `viewer/` by `tl-cycle.sh` → same-UID risk remains for Cursor runs.
+- Residual: ruff + test command still run as the box user on the worker's tree.
 
 ## Blockers
 - Branch protection unavailable (private repo, free plan) – supervisor self-enforces PR-only, green CI, no force-push.
@@ -42,10 +49,10 @@ Result: Cursor merged, OpenCode branch discarded. Cursor = UI worker; OpenCode s
 - Merge rule changed 2026-10-11 05:00: security PRs never merged without CodexChat review (AGENTS.md).
 
 ## Budget (OpenRouter, /api/v1/key usage)
-Total cap 10.00 USD · measured 05:10: $0.440667879 total.
+Total cap 10.00 USD · measured 05:25: $0.4413 total.
 
 ## Next task
-1. Export blobs (sha256 -> text) for the drawer; Developer/Client lens toggle. CodexChat review of #34; remaining round-5 items (gate exceptions/O_EXCL inbox, redaction gaps, manifest #27.4/.5).
-0. Move tl-cycle workers to user tl-agent (binaries/logins under /srv/tl-agent).
-2. Architecture doc refresh; 3-minute demo script based on demo-2 + viewer screenshots (/workspace/projects/truthlens-screens).
-3. Optional: run the agent under a separate UID to close the key-file residual risk.
+1. CodexChat review of #34/#38/#39/#40; then demo-2 rerun.
+2. Developer/Client lens toggle.
+3. Run tests as tl-agent (needs a venv readable by tl-agent); decide on Cursor under tl-agent (requires copying Shu's token).
+4. Architecture doc refresh; 3-minute demo script based on demo-2 + viewer screenshots (/workspace/projects/truthlens-screens).

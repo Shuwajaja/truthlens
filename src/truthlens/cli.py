@@ -193,7 +193,16 @@ def _w2(a) -> int:
         if a.cmd == "export":
             from truthlens import export
             mf = json.loads((Path(a.dir) / "manifest.json").read_text())
-            doc = json.dumps(export.build(events, mf), indent=1)
+            from truthlens.store import BlobStore
+            store = BlobStore(Path(a.dir) / "blobs")
+
+            def _rb(sha: str) -> bytes | None:
+                try:
+                    f = store.path(sha)
+                except Exception:  # noqa: BLE001 - invalid sha in a payload -> no content
+                    return None
+                return f.read_bytes() if f.is_file() and not f.is_symlink() else None
+            doc = json.dumps(export.build(events, mf, _rb), indent=1)
             if a.output == "-":
                 print(doc)
             else:
