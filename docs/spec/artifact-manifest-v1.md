@@ -1,6 +1,6 @@
 # Artifact Manifest v1 — FROZEN (v1, 2026-10-11)
 
-One JSON document per run (`manifest.json`), itself hashed and recorded via `artifact.recorded`.
+One JSON document per run (`manifest.json`), written after `run.finished`; bound to the ledger by `ledger_last_hash` and not recorded inside the ledger (D28).
 
 ```json
 {
@@ -36,6 +36,6 @@ One JSON document per run (`manifest.json`), itself hashed and recorded via `art
 - `trust`: computed, never trusted from input — see TRUST-LEVELS.md.
 - Blobs are stored content-addressed; the manifest never embeds content.
 - `ledger_last_hash`: hash of the run's final event (`run.finished`), anchoring the ledger end (D15).
-- The manifest is itself recorded as an artifact of the run (D8); its own `artifact.recorded` event is the only one not listed inside it.
+- ~~The manifest is recorded via `artifact.recorded` (D8)~~ – superseded by D28: the manifest is a post-close artifact outside the chain; verify checks `ledger_last_hash` and every `sha256`.
 - `trust` values: `imported | integrity_verified | review_required | verification_failed` (see TRUST-LEVELS.md). `review_required` may be shown together with `integrity_verified` (`trust` = integrity, `review` = `required|accepted` separately).
-- `acceptance` (D19): per criterion the witnessed evidence event ids and `status` = `proposed` (derived, not confirmed by a human – D22) | `met` (witnessed evidence, passing) | `unmet` (witnessed evidence, failing) | `unverified` (no witnessed evidence; agent claims alone never yield `met`).
+- `acceptance` (D19): per criterion the witnessed evidence event ids and `status` = `proposed` (derived, not confirmed by a human – D22) | `met` (witnessed decisive evidence, passing – D25/D27) | `unmet` (witnessed evidence, failing) | `unverified` (no witnessed evidence; agent claims alone never yield `met`).
