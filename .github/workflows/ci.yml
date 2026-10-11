@@ -23,3 +23,4 @@ jobs:
       - run: pip install -e '.[dev]'
       - run: ruff check src tests
       - run: pytest -q
+      - run: demo/run-demo.sh /tmp/tl-demo --offline
