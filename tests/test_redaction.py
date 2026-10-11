@@ -98,5 +98,33 @@ def test_linear_time_on_large_input():
     import time
 
     t = time.monotonic()
-    redact({"blob": "a" * 60000, "b": "token" * 12000, "c": "x=" * 30000})
+    redact({"blob": "a" * 60000, "b": "token" * 12000, "c": "x=" * 30000, "d": "-" * 60000, "e": "--token " * 8000})
     assert time.monotonic() - t < 1.0
+
+
+def test_token_secret_is_not_counter():
+    obj = {"token_secret": "v"}
+    assert redact(obj)["token_secret"] == REDACTED
+    obj = ["--token-secret", "v"]
+    assert redact(obj) == ["--token-secret", REDACTED]
+
+
+def test_flag_value_in_string():
+    assert redact("run --password hunter2") == "run --password [REDACTED]"
+    assert redact("x --api-key abc") == "x --api-key [REDACTED]"
+
+
+def test_whole_value_redaction():
+    assert redact("PASSWORD=abc,def") == "PASSWORD=[REDACTED]"
+
+
+def test_url_userinfo_without_colon():
+    assert redact("https://ghtok123@host/x") == "https://[REDACTED]@host/x"
+    assert redact("https://:pw@host") == "https://[REDACTED]@host"
+
+
+def test_quoted_keys_json_in_string():
+    result = redact('{"api_key": "zzz"}')
+    assert "zzz" not in result
+    result = redact("{'password': 'zzz'}")
+    assert "zzz" not in result

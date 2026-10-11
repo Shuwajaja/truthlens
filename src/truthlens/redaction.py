@@ -16,11 +16,21 @@ REDACTED = "[REDACTED]"
 
 _NAME = (
     r"(?:secret|password|passwd|pwd|api[_-]?key|access[_-]?key|private[_-]?key|authorization"
-    r"|credentials?|cookie|session[_-]?id|token(?!s|[_-]?(?:count|usage|limit|used)))"
+    r"|credentials?|cookie|session[_-]?id|token)"
 )
-_COUNTER = re.compile(r"(?i)(?:^|[_-])(?:max|num|total|input|output|prompt|completion)[_-]?tokens?$|^tokens?[_-]")
 _KEY_PATTERN = re.compile(rf"(?i){_NAME}")
 _FLAG = re.compile(rf"(?i)^--?[a-z0-9_-]*{_NAME}[a-z0-9_-]*$")
+_FLAG_VAL = re.compile(rf"(?i)(?<![A-Za-z0-9_-])(--?[a-z0-9_-]{{0,64}}?{_NAME}[a-z0-9_-]{{0,64}})\s+([^\s;&|]+)")
+
+_COUNTER_NAMES = frozenset({
+    "max_tokens", "max_token", "num_tokens", "total_tokens",
+    "input_tokens", "output_tokens", "prompt_tokens", "completion_tokens",
+    "tokens_used", "token_count", "tokens", "max_completion_tokens",
+})
+
+
+def _is_counter(name: str) -> bool:
+    return name.lower().replace("-", "_") in _COUNTER_NAMES
 
 _VALUE_PATTERN = re.compile(
     r"(?<![A-Za-z0-9])(?:sk-[A-Za-z0-9_\-]{3,}"
@@ -34,12 +44,17 @@ _VALUE_PATTERN = re.compile(
     r"|-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----"
 )
 # NAME=value / NAME: value / --name=value inside free text (env dumps, logs, commands)
-_ASSIGN = re.compile(rf"(?i)(?<![A-Za-z0-9_.-])([A-Za-z0-9_.-]{{0,64}}?{_NAME}[A-Za-z0-9_.-]{{0,64}}\s{{0,4}}[=:]\s{{0,4}})(\"[^\"]*\"|'[^']*'|[^\s,;&|]+)")
-_URL_CRED = re.compile(r"(?<=://)[^/\s:@]+:[^/\s@]+(?=@)")
+_ASSIGN = re.compile(rf"(?i)(?<![A-Za-z0-9_.-])([\"']?[A-Za-z0-9_.-]{{0,64}}?{_NAME}[A-Za-z0-9_.-]{{0,64}}[\"']?\s{{0,4}}[=:]\s{{0,4}})(\"[^\"]*\"|'[^']*'|[^\s&|]+)")
+_URL_CRED = re.compile(r"(?<=://)(?:[^/\s:@]+(?::[^/\s@]+)?|:[^/\s@]+)(?=@)")
 
 
 def is_secret_key(key: str) -> bool:
-    return bool(_KEY_PATTERN.search(key)) and not _COUNTER.search(key)
+    return bool(_KEY_PATTERN.search(key)) and not _is_counter(key)
+
+
+def _flag_val(m: re.Match) -> str:
+    flag = m.group(1)
+    return m.group(0) if _is_counter(flag.lstrip("-")) else m.group(1) + " " + REDACTED
 
 
 def redact_str(value: str) -> str:
@@ -47,10 +62,12 @@ def redact_str(value: str) -> str:
     value = _VALUE_PATTERN.sub(REDACTED, value)
 
     def _assign(m: re.Match) -> str:
-        name = m.group(1).split("=")[0].split(":")[0].strip()
-        return m.group(0) if _COUNTER.search(name) or m.group(2) == REDACTED else m.group(1) + REDACTED
+        name = m.group(1).split("=")[0].split(":")[0].strip().strip("'\"")
+        return m.group(0) if _is_counter(name.lstrip("-")) or m.group(2) == REDACTED else m.group(1) + REDACTED
 
-    return _ASSIGN.sub(_assign, value)
+    value = _ASSIGN.sub(_assign, value)
+    value = _FLAG_VAL.sub(_flag_val, value)
+    return value
 
 
 def _redact_seq(items) -> list:
@@ -60,7 +77,7 @@ def _redact_seq(items) -> list:
             out.append(REDACTED)
             hide_next = False
             continue
-        hide_next = isinstance(item, str) and bool(_FLAG.match(item)) and not _COUNTER.search(item.lstrip("-"))
+        hide_next = isinstance(item, str) and bool(_FLAG.match(item)) and not _is_counter(item.lstrip("-"))
         out.append(redact(item))
     return out
 
