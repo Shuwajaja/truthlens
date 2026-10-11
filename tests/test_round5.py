@@ -181,3 +181,18 @@ def test_34_r6_cwd_bound_in_action_hash(tmp_path):
     a.mkdir()
     b.mkdir()
     assert gate.action_hash(["true"], str(a)) != gate.action_hash(["true"], str(b))
+
+
+def test_34_r6_cli_act_binds_cwd(tmp_path, monkeypatch, capsys):
+    led = tmp_path / "l.jsonl"
+    assert main(["init", str(led)]) == 0
+    a, b = tmp_path / "a", tmp_path / "b"
+    a.mkdir()
+    b.mkdir()
+    monkeypatch.chdir(a)
+    assert main(["act", str(led), "--", "true"]) == 3
+    ha = json.loads(capsys.readouterr().out.strip().splitlines()[-1])["action_hash"]
+    monkeypatch.chdir(b)
+    assert main(["act", str(led), "--", "true"]) == 3
+    hb = json.loads(capsys.readouterr().out.strip().splitlines()[-1])["action_hash"]
+    assert ha != hb  # approval for dir A does not cover dir B
