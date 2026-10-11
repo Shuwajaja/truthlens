@@ -28,3 +28,26 @@ def test_32_6_long_names_and_input_cap():
 def test_39_r6_neighbour_field_not_consumed():
     assert "hunter2secret" not in redact_str("curl --silent --password hunter2secret https://x")
     assert "hunter2secret" not in redact_str("info: password=hunter2secret")
+
+
+def test_39_r6_agent_textconv_driver_not_run(tmp_path):
+    import subprocess
+    import sys
+
+    from tests.test_wrapper import _keyfile, _repo
+    from truthlens.cli import main
+    r, crit = _repo(tmp_path)
+    marker = tmp_path / "textconv-ran"
+    (r / "evil.py").write_text(
+        "import subprocess, pathlib\n"
+        f"pathlib.Path('conv.sh').write_text('#!/bin/sh\\ntouch {marker}\\ncat \"$1\"\\n')\n"
+        "subprocess.run(['chmod', '+x', 'conv.sh'])\n"
+        "subprocess.run(['git', 'config', 'diff.evil.textconv', './conv.sh'])\n"
+        "pathlib.Path('.gitattributes').write_text('* diff=evil\\n')\n"
+        "pathlib.Path('index.html').write_text('changed')\n")
+    subprocess.run(["git", "-C", str(r), "add", "evil.py"], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "e"], check=True)
+    assert main(["run", "--out", str(tmp_path / "run"), "--repo", str(r), "--criteria", str(crit),
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    assert not marker.exists()
