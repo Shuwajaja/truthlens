@@ -1,5 +1,14 @@
 {
  "verified": true,
+ "headline": [
+  "Your agent said: Done.",
+  "Here's what's actually proven."
+ ],
+ "review_required": true,
+ "trust": [
+  "integrity_verified",
+  "review_required"
+ ],
  "run": {
   "run_id": "run_01M4MCGT1XXYT2JQYWFWJES0X6",
   "project": "Build a small landing page with a contact form.",

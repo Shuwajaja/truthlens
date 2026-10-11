@@ -35,6 +35,14 @@ def _repo(tmp_path):
     return r, crit
 
 
+def _keyfile(tmp_path, value="hmac-key-outside-agent"):
+    k = tmp_path / "keydir" / "key"
+    k.parent.mkdir(exist_ok=True)
+    k.write_text(value)
+    k.chmod(0o600)
+    return k
+
+
 def _run(tmp_path, monkeypatch):
     r, crit = _repo(tmp_path)
     monkeypatch.setenv("FAKE_PROVIDER_KEY", "sk-or-supersecretvalue123")
@@ -44,7 +52,7 @@ def _run(tmp_path, monkeypatch):
     rc = main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                "--test", f"c1={py} -m pytest -q -p no:cacheprovider test_page.py",
                "--test", f"c2={py} -m pytest -q -p no:cacheprovider test_mail.py",
-               "--pass-env", "FAKE_PROVIDER_KEY", "--hmac-key-env", "TL_HMAC", "--hmac-key-id", "k1",
+               "--pass-env", "FAKE_PROVIDER_KEY", "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                "--agent", "fake", "--", py, "agent.py"])
     assert rc == 0
     return out

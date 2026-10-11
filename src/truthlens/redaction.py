@@ -47,7 +47,7 @@ _VALUE_PATTERN = re.compile(
     r"|-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----"
 )
 # NAME=value / NAME: value / --name=value inside free text (env dumps, logs, commands)
-_ASSIGN = re.compile(rf"(?i)(?<![A-Za-z0-9_.-])([\"']?[A-Za-z0-9_.-]{{0,64}}?{_NAME}[A-Za-z0-9_.-]{{0,64}}[\"']?\s{{0,4}}[=:]\s{{0,4}})({_QV})")
+_ASSIGN = re.compile(rf"(?i)(?<![A-Za-z0-9_.-])([\"']?[A-Za-z0-9_.-]{{0,64}}?{_NAME}[A-Za-z0-9_.-]{{0,64}}[\"']?\s{{0,64}}[=:]\s{{0,64}})({_QV})")
 _URL_CRED = re.compile(r"(?<=://)(?:[^/\s:@]+(?::[^/\s@]*)?|:[^/\s@]+)(?=@)")
 
 
@@ -66,7 +66,13 @@ def redact_str(value: str) -> str:
 
     def _assign(m: re.Match) -> str:
         name = m.group(1).split("=")[0].split(":")[0].strip().strip("'\"")
-        return m.group(0) if _is_counter(name.lstrip("-")) or m.group(2) == REDACTED else m.group(1) + REDACTED
+        if _is_counter(name.lstrip("-")) or m.group(2) == REDACTED:
+            return m.group(0)
+        val = m.group(2)
+        if m.group(1)[:1] in "\"'" and val[:1] not in "\"'":  # quoted key (JSON/dict): value ends at , } ]
+            cut = re.match(r"[^,}\]]*", val).end()
+            return m.group(1) + REDACTED + val[cut:]
+        return m.group(1) + REDACTED
 
     value = _ASSIGN.sub(_assign, value)
     value = _FLAG_VAL.sub(_flag_val, value)

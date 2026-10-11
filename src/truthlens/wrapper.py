@@ -10,7 +10,10 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
+import sys
+import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -25,6 +28,7 @@ from truthlens.store import BlobStore
 WRAPPER = {"kind": "wrapper", "id": "truthlens-run"}
 ENV_ALLOW = ("PATH", "HOME", "LANG", "LC_ALL", "TERM", "USER", "SHELL", "TMPDIR", "XDG_CONFIG_HOME",
              "XDG_DATA_HOME", "XDG_CACHE_HOME", "XDG_STATE_HOME")
+TEST_PATH = os.pathsep.join(dict.fromkeys([os.path.dirname(sys.executable), "/usr/local/bin", "/usr/bin", "/bin"]))
 CLAIM_TRAILER = re.compile(r"^TRUTHLENS_CLAIMS:\s*(\[.*\])\s*$", re.MULTILINE)
 _COUNT = re.compile(r"(\d+) (passed|failed|skipped|errors?|error)\b")
 
@@ -73,9 +77,33 @@ def parse_pytest_counts(output: str, returncode: int) -> dict:
     return c
 
 
-def _git(repo: Path, *args: str) -> bytes:
-    return subprocess.run(["git", "-C", str(repo), *args], capture_output=True, check=True,
-                          stdin=subprocess.DEVNULL).stdout
+GIT_SAFE = ("-c", "core.hooksPath=/dev/null", "-c", "diff.external=", "-c", "core.fsmonitor=false",
+            "-c", "core.pager=cat", "-c", "protocol.allow=never")
+PROTECTED = ("tests/", "test/", "conftest.py", "pytest.ini", "pyproject.toml", "setup.cfg", "tox.ini",
+             "package.json")
+
+
+def _git_env() -> dict[str, str]:
+    return {"PATH": "/usr/local/bin:/usr/bin:/bin", "HOME": "/nonexistent", "GIT_CONFIG_NOSYSTEM": "1",
+            "GIT_CONFIG_GLOBAL": "/dev/null", "LC_ALL": "C"}
+
+
+def _git(repo: Path, *args: str, check: bool = True) -> bytes:
+    """Git with a filtered env and agent-controllable hooks/external diff/fsmonitor disabled (#26 review)."""
+    return subprocess.run(["git", *GIT_SAFE, "-C", str(repo), *args], capture_output=True, check=check,
+                          stdin=subprocess.DEVNULL, env=_git_env()).stdout
+
+
+def is_protected(rel: str) -> bool:
+    name = rel.rsplit("/", 1)[-1]
+    if (name.startswith("test_") and name.endswith(".py")) or name.endswith("_test.py") or ".test." in name:
+        return True
+    return any(rel.startswith(p) if p.endswith("/") else (rel == p or name == "conftest.py") for p in PROTECTED)
+
+
+def _read(f: Path) -> bytes:
+    """File content; a symlink is recorded as its link text and never followed out of the repo."""
+    return b"symlink:" + os.readlink(f).encode() if f.is_symlink() else f.read_bytes()
 
 
 def snapshot(repo: Path) -> dict[str, str]:
@@ -83,8 +111,8 @@ def snapshot(repo: Path) -> dict[str, str]:
     out = {}
     for rel in _git(repo, "ls-files", "-co", "--exclude-standard", "-z").decode().split("\0"):
         f = repo / rel
-        if rel and f.is_file():
-            out[rel] = hashlib.sha256(f.read_bytes()).hexdigest()
+        if rel and (f.is_symlink() or f.is_file()):
+            out[rel] = hashlib.sha256(_read(f)).hexdigest()
     return out
 
 
@@ -92,6 +120,15 @@ def child_env(pass_env: list[str], drop: set[str]) -> dict[str, str]:
     env = {k: os.environ[k] for k in ENV_ALLOW if k in os.environ}
     env.update({k: os.environ[k] for k in pass_env if k in os.environ and k not in drop})
     return env
+
+
+def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
+    """Redact text blobs (diffs, file contents, headers) before they enter the store; binary stays as is."""
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError:
+        return data
+    return _scrub(text, secrets).encode()
 
 
 def _scrub(text: str, secrets: list[str]) -> str:
@@ -126,6 +163,8 @@ def run(cfg: RunConfig) -> dict:
     ledger_path = cfg.out_dir / "ledger.jsonl"
     if ledger_path.exists() and ledger_path.stat().st_size:
         raise FileExistsError(f"{ledger_path} exists (one ledger per run)")
+    if not cfg.hmac_key or not cfg.hmac_key_id:
+        raise ValueError("truthlens run requires an HMAC key file (--hmac-key-file, --hmac-key-id) (#26 review)")
     led = Ledger(ledger_path, cfg.hmac_key, cfg.hmac_key_id)
     store = BlobStore(cfg.out_dir / "blobs")
     run_id = new_id("run")
@@ -166,8 +205,9 @@ def run(cfg: RunConfig) -> dict:
 
     # before snapshot
     before = snapshot(cfg.repo)
-    pre_diff = _git(cfg.repo, "diff", "HEAD", "--binary")
-    sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + pre_diff)
+    pre_diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD", "--binary")
+    sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
+    protected_before = {rel: _read(cfg.repo / rel) for rel in before if is_protected(rel)}
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "sha256": sha, "kind": "file_changed",
                                         "refers_to": "git_state_before", "result": "info"})
 
@@ -188,7 +228,7 @@ def run(cfg: RunConfig) -> dict:
     stdout = _scrub(out.decode("utf-8", "replace"), secrets)
     stderr = _scrub(err.decode("utf-8", "replace"), secrets)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "command_run",
-                                        "sha256": blob(f"$ {' '.join(cfg.command)}\n--- stdout\n{stdout}\n"
+                                        "sha256": blob(f"$ {_scrub(' '.join(cfg.command), secrets)}\n--- stdout\n{stdout}\n"
                                                        f"--- stderr\n{stderr}".encode()),
                                         "refers_to": "agent_command", "exit_code": rc, "result": "info"})
     for c in extract_claims(stdout):
@@ -201,35 +241,51 @@ def run(cfg: RunConfig) -> dict:
     # after snapshot: diff + one artifact per changed file
     after = snapshot(cfg.repo)
     changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
-    diff = _git(cfg.repo, "diff", "HEAD", "--binary")
+    diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD", "--binary")
     for rel in changed:
         if rel not in before and rel in after:
-            diff += subprocess.run(["git", "-C", str(cfg.repo), "diff", "--no-index", "--binary", "/dev/null", rel],
-                                   capture_output=True, stdin=subprocess.DEVNULL, check=False).stdout
+            diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-index", "--binary", "/dev/null", rel, check=False)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
-                                        "sha256": blob(diff), "refers_to": "git_diff_after",
+                                        "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
                                         "changed": changed, "result": "info"})
     for rel in changed:
         if rel in after:
-            s = blob((cfg.repo / rel).read_bytes())
+            s = blob(_scrub_bytes(_read(cfg.repo / rel), secrets))
             emit(WRAPPER, "artifact.recorded", {"artifact_id": new_id("art"), "sha256": s, "path": rel,
                                                 "manifest_ref": "manifest.json", "kind": "file",
                                                 "provenance": "original"})
 
-    # witnessed tests: fresh process, no provider key
-    test_env = child_env([], drop | set(cfg.pass_env))
+    # witnessed tests (#26 review): run in a copy of the post-run tree where test files/config are restored
+    # to their pre-run content (agent edits to tests/conftest never count), fresh HOME, fixed PATH, no keys.
+    tampered = sorted(r for r in changed if is_protected(r))
+    if tampered:
+        emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "test_files_changed",
+                                            "sha256": blob("\n".join(tampered).encode()), "refers_to": "protected",
+                                            "changed": tampered, "result": "info"})
     for t in cfg.tests:
-        try:
-            tp = subprocess.run(t.command, shell=True, cwd=cfg.repo, env=test_env, stdin=subprocess.DEVNULL,
-                                capture_output=True, timeout=600, check=False)
-            text, trc = (tp.stdout + tp.stderr).decode("utf-8", "replace"), tp.returncode
-        except subprocess.TimeoutExpired:
-            text, trc = "[truthlens: test timeout]", 124
+        with tempfile.TemporaryDirectory(prefix="tl-test-") as td:
+            work, home = Path(td) / "w", Path(td) / "home"
+            shutil.copytree(cfg.repo, work, symlinks=True, ignore=shutil.ignore_patterns(".git"))
+            home.mkdir()
+            for rel in after:
+                if is_protected(rel) and rel not in protected_before:
+                    (work / rel).unlink(missing_ok=True)
+            for rel, data in protected_before.items():
+                (work / rel).parent.mkdir(parents=True, exist_ok=True)
+                (work / rel).unlink(missing_ok=True)
+                (work / rel).write_bytes(data)
+            test_env = {"PATH": TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8", "TMPDIR": td}
+            try:
+                tp = subprocess.run(t.command, shell=True, cwd=work, env=test_env, stdin=subprocess.DEVNULL,
+                                    capture_output=True, timeout=600, check=False)
+                text, trc = (tp.stdout + tp.stderr).decode("utf-8", "replace"), tp.returncode
+            except subprocess.TimeoutExpired:
+                text, trc = "[truthlens: test timeout]", 124
         text = _scrub(text, secrets)
         counts = parse_pytest_counts(text, trc)
-        rep = blob(f"$ {t.command}\nexit {trc}\n{text}".encode())
+        rep_ = blob(f"$ {t.command}\nexit {trc}\n{text}".encode())
         emit(WRAPPER, "test.reported", {"suite": t.command, **counts, "exit_code": trc,
-                                        "report_artifact_id": rep,
+                                        "report_artifact_id": rep_,
                                         "criterion_ids": [i for i in t.criterion_ids if i in texts]})
 
     # close (D28)

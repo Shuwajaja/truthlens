@@ -12,7 +12,7 @@ function criterionIcon(c: Criterion): string {
 }
 
 export function Overview({ doc, onOpenDrawer }: {
-  doc: { verified: boolean; run: { project: string }; counts: Record<string, number>; criteria: Criterion[]; claims: Claim[]; events: RunEvent[] }
+  doc: { verified: boolean; headline: string[]; review_required: boolean; run: { project: string }; counts: Record<string, number>; criteria: Criterion[]; claims: Claim[]; events: RunEvent[] }
   onOpenDrawer: (t: DrawerTarget) => void
 }) {
   const total = doc.criteria.length
@@ -26,8 +26,15 @@ export function Overview({ doc, onOpenDrawer }: {
 
   return (
     <div>
-      <h1 className="text-4xl font-bold leading-tight mb-2">Your agent said: Done.<br />Here&rsquo;s what&rsquo;s actually proven.</h1>
-      <p className="text-[#8b949e] text-base mb-4">Project: {doc.run.project}</p>
+      <h1 className="text-4xl font-bold leading-tight mb-2">
+        {doc.headline.map((l, i) => <span key={i} className="block">{l}</span>)}
+      </h1>
+      <p className="text-[#8b949e] text-base mb-4">
+        Project: {doc.run.project}
+        {doc.review_required && (
+          <span className="ml-3 text-xs px-2 py-[1px] rounded-[4px] border border-[#30363d] text-[#e6edf3]">Review required</span>
+        )}
+      </p>
       <p className="text-base mb-6">{countParts.join(' ')}</p>
 
       <div className="space-y-4">

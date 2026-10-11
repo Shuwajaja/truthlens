@@ -53,8 +53,14 @@ def build(events: list[dict], manifest: dict) -> dict:
     start = events[0]
     fin = next((e for e in reversed(events) if e["type"] == "run.finished"), None)
     req = next((e["payload"]["text"] for e in events if e["type"] == "requirement.recorded"), "")
+    # #28 review: never invent a claim. Only quote "Done" style headline if the agent actually claimed something.
+    headline = (["Your agent said: Done.", "Here's what's actually proven."] if cl
+                else ["Here's what this run actually proves."])
     return {
         "verified": True,
+        "headline": headline,
+        "review_required": True,  # D7: human/domain acceptance is never automatic; shown by default
+        "trust": ["integrity_verified", "review_required"],
         "run": {"run_id": start["run_id"], "project": req, "agent": manifest.get("agent", {}).get("name", ""),
                 "command": start["payload"].get("command", ""), "started": start["ts"],
                 "finished": fin["ts"] if fin else None, "exit_code": fin["payload"].get("exit_code") if fin else None,

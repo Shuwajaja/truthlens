@@ -148,7 +148,8 @@ def verify_bytes(data: bytes, hmac_key: bytes | None = None) -> VerifyResult:
         run_id = run_id or ev["run_id"]
         if ev["run_id"] != run_id:
             err(n, "run_id differs from first event")
-        if not isinstance(ev["actor"], dict) or ev["actor"].get("kind") not in ACTOR_KINDS:
+        if (not isinstance(ev["actor"], dict) or not isinstance(ev["actor"].get("kind"), str)
+                or ev["actor"].get("kind") not in ACTOR_KINDS):
             err(n, "invalid actor")
         if not isinstance(ev["payload"], dict):
             err(n, "payload is not an object")
@@ -354,6 +355,10 @@ def repair(path: str | os.PathLike, actor: dict, hmac_key: bytes | None = None,
            hmac_key_id: str | None = None) -> dict:
     """D9: manual repair. Truncate a torn tail only, then append ledger.repaired. Raises if other errors exist."""
     p = Path(path)
+    if not isinstance(actor, dict) or actor.get("kind") != "human":
+        raise LedgerError("repair requires actor.kind=human (D9)")
+    if hmac_key is None and b'"hmac":' in p.read_bytes():
+        raise LedgerError("signed ledger: repair needs the HMAC key")
     led = Ledger(p, hmac_key, hmac_key_id)
     lock = led._lock()
     try:
