@@ -73,7 +73,12 @@ def junit_counts(xml: Path, rc: int) -> dict[str, int]:
     except (OSError, ET.ParseError):
         return c
     suites = [root] if root.tag == "testsuite" else root.findall("testsuite")
-    tot = {k: sum(int(su.get(k, 0) or 0) for su in suites) for k in ("tests", "failures", "errors", "skipped")}
+    try:
+        tot = {k: sum(int(su.get(k, 0) or 0) for su in suites) for k in ("tests", "failures", "errors", "skipped")}
+    except ValueError:
+        return c
+    if not suites or min(tot.values()) < 0 or tot["failures"] + tot["errors"] + tot["skipped"] > tot["tests"]:
+        return c  # malformed / inconsistent XML is no evidence
     failed = tot["failures"] + tot["errors"]
     c = {"passed": max(tot["tests"] - failed - tot["skipped"], 0), "failed": failed, "skipped": tot["skipped"]}
     if bad and c["failed"] == 0:
@@ -220,7 +225,7 @@ def run(cfg: RunConfig) -> dict:
 
     # before snapshot
     before = snapshot(cfg.repo)
-    pre_diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD", "--binary")
+    pre_diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD")
     sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
     protected_before = {rel: _read(cfg.repo / rel) for rel in before if is_protected(rel)}
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "sha256": sha, "kind": "file_changed",
@@ -256,10 +261,10 @@ def run(cfg: RunConfig) -> dict:
     # after snapshot: diff + one artifact per changed file
     after = snapshot(cfg.repo)
     changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
-    diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD", "--binary")
+    diff = _git(cfg.repo, "diff", "--no-ext-diff", "HEAD")
     for rel in changed:
         if rel not in before and rel in after:
-            diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-index", "--binary", "/dev/null", rel, check=False)
+            diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-index", "/dev/null", rel, check=False)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
                                         "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
                                         "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
@@ -307,9 +312,10 @@ def run(cfg: RunConfig) -> dict:
                                        check=False).returncode == 0
             test_env = {"PATH": TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8", "TMPDIR": td,
                         "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
+            jx = Path(td) / "junit" / "report.xml"  # outside the copied tree; via env, not appended to the line
+            test_env["PYTEST_ADDOPTS"] = f"--junitxml={jx}"
             try:
-                jx = Path(td) / "junit" / "report.xml"  # outside the copied tree
-                cmd = t.command + (f" --junitxml={jx}" if "pytest" in t.command else "")
+                cmd = t.command
                 tp = subprocess.run(cmd, shell=True, cwd=work, env=test_env, stdin=subprocess.DEVNULL,
                                     capture_output=True, timeout=600, check=False)
                 text, trc = (tp.stdout + tp.stderr).decode("utf-8", "replace"), tp.returncode
