@@ -18,7 +18,8 @@ def test_29_3_bad_requests_answered_and_exec_failure_recorded(tmp_path):
     srv.poll()
     for r in ("a", "b"):
         assert json.loads((srv.inbox / f"{r}.res").read_text())["rc"] == 2
-    argv = ["/nonexistent/prog"]
+    (tmp_path / "prog").write_text("not executable")  # exec fails with PermissionError after approval
+    argv = ["./prog"]
     _, info = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(tmp_path))
     gate.approve(led, "shu", info["action_hash"])
     rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(tmp_path))

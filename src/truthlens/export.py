@@ -33,7 +33,35 @@ def _summary(e: dict) -> str:
     return t
 
 
-def build(events: list[dict], manifest: dict) -> dict:
+BLOB_MAX, BLOBS_TOTAL = 256 * 1024, 4 * 1024 * 1024
+
+
+def blob_texts(events: list[dict], read_blob) -> dict[str, str]:
+    """sha256 -> text for evidence/artifact blobs referenced by events (drawer diff/markdown views).
+    Only blobs whose content hashes to their name, UTF-8 text, size-capped; redacted again on the way out."""
+    import hashlib
+
+    from truthlens.redaction import redact_str
+    out: dict[str, str] = {}
+    total = 0
+    for e in events:
+        sha = e["payload"].get("sha256")
+        if not isinstance(sha, str) or sha in out:
+            continue
+        data = read_blob(sha)
+        if data is None or len(data) > BLOB_MAX or total + len(data) > BLOBS_TOTAL:
+            continue
+        if hashlib.sha256(data).hexdigest() != sha:
+            continue
+        try:
+            out[sha] = redact_str(data.decode("utf-8"))
+        except UnicodeDecodeError:
+            continue
+        total += len(data)
+    return out
+
+
+def build(events: list[dict], manifest: dict, read_blob=None) -> dict:
     acc, cl = acceptance(events), claims(events)
     claimed = {c for x in cl for c in x["criterion_ids"]}
     cards = []
@@ -71,4 +99,5 @@ def build(events: list[dict], manifest: dict) -> dict:
         "artifacts": manifest.get("artifacts", []),
         "events": [{"seq": e["seq"], "id": e["id"], "ts": e["ts"], "type": e["type"], "actor": e["actor"],
                     "summary": _summary(e), "hash": e["hash"], "payload": e["payload"]} for e in events],
+        **({"blobs": blob_texts(events, read_blob)} if read_blob else {}),
     }

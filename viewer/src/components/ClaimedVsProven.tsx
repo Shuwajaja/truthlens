@@ -1,8 +1,15 @@
 import type { RunDoc } from '../types.ts'
+import type { Lens } from '../lens.ts'
 
 function badgeLabel(finding: string): { text: string; color: string } {
   if (finding === 'supported') return { text: 'Proven', color: '#3fb950' }
   if (finding === 'claim_unwitnessed') return { text: 'Claimed only', color: '#d29922' }
+  return { text: finding, color: '#8b949e' }
+}
+
+function clientClaimVerdict(finding: string): { text: string; color: string } {
+  if (finding === 'supported') return { text: 'proven', color: '#3fb950' }
+  if (finding === 'claim_unwitnessed') return { text: 'not proven', color: '#d29922' }
   return { text: finding, color: '#8b949e' }
 }
 
@@ -13,17 +20,33 @@ function criterionBadge(card: string, claimed: boolean): { text: string; color: 
   return { text: 'Claimed only', color: '#d29922' }
 }
 
-export function ClaimedVsProven({ doc }: { doc: RunDoc }) {
+export function ClaimedVsProven({ doc, lens }: { doc: RunDoc; lens: Lens }) {
   const criteriaById = new Map(doc.criteria.map(c => [c.criterion_id, c]))
+  const client = lens === 'client'
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6">What your agent said vs. what we saw.</h2>
+      <h2 className="text-2xl font-bold mb-6">
+        {client ? 'What your agent said' : 'What your agent said vs. what we saw.'}
+      </h2>
 
       <div className="space-y-6">
         {doc.claims.map(claim => {
-          const badge = badgeLabel(claim.finding)
+          const badge = client ? clientClaimVerdict(claim.finding) : badgeLabel(claim.finding)
           const relatedCriteria = claim.criterion_ids.map(id => criteriaById.get(id)).filter(Boolean) as RunDoc['criteria']
+
+          if (client) {
+            return (
+              <div key={claim.claim_id} className="card-wrap p-4" style={{ borderColor: '#30363d' }}>
+                <p className="text-base">
+                  <span className="text-[#8b949e]">Agent said </span>
+                  &ldquo;{claim.text}&rdquo;
+                  <span className="text-[#8b949e]"> &ndash; </span>
+                  <span style={{ color: badge.color }}>{badge.text}</span>
+                </p>
+              </div>
+            )
+          }
 
           return (
             <div key={claim.claim_id} className="card-wrap p-4" style={{ borderColor: '#30363d' }}>
