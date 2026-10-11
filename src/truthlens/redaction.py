@@ -34,7 +34,7 @@ _VALUE_PATTERN = re.compile(
     r"|-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----"
 )
 # NAME=value / NAME: value / --name=value inside free text (env dumps, logs, commands)
-_ASSIGN = re.compile(rf"(?i)([A-Za-z0-9_.-]*{_NAME}[A-Za-z0-9_.-]*\s*[=:]\s*)(\"[^\"]*\"|'[^']*'|[^\s,;&|]+)")
+_ASSIGN = re.compile(rf"(?i)(?<![A-Za-z0-9_.-])([A-Za-z0-9_.-]{{0,64}}?{_NAME}[A-Za-z0-9_.-]{{0,64}}\s{{0,4}}[=:]\s{{0,4}})(\"[^\"]*\"|'[^']*'|[^\s,;&|]+)")
 _URL_CRED = re.compile(r"(?<=://)[^/\s:@]+:[^/\s@]+(?=@)")
 
 

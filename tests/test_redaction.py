@@ -92,3 +92,11 @@ def test_codex_review_bypasses_closed():
 def test_token_counters_are_not_secrets():
     obj = {"max_tokens": 100, "tokens_used": 42, "usage": {"prompt_tokens": 3}, "cmd": "run --max-tokens 50"}
     assert redact(obj) == obj
+
+
+def test_linear_time_on_large_input():
+    import time
+
+    t = time.monotonic()
+    redact({"blob": "a" * 60000, "b": "token" * 12000, "c": "x=" * 30000})
+    assert time.monotonic() - t < 1.0
