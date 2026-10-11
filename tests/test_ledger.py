@@ -1,13 +1,31 @@
+import hashlib
 import json
 import subprocess
 import sys
 
 import pytest
 
-from truthlens.ledger import GENESIS, Ledger, LedgerError, verify
+from truthlens.canonical import canonical_bytes
+from truthlens.ledger import GENESIS, Ledger, LedgerError, repair, verify
 
 A = {"kind": "wrapper", "id": "wrap_1"}
 RUN = "run_01TEST"
+H = {"kind": "human", "id": "u"}
+
+
+def _event(seq, prev_hash, type="x", payload=None, **kw):
+    if payload is None:
+        payload = {"a": 1}
+    ev = {
+        "schema_version": 1, "id": f"evt_t{seq}", "seq": seq,
+        "ts": "2026-10-11T00:00:00.000Z", "run_id": RUN,
+        "actor": A, "type": type, "payload": payload,
+        "prev_hash": prev_hash,
+    }
+    ev.update(kw)
+    body = canonical_bytes({k: v for k, v in ev.items() if k not in ("hash", "hmac")})
+    ev["hash"] = hashlib.sha256(body).hexdigest()
+    return ev
 
 
 def test_roundtrip_chain_and_anchor(tmp_path):
@@ -102,3 +120,94 @@ def test_criterion_rules_d23_d24(tmp_path):
     led.append(RUN, human, "criteria.confirmed", {"criteria": [{"criterion_id": "c1", "text_sha256": "h1"}]})
     with pytest.raises(LedgerError, match="D25"):
         led.append(RUN, agent, "test.reported", {"suite": "s", "passed": 1, "failed": 0, "criterion_ids": ["c1"]})
+
+
+def test_f1_executed_needs_action_hash(tmp_path):
+    """Finding 1: action.executed must always have a non-empty action_hash."""
+    p = tmp_path / "l.jsonl"
+    e1 = _event(1, GENESIS)
+    bad = _event(2, e1["hash"], type="action.executed", payload={"result": "ok"})
+    p.write_bytes(canonical_bytes(e1) + b"\n" + canonical_bytes(bad) + b"\n")
+    r = verify(p)
+    assert not r.ok
+    assert any("without action_hash" in m for _, m in r.errors)
+
+
+def test_f2_simulated_approval(tmp_path):
+    """Finding 2: simulated approval never authorizes action.executed."""
+    p = tmp_path / "l.jsonl"
+    led = Ledger(p)
+    led.append(RUN, H, "approval.granted",
+               {"action_hash": "h1", "approver": "u", "expires_at": "z", "simulated": True})
+    g = led.read()[-1]
+    with pytest.raises(LedgerError, match="simulated approval"):
+        led.append(RUN, A, "action.executed",
+                   {"action_hash": "h1", "approval_event_id": g["id"], "result": "ok"})
+
+
+def test_f3_duplicate_keys_rejected(tmp_path):
+    """Finding 3: duplicate JSON keys anywhere in a line are rejected."""
+    p = tmp_path / "l.jsonl"
+    line = (b'{"seq":1,"seq":1,"schema_version":1,"id":"evt_d","ts":"2026-10-11T00:00:00.000Z",'
+            b'"run_id":"run_01TEST","actor":{"kind":"wrapper","id":"w"},"type":"x",'
+            b'"payload":{"a":1},"prev_hash":"' + GENESIS.encode() +
+            b'","hash":"00000000000000000000000000000000000000000000000000000000000000000000000000"}\n')
+    p.write_bytes(line)
+    r = verify(p)
+    assert not r.ok
+    assert any("unparseable" in m for _, m in r.errors)
+
+
+def test_f4_repair_under_lock(tmp_path):
+    """Finding 4: repair holds same exclusive lock; append inside repair no deadlock."""
+    p = tmp_path / "l.jsonl"
+    Ledger(p).append(RUN, A, "x", {"v": 1})
+    Ledger(p).append(RUN, A, "x", {"v": 2})
+    p.write_bytes(p.read_bytes() + b"garbage_tail")
+    ev = repair(p, H)
+    assert ev["type"] == "ledger.repaired"
+    assert verify(p).ok
+
+
+def test_f5_repair_nothing_to_anchor(tmp_path):
+    """Finding 5: repair on torn first line raises without modifying file."""
+    p = tmp_path / "l.jsonl"
+    p.write_bytes(b"garbage_only")
+    with pytest.raises(LedgerError, match="nothing valid to anchor repair"):
+        repair(p, H)
+    assert p.read_bytes() == b"garbage_only"
+
+
+def test_f6_repair_with_hmac(tmp_path):
+    """Finding 6: repair with hmac_key signs ledger.repaired."""
+    p = tmp_path / "l.jsonl"
+    Ledger(p, b"key1", "k1").append(RUN, A, "x", {"v": 1})
+    p.write_bytes(p.read_bytes() + b"garbage")
+    repair(p, H, hmac_key=b"key1", hmac_key_id="k1")
+    r = verify(p, b"key1")
+    assert r.ok
+    events = [json.loads(x) for x in p.read_text().splitlines() if x.strip()]
+    assert "hmac" in events[-1]
+
+
+def test_f7_expected_last_hash(tmp_path):
+    """Finding 7: verify with expected_last_hash detects truncation/extend."""
+    p = tmp_path / "l.jsonl"
+    led = Ledger(p)
+    led.append(RUN, A, "x", {"v": 1})
+    e2 = led.append(RUN, A, "x", {"v": 2})
+    r = verify(p, expected_last_hash=GENESIS)
+    assert not r.ok
+    assert any("anchor mismatch" in m for _, m in r.errors)
+    r = verify(p, expected_last_hash=e2["hash"])
+    assert r.ok and r.anchored
+
+
+def test_blocked_action_needs_unexpired_approval(tmp_path):
+    led = Ledger(tmp_path / "l.jsonl")
+    led.append(RUN, A, "action.blocked", {"action_hash": "h9", "policy": "p", "reason": "r"})
+    with pytest.raises(LedgerError, match="without approval_event_id"):
+        led.append(RUN, A, "action.executed", {"action_hash": "h9", "result": "ok"})
+    g = led.append(RUN, H, "approval.granted", {"action_hash": "h9", "approver": "u", "expires_at": "2000-01-01T00:00:00Z"})
+    with pytest.raises(LedgerError, match="expired"):
+        led.append(RUN, A, "action.executed", {"action_hash": "h9", "approval_event_id": g["id"], "result": "ok"})
