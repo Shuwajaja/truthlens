@@ -257,11 +257,11 @@ def run(cfg: RunConfig) -> dict:
             diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-index", "--binary", "/dev/null", rel, check=False)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
                                         "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
-                                        "changed": changed, "result": "info"})
+                                        "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
     for rel in changed:
         if rel in after:
             s = blob(_scrub_bytes(_read(cfg.repo / rel), secrets))
-            emit(WRAPPER, "artifact.recorded", {"artifact_id": new_id("art"), "sha256": s, "path": rel,
+            emit(WRAPPER, "artifact.recorded", {"artifact_id": new_id("art"), "sha256": s, "path": _scrub(rel, secrets),
                                                 "manifest_ref": "manifest.json", "kind": "file",
                                                 "provenance": "original"})
 
@@ -271,7 +271,7 @@ def run(cfg: RunConfig) -> dict:
     if tampered:
         emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "test_files_changed",
                                             "sha256": blob("\n".join(tampered).encode()), "refers_to": "protected",
-                                            "changed": tampered, "result": "info"})
+                                            "changed": [_scrub(c, secrets) for c in tampered], "result": "info"})
     for t in cfg.tests:
         with tempfile.TemporaryDirectory(prefix="tl-test-") as td:
             work, home = Path(td) / "w", Path(td) / "home"
@@ -282,11 +282,11 @@ def run(cfg: RunConfig) -> dict:
                 if _is_shadow(rel) or (rel not in before and rel.split("/")[-1] in NEW_IMPORT_HOOKS):
                     continue
                 src, dst = cfg.repo / rel, work / rel
+                # symlinks never enter the test copy (external pytest packages, tests/ -> foreign tests)
+                if src.is_symlink() or not src.resolve().is_relative_to(cfg.repo.resolve()):
+                    continue
                 dst.parent.mkdir(parents=True, exist_ok=True)
-                if src.is_symlink():
-                    os.symlink(os.readlink(src), dst)
-                else:
-                    dst.write_bytes(src.read_bytes())
+                dst.write_bytes(src.read_bytes())
             home.mkdir()
             for rel in after:
                 if is_protected(rel) and rel not in protected_before:
