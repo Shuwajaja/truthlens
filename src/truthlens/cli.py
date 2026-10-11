@@ -50,6 +50,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--timeout", type=int, default=1800)
     p.add_argument("--hmac-key-env", metavar="VAR")
     p.add_argument("--hmac-key-id", metavar="ID")
+    p.add_argument("--test-user", help="run witnessed tests as this unix user via sudo -n -u (e.g. tl-agent)")
+    p.add_argument("--test-path", help="PATH for witnessed tests (e.g. the test user's venv/bin)")
     p.add_argument("--gate-env", action="append", default=[], metavar="VAR",
                    help="capability only gated actions get (never the agent)")
     p.add_argument("--hmac-key-file", metavar="PATH", help="key file outside repo/out dir (preferred over env)")
@@ -195,7 +197,7 @@ def _w2(a) -> int:
                         criteria=json.loads(Path(a.criteria).read_text()) if a.criteria else {},
                         confirm=[c for c in a.confirm.split(",") if c], tests=[parse_test_spec(t) for t in a.test],
                         pass_env=a.pass_env, hmac_key=_run_key(a), hmac_key_id=a.hmac_key_id,
-                        gate_env=a.gate_env,
+                        gate_env=a.gate_env, test_user=a.test_user, test_path=a.test_path,
                         timeout=a.timeout, agent=a.agent, human=getpass.getuser())
         res = run(cfg)
         print(json.dumps(res))
@@ -245,7 +247,8 @@ def _w2(a) -> int:
             print(f"approved until {ev['payload']['expires_at']}")
             return 0
         action = a.action[1:] if a.action[:1] == ["--"] else a.action
-        rc, info = gate.act(led, {"kind": "human", "id": getpass.getuser()}, action)
+        import os
+        rc, info = gate.act(led, {"kind": "human", "id": getpass.getuser()}, action, os.getcwd())  # cwd bound
         print(json.dumps(info))
         return rc
     except LedgerError as e:
