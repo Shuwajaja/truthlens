@@ -48,7 +48,10 @@ def referenced_files(argv: list[str], cwd: str | None) -> dict[str, str]:
 
 
 def action_hash(argv: list[str], cwd: str | None = None) -> str:
+    import os
     doc = {"kind": "command", "argv": argv}
+    if cwd is not None:
+        doc["cwd"] = os.path.realpath(cwd)  # approval in dir A is not valid for execution in dir B
     files = referenced_files(argv, cwd)
     if files:
         doc["files"] = files

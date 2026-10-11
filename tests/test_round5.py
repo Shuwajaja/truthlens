@@ -174,3 +174,10 @@ def test_34_review_symlinked_tests_dir_and_key_filename(tmp_path):
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["passed"] == 0 and rep["failed"] >= 1  # original failing test restored, external one not run
     assert key.encode() not in (out / "ledger.jsonl").read_bytes()
+
+
+def test_34_r6_cwd_bound_in_action_hash(tmp_path):
+    a, b = tmp_path / "a", tmp_path / "b"
+    a.mkdir()
+    b.mkdir()
+    assert gate.action_hash(["true"], str(a)) != gate.action_hash(["true"], str(b))
