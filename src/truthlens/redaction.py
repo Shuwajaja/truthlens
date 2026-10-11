@@ -47,7 +47,7 @@ _VALUE_PATTERN = re.compile(
     r"|-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----"
 )
 # NAME=value / NAME: value / --name=value inside free text (env dumps, logs, commands)
-_ASSIGN = re.compile(rf"(?i)(?<![A-Za-z0-9_.-])([\"']?[A-Za-z0-9_.-]{{0,64}}?{_NAME}[A-Za-z0-9_.-]{{0,64}}[\"']?\s{{0,64}}[=:]\s{{0,64}})({_QV})")
+_ASSIGN = re.compile(rf"(?i)(?<![A-Za-z0-9_.-])([\"']?[A-Za-z0-9_.-]{{0,64}}?{_NAME}[A-Za-z0-9_.-]{{0,64}}[\"']?\s*[=:]\s*)({_QV})")
 _URL_CRED = re.compile(r"(?<=://)(?:[^/\s:@]+(?::[^/\s@]*)?|:[^/\s@]+)(?=@)")
 
 
@@ -60,7 +60,12 @@ def _flag_val(m: re.Match) -> str:
     return m.group(0) if _is_counter(flag.lstrip("-")) else m.group(1) + " " + REDACTED
 
 
+MAX_INPUT = 4 * 1024 * 1024  # #32.6: bound the total input instead of the whitespace run
+
+
 def redact_str(value: str) -> str:
+    if len(value) > MAX_INPUT:
+        return REDACTED + " [input too large to redact safely]"
     value = _URL_CRED.sub(REDACTED, value)
     value = _VALUE_PATTERN.sub(REDACTED, value)
 

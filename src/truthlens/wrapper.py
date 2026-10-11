@@ -124,11 +124,8 @@ def child_env(pass_env: list[str], drop: set[str]) -> dict[str, str]:
 
 def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
     """Redact text blobs (diffs, file contents, headers) before they enter the store; binary stays as is."""
-    try:
-        text = data.decode("utf-8")
-    except UnicodeDecodeError:
-        return data
-    return _scrub(text, secrets).encode()
+    # #32.5: non-UTF-8 bytes no longer bypass redaction (surrogateescape keeps the binary bytes intact)
+    return _scrub(data.decode("utf-8", "surrogateescape"), secrets).encode("utf-8", "surrogateescape")
 
 
 def _scrub(text: str, secrets: list[str]) -> str:
@@ -283,7 +280,7 @@ def run(cfg: RunConfig) -> dict:
                 text, trc = "[truthlens: test timeout]", 124
         text = _scrub(text, secrets)
         counts = parse_pytest_counts(text, trc)
-        rep_ = blob(f"$ {t.command}\nexit {trc}\n{text}".encode())
+        rep_ = blob(f"$ {_scrub(t.command, secrets)}\nexit {trc}\n{text}".encode())
         emit(WRAPPER, "test.reported", {"suite": t.command, **counts, "exit_code": trc,
                                         "report_artifact_id": rep_,
                                         "criterion_ids": [i for i in t.criterion_ids if i in texts]})
