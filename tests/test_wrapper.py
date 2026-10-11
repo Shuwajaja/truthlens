@@ -93,7 +93,7 @@ def test_gate_blocks_until_human_approval(tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
     led = tmp_path / "l.jsonl"
     assert main(["init", str(led)]) == 0
-    flag = tmp_path / "deployed"
+    flag = tmp_path.parent / f"{tmp_path.name}-deployed"  # outside the gated tree (in-tree paths go to the copy)
     action = ["touch", str(flag)]
     assert main(["act", str(led), "--", *action]) == 3
     assert not flag.exists()
@@ -121,9 +121,9 @@ def test_junit_counts_not_stdout(tmp_path):
 
 GATE_AGENT = textwrap.dedent("""
     import json, os, subprocess, sys, time, pathlib
-    act = [sys.executable, "-c", "import os,pathlib;pathlib.Path(%r).write_text(str(bool(os.environ.get('DEPLOY_TOKEN'))))" % os.path.abspath('deployed')]
+    act = [sys.executable, "-c", "import os,pathlib;pathlib.Path(%r).write_text(str(bool(os.environ.get('DEPLOY_TOKEN'))))" % os.path.abspath('../deployed')]
     subprocess.run(act)  # bypass attempt: agent runs it itself -> no capability
-    bypass = pathlib.Path('deployed').read_text()
+    bypass = pathlib.Path('../deployed').read_text()
     req = [sys.executable, "-m", "truthlens", "request", "--", *act]
     first = subprocess.run(req, capture_output=True, text=True)
     for _ in range(100):
@@ -155,7 +155,7 @@ def test_gate_channel_blocks_until_human_approves(tmp_path, monkeypatch):
                 blocked = [e for e in Ledger(ledger).read() if e["type"] == "action.blocked"]
                 if blocked:
                     time.sleep(0.3)
-                    assert (r / "deployed").read_text() != "True"  # not executed before approval
+                    assert (tmp_path / "deployed").read_text() != "True"  # not executed before approval
                     main(["approve", str(ledger), blocked[0]["payload"]["action_hash"],
                           "--hmac-key-env", "TL_HMAC", "--hmac-key-id", "k1"])
                     return
@@ -170,7 +170,7 @@ def test_gate_channel_blocks_until_human_approves(tmp_path, monkeypatch):
     types = [e["type"] for e in Ledger(ledger).read()]
     assert types.count("action.blocked") == 1 and types.count("action.executed") == 1
     assert types.index("approval.granted") < types.index("action.executed")
-    assert (r / "deployed").read_text() == "True"  # executed by the wrapper with the capability
+    assert (tmp_path / "deployed").read_text() == "True"  # executed by the wrapper with the capability
     log = b"".join(p.read_bytes() for p in (out / "blobs").rglob("*") if p.is_file())
     assert b"first 3 final 0 bypass False token-seen False" in log
     assert b"deploy-secret" not in log + ledger.read_bytes()
