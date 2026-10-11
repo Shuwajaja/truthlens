@@ -3,7 +3,12 @@
 **See what your AI agent really did.**  
 *Here's what's actually proven.*
 
-For vibe coders and anyone handing work to AI agents — coding, research, writing, admin. Agents produce documents, file changes, visited sources, sent messages, commands and test runs scattered across terminals and folders, and then *tell* you it went well. TruthLens records a run as a self-contained work package — events in a hash-chained, HMAC-signed ledger, artifacts with a manifest, evidence, approvals — and shows it in plain language: *"You asked for X — done, witnessed by Y"* or *"claimed, not witnessed"* (Client Lens, primary view), with a Developer Lens for full detail. The v1 capture adapter is OpenCode (code work); the model is agent- and task-agnostic. It is honest about what it can prove: Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user. "met" means the restored test command that TruthLens started reported success; app code running in the test process can forge it (accepted v1 limit). See [docs/TRUST-LEVELS.md](docs/TRUST-LEVELS.md).
+For vibe coders and anyone handing work to AI agents — coding, research, writing, admin. Agents produce documents, file changes, visited sources, sent messages, commands and test runs scattered across terminals and folders, and then *tell* you it went well. TruthLens records a run as a self-contained work package — events in a hash-chained, HMAC-signed ledger, artifacts with a manifest, evidence, approvals — and shows it in plain language: *"You asked for X — done, witnessed by Y"* or *"claimed, not witnessed"* (Client Lens, primary view), with a Developer Lens for full detail. The v1 capture adapter is OpenCode (code work); the model is agent- and task-agnostic. It is honest about what it can prove — see the [Security promise (v1)](#security-promise-v1) below.
+
+## Security promise (v1)
+
+> Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user.
+> "met" means: the restored test command that TruthLens started reported success; app code running in the test process can forge it (accepted v1 limit).
 
 ## Quickstart (reproducible demo)
 ```bash
@@ -42,7 +47,7 @@ MCP client config example: `{"command": "python", "args": ["-m", "truthlens", "m
 ## Scope / non-goals
 In scope: ledger, verification, redaction, artifact manifest, evidence store, SQLite projections, one capture adapter (OpenCode), approval gate, read-only stdio MCP, web viewer.
 
-Not in v1: comments fed back to agents, cloud sync/hosted storage, multiple agent adapters (Hermes only if time remains), teams/accounts/billing, write access over MCP, remote MCP endpoint, agent orchestration.
+Not in v1: comments fed back to agents, hosted storage or sync, multiple agent adapters, multi-user/billing features, write access over MCP, remote MCP endpoint, agent orchestration.
 
 ## 4-week plan
 | Week | Deliverable | Acceptance |
@@ -65,4 +70,4 @@ Not in v1: comments fed back to agents, cloud sync/hosted storage, multiple agen
 ## License
 **TBD** — pending the provenance and license review in [docs/INVENTORY.md](docs/INVENTORY.md). Until then, all rights reserved; no code is ported before the review is done.
 
-> **Security note:** Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user. Bei gleicher UID kann sich der Agent selbst freigeben; Schutz erst mit eigenem Unix-User/Sandbox. The approval gate is not a sandbox. See `docs/TRUST-LEVELS.md`.
+> **Security note:** Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user. With the same UID the agent can approve itself; protection only with a separate Unix user/sandbox. The approval gate is not a sandbox. See `docs/TRUST-LEVELS.md`.
