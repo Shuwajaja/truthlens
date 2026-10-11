@@ -78,4 +78,4 @@ Total cap 10.00 USD · measured 08:16: $0.6701 · 08:31: $0.6878 (≈ $0.018, He
 ## Next task
 1. Shu: review README PR #77 (#68).
 2. Optional: demo-2 rerun as tl-agent (#62); then #64–#66, #70, #71 (need `agent-ready` + contract lines).
-4. 3-minute product demo / video (still open).
+3. 3-minute product demo / video (still open).
