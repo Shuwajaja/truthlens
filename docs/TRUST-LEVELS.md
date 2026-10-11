@@ -17,3 +17,7 @@ Principles:
 - **A changed action invalidates the approval** (different action hash). Approvals are single-use.
 - **Timeout = deny** (`approval.expired`).
 - Execution ≠ Verification ≠ Approval ≠ Acceptance.
+
+## Lenses
+- **Client Lens (primary):** plain language per request/criterion — "You asked for X — done, witnessed by Y", "claimed, not witnessed", "not done", "review required".
+- **Developer Lens (detail):** events, hashes, diffs, logs, verification output.

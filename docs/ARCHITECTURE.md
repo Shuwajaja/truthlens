@@ -23,4 +23,6 @@ agent (OpenCode) ──► capture (CLI wrapper) ──► core.ledger (JSONL, h
 3. On finish the wrapper hashes outputs into the artifact store (`artifact.recorded`), runs tests (`test.reported`), attaches evidence, writes `run.finished`.
 4. `rebuild` verifies the chain and regenerates SQLite; web and MCP read only from projection + store.
 
+Lenses: Client Lens is the primary plain-language view; Developer Lens is the detail view. Evidence kinds are generic (documents, sources, messages, files, commands, tests); v1 ships only the OpenCode adapter.
+
 Stack: Python 3.12 + 3.13 (CI matrix) stdlib-first core, pytest; Vite + React + TypeScript web; GitHub Actions.
