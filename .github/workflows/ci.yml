@@ -22,5 +22,12 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: pip install -e '.[dev]'
       - run: ruff check src tests
-      - run: pytest -q
+      - name: Separate test user (tl-agent) for the UID-isolation tests
+        run: |
+          sudo useradd --system --create-home --home-dir /srv/tl-agent --shell /usr/sbin/nologin tl-agent
+          sudo chmod 755 /srv/tl-agent
+          sudo install -d -o "$USER" -g tl-agent -m 2770 /srv/tl-agent/wt
+          sudo -u tl-agent /usr/bin/python3 -m venv /srv/tl-agent/venv
+          sudo -u tl-agent /srv/tl-agent/venv/bin/pip install -q pytest
+      - run: pytest -q -rs
       - run: demo/run-demo.sh /tmp/tl-demo --offline

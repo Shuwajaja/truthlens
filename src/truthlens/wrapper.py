@@ -6,10 +6,12 @@ executes itself are evidence. One ledger per run, closed with run.finished, mani
 
 from __future__ import annotations
 
+import difflib
 import hashlib
 import json
 import os
 import re
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -17,7 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from truthlens.canonical import canonical_bytes
-from truthlens.gate import GateServer
+from truthlens.gate import GateServer, _bundled_value_opt, _map_path_arg
 from truthlens.ids import new_id
 from truthlens.ledger import Ledger
 from truthlens.manifest import build_manifest
@@ -29,7 +31,6 @@ ENV_ALLOW = ("PATH", "HOME", "LANG", "LC_ALL", "TERM", "USER", "SHELL", "TMPDIR"
              "XDG_DATA_HOME", "XDG_CACHE_HOME", "XDG_STATE_HOME")
 TEST_PATH = os.pathsep.join(dict.fromkeys([os.path.dirname(sys.executable), "/usr/local/bin", "/usr/bin", "/bin"]))
 CLAIM_TRAILER = re.compile(r"^TRUTHLENS_CLAIMS:\s*(\[.*\])\s*$", re.MULTILINE)
-_COUNT = re.compile(r"(\d+) (passed|failed|skipped|errors?|error)\b")
 
 
 @dataclass
@@ -53,7 +54,16 @@ class RunConfig:
     agent: str = ""
     human: str = "owner"
     gate_env: list[str] = field(default_factory=list)
+    test_user: str | None = None  # run witnessed tests as this unix user (sudo -n -u), e.g. tl-agent
+    test_path: str | None = None  # PATH for the test user (its own venv); default TEST_PATH
 
+
+
+def _has_path(s: str, p: str) -> bool:
+    """True if path p occurs in s as a whole path (followed by end, '/', or a separator), not as a prefix of a
+    sibling like p + '-flag'."""
+    import re as _re
+    return bool(p) and _re.search(_re.escape(p) + r"(?![^/\s:;,'\"=)])", s) is not None
 
 def parse_test_spec(spec: str) -> TestSpec:
     """'c1,c2=pytest -q tests/x.py' -> TestSpec(['c1','c2'], 'pytest -q tests/x.py')."""
@@ -63,21 +73,40 @@ def parse_test_spec(spec: str) -> TestSpec:
     return TestSpec([i.strip() for i in ids.split(",") if i.strip()], cmd.strip())
 
 
-def parse_pytest_counts(output: str, returncode: int) -> dict:
-    """Counts from the pytest summary line. A non-zero exit without counted failures is a failure
-    (crash, collection error) – except exit 5 = no tests collected, which stays passed=0 (unverified, D27)."""
-    c = {"passed": 0, "failed": 0, "skipped": 0}
-    tail = output.strip().splitlines()[-1:] or [""]
-    for n, word in _COUNT.findall(tail[0]):
-        key = "failed" if word.startswith("error") else word
-        c[key] += int(n)
-    if returncode not in (0, 5) and c["failed"] == 0:
+SUDO = "/usr/bin/sudo"
+HELPER_ENV = {"PATH": "/usr/sbin:/usr/bin:/sbin:/bin", "LANG": "C.UTF-8"}
+
+
+class _HelperError(Exception):
+    pass
+
+
+def junit_counts(xml: Path, rc: int) -> dict[str, int]:
+    """Counts from pytest's JUnit XML, never from stdout. Missing/invalid XML -> nothing passed.
+    A non-zero exit (except 5 = no tests collected, D27) is always at least one failure."""
+    import xml.etree.ElementTree as ET
+    bad = rc not in (0, 5)
+    c = {"passed": 0, "failed": int(bad), "skipped": 0}
+    try:
+        root = ET.parse(xml).getroot()
+    except (OSError, ET.ParseError):
+        return c
+    suites = [root] if root.tag == "testsuite" else root.findall("testsuite")
+    try:
+        tot = {k: sum(int(su.get(k, 0) or 0) for su in suites) for k in ("tests", "failures", "errors", "skipped")}
+    except ValueError:
+        return c
+    if not suites or min(tot.values()) < 0 or tot["failures"] + tot["errors"] + tot["skipped"] > tot["tests"]:
+        return c  # malformed / inconsistent XML is no evidence
+    failed = tot["failures"] + tot["errors"]
+    c = {"passed": max(tot["tests"] - failed - tot["skipped"], 0), "failed": failed, "skipped": tot["skipped"]}
+    if bad and c["failed"] == 0:
         c["failed"] = 1
     return c
 
 
-GIT_SAFE = ("-c", "core.hooksPath=/dev/null", "-c", "diff.external=", "-c", "core.fsmonitor=false",
-            "-c", "core.pager=cat", "-c", "protocol.allow=never")
+GIT_SAFE = ("-c", "core.hooksPath=/dev/null", "-c", "core.attributesFile=/dev/null", "-c", "diff.external=",
+             "-c", "core.fsmonitor=false", "-c", "core.pager=cat", "-c", "protocol.allow=never")
 PROTECTED = ("tests/", "test/", "conftest.py", "pytest.ini", "pyproject.toml", "setup.cfg", "tox.ini",
              "package.json")
 
@@ -87,10 +116,35 @@ def _git_env() -> dict[str, str]:
             "GIT_CONFIG_GLOBAL": "/dev/null", "LC_ALL": "C"}
 
 
+def _disable_filters(repo: Path) -> list[str]:
+    """Query repo-configured git filter drivers and return -c overrides to disable them."""
+    extra = []
+    try:
+        out = subprocess.run(["git", *GIT_SAFE, "-C", str(repo), "config", "--name-only", "--get-regexp", r"^filter\."],
+                             capture_output=True, check=False, stdin=subprocess.DEVNULL,
+                             env=_git_env()).stdout.decode()
+        seen = set()
+        for line in out.strip().split("\n"):
+            line = line.strip()
+            if line.startswith("filter."):
+                rest = line[len("filter."):]
+                dot = rest.rfind(".")
+                if dot == -1:
+                    continue
+                name = rest[:rest.rfind(".")]
+                if name and name not in seen:
+                    seen.add(name)
+                    extra.extend(["-c", f"filter.{name}.clean=cat", "-c", f"filter.{name}.smudge=cat",
+                                  "-c", f"filter.{name}.process=", "-c", f"filter.{name}.required=false"])
+    except OSError:
+        pass
+    return extra
+
+
 def _git(repo: Path, *args: str, check: bool = True) -> bytes:
     """Git with a filtered env and agent-controllable hooks/external diff/fsmonitor disabled (#26 review)."""
-    return subprocess.run(["git", *GIT_SAFE, "-C", str(repo), *args], capture_output=True, check=check,
-                          stdin=subprocess.DEVNULL, env=_git_env()).stdout
+    return subprocess.run(["git", *GIT_SAFE, *_disable_filters(repo), "-C", str(repo), *args],
+                          capture_output=True, check=check, stdin=subprocess.DEVNULL, env=_git_env()).stdout
 
 
 def is_protected(rel: str) -> bool:
@@ -114,6 +168,58 @@ def _read(f: Path) -> bytes:
     return b"symlink:" + os.readlink(f).encode() if f.is_symlink() else f.read_bytes()
 
 
+def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
+    path = repo / rel
+    if path.exists() and not path.is_symlink():
+        sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        if sha == before_snapshot.get(rel):
+            return path.read_bytes()
+    return b""
+
+
+def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> bytes:
+    lines: list[str] = []
+    all_keys = sorted(set(before) | set(after))
+    for rel in all_keys:
+        sha_b = before.get(rel)
+        sha_a = after.get(rel)
+        if sha_b == sha_a:
+            continue
+        path = repo / rel
+        if rel not in before:
+            lines.append(f"diff --git a/dev/null b/{rel}")
+            lines.append("new file mode 100644")
+            lines.append("--- /dev/null")
+            lines.append(f"+++ b/{rel}")
+            try:
+                data = _read(path)
+            except OSError:
+                continue
+        elif rel not in after:
+            lines.append(f"diff --git a/{rel} b/dev/null")
+            lines.append("deleted file mode 100644")
+            lines.append(f"--- a/{rel}")
+            lines.append("+++ /dev/null")
+            data = b""
+        else:
+            lines.append(f"diff --git a/{rel} b/{rel}")
+            lines.append(f"--- a/{rel}")
+            lines.append(f"+++ b/{rel}")
+            try:
+                data = _read(path)
+            except OSError:
+                continue
+        if b"\0" in data:
+            lines.append("Binary files differ")
+        else:
+            text = data.decode("utf-8", "replace")
+            src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
+                                             fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
+            lines.extend(l.rstrip("\n") for l in diff)
+    return "\n".join(lines).encode()
+
+
 def snapshot(repo: Path) -> dict[str, str]:
     """path -> sha256 of every tracked or untracked (non-ignored) file in the working tree."""
     out = {}
@@ -124,19 +230,92 @@ def snapshot(repo: Path) -> dict[str, str]:
     return out
 
 
+def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
+    path = repo / rel
+    if path.exists() and not path.is_symlink():
+        sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        if sha == before_snapshot.get(rel):
+            return path.read_bytes()
+    return b""
+
+
+def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> bytes:
+    lines: list[str] = []
+    all_keys = sorted(set(before) | set(after))
+    for rel in all_keys:
+        sha_b = before.get(rel)
+        sha_a = after.get(rel)
+        if sha_b == sha_a:
+            continue
+        path = repo / rel
+        if rel not in before:
+            lines.append(f"diff --git a/dev/null b/{rel}")
+            lines.append("new file mode 100644")
+            lines.append("--- /dev/null")
+            lines.append(f"+++ b/{rel}")
+            try:
+                data = _read(path)
+            except OSError:
+                continue
+        elif rel not in after:
+            lines.append(f"diff --git a/{rel} b/dev/null")
+            lines.append("deleted file mode 100644")
+            lines.append(f"--- a/{rel}")
+            lines.append("+++ /dev/null")
+            data = b""
+        else:
+            lines.append(f"diff --git a/{rel} b/{rel}")
+            lines.append(f"--- a/{rel}")
+            lines.append(f"+++ b/{rel}")
+            try:
+                data = _read(path)
+            except OSError:
+                continue
+        if b"\0" in data:
+            lines.append("Binary files differ")
+        else:
+            text = data.decode("utf-8", "replace")
+            src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
+                                             fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
+            lines.extend(l.rstrip("\n") for l in diff)
+    return "\n".join(lines).encode()
+
+
 def child_env(pass_env: list[str], drop: set[str]) -> dict[str, str]:
     env = {k: os.environ[k] for k in ENV_ALLOW if k in os.environ}
     env.update({k: os.environ[k] for k in pass_env if k in os.environ and k not in drop})
     return env
 
 
+def _strip_secret_bytes(data: bytes, secrets: list[str]) -> bytes:
+    """Remove known secrets at byte level (before any decoding, so non-UTF-8 keys match too)."""
+    for sec in secrets:
+        b = sec.encode("utf-8", "surrogateescape") if sec else b""
+        if len(b) >= 4:
+            data = data.replace(b, b"[REDACTED]")
+    return data
+
+
+def _escaped_repr(secret: str) -> str | None:
+    b = secret.encode("utf-8", "surrogateescape")
+    if all(0x20 <= c < 0x7f for c in b):
+        return None
+    return repr(b)[2:-1]
+
+
 def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
-    """Redact text blobs (diffs, file contents, headers) before they enter the store; binary stays as is."""
-    try:
-        text = data.decode("utf-8")
-    except UnicodeDecodeError:
-        return data
-    return _scrub(text, secrets).encode()
+    """Redact blobs before they enter the store. Known secrets (incl. the HMAC key) are removed at byte level
+    first; then pattern redaction runs on the surrogateescape-decoded text, so non-UTF-8 bytes stay intact."""
+    data = _strip_secret_bytes(data, secrets)
+    text = data.decode("utf-8", "surrogateescape")
+    for sec in secrets:
+        if len(sec) < 4:
+            continue
+        escaped = _escaped_repr(sec)
+        if escaped and escaped in text:
+            text = text.replace(escaped, "[REDACTED]")
+    return _scrub(text, secrets).encode("utf-8", "surrogateescape")
 
 
 def _scrub(text: str, secrets: list[str]) -> str:
@@ -178,14 +357,14 @@ def run(cfg: RunConfig) -> dict:
     run_id = new_id("run")
     secrets = [os.environ.get(k, "") for k in cfg.pass_env + cfg.gate_env]
     if cfg.hmac_key:
-        secrets.append(cfg.hmac_key.decode("utf-8", "replace"))  # never store the key in clear if the agent leaks it
+        secrets.append(cfg.hmac_key.decode("utf-8", "surrogateescape"))  # never store the key in clear if the agent leaks it
     drop = {k for k, v in os.environ.items() if cfg.hmac_key and v.encode() == cfg.hmac_key}
 
     def emit(actor: dict, t: str, payload: dict) -> dict:
         return led.append(run_id, actor, t, payload)
 
     def blob(data: bytes) -> str:
-        return store.put(data)
+        return store.put(_strip_secret_bytes(data, secrets))  # every blob: known secrets removed before hashing
 
     head = _git(cfg.repo, "rev-parse", "HEAD").decode().strip()
     emit(WRAPPER, "run.started", {"repo": str(cfg.repo), "ref": head,
@@ -215,7 +394,15 @@ def run(cfg: RunConfig) -> dict:
 
     # before snapshot
     before = snapshot(cfg.repo)
-    pre_diff = _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "HEAD", "--binary")
+    head_files = {}
+    for line in _git(cfg.repo, "ls-tree", "-r", "-z", "HEAD").decode().split("\0"):
+        if line:
+            parts = line.split("\t", 1)
+            if len(parts) == 2:
+                meta, rel = parts
+                sha = meta.split(" ")[2] if " " in meta else ""
+                head_files[rel] = sha
+    pre_diff = _make_diff(cfg.repo, head_files, before)
     sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
     protected_before = {rel: _read(cfg.repo / rel) for rel in before if is_protected(rel)}
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "sha256": sha, "kind": "file_changed",
@@ -223,7 +410,7 @@ def run(cfg: RunConfig) -> dict:
 
     # agent run: no shell, stdin closed, filtered env, HMAC key never passed
     env = child_env(cfg.pass_env, drop | set(cfg.gate_env))
-    gate_dir = cfg.out_dir / "gate"
+    gate_dir = Path(tempfile.mkdtemp(prefix="tl-gate-"))  # #29.4: inbox outside the run dir, mode 700
     env["TRUTHLENS_GATE_DIR"] = str(gate_dir)
     gated_env = child_env(cfg.gate_env, drop - set(cfg.gate_env))
     server = GateServer(led, gate_dir, str(cfg.repo), gated_env,
@@ -235,8 +422,8 @@ def run(cfg: RunConfig) -> dict:
     except subprocess.TimeoutExpired as e:
         rc, out, err = 124, e.stdout or b"", (e.stderr or b"") + b"\n[truthlens: timeout]"
     server.stop()
-    stdout = _scrub(out.decode("utf-8", "replace"), secrets)
-    stderr = _scrub(err.decode("utf-8", "replace"), secrets)
+    stdout = _scrub(_strip_secret_bytes(out, secrets).decode("utf-8", "replace"), secrets)
+    stderr = _scrub(_strip_secret_bytes(err, secrets).decode("utf-8", "replace"), secrets)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "command_run",
                                         "sha256": blob(f"$ {_scrub(' '.join(cfg.command), secrets)}\n--- stdout\n{stdout}\n"
                                                        f"--- stderr\n{stderr}".encode()),
@@ -251,10 +438,7 @@ def run(cfg: RunConfig) -> dict:
     # after snapshot: diff + one artifact per changed file
     after = snapshot(cfg.repo)
     changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
-    diff = _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "HEAD", "--binary")
-    for rel in changed:
-        if rel not in before and rel in after:
-            diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "--no-index", "--binary", "/dev/null", rel, check=False)
+    diff = _make_diff(cfg.repo, before, after)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
                                         "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
                                         "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
@@ -273,7 +457,7 @@ def run(cfg: RunConfig) -> dict:
                                             "sha256": blob("\n".join(tampered).encode()), "refers_to": "protected",
                                             "changed": [_scrub(c, secrets) for c in tampered], "result": "info"})
     for t in cfg.tests:
-        with tempfile.TemporaryDirectory(prefix="tl-test-") as td:
+        with tempfile.TemporaryDirectory(prefix="tl-test-", ignore_cleanup_errors=True) as td:
             work, home = Path(td) / "w", Path(td) / "home"
             # round-5 finding c: copy only tracked + non-ignored files (git-ignored conftest.py never enters),
             # drop shadow modules (pytest.py, _pytest/, sitecustomize.py, *.pth), run with PYTHONSAFEPATH
@@ -292,21 +476,139 @@ def run(cfg: RunConfig) -> dict:
                 if is_protected(rel) and rel not in protected_before:
                     (work / rel).unlink(missing_ok=True)
             for rel, data in protected_before.items():
+                if not Path(os.path.realpath(work / rel)).parent.is_relative_to(work.resolve()):
+                    continue  # #32.5: check containment BEFORE creating anything (no mkdir through symlinks)
                 (work / rel).parent.mkdir(parents=True, exist_ok=True)
                 (work / rel).unlink(missing_ok=True)
                 (work / rel).write_bytes(data)
-            test_env = {"PATH": TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8", "TMPDIR": td,
-                        "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
-            try:
-                tp = subprocess.run(t.command, shell=True, cwd=work, env=test_env, stdin=subprocess.DEVNULL,
-                                    capture_output=True, timeout=600, check=False)
-                text, trc = (tp.stdout + tp.stderr).decode("utf-8", "replace"), tp.returncode
-            except subprocess.TimeoutExpired:
-                text, trc = "[truthlens: test timeout]", 124
+            if cfg.test_user:
+                rc_cmd = [SUDO, "-n", "-u", cfg.test_user, "/usr/bin/env", "-i", f"PATH={cfg.test_path or TEST_PATH}",
+                          "python", "-s", "-c", "import pytest"]
+            else:
+                rc_cmd = [sys.executable, "-s", "-c", "import pytest"]
+            try:  # sudo is absolute and started with a trusted env, never from --test-path
+                runner_ok = subprocess.run(rc_cmd, cwd="/", capture_output=True, check=False,
+                                           env=HELPER_ENV if cfg.test_user else
+                                           {"PATH": TEST_PATH, "HOME": str(home), "PYTHONNOUSERSITE": "1"}
+                                           ).returncode == 0
+            except OSError:
+                runner_ok = False
+            test_env = {"PATH": cfg.test_path or TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8",
+                        "TMPDIR": str(home), "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
+            jx = Path(td) / "junit" / "report.xml"  # outside the copied tree; via env, not appended to the line
+            jx.parent.mkdir()
+            test_env["PYTEST_ADDOPTS"] = f"--junitxml={jx}"
+            _repo_real = str(cfg.repo.resolve())
+            _work_str = str(work)
+            resolve = lambda p, _repo_real=_repo_real, _work_str=_work_str: (os.path.realpath(p).replace(_repo_real, _work_str, 1)
+                                  if os.path.realpath(p).startswith(_repo_real)
+                                  else None)
+            _raw_tokens = shlex.split(t.command)
+            _refused_opts = frozenset({"PYTHONPATH", "PYTEST_ADDOPTS", "-o", "--override-ini", "-c", "--rootdir", "-p", "--confcutdir", "--config-file"})
+            _refused = bool(_raw_tokens and _raw_tokens[0] == "env")
+            if not _refused:
+                for _i, _tok in enumerate(_raw_tokens):
+                    _nxt = _raw_tokens[_i + 1] if _i + 1 < len(_raw_tokens) else ""
+                    if _tok == "-p" and _nxt.startswith("no:") or _tok.startswith("-pno:"):
+                        continue  # disabling a plugin is allowed; loading one is not
+                    if _i > 0 and _raw_tokens[_i - 1] == "-p" and _tok.startswith("no:"):
+                        continue
+                    if "=" in _tok and not _tok.startswith("-") and _tok.split("=", 1)[0].isidentifier():
+                        _refused = True  # VAR=value prefix
+                        break
+                    if any(_tok == _p or _tok.startswith(_p + "=") or (len(_p) == 2 and _tok.startswith(_p))
+                           for _p in _refused_opts):
+                        _refused = True
+                        break
+                    if len(_tok) > 2 and _bundled_value_opt(_tok):  # -qc<x>, -qo<x>, -vp<x>
+                        _refused = True
+                        break
+            if _refused:
+                text, trc = "[truthlens: forbidden option in test command; refused]", 125
+                counts = {"passed": 0, "failed": 0, "skipped": 0}
+            else:
+                tokens = [_map_path_arg(tok, resolve) for tok in _raw_tokens]
+                cmd = shlex.join(tokens)
+                argv, env_ = ["/bin/sh", "-c", cmd], test_env
+                helper_err = None
+                _repo_given = str(cfg.repo)
+                _check_tokens = list(argv)
+                if env_ is not None:
+                    _check_tokens.extend(f"{k}={v}" for k, v in env_.items())
+                _live_refused = any(
+                    _has_path(_val, _repo_given) or _has_path(_val, _repo_real)
+                    for _val in _check_tokens
+                )
+                if _live_refused:
+                    text, trc = "[truthlens: live repo path in test command/env; refused]", 125
+                    counts = {"passed": 0, "failed": 0, "skipped": 0}
+                else:
+                    if cfg.test_user:
+                        # separate UID: test code cannot read the HMAC key, the rollback anchors or other box secrets.
+                        # Leftover processes of that user are killed first (pkill exit 1 = none; anything else aborts).
+                        u = cfg.test_user
+                        try:
+                            ok = subprocess.run([SUDO, "-n", "-u", u, "/bin/true"], capture_output=True, check=False,
+                                                env=HELPER_ENV).returncode == 0
+                            pk = subprocess.run([SUDO, "-n", "-u", u, "/usr/bin/pkill", "-KILL", "-u", u],
+                                                capture_output=True, check=False, env=HELPER_ENV) if ok else None
+                        except OSError:
+                            ok, pk = False, None
+                        if ok and pk is not None and pk.returncode in (0, 1):
+                            if pk.returncode == 1:
+                                pg = subprocess.run([SUDO, "-n", "-u", u, "/usr/bin/pgrep", "-u", u],
+                                                    capture_output=True, check=False, env=HELPER_ENV)
+                                if pg.returncode != 1:
+                                    helper_err = f"sudo/pkill as {u} failed (pkill rc 1 but pgrep rc {pg.returncode})"
+                                    ok_clean = False
+                                else:
+                                    ok_clean = True
+                            else:
+                                ok_clean = True
+                        else:
+                            ok_clean = False
+                            if pk is None:
+                                helper_err = f"sudo as {u} failed"
+                            elif pk.returncode not in (0, 1):
+                                helper_err = f"sudo/pkill as {u} failed (exit {pk.returncode})"
+                            else:
+                                helper_err = f"sudo/pkill as {u} failed"
+                        if ok_clean:
+                            os.chmod(td, 0o711)
+                            try:
+                                ch = subprocess.run([SUDO, "-n", "chown", "-R", u, str(work), str(home), str(jx.parent)],
+                                                    capture_output=True, check=False, env=HELPER_ENV)
+                            except OSError:
+                                ch = subprocess.CompletedProcess([], 127)
+                            if ch.returncode != 0:
+                                helper_err = f"chown to {u} failed (exit {ch.returncode})"
+                        argv = [SUDO, "-n", "-u", u, "/usr/bin/env", "-i", *[f"{k}={v}" for k, v in test_env.items()], *argv]
+                        env_ = None
+                    try:
+                        if helper_err:
+                            raise _HelperError(helper_err)
+                        tp = subprocess.run(argv, cwd=work, env=env_, stdin=subprocess.DEVNULL,
+                                            capture_output=True, timeout=600, check=False)
+                        text, trc = _strip_secret_bytes(tp.stdout + tp.stderr, secrets).decode("utf-8", "replace"), tp.returncode
+                    except subprocess.TimeoutExpired:
+                        text, trc = "[truthlens: test timeout]", 124
+                    except _HelperError as e:  # isolation could not be established: no evidence, run still finishes
+                        text, trc = f"[truthlens: test isolation failed: {e}; tests not run]", 125
+                    counts = junit_counts(jx, trc) if not helper_err else {"passed": 0, "failed": 0, "skipped": 0}
+                    if cfg.test_user:  # hand the copy back so the temp dir can be removed; failure is reported
+                        try:
+                            back = subprocess.run([SUDO, "-n", "chown", "-R", str(os.getuid()), str(work), str(home),
+                                                   str(jx.parent)], capture_output=True, check=False, env=HELPER_ENV)
+                        except OSError:
+                            back = subprocess.CompletedProcess([], 127)
+                        if back.returncode != 0 and not helper_err:
+                            text += f"\n[truthlens: chown back failed (exit {back.returncode}); temp dir may remain]"
         text = _scrub(text, secrets)
-        counts = parse_pytest_counts(text, trc)
-        rep_ = blob(f"$ {t.command}\nexit {trc}\n{text}".encode())
-        emit(WRAPPER, "test.reported", {"suite": t.command, **counts, "exit_code": trc,
+        if "pytest" in t.command and not runner_ok:  # #32.4: decided independently of the test output
+            counts = {"passed": 0, "failed": 0, "skipped": 0}
+            text += "\n[truthlens: pytest not importable in the clean env; result not decisive]"
+        rep_ = blob(f"$ {_scrub(t.command, secrets)}\nexit {trc}\n{text}".encode())
+        emit(WRAPPER, "test.reported", {"suite": _scrub(t.command, secrets), **counts, "exit_code": trc,
                                         "report_artifact_id": rep_,
                                         "criterion_ids": [i for i in t.criterion_ids if i in texts]})
 
