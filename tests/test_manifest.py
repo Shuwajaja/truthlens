@@ -18,8 +18,8 @@ def demo_events():
         ev(5, W, "test.reported", {"suite": "s", "passed": 2, "failed": 0, "criterion_ids": ["c1"]}),
         ev(6, W, "test.reported", {"suite": "s", "passed": 0, "failed": 0, "skipped": 3, "criterion_ids": ["c3"]}),
         ev(7, AG, "test.reported", {"suite": "fake", "passed": 9, "failed": 0, "criterion_ids": ["c3"]}),
-        ev(8, AG, "agent.claim", {"claim_id": "k1", "text": "all done", "criterion_ids": ["c1", "c3"]}),
-        ev(9, AG, "agent.claim", {"claim_id": "k2", "text": "done", "criterion_ids": []}),
+        ev(8, AG, "agent.claim", {"kind": "completion", "claim_id": "k1", "text": "all done", "criterion_ids": ["c1", "c3"]}),
+        ev(9, AG, "agent.claim", {"kind": "completion", "claim_id": "k2", "text": "done", "criterion_ids": []}),
         ev(10, W, "artifact.recorded", {"artifact_id": "art_1", "path": "index.html", "sha256": "a" * 64}),
         ev(11, W, "run.finished", {"exit_code": 0, "status": "ok", "last_hash": "h10"}),
     ]
@@ -48,7 +48,7 @@ def test_manifest_bound_to_ledger():
 
 def test_claim_judged_by_witness_after_it():
     evs = [ev(1, H, "criterion.recorded", {"criterion_id": "c1", "text": "x", "source": "user"}),
-           ev(2, AG, "agent.claim", {"claim_id": "k1", "text": "done", "criterion_ids": ["c1"]}),
+           ev(2, AG, "agent.claim", {"kind": "completion", "claim_id": "k1", "text": "done", "criterion_ids": ["c1"]}),
            ev(3, W, "test.reported", {"suite": "s", "passed": 1, "failed": 0, "criterion_ids": ["c1"]})]
     assert claims(evs)[0]["finding"] == "supported"
     evs.append(ev(4, W, "test.reported", {"suite": "s", "passed": 0, "failed": 1, "criterion_ids": ["c1"]}))

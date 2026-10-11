@@ -68,7 +68,7 @@ def claims(events: list[dict]) -> list[dict]:
     for ev in events:
         if ev["type"] == "agent.claim":
             ids = ev["payload"].get("criterion_ids") or []
-            ok = (ev["payload"].get("kind", "completion") == "completion" and bool(ids)
+            ok = (ev["payload"].get("kind") == "completion" and bool(ids)
                   and all(status.get(c) == "met" for c in ids))
             out.append({"claim_id": ev["payload"].get("claim_id"), "text": ev["payload"].get("text", ""),
                         "criterion_ids": ids, "finding": "supported" if ok else "claim_unwitnessed"})
@@ -107,8 +107,11 @@ def check_manifest(manifest: dict, events: list[dict], blob_exists=None) -> list
         if manifest.get(key) != expected[key]:
             errs.append(f"{key} differs from ledger")
     started = next((e for e in events if e["type"] == "run.started"), None)
-    if started and started["payload"].get("agent") and (manifest.get("agent") or {}).get("name") != started["payload"]["agent"]:
-        errs.append("agent differs from run.started")  # #27.5
+    mag = manifest.get("agent")
+    if not isinstance(mag, dict):
+        errs.append("manifest agent must be an object")
+    elif started is not None and mag.get("name", "") != started["payload"].get("agent", ""):
+        errs.append("agent differs from run.started")  # #27.5, empty names compared too
     if blob_exists is not None:
         errs += [f"blob missing: {a['sha256'][:12]}" for a in expected["artifacts"] if not blob_exists(a["sha256"])]
     return errs
