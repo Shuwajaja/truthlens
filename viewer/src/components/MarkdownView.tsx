@@ -54,10 +54,10 @@ function parseBlocks(source: string): Block[] {
   return blocks
 }
 
-/** Inline: `code`, [label](url) → plain text only (no HTML). */
+/** Inline: emphasis, `code`, [label](url) → React elements (no raw HTML). */
 function renderInline(text: string): ReactNode[] {
   const parts: ReactNode[] = []
-  const re = /`([^`]+)`|\[([^\]]+)\]\(([^)]+)\)/g
+  const re = /`([^`]+)`|\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*/g
   let last = 0
   let m: RegExpExecArray | null
   let key = 0
@@ -69,8 +69,12 @@ function renderInline(text: string): ReactNode[] {
           {m[1]}
         </code>,
       )
-    } else {
+    } else if (m[2] !== undefined) {
       parts.push(`${m[2]} (${m[3]})`)
+    } else if (m[4] !== undefined) {
+      parts.push(<strong key={key++}>{renderInline(m[4])}</strong>)
+    } else if (m[5] !== undefined) {
+      parts.push(<em key={key++}>{renderInline(m[5])}</em>)
     }
     last = m.index + m[0].length
   }
