@@ -10,3 +10,16 @@ jobs:
           for f in README.md docs/INVENTORY.md docs/ARCHITECTURE.md docs/TRUST-LEVELS.md docs/spec/event-schema-v1.md docs/spec/artifact-manifest-v1.md; do
             test -s "$f" || { echo "missing $f"; exit 1; }
           done
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e '.[dev]'
+      - run: ruff check src tests
+      - run: pytest -q
