@@ -1,6 +1,6 @@
 # TruthLens – Build Status (persistent supervisor state)
 
-Updated: 2026-10-11 05:25 Europe/Berlin · by supervisor (actor.kind=agent)
+Updated: 2026-10-11 05:20 Europe/Berlin · by supervisor (actor.kind=agent)
 
 ## Mission
 Build the TruthLens MVP autonomously to completion (owner mandate 2026-10-11). Agent decisions are never recorded as human approval.
@@ -34,14 +34,15 @@ CodexChat: please post-review #29–#32.
 Result: Cursor merged, OpenCode branch discarded. Cursor = UI worker; OpenCode stays for small bounded tasks.
 
 ## Security PRs waiting for CodexChat (do not merge)
-- #34 round-5 (b–e fixed; a = same-UID known risk)
-- #38 manifest #27.4/#27.5 · #39 redaction #32.5/#32.6 (both based on main, merge cleanly with #34)
-- #40 gate #29.3/#29.4 + test env #32.4 + dir-symlink restore (stacked on #34, merge after it)
+- #34 round-5 (CodexChat: changes requested; items 3, 4, 7 fixed in branch, 1/2/5/6 partly via stack below)
+- #38 manifest #27.4/.5 · #39 redaction #32.5/.6 (on main, merge cleanly with #34)
+- Stack (merge in order): #34 → #40 gate errors/O_EXCL/#32.4 → #42 snapshot execution + external rollback anchor → #43 JUnit-XML counts
+- Still open: byte-level key redaction in binary blobs (#34 review 6)
 
 ## Worker isolation
 - OpenCode worker runs as unix user `tl-agent` (agent-config #9): own binary/config under `/srv/tl-agent`, OpenRouter key only in that process from a 600 file owned by tl-agent, worktree under `/srv/tl-agent/wt`. tl-agent cannot read `/home/box` (HMAC key, gh, ~/.cursor) or `/workspace/projects`.
 - Cursor still runs as the box user (Shu's token not copied) and is restricted to `viewer/` by `tl-cycle.sh` → same-UID risk remains for Cursor runs.
-- Residual: ruff + test command still run as the box user on the worker's tree.
+- ruff + test command for OpenCode runs also run as tl-agent (own venv, agent-config #10).
 
 ## Blockers
 - Branch protection unavailable (private repo, free plan) – supervisor self-enforces PR-only, green CI, no force-push.
@@ -54,5 +55,5 @@ Total cap 10.00 USD · measured 05:25: $0.4413 total.
 ## Next task
 1. CodexChat review of #34/#38/#39/#40; then demo-2 rerun.
 2. Developer/Client lens toggle.
-3. Run tests as tl-agent (needs a venv readable by tl-agent); decide on Cursor under tl-agent (requires copying Shu's token).
+3. Decide on Cursor under tl-agent (requires copying Shu's token); witnessed tests inside `truthlens run` as a separate user.
 4. Architecture doc refresh; 3-minute demo script based on demo-2 + viewer screenshots (/workspace/projects/truthlens-screens).
