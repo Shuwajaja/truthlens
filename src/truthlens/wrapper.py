@@ -168,6 +168,58 @@ def _read(f: Path) -> bytes:
     return b"symlink:" + os.readlink(f).encode() if f.is_symlink() else f.read_bytes()
 
 
+def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
+    path = repo / rel
+    if path.exists() and not path.is_symlink():
+        sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        if sha == before_snapshot.get(rel):
+            return path.read_bytes()
+    return b""
+
+
+def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> bytes:
+    lines: list[str] = []
+    all_keys = sorted(set(before) | set(after))
+    for rel in all_keys:
+        sha_b = before.get(rel)
+        sha_a = after.get(rel)
+        if sha_b == sha_a:
+            continue
+        path = repo / rel
+        if rel not in before:
+            lines.append(f"diff --git a/dev/null b/{rel}")
+            lines.append("new file mode 100644")
+            lines.append("--- /dev/null")
+            lines.append(f"+++ b/{rel}")
+            try:
+                data = _read(path)
+            except OSError:
+                continue
+        elif rel not in after:
+            lines.append(f"diff --git a/{rel} b/dev/null")
+            lines.append("deleted file mode 100644")
+            lines.append(f"--- a/{rel}")
+            lines.append("+++ /dev/null")
+            data = b""
+        else:
+            lines.append(f"diff --git a/{rel} b/{rel}")
+            lines.append(f"--- a/{rel}")
+            lines.append(f"+++ b/{rel}")
+            try:
+                data = _read(path)
+            except OSError:
+                continue
+        if b"\0" in data:
+            lines.append("Binary files differ")
+        else:
+            text = data.decode("utf-8", "replace")
+            src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
+                                             fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
+            lines.extend(l.rstrip("\n") for l in diff)
+    return "\n".join(lines).encode()
+
+
 def snapshot(repo: Path) -> dict[str, str]:
     """path -> sha256 of every tracked or untracked (non-ignored) file in the working tree."""
     out = {}
@@ -254,19 +306,16 @@ def _escaped_repr(secret: str) -> str | None:
 
 def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
     """Redact blobs before they enter the store. Known secrets (incl. the HMAC key) are removed at byte level
-    first, so they never survive inside binary / non-UTF-8 data; pattern redaction applies to text."""
+    first; then pattern redaction runs on the surrogateescape-decoded text, so non-UTF-8 bytes stay intact."""
     data = _strip_secret_bytes(data, secrets)
-    try:
-        text = data.decode("utf-8")
-    except UnicodeDecodeError:
-        return data
+    text = data.decode("utf-8", "surrogateescape")
     for sec in secrets:
         if len(sec) < 4:
             continue
         escaped = _escaped_repr(sec)
         if escaped and escaped in text:
             text = text.replace(escaped, "[REDACTED]")
-    return _scrub(text, secrets).encode()
+    return _scrub(text, secrets).encode("utf-8", "surrogateescape")
 
 
 def _scrub(text: str, secrets: list[str]) -> str:
