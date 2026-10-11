@@ -113,6 +113,10 @@ def test_junit_counts_not_stdout(tmp_path):
     assert junit_counts(x, 1) == {"passed": 2, "failed": 1, "skipped": 1}
     x.write_text('<testsuite tests="3" failures="0" errors="0" skipped="0"/>')
     assert junit_counts(x, 2)["failed"] == 1  # non-zero exit always fails
+    x.write_text('<testsuite tests="garbage"/>')
+    assert junit_counts(x, 0)["passed"] == 0
+    x.write_text('<testsuite tests="0" failures="-1"/>')
+    assert junit_counts(x, 0)["passed"] == 0
 
 
 GATE_AGENT = textwrap.dedent("""
