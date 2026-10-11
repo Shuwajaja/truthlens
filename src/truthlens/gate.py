@@ -231,8 +231,8 @@ def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
         cands = [a, a.split("=", 1)[1] if "=" in a else ""]
         if len(a) > 2 and a[0] == "-" and a[1] != "-":
             cands.append(a[2:])
-        for c in list(cands):
-            cands.extend(c.split(":"))
+        for c in list(cands):  # split fully (not only at the first '='): --override-ini=pythonpath=<alias>
+            cands.extend(re.split(r"[=:,]", c))
         for c in cands:
             if c and _os.path.isabs(c) and _in_tree(c, root) is None:
                 real = _os.path.realpath(c)

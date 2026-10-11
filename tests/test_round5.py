@@ -848,3 +848,29 @@ def test_r6_gate_symlink_alias_in_pathlist_refused(tmp_path):
         os.symlink(str(repo), str(alias))
     with pytest.raises(LedgerError, match="live repo path via symlink"):
         gate.act(led, {"kind": "agent", "id": "a"}, ["sh", f"PATHLIST={a_dir}:{alias}"], str(repo))
+
+
+def test_r7_bundled_short_c_refused(tmp_path):
+    """-qc<alias>/pytest.ini: bundled short option carrying -c with attached value -> refused (125)."""
+    r, crit = _repo(tmp_path)
+    alias = tmp_path / "alias"
+    os.symlink(str(r), str(alias))
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2={sys.executable} -m pytest -qc{alias}/pytest.ini test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "-c", "pass"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["exit_code"] == 125 and rep["passed"] == 0
+
+
+def test_r7_gate_nested_override_ini_alias_into_git_refused(tmp_path):
+    """--override-ini=pythonpath=<alias to repo/.git>: inner value is checked too -> LedgerError."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    (repo / ".git").mkdir(parents=True)
+    alias = tmp_path / "alias"
+    os.symlink(str(repo / ".git"), str(alias))
+    with pytest.raises(LedgerError, match="symlink"):
+        gate.act(led, {"kind": "agent", "id": "a"}, [sys.executable, "-m", "pytest",
+                 f"--override-ini=pythonpath={alias}"], str(repo))

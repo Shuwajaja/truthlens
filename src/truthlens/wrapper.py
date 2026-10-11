@@ -471,10 +471,17 @@ def run(cfg: RunConfig) -> dict:
                            for _p in _refused_opts):
                         _refused = True
                         break
-                    m = re.match(r"^-([A-Za-z]{2,})$", _tok)
-                    if m and ("c" in m.group(1) or "p" in m.group(1) or "o" in m.group(1)):
-                        _refused = True
-                        break
+                    if len(_tok) > 2 and _tok[0] == "-" and _tok[1] != "-":
+                        # bundled short options (-qc<x>, -qo<x>, -vp<x>): walk until the first value-taking flag
+                        for _j, _ch in enumerate(_tok[1:], 1):
+                            if _ch in "cop":
+                                if not (_ch == "p" and _tok[_j + 1:].startswith("no:")):
+                                    _refused = True
+                                break
+                            if _ch in "km" or not _ch.isalpha():
+                                break
+                        if _refused:
+                            break
             if _refused:
                 text, trc = "[truthlens: forbidden option in test command; refused]", 125
                 counts = {"passed": 0, "failed": 0, "skipped": 0}
