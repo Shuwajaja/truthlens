@@ -6,10 +6,12 @@ executes itself are evidence. One ledger per run, closed with run.finished, mani
 
 from __future__ import annotations
 
+import difflib
 import hashlib
 import json
 import os
 import re
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -118,7 +120,11 @@ def _disable_filters(repo: Path) -> list[str]:
         for line in out.strip().split("\n"):
             line = line.strip()
             if line.startswith("filter."):
-                name = line.split(".", 1)[1].split(".", 1)[0]
+                rest = line[len("filter."):]
+                dot = rest.rfind(".")
+                if dot == -1:
+                    continue
+                name = rest[:rest.rfind(".")]
                 if name and name not in seen:
                     seen.add(name)
                     extra.extend(["-c", f"filter.{name}.clean=cat", "-c", f"filter.{name}.smudge=cat",
@@ -165,6 +171,58 @@ def snapshot(repo: Path) -> dict[str, str]:
     return out
 
 
+def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
+    path = repo / rel
+    if path.exists() and not path.is_symlink():
+        sha = hashlib.sha256(path.read_bytes()).hexdigest()
+        if sha == before_snapshot.get(rel):
+            return path.read_bytes()
+    return b""
+
+
+def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> bytes:
+    lines: list[str] = []
+    all_keys = sorted(set(before) | set(after))
+    for rel in all_keys:
+        sha_b = before.get(rel)
+        sha_a = after.get(rel)
+        if sha_b == sha_a:
+            continue
+        path = repo / rel
+        if rel not in before:
+            lines.append(f"diff --git a/dev/null b/{rel}")
+            lines.append("new file mode 100644")
+            lines.append("--- /dev/null")
+            lines.append(f"+++ b/{rel}")
+            try:
+                data = _read(path)
+            except OSError:
+                continue
+        elif rel not in after:
+            lines.append(f"diff --git a/{rel} b/dev/null")
+            lines.append("deleted file mode 100644")
+            lines.append(f"--- a/{rel}")
+            lines.append("+++ /dev/null")
+            data = b""
+        else:
+            lines.append(f"diff --git a/{rel} b/{rel}")
+            lines.append(f"--- a/{rel}")
+            lines.append(f"+++ b/{rel}")
+            try:
+                data = _read(path)
+            except OSError:
+                continue
+        if b"\0" in data:
+            lines.append("Binary files differ")
+        else:
+            text = data.decode("utf-8", "replace")
+            src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
+                                             fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
+            lines.extend(l.rstrip("\n") for l in diff)
+    return "\n".join(lines).encode()
+
+
 def child_env(pass_env: list[str], drop: set[str]) -> dict[str, str]:
     env = {k: os.environ[k] for k in ENV_ALLOW if k in os.environ}
     env.update({k: os.environ[k] for k in pass_env if k in os.environ and k not in drop})
@@ -180,6 +238,13 @@ def _strip_secret_bytes(data: bytes, secrets: list[str]) -> bytes:
     return data
 
 
+def _escaped_repr(secret: str) -> str | None:
+    b = secret.encode("utf-8", "surrogateescape")
+    if all(0x20 <= c < 0x7f for c in b):
+        return None
+    return repr(b)[2:-1]
+
+
 def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
     """Redact blobs before they enter the store. Known secrets (incl. the HMAC key) are removed at byte level
     first, so they never survive inside binary / non-UTF-8 data; pattern redaction applies to text."""
@@ -188,6 +253,12 @@ def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
         text = data.decode("utf-8")
     except UnicodeDecodeError:
         return data
+    for sec in secrets:
+        if len(sec) < 4:
+            continue
+        escaped = _escaped_repr(sec)
+        if escaped and escaped in text:
+            text = text.replace(escaped, "[REDACTED]")
     return _scrub(text, secrets).encode()
 
 
@@ -267,7 +338,15 @@ def run(cfg: RunConfig) -> dict:
 
     # before snapshot
     before = snapshot(cfg.repo)
-    pre_diff = _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "HEAD")
+    head_files = {}
+    for line in _git(cfg.repo, "ls-tree", "-r", "-z", "HEAD").decode().split("\0"):
+        if line:
+            parts = line.split("\t", 1)
+            if len(parts) == 2:
+                meta, rel = parts
+                sha = meta.split(" ")[2] if " " in meta else ""
+                head_files[rel] = sha
+    pre_diff = _make_diff(cfg.repo, head_files, before)
     sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
     protected_before = {rel: _read(cfg.repo / rel) for rel in before if is_protected(rel)}
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "sha256": sha, "kind": "file_changed",
@@ -303,10 +382,7 @@ def run(cfg: RunConfig) -> dict:
     # after snapshot: diff + one artifact per changed file
     after = snapshot(cfg.repo)
     changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
-    diff = _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "HEAD")
-    for rel in changed:
-        if rel not in before and rel in after:
-            diff += _git(cfg.repo, "diff", "--no-ext-diff", "--no-textconv", "--no-index", "/dev/null", rel, check=False)
+    diff = _make_diff(cfg.repo, before, after)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
                                         "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
                                         "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
@@ -366,23 +442,30 @@ def run(cfg: RunConfig) -> dict:
             jx = Path(td) / "junit" / "report.xml"  # outside the copied tree; via env, not appended to the line
             jx.parent.mkdir()
             test_env["PYTEST_ADDOPTS"] = f"--junitxml={jx}"
-            _repo_str = str(cfg.repo)
             _repo_real = str(cfg.repo.resolve())
-            cmd = t.command.replace(_repo_real, str(work)).replace(_repo_str, str(work))
+            _work_str = str(work)
             tokens = []
-            for tok in cmd.split():
+            for tok in shlex.split(t.command):
+                if "=" in tok and not tok.startswith("="):
+                    opt, val = tok.split("=", 1)
+                    if val:
+                        rp = os.path.realpath(val)
+                        if rp.startswith(_repo_real):
+                            val = rp.replace(_repo_real, _work_str, 1)
+                        tokens.append(f"{opt}={val}")
+                        continue
                 rp = os.path.realpath(tok)
                 if rp.startswith(_repo_real):
-                    tok = rp.replace(_repo_real, str(work), 1)
+                    tok = rp.replace(_repo_real, _work_str, 1)
                 tokens.append(tok)
-            cmd = " ".join(tokens)
+            cmd = shlex.join(tokens)
             argv, env_ = ["/bin/sh", "-c", cmd], test_env
             helper_err = None
             if cfg.test_user:
                 # separate UID: test code cannot read the HMAC key, the rollback anchors or other box secrets.
                 # Leftover processes of that user are killed first (pkill exit 1 = none; anything else aborts).
                 u = cfg.test_user
-                try:  # sudo as u must provably work first; only then is pkill exit 1 an unambiguous "none"
+                try:
                     ok = subprocess.run([SUDO, "-n", "-u", u, "/bin/true"], capture_output=True, check=False,
                                         env=HELPER_ENV).returncode == 0
                     pk = subprocess.run([SUDO, "-n", "-u", u, "/usr/bin/pkill", "-KILL", "-u", u],
@@ -390,12 +473,25 @@ def run(cfg: RunConfig) -> dict:
                 except OSError:
                     ok, pk = False, None
                 if ok and pk is not None and pk.returncode in (0, 1):
-                    pk = subprocess.CompletedProcess([], 0, b"TL_PKILL_OK", b"")
+                    if pk.returncode == 1:
+                        pg = subprocess.run([SUDO, "-n", "-u", u, "/usr/bin/pgrep", "-u", u],
+                                            capture_output=True, check=False, env=HELPER_ENV)
+                        if pg.returncode != 1:
+                            helper_err = f"sudo/pkill as {u} failed (pkill rc 1 but pgrep rc {pg.returncode})"
+                            ok_clean = False
+                        else:
+                            ok_clean = True
+                    else:
+                        ok_clean = True
                 else:
-                    pk = subprocess.CompletedProcess([], 1, b"", b"")
-                if b"TL_PKILL_OK" not in pk.stdout:
-                    helper_err = f"sudo/pkill as {u} failed"
-                else:
+                    ok_clean = False
+                    if pk is None:
+                        helper_err = f"sudo as {u} failed"
+                    elif pk.returncode not in (0, 1):
+                        helper_err = f"sudo/pkill as {u} failed (exit {pk.returncode})"
+                    else:
+                        helper_err = f"sudo/pkill as {u} failed"
+                if ok_clean:
                     os.chmod(td, 0o711)
                     try:
                         ch = subprocess.run([SUDO, "-n", "chown", "-R", u, str(work), str(home), str(jx.parent)],

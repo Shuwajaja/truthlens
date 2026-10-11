@@ -461,10 +461,11 @@ def test_r6_gate_config_value_outside_path_refused(tmp_path):
 
 
 def test_r6_symlink_in_test_command_mapped_to_copy(tmp_path):
-    """A symlink path to the repo in the test command must map onto the clean copy."""
+    """Agent changes test file, symlink path in test command must map to the restored copy."""
     r, crit = _repo(tmp_path)
     (r / "test_pass.py").write_text("def test_pass():\n    assert True\n")
-    subprocess.run(["git", "-C", str(r), "add", "test_pass.py"], check=True, capture_output=True)
+    (r / "evil.py").write_text("open('test_pass.py','w').write('def test_pass():\\n    assert False\\n')\n")
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True, capture_output=True)
     subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "t"],
                    check=True, capture_output=True)
     link = tmp_path / "link-to-repo"
@@ -476,9 +477,105 @@ def test_r6_symlink_in_test_command_mapped_to_copy(tmp_path):
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider {link}/test_pass.py",
 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
-                  "--", "true"]) == 0
+                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
-    assert rep["passed"] == 1 and rep["failed"] == 0
+    assert rep["passed"] == 1 and rep["failed"] == 0  # restored copy passes
+
+
+def test_r6_git_filter_evil_driver_bypass(tmp_path):
+    """Filter name with dots (filter.evil.driver.clean) must not execute."""
+    r, crit = _repo(tmp_path)
+    marker = tmp_path / "filter-evil-driver-ran"
+    subprocess.run(["git", "-C", str(r), "config", "filter.evil.driver.clean",
+                    f"touch {marker}"], check=True, capture_output=True)
+    subprocess.run(["git", "-C", str(r), "config", "filter.evil.driver.required", "true"],
+                   check=True, capture_output=True)
+    (r / ".gitattributes").write_text("* filter=evil.driver\n")
+    subprocess.run(["git", "-C", str(r), "-c", "filter.evil.driver.clean=cat", "-c", "filter.evil.driver.required=false",
+                    "add", "-f", ".gitattributes"], check=True, capture_output=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a",
+                    "-c", "filter.evil.driver.clean=cat", "-c", "filter.evil.driver.required=false",
+                    "commit", "-qm", "attr"], check=True, capture_output=True)
+    marker.unlink(missing_ok=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit),
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+    assert not marker.exists()
+
+
+def test_r6_gate_opt_value_arg_mapped(tmp_path, monkeypatch):
+    """--config=/repo/config.sh must be remapped to the snapshot copy after approval."""
+    import truthlens.gate as g
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    marker = tmp_path / "marker"
+    (repo / "config.sh").write_text("approved-content\n")
+    (repo / "d.sh").write_text('! read -r line < "${1#--config=}"\necho "$line" > "$2"\n')
+    real_materialize = g._materialize
+
+    def swap(snap, td):
+        (repo / "config.sh").write_text("evil-content\n")
+        real_materialize(snap, td)
+    monkeypatch.setattr(g, "_materialize", swap)
+    rc, info = g.act(led, {"kind": "agent", "id": "a"},
+                     ["sh", str(repo / "d.sh"), f"--config={repo}/config.sh", str(marker)],
+                     str(repo))
+    assert rc == g.BLOCKED
+    g.approve(led, "shu", info["action_hash"])
+    rc, _ = g.act(led, {"kind": "agent", "id": "a"},
+                  ["sh", str(repo / "d.sh"), f"--config={repo}/config.sh", str(marker)],
+                  str(repo))
+    assert rc == 0
+    assert marker.read_text().strip() == "approved-content"
+
+
+def test_r6_symlink_quoted_path_in_test_command(tmp_path):
+    """Quoted symlink path in test command must map to the clean copy (agent changes the file)."""
+    r, crit = _repo(tmp_path)
+    (r / "test_mail.py").write_text("def test_mail():\n    assert False\n")
+    (r / "evil.py").write_text("open('test_mail.py','w').write('def test_mail():\\n    assert True\\n')\n")
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True, capture_output=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "t"],
+                   check=True, capture_output=True)
+    link = tmp_path / "link-to-repo"
+    try:
+        link.symlink_to(r.resolve())
+    except AttributeError:
+        os.symlink(str(r.resolve()), str(link))
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test", f"c2={sys.executable} -m pytest -q -p no:cacheprovider '{link}/test_mail.py'",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "evil.py"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["passed"] == 0 and rep["failed"] >= 1  # restored copy fails
+
+
+def test_r6_sudo_fail_closed_pkill1_pgrep0(tmp_path, monkeypatch):
+    """When /bin/true succeeds but pkill returns 1 and pgrep returns 0 (processes exist), must fail closed."""
+    import truthlens.wrapper as w
+    real = subprocess.run
+
+    def fake(argv, *a, **k):
+        j = " ".join(map(str, argv)) if isinstance(argv, list) else str(argv)
+        if "/bin/true" in j and "sudo" in j:
+            return subprocess.CompletedProcess(argv, 0, b"", b"")
+        if "pkill" in j and "sudo" in j:
+            return subprocess.CompletedProcess(argv, 1, b"", b"")
+        if "pgrep" in j and "sudo" in j:
+            return subprocess.CompletedProcess(argv, 0, b"tl-agent 12345\n", b"")  # processes exist!
+        if "chown" in j:
+            return subprocess.CompletedProcess(argv, 0, b"", b"")
+        return real(argv, *a, **k)
+    monkeypatch.setattr(w.subprocess, "run", fake)
+    r, crit = _repo(tmp_path)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
+                 "--test-user", "no-such-user-tl", "--test", "c1=python -m pytest -q test_page.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["exit_code"] == 125
 
 
 def test_34_r6_cli_act_binds_cwd(tmp_path, monkeypatch, capsys):

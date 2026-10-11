@@ -93,12 +93,19 @@ def _in_tree(arg: str, root: str) -> str | None:
 
 
 def _map_into_copy(arg: str, root: str, td: str) -> str:
-    """Absolute in-tree paths are mapped lexically onto the approved copy (decided on the path string only)."""
+    """Absolute in-tree paths are mapped lexically onto the approved copy (decided on the path string only).
+    Also handles --opt=/abs/in-tree/path style arguments."""
     import os
     if os.path.isabs(arg):
         rel = _in_tree(arg, root)
         if rel is not None:
             return os.path.join(td, rel)
+    if "=" in arg and not arg.startswith("="):
+        opt, val = arg.split("=", 1)
+        if val and os.path.isabs(val):
+            rel = _in_tree(val, root)
+            if rel is not None:
+                return f"{opt}={os.path.join(td, rel)}"
     return arg
 
 
