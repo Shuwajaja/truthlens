@@ -21,3 +21,9 @@ Principles:
 ## Lenses
 - **Client Lens (primary):** plain language per request/criterion — "You asked for X — done, witnessed by Y", "claimed, not witnessed", "not done", "review required".
 - **Developer Lens (detail):** events, hashes, diffs, logs, verification output.
+
+## HMAC key and approval gate – what is protected, what is not (MVP)
+- The agent runs as a child of `truthlens run` with an allow-listed env: it never receives the HMAC key, the provider key only if `--pass-env`, and gated capabilities (`--gate-env`, e.g. a deploy token) never.
+- Gated actions: the agent can only *request* them (`truthlens request -- <cmd>` → inbox `<out>/gate/`). The wrapper records `action.requested` + `action.blocked`; a human approves with `truthlens approve <ledger> <hash>` (signed with the key); the wrapper executes once with the capability env and records `action.executed`. The agent cannot write a valid approval: without the key every append to a signed ledger is refused / fails verify.
+- Key handling: prefer `--hmac-key-file` (must be outside the repo and the run dir, `chmod 600`) or an env var of the invoking shell.
+- **Residual risk:** the agent runs under the same OS user. If it knows the key file path it can read it and forge signed events. Real isolation needs a separate OS user/container or a key held by another process (post-MVP). The gate also only controls actions that need the gated capability; anything the agent can do with its own permissions it can still do directly (and the wrapper sees only the resulting git changes).
