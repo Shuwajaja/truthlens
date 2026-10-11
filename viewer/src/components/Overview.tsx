@@ -3,6 +3,25 @@ import type { DrawerTarget } from './Drawer.tsx'
 
 const CARD_ACCENT: Record<string, string> = { green: '#3fb950', yellow: '#d29922', red: '#f85149', gray: '#8b949e', outline: '#8b949e' }
 const STATUS_LABEL: Record<string, string> = { met: 'met', unmet: 'unmet', unverified: 'unverified', proposed: 'proposed' }
+const STATUS_COUNT_ORDER = ['met', 'unmet', 'unverified', 'proposed'] as const
+
+function statusCountSummary(criteria: Criterion[]): string {
+  const counts = new Map<string, number>()
+  for (const c of criteria) {
+    counts.set(c.status, (counts.get(c.status) ?? 0) + 1)
+  }
+  const parts: string[] = []
+  for (const status of STATUS_COUNT_ORDER) {
+    const n = counts.get(status) ?? 0
+    if (n > 0) parts.push(`${n} ${status}`)
+  }
+  for (const [status, n] of counts) {
+    if (!(STATUS_COUNT_ORDER as readonly string[]).includes(status)) {
+      parts.push(`${n} ${status}`)
+    }
+  }
+  return parts.join(', ')
+}
 
 function criterionIcon(c: Criterion): string {
   if (c.claimed && c.card === 'yellow') return '?'
@@ -15,14 +34,9 @@ export function Overview({ doc, onOpenDrawer }: {
   doc: { verified: boolean; headline: string[]; review_required: boolean; run: { project: string }; counts: Record<string, number>; criteria: Criterion[]; claims: Claim[]; events: RunEvent[] }
   onOpenDrawer: (t: DrawerTarget) => void
 }) {
-  const total = doc.criteria.length
   const firstUnwitnessed = doc.claims.find(c => c.finding === 'claim_unwitnessed')
   const eventsById = new Map(doc.events.map(e => [e.id, e]))
-
-  const countParts: string[] = []
-  countParts.push(`${doc.counts.green} of ${total} things are proven.`)
-  if (doc.counts.yellow > 0) countParts.push(`${doc.counts.yellow} ${doc.counts.yellow === 1 ? 'is' : 'are'} only claimed.`)
-  if (doc.counts.red > 0) countParts.push(`${doc.counts.red} ${doc.counts.red === 1 ? 'has' : 'have'} failed.`)
+  const summaryLine = statusCountSummary(doc.criteria)
 
   return (
     <div>
@@ -30,7 +44,7 @@ export function Overview({ doc, onOpenDrawer }: {
         {doc.headline.map((l, i) => <span key={i} className="block">{l}</span>)}
       </h1>
       <p className="text-[#8b949e] text-base mb-4">Project: {doc.run.project}</p>
-      <p className="text-base mb-6">{countParts.join(' ')}</p>
+      <p className="text-base mb-6">{summaryLine}</p>
 
       <div className="space-y-4">
         {doc.criteria.map(c => {
