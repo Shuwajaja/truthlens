@@ -1,0 +1,7 @@
+function isValidEmail(s) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { isValidEmail };
+}

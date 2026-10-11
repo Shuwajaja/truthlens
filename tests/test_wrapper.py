@@ -57,7 +57,7 @@ def test_witnessed_run_claims_vs_witnessed(tmp_path, monkeypatch, capsys):
     assert main(["report", str(out), "--hmac-key-env", "TL_HMAC", "--json"]) == 0
     rep = json.loads(capsys.readouterr().out)
     assert {c["criterion_id"]: c["status"] for c in rep["criteria"]} == {"c1": "met", "c2": "unmet", "c3": "unverified"}
-    assert rep["claims"][0]["finding"] == "claim_unwitnessed"
+    assert rep["claims"][0]["finding"] == "claim_unwitnessed"  # c2 failed, c3 has no witness
     events = Ledger(out / "ledger.jsonl").read()
     assert sorted(e["payload"]["path"] for e in events if e["type"] == "artifact.recorded") == ["README.md", "index.html"]
     everything = (out / "ledger.jsonl").read_bytes() + b"".join(p.read_bytes() for p in out.rglob("blobs/**/*") if p.is_file())

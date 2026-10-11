@@ -59,14 +59,18 @@ def acceptance(events: list[dict]) -> list[dict]:
 
 
 def claims(events: list[dict]) -> list[dict]:
-    """D26: a claim is supported only if every listed criterion's latest decisive witness passes."""
+    """D26: a claim is supported only if every listed criterion's latest decisive witness in the run passes.
+
+    Evaluated over the whole run: the wrapper's tests run after the agent has spoken, so a claim is
+    judged by what was witnessed by the end of the run, not at the moment it was made."""
     last: dict[str, str] = {}
-    out = []
     for ev in events:
         d = _decision(ev)
         if d is not None:
             for cid in ev["payload"].get("criterion_ids") or []:
                 last[cid] = d
+    out = []
+    for ev in events:
         if ev["type"] == "agent.claim":
             ids = ev["payload"].get("criterion_ids") or []
             ok = bool(ids) and all(last.get(c) == "pass" for c in ids)

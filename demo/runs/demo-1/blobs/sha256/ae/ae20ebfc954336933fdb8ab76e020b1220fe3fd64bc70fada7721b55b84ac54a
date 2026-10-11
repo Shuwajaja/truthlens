@@ -1,0 +1,83 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  color: #222;
+  background: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  background: #1a3a5c;
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+header p  { font-size: 1.1rem; opacity: 0.85; }
+
+main {
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem 1rem;
+}
+
+section h2 { margin-bottom: 1.5rem; font-size: 1.5rem; }
+
+form div { margin-bottom: 1rem; }
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #1a3a5c;
+  box-shadow: 0 0 0 2px rgba(26,58,92,0.2);
+}
+
+input.invalid, textarea.invalid { border-color: #d32f2f; }
+
+.error {
+  color: #d32f2f;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  display: block;
+  min-height: 1.2em;
+}
+
+button {
+  background: #1a3a5c;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover { background: #0f2a45; }
+
+@media (max-width: 480px) {
+  header { padding: 2rem 1rem; }
+  header h1 { font-size: 1.8rem; }
+  main { padding: 1.5rem 1rem; }
+}

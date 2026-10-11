@@ -44,3 +44,12 @@ def test_manifest_bound_to_ledger():
     m["acceptance"][1]["status"] = "met"
     assert len(check_manifest(m, evs)) == 2
     assert check_manifest(build_manifest(evs, {}), evs[:-1])  # truncated ledger
+
+
+def test_claim_judged_by_witness_after_it():
+    evs = [ev(1, H, "criterion.recorded", {"criterion_id": "c1", "text": "x", "source": "user"}),
+           ev(2, AG, "agent.claim", {"claim_id": "k1", "text": "done", "criterion_ids": ["c1"]}),
+           ev(3, W, "test.reported", {"suite": "s", "passed": 1, "failed": 0, "criterion_ids": ["c1"]})]
+    assert claims(evs)[0]["finding"] == "supported"
+    evs.append(ev(4, W, "test.reported", {"suite": "s", "passed": 0, "failed": 1, "criterion_ids": ["c1"]}))
+    assert claims(evs)[0]["finding"] == "claim_unwitnessed"

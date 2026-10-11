@@ -1,0 +1,26 @@
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.getElementById('contact-form');
+  var emailInput = document.getElementById('email');
+  var emailError = document.getElementById('email-error');
+
+  function validate() {
+    var valid = isValidEmail(emailInput.value);
+    if (!valid) {
+      emailInput.classList.add('invalid');
+      emailError.textContent = 'Please enter a valid email address.';
+    } else {
+      emailInput.classList.remove('invalid');
+      emailError.textContent = '';
+    }
+    return valid;
+  }
+
+  emailInput.addEventListener('blur', validate);
+  emailInput.addEventListener('input', function () {
+    if (emailInput.classList.contains('invalid')) validate();
+  });
+
+  form.addEventListener('submit', function (e) {
+    if (!validate()) e.preventDefault();
+  });
+});
