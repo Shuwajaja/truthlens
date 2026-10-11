@@ -1,8 +1,8 @@
 # TruthLens
 
-**AI work you can see, inspect, verify and reuse.**
+**See what your AI agent really did.**
 
-AI agents (OpenCode, Hermes, Claude Code, …) produce documents, code changes, test reports and decisions scattered across terminals and folders. TruthLens records a run as a self-contained work package — events in a tamper-evident ledger, artifacts with a manifest, evidence, approvals — and shows it in one place for developers and clients. It is honest about what it can prove: see [docs/TRUST-LEVELS.md](docs/TRUST-LEVELS.md).
+For vibe coders and anyone handing work to AI agents — coding, research, writing, admin. Agents produce documents, file changes, visited sources, sent messages, commands and test runs scattered across terminals and folders, and then *tell* you it went well. TruthLens records a run as a self-contained work package — events in a tamper-evident ledger, artifacts with a manifest, evidence, approvals — and shows it in plain language: *"You asked for X — done, witnessed by Y"* or *"claimed, not witnessed"* (Client Lens, primary view), with a Developer Lens for full detail. The v1 capture adapter is OpenCode (code work); the model is agent- and task-agnostic. It is honest about what it can prove: see [docs/TRUST-LEVELS.md](docs/TRUST-LEVELS.md).
 
 > Status: **Schema frozen (v1).** Event Schema v1 and Artifact Manifest v1 are FROZEN. Live progress: [docs/STATUS.md](docs/STATUS.md). The week plan is an effort estimate, not approval phases; a minimal approval gate lands early (W2), W4 hardens and integrates it.
 
@@ -11,7 +11,7 @@ AI agents (OpenCode, Hermes, Claude Code, …) produce documents, code changes, 
 2. TruthLens captures produced Markdown files, code changes (diff) and test results.
 3. A risky action is **blocked** and only executes after an approval bound to the exact action hash.
 4. The ledger records the provable steps and references unmodified, hash-addressed artifacts.
-5. The browser renders the run in a Developer lens and a Client lens.
+5. The browser renders the run in the Client Lens (primary, plain language) and the Developer Lens (detail).
 6. A read-only MCP server returns the same information to an external client.
 7. After deliberate tampering, `truthlens verify` fails reproducibly and names the line.
 
