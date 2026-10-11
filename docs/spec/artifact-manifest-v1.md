@@ -38,4 +38,4 @@ One JSON document per run (`manifest.json`), itself hashed and recorded via `art
 - `ledger_last_hash`: hash of the run's final event (`run.finished`), anchoring the ledger end (D15).
 - The manifest is itself recorded as an artifact of the run (D8); its own `artifact.recorded` event is the only one not listed inside it.
 - `trust` values: `imported | integrity_verified | review_required | verification_failed` (see TRUST-LEVELS.md). `review_required` may be shown together with `integrity_verified` (`trust` = integrity, `review` = `required|accepted` separately).
-- `acceptance` (D19): per criterion the witnessed evidence event ids and `status` = `met` (witnessed evidence, passing) | `unmet` (witnessed evidence, failing) | `unverified` (no witnessed evidence; agent claims alone never yield `met`).
+- `acceptance` (D19): per criterion the witnessed evidence event ids and `status` = `proposed` (derived, not confirmed by a human – D22) | `met` (witnessed evidence, passing) | `unmet` (witnessed evidence, failing) | `unverified` (no witnessed evidence; agent claims alone never yield `met`).
