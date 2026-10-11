@@ -55,6 +55,9 @@ def test_f2_agent_edits_to_tests_do_not_count(tmp_path, capsys):
     ev = Ledger(out / "ledger.jsonl").read()
     tr = next(e for e in ev if e["type"] == "test.reported")["payload"]
     assert tr["failed"] == 1 and tr["passed"] == 0  # original failing test restored in the clean copy
+    sha = tr["report_artifact_id"]
+    report = (out / "blobs" / "sha256" / sha[:2] / sha).read_bytes()
+    assert b"assert False" in report and b"No module named" not in report  # the real test ran and failed
     assert any(e["payload"].get("kind") == "test_files_changed" for e in ev)
 
 
