@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { RunDoc } from './types.ts'
+import { readLens, writeLens, type Lens } from './lens.ts'
 import { Sidebar } from './components/Sidebar.tsx'
 import { Overview } from './components/Overview.tsx'
 import { ClaimedVsProven } from './components/ClaimedVsProven.tsx'
@@ -13,6 +14,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null)
   const [view, setView] = useState<View>('overview')
   const [drawerTarget, setDrawerTarget] = useState<DrawerTarget | null>(null)
+  const [lens, setLens] = useState<Lens>(() => readLens())
 
   useEffect(() => {
     fetch('/run.json')
@@ -20,6 +22,11 @@ export default function App() {
       .then((data: unknown) => setDoc(data as RunDoc))
       .catch((e: Error) => setError(e.message || 'Failed to load run data'))
   }, [])
+
+  const handleLensChange = (next: Lens) => {
+    setLens(next)
+    writeLens(next)
+  }
 
   if (error) {
     return (
@@ -38,15 +45,26 @@ export default function App() {
 
   return (
     <div className="flex bg-[#0d1117] text-[#e6edf3] font-sans min-h-screen">
-      <Sidebar currentView={view} onViewChange={setView} />
+      <Sidebar
+        currentView={view}
+        onViewChange={setView}
+        lens={lens}
+        onLensChange={handleLensChange}
+        reviewRequired={doc.review_required}
+      />
       {doc.verified && <div className="verified-badge">Verified run</div>}
       <main className="ml-[220px] p-8 min-h-screen flex-1">
         {view === 'overview' && <Overview doc={doc} onOpenDrawer={setDrawerTarget} />}
-        {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} />}
-        {view === 'timeline' && <Timeline events={doc.events} onOpenDrawer={setDrawerTarget} />}
+        {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} lens={lens} />}
+        {view === 'timeline' && <Timeline events={doc.events} lens={lens} onOpenDrawer={setDrawerTarget} />}
       </main>
       {drawerTarget && (
-        <Drawer target={drawerTarget} blobs={doc.blobs} onClose={() => setDrawerTarget(null)} />
+        <Drawer
+          target={drawerTarget}
+          blobs={doc.blobs}
+          lens={lens}
+          onClose={() => setDrawerTarget(null)}
+        />
       )}
     </div>
   )
