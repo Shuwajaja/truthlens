@@ -67,3 +67,28 @@ def test_compound_keys_and_embedded_secrets():
     assert result["client_secret"] == REDACTED
     assert result["cmd"] == f"export K={REDACTED} && run"
     assert secret not in json.dumps(result)
+
+
+def test_codex_review_bypasses_closed():
+    from truthlens.canonical import canonical_bytes
+
+    obj = {
+        "args": ["--password", "hunter2", "--token=abc123", "-v"],
+        "env": "API_KEY=topsecret PATH=/bin",
+        "url": "https://user:pw@host/x",
+        "hdr": "Authorization: Basic dXNlcjpwdw==",
+        "slack": "xoxb-1-2", "google": "AIzaSyA1234567890abc",
+        "jwt": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.sig",
+        "short": "Bearer abc sk-test ghp_abc",
+        "t": ("sk-abcdefghijk", {"password": "p"}),
+    }
+    out = canonical_bytes(redact(obj)).decode()
+    for leaked in ("hunter2", "abc123", "topsecret", "user:pw", "dXNlcjpwdw", "xoxb-1", "AIzaSy",
+                   "eyJhbGci", "Bearer abc", "sk-test", "ghp_abc", "sk-abcdefghijk", '"p"'):
+        assert leaked not in out, leaked
+    assert "PATH=/bin" in out and '"-v"' in out
+
+
+def test_token_counters_are_not_secrets():
+    obj = {"max_tokens": 100, "tokens_used": 42, "usage": {"prompt_tokens": 3}, "cmd": "run --max-tokens 50"}
+    assert redact(obj) == obj
