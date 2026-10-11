@@ -86,3 +86,19 @@ def test_concurrent_appends_two_processes(tmp_path):
     r = verify(p)
     assert r.ok and r.events == 60
     assert [json.loads(x)["seq"] for x in p.read_text().splitlines()] == list(range(1, 61))
+
+
+def test_criterion_rules_d23_d24(tmp_path):
+    led = Ledger(tmp_path / "l.jsonl")
+    agent, human = {"kind": "agent", "id": "a"}, {"kind": "human", "id": "u"}
+    with pytest.raises(LedgerError, match="D23"):
+        led.append(RUN, agent, "criterion.recorded", {"criterion_id": "c1", "text": "t", "source": "user"})
+    led.append(RUN, agent, "criterion.recorded",
+               {"criterion_id": "c1", "text": "t", "text_sha256": "h1", "source": "derived", "derived_by": agent})
+    with pytest.raises(LedgerError, match="duplicate"):
+        led.append(RUN, human, "criterion.recorded", {"criterion_id": "c1", "text": "t2", "source": "user"})
+    with pytest.raises(LedgerError, match="text_sha256"):
+        led.append(RUN, human, "criteria.confirmed", {"criteria": [{"criterion_id": "c1", "text_sha256": "x"}]})
+    led.append(RUN, human, "criteria.confirmed", {"criteria": [{"criterion_id": "c1", "text_sha256": "h1"}]})
+    with pytest.raises(LedgerError, match="D25"):
+        led.append(RUN, agent, "test.reported", {"suite": "s", "passed": 1, "failed": 0, "criterion_ids": ["c1"]})
