@@ -39,7 +39,8 @@ def _usable_approval(events: list[dict], ah: str) -> dict | None:
     return None
 
 
-def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None) -> tuple[int, dict]:
+def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
+        env: dict[str, str] | None = None) -> tuple[int, dict]:
     events = led.read()
     if not events:
         raise LedgerError("act needs an open run ledger")
@@ -53,11 +54,12 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None) -> tu
             led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "action.blocked",
                        {"action_hash": ah, "policy": "requires_human_approval", "reason": "no valid approval"})
         return BLOCKED, {"action_hash": ah, "status": "blocked"}
-    proc = subprocess.run(argv, cwd=cwd, stdin=subprocess.DEVNULL, capture_output=True, check=False)
+    proc = subprocess.run(argv, cwd=cwd, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
     ev = led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "action.executed",
                     {"action_hash": ah, "approval_event_id": appr["id"],
                      "result": {"exit_code": proc.returncode}})
-    return proc.returncode, {"action_hash": ah, "status": "executed", "event": ev["id"]}
+    return proc.returncode, {"action_hash": ah, "status": "executed", "event": ev["id"],
+                             "exit_code": proc.returncode}
 
 
 def approve(led: Ledger, approver: str, ah: str) -> dict:
@@ -67,3 +69,69 @@ def approve(led: Ledger, approver: str, ah: str) -> dict:
     return led.append(events[0]["run_id"], {"kind": "human", "id": approver}, "approval.granted",
                       {"action_hash": ah, "approver": approver,
                        "expires_at": _iso(datetime.now(UTC) + APPROVAL_TTL)})
+
+
+class GateServer:
+    """Request channel for the wrapped agent (D16/D17): the agent drops `<id>.req` files ({"argv": [...]})
+    into an inbox; the wrapper (holding the HMAC key and the gated capabilities) answers with `<id>.res`.
+    The agent can only *ask*; it cannot sign ledger events and never holds the gated env (e.g. a deploy token)."""
+
+    def __init__(self, led: Ledger, inbox, cwd: str, env: dict[str, str], requester: dict):
+        import threading
+        from pathlib import Path
+        self.led, self.inbox, self.cwd, self.env, self.requester = led, Path(inbox), cwd, env, requester
+        self.inbox.mkdir(parents=True, exist_ok=True)
+        self._stop = threading.Event()
+        self._t = threading.Thread(target=self._loop, daemon=True)
+
+    def start(self):
+        self._t.start()
+        return self
+
+    def stop(self):
+        self._stop.set()
+        self._t.join(timeout=5)
+        self.poll()
+
+    def poll(self):
+        import json
+        for req in sorted(self.inbox.glob("*.req")):
+            res = req.with_suffix(".res")
+            try:
+                argv = json.loads(req.read_text())["argv"]
+                if not (isinstance(argv, list) and argv and all(isinstance(a, str) for a in argv)):
+                    raise ValueError("argv must be a non-empty list of strings")
+                rc, info = act(self.led, self.requester, argv, self.cwd, self.env)
+            except (ValueError, KeyError, LedgerError) as e:
+                rc, info = 2, {"status": "error", "error": str(e)}
+            req.unlink()
+            tmp = res.with_suffix(".tmp")
+            tmp.write_text(json.dumps({"rc": rc, **info}))
+            tmp.replace(res)
+
+    def _loop(self):
+        while not self._stop.wait(0.2):
+            self.poll()
+
+
+def request(inbox, argv: list[str], timeout: float = 30) -> tuple[int, dict]:
+    """Agent side: ask the wrapper to run a gated action and wait for the answer."""
+    import json
+    import time
+    from pathlib import Path
+
+    from truthlens.ids import new_id
+    box = Path(inbox)
+    rid = new_id("req")
+    tmp = box / f"{rid}.tmp"
+    tmp.write_text(json.dumps({"argv": argv}))
+    tmp.replace(box / f"{rid}.req")
+    res = box / f"{rid}.res"
+    end = time.monotonic() + timeout
+    while time.monotonic() < end:
+        if res.exists():
+            info = json.loads(res.read_text())
+            res.unlink()
+            return int(info.pop("rc")), info
+        time.sleep(0.1)
+    return 2, {"status": "error", "error": "no answer from wrapper (is it running?)"}

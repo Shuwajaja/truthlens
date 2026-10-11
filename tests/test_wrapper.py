@@ -102,3 +102,71 @@ def test_pytest_counts():
     assert parse_pytest_counts("no tests ran in 0.01s", 5) == {"passed": 0, "failed": 0, "skipped": 0}
     assert parse_pytest_counts("ImportError", 2)["failed"] == 1
     assert parse_pytest_counts("1 passed, 1 error in 0.1s", 1) == {"passed": 1, "failed": 1, "skipped": 0}
+
+
+GATE_AGENT = textwrap.dedent("""
+    import json, os, subprocess, sys, time, pathlib
+    act = [sys.executable, "-c", "import os,pathlib;pathlib.Path('deployed').write_text(str(bool(os.environ.get('DEPLOY_TOKEN'))))"]
+    subprocess.run(act)  # bypass attempt: agent runs it itself -> no capability
+    bypass = pathlib.Path('deployed').read_text()
+    req = [sys.executable, "-m", "truthlens", "request", "--", *act]
+    first = subprocess.run(req, capture_output=True, text=True)
+    for _ in range(100):
+        r = subprocess.run(req, capture_output=True, text=True)
+        if r.returncode != 3:
+            break
+        time.sleep(0.1)
+    print("first", first.returncode, "final", r.returncode, "bypass", bypass, "token-seen", "DEPLOY_TOKEN" in os.environ)
+""")
+
+
+def test_gate_channel_blocks_until_human_approves(tmp_path, monkeypatch):
+    import threading
+    import time
+
+    r, _ = _repo(tmp_path)
+    (r / "gate_agent.py").write_text(GATE_AGENT)
+    monkeypatch.setenv("DEPLOY_TOKEN", "deploy-secret-123456")
+    keyf = tmp_path / "key"
+    keyf.write_text("hmac-outside")
+    keyf.chmod(0o600)
+    monkeypatch.setenv("TL_HMAC", "hmac-outside")
+    out = tmp_path / "run"
+    ledger = out / "ledger.jsonl"
+
+    def human():
+        for _ in range(200):
+            if ledger.exists():
+                blocked = [e for e in Ledger(ledger).read() if e["type"] == "action.blocked"]
+                if blocked:
+                    time.sleep(0.3)
+                    assert (r / "deployed").read_text() != "True"  # not executed before approval
+                    main(["approve", str(ledger), blocked[0]["payload"]["action_hash"],
+                          "--hmac-key-env", "TL_HMAC", "--hmac-key-id", "k1"])
+                    return
+            time.sleep(0.05)
+
+    t = threading.Thread(target=human)
+    t.start()
+    rc = main(["run", "--out", str(out), "--repo", str(r), "--gate-env", "DEPLOY_TOKEN",
+               "--hmac-key-file", str(keyf), "--hmac-key-id", "k1", "--", sys.executable, "gate_agent.py"])
+    t.join()
+    assert rc == 0
+    types = [e["type"] for e in Ledger(ledger).read()]
+    assert types.count("action.blocked") == 1 and types.count("action.executed") == 1
+    assert types.index("approval.granted") < types.index("action.executed")
+    assert (r / "deployed").read_text() == "True"  # executed by the wrapper with the capability
+    log = b"".join(p.read_bytes() for p in (out / "blobs").rglob("*") if p.is_file())
+    assert b"first 3 final 0 bypass False token-seen False" in log
+    assert b"deploy-secret" not in log + ledger.read_bytes()
+    assert verify(ledger, b"hmac-outside").anchored
+
+
+def test_key_file_inside_repo_refused(tmp_path):
+    import pytest
+    r, _ = _repo(tmp_path)
+    (r / "k").write_text("x")
+    (r / "k").chmod(0o600)
+    with pytest.raises(SystemExit):
+        main(["run", "--out", str(tmp_path / "o"), "--repo", str(r), "--hmac-key-file", str(r / "k"),
+              "--hmac-key-id", "k", "--", "true"])

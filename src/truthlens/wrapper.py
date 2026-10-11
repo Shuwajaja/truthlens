@@ -15,6 +15,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from truthlens.canonical import canonical_bytes
+from truthlens.gate import GateServer
 from truthlens.ids import new_id
 from truthlens.ledger import Ledger
 from truthlens.manifest import build_manifest
@@ -48,6 +49,7 @@ class RunConfig:
     timeout: int = 1800
     agent: str = ""
     human: str = "owner"
+    gate_env: list[str] = field(default_factory=list)
 
 
 def parse_test_spec(spec: str) -> TestSpec:
@@ -127,7 +129,7 @@ def run(cfg: RunConfig) -> dict:
     led = Ledger(ledger_path, cfg.hmac_key, cfg.hmac_key_id)
     store = BlobStore(cfg.out_dir / "blobs")
     run_id = new_id("run")
-    secrets = [os.environ.get(k, "") for k in cfg.pass_env]
+    secrets = [os.environ.get(k, "") for k in cfg.pass_env + cfg.gate_env]
     drop = {k for k, v in os.environ.items() if cfg.hmac_key and v.encode() == cfg.hmac_key}
 
     def emit(actor: dict, t: str, payload: dict) -> dict:
@@ -170,13 +172,19 @@ def run(cfg: RunConfig) -> dict:
                                         "refers_to": "git_state_before", "result": "info"})
 
     # agent run: no shell, stdin closed, filtered env, HMAC key never passed
-    env = child_env(cfg.pass_env, drop)
+    env = child_env(cfg.pass_env, drop | set(cfg.gate_env))
+    gate_dir = cfg.out_dir / "gate"
+    env["TRUTHLENS_GATE_DIR"] = str(gate_dir)
+    gated_env = child_env(cfg.gate_env, drop - set(cfg.gate_env))
+    server = GateServer(led, gate_dir, str(cfg.repo), gated_env,
+                        {"kind": "agent", "id": cfg.agent or "agent"}).start()
     try:
         proc = subprocess.run(cfg.command, cwd=cfg.repo, env=env, stdin=subprocess.DEVNULL,
                               capture_output=True, timeout=cfg.timeout, check=False)
         rc, out, err = proc.returncode, proc.stdout, proc.stderr
     except subprocess.TimeoutExpired as e:
         rc, out, err = 124, e.stdout or b"", (e.stderr or b"") + b"\n[truthlens: timeout]"
+    server.stop()
     stdout = _scrub(out.decode("utf-8", "replace"), secrets)
     stderr = _scrub(err.decode("utf-8", "replace"), secrets)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "command_run",

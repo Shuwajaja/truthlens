@@ -50,7 +50,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--timeout", type=int, default=1800)
     p.add_argument("--hmac-key-env", metavar="VAR")
     p.add_argument("--hmac-key-id", metavar="ID")
+    p.add_argument("--gate-env", action="append", default=[], metavar="VAR",
+                   help="capability only gated actions get (never the agent)")
+    p.add_argument("--hmac-key-file", metavar="PATH", help="key file outside repo/out dir (preferred over env)")
     p.add_argument("agent_cmd", nargs=argparse.REMAINDER)
+    p = sub.add_parser("request", help="(agent side) ask the running wrapper to execute a gated action")
+    p.add_argument("--timeout", type=float, default=30)
+    p.add_argument("action", nargs=argparse.REMAINDER)
     p = sub.add_parser("report", help="verify a run dir and print criteria + claims vs witnessed")
     p.add_argument("dir")
     p.add_argument("--hmac-key-env", metavar="VAR")
@@ -70,6 +76,16 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--hmac-key-id", metavar="ID")
     a = ap.parse_args(argv)
 
+    if a.cmd == "request":
+        from truthlens.gate import request
+        box = os.environ.get("TRUTHLENS_GATE_DIR")
+        if not box:
+            print("error: TRUTHLENS_GATE_DIR not set (not inside truthlens run)", file=sys.stderr)
+            return 2
+        action = a.action[1:] if a.action[:1] == ["--"] else a.action
+        rc, info = request(box, action, a.timeout)
+        print(json.dumps(info))
+        return rc
     if a.cmd in ("run", "report", "project", "act", "approve"):
         return _w2(a)
 
@@ -98,6 +114,22 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     print(f"repaired: removed {ev['payload']['removed_bytes']} bytes, last valid seq {ev['payload']['last_valid_seq']}")
     return 0
+
+
+def _run_key(a) -> bytes | None:
+    """HMAC key for a run. A key file must live outside the agent's repo and the run dir (D17)."""
+    from pathlib import Path
+    if not a.hmac_key_file:
+        return _key(a.hmac_key_env)
+    kf = Path(a.hmac_key_file).resolve()
+    for d in (Path(a.repo).resolve(), Path(a.out).resolve()):
+        if kf == d or d in kf.parents:
+            print(f"error: hmac key file must be outside {d}", file=sys.stderr)
+            raise SystemExit(2)
+    if kf.stat().st_mode & 0o077:
+        print("error: hmac key file must be chmod 600", file=sys.stderr)
+        raise SystemExit(2)
+    return kf.read_bytes().strip()
 
 
 def _verified_dir(d: str, key: bytes | None):
@@ -132,7 +164,8 @@ def _w2(a) -> int:
         cfg = RunConfig(out_dir=Path(a.out), repo=Path(a.repo).resolve(), command=cmd,
                         criteria=json.loads(Path(a.criteria).read_text()) if a.criteria else {},
                         confirm=[c for c in a.confirm.split(",") if c], tests=[parse_test_spec(t) for t in a.test],
-                        pass_env=a.pass_env, hmac_key=_key(a.hmac_key_env), hmac_key_id=a.hmac_key_id,
+                        pass_env=a.pass_env, hmac_key=_run_key(a), hmac_key_id=a.hmac_key_id,
+                        gate_env=a.gate_env,
                         timeout=a.timeout, agent=a.agent, human=getpass.getuser())
         res = run(cfg)
         print(json.dumps(res))
