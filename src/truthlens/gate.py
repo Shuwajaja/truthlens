@@ -22,18 +22,23 @@ BLOCKED = 3
 MAX_SNAPSHOT_BYTES, MAX_SNAPSHOT_FILES = 64 * 1024 * 1024, 20000
 
 
-def snapshot(cwd: str, exclude: set[str] = frozenset()) -> dict[str, tuple[str, bytes]]:
-    """Immutable copy source for gated execution: rel path -> ("file"|"link", bytes) of the whole cwd tree
-    (minus .git). The approval binds its tree hash and the action runs from a copy of exactly these bytes,
-    so later edits (scripts, sourced files, Makefile, package.json, node_modules) cannot change what runs."""
+def snapshot(cwd: str, exclude: set[str] = frozenset()) -> dict[str, tuple[str, bytes, int]]:
+    """Immutable copy source for gated execution: rel path -> (kind, bytes, mode) for files, symlinks and
+    directories (incl. empty ones) of the whole cwd tree, minus `.git` (dir or worktree file). Modes are bound
+    too (chmod +x changes the hash). Symlinks must stay inside the tree; absolute targets are stored relative,
+    so the copy never points back into the live tree."""
     import os
     import stat
     root = os.path.realpath(cwd)
-    out: dict[str, tuple[str, bytes]] = {}
+    out: dict[str, tuple[str, bytes, int]] = {}
     total = 0
     for dp, dns, fns in os.walk(root):
         dns[:] = sorted(d for d in dns if d != ".git")
-        for n in sorted(fns) + [d for d in dns if os.path.islink(os.path.join(dp, d))]:
+        for d in dns:
+            f = os.path.join(dp, d)
+            if not os.path.islink(f):
+                out[os.path.relpath(f, root)] = ("dir", b"", os.stat(f).st_mode & 0o7777)
+        for n in sorted(n for n in fns if n != ".git") + [d for d in dns if os.path.islink(os.path.join(dp, d))]:
             f = os.path.join(dp, n)
             rel = os.path.relpath(f, root)
             if f in exclude:
@@ -42,25 +47,54 @@ def snapshot(cwd: str, exclude: set[str] = frozenset()) -> dict[str, tuple[str, 
                 tgt = os.path.realpath(f)
                 if not (tgt == root or tgt.startswith(root + os.sep)):
                     raise LedgerError(f"symlink points outside the working tree: {rel}")
-                out[rel] = ("link", os.readlink(f).encode())
+                out[rel] = ("link", os.path.relpath(tgt, os.path.dirname(f)).encode(), 0o777)
             else:
                 try:
                     fd = os.open(f, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
                 except OSError:
                     continue
                 with os.fdopen(fd, "rb") as fh:
-                    if not stat.S_ISREG(os.fstat(fh.fileno()).st_mode):
+                    st = os.fstat(fh.fileno())
+                    if not stat.S_ISREG(st.st_mode):
                         continue  # FIFOs/devices are not copied, so the action cannot use them either
                     data = fh.read(MAX_SNAPSHOT_BYTES - total + 1)
                 total += len(data)
-                out[rel] = ("file", data)
+                out[rel] = ("file", data, st.st_mode & 0o7777)
             if total > MAX_SNAPSHOT_BYTES or len(out) > MAX_SNAPSHOT_FILES:
                 raise LedgerError("working tree too large for a gated snapshot; run the action from a smaller dir")
     return out
 
 
+def _materialize(snap: dict, td: str) -> None:
+    import os
+    for rel, (kind, _, mode) in sorted(snap.items()):
+        if kind == "dir":
+            os.makedirs(os.path.join(td, rel), exist_ok=True)
+            os.chmod(os.path.join(td, rel), mode | 0o700)
+    for rel, (kind, data, mode) in snap.items():
+        dst = os.path.join(td, rel)
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        if kind == "link":
+            os.symlink(data.decode(), dst)
+        elif kind == "file":
+            fd = os.open(dst, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+            with os.fdopen(fd, "wb") as fh:
+                fh.write(data)
+            os.chmod(dst, mode)
+
+
+def _map_into_copy(arg: str, root: str, td: str) -> str:
+    """Absolute paths into the live tree are redirected to the approved copy (never the live file)."""
+    import os
+    if os.path.isabs(arg):
+        real = os.path.realpath(arg)
+        if real == root or real.startswith(root + os.sep):
+            return os.path.join(td, os.path.relpath(real, root))
+    return arg
+
+
 def tree_hash(snap: dict[str, tuple[str, bytes]]) -> str:
-    return hashlib.sha256(canonical_bytes({r: [k, hashlib.sha256(d).hexdigest()] for r, (k, d) in snap.items()})
+    return hashlib.sha256(canonical_bytes({r: [k, hashlib.sha256(d).hexdigest(), m] for r, (k, d, m) in snap.items()})
                           ).hexdigest()
 
 
@@ -143,8 +177,16 @@ def _save_anchor(run_id: str, state: dict) -> None:
     import os
     f = _anchor_path(run_id)
     tmp = f.with_suffix(f".{os.getpid()}.tmp")
-    tmp.write_text(json.dumps({"head": list(state["head"]), "consumed": sorted(state.get("consumed", ()))}))
+    with open(tmp, "w") as fh:
+        fh.write(json.dumps({"head": list(state["head"]), "consumed": sorted(state.get("consumed", ()))}))
+        fh.flush()
+        os.fsync(fh.fileno())
     os.replace(tmp, f)
+    dfd = os.open(f.parent, os.O_RDONLY)  # durable before the action runs (power loss must not re-arm it)
+    try:
+        os.fsync(dfd)
+    finally:
+        os.close(dfd)
 
 
 def _iso(dt: datetime) -> str:
@@ -208,19 +250,12 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
     state["head"] = (ev["seq"], ev["hash"])
     _save_anchor(run_id, state)
     with tempfile.TemporaryDirectory(prefix="tl-act-") as td:  # run from the approved bytes, not the live tree
-        for rel, (kind, data) in snap.items():
-            dst = os.path.join(td, rel)
-            os.makedirs(os.path.dirname(dst), exist_ok=True)
-            if kind == "link":
-                os.symlink(data.decode(), dst)
-            else:
-                with open(dst, "wb") as fh:
-                    fh.write(data)
-                os.chmod(dst, os.stat(os.path.join(root, rel)).st_mode & 0o755 if os.path.exists(os.path.join(root, rel)) else 0o644)
-        try:
-            run_argv = [resolve_program(argv[0], root, env), *argv[1:]]  # same absolute path as hashed
+        try:  # preparation errors after the approval was consumed are recorded as the result, too
+            _materialize(snap, td)
+            prog = _map_into_copy(resolve_program(argv[0], root, env), root, td)
+            run_argv = [prog, *[_map_into_copy(a, root, td) for a in argv[1:]]]
             proc = subprocess.run(run_argv, cwd=td, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
-        except OSError as e:  # #29.3: execution failure is recorded as a result, never kills the gate
+        except (OSError, LedgerError) as e:  # #29.3: never kills the gate, never leaves only "started"
             proc = subprocess.CompletedProcess(argv, 127, b"", f"[truthlens gate: {type(e).__name__}]".encode())
     led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "evidence.attached",
                {"evidence_id": ev["id"].replace("evt_", "evd_"), "kind": "command_run", "refers_to": ev["id"],
