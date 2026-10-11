@@ -62,7 +62,7 @@ def test_f3_gate_refuses_forged_or_invalid_approval(tmp_path):
     p = tmp_path / "l.jsonl"
     led = Ledger(p, b"k", "k1")
     led.append("run_1", {"kind": "system", "id": "s"}, "run.started", {"repo": "", "ref": "", "command": "", "agent": ""})
-    flag = tmp_path / "ran"
+    flag = tmp_path.parent / f"{tmp_path.name}-ran"
     argv = ["touch", str(flag)]
     rc0, info0 = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(tmp_path))
     assert rc0 == gate.BLOCKED

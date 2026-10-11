@@ -82,7 +82,7 @@ def test_c_shadow_pytest_and_ignored_conftest_do_not_count(tmp_path):
 def test_d_rollback_cannot_rearm_approval(tmp_path):
     led = _open_ledger(tmp_path)
     state: dict = {"consumed": set()}
-    flag = tmp_path / "f"
+    flag = tmp_path.parent / f"{tmp_path.name}-f"
     argv = ["touch", str(flag)]
     _, info = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(tmp_path), state=state)
     gate.approve(led, "shu", info["action_hash"])
@@ -224,3 +224,20 @@ def test_34_review_relative_path_entry_fifo_and_external_symlink(tmp_path):
     os.symlink(tmp_path / "fifo", repo / "ext")
     with pytest.raises(LedgerError, match="symlink points outside"):
         gate.act(led, {"kind": "agent", "id": "a"}, ["cat", "ext"], str(repo))
+
+
+def test_42_review_absolute_in_tree_paths_modes_and_git_file(tmp_path):
+    led = _open_ledger(tmp_path)
+    repo, out = tmp_path / "repo", tmp_path / "out"
+    repo.mkdir()
+    (repo / ".git").write_text("gitdir: /elsewhere\n")  # worktree pointer is never copied/bound
+    (repo / "d.sh").write_text(f"echo ok > {out}\n")
+    h1 = gate.action_hash(["sh", str(repo / "d.sh")], str(repo), gate.snapshot(str(repo)))
+    (repo / ".git").write_text("gitdir: /other\n")
+    assert gate.action_hash(["sh", str(repo / "d.sh")], str(repo), gate.snapshot(str(repo))) == h1
+    (repo / "d.sh").chmod(0o755)
+    assert gate.action_hash(["sh", str(repo / "d.sh")], str(repo), gate.snapshot(str(repo))) != h1  # mode bound
+    rc, info = gate.act(led, {"kind": "agent", "id": "a"}, ["sh", str(repo / "d.sh")], str(repo))
+    gate.approve(led, "shu", info["action_hash"])
+    rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, ["sh", str(repo / "d.sh")], str(repo))
+    assert rc == 0 and out.read_text() == "ok\n"  # absolute in-tree path ran from the approved copy
