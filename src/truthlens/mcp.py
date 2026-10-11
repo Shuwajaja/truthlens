@@ -14,9 +14,9 @@ PROTOCOL = "2025-06-18"
 TOOLS = [
     {"name": "list_runs", "description": "List run directories (with manifest.json) under the root.",
      "inputSchema": {"type": "object", "properties": {}}},
-    {"name": "run_report", "description": "Verify a run and return criteria status, claims vs witnessed and counts.",
+    {"name": "run_report", "description": "Verify a run and return criteria status, claims vs witnessed, counts and integrity.",
      "inputSchema": {"type": "object", "properties": {"run": {"type": "string"}}, "required": ["run"]}},
-    {"name": "run_events", "description": "Verify a run and return its timeline (seq, ts, type, actor, summary).",
+    {"name": "run_events", "description": "Verify a run and return its timeline (seq, ts, type, actor, summary) with verified and integrity status.",
      "inputSchema": {"type": "object", "properties": {"run": {"type": "string"}}, "required": ["run"]}},
 ]
 
@@ -40,25 +40,27 @@ class Server:
         d = self._run_dir(name)
         events, errs = _verified_dir(str(d), self.key)
         if events is None:
-            return {"verified": False, "errors": errs}
+            return {"verified": False, "integrity": "failed", "errors": errs}
         doc = export.build(events, json.loads((d / "manifest.json").read_text()))
-        if self.key is None:
-            # without the key HMACs are not checked (hmac fields are attacker-controlled): never verified:true
-            doc["verified"], doc["integrity"] = False, "hash-only"
+        if self.key is not None:
+            doc["verified"] = True
+            doc["integrity"] = "hmac"
         else:
-            doc["integrity"] = "signed"
+            doc["verified"] = False
+            doc["integrity"] = "hash-only"
         return doc
 
     def call(self, name: str, args: dict) -> dict:
         if name == "list_runs":
             return {"runs": sorted(str(p.parent.relative_to(self.root)) for p in self.root.rglob("manifest.json"))}
         doc = self._doc(str(args.get("run", "")))
-        if not doc.get("verified") and doc.get("integrity") != "hash-only":
+        if doc.get("integrity") == "failed":
             return doc
         if name == "run_report":
             return {k: doc[k] for k in ("verified", "integrity", "run", "counts", "criteria", "claims")}
         if name == "run_events":
-            return {"verified": doc["verified"], "integrity": doc["integrity"], "events": [{k: e[k] for k in ("seq", "ts", "type", "actor", "summary")} for e in doc["events"]]}
+            return {"verified": doc["verified"], "integrity": doc["integrity"],
+                    "events": [{k: e[k] for k in ("seq", "ts", "type", "actor", "summary")} for e in doc["events"]]}
         raise ValueError(f"unknown tool {name}")
 
     def handle(self, msg: dict) -> dict | None:

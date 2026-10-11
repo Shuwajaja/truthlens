@@ -1,12 +1,14 @@
 import json
+import os
 import sqlite3
 import subprocess
 import sys
 import textwrap
+from pathlib import Path
 
 from truthlens.cli import main
 from truthlens.ledger import Ledger, verify
-from truthlens.wrapper import parse_pytest_counts
+from truthlens.wrapper import junit_counts
 
 AGENT = textwrap.dedent("""
     import os, pathlib
@@ -106,16 +108,24 @@ def test_gate_blocks_until_human_approval(tmp_path, monkeypatch, capsys):
     assert verify(led).ok
 
 
-def test_pytest_counts():
-    assert parse_pytest_counts("1 failed, 2 passed, 1 skipped in 0.1s", 1) == {"passed": 2, "failed": 1, "skipped": 1}
-    assert parse_pytest_counts("no tests ran in 0.01s", 5) == {"passed": 0, "failed": 0, "skipped": 0}
-    assert parse_pytest_counts("ImportError", 2)["failed"] == 1
-    assert parse_pytest_counts("1 passed, 1 error in 0.1s", 1) == {"passed": 1, "failed": 1, "skipped": 0}
+def test_junit_counts_not_stdout(tmp_path):
+    x = tmp_path / "r.xml"
+    assert junit_counts(x, 0) == {"passed": 0, "failed": 0, "skipped": 0}  # "5 passed" printed, no XML -> nothing
+    x.write_text('<testsuites><testsuite tests="4" failures="1" errors="0" skipped="1"/></testsuites>')
+    assert junit_counts(x, 1) == {"passed": 2, "failed": 1, "skipped": 1}
+    x.write_text('<testsuite tests="3" failures="0" errors="0" skipped="0"/>')
+    assert junit_counts(x, 2)["failed"] == 1  # non-zero exit always fails
+    x.write_text('<testsuite tests="garbage"/>')
+    assert junit_counts(x, 0)["passed"] == 0
+    x.write_text('<testsuite tests="0" failures="-1"/>')
+    assert junit_counts(x, 0)["passed"] == 0
 
 
 GATE_AGENT = textwrap.dedent("""
     import json, os, subprocess, sys, time, pathlib
-    act = [sys.executable, "-c", "import os,pathlib;pathlib.Path(%r).write_text(str(bool(os.environ.get('DEPLOY_TOKEN'))))" % os.path.abspath('../deployed')]
+    # the gate runs a private copy of the binary; uv/relocatable builds cannot start from a copy, system python can
+    py = "/usr/bin/python3" if os.path.exists("/usr/bin/python3") else sys.executable
+    act = [py, "-c", "import os,pathlib;pathlib.Path(%r).write_text(str(bool(os.environ.get('DEPLOY_TOKEN'))))" % os.path.abspath('../deployed')]
     subprocess.run(act)  # bypass attempt: agent runs it itself -> no capability
     bypass = pathlib.Path('../deployed').read_text()
     req = [sys.executable, "-m", "truthlens", "request", "--", *act]
@@ -140,6 +150,9 @@ def test_gate_channel_blocks_until_human_approves(tmp_path, monkeypatch):
     keyf.write_text("hmac-outside")
     keyf.chmod(0o600)
     monkeypatch.setenv("TL_HMAC", "hmac-outside")
+    # the agent runs `python -m truthlens` itself; make the package importable without an installed dist
+    src = str(Path(__file__).resolve().parents[1] / "src")
+    monkeypatch.setenv("PYTHONPATH", src + os.pathsep + os.environ.get("PYTHONPATH", ""))
     out = tmp_path / "run"
     ledger = out / "ledger.jsonl"
 

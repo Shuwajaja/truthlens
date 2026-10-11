@@ -21,7 +21,8 @@ _NAME = (
 _KEY_PATTERN = re.compile(rf"(?i){_NAME}")
 _FLAG = re.compile(rf"(?i)^--?[a-z0-9_-]*{_NAME}[a-z0-9_-]*$")
 _QV = r'''(?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|[^\s;&|]+)'''
-_FLAG_VAL = re.compile(rf"(?i)(?<![A-Za-z0-9_-])(--?[a-z0-9_-]{{0,64}}?{_NAME}[a-z0-9_-]{{0,64}})(?:\s+|=)({_QV})")
+# names of any length (no 64-char bypass); the secret-name test runs in the callback, so matching stays linear
+_FLAG_VAL = re.compile(rf"(?i)(?<![A-Za-z0-9_-])(--?[a-z0-9_-]+)(?:\s+|=)({_QV})")
 _USER_FLAG = re.compile(rf"(?<![A-Za-z0-9_-])(-u|--user|--proxy-user)(?:\s+|=)({_QV})")
 _USER_FLAGS = frozenset({"-u", "--user", "--proxy-user"})
 
@@ -47,7 +48,7 @@ _VALUE_PATTERN = re.compile(
     r"|-----BEGIN [A-Z ]*PRIVATE KEY-----[\s\S]*?-----END [A-Z ]*PRIVATE KEY-----"
 )
 # NAME=value / NAME: value / --name=value inside free text (env dumps, logs, commands)
-_ASSIGN = re.compile(rf"(?i)(?<![A-Za-z0-9_.-])([\"']?[A-Za-z0-9_.-]{{0,64}}?{_NAME}[A-Za-z0-9_.-]{{0,64}}[\"']?\s{{0,64}}[=:]\s{{0,64}})({_QV})")
+_ASSIGN = re.compile(rf"(?<![A-Za-z0-9_.-])([\"']?[A-Za-z0-9_.-]+[\"']?\s*[=:]\s*)({_QV})")
 _URL_CRED = re.compile(r"(?<=://)(?:[^/\s:@]+(?::[^/\s@]*)?|:[^/\s@]+)(?=@)")
 
 
@@ -57,16 +58,44 @@ def is_secret_key(key: str) -> bool:
 
 def _flag_val(m: re.Match) -> str:
     flag = m.group(1)
-    return m.group(0) if _is_counter(flag.lstrip("-")) else m.group(1) + " " + REDACTED
+    if not _KEY_PATTERN.search(flag) or _is_counter(flag.lstrip("-")):
+        return m.group(0)
+    return m.group(1) + " " + REDACTED
+
+
+MAX_INPUT = 4 * 1024 * 1024  # #32.6: bound the total input instead of the whitespace run
+
+
+def _sub_rescan(pat: re.Pattern, fn, s: str) -> str:
+    """Like pat.sub(fn, s), but a match whose name is NOT secret does not consume its value: scanning resumes
+    right after the name, so a secret field next to it (`--silent --password v`, `info: password=v`) is seen."""
+    out, pos = [], 0
+    while True:
+        m = pat.search(s, pos)
+        if not m:
+            out.append(s[pos:])
+            return "".join(out)
+        r = fn(m)
+        if r == m.group(0) and _KEY_PATTERN.search(s, m.end(1), m.end()):
+            out.append(s[pos:m.end(1)])  # the value holds a secret-like name: rescan it
+            pos = m.end(1)
+        elif r == m.group(0):
+            out.append(s[pos:m.end()])
+            pos = m.end()
+        else:
+            out.append(s[pos:m.start()] + r)
+            pos = m.end()
 
 
 def redact_str(value: str) -> str:
+    if len(value) > MAX_INPUT:
+        return REDACTED + " [input too large to redact safely]"
     value = _URL_CRED.sub(REDACTED, value)
     value = _VALUE_PATTERN.sub(REDACTED, value)
 
     def _assign(m: re.Match) -> str:
         name = m.group(1).split("=")[0].split(":")[0].strip().strip("'\"")
-        if _is_counter(name.lstrip("-")) or m.group(2) == REDACTED:
+        if not _KEY_PATTERN.search(name) or _is_counter(name.lstrip("-")) or m.group(2) == REDACTED:
             return m.group(0)
         val = m.group(2)
         if m.group(1)[:1] in "\"'" and val[:1] not in "\"'":  # quoted key (JSON/dict): value ends at , } ]
@@ -74,8 +103,8 @@ def redact_str(value: str) -> str:
             return m.group(1) + REDACTED + val[cut:]
         return m.group(1) + REDACTED
 
-    value = _ASSIGN.sub(_assign, value)
-    value = _FLAG_VAL.sub(_flag_val, value)
+    value = _sub_rescan(_ASSIGN, _assign, value)
+    value = _sub_rescan(_FLAG_VAL, _flag_val, value)
     value = _USER_FLAG.sub(lambda m: m.group(1) + " " + REDACTED, value)
     return value
 
