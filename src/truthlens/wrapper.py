@@ -52,6 +52,8 @@ class RunConfig:
     agent: str = ""
     human: str = "owner"
     gate_env: list[str] = field(default_factory=list)
+    test_user: str | None = None  # run witnessed tests as this unix user (sudo -n -u), e.g. tl-agent
+    test_path: str | None = None  # PATH for the test user (its own venv); default TEST_PATH
 
 
 def parse_test_spec(spec: str) -> TestSpec:
@@ -307,17 +309,31 @@ def run(cfg: RunConfig) -> dict:
                     continue  # #32.5: never restore through a directory symlink out of the copy
                 (work / rel).unlink(missing_ok=True)
                 (work / rel).write_bytes(data)
-            test_env = {"PATH": TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8", "TMPDIR": td,
-                        "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
+            test_env = {"PATH": cfg.test_path or TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8",
+                        "TMPDIR": str(home), "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
+            jx = Path(td) / "junit" / "report.xml"  # outside the copied tree
+            jx.parent.mkdir()
+            cmd = t.command + (f" --junitxml={jx}" if "pytest" in t.command else "")
+            argv, env_ = ["/bin/sh", "-c", cmd], test_env
+            if cfg.test_user:
+                # separate UID: test code cannot read the HMAC key, the rollback anchors or other box secrets.
+                # Kill leftover processes of that user first so an agent daemon cannot plant the XML later.
+                u = cfg.test_user
+                subprocess.run(["sudo", "-n", "-u", u, "pkill", "-KILL", "-u", u], capture_output=True, check=False)
+                os.chmod(td, 0o711)
+                subprocess.run(["sudo", "-n", "chown", "-R", u, str(work), str(home), str(jx.parent)], check=True)
+                argv = ["sudo", "-n", "-u", u, "env", "-i", *[f"{k}={v}" for k, v in test_env.items()], *argv]
+                env_ = None
             try:
-                jx = Path(td) / "junit" / "report.xml"  # outside the copied tree
-                cmd = t.command + (f" --junitxml={jx}" if "pytest" in t.command else "")
-                tp = subprocess.run(cmd, shell=True, cwd=work, env=test_env, stdin=subprocess.DEVNULL,
+                tp = subprocess.run(argv, cwd=work, env=env_, stdin=subprocess.DEVNULL,
                                     capture_output=True, timeout=600, check=False)
                 text, trc = (tp.stdout + tp.stderr).decode("utf-8", "replace"), tp.returncode
             except subprocess.TimeoutExpired:
                 text, trc = "[truthlens: test timeout]", 124
             counts = junit_counts(jx, trc)  # counts never come from stdout (forgeable by printing)
+            if cfg.test_user:  # hand the copy back so the temp dir can be removed
+                subprocess.run(["sudo", "-n", "chown", "-R", str(os.getuid()), str(work), str(home), str(jx.parent)],
+                               capture_output=True, check=False)
         text = _scrub(text, secrets)
         if "No module named pytest" in text:  # #32.4: missing runner is not evidence of failure -> not decisive
             counts = {"passed": 0, "failed": 0, "skipped": 0}

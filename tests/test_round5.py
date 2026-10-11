@@ -183,3 +183,25 @@ def test_6_key_redacted_in_binary_blob():
     assert key.encode() not in out and out.startswith(b"\xff\x00")
     raw = b"\xfe\xffkey\x80"  # non-UTF-8 key bytes
     assert raw not in _scrub_bytes(b"x" + raw, [raw.decode("utf-8", "surrogateescape")])
+
+
+@pytest.mark.skipif(not (_tl_agent_ok() and __import__("os").path.exists("/srv/tl-agent/venv/bin/python")),
+                    reason="needs tl-agent + /srv/tl-agent/venv (box only)")
+def test_witnessed_tests_run_as_test_user_cannot_read_key(tmp_path):
+    keyf = _keyfile(tmp_path)
+    r = tmp_path / "repo"
+    r.mkdir()
+    (r / "test_k.py").write_text(
+        "import getpass, pytest\n"
+        f"def test_key_unreadable():\n    assert getpass.getuser() == 'tl-agent'\n"
+        f"    with pytest.raises(PermissionError):\n        open({str(keyf)!r}).read()\n")
+    subprocess.run(["git", "init", "-q", str(r)], check=True)
+    subprocess.run(["git", "-C", str(r), "add", "."], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "i"], check=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--test-user", "tl-agent",
+                 "--test-path", "/srv/tl-agent/venv/bin:/usr/bin:/bin",
+                 "--test", "c1=python -m pytest -q -p no:cacheprovider test_k.py",
+                 "--hmac-key-file", str(keyf), "--hmac-key-id", "k1", "--", "true"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
+    assert rep["passed"] == 1 and rep["failed"] == 0
