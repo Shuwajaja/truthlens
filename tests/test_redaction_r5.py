@@ -11,3 +11,15 @@ def test_32_5_non_utf8_blob_is_redacted():
 def test_32_6_long_whitespace_does_not_leak():
     assert "hunter2secret" not in redact_str("password" + " " * 65 + "= hunter2secret")
     assert "hunter2secret" not in redact_str("password" + " " * 5000 + ": hunter2secret")
+
+
+def test_32_6_long_names_and_input_cap():
+    import time
+
+    from truthlens.redaction import MAX_INPUT
+    assert "hunter2secret" not in redact_str(("A" * 65) + "_PASSWORD=hunter2secret")
+    assert "hunter2secret" not in redact_str("--" + "x" * 100 + "-token hunter2secret")
+    assert redact_str("x" * (MAX_INPUT + 1)).startswith("[REDACTED]")
+    t = time.monotonic()
+    redact_str("a" * 1_000_000 + "=1")  # linear, no catastrophic backtracking
+    assert time.monotonic() - t < 2
