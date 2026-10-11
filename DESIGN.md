@@ -1,27 +1,33 @@
-# DESIGN.md – visual direction (binding for viewer, mockups, application page)
+# DESIGN.md – visual direction v2 (binding for viewer, mockups, application page)
 
-Goal: calm, factual, trustworthy. Think GitHub / Linear. The UI shows evidence, it does not sell.
+Direction approved by the owner on 2026-10-11 (concept mockups `v2-01-truth-overview`, `v2-02-claimed-vs-proven`, `v2-03-timeline`, kept by CodexChat, Drive `Projekte/truthlens`): **dark mission-control**. The first screen answers one question in plain language: *what did the agent say, and what is actually proven?*
 
-## Rules
-- No glassmorphism, no decorative gradients, no hero section, no KPI tile grid, no glow, no transform hover effects.
-- Layout: fixed left nav (240 px, 1 px border) + content column; tables and lists over cards.
-- Type: system UI sans (`ui-sans-serif, system-ui`), 14 px body, monospace for hashes/ids/paths.
-- Spacing scale 4/8/12/16/24/32. Radius 6 px (controls) / 8 px (panels). Shadow max `0 2px 8px rgba(0,0,0,.08)`.
-- Neutral palette (GitHub-like): bg `#ffffff` / dark `#0d1117`, surface `#f6f8fa` / `#161b22`, border `#d0d7de` / `#30363d`, text `#1f2328` / `#e6edf3`.
-- Numbers are counts ("3 of 5 criteria witnessed"), never percentages, scores or trust meters.
-- UI labels in English; status values shown exactly as in the schema.
+## Main view (Truth Overview)
+- Large plain-language headline: **"Your agent said: Done. Here's what's actually proven."** (agent's own word substituted when known).
+- One sentence of counts below it: "2 of 3 things are proven. 1 is only claimed." Counts, never percentages, scores or trust meters.
+- One colour card per criterion: icon + short plain title + one plain sentence ("Proven – the test passed.") + the schema status as a small label.
+- One callout for the biggest gap ("Your agent said 'All tests passed'. Mobile was never tested.").
+- **No hashes, IDs, seq numbers or paths in the main view.** They live in the detail drawer and the audit/timeline view (Developer Lens).
 
-## Status colours (one list, = schema criterion `status` + human approval)
-| Status | Token | Light | Dark | Meaning |
-|---|---|---|---|---|
-| `met` | `--st-met` | `#1a7f37` | `#3fb950` | witnessed evidence passes |
-| `unmet` | `--st-unmet` | `#cf222e` | `#f85149` | witnessed evidence fails |
-| `unverified` | `--st-unverified` | `#6e7781` | `#8b949e` | no witnessed evidence |
-| `proposed` | `--st-proposed` | `#9a6700` | `#d29922` | derived, awaiting human confirmation |
-| `claimed` | `--st-claimed` | `#0969da` | `#58a6ff` | agent claim only, no witness |
-| `human-approved` | `--st-human` | `#8250df` | `#a371f7` | confirmed by `actor.kind = human` |
+## Card colours (dark first)
+| Card | When | Colour (dark) | Schema label shown |
+|---|---|---|---|
+| green – proven | `met` (witnessed evidence passes) | `#3fb950` | `met` |
+| yellow – claimed only | agent claimed it, nothing witnessed it (`claim_unwitnessed`) | `#d29922` | `unverified` + "claimed" |
+| red – failed | `unmet` (witnessed evidence fails) | `#f85149` | `unmet` |
+| gray – not checked | `unverified` and not claimed | `#8b949e` | `unverified` |
+| outline only | `proposed` (awaiting human confirmation) | border `#8b949e`, dashed | `proposed` |
 
-Badges always show text + colour (never colour alone). Trust badges (`integrity_verified`, `review_required`, …) are neutral outline badges next to the status, never a replacement.
+Colour is never the only signal: every card has an icon and text. Human approval / confirmation is shown as a neutral "confirmed by you" line, not a separate colour. Trust badges (`integrity_verified`, `review_required`, …) stay neutral outline badges in the detail view.
+
+## Rules (kept from v1)
+- No glassmorphism, no decorative gradients, no glow, no transform hover effects, no marketing hero.
+- Dark surfaces: bg `#0d1117`, surface `#161b22`, border `#30363d`, text `#e6edf3`, muted `#8b949e`. Light theme optional later, same tokens.
+- Layout: left nav (Overview · Claimed vs Proven · Timeline) + content column. Cards only for criteria; lists/tables elsewhere.
+- Type: system UI sans; headline 40–48 px bold, body 15–16 px; monospace only in detail/audit for hashes, ids, paths.
+- Spacing 4/8/12/16/24/32; radius 8 px; at most a 1 px border, no heavy shadows.
+- UI labels English; schema values shown exactly as in the schema next to the plain-language words.
+- Mockups carry a visible "Concept" badge until they show a real recorded run.
 
 ## Review
 Before a UI PR: check against `.agents/skills/no-slop-ui/` and `.agents/skills/web-interface-review.md`; `DESIGN.md` wins on conflict.
