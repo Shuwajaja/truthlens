@@ -20,3 +20,8 @@ Lean: only tests that guard an acceptance criterion (ledger, tamper, crash, reda
 
 ## Secrets
 Never write secrets/keys/tokens to files, logs, commits, prompts or test fixtures. Use env vars; use fake values like `sk-test-...` in tests.
+
+## Skills & design
+- Python work: `.agents/skills/python-conventions.md`.
+- UI work (viewer, mockups, page): `DESIGN.md` first, then `.agents/skills/no-slop-ui/`, final check `.agents/skills/web-interface-review.md`. Vetting record: `.agents/skills/README.md`.
+- Demo golden path: `docs/DEMO-TASK.md`.
