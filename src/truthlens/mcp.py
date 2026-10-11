@@ -42,21 +42,23 @@ class Server:
         if events is None:
             return {"verified": False, "errors": errs}
         doc = export.build(events, json.loads((d / "manifest.json").read_text()))
-        if self.key is None and any("hmac" in e for e in events):
-            # round-5 finding e: without the key HMACs are not checked; a rewritten ledger would still pass
-            doc["verified"] = doc["integrity"] = "hash-only, unsigned"
+        if self.key is None:
+            # without the key HMACs are not checked (hmac fields are attacker-controlled): never verified:true
+            doc["verified"], doc["integrity"] = False, "hash-only"
+        else:
+            doc["integrity"] = "signed"
         return doc
 
     def call(self, name: str, args: dict) -> dict:
         if name == "list_runs":
             return {"runs": sorted(str(p.parent.relative_to(self.root)) for p in self.root.rglob("manifest.json"))}
         doc = self._doc(str(args.get("run", "")))
-        if not doc.get("verified"):
+        if not doc.get("verified") and doc.get("integrity") != "hash-only":
             return doc
         if name == "run_report":
-            return {k: doc[k] for k in ("verified", "run", "counts", "criteria", "claims")}
+            return {k: doc[k] for k in ("verified", "integrity", "run", "counts", "criteria", "claims")}
         if name == "run_events":
-            return {"events": [{k: e[k] for k in ("seq", "ts", "type", "actor", "summary")} for e in doc["events"]]}
+            return {"verified": doc["verified"], "integrity": doc["integrity"], "events": [{k: e[k] for k in ("seq", "ts", "type", "actor", "summary")} for e in doc["events"]]}
         raise ValueError(f"unknown tool {name}")
 
     def handle(self, msg: dict) -> dict | None:

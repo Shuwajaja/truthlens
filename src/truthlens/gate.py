@@ -17,18 +17,33 @@ from truthlens.ledger import Ledger, LedgerError, _parse_ts, verify
 
 APPROVAL_TTL = timedelta(minutes=10)  # D6
 BLOCKED = 3
+MAX_BIND = 16 * 1024 * 1024
 
 
 def referenced_files(argv: list[str], cwd: str | None) -> dict[str, str]:
     """sha256 of every argv element that names an existing regular file (relative to cwd), e.g. `sh deploy.sh`.
     Bound into the action hash so that editing the script after approval changes the hash (round-5 finding b)."""
     import os
+    import shutil
+    import stat
+    root = os.path.realpath(cwd or ".")
     out = {}
-    for a in argv[1:]:
-        f = os.path.join(cwd or ".", a)
-        if os.path.isfile(f):
-            with open(f, "rb") as fh:
-                out[a] = hashlib.sha256(fh.read()).hexdigest()
+    for i, a in enumerate(argv):
+        f = os.path.join(root, a)
+        if i == 0 and "/" not in a:  # program from PATH: bind its resolved binary too
+            f = shutil.which(a) or f
+        try:
+            st = os.stat(f)
+        except (OSError, ValueError):
+            continue
+        real = os.path.realpath(f)
+        in_repo = real == root or real.startswith(root + os.sep)
+        if not stat.S_ISREG(st.st_mode) or (i > 0 and not in_repo):
+            continue  # only regular files; arguments only inside the repo (no /proc, devices)
+        if st.st_size > MAX_BIND:
+            raise LedgerError(f"referenced file too large to bind: {a}")
+        with open(real, "rb") as fh:
+            out[a] = hashlib.sha256(fh.read()).hexdigest()
     return out
 
 
@@ -145,7 +160,7 @@ class GateServer:
                 if not (isinstance(argv, list) and argv and all(isinstance(a, str) for a in argv)):
                     raise ValueError("argv must be a non-empty list of strings")
                 rc, info = act(self.led, self.requester, argv, self.cwd, self.env, self.state)
-            except (ValueError, KeyError, LedgerError) as e:
+            except Exception as e:  # noqa: BLE001 - one bad request must never stop the gate thread
                 rc, info = 2, {"status": "error", "error": str(e)}
             req.unlink()
             tmp = res.with_suffix(".tmp")

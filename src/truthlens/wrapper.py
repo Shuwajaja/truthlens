@@ -100,12 +100,13 @@ def is_protected(rel: str) -> bool:
     return any(rel.startswith(p) if p.endswith("/") else (rel == p or name == "conftest.py") for p in PROTECTED)
 
 
+NEW_IMPORT_HOOKS = {"__init__.py", "conftest.py", "__main__.py"}  # agent-created ones never enter the test copy
 SHADOW = {"pytest.py", "sitecustomize.py", "usercustomize.py", "py.py"}
 
 
 def _is_shadow(rel: str) -> bool:
     parts = rel.split("/")
-    return parts[-1] in SHADOW or parts[-1].endswith(".pth") or "_pytest" in parts or parts[0] == "pytest"
+    return parts[-1] in SHADOW or parts[-1].endswith(".pth") or "_pytest" in parts or "pytest" in parts
 
 
 def _read(f: Path) -> bytes:
@@ -278,7 +279,7 @@ def run(cfg: RunConfig) -> dict:
             # drop shadow modules (pytest.py, _pytest/, sitecustomize.py, *.pth), run with PYTHONSAFEPATH
             work.mkdir()
             for rel in after:
-                if _is_shadow(rel):
+                if _is_shadow(rel) or (rel not in before and rel.split("/")[-1] in NEW_IMPORT_HOOKS):
                     continue
                 src, dst = cfg.repo / rel, work / rel
                 dst.parent.mkdir(parents=True, exist_ok=True)

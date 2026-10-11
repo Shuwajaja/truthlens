@@ -73,7 +73,7 @@ def test_c_shadow_pytest_and_ignored_conftest_do_not_count(tmp_path):
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                  "--", sys.executable, "evil.py"]) == 0
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
-    assert rep["passed"] == 0 and rep["exit_code"] != 0
+    assert rep["passed"] == 0 and rep["failed"] >= 1 and rep["exit_code"] == 1  # real red test_mail.py ran
 
 
 def test_d_rollback_cannot_rearm_approval(tmp_path):
@@ -96,7 +96,7 @@ def test_e_mcp_without_key_is_not_verified_true(tmp_path):
     import shutil
     shutil.copytree(DEMO / "demo-2", tmp_path / "demo-2")
     rep = json.loads(_rpc(tmp_path, _call(1, "run_report", run="demo-2"))[0]["result"]["content"][0]["text"])
-    assert rep["verified"] is not True and rep["verified"] == "hash-only, unsigned"
+    assert rep["verified"] is False and rep["integrity"] == "hash-only"
 
 
 def _tl_agent_ok() -> bool:
@@ -126,7 +126,7 @@ def test_a_separate_uid_agent_cannot_read_key(tmp_path):
                         open(p).read()
                         sys.exit(0)  # stolen
                     except OSError:
-                        sys.exit(1)  # path visible, key unreadable
+                        sys.exit(42)  # path visible, key unreadable
                 pid = int(open(f"/proc/{pid}/stat").read().rsplit(")", 1)[1].split()[1])
             sys.exit(2)
         """)
@@ -140,4 +140,12 @@ def test_a_separate_uid_agent_cannot_read_key(tmp_path):
                             "--criteria", str(crit), "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
                             "--", "sudo", "-n", "-u", "tl-agent", "env", "-i", "PATH=/usr/bin:/bin",
                             "/usr/bin/python3", "steal.py"], capture_output=True, text=True, check=True)
-        assert json.loads(p.stdout.strip().splitlines()[-1])["exit_code"] == 1
+        assert json.loads(p.stdout.strip().splitlines()[-1])["exit_code"] == 42
+
+
+def test_b2_argv0_script_bound_and_proc_args_ignored(tmp_path):
+    (tmp_path / "deploy.sh").write_text("#!/bin/sh\necho ok\n")
+    h1 = gate.action_hash(["./deploy.sh"], str(tmp_path))
+    (tmp_path / "deploy.sh").write_text("#!/bin/sh\necho EVIL\n")
+    assert gate.action_hash(["./deploy.sh"], str(tmp_path)) != h1
+    gate.action_hash(["echo", "/proc/self/mem"], str(tmp_path))  # must not raise
