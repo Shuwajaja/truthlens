@@ -79,6 +79,9 @@ def verify_bytes(data: bytes, hmac_key: bytes | None = None) -> VerifyResult:
     granted: dict[str, dict] = {}
     consumed: set[str] = set()
     last_type = None
+    req_ids: set[str] = set()
+    crit_ids: dict[str, str] = {}
+    finished = False
 
     def err(n: int, msg: str) -> None:
         res.errors.append((n, msg))
@@ -134,6 +137,10 @@ def verify_bytes(data: bytes, hmac_key: bytes | None = None) -> VerifyResult:
             err(n, f"{t} requires actor.kind=human")
         if t == "approval.granted":
             granted[ev["id"]] = p
+        _check_semantics(t, p, kind, req_ids, crit_ids, lambda m, n=n: err(n, m))
+        if finished and t != "ledger.repaired":
+            err(n, "event after run.finished (D28)")
+        finished = finished or t == "run.finished"
         if t == "action.executed" and p.get("approval_event_id") is not None:
             aid = p["approval_event_id"]
             if aid not in granted or granted[aid].get("action_hash") != p.get("action_hash"):
@@ -152,6 +159,42 @@ def verify_bytes(data: bytes, hmac_key: bytes | None = None) -> VerifyResult:
     res.anchored = res.ok and last_type == "run.finished"
     res.torn_tail_only = bool(res.errors) and all(m.startswith("torn tail") for _, m in res.errors)
     return res
+
+
+WITNESSED = {"test.reported", "evidence.attached"}
+
+
+def _check_semantics(t: str, p: dict, kind: str | None, req_ids: set, crit_ids: dict, err) -> None:
+    """D23–D25: criterion authorship, unique ids, resolvable references, text binding, witness actors."""
+    if t == "requirement.recorded":
+        rid = p.get("requirement_id")
+        if rid in req_ids:
+            err("duplicate requirement_id (D24)")
+        req_ids.add(rid)
+    if t == "criterion.recorded":
+        cid = p.get("criterion_id")
+        if cid in crit_ids:
+            err("duplicate criterion_id (D24)")
+        if p.get("requirement_id") is not None and p["requirement_id"] not in req_ids:
+            err("unknown requirement_id (D24)")
+        if p.get("source") == "user" and kind != "human":
+            err("criterion source=user requires actor.kind=human (D23)")
+        if p.get("source") == "derived" and not p.get("derived_by"):
+            err("derived criterion without derived_by")
+        crit_ids[cid] = p.get("text_sha256")
+        return
+    if t == "criteria.confirmed":
+        for c in p.get("criteria", []) if isinstance(p.get("criteria"), list) else []:
+            if not isinstance(c, dict) or c.get("criterion_id") not in crit_ids:
+                err("criteria.confirmed references unknown criterion (D24)")
+            elif c.get("text_sha256") != crit_ids[c["criterion_id"]]:
+                err("criteria.confirmed text_sha256 mismatch (D24)")
+    refs = p.get("criterion_ids")
+    if isinstance(refs, list) and any(r not in crit_ids for r in refs):
+        err("criterion_ids reference unknown criterion (D24)")
+    decisive = t == "test.reported" or (t in WITNESSED and p.get("result") in ("pass", "fail"))
+    if decisive and kind not in ("wrapper", "system"):
+        err(f"{t} must be witnessed by wrapper|system (D25)")
 
 
 class Ledger:
