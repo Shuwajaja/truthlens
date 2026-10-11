@@ -170,3 +170,12 @@ def test_key_file_inside_repo_refused(tmp_path):
     with pytest.raises(SystemExit):
         main(["run", "--out", str(tmp_path / "o"), "--repo", str(r), "--hmac-key-file", str(r / "k"),
               "--hmac-key-id", "k", "--", "true"])
+
+
+def test_export_cards_follow_design_v2(tmp_path, monkeypatch, capsys):
+    out = _run(tmp_path, monkeypatch)
+    capsys.readouterr()
+    assert main(["export", str(out), "--hmac-key-env", "TL_HMAC"]) == 0
+    doc = json.loads(capsys.readouterr().out)
+    assert {c["criterion_id"]: c["card"] for c in doc["criteria"]} == {"c1": "green", "c2": "red", "c3": "yellow"}
+    assert doc["counts"]["green"] == 1 and doc["verified"] is True
