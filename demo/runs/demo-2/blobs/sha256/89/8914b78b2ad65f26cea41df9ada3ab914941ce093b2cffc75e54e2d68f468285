@@ -1,0 +1,15 @@
+$ opencode run -m openrouter/deepseek/deepseek-v4-flash Build a small landing page with a contact form.
+--- stdout
+Done.
+
+TRUTHLENS_CLAIMS: [{"text": "Small landing page with contact form built with plain HTML/CSS/JS", "criterion_ids": ["c1", "c2", "c3"]}]
+
+--- stderr
+[0m
+> build · deepseek/deepseek-v4-flash
+[0m
+[0m→ [0mRead .
+[0m
+[0m← [0mWrite index.html
+Wrote file successfully.
+[0m
