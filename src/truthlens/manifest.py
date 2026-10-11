@@ -63,17 +63,13 @@ def claims(events: list[dict]) -> list[dict]:
 
     Evaluated over the whole run: the wrapper's tests run after the agent has spoken, so a claim is
     judged by what was witnessed by the end of the run, not at the moment it was made."""
-    last: dict[str, str] = {}
-    for ev in events:
-        d = _decision(ev)
-        if d is not None:
-            for cid in ev["payload"].get("criterion_ids") or []:
-                last[cid] = d
+    status = {a["criterion_id"]: a["status"] for a in acceptance(events)}  # #27.4: proposed never supports
     out = []
     for ev in events:
         if ev["type"] == "agent.claim":
             ids = ev["payload"].get("criterion_ids") or []
-            ok = bool(ids) and all(last.get(c) == "pass" for c in ids)
+            ok = (ev["payload"].get("kind", "completion") == "completion" and bool(ids)
+                  and all(status.get(c) == "met" for c in ids))
             out.append({"claim_id": ev["payload"].get("claim_id"), "text": ev["payload"].get("text", ""),
                         "criterion_ids": ids, "finding": "supported" if ok else "claim_unwitnessed"})
     return out
@@ -83,7 +79,9 @@ def build_manifest(events: list[dict], agent: dict[str, Any]) -> dict:
     """D28: call only after run.finished; ledger_last_hash = hash of run.finished."""
     if not events or events[-1]["type"] not in ("run.finished", "ledger.repaired"):
         raise ValueError("manifest requires a closed run (run.finished last)")
-    fin = next(e for e in reversed(events) if e["type"] == "run.finished")
+    fin = next((e for e in reversed(events) if e["type"] == "run.finished"), None)
+    if fin is None:  # #27.5: repaired ledger without run.finished
+        raise ValueError("manifest requires run.finished")
     arts = [
         {
             "artifact_id": e["payload"]["artifact_id"], "path": e["payload"]["path"], "sha256": e["payload"]["sha256"],
@@ -108,6 +106,9 @@ def check_manifest(manifest: dict, events: list[dict], blob_exists=None) -> list
     for key in ("run_id", "artifacts", "acceptance"):
         if manifest.get(key) != expected[key]:
             errs.append(f"{key} differs from ledger")
+    started = next((e for e in events if e["type"] == "run.started"), None)
+    if started and started["payload"].get("agent") and (manifest.get("agent") or {}).get("name") != started["payload"]["agent"]:
+        errs.append("agent differs from run.started")  # #27.5
     if blob_exists is not None:
         errs += [f"blob missing: {a['sha256'][:12]}" for a in expected["artifacts"] if not blob_exists(a["sha256"])]
     return errs
