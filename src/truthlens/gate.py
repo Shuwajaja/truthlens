@@ -28,13 +28,14 @@ _CFG_FILE_OPTS = frozenset({"-c", "--config", "--config-file", "-o", "--override
 
 
 def _opt_value_paths(val: str) -> list[str]:
-    """Every path a tool could read out of a config/--override-ini option value. Any run starting with '/' is
-    taken on its own - quotes, whitespace and '=' ':' ',' ';' all end a run - and a '..' component is kept too,
-    so no second path can hide behind a separator or a quote: pytest reads `-o pythonpath=/a /b`, `/a:/b`,
-    `"/a"` and `/a;/b` all as external import paths that the action hash does not cover (#83)."""
-    out = re.findall(r"/[^\s=:,;'\"]*", val)
-    out += [t for t in re.split(r"[\s=:,;]+", val.replace('"', " ").replace("'", " ")) if ".." in t]
-    return out
+    """Path candidates a tool could read out of a config-like option value. The `key=` prefix and quotes are
+    dropped and the value is split at whitespace, `:` and `;`, the separators a config list uses (`-o
+    pythonpath=<a> <b>`, `<a>:<b>`, `"<a>"`). A comma is NOT a separator: it is a normal path character, so
+    `pythonpath=<tree>,evil` stays whole and is seen as the external path it is. A plain relative value such
+    as `cfg/pytest.ini` also stays whole; it is inside the tree and bound by the approved snapshot (#83)."""
+    body = val.split("=", 1)[1] if "=" in val and not val.startswith("=") else val
+    body = body.replace('"', " ").replace("'", " ")
+    return [p for p in re.split(r"[\s:;]+", body) if p]
 
 
 

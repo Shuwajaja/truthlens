@@ -913,9 +913,23 @@ def test_r8_gate_config_value_whitespace_paths_refused(tmp_path):
                  [sys.executable, "-m", "pytest", f"--override-ini=pythonpath={repo}/safe {external}"],
                  [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe:{external}"],
                  [sys.executable, "-m", "pytest", "-o", f'pythonpath="{external}"'],   # quoted
-                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe;{external}"]):  # ';'
+                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe;{external}"],  # ';'
+                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo},evil"]):        # ',' is a path char
         with pytest.raises(LedgerError, match="outside the working tree"):
             gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+
+
+def test_r8_gate_relative_config_file_inside_tree_usable(tmp_path):
+    """A plain relative config value inside the tree must stay usable: it is bound by the approved snapshot,
+    unlike an absolute path outside the tree (#83 review round 3)."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    (repo / "cfg").mkdir(parents=True)
+    (repo / "cfg" / "pytest.ini").write_text("[pytest]\n")
+    for argv in ([sys.executable, "-m", "pytest", "-c", "cfg/pytest.ini"],
+                 [sys.executable, "-m", "pytest", "--config-file=cfg/pytest.ini"]):
+        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+        assert rc == gate.BLOCKED  # blocked for approval, not refused
 
 
 def test_r8_gate_in_tree_config_file_still_approvable(tmp_path):
