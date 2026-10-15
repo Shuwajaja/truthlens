@@ -52,21 +52,29 @@ def _opt_value_paths(val: str, commas: bool = False) -> list[str]:
 
 def _refuse_cfg_path(opt: str, val: str, root: str, arg: str) -> None:
     """Refuse a config-like value naming anything outside the tree, using pytest's real value semantics
-    (measured against pytest 9.1.1): `-o`/`--override-ini` read a `key=<value>` whose VALUE is a list split at
-    whitespace and surrounding quotes, while `-c`/`--config-file`/`--rootdir`/`--confcutdir` read one literal
-    path - a `:` or `,` inside it is part of the name, not a separator. An absolute candidate must resolve into
-    the tree lexically (existence is irrelevant); a relative one must not climb out with a `..` component,
-    because the action runs inside the materialized copy, where `..` reaches the live parent tree. A plain
-    in-tree value such as `cfg/pytest.ini` stays usable (#83)."""
+    (measured against pytest 9.1.1, the repo's own pytest): `-o`/`--override-ini` read a `key=<value>` that
+    pytest parses with shell-like rules - only whitespace splits it (`:` `,` `;` do NOT), quotes group a path
+    with spaces and a backslash escape is resolved - so `shlex` reproduces it exactly. `-c`/`--config-file`/
+    `--rootdir`/`--confcutdir` read ONE literal path. An absolute candidate must resolve into the tree
+    lexically (existence is irrelevant); a relative one must not contain a `..` component, because the action
+    runs inside the materialized copy, where `..` reaches the live parent tree. A plain in-tree value such as
+    `cfg/pytest.ini` stays usable (#83)."""
     import os
-    body = val.strip().strip('"').strip("'")
+    import shlex
     if opt in _INI_VALUE_OPTS:
-        cands = [body]
-        if "=" in body and not body.startswith("="):
-            cands.append(body.split("=", 1)[1])
-        cands += body.replace('"', " ").replace("'", " ").split()
+        try:
+            tokens = shlex.split(val)  # quotes and backslash escapes, exactly like pytest
+        except ValueError:  # unbalanced quote: fail closed, treat quotes as separators
+            tokens = re.split(r"\s+", val.replace('"', " ").replace("'", " ").strip())
+        cands = []
+        for tok in tokens:
+            for part in (tok, tok.strip('"').strip("'")):
+                if part:
+                    cands.append(part)
+            if "=" in tok and not tok.startswith("="):
+                cands.append(tok.split("=", 1)[1])
     else:
-        cands = [body]
+        cands = [val.strip().strip('"').strip("'")]
     for cand in cands:
         if not cand:
             continue

@@ -936,6 +936,27 @@ def test_r8_gate_colon_and_semicolon_in_config_value_stay_literal(tmp_path):
         assert rc == gate.BLOCKED  # blocked for approval, not refused
 
 
+def test_r8_gate_backslash_escaped_and_quoted_space_values(tmp_path):
+    """Round-11 findings (measured against pytest 9.1.1): pytest parses `-o` values shell-like, so a
+    backslash-escaped path (`pythonpath=\\/tmp/outside`) is an external import path and must be refused,
+    while a QUOTED in-tree value with a space (`pythonpath="<tree>/cfg /part"`) is legitimate and must not
+    be refused. Splitting on quotes/whitespace by hand got both wrong (#83)."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    (repo / "cfg ").mkdir(parents=True)
+    external = tmp_path / "outside"
+    external.mkdir()
+    for argv in ([sys.executable, "-m", "pytest", "-o", "pythonpath=\\/etc"],
+                 [sys.executable, "-m", "pytest", "-o", f"pythonpath=\\{external}"],
+                 [sys.executable, "-m", "pytest", "-o", f'pythonpath="{external}"']):
+        with pytest.raises(LedgerError, match="outside the working tree"):
+            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+    for argv in ([sys.executable, "-m", "pytest", "-o", f'pythonpath="{repo}/cfg /part"'],
+                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/cfg"]):
+        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+        assert rc == gate.BLOCKED  # blocked for approval, not refused
+
+
 def test_r8_gate_config_value_equals_path_and_relative_escape_refused(tmp_path):
     """Round-4 findings: a `=` inside an absolute path must not hide its start, and a relative `..` escape in
     a config value must be refused even though the path is not absolute (#83)."""
