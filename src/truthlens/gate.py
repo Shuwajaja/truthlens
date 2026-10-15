@@ -51,30 +51,42 @@ def _opt_value_paths(val: str, commas: bool = False) -> list[str]:
 
 
 def _refuse_cfg_path(opt: str, val: str, root: str, arg: str) -> None:
-    """Refuse a config-like value naming anything outside the tree, using pytest's real value semantics
-    (measured against pytest 9.1.1, the repo's own pytest): `-o`/`--override-ini` read a `key=<value>` that
-    pytest parses with shell-like rules - only whitespace splits it (`:` `,` `;` do NOT), quotes group a path
-    with spaces and a backslash escape is resolved - so `shlex` reproduces it exactly. `-c`/`--config-file`/
-    `--rootdir`/`--confcutdir` read ONE literal path. An absolute candidate must resolve into the tree
-    lexically (existence is irrelevant); a relative one must not contain a `..` component, because the action
-    runs inside the materialized copy, where `..` reaches the live parent tree. A plain in-tree value such as
-    `cfg/pytest.ini` stays usable (#83)."""
+    """Refuse a config-like value naming anything outside the tree, using pytest's real semantics (measured
+    against pytest 9.1.1): `-o`/`--override-ini` read `key=<value>` where the value is shell-like - only
+    whitespace splits it, quotes group, but pytest resolves a backslash escape while the gate's rewrite/guard
+    layer sees the raw string - so BOTH the raw reading and the shlex reading are checked, which keeps this
+    check as strict as the execution layer. `-c`/`--config-file`/`--rootdir`/`--confcutdir` take ONE literal
+    path. An absolute candidate must resolve into the tree lexically (existence is irrelevant); a relative one
+    must not contain a `..` component, because the action runs inside the materialized copy. A plain in-tree
+    value such as `cfg/pytest.ini` stays usable (#83)."""
     import os
     import shlex
+
+    def _unquote(t: str) -> str:
+        return t[1:-1] if len(t) > 1 and t[0] == t[-1] and t[0] in "\"'" else t
+
+    def _keyval(tok: str) -> str:
+        if "=" in tok and not tok.startswith("="):
+            k, v = tok.split("=", 1)
+            if k and not any(c in k for c in "/\\ \t\"'"):
+                return v
+        return ""
+
+    cands = [val.strip()]
     if opt in _INI_VALUE_OPTS:
+        first = val.strip().split(None, 1)[0] if val.strip() else ""
+        kv = _keyval(first)  # only the FIRST token can carry the `key=` prefix
+        if kv:
+            cands.append(_unquote(kv))
         try:
-            tokens = shlex.split(val)  # quotes and backslash escapes, exactly like pytest
-        except ValueError:  # unbalanced quote: fail closed, treat quotes as separators
-            tokens = re.split(r"\s+", val.replace('"', " ").replace("'", " ").strip())
-        cands = []
-        for tok in tokens:
-            for part in (tok, tok.strip('"').strip("'")):
-                if part:
-                    cands.append(part)
-            if "=" in tok and not tok.startswith("="):
-                cands.append(tok.split("=", 1)[1])
-    else:
-        cands = [val.strip().strip('"').strip("'")]
+            toks = shlex.split(val)
+        except ValueError:  # unbalanced quote: fail closed on the raw reading only
+            toks = val.split()
+        for t in toks:
+            cands.append(_unquote(t))
+            kv = _keyval(t)
+            if kv:
+                cands.append(_unquote(kv))
     for cand in cands:
         if not cand:
             continue
@@ -82,11 +94,9 @@ def _refuse_cfg_path(opt: str, val: str, root: str, arg: str) -> None:
             norm = os.path.normpath(cand)
             outside = not (norm == root or norm.startswith(root + os.sep))
         else:
-            outside = ".." in re.split(r"[\/]+", cand)
+            outside = ".." in re.split(r"[\\/]+", cand)
         if outside:
             raise LedgerError(f"config file outside the working tree in gated action: {arg} {val}".strip())
-
-
 def _has_path(s: str, p: str) -> bool:
     """True if path p occurs in s as a whole path (followed by end, '/', or a separator), not as a prefix of a
     sibling like p + '-flag'."""
@@ -212,11 +222,30 @@ def _in_tree(arg: str, root: str) -> str | None:
 
 def _map_into_copy(arg: str, root: str, td: str) -> str:
     """Absolute in-tree paths are mapped lexically onto the approved copy (decided on the path string only).
-    Handles all forms: whole token, after --opt=, and after a leading short option -X (single dash+letter)."""
+    A `key=<value>` option value is tokenized the way pytest reads it (shell-like), so quoted paths and
+    whitespace lists are mapped too; other forms keep the whole token, after-`=`, and leading short option
+    -X handling."""
     import os
+    import shlex
+    if "=" in arg and not arg.startswith("="):
+        key, val = arg.split("=", 1)
+        if re.fullmatch(r"[A-Za-z0-9_.-]+", key or ""):
+            try:
+                toks = shlex.split(val)
+            except ValueError:
+                toks = []
+            if toks and any(os.path.isabs(t) for t in toks):
+                mapped, changed = [], False
+                for t in toks:
+                    rel = _in_tree(t, root)
+                    if rel is not None:
+                        mapped.append(shlex.quote(os.path.join(td, rel)))
+                        changed = True
+                    else:
+                        mapped.append(shlex.quote(t))
+                if changed:
+                    return key + "=" + " ".join(mapped)
     return _map_path_arg(arg, lambda p: os.path.join(td, rel) if (rel := _in_tree(p, root)) is not None else None)
-
-
 def tree_hash(snap: dict[str, tuple[str, bytes]]) -> str:
     return hashlib.sha256(canonical_bytes({r: [k, hashlib.sha256(d).hexdigest(), m] for r, (k, d, m) in snap.items()})
                           ).hexdigest()

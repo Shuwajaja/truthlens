@@ -957,6 +957,25 @@ def test_r8_gate_backslash_escaped_and_quoted_space_values(tmp_path):
         assert rc == gate.BLOCKED  # blocked for approval, not refused
 
 
+def test_r8_gate_backslash_in_live_path_and_list_with_equals(tmp_path):
+    r"""Round-12 findings: pytest resolves a backslash escape while the rewrite/guard layer sees the raw
+    string, so the check must cover BOTH readings - a backslash-escaped live path must be refused. And a
+    whitespace list stays usable when a later in-tree path contains `=`
+    (`pythonpath=<tree>/first <tree>/cfg=/part`), because only the first token carries the `key=` prefix."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    (repo / "first").mkdir(parents=True)
+    (repo / "cfg=").mkdir()
+    for argv in ([sys.executable, "-m", "pytest", "-o", f"pythonpath={tmp_path}/re\\po"],
+                 [sys.executable, "-m", "pytest", "-o", "pythonpath=\\/etc"]):
+        with pytest.raises(LedgerError, match="outside the working tree"):
+            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+    for argv in ([sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/first {repo}/cfg=/part"],
+                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/first"]):
+        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+        assert rc == gate.BLOCKED  # blocked for approval, not refused
+
+
 def test_r8_gate_config_value_equals_path_and_relative_escape_refused(tmp_path):
     """Round-4 findings: a `=` inside an absolute path must not hide its start, and a relative `..` escape in
     a config value must be refused even though the path is not absolute (#83)."""
