@@ -215,3 +215,36 @@ def test_pre_diff_is_empty_for_unchanged_worktree(tmp_path):
     data = BlobStore(out / "blobs").get(git_before["payload"]["sha256"])
     pre_diff = data.split(b"\n", 1)[1]
     assert pre_diff == b""
+
+
+def test_pre_diff_ignores_gitlink_entries(tmp_path):
+    r, crit = _repo(tmp_path)
+    subprocess.run(["git", "-C", str(r), "update-index", "--add", "--cacheinfo",
+                    "160000," + "deadbeef" * 5 + ",vendored"], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a",
+                    "commit", "-qm", "add gitlink"], check=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit),
+                 "--confirm", "c1,c2,c3", "--hmac-key-file", str(_keyfile(tmp_path)),
+                 "--hmac-key-id", "k1", "--", "true"]) == 0
+    ev = Ledger(out / "ledger.jsonl").read()
+    git_before = next(e for e in ev if e["payload"].get("refers_to") == "git_state_before")
+    data = BlobStore(out / "blobs").get(git_before["payload"]["sha256"])
+    pre_diff = data.split(b"\n", 1)[1]
+    assert pre_diff == b""
+
+
+def test_pre_diff_handles_symlink_like_snapshot(tmp_path):
+    r, crit = _repo(tmp_path)
+    os.symlink("README.md", r / "link")
+    for c in (["add", "link"], ["-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "link"]):
+        subprocess.run(["git", "-C", str(r), *c], check=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit),
+                 "--confirm", "c1,c2,c3", "--hmac-key-file", str(_keyfile(tmp_path)),
+                 "--hmac-key-id", "k1", "--", "true"]) == 0
+    ev = Ledger(out / "ledger.jsonl").read()
+    git_before = next(e for e in ev if e["payload"].get("refers_to") == "git_state_before")
+    data = BlobStore(out / "blobs").get(git_before["payload"]["sha256"])
+    pre_diff = data.split(b"\n", 1)[1]
+    assert pre_diff == b""

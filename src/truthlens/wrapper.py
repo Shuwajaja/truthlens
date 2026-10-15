@@ -404,7 +404,12 @@ def run(cfg: RunConfig) -> dict:
                 if len(fields) < 3:
                     continue
                 mode, sha = fields[0], fields[2]
-                data = _git(cfg.repo, "cat-file", "blob", sha)
+                if mode not in ("100644", "100755", "120000"):
+                    continue  # e.g. 160000 gitlinks have no blob; snapshot() does not list them either
+                try:
+                    data = _git(cfg.repo, "cat-file", "blob", sha)
+                except subprocess.CalledProcessError:
+                    continue  # missing/corrupt object must not abort the run
                 head_files[rel] = hashlib.sha256(b"symlink:" + data if mode == "120000" else data).hexdigest()
     pre_diff = _make_diff(cfg.repo, head_files, before)
     sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
