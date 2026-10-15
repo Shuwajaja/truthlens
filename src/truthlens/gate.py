@@ -171,12 +171,12 @@ def _refuse_cfg_path(opt: str, val: str, root: str, arg: str) -> None:
     for cand in paths:
         if not cand:
             continue
-        if os.path.isabs(cand):
-            norm = os.path.normpath(cand)
-            outside = not (norm == root or norm.startswith(root + os.sep))
-        else:
-            outside = ".." in re.split(r"[\\/]+", cand)
-        if outside:
+        # Lexical normalization against the root, exactly like origin/main's check: a relative candidate is
+        # resolved against the root, so `sub/../safe` stays in-tree and usable, `../outside` and
+        # `sub,../../etc` (a comma is a path character, measured against pytest 9.1.1) climb out and are
+        # refused. Existence is irrelevant, so a not-yet-existing target is refused too (#83).
+        norm = os.path.normpath(cand if os.path.isabs(cand) else os.path.join(root, cand))
+        if not (norm == root or norm.startswith(root + os.sep)):
             raise LedgerError(f"config file outside the working tree in gated action: {arg} {val}".strip())
 def _has_path(s: str, p: str) -> bool:
     """True if path p occurs in s as a whole path (followed by end, '/', or a separator), not as a prefix of a

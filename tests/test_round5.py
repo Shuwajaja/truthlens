@@ -1018,9 +1018,14 @@ def test_r8_gate_relative_parent_config_value_refused(tmp_path):
     repo.mkdir()
     for argv in ([sys.executable, "-m", "pytest", "-c", f"../{tmp_path.name}/cfg.ini"],
                  [sys.executable, "-m", "pytest", "-c", f"../{tmp_path.name}/../cfg.ini"],
-                 [sys.executable, "-m", "pytest", "-o", "pythonpath=sub/../safe"]):
+                 [sys.executable, "-m", "pytest", "-o", "pythonpath=../outside"]):
         with pytest.raises(LedgerError, match="outside the working tree"):
             gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+    # A `..` that stays inside after lexical normalization is NOT an escape (origin/main accepts it too): the
+    # action runs in the copy, where `sub/../safe` is still the in-tree `safe` (#83 review round 16).
+    rc, _ = gate.act(led, {"kind": "agent", "id": "a"},
+                     [sys.executable, "-m", "pytest", "-o", "pythonpath=sub/../safe"], str(repo))
+    assert rc == gate.BLOCKED  # blocked for approval, not refused
 
 
 def test_r8_gate_in_tree_config_file_still_approvable(tmp_path):
@@ -1062,13 +1067,19 @@ def test_r8_gate_alias_after_multiple_equals_refused(tmp_path):
 
 
 def test_r8_gate_comma_escape_behind_relative_prefix_refused(tmp_path):
-    """A comma can be a path character or a list separator; a relative `..` escape after a comma
-    (`sub,../../etc`) must be refused, so both readings of the value are checked (#83 review)."""
+    """Measured against pytest 9.1.1 and origin/main: a comma is a path character, NOT a list separator, so
+    `sub,../safe` is the in-tree `safe` and stays usable (`sub,../../etc` normalizes to `<copy>/etc`, also
+    in-tree). Only a value that really climbs out - `sub,../../../etc` - is refused, existence irrelevant;
+    this keeps the check identical to origin/main instead of inventing a false refusal (#83 review)."""
     led = _open_ledger(tmp_path)
     repo = tmp_path / "repo"
     repo.mkdir()
-    for argv in ([sys.executable, "-m", "pytest", "-o", "pythonpath=sub,../../etc"],
-                 [sys.executable, "-m", "pytest", "-o", "pythonpath=cfg,../../etc"]):
+    for argv in ([sys.executable, "-m", "pytest", "-o", "pythonpath=sub,../safe"],
+                 [sys.executable, "-m", "pytest", "-o", "pythonpath=sub,../../etc"]):
+        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+        assert rc == gate.BLOCKED  # in-tree after lexical normalization, blocked for approval
+    for argv in ([sys.executable, "-m", "pytest", "-o", "pythonpath=sub,../../../etc"],
+                 [sys.executable, "-m", "pytest", "-o", "pythonpath=cfg,../../../etc"]):
         with pytest.raises(LedgerError, match="outside the working tree"):
             gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
 
