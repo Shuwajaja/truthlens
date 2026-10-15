@@ -147,6 +147,22 @@ def _git(repo: Path, *args: str, check: bool = True) -> bytes:
                           capture_output=True, check=check, stdin=subprocess.DEVNULL, env=_git_env()).stdout
 
 
+def _read_head_blob(repo: Path, sha: str) -> bytes | None:
+    """Content of a HEAD object for the pre-run diff, or None if it cannot be read.
+
+    Never triggers a lazy fetch (#80 review): on a partial/promisor clone `git cat-file` could
+    otherwise fetch the object, and a repository-level `protocol.<x>.allow=always` would override
+    the global `protocol.allow=never`. A refused read is reported as None, never as empty content.
+    """
+    env = {**_git_env(), "GIT_NO_LAZY_FETCH": "1"}
+    try:
+        return subprocess.run(["git", *GIT_SAFE, "-C", str(repo), "cat-file", "blob", sha],
+                              capture_output=True, check=True, stdin=subprocess.DEVNULL,
+                              env=env).stdout
+    except subprocess.CalledProcessError:
+        return None
+
+
 def is_protected(rel: str) -> bool:
     name = rel.rsplit("/", 1)[-1]
     if (name.startswith("test_") and name.endswith(".py")) or name.endswith("_test.py") or ".test." in name:
@@ -395,14 +411,27 @@ def run(cfg: RunConfig) -> dict:
     # before snapshot
     before = snapshot(cfg.repo)
     head_files = {}
+    unreadable: set[str] = set()
     for line in _git(cfg.repo, "ls-tree", "-r", "-z", "HEAD").decode().split("\0"):
         if line:
             parts = line.split("\t", 1)
             if len(parts) == 2:
                 meta, rel = parts
-                sha = meta.split(" ")[2] if " " in meta else ""
-                head_files[rel] = sha
-    pre_diff = _make_diff(cfg.repo, head_files, before)
+                fields = meta.split(" ")
+                if len(fields) < 3:
+                    continue
+                mode, sha = fields[0], fields[2]
+                if mode not in ("100644", "100755", "120000"):
+                    continue  # e.g. 160000 gitlinks have no blob; snapshot() does not list them either
+                data = _read_head_blob(cfg.repo, sha)
+                if data is None:
+                    unreadable.add(rel)
+                    continue  # missing/corrupt object: never a phantom entry, see below
+                head_files[rel] = hashlib.sha256(b"symlink:" + data if mode == "120000" else data).hexdigest()
+    # An entry we could not read from HEAD must produce NO diff line at all. Were it left in `before`
+    # only, `_make_diff` would report the unchanged file as fully added (phantom evidence).
+    diffable_before = {rel: s for rel, s in before.items() if rel in head_files or rel not in unreadable}
+    pre_diff = _make_diff(cfg.repo, head_files, diffable_before)
     sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
     protected_before = {rel: _read(cfg.repo / rel) for rel in before if is_protected(rel)}
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "sha256": sha, "kind": "file_changed",

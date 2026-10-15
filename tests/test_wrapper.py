@@ -8,6 +8,7 @@ from pathlib import Path
 
 from truthlens.cli import main
 from truthlens.ledger import Ledger, verify
+from truthlens.store import BlobStore
 from truthlens.wrapper import junit_counts
 
 AGENT = textwrap.dedent("""
@@ -201,3 +202,92 @@ def test_export_cards_follow_design_v2(tmp_path, monkeypatch, capsys):
     doc = json.loads(capsys.readouterr().out)
     assert {c["criterion_id"]: c["card"] for c in doc["criteria"]} == {"c1": "green", "c2": "red", "c3": "yellow"}
     assert doc["counts"]["green"] == 1 and doc["verified"] is True
+
+
+def test_pre_diff_is_empty_for_unchanged_worktree(tmp_path):
+    r, crit = _repo(tmp_path)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit),
+                 "--confirm", "c1,c2,c3", "--hmac-key-file", str(_keyfile(tmp_path)),
+                 "--hmac-key-id", "k1", "--", "true"]) == 0
+    ev = Ledger(out / "ledger.jsonl").read()
+    git_before = next(e for e in ev if e["payload"].get("refers_to") == "git_state_before")
+    data = BlobStore(out / "blobs").get(git_before["payload"]["sha256"])
+    pre_diff = data.split(b"\n", 1)[1]
+    assert pre_diff == b""
+
+
+def test_pre_diff_ignores_gitlink_entries(tmp_path):
+    r, crit = _repo(tmp_path)
+    subprocess.run(["git", "-C", str(r), "update-index", "--add", "--cacheinfo",
+                    "160000," + "deadbeef" * 5 + ",vendored"], check=True)
+    subprocess.run(["git", "-C", str(r), "-c", "user.email=a@b", "-c", "user.name=a",
+                    "commit", "-qm", "add gitlink"], check=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit),
+                 "--confirm", "c1,c2,c3", "--hmac-key-file", str(_keyfile(tmp_path)),
+                 "--hmac-key-id", "k1", "--", "true"]) == 0
+    ev = Ledger(out / "ledger.jsonl").read()
+    git_before = next(e for e in ev if e["payload"].get("refers_to") == "git_state_before")
+    data = BlobStore(out / "blobs").get(git_before["payload"]["sha256"])
+    pre_diff = data.split(b"\n", 1)[1]
+    assert pre_diff == b""
+
+
+def _pre_diff_of(out):
+    ev = Ledger(out / "ledger.jsonl").read()
+    git_before = next(e for e in ev if e["payload"].get("refers_to") == "git_state_before")
+    return BlobStore(out / "blobs").get(git_before["payload"]["sha256"]).split(b"\n", 1)[1]
+
+
+def test_pre_diff_omits_unreadable_head_object(tmp_path):
+    """A HEAD object that cannot be read must not turn an unchanged file into "new file" evidence."""
+    r, crit = _repo(tmp_path)
+    sha = subprocess.run(["git", "-C", str(r), "rev-parse", "HEAD:README.md"],
+                         capture_output=True, text=True, check=True).stdout.strip()
+    obj = r / ".git" / "objects" / sha[:2] / sha[2:]
+    assert obj.exists(), "expected a loose object in a fresh test repository"
+    obj.unlink()
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit),
+                 "--confirm", "c1,c2,c3", "--hmac-key-file", str(_keyfile(tmp_path)),
+                 "--hmac-key-id", "k1", "--", "true"]) == 0
+    pre_diff = _pre_diff_of(out)
+    assert b"README.md" not in pre_diff  # no phantom "fully added" entry for an unchanged file
+
+
+def test_pre_diff_head_reads_do_not_lazy_fetch(tmp_path, monkeypatch):
+    """The pre-diff reads HEAD objects with lazy fetch disabled, so a partial clone cannot fetch."""
+    from truthlens import wrapper
+
+    r, _ = _repo(tmp_path)
+    sha = subprocess.run(["git", "-C", str(r), "rev-parse", "HEAD:README.md"],
+                         capture_output=True, text=True, check=True).stdout.strip()
+    envs: list[dict] = []
+    real_run = subprocess.run
+
+    def spy(cmd, *a, **kw):
+        if isinstance(cmd, list) and "cat-file" in cmd:
+            envs.append(dict(kw.get("env") or {}))
+        return real_run(cmd, *a, **kw)
+
+    monkeypatch.setattr(wrapper.subprocess, "run", spy)
+    assert wrapper._read_head_blob(r, sha) == b"x"
+    assert envs and all(e.get("GIT_NO_LAZY_FETCH") == "1" for e in envs)
+    assert wrapper._read_head_blob(r, "deadbeef" * 5) is None  # unreadable is never empty content
+
+
+def test_pre_diff_handles_symlink_like_snapshot(tmp_path):
+    r, crit = _repo(tmp_path)
+    os.symlink("README.md", r / "link")
+    for c in (["add", "link"], ["-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "link"]):
+        subprocess.run(["git", "-C", str(r), *c], check=True)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit),
+                 "--confirm", "c1,c2,c3", "--hmac-key-file", str(_keyfile(tmp_path)),
+                 "--hmac-key-id", "k1", "--", "true"]) == 0
+    ev = Ledger(out / "ledger.jsonl").read()
+    git_before = next(e for e in ev if e["payload"].get("refers_to") == "git_state_before")
+    data = BlobStore(out / "blobs").get(git_before["payload"]["sha256"])
+    pre_diff = data.split(b"\n", 1)[1]
+    assert pre_diff == b""
