@@ -269,8 +269,9 @@ def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
         else:
             continue
         if _opt in _CFG_FILE_OPTS:
-            # The value may itself be `key=<pfad>` (e.g. `-o pythonpath=<pfad>`), so check every component.
-            for _c in re.split(r"[=:,]", _val):
+            # The value may itself be `key=<pfad>` or several whitespace-separated paths (pytest reads
+            # PYTHONPATH-like option values that way), so split on every separator and check each component.
+            for _c in re.split(r"[\s=:,]+", _val):
                 if _c and _os.path.isabs(_c) and _in_tree(_c, root) is None:
                     raise LedgerError(f"config file outside the working tree in gated action: {a} {_val}".strip())
     import os

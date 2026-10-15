@@ -901,6 +901,21 @@ def test_r8_gate_config_file_missing_outside_refused(tmp_path):
             gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
 
 
+def test_r8_gate_config_value_whitespace_paths_refused(tmp_path):
+    """A whitespace-separated extra path in a config value (pytest reads `-o pythonpath=<a> <b>` as two
+    import paths) must be refused too: only splitting on `=` would let the second path slip through (#83)."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    external = tmp_path / "outside"
+    external.mkdir()
+    for argv in ([sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe {external}"],
+                 [sys.executable, "-m", "pytest", f"--override-ini=pythonpath={repo}/safe {external}"],
+                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe:{external}"]):
+        with pytest.raises(LedgerError, match="outside the working tree"):
+            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+
+
 def test_r8_gate_in_tree_config_file_still_approvable(tmp_path):
     """An in-tree config file stays usable: it is bound by the approved snapshot, not refused by the new check."""
     led = _open_ledger(tmp_path)
