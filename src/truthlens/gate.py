@@ -42,13 +42,19 @@ def _opt_value_paths(val: str) -> list[str]:
 
 
 def _refuse_cfg_path(val: str, root: str, arg: str) -> None:
-    """Refuse a config-like value that names anything outside the tree. Every candidate is resolved
-    LEXICALLY against the root (no live symlink is followed), so both an absolute outsider and a relative
-    `..` escape are caught, while an in-tree value such as `cfg/pytest.ini` stays usable (#83)."""
+    """Refuse a config-like value naming anything outside the tree. An absolute candidate must resolve into
+    the tree lexically (existence is irrelevant); a RELATIVE candidate must not climb out with a `..`
+    component, because the action runs inside the materialized copy, where `..` points at the live parent
+    tree - a file that can change after approval without changing the action hash. A plain in-tree value such
+    as `cfg/pytest.ini` stays usable (#83)."""
     import os
     for cand in _opt_value_paths(val):
-        norm = os.path.normpath(cand if os.path.isabs(cand) else os.path.join(root, cand))
-        if not (norm == root or norm.startswith(root + os.sep)):
+        if os.path.isabs(cand):
+            norm = os.path.normpath(cand)
+            outside = not (norm == root or norm.startswith(root + os.sep))
+        else:
+            outside = ".." in re.split(r"[\\/]+", cand)
+        if outside:
             raise LedgerError(f"config file outside the working tree in gated action: {arg} {val}".strip())
 
 

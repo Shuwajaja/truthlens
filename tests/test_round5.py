@@ -931,6 +931,9 @@ def test_r8_gate_config_value_equals_path_and_relative_escape_refused(tmp_path):
                  [sys.executable, "-m", "pytest", "-c", "../outside.ini"]):
         with pytest.raises(LedgerError, match="outside the working tree"):
             gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+
+
+def test_r8_gate_relative_config_file_inside_tree_usable(tmp_path):
     """A plain relative config value inside the tree must stay usable: it is bound by the approved snapshot,
     unlike an absolute path outside the tree (#83 review round 3)."""
     led = _open_ledger(tmp_path)
@@ -941,6 +944,20 @@ def test_r8_gate_config_value_equals_path_and_relative_escape_refused(tmp_path):
                  [sys.executable, "-m", "pytest", "--config-file=cfg/pytest.ini"]):
         rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
         assert rc == gate.BLOCKED  # blocked for approval, not refused
+
+
+def test_r8_gate_relative_parent_config_value_refused(tmp_path):
+    """Round-5 finding: a relative value climbing out with `..` is accepted by a purely lexical check,
+    yet the action runs inside the materialized copy, where `..` reaches the live parent tree - a file
+    that can change after approval without changing the action hash (#83)."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    for argv in ([sys.executable, "-m", "pytest", "-c", f"../{tmp_path.name}/cfg.ini"],
+                 [sys.executable, "-m", "pytest", "-c", f"../{tmp_path.name}/../cfg.ini"],
+                 [sys.executable, "-m", "pytest", "-o", "pythonpath=sub/../safe"]):
+        with pytest.raises(LedgerError, match="outside the working tree"):
+            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
 
 
 def test_r8_gate_in_tree_config_file_still_approvable(tmp_path):
