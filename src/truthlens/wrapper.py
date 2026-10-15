@@ -232,11 +232,15 @@ def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
         else:
             text = data.decode("utf-8", "replace")
             # `before_dir` holds the pre-run bytes on disk; when absent (pre-diff) fall back to
-            # `_read_before` so that path is unchanged, otherwise read only this changed file on demand.
+            # `_read_before` so that path is unchanged, otherwise read this changed file on demand.
+            # A file that did not exist before the run has a legitimately empty `-` side; a file that
+            # did exist must have a capture, else `_read_captured` raises instead of faking empty.
             if before_dir is None:
                 src = _read_before(repo, rel, before).decode("utf-8", "replace")
-            else:
+            elif rel in before:
                 src = _read_captured(before_dir, rel).decode("utf-8", "replace")
+            else:
+                src = ""
             diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
                                              fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
             lines.extend(l.rstrip("\n") for l in diff)
@@ -265,30 +269,34 @@ def _capture_before(repo: Path, before: dict[str, str], dest: Path) -> None:
     """
     for rel, sha in before.items():
         if os.path.isabs(rel) or ".." in rel.split("/"):
-            continue
+            raise RuntimeError(f"refusing to capture non-relative path: {rel!r}")
         path = repo / rel
-        if not path.exists() or path.is_symlink():
-            continue
         try:
-            data = path.read_bytes()
-        except OSError:
-            continue
+            data = _read(path)  # symlink -> b"symlink:<target>", exactly what snapshot() hashes
+        except OSError as e:
+            raise RuntimeError(f"cannot read pre-run content for {rel!r}: {e}") from e
         if hashlib.sha256(data).hexdigest() != sha:
-            continue
+            raise RuntimeError(f"pre-run content changed between snapshot and capture: {rel!r}")
         try:
             out = dest / rel
             out.parent.mkdir(parents=True, exist_ok=True)
             out.write_bytes(data)
-        except OSError:
-            continue
+            if out.stat().st_size != len(data):
+                raise OSError("short write")
+        except OSError as e:
+            raise RuntimeError(f"cannot store pre-run content for {rel!r}: {e}") from e
 
 
 def _read_captured(before_dir: Path, rel: str) -> bytes:
-    """Read one file's pre-run bytes from the temp dir, on demand (never all files at once)."""
+    """Read one file's pre-run bytes from the temp dir, on demand (never all files at once).
+
+    A missing capture for a file that existed before the run is an error, not empty content:
+    silently returning b"" would drop removed-line/deleted evidence without marking it (#81 review).
+    """
     try:
         return (before_dir / rel).read_bytes()
-    except OSError:
-        return b""
+    except OSError as e:
+        raise RuntimeError(f"missing pre-run capture for {rel!r}: {e}") from e
 
 
 def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
@@ -338,11 +346,15 @@ def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
         else:
             text = data.decode("utf-8", "replace")
             # `before_dir` holds the pre-run bytes on disk; when absent (pre-diff) fall back to
-            # `_read_before` so that path is unchanged, otherwise read only this changed file on demand.
+            # `_read_before` so that path is unchanged, otherwise read this changed file on demand.
+            # A file that did not exist before the run has a legitimately empty `-` side; a file that
+            # did exist must have a capture, else `_read_captured` raises instead of faking empty.
             if before_dir is None:
                 src = _read_before(repo, rel, before).decode("utf-8", "replace")
-            else:
+            elif rel in before:
                 src = _read_captured(before_dir, rel).decode("utf-8", "replace")
+            else:
+                src = ""
             diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
                                              fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
             lines.extend(l.rstrip("\n") for l in diff)

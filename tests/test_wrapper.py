@@ -316,3 +316,17 @@ def test_file_changed_keeps_removed_and_deleted_evidence(tmp_path):
         next(e["payload"]["sha256"] for e in ev if e["payload"].get("refers_to") == "git_diff_after"))
     assert b"-remove me" in diff  # modified file: the removed line is witnessed
     assert b"-x" in diff          # deleted file: its original content is witnessed
+
+
+def test_pre_run_capture_refuses_silent_loss(tmp_path):
+    """A failed pre-run copy must raise, not fake an empty `-` side (#81 review)."""
+    import pytest
+
+    from truthlens.wrapper import _capture_before, _read_captured
+    (tmp_path / "notes.txt").write_text("keep\nremove me\n")
+    with pytest.raises(RuntimeError):
+        _capture_before(tmp_path, {"notes.txt": "0" * 64}, tmp_path / "dest")  # hash mismatch = changed
+    dest = tmp_path / "captured"
+    dest.mkdir()
+    with pytest.raises(RuntimeError):
+        _read_captured(dest, "notes.txt")  # existed before the run, so a missing capture is an error
