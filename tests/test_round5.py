@@ -483,6 +483,11 @@ def test_r6_gate_config_file_outside_refused_even_if_missing(tmp_path):
     rc, _ = gate.act(led, {"kind": "agent", "id": "a"},
                      ["python", "-m", "pytest", "-o", "pythonpath=" + str(repo)], str(repo))
     assert rc == gate.BLOCKED
+    # After `--` everything is a positional argument, so `-c` there is not an option and must not be refused
+    # (origin/main executes it too; round-19 finding).
+    rc, _ = gate.act(led, {"kind": "agent", "id": "a"},
+                     ["python", "args.py", "--", "-c", str(missing)], str(repo))
+    assert rc == gate.BLOCKED
 
 
 def test_r6_gate_short_opt_value_arg_mapped(tmp_path, monkeypatch):

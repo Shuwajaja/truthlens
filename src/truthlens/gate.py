@@ -240,6 +240,8 @@ def _cfg_option_values(args: list[str]):
     reads that file to decide a gated action's behaviour, so a value naming a file outside the live tree must
     not be accepted just because the file does not exist yet (#83)."""
     for i, a in enumerate(args):
+        if a == "--":  # end-of-options: everything after it is a positional argument, not an option
+            break
         if a in ("-c", "--config-file") and i + 1 < len(args):
             yield a, args[i + 1]
         elif a.startswith("--config-file="):
