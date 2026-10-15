@@ -28,14 +28,28 @@ _CFG_FILE_OPTS = frozenset({"-c", "--config", "--config-file", "-o", "--override
 
 
 def _opt_value_paths(val: str) -> list[str]:
-    """Path candidates a tool could read out of a config-like option value. The `key=` prefix and quotes are
-    dropped and the value is split at whitespace, `:` and `;`, the separators a config list uses (`-o
-    pythonpath=<a> <b>`, `<a>:<b>`, `"<a>"`). A comma is NOT a separator: it is a normal path character, so
-    `pythonpath=<tree>,evil` stays whole and is seen as the external path it is. A plain relative value such
-    as `cfg/pytest.ini` also stays whole; it is inside the tree and bound by the approved snapshot (#83)."""
-    body = val.split("=", 1)[1] if "=" in val and not val.startswith("=") else val
-    body = body.replace('"', " ").replace("'", " ")
-    return [p for p in re.split(r"[\s:;]+", body) if p]
+    """Every path candidate a config-like option value could name, with quotes stripped. The whole value, the
+    part after a `key=` prefix and each whitespace/`:`/`;`-separated piece are returned, because a config value
+    can be a list (`-o pythonpath=<a> <b>`, `<a>:<b>`, `"<a>"`). Returning all of them - instead of guessing
+    one separator - is what makes the check fail closed: a comma stays a path character (`<tree>,evil`), and a
+    leading path before an `=` (`/tmp/missing=hidden.ini`) is still seen (#83)."""
+    body = val.replace('"', " ").replace("'", " ")
+    out = [val]
+    if "=" in body and not body.startswith("="):
+        out.append(body.split("=", 1)[1])
+    out += re.split(r"[\s:;]+", body)
+    return [p for p in (q.strip() for q in out) if p and p != "="]
+
+
+def _refuse_cfg_path(val: str, root: str, arg: str) -> None:
+    """Refuse a config-like value that names anything outside the tree. Every candidate is resolved
+    LEXICALLY against the root (no live symlink is followed), so both an absolute outsider and a relative
+    `..` escape are caught, while an in-tree value such as `cfg/pytest.ini` stays usable (#83)."""
+    import os
+    for cand in _opt_value_paths(val):
+        norm = os.path.normpath(cand if os.path.isabs(cand) else os.path.join(root, cand))
+        if not (norm == root or norm.startswith(root + os.sep)):
+            raise LedgerError(f"config file outside the working tree in gated action: {arg} {val}".strip())
 
 
 
@@ -280,11 +294,9 @@ def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
         else:
             continue
         if _opt in _CFG_FILE_OPTS:
-            # The value may be `key=<pfad>`, a list, or quoted - split and unquote every component so no
-            # second path can hide behind a separator or a quote (#83).
-            for _c in _opt_value_paths(_val):
-                if _os.path.isabs(_c) and _in_tree(_c, root) is None:
-                    raise LedgerError(f"config file outside the working tree in gated action: {a} {_val}".strip())
+            # Every path the value could name is checked lexically against the tree, so neither a quote, a
+            # list separator, a comma, a `key=` prefix nor a `..` escape can hide a file outside it (#83).
+            _refuse_cfg_path(_val, root, a)
     import os
     for a in args:
         for prefix, val in _iter_path_pairs(a):

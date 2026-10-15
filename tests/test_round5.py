@@ -919,7 +919,18 @@ def test_r8_gate_config_value_whitespace_paths_refused(tmp_path):
             gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
 
 
-def test_r8_gate_relative_config_file_inside_tree_usable(tmp_path):
+def test_r8_gate_config_value_equals_path_and_relative_escape_refused(tmp_path):
+    """Round-4 findings: a `=` inside an absolute path must not hide its start, and a relative `..` escape in
+    a config value must be refused even though the path is not absolute (#83)."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    for argv in ([sys.executable, "-m", "pytest", "-c", "/tmp/missing=hidden.ini"],
+                 [sys.executable, "-m", "pytest", "-o", "pythonpath=safe ../outside"],
+                 [sys.executable, "-m", "pytest", "-o", "pythonpath=../outside"],
+                 [sys.executable, "-m", "pytest", "-c", "../outside.ini"]):
+        with pytest.raises(LedgerError, match="outside the working tree"):
+            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
     """A plain relative config value inside the tree must stay usable: it is bound by the approved snapshot,
     unlike an absolute path outside the tree (#83 review round 3)."""
     led = _open_ledger(tmp_path)
