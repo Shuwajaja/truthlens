@@ -50,7 +50,9 @@ def _refuse_cfg_path(val: str, root: str, arg: str) -> None:
     tree - a file that can change after approval without changing the action hash. A plain in-tree value such
     as `cfg/pytest.ini` stays usable (#83)."""
     import os
-    for cand in _opt_value_paths(val):
+    # A comma can be a path character (`<tree>,evil` is a sibling outside the tree) or a list separator
+    # (`sub,../../etc`). Checking the UNION of both readings is what keeps the value check fail closed.
+    for cand in _opt_value_paths(val) + _opt_value_paths(val, commas=True):
         if os.path.isabs(cand):
             norm = os.path.normpath(cand)
             outside = not (norm == root or norm.startswith(root + os.sep))

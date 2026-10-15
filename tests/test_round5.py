@@ -998,6 +998,18 @@ def test_r8_gate_alias_after_multiple_equals_refused(tmp_path):
             gate.act(led, {"kind": "agent", "id": "a"}, ["sh", tok], str(repo))
 
 
+def test_r8_gate_comma_escape_behind_relative_prefix_refused(tmp_path):
+    """A comma can be a path character or a list separator; a relative `..` escape after a comma
+    (`sub,../../etc`) must be refused, so both readings of the value are checked (#83 review)."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    for argv in ([sys.executable, "-m", "pytest", "-o", "pythonpath=sub,../../etc"],
+                 [sys.executable, "-m", "pytest", "-o", "pythonpath=cfg,../../etc"]):
+        with pytest.raises(LedgerError, match="outside the working tree"):
+            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+
+
 def test_r7_sibling_dir_of_repo_is_not_mapped_into_copy(tmp_path):
     r, crit = _repo(tmp_path)                    # repo root is tmp_path/"repo"
     evil = tmp_path / "repo-evil"                # sibling: tmp_path/"repo-evil"
