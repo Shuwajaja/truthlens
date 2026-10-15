@@ -27,6 +27,16 @@ _CFG_FILE_OPTS = frozenset({"-c", "--config", "--config-file", "-o", "--override
                             "--rootdir", "--confcutdir"})
 
 
+def _opt_value_paths(val: str) -> list[str]:
+    """Every path a tool could read out of a config/--override-ini option value. Any run starting with '/' is
+    taken on its own - quotes, whitespace and '=' ':' ',' ';' all end a run - and a '..' component is kept too,
+    so no second path can hide behind a separator or a quote: pytest reads `-o pythonpath=/a /b`, `/a:/b`,
+    `"/a"` and `/a;/b` all as external import paths that the action hash does not cover (#83)."""
+    out = re.findall(r"/[^\s=:,;'\"]*", val)
+    out += [t for t in re.split(r"[\s=:,;]+", val.replace('"', " ").replace("'", " ")) if ".." in t]
+    return out
+
+
 
 
 def _has_path(s: str, p: str) -> bool:
@@ -254,8 +264,8 @@ def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
         cands = [a, a.split("=", 1)[1] if "=" in a else ""]
         if len(a) > 2 and a[0] == "-" and a[1] != "-":
             cands.append(a[2:])
-        for c in list(cands):  # split fully (not only at the first '='): --override-ini=pythonpath=<alias>
-            cands.extend(re.split(r"[=:,]", c))
+        for c in list(cands):  # split fully (not only at '='): --override-ini=pythonpath=<alias>, `a b`, `"a"`
+            cands.extend(_opt_value_paths(c))
         for c in cands:
             if c and _os.path.isabs(c) and _in_tree(c, root) is None:
                 real = _os.path.realpath(c)
@@ -269,10 +279,10 @@ def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
         else:
             continue
         if _opt in _CFG_FILE_OPTS:
-            # The value may itself be `key=<pfad>` or several whitespace-separated paths (pytest reads
-            # PYTHONPATH-like option values that way), so split on every separator and check each component.
-            for _c in re.split(r"[\s=:,]+", _val):
-                if _c and _os.path.isabs(_c) and _in_tree(_c, root) is None:
+            # The value may be `key=<pfad>`, a list, or quoted - split and unquote every component so no
+            # second path can hide behind a separator or a quote (#83).
+            for _c in _opt_value_paths(_val):
+                if _os.path.isabs(_c) and _in_tree(_c, root) is None:
                     raise LedgerError(f"config file outside the working tree in gated action: {a} {_val}".strip())
     import os
     for a in args:

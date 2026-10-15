@@ -911,7 +911,9 @@ def test_r8_gate_config_value_whitespace_paths_refused(tmp_path):
     external.mkdir()
     for argv in ([sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe {external}"],
                  [sys.executable, "-m", "pytest", f"--override-ini=pythonpath={repo}/safe {external}"],
-                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe:{external}"]):
+                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe:{external}"],
+                 [sys.executable, "-m", "pytest", "-o", f'pythonpath="{external}"'],   # quoted
+                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe;{external}"]):  # ';'
         with pytest.raises(LedgerError, match="outside the working tree"):
             gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
 
