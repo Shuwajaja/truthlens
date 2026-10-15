@@ -27,7 +27,7 @@ _CFG_FILE_OPTS = frozenset({"-c", "--config", "--config-file", "-o", "--override
                             "--rootdir", "--confcutdir"})
 
 
-def _opt_value_paths(val: str) -> list[str]:
+def _opt_value_paths(val: str, commas: bool = False) -> list[str]:
     """Every path candidate a config-like option value could name, with quotes stripped. The whole value, the
     part after a `key=` prefix and each whitespace/`:`/`;`-separated piece are returned, because a config value
     can be a list (`-o pythonpath=<a> <b>`, `<a>:<b>`, `"<a>"`). Returning all of them - instead of guessing
@@ -37,7 +37,7 @@ def _opt_value_paths(val: str) -> list[str]:
     out = [val]
     if "=" in body and not body.startswith("="):
         out.append(body.split("=", 1)[1])
-    out += re.split(r"[\s:;]+", body)
+    out += re.split(r"[\s:;,]+" if commas else r"[\s:;]+", body)
     return [p for p in (q.strip() for q in out) if p and p != "="]
 
 
@@ -286,7 +286,9 @@ def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
         if len(a) > 2 and a[0] == "-" and a[1] != "-":
             cands.append(a[2:])
         for c in list(cands):  # split fully (not only at '='): --override-ini=pythonpath=<alias>, `a b`, `"a"`
-            cands.extend(_opt_value_paths(c))
+            # The alias check wants EVERY candidate (more candidates = stricter), so it also splits at a
+            # comma, unlike the config check where a comma is part of a path (#83 review round 6).
+            cands.extend(_opt_value_paths(c, commas=True))
         for c in cands:
             if c and _os.path.isabs(c) and _in_tree(c, root) is None:
                 real = _os.path.realpath(c)

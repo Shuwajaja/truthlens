@@ -971,6 +971,19 @@ def test_r8_gate_in_tree_config_file_still_approvable(tmp_path):
     assert rc == gate.BLOCKED  # blocked for approval, not refused
 
 
+def test_r8_gate_symlink_alias_after_comma_refused(tmp_path):
+    """Round-6 finding: the alias check must keep splitting at a comma, or an alias to the live repo hidden
+    behind a comma (`--x=missing,<alias>/cfg.ini`) is no longer seen as a symlink bypass (#83)."""
+    import os as _os
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    alias = tmp_path / "alias"
+    _os.symlink(str(repo), str(alias))
+    with pytest.raises(LedgerError, match="symlink"):
+        gate.act(led, {"kind": "agent", "id": "a"}, ["sh", f"--x=/tmp/missing,{alias}/cfg.ini"], str(repo))
+
+
 def test_r7_sibling_dir_of_repo_is_not_mapped_into_copy(tmp_path):
     r, crit = _repo(tmp_path)                    # repo root is tmp_path/"repo"
     evil = tmp_path / "repo-evil"                # sibling: tmp_path/"repo-evil"
