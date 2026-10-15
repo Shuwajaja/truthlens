@@ -37,9 +37,10 @@ def _opt_value_paths(val: str, commas: bool = False) -> list[str]:
     out = [val]
     if "=" in body and not body.startswith("="):
         out.append(body.split("=", 1)[1])
-    if commas:  # the alias check wants EVERY candidate, so it splits at each separator, including every
-        return [q for q in re.split(r"[\s=:,]+", body) if q]  # `=` and `,` (more candidates = stricter)
-    out += re.split(r"[\s:;]+", body)
+    # The alias check must stay at least as strict as main: it keeps every candidate (the whole value and
+    # the part after `=`, so a path containing a space or a quote is still checked) and ALSO splits at
+    # every `=`, `:` and `,` - more candidates, never fewer (#83 review round 8).
+    out += re.split(r"[\s=:,]+" if commas else r"[\s:;]+", body)
     return [p for p in (q.strip() for q in out) if p and p != "="]
 
 

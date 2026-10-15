@@ -1010,6 +1010,22 @@ def test_r8_gate_comma_escape_behind_relative_prefix_refused(tmp_path):
             gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
 
 
+def test_r8_gate_alias_with_space_or_quote_refused(tmp_path):
+    """Round-8 finding: the alias check must keep the whole value as a candidate, or an alias whose own path
+    contains a space or a quote (`--x=k=<alias with space>/cfg.ini`) stops being seen as a symlink bypass."""
+    import os as _os
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    space = tmp_path / "al ias"
+    _os.symlink(str(repo), str(space))
+    quoted = tmp_path / "qalias"
+    _os.symlink(str(repo), str(quoted))
+    for tok in (f"--x=k={space}/cfg.ini", f'--x=k="{quoted}/cfg.ini"', f"--x=k='{quoted}/cfg.ini'"):
+        with pytest.raises(LedgerError, match="symlink"):
+            gate.act(led, {"kind": "agent", "id": "a"}, ["sh", tok], str(repo))
+
+
 def test_r7_sibling_dir_of_repo_is_not_mapped_into_copy(tmp_path):
     r, crit = _repo(tmp_path)                    # repo root is tmp_path/"repo"
     evil = tmp_path / "repo-evil"                # sibling: tmp_path/"repo-evil"
