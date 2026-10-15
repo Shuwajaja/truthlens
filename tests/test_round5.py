@@ -902,8 +902,9 @@ def test_r8_gate_config_file_missing_outside_refused(tmp_path):
 
 
 def test_r8_gate_config_value_whitespace_paths_refused(tmp_path):
-    """A whitespace-separated extra path in a config value (pytest reads `-o pythonpath=<a> <b>` as two
-    import paths) must be refused too: only splitting on `=` would let the second path slip through (#83)."""
+    """A whitespace-separated extra path in a config value (pytest 9.1.1 reads `-o pythonpath=<a> <b>` as two
+    import paths, measured) must be refused: splitting only on `=` would let the second path slip through. A
+    comma is a path character, so `<tree>,evil` is a sibling outside the tree and is refused as well (#83)."""
     led = _open_ledger(tmp_path)
     repo = tmp_path / "repo"
     repo.mkdir()
@@ -911,12 +912,28 @@ def test_r8_gate_config_value_whitespace_paths_refused(tmp_path):
     external.mkdir()
     for argv in ([sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe {external}"],
                  [sys.executable, "-m", "pytest", f"--override-ini=pythonpath={repo}/safe {external}"],
-                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe:{external}"],
                  [sys.executable, "-m", "pytest", "-o", f'pythonpath="{external}"'],   # quoted
-                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe;{external}"],  # ';'
-                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo},evil"]):        # ',' is a path char
+                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo},evil"]):     # ',' is a path char
         with pytest.raises(LedgerError, match="outside the working tree"):
             gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+
+
+def test_r8_gate_colon_and_semicolon_in_config_value_stay_literal(tmp_path):
+    """Measured against pytest 9.1.1: `:` and `;` are NOT separators in `-o pythonpath`, and `-c` takes one
+    literal path, so an in-tree value using them is legitimate and must not be refused as outside the tree
+    (round-10 finding: no false refusals)."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / "cfg=").mkdir()
+    (repo / "cfg=" / "part.ini").write_text("[pytest]\n")
+    for argv in ([sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/a:{repo}/b"],
+                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/a;{repo}/b"],
+                 [sys.executable, "-m", "pytest", "-c", f"{repo}/cfg=/part.ini"],
+                 [sys.executable, "-m", "pytest", "-c", "cfg:/part.ini"],
+                 [sys.executable, "-m", "pytest", "-c", "cfg,/part.ini"]):
+        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+        assert rc == gate.BLOCKED  # blocked for approval, not refused
 
 
 def test_r8_gate_config_value_equals_path_and_relative_escape_refused(tmp_path):

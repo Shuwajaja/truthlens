@@ -25,6 +25,7 @@ SHELL_NAMES = frozenset({"sh", "bash", "dash", "zsh", "ksh", "fish", "busybox"})
 # absolute value outside the tree is refused whether or not the file exists yet (#83).
 _CFG_FILE_OPTS = frozenset({"-c", "--config", "--config-file", "-o", "--override-ini", "-p",
                             "--rootdir", "--confcutdir"})
+_INI_VALUE_OPTS = frozenset({"-o", "--override-ini"})  # `key=<value>`, the value is a whitespace list
 
 
 def _opt_value_paths(val: str, commas: bool = False) -> list[str]:
@@ -49,25 +50,33 @@ def _opt_value_paths(val: str, commas: bool = False) -> list[str]:
     return [p for p in out if p and p != "="]
 
 
-def _refuse_cfg_path(val: str, root: str, arg: str) -> None:
-    """Refuse a config-like value naming anything outside the tree. An absolute candidate must resolve into
-    the tree lexically (existence is irrelevant); a RELATIVE candidate must not climb out with a `..`
-    component, because the action runs inside the materialized copy, where `..` points at the live parent
-    tree - a file that can change after approval without changing the action hash. A plain in-tree value such
-    as `cfg/pytest.ini` stays usable (#83)."""
+def _refuse_cfg_path(opt: str, val: str, root: str, arg: str) -> None:
+    """Refuse a config-like value naming anything outside the tree, using pytest's real value semantics
+    (measured against pytest 9.1.1): `-o`/`--override-ini` read a `key=<value>` whose VALUE is a list split at
+    whitespace and surrounding quotes, while `-c`/`--config-file`/`--rootdir`/`--confcutdir` read one literal
+    path - a `:` or `,` inside it is part of the name, not a separator. An absolute candidate must resolve into
+    the tree lexically (existence is irrelevant); a relative one must not climb out with a `..` component,
+    because the action runs inside the materialized copy, where `..` reaches the live parent tree. A plain
+    in-tree value such as `cfg/pytest.ini` stays usable (#83)."""
     import os
-    # A comma can be a path character (`<tree>,evil` is a sibling outside the tree) or a list separator
-    # (`sub,../../etc`). Checking the UNION of both readings is what keeps the value check fail closed.
-    for cand in _opt_value_paths(val) + _opt_value_paths(val, commas=True):
+    body = val.strip().strip('"').strip("'")
+    if opt in _INI_VALUE_OPTS:
+        cands = [body]
+        if "=" in body and not body.startswith("="):
+            cands.append(body.split("=", 1)[1])
+        cands += body.replace('"', " ").replace("'", " ").split()
+    else:
+        cands = [body]
+    for cand in cands:
+        if not cand:
+            continue
         if os.path.isabs(cand):
             norm = os.path.normpath(cand)
             outside = not (norm == root or norm.startswith(root + os.sep))
         else:
-            outside = ".." in re.split(r"[\\/]+", cand)
+            outside = ".." in re.split(r"[\/]+", cand)
         if outside:
             raise LedgerError(f"config file outside the working tree in gated action: {arg} {val}".strip())
-
-
 
 
 def _has_path(s: str, p: str) -> bool:
@@ -315,7 +324,7 @@ def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
         if _opt in _CFG_FILE_OPTS:
             # Every path the value could name is checked lexically against the tree, so neither a quote, a
             # list separator, a comma, a `key=` prefix nor a `..` escape can hide a file outside it (#83).
-            _refuse_cfg_path(_val, root, a)
+            _refuse_cfg_path(_opt, _val, root, a)
     import os
     for a in args:
         for prefix, val in _iter_path_pairs(a):
