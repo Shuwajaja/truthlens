@@ -958,18 +958,24 @@ def test_r8_gate_backslash_escaped_and_quoted_space_values(tmp_path):
 
 
 def test_r8_gate_backslash_in_live_path_and_list_with_equals(tmp_path):
-    r"""Round-12 findings: pytest resolves a backslash escape while the rewrite/guard layer sees the raw
-    string, so the check must cover BOTH readings - a backslash-escaped live path must be refused. And a
-    whitespace list stays usable when a later in-tree path contains `=`
-    (`pythonpath=<tree>/first <tree>/cfg=/part`), because only the first token carries the `key=` prefix."""
+    r"""Round-12/13 findings: pytest reads `-o` values shell-like, so a quoted prefix concatenated with an
+    escaped rest (`'/parent/'re\po`) resolves to a LIVE path; the check accepts it as in-tree, therefore the
+    rewrite layer must map it into the approved copy (never leave it for the child to read the live tree),
+    while an escaped path outside the tree must still be refused. A whitespace list stays usable when a later
+    in-tree path contains `=`."""
     led = _open_ledger(tmp_path)
     repo = tmp_path / "repo"
     (repo / "first").mkdir(parents=True)
     (repo / "cfg=").mkdir()
-    for argv in ([sys.executable, "-m", "pytest", "-o", f"pythonpath={tmp_path}/re\\po"],
-                 [sys.executable, "-m", "pytest", "-o", "pythonpath=\\/etc"]):
-        with pytest.raises(LedgerError, match="outside the working tree"):
-            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+    with pytest.raises(LedgerError, match="outside the working tree"):
+        gate.act(led, {"kind": "agent", "id": "a"},
+                 [sys.executable, "-m", "pytest", "-o", "pythonpath=" + "\\" + "/etc"], str(repo))
+    td = tmp_path / "copy"
+    td.mkdir()
+    quoted = "--override-ini=pythonpath='" + str(tmp_path) + "/'re" + "\\" + "po"  # pytest reads re\po as repo
+    (mapped,) = gate._map_argv([quoted], str(repo), str(td))
+    assert str(td) in mapped and str(repo) not in mapped
+    assert not list(gate._live_path_hits(mapped, str(repo), str(td)))
     for argv in ([sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/first {repo}/cfg=/part"],
                  [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/first"]):
         rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))

@@ -26,6 +26,113 @@ SHELL_NAMES = frozenset({"sh", "bash", "dash", "zsh", "ksh", "fish", "busybox"})
 _CFG_FILE_OPTS = frozenset({"-c", "--config", "--config-file", "-o", "--override-ini", "-p",
                             "--rootdir", "--confcutdir"})
 _INI_VALUE_OPTS = frozenset({"-o", "--override-ini"})  # `key=<value>`, the value is a whitespace list
+_INI_KEY_OK = re.compile(r"^[A-Za-z0-9_.-]+$")  # a config key such as `pythonpath`, not a path
+
+
+def _shell_value_paths(opt: str, val: str):
+    """The path strings pytest reads from a config-like option value, using pytest's own parsing (measured
+    against pytest 9.1.1): `-o`/`--override-ini` read `key=<value>` whose value is shell-like - only
+    whitespace splits it, quotes group a path with spaces and a backslash escape is resolved, exactly what
+    `shlex` does - while every other option takes one literal path. Returns None when the shell-like read is
+    impossible (unbalanced quote), so the caller can fail closed (#83)."""
+    import shlex
+    if opt not in _INI_VALUE_OPTS:
+        return [val.strip().strip('"').strip("'")]
+    body = val
+    if "=" in body and not body.startswith("="):
+        k, v = body.split("=", 1)
+        if _INI_KEY_OK.fullmatch(k):
+            body = v
+    try:
+        return shlex.split(body)
+    except ValueError:
+        return None
+
+
+def _shell_map(body: str, root: str, td: str) -> tuple[str, bool]:
+    """Rewrite every absolute in-tree path of a shell-like value onto the approved copy, re-quoting each token
+    so the child process reads exactly one path per token. Returns (new_body, changed)."""
+    import os
+    import shlex
+    try:
+        toks = shlex.split(body)
+    except ValueError:
+        return body, False
+    out, changed = [], False
+    for t in toks:
+        rel = _in_tree(t, root) if os.path.isabs(t) else None
+        if rel is not None:
+            out.append(shlex.quote(os.path.normpath(os.path.join(td, rel))))
+            changed = True
+        else:
+            out.append(shlex.quote(t))
+    return (" ".join(out), True) if changed else (body, False)
+
+
+def _map_argv(args: list[str], root: str, td: str) -> list[str]:
+    """Rewrite every argv element onto the approved copy: absolute in-tree paths in plain options and in the
+    shell-like value of an INI option (`-o key=<value>`, `--override-ini=key=<value>`) are mapped, so no
+    element can still reach the live tree (#83)."""
+    import os
+    out = []
+    ini_next = False
+    for a in args:
+        if ini_next:
+            ini_next = False
+            if "=" in a and not a.startswith("="):
+                k, v = a.split("=", 1)
+                if _INI_KEY_OK.fullmatch(k):
+                    nv, ch = _shell_map(v, root, td)
+                    out.append(k + "=" + nv if ch else a)
+                    continue
+            nv, ch = _shell_map(a, root, td)
+            out.append(nv if ch else a)
+            continue
+        if a in _INI_VALUE_OPTS:
+            ini_next = True
+            out.append(a)
+            continue
+        if "=" in a and not a.startswith("="):
+            k, v = a.split("=", 1)
+            if k in _INI_VALUE_OPTS and "=" in v and not v.startswith("="):
+                k2, v2 = v.split("=", 1)
+                if _INI_KEY_OK.fullmatch(k2):
+                    nv, ch = _shell_map(v2, root, td)
+                    out.append(k + "=" + k2 + "=" + (nv if ch else v2))
+                    continue
+        out.append(_map_path_arg(a, lambda p: os.path.join(td, rel) if (rel := _in_tree(p, root)) is not None else None))
+    return out
+
+
+def _live_path_hits(arg: str, root: str, td: str):
+    """Absolute candidates in an argv element that still resolve into the LIVE tree and were not mapped into
+    the approved copy, using the same shell-like tokenization as the config check (defense in depth)."""
+    import os
+    import shlex
+    cands = [arg]
+    body = arg
+    for _ in range(3):  # `--override-ini=pythonpath=<value>` nests key= levels
+        if "=" in body and not body.startswith("="):
+            k, v = body.split("=", 1)
+            if _INI_KEY_OK.fullmatch(k) or k in _INI_VALUE_OPTS:
+                cands.append(v)
+                body = v
+                continue
+        break
+    try:
+        cands.extend(shlex.split(body))
+    except ValueError:
+        pass
+    for c in list(cands):
+        cands.extend(_opt_value_paths(c, commas=True))
+    seen = set()
+    for c in cands:
+        if not c or not os.path.isabs(c) or c.startswith(td) or c in seen:
+            continue
+        seen.add(c)
+        real = os.path.realpath(c)
+        if real == root or real.startswith(root + os.sep):
+            yield c
 
 
 def _opt_value_paths(val: str, commas: bool = False) -> list[str]:
@@ -51,43 +158,17 @@ def _opt_value_paths(val: str, commas: bool = False) -> list[str]:
 
 
 def _refuse_cfg_path(opt: str, val: str, root: str, arg: str) -> None:
-    """Refuse a config-like value naming anything outside the tree, using pytest's real semantics (measured
-    against pytest 9.1.1): `-o`/`--override-ini` read `key=<value>` where the value is shell-like - only
-    whitespace splits it, quotes group, but pytest resolves a backslash escape while the gate's rewrite/guard
-    layer sees the raw string - so BOTH the raw reading and the shlex reading are checked, which keeps this
-    check as strict as the execution layer. `-c`/`--config-file`/`--rootdir`/`--confcutdir` take ONE literal
-    path. An absolute candidate must resolve into the tree lexically (existence is irrelevant); a relative one
-    must not contain a `..` component, because the action runs inside the materialized copy. A plain in-tree
-    value such as `cfg/pytest.ini` stays usable (#83)."""
+    """Refuse a config-like value naming anything outside the tree, using pytest's own value parsing (measured
+    against pytest 9.1.1): `-o`/`--override-ini` read `key=<value>` whose value is shell-like (see
+    `_shell_value_paths`), every other option one literal path. An absolute candidate must resolve into the
+    tree lexically (existence is irrelevant); a relative one must not contain a `..` component, because the
+    action runs inside the materialized copy, where `..` reaches the live parent tree. A plain in-tree value
+    such as `cfg/pytest.ini` stays usable, and a value pytest could not parse shell-like is refused (#83)."""
     import os
-    import shlex
-
-    def _unquote(t: str) -> str:
-        return t[1:-1] if len(t) > 1 and t[0] == t[-1] and t[0] in "\"'" else t
-
-    def _keyval(tok: str) -> str:
-        if "=" in tok and not tok.startswith("="):
-            k, v = tok.split("=", 1)
-            if k and not any(c in k for c in "/\\ \t\"'"):
-                return v
-        return ""
-
-    cands = [val.strip()]
-    if opt in _INI_VALUE_OPTS:
-        first = val.strip().split(None, 1)[0] if val.strip() else ""
-        kv = _keyval(first)  # only the FIRST token can carry the `key=` prefix
-        if kv:
-            cands.append(_unquote(kv))
-        try:
-            toks = shlex.split(val)
-        except ValueError:  # unbalanced quote: fail closed on the raw reading only
-            toks = val.split()
-        for t in toks:
-            cands.append(_unquote(t))
-            kv = _keyval(t)
-            if kv:
-                cands.append(_unquote(kv))
-    for cand in cands:
+    paths = _shell_value_paths(opt, val)
+    if paths is None:
+        raise LedgerError(f"config file outside the working tree in gated action: {arg} {val}".strip())
+    for cand in paths:
         if not cand:
             continue
         if os.path.isabs(cand):
@@ -546,11 +627,13 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
                 fd = os.open(exe, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o700)
                 with os.fdopen(fd, "wb") as fh:
                     fh.write(pbytes)
-            run_argv = [exe, *[_map_into_copy(a, root, td) for a in argv[1:]]]
+            run_argv = [exe, *_map_argv(argv[1:], root, td)]
             _root_given = cwd or os.getcwd()
             for _a in run_argv:
                 if _has_path(_a, _root_given) or _has_path(_a, root):
                     raise LedgerError(f"live repo path in gated action argv: {_a}")
+                for _c in _live_path_hits(_a, root, td):  # a shell-quoted path the mapping missed
+                    raise LedgerError(f"live repo path in gated action argv: {_a} ({_c})")
                 for _prefix, _val in _iter_path_pairs(_a):
                     _real = os.path.realpath(_val)
                     if (_real == root or _real.startswith(root + os.sep)) and not _val.startswith(td):
