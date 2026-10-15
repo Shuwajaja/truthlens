@@ -109,6 +109,11 @@ def _live_path_hits(arg: str, root: str, td: str):
     the approved copy, using the same shell-like tokenization as the config check (defense in depth)."""
     import os
     import shlex
+    # Only an INI-style value (`-o key=<value>`, `--override-ini=key=<value>`) is parsed shell-like by pytest,
+    # so only there may a whitespace-split hide a live path. A literal option value (`-c 'dir with space'`) is
+    # ONE path and must not be split here, otherwise a legitimate in-tree value is misread as external (#83).
+    if "=" not in arg or arg.startswith("="):
+        return
     cands = [arg]
     body = arg
     for _ in range(3):  # `--override-ini=pythonpath=<value>` nests key= levels
@@ -422,11 +427,11 @@ def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
         cands = [a, a.split("=", 1)[1] if "=" in a else ""]
         if len(a) > 2 and a[0] == "-" and a[1] != "-":
             cands.append(a[2:])
-        for c in list(cands):  # split fully (not only at '='): --override-ini=pythonpath=<alias>, `a b`, `"a"`
-            # The alias check must be at least as strict as main: keep main's split (at `=`, `:` and `,`,
-            # so a space or a quote inside a path stays part of it) AND add every further split
-            # (whitespace, quote, `;`). That makes its candidate set a superset of main's (#83 review).
-            cands.extend(_opt_value_paths(c, commas=True))
+        for c in list(cands):  # split fully, exactly like origin/main (at `=`, `:` and `,`)
+            cands.extend(re.split(r"[=:,]", c))
+        for c in list(cands):  # additionally try every candidate without surrounding quotes, so a quoted
+            if len(c) > 1 and c[0] == c[-1] and c[0] in "\"'":  # alias (`--x=k="alias/cfg.ini"`) stays seen
+                cands.append(c[1:-1])  # as a symlink bypass without splitting legitimate values on whitespace
         for c in cands:
             if c and _os.path.isabs(c) and _in_tree(c, root) is None:
                 real = _os.path.realpath(c)
