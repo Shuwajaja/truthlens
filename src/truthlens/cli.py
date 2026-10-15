@@ -201,6 +201,9 @@ def _w2(a) -> int:
                         timeout=a.timeout, agent=a.agent, human=getpass.getuser())
         res = run(cfg)
         print(json.dumps(res))
+        for ev in Ledger(res["ledger"]).read():
+            if ev["type"] == "test.reported" and ev.get("payload", {}).get("exit_code") == 125:
+                return 125
         return 0
     key = _key(a.hmac_key_env)
     if a.cmd in ("report", "project", "export"):

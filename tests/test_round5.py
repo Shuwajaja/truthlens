@@ -296,7 +296,7 @@ def test_46_review_isolation_failure_is_no_evidence_and_run_finishes(tmp_path):
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test-user", "no-such-user-tl", "--test", "c1=python -m pytest -q test_page.py",
-                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 125
     ev = Ledger(out / "ledger.jsonl").read()
     rep = next(e for e in ev if e["type"] == "test.reported")["payload"]
     assert rep["passed"] == 0 and rep["failed"] == 0 and rep["exit_code"] == 125
@@ -373,7 +373,7 @@ def test_46_r6_sudo_failure_not_read_as_no_processes(tmp_path, monkeypatch):
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test-user", "no-such-user-tl", "--test", "c1=python -m pytest -q test_page.py",
-                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 125
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125  # isolation not established -> tests not run
 
@@ -393,7 +393,7 @@ def test_46_r6_key_filename_in_blobs_and_probe_ignores_test_path_sudo(tmp_path):
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test-user", "no-such-user-tl", "--test-path", f"{fake}:/usr/bin:/bin",
                  "--test", "c1=python -m pytest -q test_page.py",
-                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 125
     assert not marker.exists()
     stored = b"".join(p.read_bytes() for p in (out / "blobs").rglob("*") if p.is_file())
     assert key.encode() not in stored + (out / "ledger.jsonl").read_bytes()
@@ -418,7 +418,7 @@ def test_46_r6_isolation_failure_blob_mentions_failed(tmp_path):
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test-user", "no-such-user-tl", "--test", "c1=python -m pytest -q test_page.py",
-                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 125
     ev = Ledger(out / "ledger.jsonl").read()
     rep = next(e for e in ev if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
@@ -623,7 +623,7 @@ def test_r6_sudo_fail_closed_pkill1_pgrep0(tmp_path, monkeypatch):
     out = tmp_path / "run"
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test-user", "no-such-user-tl", "--test", "c1=python -m pytest -q test_page.py",
-                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 0
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 125
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125
 
@@ -661,7 +661,7 @@ def test_r6_live_path_fail_closed_qc_opt(tmp_path):
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test", f"c2={sys.executable} -m pytest -q  -qc{r.resolve() / 'pytest.ini'} test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
-                 "--", sys.executable, "evil.py"]) == 0
+                 "--", sys.executable, "evil.py"]) == 125
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
 
@@ -677,7 +677,7 @@ def test_r6_live_path_fail_closed_pytest_addopts(tmp_path):
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test", f"c2=env PYTEST_ADDOPTS=-c{r.resolve()}/x.ini {sys.executable} -m pytest -q  test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
-                 "--", sys.executable, "evil.py"]) == 0
+                 "--", sys.executable, "evil.py"]) == 125
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
 
@@ -693,7 +693,7 @@ def test_r6_live_path_fail_closed_o_option(tmp_path):
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test", f"c2={sys.executable} -m pytest -q  -o 'pythonpath=/x {r.resolve()}' test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
-                 "--", sys.executable, "evil.py"]) == 0
+                 "--", sys.executable, "evil.py"]) == 125
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
 
@@ -709,7 +709,7 @@ def test_r6_live_path_fail_closed_override_ini(tmp_path):
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test", f"c2={sys.executable} -m pytest -q  --override-ini=pythonpath={r.resolve()}/src test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
-                 "--", sys.executable, "evil.py"]) == 0
+                 "--", sys.executable, "evil.py"]) == 125
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
 
@@ -725,7 +725,7 @@ def test_r6_live_path_fail_closed_pythonpath(tmp_path):
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test", f"c2=env PYTHONPATH={r.resolve()}/a:{r.resolve()}/b {sys.executable} -m pytest -q  test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
-                 "--", sys.executable, "evil.py"]) == 0
+                 "--", sys.executable, "evil.py"]) == 125
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
 
@@ -791,7 +791,7 @@ def test_r6_symlink_alias_in_override_ini_refused(tmp_path):
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test", f"c2={sys.executable} -m pytest -q --override-ini=pythonpath={alias}/src test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
-                 "--", sys.executable, "evil.py"]) == 0
+                 "--", sys.executable, "evil.py"]) == 125
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
 
@@ -812,7 +812,7 @@ def test_r6_symlink_alias_in_env_pythonpath_refused(tmp_path):
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test", f"c2=env PYTHONPATH={alias} {sys.executable} -m pytest -q test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
-                 "--", sys.executable, "evil.py"]) == 0
+                 "--", sys.executable, "evil.py"]) == 125
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125 and rep["passed"] == 0 and rep["failed"] == 0
 
@@ -859,7 +859,7 @@ def test_r7_bundled_short_c_refused(tmp_path):
     assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit), "--confirm", "c1,c2,c3",
                  "--test", f"c2={sys.executable} -m pytest -qc{alias}/pytest.ini test_mail.py",
                  "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
-                 "--", sys.executable, "-c", "pass"]) == 0
+                 "--", sys.executable, "-c", "pass"]) == 125
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")["payload"]
     assert rep["exit_code"] == 125 and rep["passed"] == 0
 

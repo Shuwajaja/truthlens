@@ -2,6 +2,8 @@ import os
 import subprocess
 import sys
 
+from tests.test_wrapper import _keyfile, _repo
+from truthlens.cli import main
 from truthlens.ids import new_id
 from truthlens.ledger import Ledger
 
@@ -69,3 +71,15 @@ def test_repair_torn_first_line(tmp_path):
     r = tl("repair", str(p))
     assert r.returncode == 1 and "error:" in r.stderr
     assert p.read_bytes() == raw
+
+
+def test_cli_run_propagates_isolation_failure_125(tmp_path):
+    r, crit = _repo(tmp_path)
+    out = tmp_path / "run"
+    rc = main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit),
+               "--confirm", "c1,c2,c3",
+               "--test", f"c1={sys.executable} -m pytest -o addopts= test_page.py",
+               "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"])
+    assert rc == 125
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")
+    assert rep["payload"]["exit_code"] == 125
