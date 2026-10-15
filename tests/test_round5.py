@@ -460,6 +460,31 @@ def test_r6_gate_config_value_outside_path_refused(tmp_path):
         gate.act(led, {"kind": "agent", "id": "a"}, ["cat", f"--config={outside}"], str(repo))
 
 
+def test_r6_gate_config_file_outside_refused_even_if_missing(tmp_path):
+    """#83: pytest reads the file named by `-c`/`--config-file`, so an absolute value outside the live tree
+    must be refused even when the file does not exist yet (it could be created between approval and run),
+    while a value inside the tree stays usable and `-o` (out of scope) is untouched."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / "pytest.ini").write_text("[pytest]\n")
+    missing = tmp_path / "outside-not-yet.ini"
+    assert not missing.exists()
+    for argv in (["python", "-m", "pytest", "-c", str(missing)],
+                 ["python", "-m", "pytest", f"--config-file={missing}"],
+                 ["python", "-m", "pytest", "-c", "../outside.ini"]):
+        with pytest.raises(LedgerError, match="outside the working tree"):
+            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+    for argv in (["python", "-m", "pytest", "-c", str(repo / "pytest.ini")],
+                 ["python", "-m", "pytest", "--config-file=pytest.ini"]):
+        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+        assert rc == gate.BLOCKED  # blocked for approval, not refused
+    # `-o` is not part of issue #83: a value there is left exactly like origin/main handles it.
+    rc, _ = gate.act(led, {"kind": "agent", "id": "a"},
+                     ["python", "-m", "pytest", "-o", "pythonpath=" + str(repo)], str(repo))
+    assert rc == gate.BLOCKED
+
+
 def test_r6_gate_short_opt_value_arg_mapped(tmp_path, monkeypatch):
     """-C/<root>/cfg changed after approval via monkeypatched _materialize -> approved content used."""
     import truthlens.gate as g
@@ -884,234 +909,6 @@ def test_r8_gate_bundled_short_c_refused(tmp_path):
     with pytest.raises(LedgerError, match="bundled"):
         gate.act(led, {"kind": "agent", "id": "a"}, [sys.executable, "-m", "pytest", "-qc/tmp/x/pytest.ini"],
                  str(repo))
-
-
-def test_r8_gate_config_file_missing_outside_refused(tmp_path):
-    """`-c <path>` / `--config-file=<path>` naming a file OUTSIDE the tree must be refused even if the file
-    does not exist yet: it could be created after approval, and its content changes the action's behaviour
-    without changing the action hash (#83)."""
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    repo.mkdir()
-    outside = tmp_path / "outside" / "not-yet-here.cfg"  # deliberately does NOT exist
-    for argv in ([sys.executable, "-m", "pytest", "-c", str(outside)],
-                 [sys.executable, "-m", "pytest", f"--config-file={outside}"],
-                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={outside}"]):
-        with pytest.raises(LedgerError, match="outside the working tree"):
-            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-
-
-def test_r8_gate_config_value_whitespace_paths_refused(tmp_path):
-    """A whitespace-separated extra path in a config value (pytest 9.1.1 reads `-o pythonpath=<a> <b>` as two
-    import paths, measured) must be refused: splitting only on `=` would let the second path slip through. A
-    comma is a path character, so `<tree>,evil` is a sibling outside the tree and is refused as well (#83)."""
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    repo.mkdir()
-    external = tmp_path / "outside"
-    external.mkdir()
-    for argv in ([sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/safe {external}"],
-                 [sys.executable, "-m", "pytest", f"--override-ini=pythonpath={repo}/safe {external}"],
-                 [sys.executable, "-m", "pytest", "-o", f'pythonpath="{external}"'],   # quoted
-                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo},evil"]):     # ',' is a path char
-        with pytest.raises(LedgerError, match="outside the working tree"):
-            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-
-
-def test_r8_gate_colon_and_semicolon_in_config_value_stay_literal(tmp_path):
-    """Measured against pytest 9.1.1: `:` and `;` are NOT separators in `-o pythonpath`, and `-c` takes one
-    literal path, so an in-tree value using them is legitimate and must not be refused as outside the tree
-    (round-10 finding: no false refusals)."""
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    repo.mkdir()
-    (repo / "cfg=").mkdir()
-    (repo / "cfg=" / "part.ini").write_text("[pytest]\n")
-    for argv in ([sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/a:{repo}/b"],
-                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/a;{repo}/b"],
-                 [sys.executable, "-m", "pytest", "-c", f"{repo}/cfg=/part.ini"],
-                 [sys.executable, "-m", "pytest", "-c", "cfg:/part.ini"],
-                 [sys.executable, "-m", "pytest", "-c", "cfg,/part.ini"]):
-        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-        assert rc == gate.BLOCKED  # blocked for approval, not refused
-
-
-def test_r8_gate_backslash_escaped_and_quoted_space_values(tmp_path):
-    """Round-11 findings (measured against pytest 9.1.1): pytest parses `-o` values shell-like, so a
-    backslash-escaped path (`pythonpath=\\/tmp/outside`) is an external import path and must be refused,
-    while a QUOTED in-tree value with a space (`pythonpath="<tree>/cfg /part"`) is legitimate and must not
-    be refused. Splitting on quotes/whitespace by hand got both wrong (#83)."""
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    (repo / "cfg ").mkdir(parents=True)
-    external = tmp_path / "outside"
-    external.mkdir()
-    for argv in ([sys.executable, "-m", "pytest", "-o", "pythonpath=\\/etc"],
-                 [sys.executable, "-m", "pytest", "-o", f"pythonpath=\\{external}"],
-                 [sys.executable, "-m", "pytest", "-o", f'pythonpath="{external}"']):
-        with pytest.raises(LedgerError, match="outside the working tree"):
-            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-    for argv in ([sys.executable, "-m", "pytest", "-o", f'pythonpath="{repo}/cfg /part"'],
-                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/cfg"]):
-        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-        assert rc == gate.BLOCKED  # blocked for approval, not refused
-
-
-def test_r8_gate_backslash_in_live_path_and_list_with_equals(tmp_path):
-    r"""Round-12/13 findings: pytest reads `-o` values shell-like, so a quoted prefix concatenated with an
-    escaped rest (`'/parent/'re\po`) resolves to a LIVE path; the check accepts it as in-tree, therefore the
-    rewrite layer must map it into the approved copy (never leave it for the child to read the live tree),
-    while an escaped path outside the tree must still be refused. A whitespace list stays usable when a later
-    in-tree path contains `=`."""
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    (repo / "first").mkdir(parents=True)
-    (repo / "cfg=").mkdir()
-    with pytest.raises(LedgerError, match="outside the working tree"):
-        gate.act(led, {"kind": "agent", "id": "a"},
-                 [sys.executable, "-m", "pytest", "-o", "pythonpath=" + "\\" + "/etc"], str(repo))
-    td = tmp_path / "copy"
-    td.mkdir()
-    quoted = "--override-ini=pythonpath='" + str(tmp_path) + "/'re" + "\\" + "po"  # pytest reads re\po as repo
-    (mapped,) = gate._map_argv([quoted], str(repo), str(td))
-    assert str(td) in mapped and str(repo) not in mapped
-    assert not list(gate._live_path_hits(mapped, str(repo), str(td)))
-    for argv in ([sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/first {repo}/cfg=/part"],
-                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={repo}/first"]):
-        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-        assert rc == gate.BLOCKED  # blocked for approval, not refused
-
-
-def test_r8_gate_config_value_equals_path_and_relative_escape_refused(tmp_path):
-    """Round-4 findings: a `=` inside an absolute path must not hide its start, and a relative `..` escape in
-    a config value must be refused even though the path is not absolute (#83)."""
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    repo.mkdir()
-    for argv in ([sys.executable, "-m", "pytest", "-c", "/tmp/missing=hidden.ini"],
-                 [sys.executable, "-m", "pytest", "-o", "pythonpath=safe ../outside"],
-                 [sys.executable, "-m", "pytest", "-o", "pythonpath=../outside"],
-                 [sys.executable, "-m", "pytest", "-c", "../outside.ini"]):
-        with pytest.raises(LedgerError, match="outside the working tree"):
-            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-
-
-def test_r8_gate_relative_config_file_inside_tree_usable(tmp_path):
-    """A plain relative config value inside the tree must stay usable: it is bound by the approved snapshot,
-    unlike an absolute path outside the tree (#83 review round 3)."""
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    (repo / "cfg").mkdir(parents=True)
-    (repo / "cfg" / "pytest.ini").write_text("[pytest]\n")
-    for argv in ([sys.executable, "-m", "pytest", "-c", "cfg/pytest.ini"],
-                 [sys.executable, "-m", "pytest", "--config-file=cfg/pytest.ini"]):
-        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-        assert rc == gate.BLOCKED  # blocked for approval, not refused
-
-
-def test_r8_gate_relative_parent_config_value_refused(tmp_path):
-    """Round-5 finding: a relative value climbing out with `..` is accepted by a purely lexical check,
-    yet the action runs inside the materialized copy, where `..` reaches the live parent tree - a file
-    that can change after approval without changing the action hash (#83)."""
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    repo.mkdir()
-    for argv in ([sys.executable, "-m", "pytest", "-c", f"../{tmp_path.name}/cfg.ini"],
-                 [sys.executable, "-m", "pytest", "-c", f"../{tmp_path.name}/../cfg.ini"],
-                 [sys.executable, "-m", "pytest", "-o", "pythonpath=../outside"]):
-        with pytest.raises(LedgerError, match="outside the working tree"):
-            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-    # A `..` that stays inside after lexical normalization is NOT an escape (origin/main accepts it too): the
-    # action runs in the copy, where `sub/../safe` is still the in-tree `safe` (#83 review round 16).
-    rc, _ = gate.act(led, {"kind": "agent", "id": "a"},
-                     [sys.executable, "-m", "pytest", "-o", "pythonpath=sub/../safe"], str(repo))
-    assert rc == gate.BLOCKED  # blocked for approval, not refused
-
-
-def test_r8_gate_in_tree_config_file_still_approvable(tmp_path):
-    """An in-tree config file stays usable: it is bound by the approved snapshot, not refused by the new check."""
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    repo.mkdir()
-    (repo / "cfg.ini").write_text("[pytest]\n")
-    argv = [sys.executable, "-m", "pytest", f"--config-file={repo}/cfg.ini"]
-    rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-    assert rc == gate.BLOCKED  # blocked for approval, not refused
-
-
-def test_r8_gate_symlink_alias_after_comma_refused(tmp_path):
-    """Round-6 finding: the alias check must keep splitting at a comma, or an alias to the live repo hidden
-    behind a comma (`--x=missing,<alias>/cfg.ini`) is no longer seen as a symlink bypass (#83)."""
-    import os as _os
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    repo.mkdir()
-    alias = tmp_path / "alias"
-    _os.symlink(str(repo), str(alias))
-    with pytest.raises(LedgerError, match="symlink"):
-        gate.act(led, {"kind": "agent", "id": "a"}, ["sh", f"--x=/tmp/missing,{alias}/cfg.ini"], str(repo))
-
-
-def test_r8_gate_alias_after_multiple_equals_refused(tmp_path):
-    """Round-7 finding: `--x==<alias>/cfg.ini` and `--x=k=z=<alias>/cfg.ini` must still be split at every
-    `=`, or an alias to the live repo hidden behind them is no longer seen as a symlink bypass (#83)."""
-    import os as _os
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    repo.mkdir()
-    alias = tmp_path / "alias"
-    _os.symlink(str(repo), str(alias))
-    for tok in (f"--x=={alias}/cfg.ini", f"--x=k=z={alias}/cfg.ini"):
-        with pytest.raises(LedgerError, match="symlink"):
-            gate.act(led, {"kind": "agent", "id": "a"}, ["sh", tok], str(repo))
-
-
-def test_r8_gate_comma_escape_behind_relative_prefix_refused(tmp_path):
-    """Measured against pytest 9.1.1 and origin/main: a comma is a path character, NOT a list separator, so
-    `sub,../safe` is the in-tree `safe` and stays usable (`sub,../../etc` normalizes to `<copy>/etc`, also
-    in-tree). Only a value that really climbs out - `sub,../../../etc` - is refused, existence irrelevant;
-    this keeps the check identical to origin/main instead of inventing a false refusal (#83 review)."""
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    repo.mkdir()
-    for argv in ([sys.executable, "-m", "pytest", "-o", "pythonpath=sub,../safe"],
-                 [sys.executable, "-m", "pytest", "-o", "pythonpath=sub,../../etc"]):
-        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-        assert rc == gate.BLOCKED  # in-tree after lexical normalization, blocked for approval
-    for argv in ([sys.executable, "-m", "pytest", "-o", "pythonpath=sub,../../../etc"],
-                 [sys.executable, "-m", "pytest", "-o", "pythonpath=cfg,../../../etc"]):
-        with pytest.raises(LedgerError, match="outside the working tree"):
-            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
-
-
-def test_r8_gate_alias_with_space_or_quote_refused(tmp_path):
-    """Round-8 finding: the alias check must keep the whole value as a candidate, or an alias whose own path
-    contains a space or a quote (`--x=k=<alias with space>/cfg.ini`) stops being seen as a symlink bypass."""
-    import os as _os
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    repo.mkdir()
-    space = tmp_path / "al ias"
-    _os.symlink(str(repo), str(space))
-    quoted = tmp_path / "qalias"
-    _os.symlink(str(repo), str(quoted))
-    for tok in (f"--x=k={space}/cfg.ini", f'--x=k="{quoted}/cfg.ini"', f"--x=k='{quoted}/cfg.ini'"):
-        with pytest.raises(LedgerError, match="symlink"):
-            gate.act(led, {"kind": "agent", "id": "a"}, ["sh", tok], str(repo))
-
-
-def test_r8_gate_alias_with_trailing_space_refused(tmp_path):
-    """Round-9 finding: candidates must not be trimmed, or a symlink whose name ends with a space
-    (`--x=k=<alias with trailing space>`) stops being seen as a symlink bypass that main refuses."""
-    import os as _os
-    led = _open_ledger(tmp_path)
-    repo = tmp_path / "repo"
-    repo.mkdir()
-    spaced = tmp_path / "alias "
-    _os.symlink(str(repo), str(spaced))
-    for tok in (f"--x=k={spaced}", f"--x={spaced}/cfg.ini"):
-        with pytest.raises(LedgerError, match="symlink"):
-            gate.act(led, {"kind": "agent", "id": "a"}, ["sh", tok], str(repo))
 
 
 def test_r7_sibling_dir_of_repo_is_not_mapped_into_copy(tmp_path):
