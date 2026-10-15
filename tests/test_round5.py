@@ -884,3 +884,21 @@ def test_r8_gate_bundled_short_c_refused(tmp_path):
     with pytest.raises(LedgerError, match="bundled"):
         gate.act(led, {"kind": "agent", "id": "a"}, [sys.executable, "-m", "pytest", "-qc/tmp/x/pytest.ini"],
                  str(repo))
+
+
+def test_r7_sibling_dir_of_repo_is_not_mapped_into_copy(tmp_path):
+    r, crit = _repo(tmp_path)                    # repo root is tmp_path/"repo"
+    evil = tmp_path / "repo-evil"                # sibling: tmp_path/"repo-evil"
+    evil.mkdir()
+    marker = tmp_path / "sibling-ran"
+    (evil / "test_mail.py").write_text(
+        f"import pathlib\ndef test_mail():\n    pathlib.Path({str(marker)!r}).write_text('ran')\n")
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit),
+                 "--confirm", "c1,c2,c3",
+                 "--test", f"c2={sys.executable} -m pytest -q {evil}/test_mail.py",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", "true"]) == 0
+    rep = next(e for e in Ledger(out / "ledger.jsonl").read()
+               if e["type"] == "test.reported")["payload"]
+    assert rep["passed"] == 1 and rep["failed"] == 0
