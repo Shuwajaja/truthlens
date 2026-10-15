@@ -20,6 +20,13 @@ _SHORT_OPT_PATH = re.compile(r"^(-[A-Za-z])(/.*)$")
 _SHORT_OPT_ANY = re.compile(r"^(-[A-Za-z])(.+)$")
 SHELL_NAMES = frozenset({"sh", "bash", "dash", "zsh", "ksh", "fish", "busybox"})
 
+# Options whose value names a file the tool then reads (config/ini/plugin/rootdir). Unlike a plain
+# positional write target, such a file changes a gated action's behaviour without changing its hash, so an
+# absolute value outside the tree is refused whether or not the file exists yet (#83).
+_CFG_FILE_OPTS = frozenset({"-c", "--config", "--config-file", "-o", "--override-ini", "-p",
+                            "--rootdir", "--confcutdir"})
+
+
 
 
 def _has_path(s: str, p: str) -> bool:
@@ -254,6 +261,18 @@ def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
                 real = _os.path.realpath(c)
                 if real == root or real.startswith(root + _os.sep):
                     raise LedgerError(f"live repo path via symlink in gated action: {a}")
+    for i, a in enumerate(args):  # a config/ini/rootdir value is read by the tool; existence must not matter,
+        if "=" in a and not a.startswith("="):  # or a name absent at approval could be created before execution
+            _opt, _val = a.split("=", 1)
+        elif a in _CFG_FILE_OPTS and i + 1 < len(args):  # (#83: `-c <pfad>` / `--config-file=<pfad>`)
+            _opt, _val = a, args[i + 1]
+        else:
+            continue
+        if _opt in _CFG_FILE_OPTS:
+            # The value may itself be `key=<pfad>` (e.g. `-o pythonpath=<pfad>`), so check every component.
+            for _c in re.split(r"[=:,]", _val):
+                if _c and _os.path.isabs(_c) and _in_tree(_c, root) is None:
+                    raise LedgerError(f"config file outside the working tree in gated action: {a} {_val}".strip())
     import os
     for a in args:
         for prefix, val in _iter_path_pairs(a):

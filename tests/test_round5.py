@@ -886,6 +886,32 @@ def test_r8_gate_bundled_short_c_refused(tmp_path):
                  str(repo))
 
 
+def test_r8_gate_config_file_missing_outside_refused(tmp_path):
+    """`-c <path>` / `--config-file=<path>` naming a file OUTSIDE the tree must be refused even if the file
+    does not exist yet: it could be created after approval, and its content changes the action's behaviour
+    without changing the action hash (#83)."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    outside = tmp_path / "outside" / "not-yet-here.cfg"  # deliberately does NOT exist
+    for argv in ([sys.executable, "-m", "pytest", "-c", str(outside)],
+                 [sys.executable, "-m", "pytest", f"--config-file={outside}"],
+                 [sys.executable, "-m", "pytest", "-o", f"pythonpath={outside}"]):
+        with pytest.raises(LedgerError, match="outside the working tree"):
+            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+
+
+def test_r8_gate_in_tree_config_file_still_approvable(tmp_path):
+    """An in-tree config file stays usable: it is bound by the approved snapshot, not refused by the new check."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / "cfg.ini").write_text("[pytest]\n")
+    argv = [sys.executable, "-m", "pytest", f"--config-file={repo}/cfg.ini"]
+    rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+    assert rc == gate.BLOCKED  # blocked for approval, not refused
+
+
 def test_r7_sibling_dir_of_repo_is_not_mapped_into_copy(tmp_path):
     r, crit = _repo(tmp_path)                    # repo root is tmp_path/"repo"
     evil = tmp_path / "repo-evil"                # sibling: tmp_path/"repo-evil"
