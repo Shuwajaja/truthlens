@@ -500,9 +500,12 @@ def run(cfg: RunConfig) -> dict:
             test_env["PYTEST_ADDOPTS"] = f"--junitxml={jx}"
             _repo_real = str(cfg.repo.resolve())
             _work_str = str(work)
-            resolve = lambda p, _repo_real=_repo_real, _work_str=_work_str: (os.path.realpath(p).replace(_repo_real, _work_str, 1)
-                                  if os.path.realpath(p).startswith(_repo_real)
-                                  else None)
+
+            def resolve(p: str, _repo_real: str = _repo_real, _work_str: str = _work_str) -> str | None:
+                real = os.path.realpath(p)
+                if real == _repo_real or real.startswith(_repo_real + os.sep):
+                    return real.replace(_repo_real, _work_str, 1)
+                return None
             _raw_tokens = shlex.split(t.command)
             _refused_opts = frozenset({"PYTHONPATH", "PYTEST_ADDOPTS", "-o", "--override-ini", "-c", "--rootdir", "-p", "--confcutdir", "--config-file"})
             _refused = bool(_raw_tokens and _raw_tokens[0] == "env")
