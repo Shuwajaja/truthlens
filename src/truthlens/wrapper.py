@@ -400,8 +400,12 @@ def run(cfg: RunConfig) -> dict:
             parts = line.split("\t", 1)
             if len(parts) == 2:
                 meta, rel = parts
-                sha = meta.split(" ")[2] if " " in meta else ""
-                head_files[rel] = sha
+                fields = meta.split(" ")
+                if len(fields) < 3:
+                    continue
+                mode, sha = fields[0], fields[2]
+                data = _git(cfg.repo, "cat-file", "blob", sha)
+                head_files[rel] = hashlib.sha256(b"symlink:" + data if mode == "120000" else data).hexdigest()
     pre_diff = _make_diff(cfg.repo, head_files, before)
     sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
     protected_before = {rel: _read(cfg.repo / rel) for rel in before if is_protected(rel)}
