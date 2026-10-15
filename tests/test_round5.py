@@ -984,6 +984,20 @@ def test_r8_gate_symlink_alias_after_comma_refused(tmp_path):
         gate.act(led, {"kind": "agent", "id": "a"}, ["sh", f"--x=/tmp/missing,{alias}/cfg.ini"], str(repo))
 
 
+def test_r8_gate_alias_after_multiple_equals_refused(tmp_path):
+    """Round-7 finding: `--x==<alias>/cfg.ini` and `--x=k=z=<alias>/cfg.ini` must still be split at every
+    `=`, or an alias to the live repo hidden behind them is no longer seen as a symlink bypass (#83)."""
+    import os as _os
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    alias = tmp_path / "alias"
+    _os.symlink(str(repo), str(alias))
+    for tok in (f"--x=={alias}/cfg.ini", f"--x=k=z={alias}/cfg.ini"):
+        with pytest.raises(LedgerError, match="symlink"):
+            gate.act(led, {"kind": "agent", "id": "a"}, ["sh", tok], str(repo))
+
+
 def test_r7_sibling_dir_of_repo_is_not_mapped_into_copy(tmp_path):
     r, crit = _repo(tmp_path)                    # repo root is tmp_path/"repo"
     evil = tmp_path / "repo-evil"                # sibling: tmp_path/"repo-evil"
