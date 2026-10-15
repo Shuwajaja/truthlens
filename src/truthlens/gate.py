@@ -33,8 +33,11 @@ def _opt_value_paths(val: str, commas: bool = False) -> list[str]:
     can be a list (`-o pythonpath=<a> <b>`, `<a>:<b>`, `"<a>"`). Returning all of them - instead of guessing
     one separator - is what makes the check fail closed: a comma stays a path character (`<tree>,evil`), and a
     leading path before an `=` (`/tmp/missing=hidden.ini`) is still seen (#83)."""
-    body = val.replace('"', " ").replace("'", " ")
     out = [val]
+    # main-compatible split on the RAW value first: a space or a quote inside a candidate stays part
+    # of it, so this branch alone is never looser than the previous implementation (#83 review).
+    out += re.split(r"[=:,]", val)
+    body = val.replace('"', " ").replace("'", " ")
     if "=" in body and not body.startswith("="):
         out.append(body.split("=", 1)[1])
     # The alias check must stay at least as strict as main: it keeps every candidate (the whole value and
@@ -291,8 +294,9 @@ def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
         if len(a) > 2 and a[0] == "-" and a[1] != "-":
             cands.append(a[2:])
         for c in list(cands):  # split fully (not only at '='): --override-ini=pythonpath=<alias>, `a b`, `"a"`
-            # The alias check wants EVERY candidate (more candidates = stricter), so it also splits at a
-            # comma, unlike the config check where a comma is part of a path (#83 review round 6).
+            # The alias check must be at least as strict as main: keep main's split (at `=`, `:` and `,`,
+            # so a space or a quote inside a path stays part of it) AND add every further split
+            # (whitespace, quote, `;`). That makes its candidate set a superset of main's (#83 review).
             cands.extend(_opt_value_paths(c, commas=True))
         for c in cands:
             if c and _os.path.isabs(c) and _in_tree(c, root) is None:
