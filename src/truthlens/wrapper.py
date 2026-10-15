@@ -193,7 +193,8 @@ def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes
     return b""
 
 
-def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> bytes:
+def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
+               before_data: dict[str, bytes] | None = None) -> bytes:
     lines: list[str] = []
     all_keys = sorted(set(before) | set(after))
     for rel in all_keys:
@@ -229,7 +230,12 @@ def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> byt
             lines.append("Binary files differ")
         else:
             text = data.decode("utf-8", "replace")
-            src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            # `before_data` holds the pre-run bytes captured before the agent ran; when absent (pre-diff)
+            # fall back to `_read_before` so that path is unchanged.
+            if before_data is None:
+                src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            else:
+                src = before_data.get(rel, b"").decode("utf-8", "replace")
             diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
                                              fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
             lines.extend(l.rstrip("\n") for l in diff)
@@ -246,6 +252,27 @@ def snapshot(repo: Path) -> dict[str, str]:
     return out
 
 
+def _capture_before(repo: Path, before: dict[str, str]) -> dict[str, bytes]:
+    """Bytes of the pre-run working tree, captured BEFORE the agent runs.
+
+    The after-diff needs the original (`-`) side. Re-reading the working tree after the run (what
+    `_read_before` does) only matches files the agent left untouched, so removed lines and deleted
+    content would be silently dropped. Symlinks are skipped, like `_read_before`.
+    """
+    out: dict[str, bytes] = {}
+    for rel, sha in before.items():
+        path = repo / rel
+        if not path.exists() or path.is_symlink():
+            continue
+        try:
+            data = path.read_bytes()
+        except OSError:
+            continue
+        if hashlib.sha256(data).hexdigest() == sha:
+            out[rel] = data
+    return out
+
+
 def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
     path = repo / rel
     if path.exists() and not path.is_symlink():
@@ -255,7 +282,8 @@ def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes
     return b""
 
 
-def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> bytes:
+def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
+               before_data: dict[str, bytes] | None = None) -> bytes:
     lines: list[str] = []
     all_keys = sorted(set(before) | set(after))
     for rel in all_keys:
@@ -291,7 +319,12 @@ def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> byt
             lines.append("Binary files differ")
         else:
             text = data.decode("utf-8", "replace")
-            src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            # `before_data` holds the pre-run bytes captured before the agent ran; when absent (pre-diff)
+            # fall back to `_read_before` so that path is unchanged.
+            if before_data is None:
+                src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            else:
+                src = before_data.get(rel, b"").decode("utf-8", "replace")
             diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
                                              fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
             lines.extend(l.rstrip("\n") for l in diff)
@@ -410,6 +443,7 @@ def run(cfg: RunConfig) -> dict:
 
     # before snapshot
     before = snapshot(cfg.repo)
+    before_data = _capture_before(cfg.repo, before)  # pre-run `-` side, captured before the agent runs
     head_files = {}
     unreadable: set[str] = set()
     for line in _git(cfg.repo, "ls-tree", "-r", "-z", "HEAD").decode().split("\0"):
@@ -467,7 +501,7 @@ def run(cfg: RunConfig) -> dict:
     # after snapshot: diff + one artifact per changed file
     after = snapshot(cfg.repo)
     changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
-    diff = _make_diff(cfg.repo, before, after)
+    diff = _make_diff(cfg.repo, before, after, before_data)
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
                                         "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
                                         "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
