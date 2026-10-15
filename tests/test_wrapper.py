@@ -291,3 +291,42 @@ def test_pre_diff_handles_symlink_like_snapshot(tmp_path):
     data = BlobStore(out / "blobs").get(git_before["payload"]["sha256"])
     pre_diff = data.split(b"\n", 1)[1]
     assert pre_diff == b""
+
+
+DIFF_AGENT = textwrap.dedent("""
+    import pathlib
+    pathlib.Path("notes.txt").write_text("keep\\n")
+    pathlib.Path("README.md").unlink()
+""")
+
+
+def test_file_changed_keeps_removed_and_deleted_evidence(tmp_path):
+    """The `-` side is captured before the agent runs, so removed lines / deleted content survive (#81)."""
+    r, crit = _repo(tmp_path)
+    (r / "notes.txt").write_text("keep\nremove me\n")
+    for c in (["add", "notes.txt"], ["-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "notes"]):
+        subprocess.run(["git", "-C", str(r), *c], check=True)
+    (r / "diff_agent.py").write_text(DIFF_AGENT)
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--criteria", str(crit),
+                 "--confirm", "c1,c2,c3", "--hmac-key-file", str(_keyfile(tmp_path)),
+                 "--hmac-key-id", "k1", "--agent", "fake", "--", sys.executable, "diff_agent.py"]) == 0
+    ev = Ledger(out / "ledger.jsonl").read()
+    diff = BlobStore(out / "blobs").get(
+        next(e["payload"]["sha256"] for e in ev if e["payload"].get("refers_to") == "git_diff_after"))
+    assert b"-remove me" in diff  # modified file: the removed line is witnessed
+    assert b"-x" in diff          # deleted file: its original content is witnessed
+
+
+def test_pre_run_capture_refuses_silent_loss(tmp_path):
+    """A failed pre-run copy must raise, not fake an empty `-` side (#81 review)."""
+    import pytest
+
+    from truthlens.wrapper import _capture_before, _read_captured
+    (tmp_path / "notes.txt").write_text("keep\nremove me\n")
+    with pytest.raises(RuntimeError):
+        _capture_before(tmp_path, {"notes.txt": "0" * 64}, tmp_path / "dest")  # hash mismatch = changed
+    dest = tmp_path / "captured"
+    dest.mkdir()
+    with pytest.raises(RuntimeError):
+        _read_captured(dest, "notes.txt")  # existed before the run, so a missing capture is an error

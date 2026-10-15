@@ -12,6 +12,7 @@ import json
 import os
 import re
 import shlex
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -193,7 +194,8 @@ def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes
     return b""
 
 
-def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> bytes:
+def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
+               before_dir: Path | None = None) -> bytes:
     lines: list[str] = []
     all_keys = sorted(set(before) | set(after))
     for rel in all_keys:
@@ -229,7 +231,16 @@ def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> byt
             lines.append("Binary files differ")
         else:
             text = data.decode("utf-8", "replace")
-            src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            # `before_dir` holds the pre-run bytes on disk; when absent (pre-diff) fall back to
+            # `_read_before` so that path is unchanged, otherwise read this changed file on demand.
+            # A file that did not exist before the run has a legitimately empty `-` side; a file that
+            # did exist must have a capture, else `_read_captured` raises instead of faking empty.
+            if before_dir is None:
+                src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            elif rel in before:
+                src = _read_captured(before_dir, rel).decode("utf-8", "replace")
+            else:
+                src = ""
             diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
                                              fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
             lines.extend(l.rstrip("\n") for l in diff)
@@ -246,6 +257,48 @@ def snapshot(repo: Path) -> dict[str, str]:
     return out
 
 
+def _capture_before(repo: Path, before: dict[str, str], dest: Path) -> None:
+    """Write the pre-run working tree into `dest` (outside the repo) for the after-diff `-` side.
+
+    The after-diff needs the original (`-`) side. Re-reading the working tree after the run (what
+    `_read_before` does) only matches files the agent left untouched, so removed lines and deleted
+    content would be silently dropped. Holding every before-byte in RAM is unbounded (#90 review):
+    a large tree would OOM the wrapper before the agent starts. The bytes therefore go to a temp
+    dir and are read back on demand. A file is written only while it still hashes to `before[rel]`;
+    symlinks are skipped, exactly like `_read_before`.
+    """
+    for rel, sha in before.items():
+        if os.path.isabs(rel) or ".." in rel.split("/"):
+            raise RuntimeError(f"refusing to capture non-relative path: {rel!r}")
+        path = repo / rel
+        try:
+            data = _read(path)  # symlink -> b"symlink:<target>", exactly what snapshot() hashes
+        except OSError as e:
+            raise RuntimeError(f"cannot read pre-run content for {rel!r}: {e}") from e
+        if hashlib.sha256(data).hexdigest() != sha:
+            raise RuntimeError(f"pre-run content changed between snapshot and capture: {rel!r}")
+        try:
+            out = dest / rel
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_bytes(data)
+            if out.stat().st_size != len(data):
+                raise OSError("short write")
+        except OSError as e:
+            raise RuntimeError(f"cannot store pre-run content for {rel!r}: {e}") from e
+
+
+def _read_captured(before_dir: Path, rel: str) -> bytes:
+    """Read one file's pre-run bytes from the temp dir, on demand (never all files at once).
+
+    A missing capture for a file that existed before the run is an error, not empty content:
+    silently returning b"" would drop removed-line/deleted evidence without marking it (#81 review).
+    """
+    try:
+        return (before_dir / rel).read_bytes()
+    except OSError as e:
+        raise RuntimeError(f"missing pre-run capture for {rel!r}: {e}") from e
+
+
 def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
     path = repo / rel
     if path.exists() and not path.is_symlink():
@@ -255,7 +308,8 @@ def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes
     return b""
 
 
-def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> bytes:
+def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
+               before_dir: Path | None = None) -> bytes:
     lines: list[str] = []
     all_keys = sorted(set(before) | set(after))
     for rel in all_keys:
@@ -291,7 +345,16 @@ def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str]) -> byt
             lines.append("Binary files differ")
         else:
             text = data.decode("utf-8", "replace")
-            src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            # `before_dir` holds the pre-run bytes on disk; when absent (pre-diff) fall back to
+            # `_read_before` so that path is unchanged, otherwise read this changed file on demand.
+            # A file that did not exist before the run has a legitimately empty `-` side; a file that
+            # did exist must have a capture, else `_read_captured` raises instead of faking empty.
+            if before_dir is None:
+                src = _read_before(repo, rel, before).decode("utf-8", "replace")
+            elif rel in before:
+                src = _read_captured(before_dir, rel).decode("utf-8", "replace")
+            else:
+                src = ""
             diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
                                              fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
             lines.extend(l.rstrip("\n") for l in diff)
@@ -437,40 +500,48 @@ def run(cfg: RunConfig) -> dict:
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "sha256": sha, "kind": "file_changed",
                                         "refers_to": "git_state_before", "result": "info"})
 
-    # agent run: no shell, stdin closed, filtered env, HMAC key never passed
-    env = child_env(cfg.pass_env, drop | set(cfg.gate_env))
-    gate_dir = Path(tempfile.mkdtemp(prefix="tl-gate-"))  # #29.4: inbox outside the run dir, mode 700
-    env["TRUTHLENS_GATE_DIR"] = str(gate_dir)
-    gated_env = child_env(cfg.gate_env, drop - set(cfg.gate_env))
-    server = GateServer(led, gate_dir, str(cfg.repo), gated_env,
-                        {"kind": "agent", "id": cfg.agent or "agent"}).start()
+    # pre-run `-` side on disk (outside the repo) and the run, both torn down in the finally:
+    # minutes-long agent runs and timeouts must never leak the temp dir (#90 review).
+    before_dir = Path(tempfile.mkdtemp(prefix="tl-before-"))  # memory-bounded, unlike a full RAM copy
     try:
-        proc = subprocess.run(cfg.command, cwd=cfg.repo, env=env, stdin=subprocess.DEVNULL,
-                              capture_output=True, timeout=cfg.timeout, check=False)
-        rc, out, err = proc.returncode, proc.stdout, proc.stderr
-    except subprocess.TimeoutExpired as e:
-        rc, out, err = 124, e.stdout or b"", (e.stderr or b"") + b"\n[truthlens: timeout]"
-    server.stop()
-    stdout = _scrub(_strip_secret_bytes(out, secrets).decode("utf-8", "replace"), secrets)
-    stderr = _scrub(_strip_secret_bytes(err, secrets).decode("utf-8", "replace"), secrets)
-    emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "command_run",
-                                        "sha256": blob(f"$ {_scrub(' '.join(cfg.command), secrets)}\n--- stdout\n{stdout}\n"
-                                                       f"--- stderr\n{stderr}".encode()),
-                                        "refers_to": "agent_command", "exit_code": rc, "result": "info"})
-    for c in extract_claims(stdout):
-        p = {"claim_id": new_id("clm"), "kind": "completion", "text": c["text"]}
-        known = [i for i in c["criterion_ids"] if i in texts]
-        if known:
-            p["criterion_ids"] = known
-        emit({"kind": "agent", "id": cfg.agent or "agent"}, "agent.claim", p)
+        _capture_before(cfg.repo, before, before_dir)
 
-    # after snapshot: diff + one artifact per changed file
-    after = snapshot(cfg.repo)
-    changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
-    diff = _make_diff(cfg.repo, before, after)
-    emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
-                                        "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
-                                        "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
+        # agent run: no shell, stdin closed, filtered env, HMAC key never passed
+        env = child_env(cfg.pass_env, drop | set(cfg.gate_env))
+        gate_dir = Path(tempfile.mkdtemp(prefix="tl-gate-"))  # #29.4: inbox outside the run dir, mode 700
+        env["TRUTHLENS_GATE_DIR"] = str(gate_dir)
+        gated_env = child_env(cfg.gate_env, drop - set(cfg.gate_env))
+        server = GateServer(led, gate_dir, str(cfg.repo), gated_env,
+                            {"kind": "agent", "id": cfg.agent or "agent"}).start()
+        try:
+            proc = subprocess.run(cfg.command, cwd=cfg.repo, env=env, stdin=subprocess.DEVNULL,
+                                  capture_output=True, timeout=cfg.timeout, check=False)
+            rc, out, err = proc.returncode, proc.stdout, proc.stderr
+        except subprocess.TimeoutExpired as e:
+            rc, out, err = 124, e.stdout or b"", (e.stderr or b"") + b"\n[truthlens: timeout]"
+        server.stop()
+        stdout = _scrub(_strip_secret_bytes(out, secrets).decode("utf-8", "replace"), secrets)
+        stderr = _scrub(_strip_secret_bytes(err, secrets).decode("utf-8", "replace"), secrets)
+        emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "command_run",
+                                            "sha256": blob(f"$ {_scrub(' '.join(cfg.command), secrets)}\n--- stdout\n{stdout}\n"
+                                                           f"--- stderr\n{stderr}".encode()),
+                                            "refers_to": "agent_command", "exit_code": rc, "result": "info"})
+        for c in extract_claims(stdout):
+            p = {"claim_id": new_id("clm"), "kind": "completion", "text": c["text"]}
+            known = [i for i in c["criterion_ids"] if i in texts]
+            if known:
+                p["criterion_ids"] = known
+            emit({"kind": "agent", "id": cfg.agent or "agent"}, "agent.claim", p)
+
+        # after snapshot: diff + one artifact per changed file
+        after = snapshot(cfg.repo)
+        changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
+        diff = _make_diff(cfg.repo, before, after, before_dir)
+        emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
+                                            "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
+                                            "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
+    finally:
+        shutil.rmtree(before_dir, ignore_errors=True)
     for rel in changed:
         if rel in after:
             s = blob(_scrub_bytes(_read(cfg.repo / rel), secrets))
