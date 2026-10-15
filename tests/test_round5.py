@@ -1026,6 +1026,20 @@ def test_r8_gate_alias_with_space_or_quote_refused(tmp_path):
             gate.act(led, {"kind": "agent", "id": "a"}, ["sh", tok], str(repo))
 
 
+def test_r8_gate_alias_with_trailing_space_refused(tmp_path):
+    """Round-9 finding: candidates must not be trimmed, or a symlink whose name ends with a space
+    (`--x=k=<alias with trailing space>`) stops being seen as a symlink bypass that main refuses."""
+    import os as _os
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    spaced = tmp_path / "alias "
+    _os.symlink(str(repo), str(spaced))
+    for tok in (f"--x=k={spaced}", f"--x={spaced}/cfg.ini"):
+        with pytest.raises(LedgerError, match="symlink"):
+            gate.act(led, {"kind": "agent", "id": "a"}, ["sh", tok], str(repo))
+
+
 def test_r7_sibling_dir_of_repo_is_not_mapped_into_copy(tmp_path):
     r, crit = _repo(tmp_path)                    # repo root is tmp_path/"repo"
     evil = tmp_path / "repo-evil"                # sibling: tmp_path/"repo-evil"

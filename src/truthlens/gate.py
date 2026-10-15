@@ -44,7 +44,9 @@ def _opt_value_paths(val: str, commas: bool = False) -> list[str]:
     # the part after `=`, so a path containing a space or a quote is still checked) and ALSO splits at
     # every `=`, `:` and `,` - more candidates, never fewer (#83 review round 8).
     out += re.split(r"[\s=:,]+" if commas else r"[\s:;]+", body)
-    return [p for p in (q.strip() for q in out) if p and p != "="]
+    # Candidates are NOT trimmed: main keeps a trailing space as part of a candidate, and a symlink whose
+    # name ends in a space must stay detectable. A wider split already covers the trimmed reading (#83).
+    return [p for p in out if p and p != "="]
 
 
 def _refuse_cfg_path(val: str, root: str, arg: str) -> None:
