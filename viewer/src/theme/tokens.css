@@ -1,0 +1,11 @@
+/* Brand accents never supply criterion or trust status colours. */
+.tl-app {
+  --tl-brand: #18d35b;
+  --tl-met: #3fb950;
+  --tl-unmet: #f85149;
+  --tl-unverified: #d29922;
+  --tl-unknown: #8b949e;
+  --rail-width: 64px;
+  --navigator-width: 232px;
+  --inspector-width: 360px;
+}

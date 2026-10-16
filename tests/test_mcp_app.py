@@ -17,7 +17,20 @@ def app_files(tmp_path):
         json.dumps(
             {
                 "runs": [
-                    {"id": "one", "title": "Recorded run", "verified": True, "status": "APPROVED"},
+                    {
+                        "id": "one",
+                        "title": "Recorded run",
+                        "verified": True,
+                        "status": "APPROVED",
+                        "artifacts": [
+                            {
+                                "id": "report",
+                                "path": "report.md",
+                                "kind": "markdown",
+                                "content": "# Recorded report",
+                            }
+                        ],
+                    },
                 ]
             }
         )
@@ -43,12 +56,29 @@ def app_files(tmp_path):
 
 
 def rpc(client, method, params=None):
+    if method != "initialize" and "Mcp-Session-Id" not in client.headers:
+        rpc(
+            client,
+            "initialize",
+            {
+                "protocolVersion": "2025-06-18",
+                "capabilities": {},
+                "clientInfo": {"name": "test", "version": "1"},
+            },
+        )
     response = client.post(
         "/mcp",
         json={"jsonrpc": "2.0", "id": 1, "method": method, "params": params or {}},
         headers={"Accept": "application/json, text/event-stream"},
     )
     assert response.status_code == 200, response.text
+    if method == "initialize":
+        client.headers["Mcp-Session-Id"] = response.headers["Mcp-Session-Id"]
+        client.post(
+            "/mcp",
+            json={"jsonrpc": "2.0", "method": "notifications/initialized"},
+            headers={"Accept": "application/json, text/event-stream"},
+        )
     return response.json()["result"]
 
 
@@ -69,7 +99,7 @@ def test_sdk_initialize_scope_status_and_widget_contract(app_files):
         )
         assert init["serverInfo"]["name"] == "TruthLens"
         tools = rpc(client, "tools/list")["tools"]
-        assert len(tools) == 4
+        assert len(tools) == 11
         for tool in tools:
             assert tool["annotations"]["readOnlyHint"] is True
             assert tool["annotations"]["openWorldHint"] is False
@@ -163,3 +193,121 @@ def test_http_origin_host_and_sanitized_source_failure(app_files):
         assert result["isError"] is True
         assert "Workspace snapshot unavailable" in result["content"][0]["text"]
         assert str(db) not in json.dumps(result)
+
+
+def test_workspace_tools_pagination_acl_and_negotiated_ui(app_files):
+    db, widget = app_files
+    server = create_app_server(db, {"a", "b"}, widget, port=4177)
+    with TestClient(server.streamable_http_app(), base_url="http://127.0.0.1:4177") as client:
+
+        def call(name, **arguments):
+            return rpc(client, "tools/call", {"name": name, "arguments": arguments})
+
+        first = call("truthlens_list_projects", page_size=1)["structuredContent"]
+        assert first["items"][0]["id"] == "a" and first["next_cursor"]
+        second = call("truthlens_list_projects", page_size=1, cursor=first["next_cursor"])[
+            "structuredContent"
+        ]
+        assert second["items"][0]["id"] == "b" and second["next_cursor"] is None
+        assert call("truthlens_list_projects", page_size=2, cursor=first["next_cursor"])["isError"]
+        assert call("truthlens_list_runs", project_id="a", cursor=first["next_cursor"])["isError"]
+        assert call("truthlens_list_projects", acceptance="APPROVED")["isError"]
+        run = call("truthlens_list_runs", project_id="a")["structuredContent"]["items"][0]
+        assert call("truthlens_get_run", project_id="b", run_id=run["id"])["isError"]
+        composed = call("truthlens_compose_view", project_id="a", view="run-timeline", run_id=run["id"])
+        assert composed["structuredContent"]["view"] == "run-timeline"
+        assert composed["content"][0]["text"]
+        assert {r["project_id"] for r in composed["_meta"]["truthlens/workspace"]["runs"]} == {"a"}
+        assert call("truthlens_compose_view", project_id="a", view="artifact-viewer")["isError"]
+        assert len(rpc(client, "resources/list")["resources"]) == 1
+        # A distinct initialized SDK session advertises the official UI extension.
+        client.headers.pop("Mcp-Session-Id")
+        rpc(
+            client,
+            "initialize",
+            {
+                "protocolVersion": "2025-06-18",
+                "capabilities": {
+                    "experimental": {"io.modelcontextprotocol/ui": {"mimeTypes": [WIDGET_MIME]}}
+                },
+                "clientInfo": {"name": "ui-test", "version": "1"},
+            },
+        )
+        resources = rpc(client, "resources/list")["resources"]
+        assert len(resources) == 5
+        compose = next(t for t in rpc(client, "tools/list")["tools"] if t["name"] == "truthlens_compose_view")
+        assert compose["_meta"]["ui"]["resourceUri"] == "ui://truthlens/workspace-overview"
+        for resource in resources:
+            content = rpc(client, "resources/read", {"uri": resource["uri"]})["contents"][0]
+            assert content["mimeType"] == WIDGET_MIME
+
+
+def test_artifact_envelope_and_widget_share_authoritative_content(app_files):
+    db, widget = app_files
+    server = create_app_server(db, {"a"}, widget, port=4177)
+    with TestClient(server.streamable_http_app(), base_url="http://127.0.0.1:4177") as client:
+
+        def call(name, **arguments):
+            return rpc(client, "tools/call", {"name": name, "arguments": arguments})
+
+        run = call("truthlens_list_runs", project_id="a")["structuredContent"]["items"][0]
+        artifacts = call("truthlens_list_artifacts", project_id="a", run_id=run["id"])["structuredContent"]
+        aid = artifacts["items"][0]["id"]
+        viewed = call("truthlens_get_artifact_view", project_id="a", run_id=run["id"], artifact_id=aid)[
+            "structuredContent"
+        ]
+        assert viewed["payload"] == "# Recorded report"
+        assert viewed["envelope"]["trust"]["verification"] == "UNKNOWN"
+        assert viewed["envelope"]["payload_ref"] == aid
+        composed = call(
+            "truthlens_compose_view",
+            project_id="a",
+            run_id=run["id"],
+            artifact_id=aid,
+            view="artifact-viewer",
+            expected_snapshot_id=artifacts["snapshot_id"],
+        )
+        assert composed["structuredContent"]["envelope"] == viewed["envelope"]
+        assert (
+            composed["_meta"]["truthlens/workspace"]["runs"][0]["artifacts"][0]["content"]
+            == viewed["payload"]
+        )
+        for extra in ({"payload_ref": "/etc/passwd"}, {"renderer": "script"}):
+            assert call(
+                "truthlens_get_artifact_view", project_id="a", run_id=run["id"], artifact_id=aid, **extra
+            )["isError"]
+        search = call("truthlens_search", project_id="a", query="Recorded report", kinds=["artifact"])[
+            "structuredContent"
+        ]
+        assert search["items"][0]["id"] == aid
+        assert search["items"][0]["source_id"] == "s1"
+
+
+def test_corrupt_artifact_composition_is_diagnostic_only(app_files, monkeypatch):
+    db, widget = app_files
+    original_export = export_catalog
+
+    def corrupt_export(*args, **kwargs):
+        doc = original_export(*args, **kwargs)
+        for run in doc["runs"]:
+            run["integrity"] = "failed"
+        return doc
+
+    monkeypatch.setattr("truthlens.mcp_app.export_catalog", corrupt_export)
+    server = create_app_server(db, {"a"}, widget, port=4177)
+    run = original_export(db, project="a")["runs"][0]
+    with TestClient(server.streamable_http_app(), base_url="http://127.0.0.1:4177") as client:
+        args = {"project_id": "a", "run_id": run["id"], "artifact_id": run["artifacts"][0]["id"]}
+        viewed = rpc(client, "tools/call", {"name": "truthlens_get_artifact_view", "arguments": args})
+        assert viewed["structuredContent"]["payload"] is None
+        assert viewed["structuredContent"]["envelope"]["data_status"] == "isolated"
+        composed = rpc(
+            client,
+            "tools/call",
+            {"name": "truthlens_compose_view", "arguments": {**args, "view": "artifact-viewer"}},
+        )
+        assert composed["structuredContent"]["view"] == "evidence-inspector"
+        assert composed["structuredContent"]["envelope"] is None
+        assert composed["structuredContent"]["selected_artifact_id"] is None
+        assert composed["structuredContent"]["summary"][0]["integrity"] == "failed"
+        assert composed["_meta"]["truthlens/workspace"]["runs"][0]["artifacts"] == []

@@ -93,6 +93,10 @@ export function RecordedGraph({ data }: { data: unknown }) {
         </svg>
       </div>
       <details>
+        <summary>Recorded nodes</summary>
+        <ul>{nodes.map(n => <li key={String(n.id)}><details><summary>{String(n.label ?? n.id)}</summary><pre>{JSON.stringify(n, null, 2)}</pre></details></li>)}</ul>
+      </details>
+      <details>
         <summary>Recorded relationship details</summary>
         <ul>
           {valid.map((e, i) => (

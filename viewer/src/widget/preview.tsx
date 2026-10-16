@@ -17,13 +17,25 @@ export function Preview() {
   const bridge = useRef<AppBridge | null>(null);
   const [projects, setProjects] = useState<{ id: string; name: string }[]>([]);
   const [project, setProject] = useState("");
+  const [view, setView] = useState("workspace-overview");
   const [status, setStatus] = useState("Connecting to local MCP…");
   const [busy, setBusy] = useState(true);
   const [ready, setReady] = useState(false);
   const initTimeout = useRef<number | undefined>(undefined);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   useEffect(() => {
-    const c = new Client({ name: "TruthLens local preview", version: "1.0.0" });
+    const c = new Client(
+      { name: "TruthLens local preview", version: "1.1.0" },
+      {
+        capabilities: {
+          experimental: {
+            "io.modelcontextprotocol/ui": {
+              mimeTypes: ["text/html;profile=mcp-app"],
+            },
+          },
+        },
+      },
+    );
     client.current = c;
     let stopped = false;
     void (async () => {
@@ -31,15 +43,15 @@ export function Preview() {
         new StreamableHTTPClientTransport(new URL("/mcp", location.origin)),
       );
       const result = await c.callTool({
-        name: "truthlens_list_projects_v1",
+        name: "truthlens_list_projects",
         arguments: {},
       });
       const data = result.structuredContent;
       if (
         result.isError ||
         !isRecord(data) ||
-        !Array.isArray(data.projects) ||
-        !data.projects.every(
+        !Array.isArray(data.items) ||
+        !data.items.every(
           (p) =>
             isRecord(p) &&
             typeof p.id === "string" &&
@@ -48,8 +60,8 @@ export function Preview() {
       )
         throw new Error("Invalid projects response");
       if (!stopped) {
-        setProjects(data.projects as { id: string; name: string }[]);
-        setProject(String(data.projects[0]?.id ?? ""));
+        setProjects(data.items as { id: string; name: string }[]);
+        setProject(String(data.items[0]?.id ?? ""));
         setReady(true);
         setBusy(false);
         setStatus(
@@ -78,31 +90,53 @@ export function Preview() {
     try {
       const c = client.current;
       const found = await c.callTool({
-        name: "truthlens_find_runs_v1",
-        arguments: { project_id: project, limit: 10, offset: 0 },
+        name: "truthlens_list_runs",
+        arguments: { project_id: project, page_size: 10 },
       });
       const data = found.structuredContent;
-      if (found.isError || !isRecord(data) || !Array.isArray(data.runs))
+      if (found.isError || !isRecord(data) || !Array.isArray(data.items))
         throw new Error("Cannot read runs");
-      const runIds = data.runs.map((r) => {
+      const runIds = data.items.map((r) => {
         if (!isRecord(r) || typeof r.id !== "string")
           throw new Error("Invalid run ID");
         return r.id;
       });
       if (typeof data.snapshot_id !== "string")
         throw new Error("Missing snapshot");
+      let artifactId: string | undefined;
+      if (view === "artifact-viewer") {
+        if (!runIds[0]) throw new Error("No recorded run");
+        const artifacts = await c.callTool({
+          name: "truthlens_list_artifacts",
+          arguments: { project_id: project, run_id: runIds[0], page_size: 1 },
+        });
+        const page = artifacts.structuredContent;
+        if (
+          artifacts.isError ||
+          !isRecord(page) ||
+          !Array.isArray(page.items) ||
+          !isRecord(page.items[0]) ||
+          typeof page.items[0].id !== "string"
+        )
+          throw new Error("No recorded artifact");
+        artifactId = page.items[0].id;
+      }
       const args = {
         project_id: project,
-        run_ids: runIds,
+        view,
+        ...(view !== "workspace-overview" && runIds[0]
+          ? { run_id: runIds[0] }
+          : {}),
+        ...(artifactId ? { artifact_id: artifactId } : {}),
         expected_snapshot_id: data.snapshot_id,
       };
       const result = await c.callTool({
-        name: "truthlens_render_workspace_v1",
+        name: "truthlens_compose_view",
         arguments: args,
       });
       if (result.isError) throw new Error("Cannot render snapshot");
       const resource = await c.readResource({
-        uri: "ui://truthlens/workspace-v1.html",
+        uri: `ui://truthlens/${view}`,
       });
       const html = resource.contents.find(
         (r) => r.mimeType === "text/html;profile=mcp-app" && "text" in r,
@@ -190,6 +224,18 @@ export function Preview() {
             {p.name}
           </option>
         ))}
+      </select>
+      <label htmlFor="view">View</label>
+      <select
+        id="view"
+        value={view}
+        disabled={busy}
+        onChange={(e) => setView(e.target.value)}
+      >
+        <option value="workspace-overview">Workspace overview</option>
+        <option value="artifact-viewer">Artifact viewer</option>
+        <option value="evidence-inspector">Evidence inspector</option>
+        <option value="run-timeline">Run timeline</option>
       </select>
       <div className="actions">
         <button

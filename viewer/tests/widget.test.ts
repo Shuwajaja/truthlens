@@ -80,3 +80,8 @@ assert.throws(
 console.log(
   "Widget boundary checks passed: server data required, summary parity, project scope, selection, duplicate IDs, error isolation.",
 );
+
+assert.throws(() => parseWidgetResult({...result, structuredContent: {...result.structuredContent, view: "invented"}}), /Unsupported widget view/);
+assert.throws(() => parseWidgetResult({...result, structuredContent: {...result.structuredContent, view: "artifact-viewer"}}), /requires recorded/);
+assert.throws(() => parseWidgetResult({...result, structuredContent: {...result.structuredContent, selected_artifact_id: "foreign"}}), /outside this run/);
+assert.throws(() => parseWidgetResult({...result, structuredContent: {...result.structuredContent, envelope: {schema_version: "truthlens.render/1", project_id: "foreign"}}}), /Invalid render envelope/);

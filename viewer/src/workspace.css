@@ -1,3 +1,4 @@
+@import "./theme/tokens.css";
 .tl-app {
   --bg: #0d1117;
   --surface: #161b22;
@@ -480,4 +481,429 @@
 }
 .tl-codex article > p {
   overflow-wrap: anywhere;
+}
+/* v6 shell: scoped workspaces and one result canvas. */
+.tl-app {
+  --accent: var(--tl-brand);
+  align-items: stretch;
+}
+.tl-iconrail {
+  width: var(--rail-width);
+  flex: 0 0 var(--rail-width);
+  border-right: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 12px 4px;
+  gap: 8px;
+  z-index: 30;
+}
+.tl-iconrail > button,
+.tl-secondary-menu > summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 2px;
+  gap: 5px;
+  border: 0;
+  font-size: 10px;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.tl-iconrail button[aria-current],
+.tl-project-tree button[aria-current] {
+  background: var(--surface);
+  color: var(--accent);
+}
+.tl-iconrail button:hover,
+.tl-secondary-menu > summary:hover {
+  background: var(--surface);
+  color: var(--text);
+}
+.tl-sidebar {
+  width: var(--navigator-width);
+  padding: 20px 16px;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  gap: 28px;
+  overflow: auto;
+}
+.tl-brand-mark {
+  display: block;
+  width: 42px;
+  height: 48px;
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto 16px;
+  background: #000;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.tl-brand-mark img {
+  position: absolute;
+  width: 108px;
+  max-width: none;
+  height: 72px;
+  left: -33px;
+  top: -12px;
+}
+.tl-brand-wordmark {
+  display: block;
+  width: 195px;
+  height: 58px;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.tl-brand-wordmark img {
+  position: absolute;
+  width: 240px;
+  max-width: none;
+  height: 160px;
+  left: -25px;
+  top: -49px;
+}
+.tl-project-tree {
+  display: grid;
+  gap: 8px;
+}
+.tl-project-tree > strong {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.tl-project-tree button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border-color: transparent;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.tl-project-tree svg {
+  flex-shrink: 0;
+}
+.tl-header {
+  padding: 12px 24px;
+  min-height: 64px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+.tl-header > span {
+  margin-right: auto;
+}
+.tl-sourcebar {
+  padding: 8px 24px;
+  background: var(--bg);
+}
+.tl-app main {
+  padding: 24px;
+}
+.tl-app h1 {
+  font-size: 28px;
+  overflow-wrap: anywhere;
+}
+.tl-worktabs {
+  display: flex;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  min-height: 44px;
+}
+.tl-worktab {
+  display: flex;
+  max-width: 240px;
+  flex: 0 0 auto;
+  border-right: 1px solid var(--border);
+}
+.tl-worktab button {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-size: 12px;
+}
+.tl-worktab button[role="tab"] {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 200px;
+  border-bottom: 2px solid transparent;
+}
+.tl-worktab button[aria-selected="true"] {
+  border-bottom-color: var(--accent);
+  background: var(--bg);
+}
+.tl-worktab .tl-tab-close {
+  padding: 4px;
+  color: var(--muted);
+}
+.tl-tab-close svg {
+  width: 14px;
+  height: 14px;
+}
+.tl-secondary-menu {
+  position: relative;
+}
+.tl-secondary-menu summary::marker {
+  content: "";
+}
+.tl-secondary-menu > div {
+  position: absolute;
+  top: 0;
+  left: 62px;
+  width: 190px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 6px;
+  display: grid;
+  gap: 4px;
+}
+.tl-secondary-menu > div button {
+  display: flex;
+  gap: 10px;
+  border-color: transparent;
+}
+.tl-iconrail .tl-mobile-projects {
+  display: none;
+}
+.tl-project-dialog {
+  background: var(--bg, #0d1117);
+  color: var(--text, #e6edf3);
+  border: 1px solid var(--border, #30363d);
+  width: min(320px, calc(100vw - 32px));
+  padding: 20px;
+  max-height: 90dvh;
+  overflow: auto;
+}
+.tl-project-dialog::backdrop {
+  background: #000b;
+}
+.tl-project-dialog > * {
+  margin-bottom: 24px;
+}
+.tl-ask-panel {
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: 8px;
+}
+.tl-ask-panel .tl-navigator {
+  margin-top: 16px;
+}
+.tl-selection-summary {
+  font-size: 13px;
+  color: var(--muted);
+}
+.tl-section-heading,
+.tl-canvas-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.tl-section-heading h2 {
+  margin: 0;
+}
+.tl-featured-result {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 24px 0;
+  background: var(--surface);
+  min-width: 0;
+}
+.tl-featured-result .tl-artifact-canvas {
+  max-height: 640px;
+  overflow: auto;
+}
+.tl-columns {
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+.tl-context {
+  padding: 0 16px 16px;
+  background: var(--bg);
+}
+.tl-dialog {
+  width: var(--inspector-width);
+}
+.tl-empty {
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  margin-top: 24px;
+}
+@media (max-width: 1200px) {
+  .tl-columns {
+    grid-template-columns: 1fr;
+  }
+  .tl-context {
+    display: none;
+  }
+}
+@media (max-width: 1000px) {
+  .tl-sidebar {
+    display: none;
+  }
+  .tl-iconrail .tl-mobile-projects {
+    display: flex;
+    margin-top: auto;
+  }
+}
+@media (max-width: 640px) {
+  .tl-app {
+    display: flex;
+    flex-direction: column;
+    padding-top: 72px;
+  }
+  .tl-iconrail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 72px;
+    flex-direction: row;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 4px;
+    gap: 0;
+    justify-content: space-around;
+  }
+  .tl-iconrail > button,
+  .tl-secondary-menu > summary {
+    font-size: 9px;
+    padding: 8px 3px;
+    min-width: 40px;
+  }
+  .tl-iconrail > .tl-brand-mark {
+    display: none;
+  }
+  .tl-iconrail .tl-mobile-projects {
+    margin: 0;
+  }
+  .tl-secondary-menu > div {
+    top: 60px;
+    left: auto;
+    right: 0;
+  }
+  .tl-header {
+    padding: 12px 16px;
+    gap: 8px;
+  }
+  .tl-header > span {
+    flex-basis: 100%;
+  }
+  .tl-sourcebar {
+    padding: 8px 16px;
+  }
+  .tl-app main,
+  .tl-compact main {
+    padding: 16px;
+  }
+  .tl-app h1 {
+    font-size: 24px;
+  }
+  .tl-featured-result {
+    padding: 12px;
+  }
+  .tl-worktab {
+    max-width: 170px;
+  }
+  .tl-worktab button[role="tab"] {
+    max-width: 140px;
+  }
+  .tl-dialog {
+    width: 100%;
+  }
+}
+.tl-evidence-inspector {
+  position: fixed;
+  inset: 0 0 0 auto;
+  margin: 0;
+  height: 100dvh;
+  max-height: 100dvh;
+  width: min(var(--inspector-width), 100vw);
+  max-width: 100vw;
+  padding: 20px;
+  background: var(--bg);
+  color: var(--text);
+  border: 0;
+  border-left: 1px solid var(--border);
+  overflow: auto;
+}
+.tl-evidence-inspector::backdrop {
+  background: #0008;
+}
+.tl-evidence-inspector h2 {
+  margin: 0;
+  font-size: 18px;
+}
+.tl-evidence-inspector p,
+.tl-evidence-inspector dd {
+  overflow-wrap: anywhere;
+}
+.tl-evidence-inspector dd {
+  margin: 0 0 12px;
+}
+.tl-evidence-inspector dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+.tl-inspector-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+}
+.tl-inspector-tabs button[aria-selected="true"] {
+  border-color: var(--accent);
+}
+.tl-app.tl-accent-blue {
+  --accent: #58a6ff;
+}
+.tl-app.tl-accent-purple {
+  --accent: #bc8cff;
+}
+.tl-command-search {
+  min-width: 160px;
+  flex: 1;
+  max-width: 320px;
+}
+.tl-command-search input {
+  width: 100%;
+}
+.tl-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+.tl-featured-result .rk-stage {
+  max-height: 380px;
+  overflow: auto;
+}
+.tl-featured-result .rk-artifact-bar h3 {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 640px) {
+  .tl-featured-result .rk-stage {
+    max-height: 320px;
+  }
 }

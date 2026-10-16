@@ -19,6 +19,8 @@ jobs:
       - run: npm run lint
       - run: node --experimental-strip-types tests/workspace.test.ts
       - run: node --experimental-strip-types tests/widget.test.ts
+      - run: node --experimental-strip-types tests/renderkit.test.ts
+      - run: node --experimental-strip-types tests/shell.test.ts
   docs:
     runs-on: ubuntu-latest
     steps:

@@ -1,4 +1,8 @@
 import {
+  validateRenderEnvelope,
+  type RenderEnvelope,
+} from "../renderkit/envelope.ts";
+import {
   isRecord,
   validateWorkspace,
   type WorkspaceDoc,
@@ -9,6 +13,9 @@ export type WidgetSnapshot = {
   snapshotId: string;
   selectedRunId: string | null;
   generatedAt: string;
+  view: string;
+  selectedArtifactId: string | null;
+  envelope: RenderEnvelope | null;
 };
 /** Business state only comes from validated server tool results, never tool inputs. */
 export function parseWidgetResult(result: unknown): WidgetSnapshot {
@@ -74,7 +81,40 @@ export function parseWidgetResult(result: unknown): WidgetSnapshot {
     !document.runs.some((r) => r.id === summary.selected_run_id)
   )
     throw new Error("Selected run is outside this snapshot.");
+  const view = summary.view ?? "workspace-overview";
+  const selectedArtifactId = summary.selected_artifact_id ?? null;
+  const envelope = summary.envelope ?? null;
+  if (
+    ![
+      "workspace-overview",
+      "artifact-viewer",
+      "evidence-inspector",
+      "run-timeline",
+    ].includes(String(view))
+  )
+    throw new Error("Unsupported widget view.");
+  if (
+    selectedArtifactId !== null &&
+    !document.runs.some(
+      (r) =>
+        r.id === summary.selected_run_id &&
+        r.artifacts.some((a) => a.id === selectedArtifactId),
+    )
+  )
+    throw new Error("Selected artifact is outside this run.");
+  if (
+    envelope !== null &&
+    (!validateRenderEnvelope(envelope, document, summary.project_id) ||
+      envelope.run_id !== summary.selected_run_id ||
+      envelope.artifact_id !== selectedArtifactId)
+  )
+    throw new Error("Invalid render envelope. No evidence displayed.");
+  if (view === "artifact-viewer" && (!selectedArtifactId || !envelope))
+    throw new Error("Artifact view requires recorded artifact evidence.");
   return {
+    view: String(view),
+    selectedArtifactId: selectedArtifactId as string | null,
+    envelope: envelope as RenderEnvelope | null,
     document,
     projectId: summary.project_id,
     snapshotId: summary.snapshot_id,

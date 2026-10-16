@@ -2,6 +2,46 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## RenderKit, workspace shell and branding v6 (2026-10-16)
+
+Implemented on `w6/vision-plan` using the uploaded v6 requirements and the two
+owner-supplied original brand JPEGs. Decisions D46–D49 are additive; ledger,
+manifest, HMAC, gate, redaction and wrapper contracts are unchanged.
+
+- Original mark/wordmark across the responsive workspace and widget; compact
+  icon rail, project/workspace navigation, deterministic scoped tabs (maximum
+  five), URL/back navigation and evidence inspector with focus return.
+- App loader/shell/features/theme separated. Shared RenderKit powers recorded
+  artifacts, story, evidence, timeline and provenance on web and MCP surfaces.
+  Diff line numbers derive from actual hunks; bounded tables/charts expose counts
+  and missing units/time explicitly. Plain/raw source remains accessible.
+- Seven additional scoped read-only MCP tools, strict `truthlens.render/1`
+  envelopes, snapshot/query-bound pagination, session capability negotiation,
+  four UI resources and structured/text fallback. HTTP and new stdio mode use
+  the same projection; old stdio and four `_v1` tools remain available.
+- Failed-integrity artifact requests show an evidence diagnostic with isolated
+  content. An imported report cannot become native verified evidence. No model
+  output changes acceptance or source records.
+
+Witnessed verification: **12 focused Python tests passed**, Ruff clean. Both
+frontend builds and lint passed; workspace, widget boundary, RenderKit and nine
+shell routing acceptance checks passed. Actual official-SDK stdio session
+initialized all eleven tools, respected scope and returned non-UI fallback.
+Actual Chromium/HTTP AppBridge checks passed all four views, raw content,
+refresh, themes and project isolation at 360/768/1280/1600px, with no observed JS
+errors or external widget requests. Shell browser checks covered scoped tabs,
+back navigation, inspector/raw source, keyboard/focus return, local Navigator
+and microphone denial fallback. Codex connection UI is preserved; no additional
+model request was needed for this increment. Screen-reader software and actual
+ChatGPT hosting were not tested.
+
+This completes the implemented local v6 scope. Public HTTPS/OAuth deployment and
+ChatGPT host acceptance remain a later environment step requested by the owner;
+no public service was started. Optional heavy editor/animation candidates remain
+out of scope. The package's unseen reference-image and final owner-release
+acceptance items are not claimed as satisfied. See [MCP-APP.md](MCP-APP.md) for
+local startup and transport configuration.
+
 ## Local MCP App implementation (2026-10-16)
 
 User requested a high-quality MCP/widget integration and explicitly chose local

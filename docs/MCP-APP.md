@@ -42,10 +42,40 @@ widget. No Codex account or model call is needed to run the preview itself.
 
 | Tool | Purpose |
 | --- | --- |
-| `truthlens_list_projects_v1` | List projects within the configured read ceiling |
-| `truthlens_find_runs_v1` | Search recorded runs within one project, with bounded pagination |
-| `truthlens_get_run_v1` | Read one run and its recorded trust/evidence data |
-| `truthlens_render_workspace_v1` | Resolve selected run IDs and return the evidence widget |
+| `truthlens_list_projects` | List authorized projects |
+| `truthlens_list_runs` | Filter runs within a project/workspace |
+| `truthlens_get_run` | Read one scoped run |
+| `truthlens_list_artifacts` | List recorded artifacts with render envelopes |
+| `truthlens_get_artifact_view` | Read authoritative envelope and bounded payload |
+| `truthlens_search` | Search recorded project evidence |
+| `truthlens_compose_view` | Compose overview, artifact, evidence or timeline UI |
+
+The four older `_v1` tools remain available. New list results use `items`,
+`next_cursor` and `snapshot_id`; cursors are bound to the query and snapshot.
+Initialize with experimental capability `io.modelcontextprotocol/ui` and MIME
+`text/html;profile=mcp-app` to receive UI metadata and these resources:
+`ui://truthlens/workspace-overview`, `ui://truthlens/artifact-viewer`,
+`ui://truthlens/evidence-inspector`, `ui://truthlens/run-timeline`.
+Without that capability, the new tools return text/JSON without a UI template.
+
+Example compose arguments:
+
+```json
+{"project_id":"truthlens","view":"workspace-overview"}
+```
+
+Artifact views additionally require `run_id` and `artifact_id` from list results.
+`truthlens_get_artifact_view` returns data without opening a widget. The local
+preview offers all four views and selects a recorded run/artifact for detail views.
+
+For an stdio client, use the same executable with these arguments:
+
+```bash
+truthlens mcp-app --transport stdio --db /tmp/truthlens-app.sqlite --widget viewer/dist-widget/widget.html --project truthlens
+```
+
+Protocol output goes to stdout; diagnostics go to stderr. HTTP sessions retain
+client capabilities; clients must retain the SDK's session ID.
 
 Search and read tools do not force a widget into the conversation. The render
 tool takes only IDs and an optional expected snapshot ID. It loads the records
@@ -57,7 +87,7 @@ a fresh query, not silent substitution.
 The render tool returns a `truthlens.widget/1` summary in `structuredContent`,
 a readable text fallback, and the selected `truthlens.workspace/1` document in
 `_meta["truthlens/workspace"]` for the UI. The latter is UI data, not a place to
-store secrets. The resource is `ui://truthlens/workspace-v1.html` with MIME type
+store secrets. The legacy resource is `ui://truthlens/workspace-v1.html` with MIME type
 `text/html;profile=mcp-app`. Its HTML contains no recorded source content; data
 arrives through the host's tool-result channel.
 

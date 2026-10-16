@@ -349,3 +349,10 @@ footer {
 .criteria li > details code {
   overflow-wrap: anywhere;
 }
+
+/* Original owner-supplied wordmark; crop only affects its display box. */
+.widget-brand { width: 190px; height: 62px; overflow: hidden; margin: 0; background: #000; border-radius: 4px; }
+.widget-brand img { width: 230px; max-width: none; height: 153px; object-fit: contain; transform: translate(-20px, -46px); }
+.widget { --tl-line: var(--border); --tl-muted: var(--muted); --tl-brand: #20c94a; }
+.widget .rk-artifact-bar { display: block; }
+.widget .rk-stage { overflow: auto; }

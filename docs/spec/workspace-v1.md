@@ -168,3 +168,35 @@ versus the existing `project` projection command).
 Before an upgrade keep source configuration and original run packages backed up.
 Restore the previous viewer and export, or rebuild the disposable catalog. There
 is no source migration to reverse. No external deployment is implied.
+
+## RenderKit and workspace MCP extension (v6)
+
+- **D46 Shared render contract.** `truthlens.render/1` carries canonical project,
+  workspace, run and artifact identity; `payload_ref` equals the artifact ID.
+  Presentation contains only registered renderer IDs. Provenance retains original
+  source/run IDs and recorded event references. Origin, integrity, verification,
+  review and acceptance remain separate. `data_status` is available, missing,
+  malformed, isolated or unauthorized. Unsupported/invalid content uses plain
+  fallback. The additive envelope never changes the source ledger.
+- **D47 Two surfaces, one projection.** The web workspace and embedded MCP App
+  share RenderKit components. Clients validate IDs, scope, provenance and trust
+  against the scoped snapshot. An envelope cannot authorize access or supply new
+  evidence. `truthlens.artifact-view/1` delivers the envelope and bounded recorded
+  payload; `truthlens.widget/1` additionally selects a view/artifact. Widget HTML
+  remains static; recorded data arrives only in tool results.
+- **D48 Workspace tools and negotiation.** Seven unsuffixed tools supplement the
+  four versioned tools from D42 (which remain compatible). Data schema versions
+  stay explicit. `truthlens_compose_view` accepts project/view and optional
+  canonical run/artifact IDs plus expected snapshot ID. Four UI resource aliases
+  are advertised only to sessions declaring `io.modelcontextprotocol/ui`.
+  Stateful SDK HTTP retains negotiated capabilities; the same factory supports
+  stdio through `mcp-app --transport stdio`. Legacy `mcp --root` is unchanged.
+  Pagination cursors bind the snapshot, query and page size; stale/foreign
+  cursors fail. UI-free clients receive readable text and structured data.
+- **D49 Scoped presentation state.** Workspace tabs are deterministic routes,
+  limited to five in one project/workspace scope. Scope switches clear foreign
+  selections and tabs. URL routes are validated against the loaded snapshot.
+  Themes, fonts, density and inspector state are presentation only. The owner's
+  supplied original brand JPEGs replace placeholder marks; no brand color can
+  change a recorded outcome. Optional heavy editors/animation libraries are not
+  required for this local release.

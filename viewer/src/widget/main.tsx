@@ -1,17 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "@modelcontextprotocol/ext-apps";
-import { isRecord } from "../workspace.ts";
-import { ArtifactRenderer } from "../Renderer.tsx";
+import {
+  ArtifactCanvas,
+  RunEvidence,
+  RunStory,
+  RunTimeline,
+  SourceTrust,
+} from "../renderkit/index.ts";
+import wordmark from "../assets/truthlens-wordmark.jpg";
 import { parseWidgetResult, type WidgetSnapshot } from "./data.ts";
 import "./widget.css";
 
+const tabs = [
+  "Story",
+  "Evidence",
+  "Artifacts",
+  "Timeline",
+  "Provenance",
+] as const;
+type Tab = (typeof tabs)[number];
 export function Widget() {
   const app = useRef<App | null>(null);
   const revision = useRef(0);
   const [snapshot, setSnapshot] = useState<WidgetSnapshot | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
-  const [tab, setTab] = useState("Evidence");
+  const [artifactId, setArtifactId] = useState<string | null>(null);
+  const [tab, setTab] = useState<Tab>("Story");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [connected, setConnected] = useState(false);
@@ -26,17 +41,27 @@ export function Widget() {
       const next = parseWidgetResult(result);
       setSnapshot(next);
       setSelected(next.selectedRunId ?? next.document.runs[0]?.id ?? null);
-      setTab("Evidence");
+      setArtifactId(next.selectedArtifactId);
+      setTab(
+        next.view === "artifact-viewer"
+          ? "Artifacts"
+          : next.view === "run-timeline"
+            ? "Timeline"
+            : next.view === "evidence-inspector"
+              ? "Evidence"
+              : "Story",
+      );
       setError("");
     } catch (e) {
       setSnapshot(null);
       setSelected(null);
+      setArtifactId(null);
       setError(e instanceof Error ? e.message : "Invalid result.");
     }
   }
   useEffect(() => {
     const bridge = new App(
-      { name: "TruthLens evidence", version: "1.0.0" },
+      { name: "TruthLens evidence", version: "1.1.0" },
       {},
     );
     app.current = bridge;
@@ -88,10 +113,16 @@ export function Widget() {
     try {
       const result = await app.current.callServerTool(
         {
-          name: "truthlens_render_workspace_v1",
+          name: "truthlens_compose_view",
           arguments: {
             project_id: snapshot.projectId,
-            run_ids: snapshot.document.runs.map((r) => r.id),
+            view: snapshot.view,
+            ...(snapshot.view !== "workspace-overview" && snapshot.selectedRunId
+              ? { run_id: snapshot.selectedRunId }
+              : {}),
+            ...(snapshot.selectedArtifactId
+              ? { artifact_id: snapshot.selectedArtifactId }
+              : {}),
           },
         },
         { timeout: 30000 },
@@ -107,13 +138,17 @@ export function Widget() {
     }
   }
   const run = snapshot?.document.runs.find((r) => r.id === selected);
+  const artifact =
+    run?.artifacts.find((a) => a.id === artifactId) ?? run?.artifacts[0];
   const stale =
     snapshot && clock - Date.parse(snapshot.generatedAt) > 15 * 60000;
   return (
     <main className="widget">
       <header>
         <div>
-          <h1>TruthLens</h1>
+          <h1 className="widget-brand">
+            <img src={wordmark} alt="TruthLens" />
+          </h1>
           <p>Recorded evidence · read only</p>
         </div>
         <div className="actions">
@@ -179,7 +214,8 @@ export function Widget() {
                     aria-pressed={r.id === selected}
                     onClick={() => {
                       setSelected(r.id);
-                      setTab("Evidence");
+                      setArtifactId(null);
+                      setTab("Story");
                     }}
                   >
                     <strong>{r.title}</strong>
@@ -194,25 +230,7 @@ export function Widget() {
               </nav>
               <article>
                 <h2>{run.title}</h2>
-                <p className="muted">
-                  {run.origin === "IMPORTED"
-                    ? "Imported report. Reported outcomes are not verified evidence."
-                    : "Recorded checks and claims remain distinct from human acceptance."}
-                </p>
-                <dl className="trust">
-                  {[
-                    ["Origin", run.origin],
-                    ["Integrity", run.integrity],
-                    ["Checks", run.verification],
-                    ["Review", run.review],
-                    ["Acceptance", run.acceptance],
-                  ].map(([label, value]) => (
-                    <div key={label}>
-                      <dt>{label}</dt>
-                      <dd>{value}</dd>
-                    </div>
-                  ))}
-                </dl>
+                <SourceTrust run={run} doc={snapshot.document} />
                 {run.integrity === "failed" ? (
                   <p role="alert" className="notice">
                     Integrity failed. Evidence and artifact contents are
@@ -221,7 +239,7 @@ export function Widget() {
                 ) : (
                   <>
                     <div className="tabs" role="group" aria-label="Run details">
-                      {["Evidence", "Artifacts", "Provenance"].map((t) => (
+                      {tabs.map((t) => (
                         <button
                           key={t}
                           aria-pressed={tab === t}
@@ -234,107 +252,50 @@ export function Widget() {
                         </button>
                       ))}
                     </div>
-                    {tab === "Evidence" && (
-                      <section aria-label="Evidence">
-                        <h3>Recorded checks</h3>
-                        {!run.criteria.length && (
-                          <p>
-                            No recorded criteria. No check outcome can be
-                            inferred.
-                          </p>
-                        )}
-                        <ul className="criteria">
-                          {run.criteria.map((c, i) => (
-                            <li key={i} data-status={c.status}>
-                              <strong>{String(c.title ?? c.text)}</strong>
-                              <span>{String(c.status)}</span>
-                              {Array.isArray(c.evidence) &&
-                                c.evidence.length > 0 && (
-                                  <details>
-                                    <summary>
-                                      Recorded evidence ({c.evidence.length})
-                                    </summary>
-                                    {c.evidence.slice(0, 50).map((id, i) => {
-                                      const event = run.events.find(
-                                        (e) => e.id === id,
-                                      );
-                                      return (
-                                        <div key={i}>
-                                          <code>{String(id)}</code>
-                                          {event ? (
-                                            <pre>
-                                              {JSON.stringify(event, null, 2)}
-                                            </pre>
-                                          ) : (
-                                            <p>
-                                              Referenced event is unavailable in
-                                              this snapshot.
-                                            </p>
-                                          )}
-                                        </div>
-                                      );
-                                    })}
-                                  </details>
-                                )}
-                            </li>
-                          ))}
-                        </ul>
-                        {run.reported_summary && (
-                          <>
-                            <h3>Source-reported summary</h3>
-                            <p>{run.reported_summary}</p>
-                          </>
-                        )}
-                        <h3>Agent claims</h3>
-                        {run.claims.length ? (
-                          run.claims.map((c, i) => (
-                            <blockquote key={i}>
-                              {String((c as { text: string }).text)}
-                              <p className="muted">
-                                Finding:{" "}
-                                {isRecord(c) && typeof c.finding === "string"
-                                  ? c.finding
-                                  : "Not recorded"}
-                              </p>
-                            </blockquote>
-                          ))
-                        ) : (
-                          <p>No agent claim recorded.</p>
-                        )}
-                        <p className="muted">
-                          Integrity checks detect record changes. They do not
-                          prove that every claim is true or that a person
-                          accepted the result.
-                        </p>
-                      </section>
+                    {tab === "Story" && (
+                      <RunStory
+                        run={run}
+                        onOpenSource={() => setTab("Evidence")}
+                      />
                     )}
+                    {tab === "Evidence" && <RunEvidence run={run} />}
+                    {tab === "Timeline" && <RunTimeline run={run} />}
                     {tab === "Artifacts" && (
                       <section aria-label="Artifacts">
-                        {!run.artifacts.length && <p>No artifacts recorded.</p>}
-                        {run.artifacts.map((a) => (
-                          <details key={a.id}>
-                            <summary>
-                              {a.path} <span className="muted">{a.kind}</span>
-                            </summary>
-                            <div className="artifact">
-                              {a.kind.toLowerCase() === "html" ? (
-                                <>
-                                  <p>
-                                    HTML source · nested previews are
-                                    unavailable in this host.
-                                  </p>
-                                  <pre>
-                                    {typeof a.content === "string"
-                                      ? a.content
-                                      : JSON.stringify(a.content, null, 2)}
-                                  </pre>
-                                </>
-                              ) : (
-                                <ArtifactRenderer artifact={a} />
-                              )}
-                            </div>
-                          </details>
-                        ))}
+                        {!artifact ? (
+                          <p>No artifacts recorded.</p>
+                        ) : (
+                          <>
+                            <label htmlFor="widget-artifact">
+                              Recorded artifact
+                            </label>
+                            <select
+                              id="widget-artifact"
+                              value={artifact.id}
+                              onChange={(e) => setArtifactId(e.target.value)}
+                            >
+                              {run.artifacts.map((a) => (
+                                <option key={a.id} value={a.id}>
+                                  {a.path}
+                                </option>
+                              ))}
+                            </select>
+                            <ArtifactCanvas
+                              key={run.id + "/" + artifact.id}
+                              doc={snapshot.document}
+                              run={run}
+                              artifact={artifact}
+                              mode="mcp-app"
+                              renderer={
+                                snapshot.envelope?.artifact_id === artifact.id
+                                  ? snapshot.envelope.presentation
+                                      .preferred_renderer
+                                  : undefined
+                              }
+                              onOpenSource={() => setTab("Provenance")}
+                            />
+                          </>
+                        )}
                       </section>
                     )}
                     {tab === "Provenance" && (

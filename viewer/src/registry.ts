@@ -32,6 +32,12 @@ export const registry = (
   id,
   version: "1",
   accepts: accepts as readonly string[],
+  accepted_kinds: accepts as readonly string[],
+  input_schema: `truthlens.renderer.${id}/1`,
+  minimum_capabilities: id === "html" ? ["opaque-iframe"] : ["react-text"],
+  limits: { content_chars: 2_000_000, rows: 1000, columns: 100, points: 500 },
+  accessibility: "keyboard-source-and-raw; text-status; bounded-scroll-region",
+  surfaces: id === "html" ? ["web"] : ["web", "mcp-app"],
   requires: ["content"],
   trust_display: "separate-origin-integrity-check-review-acceptance",
   priority,
@@ -51,3 +57,5 @@ export function rendererOptions(a: Artifact): RendererId[] {
   const native = a.content === undefined ? "plain" : rendererFor(a.kind);
   return native === "plain" ? ["plain"] : [native, "plain"];
 }
+// Both surfaces share this catalog; higher-level run views do not invent artifact kinds.
+export const renderers = registry;

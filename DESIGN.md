@@ -34,3 +34,19 @@ Colour is never the only signal: every card has an icon and text. Human approval
 
 ## Review
 Before a UI PR: check against `.agents/skills/no-slop-ui/` and `.agents/skills/web-interface-review.md`; `DESIGN.md` wins on conflict.
+
+## Workspace v6 direction (owner assets, 2026-10-16)
+
+The supplied v6 concept and the owner's two original JPEGs extend the older
+single-run layout to a workspace: compact icon rail, project/workspace navigator,
+scoped work tabs and an optional evidence inspector. Results and recorded sources
+remain primary; graphs and timelines display only recorded relationships/events.
+The original single-run viewer retains its existing layout.
+
+`viewer/src/assets/truthlens-mark.jpg` and `truthlens-wordmark.jpg` are the
+owner-supplied brand originals, used unchanged. Their black canvas is cropped
+only in the display box. Green/white branding identifies TruthLens; it does not
+mark a run verified. Semantic criterion colors and textual trust axes remain
+independent of theme/accent. The concept's synthetic counts are not app data.
+The newly supplied assets supersede the package's missing-logo prerequisite;
+additional unseen reference images are not claimed as reviewed.

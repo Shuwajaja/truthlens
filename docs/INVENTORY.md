@@ -68,3 +68,15 @@ inlines the React widget and local preview into separate HTML resources, avoidin
 external script/font hosting and a hand-written postMessage transport. The npm
 lockfile records exact versions. The normal workspace entry does not import
 these host/bridge modules. Artifact views reuse TruthLens's own existing renderers.
+
+## RenderKit v6 and owner branding (2026-10-16)
+
+The shared RenderKit, scope/tab shell and versioned render projection are original
+TruthLens implementation; no code from the v6 reuse candidate repositories was
+copied. Existing React, DOMPurify and MCP SDK dependencies suffice; this increment
+adds no runtime dependency. Heavy editor/chart/animation candidates remain optional.
+
+The owner supplied `1000053904.jpg` (mark) and `1000053903.jpg` (wordmark) directly
+for this app on 2026-10-16. They are stored unchanged in `viewer/src/assets/` as
+`truthlens-mark.jpg` and `truthlens-wordmark.jpg`. This records their supplied
+provenance/use authorization, not an independent trademark ownership audit.

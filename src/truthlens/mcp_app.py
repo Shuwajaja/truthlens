@@ -21,7 +21,9 @@ from starlette.requests import Request
 from starlette.responses import HTMLResponse, Response
 
 from truthlens.catalog import export_catalog
+from truthlens.render_envelope import RenderEnvelope
 from truthlens.searching import matches
+from truthlens.workspace_mcp import UI_URIS, View, isolated, register_workspace_tools
 
 WIDGET_URI = "ui://truthlens/workspace-v1.html"
 WIDGET_MIME = "text/html;profile=mcp-app"
@@ -57,6 +59,9 @@ class WidgetResult(BaseModel):
     selected_run_id: str | None
     summary: list[RunSummary]
     generated_at: str
+    view: View | None = None
+    selected_artifact_id: str | None = None
+    envelope: RenderEnvelope | None = None
 
 
 def _serialize(value: object) -> str:
@@ -76,6 +81,41 @@ def _result(data: BaseModel, workspace: dict | None = None) -> CallToolResult:
     return CallToolResult(
         content=[TextContent(type="text", text=text)], structuredContent=structured, _meta=meta
     )
+
+
+class WorkspaceMCP(FastMCP):
+    """Negotiate UI metadata from this request's initialized client session."""
+
+    def supports_ui(self) -> bool:
+        try:
+            capabilities = self.get_context().session.client_params.capabilities
+            extension = (capabilities.experimental or {}).get("io.modelcontextprotocol/ui")
+            return (
+                isinstance(extension, dict)
+                and isinstance(extension.get("mimeTypes"), list)
+                and WIDGET_MIME in extension["mimeTypes"]
+            )
+        except (ValueError, AttributeError):
+            return False
+
+    async def list_tools(self):
+        tools = await super().list_tools()
+        if not self.supports_ui():
+            for tool in tools:
+                if tool.name == "truthlens_compose_view":
+                    tool.meta = None
+        return tools
+
+    async def list_resources(self):
+        resources = await super().list_resources()
+        if not self.supports_ui():
+            resources = [r for r in resources if str(r.uri) not in UI_URIS]
+        return resources
+
+    async def read_resource(self, uri):
+        if str(uri) in UI_URIS and not self.supports_ui():
+            raise ValueError("UI capability not negotiated; use structured tool results.")
+        return await super().read_resource(uri)
 
 
 def create_app_server(
@@ -100,7 +140,7 @@ def create_app_server(
         html = raw.decode("utf-8")
     except (OSError, UnicodeError) as exc:
         raise ValueError("Built widget unavailable; run the widget build first.") from exc
-    server = FastMCP(
+    server = WorkspaceMCP(
         "TruthLens",
         instructions=(
             "Read-only recorded evidence. List projects, find runs, then render the workspace using returned IDs. "
@@ -109,7 +149,7 @@ def create_app_server(
         ),
         host="127.0.0.1",
         port=port,
-        stateless_http=True,
+        stateless_http=False,
         json_response=True,
         max_request_body_size=64 * 1024,
         transport_security=TransportSecuritySettings(
@@ -138,6 +178,21 @@ def create_app_server(
             },
         )
     )
+    for uri in UI_URIS:
+        server.add_resource(
+            TextResource(
+                uri=uri,
+                name=uri.rsplit("/", 1)[-1],
+                mime_type=WIDGET_MIME,
+                text=html,
+                meta={
+                    "ui": {
+                        "prefersBorder": True,
+                        "csp": {"connectDomains": [], "resourceDomains": [], "frameDomains": []},
+                    }
+                },
+            )
+        )
     readonly = ToolAnnotations(
         readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=False
     )
@@ -229,7 +284,7 @@ def create_app_server(
         if len(set(run_ids)) != len(run_ids) or any(rid not in lookup for rid in run_ids):
             raise ValueError("Run selection unavailable or access denied.")
         selected = [lookup[rid] for rid in run_ids] if run_ids else doc["runs"][:10]
-        doc["runs"] = selected
+        doc["runs"] = [isolated(run) for run in selected]
         doc["memory"] = []
         doc["unassigned"] = []
         sources = {r["source_id"] for r in selected}
@@ -270,6 +325,8 @@ def create_app_server(
                 "img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
             },
         )
+
+    register_workspace_tools(server, snapshot, _result, WidgetResult, _summary)
 
     # SDK 1.30 exposes generated validation models through its tool manager.
     # Forbid extra inputs in BOTH executable validation and advertised JSON Schema:

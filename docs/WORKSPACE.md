@@ -139,3 +139,17 @@ to roll back the UI; no source ledger is migrated or rewritten.
 For the old single-run viewer, remove the workspace export from the served
 directory and serve `/run.json` with an actual 404 for `/workspace.json`, or open a
 native run through the workspace. Invalid workspace JSON never falls back.
+
+## v6 workspace and shared evidence views
+
+The icon rail opens Overview, Projects, Results, Activity and Evidence; More
+contains Knowledge, Sources, Renderers and Appearance. Choose a project and
+workspace in the navigator (Scope on narrow screens). Work tabs keep at most
+five views within the selected scope; browser back/forward restores validated
+routes. Recorded artifacts open in the central canvas. Source details opens an
+inspector with provenance, raw source and timeline; Escape returns focus.
+
+The same RenderKit powers the local MCP widget. Brand accents are independent
+of integrity/check/acceptance labels. The owner's original brand files are used
+unchanged. The shell retains local import, presentation preferences, local search,
+optional Codex Navigator and explicit push-to-talk with text fallback.

@@ -72,6 +72,7 @@ def main(argv: list[str]) -> int:
     app.add_argument("--widget", required=True, help="built viewer/dist-widget/widget.html")
     app.add_argument("--project", action="append", required=True, help="explicit project read ceiling")
     app.add_argument("--port", type=int, default=4177)
+    app.add_argument("--transport", choices=("streamable-http", "stdio"), default="streamable-http")
     for command in ("projects", "search", "show", "ask", "navigator"):
         p = subs.add_parser(command)
         p.add_argument("--db", required=True)
@@ -103,9 +104,10 @@ def main(argv: list[str]) -> int:
                 print("MCP Apps needs the optional dependencies: pip install -e '.[app]'", file=sys.stderr)
                 return 2
             instance = create_app_server(a.db, set(a.project), a.widget, port=a.port)
-            print(f"Local MCP: http://127.0.0.1:{a.port}/mcp", file=sys.stderr, flush=True)
-            print(f"Local widget preview: http://127.0.0.1:{a.port}/preview", file=sys.stderr, flush=True)
-            instance.run(transport="streamable-http")
+            if a.transport == "streamable-http":
+                print(f"Local MCP: http://127.0.0.1:{a.port}/mcp", file=sys.stderr, flush=True)
+                print(f"Local widget preview: http://127.0.0.1:{a.port}/preview", file=sys.stderr, flush=True)
+            instance.run(transport=a.transport)
             return 0
         if a.command == "serve":
             from truthlens.workspace_server import serve
