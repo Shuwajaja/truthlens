@@ -32,10 +32,11 @@ implementation and witnessed checks, not full production acceptance.
 Validation on this branch: Ruff exit 0; full Python suite **190 passed, 2 skipped,
 1 xfailed** (exit 0). The two skipped tests require the separate tl-agent Unix
 account; same-user isolation is not newly established here. Viewer TypeScript/Vite
-build and lint exit 0; 23 targeted contract/action/profile/renderer assertions pass.
+build and lint exit 0; 34 targeted contract/action/profile/renderer assertions pass.
 New HTTP/subprocess boundary corrections were also checked with their focused
-tests after review. CI now includes the Viewer checks; remote CI has not yet run
-on this unpushed branch.
+tests after review. The branch is published as `w6/vision-plan`; CI includes the
+Viewer checks. The citation-schema correction passed all 7 focused Codex tests
+and Ruff locally.
 
 Browser evidence (headless system Chromium, real built/static reader and dev
 viewer): project switching removes prior project artifacts; recorded diffs and
@@ -45,11 +46,15 @@ and make no external request. Native check FAILED retains evidence; only failed
 integrity isolates content. Microphone denial falls back to text. No successful
 live speech transcription is claimed.
 
-Open external acceptance: Codex CLI reports ChatGPT login but the real connection
-returned 401 (expired/unusable credential). Device login was started and needs
-owner confirmation. Model protocol tests are not evidence of a working account;
-live model feature-disable behavior remains to be witnessed after login. No API
-key was created. See [WORKSPACE.md](WORKSPACE.md) for operation and restore.
+Live Codex acceptance (2026-10-16): owner completed device login with ChatGPT.
+A real CLI request succeeded. A subsequent real built-reader Chromium test
+received HTTP 200, cited the native run with the failed email-validation check,
+and opened that run through the proposed presentation action, without browser
+errors. This exposed nested event IDs being used as citations; the response
+schema now restricts citations to the supplied run/memory IDs, with server-side
+validation retained. This witnesses the tested read-only flow, not every possible
+model response or adversarial tool-disable scenario. No API key was created.
+See [WORKSPACE.md](WORKSPACE.md) for operation and restore.
 
 Not a delivered claim: live Factory/GitHub/OTel connections, public hosting/auth,
 remote MCP Apps interoperability, arbitrary media/PDF execution, human acceptance,

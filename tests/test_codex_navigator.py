@@ -1,6 +1,7 @@
 """Codex subprocess/output boundary checks, explicitly not live login evidence."""
 
 import json
+from pathlib import Path
 
 import pytest
 
@@ -15,6 +16,8 @@ def test_codex_has_no_execution_tools_and_validates_source_and_action(monkeypatc
     def run_cli(command, prompt, _timeout, _cancel):
         calls.append(command)
         assert "private" not in prompt
+        schema = json.loads(Path(command[command.index("--output-schema") + 1]).read_text())
+        assert schema["properties"]["source_ids"]["items"]["enum"] == ["r"]
         return 0, json.dumps({"type": "item.completed", "item": {"type": "agent_message", "text": json.dumps(response)}})
 
     monkeypatch.setattr("truthlens.codex_navigator.shutil.which", lambda _: "/fake/codex")
@@ -31,6 +34,9 @@ def test_codex_has_no_execution_tools_and_validates_source_and_action(monkeypatc
     assert all(feature in command for feature in ("shell_tool", "apps", "plugins", "multi_agent", "hooks"))
     response["source_ids"] = ["foreign"]
     with pytest.raises(ValueError):
+        ask_codex(doc, "what happened?", "a")
+    response["source_ids"] = ["nested-event"]
+    with pytest.raises(ValueError, match="unavailable source"):
         ask_codex(doc, "what happened?", "a")
     response["source_ids"] = ["r"]
     response["actions"] = [{"type": "approve", "run_id": "r"}]

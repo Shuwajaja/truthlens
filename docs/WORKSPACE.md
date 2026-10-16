@@ -93,6 +93,9 @@ context and question through the local Codex account, only after Ask Codex. Mode
 text is labelled an unverified explanation; cited source IDs and presentation
 actions are checked again. Apply a proposed view explicitly to receive a local
 client acknowledgement. The Stop button requests subprocess cancellation.
+The model's citation schema permits only run and memory IDs included in its
+context. Evidence events are cited through their containing run; nested event
+IDs are not accepted as standalone Navigator sources.
 
 The optional server is loopback-only, pins allowed projects at startup, requires
 an in-memory session token and same-origin requests for model calls, and never
