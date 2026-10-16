@@ -1,3 +1,4 @@
+import { RendererExplorer } from "../features/RendererExplorer.tsx";
 import { tabKey, viewLabel } from "./tabs.ts";
 import { Overview } from "../features/Overview.tsx";
 import { Brand } from "./Brand.tsx";
@@ -23,7 +24,7 @@ import {
   RunEvidence,
   SourceTrust,
 } from "../renderkit/index.ts";
-import { registry, type RendererId } from "../registry.ts";
+import { type RendererId } from "../registry.ts";
 import { Detail } from "../features/Detail.tsx";
 import { json, stamp } from "./format.ts";
 import { Badges } from "../features/Badges.tsx";
@@ -590,6 +591,8 @@ export function Workspace({
                   ? "Open your work or set up a connection."
                   : view === "Appearance"
                     ? "Make this workspace comfortable to read."
+                    : view === "Renderers"
+                      ? "Explore the views with clearly labelled fictional examples."
                     : view === "Results"
                       ? "Open the files produced by recorded work."
                       : "Open a run. Compare its claims with the recorded evidence."}
@@ -837,24 +840,7 @@ export function Workspace({
               </div>
             </section>
           )}
-          {!detail && view === "Renderers" && (
-            <section>
-              <h2>Read-only renderer capabilities</h2>
-              <p>
-                Views use recorded content. Unsupported kinds fall back to raw
-                text; no source code is executed.
-              </p>
-              <div className="tl-list">
-                {registry.map((r) => (
-                  <article className="tl-memory" key={r.id}>
-                    <h3>{r.id}</h3>
-                    <p>{r.sandbox_policy}</p>
-                    <p>Fallback: {r.fallback}</p>
-                  </article>
-                ))}
-              </div>
-            </section>
-          )}
+          {!detail && view === "Renderers" && <RendererExplorer />}
           {!detail && view === "Results" && (
             <>
               <label>

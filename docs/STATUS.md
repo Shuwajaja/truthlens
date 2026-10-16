@@ -2,6 +2,31 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Renderer inspiration and interactive examples (2026-10-16)
+
+More / Supported formats now renders five explicitly fictional examples, one at
+a time: document, diff, timeline, chart and table. No example is added to a
+workspace or represented as evidence. Technical capabilities remain expandable.
+The shared timeline artifact renderer now displays recorded titles, descriptions
+and times as a readable sequence, retaining raw per-entry data and source order.
+It does not infer status or reorder by timestamp; limit and empty states are explicit.
+
+Official GitHub README/license research: json-render, xyflow, Motion, image
+comparison slider and Vaul. No packages installed. json-render composition and
+before/after projections remain future work; no harness execution added.
+Reference decisions are in DESIGN.md, source snapshots outside repository under
+/workspace/projects/truthlens-runs/renderer-inspiration.
+
+App/widget builds and lint passed. Independent agent browser review checked all
+five examples with keyboard at390/1280, source and timeline disclosures,
+no horizontal overflow and no JS errors. Axe found zero violations in checked
+table/timeline states. Isolated timeline fixtures additionally checked360px,
+empty state, source order and1000-entry limit. This is not human acceptance.
+
+Private publication succeeded: `appgdep_6ad2747f954c8191a51277b2c415a038`,
+hosting commit `a3c20ed5d59ae255a9d9870b71303805dafbba1b`.
+Owner-only access preserved; authenticated post-publication browser check not performed.
+
 ## Readable overview revision (2026-10-16)
 
 Owner rejected the crowded screen. Shared app/MCP/gallery overview now has three

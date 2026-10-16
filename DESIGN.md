@@ -235,3 +235,26 @@ Avoid duplicating Results/History in both sidebar and workspace tabs. Primary
 navigation contains Home and Connections; Checks and other tools remain in More.
 Open-document tabs appear only while inspecting a detail. Original logo and green
 brand accents stay unchanged. This iteration is agent-reviewed, not owner-approved.
+
+### Renderer exploration and projection direction — 2026-10-16
+
+TruthLens remains a projection/evidence layer, not a harness. Agents may select
+approved views over existing records; their choice cannot change evidence or
+verification. Channel-like spaces are future saved projections, not task runners.
+
+More / Renderers now offers one interactive example at a time (document, diff,
+timeline, chart, table). Fictional content is labelled and never added to workspace
+records. Technical capabilities remain a disclosure. Timeline artifacts show
+explicit titles/descriptions/timestamps in recorded order with raw details;
+no outcome or missing timestamp is inferred.
+
+Official-source inspiration reviewed: [json-render](https://github.com/vercel-labs/json-render)
+for catalog composition (Apache-2.0), [xyflow](https://github.com/xyflow/xyflow)
+for focused evidence graphs (MIT), [Motion](https://github.com/motiondivision/motion)
+for context-preserving transitions (MIT core), and
+[image comparison](https://github.com/sneas/img-comparison-slider) for explicitly
+paired before/after evidence (MIT). These dependencies are not installed by this
+iteration. Vaul is not selected because its README declares it unmaintained.
+Next composition work needs an adapter to json-render's actual root/elements
+format, scoped record resolution and bounded allowed actions. Before/after
+requires explicit paired records; do not guess versions from unrelated files.

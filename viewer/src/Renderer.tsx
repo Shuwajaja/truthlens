@@ -1,5 +1,6 @@
 import { JsonTree } from "./renderkit/JsonTree.tsx";
 import { MarkdownView } from "./components/MarkdownView.tsx";
+import { RecordedTimeline } from "./renderkit/RecordedTimeline.tsx";
 import { RecordedDiff } from "./renderkit/RecordedDiff.tsx";
 import { isRecord, type Artifact } from "./workspace.ts";
 import { RecordedGraph } from "./RecordedGraph.tsx";
@@ -176,15 +177,7 @@ export function ArtifactRenderer({
     );
   }
   if (kind === "timeline" && Array.isArray(data))
-    return (
-      <ol>
-        {data.slice(0, 1000).map((x, i) => (
-          <li key={i}>
-            <pre>{show(x)}</pre>
-          </li>
-        ))}
-      </ol>
-    );
+    return <RecordedTimeline entries={data} />;
   if (kind === "graph") return <RecordedGraph data={data} />;
   return <pre>{text}</pre>;
 }
