@@ -10,13 +10,20 @@ import {
   Layers,
   Plus,
 } from "lucide-react";
-import type { Artifact, Run } from "../workspace.ts";
+import type { Artifact, Run, WorkspaceDoc } from "../workspace.ts";
 import { stamp } from "../app/format.ts";
 import { ArtifactRenderer } from "../Renderer.tsx";
 import "./truth-feed.css";
 import "../design/mycompany-foundation.css";
 
+import { WorkspaceOverview } from "../renderkit/WorkspaceOverview.tsx";
+
 type Props = {
+  homeView: "overview" | "explore";
+  doc: WorkspaceDoc;
+  projectId: string;
+  workspaceId: string;
+  scopedRuns?: Run[];
   memoryCount: number;
   onKnowledge: () => void;
   paneOrder: string[];
@@ -44,7 +51,7 @@ const previewKinds = [
 ];
 const perspectives = ["Result", "Checks", "Open points"];
 
-export function Overview({
+function WorkFeed({
   memoryCount,
   onKnowledge,
   runs,
@@ -497,5 +504,21 @@ export function Overview({
         <button onClick={onConnect}>Connect your tools</button>
       </footer>
     </div>
+  );
+}
+
+export function Overview(props: Props) {
+  return props.homeView === "overview" ? (
+    <WorkspaceOverview
+      doc={props.doc}
+      projectId={props.projectId}
+      workspaceId={props.workspaceId}
+      onRun={props.onRun}
+      onArtifact={props.onArtifact}
+      onConnect={props.onConnect}
+      onResults={props.onResults}
+    />
+  ) : (
+    <WorkFeed {...props} />
   );
 }

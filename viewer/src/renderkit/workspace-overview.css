@@ -1,0 +1,305 @@
+.wo {
+  color: var(--text);
+  min-width: 0;
+  max-width: 1280px;
+  margin: 0 auto;
+  --wo-line: var(--border, #30363d);
+}
+.wo button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 9px 14px;
+  font: inherit;
+  font-size: 14px;
+  border: 1px solid var(--wo-line);
+  border-radius: 8px;
+  color: var(--text);
+  background: var(--surface);
+  cursor: pointer;
+}
+.wo button:hover {
+  border-color: var(--accent, var(--focus));
+}
+.wo button:focus-visible {
+  outline: 2px solid var(--accent, var(--focus));
+  outline-offset: 3px;
+}
+.wo-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 8px 0 24px;
+}
+.wo h2,
+.wo h3,
+.wo h4,
+.wo p {
+  margin: 0;
+}
+.wo-heading h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  margin: 6px 0 10px;
+}
+.wo-heading p,
+.wo-snapshot,
+.wo small {
+  color: var(--muted);
+}
+.wo-heading .wo-eyebrow {
+  color: var(--accent, var(--focus));
+  font-size: 13px;
+  font-weight: 650;
+}
+.wo-totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 24px 0;
+  margin: 0;
+  border-block: 1px solid var(--wo-line);
+}
+.wo-totals > div {
+  padding-left: 24px;
+  border-left: 1px solid var(--wo-line);
+}
+.wo-totals > div:first-child {
+  padding: 0;
+  border: 0;
+}
+.wo-totals dt {
+  color: var(--muted);
+  font-size: 14px;
+}
+.wo-totals dd {
+  margin: 8px 0 0;
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 650;
+  letter-spacing: -0.04em;
+}
+.wo .wo-snapshot {
+  font-size: 12px;
+  margin: 12px 0 24px;
+  overflow-wrap: anywhere;
+}
+.wo-attention {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--wo-line);
+  border-left: 3px solid var(--tl-unmet, #f85149);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+.wo-attention > svg {
+  color: var(--tl-unmet, #f85149);
+  flex-shrink: 0;
+}
+.wo-attention > div {
+  flex: 1;
+  min-width: 0;
+}
+.wo h3 {
+  font-size: 17px;
+  font-weight: 650;
+}
+.wo-attention p {
+  margin: 7px 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+.wo-attention strong {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.wo-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(240px, 1fr);
+  gap: 32px;
+}
+.wo-recent > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+}
+.wo-recent > header button {
+  background: transparent;
+  border: 0;
+}
+.wo-recent ul {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+.wo-recent li {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--wo-line);
+}
+.wo-recent li > div {
+  flex: 1;
+  min-width: 0;
+}
+.wo h4 {
+  font-size: 15px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.wo-recent li p {
+  font-size: 13px;
+  margin: 5px 0;
+  color: var(--muted);
+}
+.wo small {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.wo-work-icon {
+  width: 40px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.wo-checks {
+  padding: 16px 0 0 24px;
+  border-left: 1px solid var(--wo-line);
+}
+.wo-checks dl {
+  margin: 16px 0;
+}
+.wo-checks dl > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+}
+.wo-checks dt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+.wo-checks dd {
+  margin: 0;
+  font-weight: 650;
+}
+.wo-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.wo-dot.passed {
+  background: var(--tl-met, #3fb950);
+}
+.wo-dot.failed {
+  background: var(--tl-unmet, #f85149);
+}
+.wo-checks p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 12px;
+}
+.wo-sources {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-top: 32px;
+  padding: 24px 0;
+  border-top: 1px solid var(--wo-line);
+}
+.wo-sources p {
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+.wo-empty {
+  padding: 32px 0;
+}
+.wo-empty h3 {
+  margin: 16px 0 8px;
+}
+.wo-empty p {
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+@media (max-width: 700px) {
+  .wo-heading {
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .wo-heading > button {
+    font-size: 0;
+    padding: 10px;
+  }
+  .wo-heading > button svg {
+    width: 20px;
+  }
+  .wo-totals {
+    padding: 20px 0;
+  }
+  .wo-totals > div {
+    padding-left: 12px;
+  }
+  .wo-totals dt {
+    font-size: 12px;
+  }
+  .wo-totals dd {
+    font-size: 30px;
+  }
+  .wo-columns {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .wo-checks {
+    padding: 0;
+    border-left: 0;
+  }
+  .wo-attention {
+    flex-wrap: wrap;
+    padding: 16px;
+  }
+  .wo-attention button {
+    width: 100%;
+  }
+  .wo-sources {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .wo-work-icon {
+    display: none;
+  }
+  .wo-recent li {
+    gap: 10px;
+  }
+}
+
+.wo-heading > button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.wo-source-list { display:flex; flex-wrap:wrap; gap:8px 24px; list-style:none; padding:0; margin:12px 0; }
+.wo-source-list li { display:grid; gap:4px; font-size:13px; }
+.wo-source-list span { color:var(--muted); font-size:12px; }
+/* Host shells have general heading/button rules; keep this renderer consistent. */
+:is(.tl-app, .widget) .wo .wo-heading h2 { font-size:clamp(24px,3vw,34px); line-height:1.2; margin:6px 0 10px; }
+:is(.tl-app, .widget) .wo .wo-attention { padding:24px; border:1px solid var(--wo-line); border-left:3px solid var(--tl-unmet,#ff8092); background:var(--surface); border-radius:12px; }
+:is(.tl-app, .widget) .wo .wo-attention > div { min-width:0; }
+@media(max-width:600px) {
+  :is(.tl-app, .widget) .wo .wo-heading { flex-wrap:wrap; gap:12px; padding-bottom:20px; }
+  :is(.tl-app, .widget) .wo .wo-heading > div { flex:1 1 100%; }
+  :is(.tl-app, .widget) .wo .wo-heading > button { margin-left:auto; }
+  :is(.tl-app, .widget) .wo .wo-attention { padding:18px; }
+}

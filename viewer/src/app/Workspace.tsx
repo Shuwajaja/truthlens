@@ -27,6 +27,13 @@ import { registry, type RendererId } from "../registry.ts";
 import { Detail } from "../features/Detail.tsx";
 import { json, stamp } from "./format.ts";
 import { Badges } from "../features/Badges.tsx";
+import "./workspace-tabs.css";
+const workspaceViews = [
+  { key: "overview", label: "Overview", view: "Overview" },
+  { key: "work", label: "Work", view: "Overview" },
+  { key: "results", label: "Results", view: "Results" },
+  { key: "history", label: "History", view: "Activity" },
+] as const;
 type Recognition = {
   lang: string;
   continuous: boolean;
@@ -60,6 +67,15 @@ export function Workspace({
     closeTab,
   } = useWorktabs(d);
   const [askOpen, setAskOpen] = useState(false);
+  const [homeView, setHomeView] = useState<"overview" | "explore">("overview");
+  const viewSwipe = useRef<{ x: number; y: number; at: number } | null>(null);
+  const activeWorkspaceView = view === "Overview" ? (homeView === "overview" ? "overview" : "work") : view === "Results" ? "results" : view === "Activity" ? "history" : null;
+  const selectWorkspaceView = (index: number) => {
+    const target = workspaceViews[index];
+    if (!target) return;
+    if (target.view === "Overview") setHomeView(target.key === "work" ? "explore" : "overview");
+    setView(target.view);
+  };
   const [searchOpen, setSearchOpen] = useState(false);
   const [inspectorOpen, setInspectorOpen] = useState(false);
   const [inspectorRef, setInspectorRef] = useState<string>();
@@ -430,7 +446,7 @@ export function Workspace({
         project={project}
         workspace={workspace}
         view={view}
-        onView={setView}
+        onView={(next) => { if (next === "Overview") setHomeView("overview"); setView(next); }}
         onProject={(id) => {
           recognition.current?.abort();
           window.speechSynthesis?.cancel();
@@ -441,6 +457,7 @@ export function Workspace({
           setVerificationFilter("");
           setFocusedEvidence(null);
           setSelectedRenderer(undefined);
+          setHomeView("overview");
           setInspectorOpen(false);
           setProject(id);
         }}
@@ -525,7 +542,28 @@ export function Workspace({
             onClose={closeTab}
           />
         )}
+        {!detail && <nav className="workspace-view-tabs" aria-label="Workspace views">
+          {workspaceViews.map((item, index) => <button key={item.key} data-testid={`workspace-view-${item.key}`} aria-pressed={activeWorkspaceView === item.key} onClick={() => selectWorkspaceView(index)}>{item.label}</button>)}
+          <span>Swipe to switch views on mobile</span>
+        </nav>}
         <main
+          onTouchStart={(event) => {
+            viewSwipe.current = null;
+            if (detail || !activeWorkspaceView || innerWidth > 900 || event.touches.length !== 1 || (event.target as HTMLElement).closest("button,a,input,select,textarea,summary,pre,table,iframe,.feed-carousel,.feed-stories,.tl-graph,.rk-canvas")) return;
+            const touch = event.touches[0];
+            viewSwipe.current = { x: touch.clientX, y: touch.clientY, at: Date.now() };
+          }}
+          onTouchCancel={() => { viewSwipe.current = null; }}
+          onTouchEnd={(event) => {
+            const start = viewSwipe.current;
+            viewSwipe.current = null;
+            if (!start || !event.changedTouches.length || Date.now() - start.at > 1000) return;
+            const touch = event.changedTouches[0];
+            const dx = touch.clientX - start.x;
+            if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(touch.clientY - start.y) * 2) return;
+            const index = workspaceViews.findIndex((item) => item.key === activeWorkspaceView);
+            selectWorkspaceView(index + (dx < 0 ? 1 : -1));
+          }}
           id="tl-content"
           role={tabs.length > 1 ? "tabpanel" : undefined}
           aria-labelledby={
@@ -539,7 +577,7 @@ export function Workspace({
             {detail
               ? (detail.artifact?.path.split("/").at(-1) ?? detail.run.title)
               : view === "Overview"
-                ? "Your feed"
+                ? "Workspace overview"
                 : view === "Sources"
                   ? "Connections"
                   : viewLabel(view)}
@@ -747,6 +785,10 @@ export function Workspace({
           )}
           {!detail && view === "Overview" && (
             <Overview
+              doc={d}
+              projectId={project}
+              workspaceId={workspace}
+              homeView={homeView}
               memoryCount={memory.length}
               onKnowledge={() => setView("Knowledge")}
               paneOrder={profile.pane_order}

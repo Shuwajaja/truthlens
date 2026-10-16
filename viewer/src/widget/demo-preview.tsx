@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ArtifactCanvas, RunEvidence, RunStory, RunTimeline, SourceTrust } from '../renderkit/index.ts';
+import { ArtifactCanvas, RunEvidence, WorkspaceOverview, RunTimeline, SourceTrust } from '../renderkit/index.ts';
 import { validateWorkspace, type WorkspaceDoc } from '../workspace.ts';
 import wordmark from '../assets/truthlens-wordmark.jpg';
 import './widget.css';
@@ -71,14 +71,14 @@ export function DemoWidgets() {
         </select></label>
       </div>
       </details>
-      {!run ? <p>No recorded work in this project.</p> : <article className="demo-widget-frame" aria-label="Selected widget preview">
+      {!run ? <WorkspaceOverview doc={workspace} projectId={projectId} /> : <article className="demo-widget-frame" aria-label="Selected widget preview">
         <p className="demo-eyebrow">{views.find(([id]) => id === view)?.[1]} · recorded example</p>
-        <h2>{run.title}</h2>
+        <h2>{view === 'summary' ? 'Workspace overview' : run.title}</h2>
         <div className="demo-view-picker" role="group" aria-label="Widget view">
           {views.map(([id, title, description]) => <button key={id} aria-pressed={view === id} title={description} onClick={() => setView(id)}>{title}</button>)}
         </div>
-        {run.integrity === 'failed' ? <p role="alert" className="notice">This record could not be verified. Its contents are isolated and cannot be displayed.</p> : <>
-          {view === 'summary' && <section className="demo-summary" aria-label="Example summary"><h3>What’s in this record</h3><p>{run.artifacts.length} recorded files · {run.criteria.length} checks</p><p>{run.criteria.filter((criterion) => criterion.status === 'met').length} passed · {run.criteria.filter((criterion) => criterion.status === 'unmet').length} failed · {run.criteria.filter((criterion) => criterion.status !== 'met' && criterion.status !== 'unmet').length} not confirmed</p><div className="actions"><button onClick={() => setView('checks')}>Review checks <span aria-hidden="true">→</span></button><button onClick={() => setView('result')}>Explore files</button></div><details><summary>Read the recorded story</summary><RunStory run={run} /></details></section>}
+        {run.integrity === 'failed' && view !== 'summary' ? <p role="alert" className="notice">This record could not be verified. Its contents are isolated and cannot be displayed.</p> : <>
+          {view === 'summary' && <WorkspaceOverview doc={workspace} projectId={projectId} onRun={(item) => { setRunId(item.id); setView('checks'); }} onArtifact={(item, file) => { setRunId(item.id); setArtifactId(file.id); setView('result'); }} />}
           {view === 'result' && <div className="demo-check-bridge"><div><strong>{run.criteria.some((criterion) => criterion.status === 'unmet') ? 'There are open points to review.' : run.criteria.length ? 'See what was checked.' : 'No checks recorded yet.'}</strong><p>{run.criteria.filter((criterion) => criterion.status === 'met').length} passed · {run.criteria.filter((criterion) => criterion.status === 'unmet').length} failed · {run.criteria.filter((criterion) => criterion.status !== 'met' && criterion.status !== 'unmet').length} not confirmed</p></div><button onClick={() => setView('checks')}>Review checks <span aria-hidden="true">→</span></button></div>}
           {view === 'checks' && <RunEvidence run={run} />}
           {view === 'timeline' && <RunTimeline run={run} />}

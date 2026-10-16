@@ -10,3 +10,8 @@ export {
   ArtifactGallery,
 } from "./views.tsx";
 export { validateRenderEnvelope, type RenderEnvelope } from "./envelope.ts";
+
+export {
+  WorkspaceOverview,
+  type WorkspaceOverviewProps,
+} from "./WorkspaceOverview.tsx";

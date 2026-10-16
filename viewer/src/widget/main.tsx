@@ -7,6 +7,7 @@ import {
   RunStory,
   RunTimeline,
   SourceTrust,
+  WorkspaceOverview,
 } from "../renderkit/index.ts";
 import wordmark from "../assets/truthlens-wordmark.jpg";
 import { parseWidgetResult, type WidgetSnapshot } from "./data.ts";
@@ -33,6 +34,7 @@ export function Widget() {
   const [canRefresh, setCanRefresh] = useState(false);
   const [canExpand, setCanExpand] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [workspaceView, setWorkspaceView] = useState(true);
   const [clock, setClock] = useState(() => Date.now());
   function receive(result: unknown) {
     revision.current++;
@@ -40,6 +42,7 @@ export function Widget() {
     try {
       const next = parseWidgetResult(result);
       setSnapshot(next);
+      setWorkspaceView(next.view === "workspace-overview");
       setSelected(next.selectedRunId ?? next.document.runs[0]?.id ?? null);
       setArtifactId(next.selectedArtifactId);
       setTab(
@@ -205,7 +208,18 @@ export function Widget() {
               project.
             </p>
           )}
-          {run && (
+          {snapshot.view === "workspace-overview" && workspaceView && (
+            <WorkspaceOverview
+              doc={snapshot.document}
+              projectId={snapshot.projectId}
+              onRun={(item) => { setSelected(item.id); setTab("Evidence"); setWorkspaceView(false); }}
+              onArtifact={(item, file) => { setSelected(item.id); setArtifactId(file.id); setTab("Artifacts"); setWorkspaceView(false); }}
+            />
+          )}
+          {snapshot.view === "workspace-overview" && !workspaceView && (
+            <button onClick={() => setWorkspaceView(true)}>Back to workspace overview</button>
+          )}
+          {run && !(snapshot.view === "workspace-overview" && workspaceView) && (
             <div className="layout">
               <nav aria-label="Recorded runs">
                 {snapshot.document.runs.map((r) => (

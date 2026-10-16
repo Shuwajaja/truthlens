@@ -2,6 +2,35 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Workspace overview and mobile view tabs (2026-10-16)
+
+Home now opens a shared WorkspaceOverview renderer instead of an individual
+story. It shows scoped snapshot totals, latest recorded work, open points,
+check breakdown and source provenance. The same component renders MCP
+workspace-overview and the static widget gallery, with callbacks to inspect
+work/results. Failed-integrity artifact and check content is excluded from totals.
+Sources remain recorded imports; no heartbeat or live harness health is inferred.
+MCP counts describe its bounded snapshot (up to ten records), not project totals.
+
+Persistent Overview / Work / Results / History controls reuse existing views.
+Mobile horizontal gestures change these views; nested feed gestures remain
+inside the Work feed. Home and project selection return to the overview. Inputs,
+links, artifact canvases, graphs and nested carousels do not trigger view swipes.
+
+App/widget builds, lint and existing workspace/widget/shell checks passed.
+Independent browser review exercised scoped totals, source inspection, real
+import discovery, result opening, keyboard tabs, native touch/vertical scrolling,
+and nested-swipe isolation at 360/390/1280. Selected project-overview axe checks
+found zero violations and no JS errors were observed. Existing five-width smoke
+passed. The compiled app/gallery agree on totals. Real local MCP/AppBridge tested
+all four views, overview-to-detail-and-back, refresh, themes, four widths and
+project isolation without external requests. These are agent tests, not human
+acceptance or a live harness/ChatGPT connection.
+Failed-integrity fixture verification confirmed excluded result/check counts.
+Private publication succeeded: `appgdep_6ad2555507c08191ac1de2797482aa73`, hosting
+commit `cfa723720f0d4d9dd2cc4d2897c62c7ba78e544f`. Sites confirmed publication;
+post-deployment testing in an owner's authenticated browser remains unperformed.
+
 ## Feed improvement loop (2026-10-16)
 
 After inspecting the rendered feed, reduced introductory/story spacing, added

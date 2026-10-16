@@ -1,5 +1,24 @@
 # DESIGN.md – product design contract
 
+## Workspace-first home — latest direction, 2026-10-16
+
+Home must provide an overview when inspecting a harness/workspace. The shared
+WorkspaceOverview renderer now leads with scoped snapshot totals, open points,
+latest work, recorded checks and source provenance. It is reused in the app,
+MCP workspace-overview and widget gallery. Counts refer to the supplied snapshot;
+MCP's bounded result is not presented as the entire project's total.
+
+The owner requested Discord-like view tabs and mobile swiping. A persistent
+Overview / Work / Results / History strip selects existing views. Mobile horizontal
+gestures change these views without intercepting controls, artifact viewers or
+the nested swipe feed. Work retains the stories and result/check/open-point
+perspectives below. Overview is the default entry; Home resets to Overview.
+
+Sources are recorded imports, not observed live harness connections. Do not
+invent active agents, running jobs or connection health without corresponding
+runtime evidence. Failed-integrity records have isolated content and separate
+attention status. User-facing explanations precede technical source details.
+
 ## Feed direction — latest owner feedback, 2026-10-16
 
 The owner rejected the library/dashboard presentation and requested an
