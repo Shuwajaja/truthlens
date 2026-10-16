@@ -2,6 +2,32 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Logo palette and owner-private preview (2026-10-16)
+
+The owner requested logo-aligned colors and a private clickable web address.
+App and MCP widget now use neutral black/white and green accents; light mode
+uses darker green for readability. Existing custom appearance preferences are
+preserved. Brand originals and data/trust contracts are unchanged.
+
+Owner-private Sites deployment succeeded:
+https://truthlens-private-studio.solarrose2.chatgpt.site
+The `/demo-widgets.html` gallery exposes four interactive shared-renderer views
+using bundled recorded examples. It is labelled as a component preview, with no
+live MCP, ChatGPT, Codex or OpenRouter connection. No API key is required.
+
+Verification: web/widget builds, lint, existing workspace/widget boundary checks,
+five-width browser smoke, themes and keyboard/modal interaction passed. Real
+local MCP/AppBridge exercised all four views, refresh, raw source and project
+isolation without observed external widget requests or JS errors. Built static
+preview passed app-to-gallery navigation, all four views, light/dark, mobile
+width and selected axe checks. Hosted publication success is confirmed by Sites;
+a signed-in owner browser session was not available for post-deployment QA.
+
+Hosting project: `appgprj_6ad23d6651088191b1d2879619dc4f36`.
+Deployment: `appgdep_6ad23e7691b48191a26812d0a4a8dd38`.
+Hosting checkout: `/workspace/sites/truthlens-private-preview` (separate from the
+application repository). Static source and archive match its pushed commit.
+
 ## Result studio and persistent review loop (2026-10-16)
 
 The owner rejected the previous design and requested an everyday-user interface,

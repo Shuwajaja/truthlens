@@ -24,6 +24,9 @@ export function Preview() {
   const initTimeout = useRef<number | undefined>(undefined);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
+  useEffect(() => {
     const c = new Client(
       { name: "TruthLens local preview", version: "1.1.0" },
       {
@@ -248,7 +251,6 @@ export function Preview() {
           onClick={() => {
             const next = theme === "dark" ? "light" : "dark";
             setTheme(next);
-            document.documentElement.dataset.theme = next;
             bridge.current?.setHostContext({
               theme: next,
               displayMode: "inline",

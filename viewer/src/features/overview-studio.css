@@ -1,8 +1,8 @@
 .tl-result-studio {
   --studio-paper: var(--surface);
   --studio-ink: var(--text);
-  --studio-peach: #f0c3a2;
-  --studio-peach-ink: #432d23;
+  --studio-peach: var(--accent-soft);
+  --studio-peach-ink: var(--accent);
   display: grid;
   gap: 20px;
   min-width: 0;

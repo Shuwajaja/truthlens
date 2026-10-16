@@ -1,5 +1,13 @@
 # DESIGN.md – product design contract
 
+## Brand palette update — 2026-10-16
+
+Owner requested that the result studio match the original logo: neutral black,
+white and vivid green. This supersedes the warm-paper/blue/apricot recommendation.
+Default is dark logo-green; light Paper uses a darker accessible green. Saved
+personal appearance choices remain respected. Widget light/dark surfaces use the
+same brand direction; semantic failed/unchecked statuses remain distinct.
+
 ## Current owner direction — 2026-10-16
 
 This section supersedes conflicting historical style rules below, including the

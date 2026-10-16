@@ -151,3 +151,18 @@ Checked against official documentation on 2026-10-16:
 - [OAuth authentication](https://developers.openai.com/plugins/build/auth)
 - [Connect and test](https://developers.openai.com/plugins/deploy/connect-chatgpt)
 - [Secure MCP Tunnel](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels)
+
+## Hosted component preview
+
+The standard viewer build also includes `/demo-widgets.html`: four interactive
+shared RenderKit views (overview, result, checks and history), project/example/file
+selection, and light/dark appearance. It validates the bundled workspace export
+before rendering and preserves failed-integrity isolation. It uses recorded
+examples, including explicitly synthetic entries. This is a component gallery,
+not an MCP host, model connection or a ChatGPT integration.
+
+Build the hosted app banner/link with `VITE_PRIVATE_PREVIEW=1 npm --prefix viewer run build`.
+The static build needs no API key. A local MCP server and its real `/preview`
+remain separate; external ChatGPT access still requires the hosted authentication
+and transport setup described above. An OpenRouter key is not used by the current
+preview or MCP tools. Optional model-provider integration would be a separate change.

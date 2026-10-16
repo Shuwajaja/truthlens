@@ -322,9 +322,9 @@ export type Profile = {
 };
 export const defaultProfile: Profile = {
   schema_version: "truthlens.profile/1",
-  theme: "light",
+  theme: "dark",
   density: "comfortable",
-  accent: "blue",
+  accent: "green",
   pane: "results-first",
   collection: "list",
   pane_order: ["runs", "results", "knowledge"],

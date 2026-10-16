@@ -79,7 +79,15 @@ export default function App() {
       </main>
     );
   return doc ? (
-    <Workspace key={documentRevision} doc={doc} onImport={replaceDocument} />
+    <>
+      {import.meta.env.VITE_PRIVATE_PREVIEW === "1" && (
+        <aside className="tl-hosted-preview" aria-label="Preview information">
+          <span>Private preview · bundled examples · no live AI connection</span>
+          <a href="/demo-widgets.html">Explore widget views →</a>
+        </aside>
+      )}
+      <Workspace key={documentRevision} doc={doc} onImport={replaceDocument} />
+    </>
   ) : (
     <main className="tl-load">Loading workspace…</main>
   );

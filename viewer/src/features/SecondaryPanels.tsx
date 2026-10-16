@@ -15,7 +15,7 @@ const themePresets = [
   {
     id: "obsidian",
     name: "Obsidian",
-    detail: "Charcoal · forest green",
+    detail: "Logo black · vivid green",
     theme: "dark",
     accent: "green",
   },
@@ -29,9 +29,9 @@ const themePresets = [
   {
     id: "paper",
     name: "Paper",
-    detail: "Warm white · ink blue",
+    detail: "White · logo green",
     theme: "light",
-    accent: "blue",
+    accent: "green",
   },
 ] as const;
 

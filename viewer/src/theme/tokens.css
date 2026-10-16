@@ -12,19 +12,19 @@
 }
 .tl-app.tl-dark {
   color-scheme: dark;
-  --bg: #101413;
-  --surface: #181e1b;
-  --surface-raised: #212a25;
-  --surface-muted: #141916;
-  --border: #35423a;
-  --text: #edf3ee;
-  --muted: #a6b5aa;
-  --accent: #71d99a;
-  --accent-soft: #233d2e;
-  --tl-met: #71d99a;
+  --bg: #080a09;
+  --surface: #111412;
+  --surface-raised: #1c211e;
+  --surface-muted: #0d100e;
+  --border: #303b33;
+  --text: #f4f7f5;
+  --muted: #aab5ae;
+  --accent: #16d94b;
+  --accent-soft: #0d3018;
+  --tl-met: #16d94b;
   --tl-unmet: #ff9690;
   --tl-unverified: #e6bd70;
-  --tl-unknown: #a6b5aa;
+  --tl-unknown: #aab5ae;
 }
 .tl-app.tl-dark.tl-accent-blue {
   --bg: #10151e;
@@ -43,19 +43,19 @@
 }
 .tl-app.tl-light {
   color-scheme: light;
-  --bg: #f6f3ec;
-  --surface: #fffefa;
-  --surface-raised: #eeeae1;
-  --surface-muted: #f0ece4;
-  --border: #d2cec5;
-  --text: #232e40;
-  --muted: #586477;
-  --accent: #23643c;
-  --accent-soft: #e0eee5;
+  --bg: #f5f7f5;
+  --surface: #ffffff;
+  --surface-raised: #eaf0eb;
+  --surface-muted: #eef3ef;
+  --border: #c8d2cb;
+  --text: #152219;
+  --muted: #526457;
+  --accent: #087d2c;
+  --accent-soft: #e1f5e6;
   --tl-met: #216539;
   --tl-unmet: #af302b;
   --tl-unverified: #805800;
-  --tl-unknown: #586477;
+  --tl-unknown: #526457;
 }
 .tl-app.tl-light.tl-accent-blue {
   --accent: #2857a4;
@@ -106,11 +106,11 @@
   outline-offset: 4px;
 }
 .tl-theme-preview-obsidian {
-  --preview-bg: #101413;
-  --preview-surface: #181e1b;
-  --preview-line: #35423a;
-  --preview-text: #a6b5aa;
-  --preview-accent: #71d99a;
+  --preview-bg: #080a09;
+  --preview-surface: #111412;
+  --preview-line: #303b33;
+  --preview-text: #aab5ae;
+  --preview-accent: #16d94b;
 }
 .tl-theme-preview-midnight {
   --preview-bg: #10151e;
@@ -123,8 +123,8 @@
   --preview-bg: #f7f8fa;
   --preview-surface: #fff;
   --preview-line: #c7ced8;
-  --preview-text: #586477;
-  --preview-accent: #2857a4;
+  --preview-text: #526457;
+  --preview-accent: #087d2c;
 }
 .tl-theme-preview {
   display: flex;
