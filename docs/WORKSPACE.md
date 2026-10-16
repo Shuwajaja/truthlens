@@ -153,3 +153,31 @@ The same RenderKit powers the local MCP widget. Brand accents are independent
 of integrity/check/acceptance labels. The owner's original brand files are used
 unchanged. The shell retains local import, presentation preferences, local search,
 optional Codex Navigator and explicit push-to-talk with text fallback.
+
+## Review and connection flow
+
+Overview now starts with recorded work that needs inspection. **Review this run**
+opens claims and checks, placing failed checks first. **View recorded source**
+opens its exact source record. Expand JSON fields or open Raw JSON; Escape closes
+the inspector and restores focus. Artifacts remain available through Results and
+Files from this run, with Rendered, Raw source and Wrap lines controls.
+
+On mobile, Overview, Results, Evidence, More and Scope stay at the bottom. More →
+Connections explains local preview, Codex and ChatGPT setup separately. These are
+instructions, not live connection checks. More → Appearance offers Obsidian,
+Midnight and Paper. Graph nodes can be selected by click or Enter/Space to trace
+only recorded relationships; zoom controls and the textual relationship list
+remain available. Reduced-motion preferences disable the navigation/trace effects.
+
+### Repeat a local visual review
+
+With the bundled demo loaded, start Vite (`npm --prefix viewer run dev -- --port 4173`).
+Install Python Playwright in a development environment and a Chromium browser
+(`python -m pip install playwright` and `python -m playwright install chromium`).
+Then run `python viewer/scripts/visual_review.py --url http://127.0.0.1:4173`.
+The optional `--axe /path/to/axe.min.js` checks WCAG rules on the final source
+view; the broader six-state design audit was run separately during this change.
+Screenshots stay in `/tmp/truthlens-visual-review` or an explicit `--output`
+directory. Review them visually; the script does not certify design quality or
+replace agreed screenshot baselines. Use demo data, not private exports, when
+sharing output. This optional smoke is not a second full browser suite in CI.

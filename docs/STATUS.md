@@ -2,6 +2,47 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Design and interaction loops (2026-10-16)
+
+Owner requested a full visual rethink after rejecting generic AI-dashboard
+styling, then requested animated renderer interactions and GitHub research.
+
+- Entry is now a review brief and compact work register. A recorded failed check
+  leads to its evidence first; lengthy event narratives and provenance are
+  disclosures. Mobile has five persistent navigation targets and a full-width
+  inspector. Original brand assets remain unchanged.
+- Three complete themes (Obsidian, Midnight, Paper), with visible preset previews
+  and persisted preferences. Theme token contrasts measured at least 5.38:1 for
+  sampled text/accent/status combinations; this is not a full accessibility audit.
+- Real third-party reuse: Lucide icons and a bounded interactive JSON tree.
+  Wrap controls, selected graph links, keyboard node inspection and graph zoom
+  improve recorded-result reading. JSON raw source remains accessible.
+- Guided local browser/Codex/ChatGPT connection paths explain prerequisites and
+  explicitly do not claim an installed connection. No new hosting/authentication
+  functionality or native Android/iOS package is implied.
+- Native Web Animations/CSS provide bounded content/inspector/graph transitions,
+  with reduced-motion fallback. Research screened Motion, Pierre Diffs, Shiki,
+  Streamdown, React Flow and Animate UI; no unreviewed framework was added.
+
+Axe-core 4.14.0 found invalid tab children and undersized close targets; both
+were fixed. Six reviewed states (overview dark/light, run review, source dialog,
+appearance dark/light) then returned zero violations for the selected WCAG
+2 A/AA, 2.1 AA and 2.2 AA rules. This is an automated sample, not certification.
+The optional repeatable demo smoke is `viewer/scripts/visual_review.py`.
+
+A separate runnable json-render 0.21.1 spike confirmed Apache-2.0 licensing,
+React compatibility and actual native-spec rendering. It also found that upstream
+catalog validation accepted an extra forged status prop; the strict TruthLens
+adapter rejected it. json-render is not installed in the app: composition is a
+candidate lazy extension, not a replacement for canonical scope/trust validation.
+
+Browser acceptance passed 360/390/768/1280/1600 widths, failed-check-first review,
+source-tree keyboard use, inspector focus return, raw renderer, graph selection
+and zoom, all connection choices, three themes and reduced motion. No page
+JavaScript errors were observed. Mobile checks used Chromium viewport/touch
+emulation; physical iOS/Android and assistive screen-reader software remain
+untested. Source integrity/authorization contracts were not changed.
+
 ## RenderKit, workspace shell and branding v6 (2026-10-16)
 
 Implemented on `w6/vision-plan` using the uploaded v6 requirements and the two

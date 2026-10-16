@@ -10,6 +10,7 @@ export function ArtifactCanvas({
   artifact,
   mode = "web",
   renderer,
+  compact = false,
   onOpenSource,
 }: {
   doc: WorkspaceDoc;
@@ -17,9 +18,11 @@ export function ArtifactCanvas({
   artifact: Artifact;
   mode?: "web" | "mcp-app";
   renderer?: RendererId;
+  compact?: boolean;
   onOpenSource?: (ref: string) => void;
 }) {
   const [raw, setRaw] = useState(false);
+  const [wrap, setWrap] = useState(true);
   const canonical = doc.runs.find(
       (r) => r.id === run.id && r.project_id === run.project_id,
     ),
@@ -31,13 +34,28 @@ export function ArtifactCanvas({
       ? renderer
       : rendererOptions(recorded)[0];
   return (
-    <section className="rk-canvas">
+    <section
+      className={`rk-canvas ${compact ? "rk-compact" : ""} ${wrap ? "rk-wrap" : ""}`}
+    >
       <header className="rk-artifact-bar">
         <h3>{recorded.path}</h3>
         <p>
-          {recorded.kind} · {selected}
+          {selected === "plain"
+            ? "Source document"
+            : `${selected.charAt(0).toUpperCase()}${selected.slice(1)} preview`}
         </p>
-        <SourceTrust run={canonical} doc={doc} />
+        <details className="rk-source-disclosure">
+          <summary>
+            Source &amp; verification{" "}
+            <span>
+              {canonical.origin === "IMPORTED"
+                ? "Imported report"
+                : "Native record"}{" "}
+              · {canonical.integrity}
+            </span>
+          </summary>
+          <SourceTrust run={canonical} doc={doc} />
+        </details>
       </header>
       {canonical.integrity === "failed" ? (
         <p role="alert">
@@ -61,13 +79,22 @@ export function ArtifactCanvas({
             >
               Raw source
             </button>
+            {["plain", "diff", "json"].includes(selected) && (
+              <button
+                type="button"
+                aria-pressed={wrap}
+                onClick={() => setWrap(!wrap)}
+              >
+                Wrap lines
+              </button>
+            )}
             {onOpenSource && (
               <button type="button" onClick={() => onOpenSource(recorded.id)}>
                 Source details
               </button>
             )}
           </div>
-          <div className="rk-stage">
+          <div className="rk-stage rk-reveal" key={raw ? "raw" : selected}>
             {raw ? (
               <pre>{rawText(recorded.content)}</pre>
             ) : (

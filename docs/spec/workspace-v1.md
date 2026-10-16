@@ -200,3 +200,15 @@ is no source migration to reverse. No external deployment is implied.
   supplied original brand JPEGs replace placeholder marks; no brand color can
   change a recorded outcome. Optional heavy editors/animation libraries are not
   required for this local release.
+
+- **D50 Review-led presentation and bounded motion.** The overview selects a
+  recorded failed-integrity/failed-check run for attention; no overall truth score
+  or unrecorded outcome is inferred. Criterion display may prioritize failures,
+  while event chronology and original records stay unchanged. Graph selection
+  highlights only recorded edges. The model cannot create graph relationships.
+  Theme presets use the existing closed profile contract. Short presentation
+  transitions honor reduced motion and do not trigger verification/acceptance.
+  Third-party JSON rendering consumes only scoped, recorded data, with bounded
+  tree traversal and plain fallback. json-render composition remains a separately
+  tested candidate: upstream catalog validation is not our authorization or
+  trust boundary and raw model-authored specs must not bypass strict ID resolution.

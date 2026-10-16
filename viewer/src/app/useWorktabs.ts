@@ -1,3 +1,4 @@
+import { reveal } from "./motion.ts";
 import { useEffect, useRef, useState } from "react";
 import type { Artifact, Run, WorkspaceDoc } from "../workspace.ts";
 import {
@@ -39,10 +40,14 @@ export function useWorktabs(doc: WorkspaceDoc) {
     };
   }, [doc]);
   useEffect(() => {
+    const cancelMotion = reveal(document.getElementById("tl-content"));
     const frame = requestAnimationFrame(() =>
       window.scrollTo(0, positions.current.get(tabKey(route)) ?? 0),
     );
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(frame);
+      cancelMotion?.();
+    };
   }, [route]);
   const tabs = groups[scopeKey(route)] ?? [route];
   const run = doc.runs.find(

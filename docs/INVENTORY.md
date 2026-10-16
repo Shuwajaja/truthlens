@@ -80,3 +80,28 @@ The owner supplied `1000053904.jpg` (mark) and `1000053903.jpg` (wordmark) direc
 for this app on 2026-10-16. They are stored unchanged in `viewer/src/assets/` as
 `truthlens-mark.jpg` and `truthlens-wordmark.jpg`. This records their supplied
 provenance/use authorization, not an independent trademark ownership audit.
+
+## Design-loop frontend reuse (2026-10-16)
+
+- `lucide-react` **1.58.0**, ISC (with upstream Feather attribution retained in its
+  license): selected static React icon imports replace hand-drawn navigation
+  glyphs. Source: https://github.com/lucide-icons/lucide .
+- `react-json-view-lite` **2.5.0**, MIT: collapsible, keyboard-navigable recorded
+  JSON in the artifact renderer and source inspector. Large/deep records fall
+  back to plain text; no remote data or executable UI is accepted. Source:
+  https://github.com/AnyRoad/react-json-view-lite .
+
+Both packages are exactly pinned in the lockfile, have no additional runtime
+package dependencies beyond the existing React peers, and keep upstream licenses
+in their installed packages. shadcn/ui, assistant-ui, CopilotKit and Microsoft
+AutoGen were reviewed as candidates. No code from those projects was copied or
+runtime installed; their component/agent stacks do not supply TruthLens's scoped
+recorded-evidence contract. AutoGen code and documentation have separate licenses;
+GitHub's top-level license badge alone is not a code reuse authorization.
+
+License texts for the new icon/JSON dependencies are also distributed in
+`viewer/public/THIRD_PARTY_NOTICES.txt`. Motion/renderer research additionally
+checked Motion (MIT), Pierre Diffs (Apache-2.0), Streamdown (Apache-2.0), Shiki
+(MIT), React Flow (MIT) and Animate UI (MIT plus Commons Clause). No code/runtime
+from those candidates is included. Current animation uses native Web Animations
+and CSS; a richer syntax engine remains contingent on actual widget size/CSP needs.

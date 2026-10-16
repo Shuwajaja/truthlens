@@ -60,47 +60,62 @@ export function RunEvidence({ run, onOpenSource }: RunProps) {
     <section className="rk-evidence">
       <h3>Claims and evidence</h3>
       {!run.criteria.length && <p>No criteria recorded.</p>}
-      {run.criteria.map((c, i) => (
-        <article
-          key={String(c.criterion_id ?? i)}
-          className={`rk-criterion rk-${c.status}`}
-        >
-          <h4>{String(c.text ?? c.title)}</h4>
-          <p>
-            Criterion: <strong>{String(c.status)}</strong>
-          </p>
-          {Array.isArray(c.evidence) && c.evidence.length ? (
-            <ul>
-              {c.evidence
-                .filter((ref): ref is string => typeof ref === "string")
-                .map((ref) => (
-                  <li key={ref}>
-                    <SourceRef
-                      run={run}
-                      refId={ref}
-                      onOpenSource={onOpenSource}
-                    />
-                  </li>
-                ))}
-            </ul>
-          ) : (
-            <p>No evidence recorded.</p>
-          )}
-          {run.claims
-            .filter(isRecord)
-            .filter(
-              (claim) =>
-                Array.isArray(claim.criterion_ids) &&
-                claim.criterion_ids.includes(c.criterion_id),
-            )
-            .map((claim, j) => (
-              <blockquote key={j}>
-                <p>Agent claimed: {String(claim.text)}</p>
-                <p>Claim finding: {String(claim.finding ?? "not recorded")}</p>
-              </blockquote>
-            ))}
-        </article>
-      ))}
+      {[...run.criteria]
+        .sort(
+          (a, b) => Number(b.status === "unmet") - Number(a.status === "unmet"),
+        )
+        .map((c, i) => (
+          <article
+            key={String(c.criterion_id ?? i)}
+            className={`rk-criterion rk-${c.status}`}
+          >
+            <h4>{String(c.text ?? c.title)}</h4>
+            <p>
+              <strong>
+                {c.status === "met"
+                  ? "Check passed"
+                  : c.status === "unmet"
+                    ? "Check failed"
+                    : c.status === "proposed"
+                      ? "Awaiting confirmation"
+                      : "Not checked"}
+              </strong>{" "}
+              <span className="rk-schema-status">({String(c.status)})</span>
+            </p>
+            {Array.isArray(c.evidence) && c.evidence.length ? (
+              <ul>
+                {c.evidence
+                  .filter((ref): ref is string => typeof ref === "string")
+                  .map((ref) => (
+                    <li key={ref}>
+                      <SourceRef
+                        run={run}
+                        refId={ref}
+                        onOpenSource={onOpenSource}
+                      />
+                    </li>
+                  ))}
+              </ul>
+            ) : (
+              <p>No evidence recorded.</p>
+            )}
+            {run.claims
+              .filter(isRecord)
+              .filter(
+                (claim) =>
+                  Array.isArray(claim.criterion_ids) &&
+                  claim.criterion_ids.includes(c.criterion_id),
+              )
+              .map((claim, j) => (
+                <blockquote key={j}>
+                  <p>Agent claimed: {String(claim.text)}</p>
+                  <p>
+                    Claim finding: {String(claim.finding ?? "not recorded")}
+                  </p>
+                </blockquote>
+              ))}
+          </article>
+        ))}
       {run.claims
         .filter(isRecord)
         .filter(

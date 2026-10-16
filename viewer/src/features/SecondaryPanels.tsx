@@ -1,3 +1,4 @@
+import { ConnectionGuide } from "./ConnectionGuide.tsx";
 import { RecordedGraph } from "../RecordedGraph.tsx";
 import {
   defaultProfile,
@@ -10,6 +11,30 @@ import {
 } from "../workspace.ts";
 import { json } from "../app/format.ts";
 import type { ShellView } from "../app/tabs.ts";
+const themePresets = [
+  {
+    id: "obsidian",
+    name: "Obsidian",
+    detail: "Charcoal · forest green",
+    theme: "dark",
+    accent: "green",
+  },
+  {
+    id: "midnight",
+    name: "Midnight",
+    detail: "Deep slate · soft blue",
+    theme: "dark",
+    accent: "blue",
+  },
+  {
+    id: "paper",
+    name: "Paper",
+    detail: "Warm white · ink blue",
+    theme: "light",
+    accent: "blue",
+  },
+] as const;
+
 type Props = {
   view: ShellView;
   d: WorkspaceDoc;
@@ -98,7 +123,8 @@ export function SecondaryPanels({
       )}
       {view === "Sources" && (
         <section>
-          <h2>Connect a local export</h2>
+          <ConnectionGuide projectId={project} />
+          <h2>Or open a recorded export</h2>
           <label>
             Workspace export JSON
             <input
@@ -163,7 +189,73 @@ export function SecondaryPanels({
       )}
       {view === "Appearance" && (
         <section className="tl-settings">
-          <h2>Appearance profile</h2>
+          <header className="tl-appearance-heading">
+            <h2>Make this workspace yours</h2>
+            <p>
+              Choose a theme, then adjust the details. Your preferences stay in
+              this browser.
+            </p>
+          </header>
+          <fieldset className="tl-theme-picker">
+            <legend>Workspace theme</legend>
+            <div className="tl-theme-options">
+              {themePresets.map((preset) => {
+                const active =
+                  profile.theme === preset.theme &&
+                  profile.accent === preset.accent;
+                return (
+                  <button
+                    type="button"
+                    key={preset.id}
+                    className={`tl-theme-option tl-theme-preview-${preset.id}`}
+                    aria-pressed={active}
+                    onClick={() =>
+                      setProfile({
+                        ...profile,
+                        theme: preset.theme,
+                        accent: preset.accent,
+                      })
+                    }
+                  >
+                    <span className="tl-theme-preview" aria-hidden="true">
+                      <span className="tl-preview-rail">
+                        <i />
+                        <i />
+                        <i />
+                      </span>
+                      <span className="tl-preview-content">
+                        <span className="tl-preview-title" />
+                        <span className="tl-preview-tabs">
+                          <i />
+                          <i />
+                        </span>
+                        <span className="tl-preview-row">
+                          <i />
+                          <i />
+                        </span>
+                        <span className="tl-preview-row">
+                          <i />
+                          <i />
+                        </span>
+                        <span className="tl-preview-row">
+                          <i />
+                          <i />
+                        </span>
+                      </span>
+                    </span>
+                    <span className="tl-theme-option-label">
+                      <strong>{preset.name}</strong>
+                      {active && <span>Selected</span>}
+                    </span>
+                    <span className="tl-theme-description">
+                      {preset.detail}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </fieldset>
+          <h3 className="tl-appearance-customize">Fine-tune your workspace</h3>
           <label>
             Pane order
             <select

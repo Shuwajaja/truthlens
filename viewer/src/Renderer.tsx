@@ -1,3 +1,4 @@
+import { JsonTree } from "./renderkit/JsonTree.tsx";
 import { MarkdownView } from "./components/MarkdownView.tsx";
 import { RecordedDiff } from "./renderkit/RecordedDiff.tsx";
 import { isRecord, type Artifact } from "./workspace.ts";
@@ -32,6 +33,8 @@ export function ArtifactRenderer({
       );
     }
   }
+  if (kind === "json" && data !== null && typeof data === "object")
+    return <JsonTree data={data} />;
   if (kind === "markdown") return <MarkdownView text={text} />;
   if (kind === "diff") return <RecordedDiff text={text} />;
   if (kind === "html" && mode === "mcp-app")

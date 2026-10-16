@@ -104,6 +104,11 @@ export function ShellNavigation(props: Props) {
         {primary.map((v) => (
           <button
             key={v}
+            className={
+              v === "Projects" || v === "Activity"
+                ? "tl-desktop-nav"
+                : undefined
+            }
             data-testid={`nav-${v.toLowerCase()}`}
             title={v}
             aria-label={v}
@@ -129,17 +134,24 @@ export function ShellNavigation(props: Props) {
             <span>More</span>
           </summary>
           <div>
-            {secondary.map((v) => (
-              <button
-                key={v}
-                data-testid={`nav-${v.toLowerCase()}`}
-                onClick={() => nav(v)}
-                aria-current={props.view === v ? "page" : undefined}
-              >
-                <Icon name={v} />
-                {v}
-              </button>
-            ))}
+            {(["Projects", "Activity", ...secondary] as ShellView[]).map(
+              (v) => (
+                <button
+                  key={v}
+                  className={
+                    v === "Projects" || v === "Activity"
+                      ? "tl-mobile-nav"
+                      : undefined
+                  }
+                  data-testid={`nav-${v.toLowerCase()}`}
+                  onClick={() => nav(v)}
+                  aria-current={props.view === v ? "page" : undefined}
+                >
+                  <Icon name={v} />
+                  {v === "Sources" ? "Connections" : v}
+                </button>
+              ),
+            )}
           </div>
         </details>
         <button
@@ -193,62 +205,71 @@ export function Worktabs({
   onClose: (r: Route) => void;
 }) {
   return (
-    <div
-      className="tl-worktabs"
-      role="tablist"
-      aria-label="Open views"
-      onKeyDown={(e) => {
-        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
-        const index = tabs.findIndex((t) => tabKey(t) === tabKey(route));
-        const next =
-          e.key === "Home"
-            ? 0
-            : e.key === "End"
-              ? tabs.length - 1
-              : (index + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) %
-                tabs.length;
-        e.preventDefault();
-        onSelect(tabs[next]);
-        requestAnimationFrame(() =>
-          document
-            .getElementById("tab-" + encodeURIComponent(tabKey(tabs[next])))
-            ?.focus(),
-        );
-      }}
-    >
-      {tabs.map((tab) => {
-        const run = doc.runs.find((r) => r.id === tab.run);
-        const title =
-          run?.artifacts
-            .find((a) => a.id === tab.artifact)
-            ?.path.split("/")
-            .at(-1) ??
-          run?.title ??
-          tab.view;
-        const selected = tabKey(tab) === tabKey(route);
-        return (
-          <div className="tl-worktab" role="presentation" key={tabKey(tab)}>
-            <button
-              id={"tab-" + encodeURIComponent(tabKey(tab))}
-              role="tab"
-              aria-selected={selected}
-              aria-controls="tl-content"
-              tabIndex={selected ? 0 : -1}
-              title={title}
-              onClick={() => onSelect(tab)}
-            >
-              {title}
-            </button>
-            <button
-              className="tl-tab-close"
-              aria-label={`Close ${title}`}
-              onClick={() => onClose(tab)}
-            >
-              <Icon name="Close" />
-            </button>
-          </div>
-        );
-      })}
+    <div className="tl-worktabs-shell">
+      <div
+        className="tl-worktabs"
+        role="tablist"
+        aria-label="Open views"
+        onKeyDown={(e) => {
+          if (e.key === "Delete") {
+            e.preventDefault();
+            onClose(route);
+            return;
+          }
+          if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key))
+            return;
+          const index = tabs.findIndex((t) => tabKey(t) === tabKey(route));
+          const next =
+            e.key === "Home"
+              ? 0
+              : e.key === "End"
+                ? tabs.length - 1
+                : (index + (e.key === "ArrowRight" ? 1 : -1) + tabs.length) %
+                  tabs.length;
+          e.preventDefault();
+          onSelect(tabs[next]);
+          requestAnimationFrame(() =>
+            document
+              .getElementById("tab-" + encodeURIComponent(tabKey(tabs[next])))
+              ?.focus(),
+          );
+        }}
+      >
+        {tabs.map((tab) => {
+          const run = doc.runs.find((r) => r.id === tab.run);
+          const title =
+            run?.artifacts
+              .find((a) => a.id === tab.artifact)
+              ?.path.split("/")
+              .at(-1) ??
+            run?.title ??
+            tab.view;
+          const selected = tabKey(tab) === tabKey(route);
+          return (
+            <div className="tl-worktab" role="presentation" key={tabKey(tab)}>
+              <button
+                id={"tab-" + encodeURIComponent(tabKey(tab))}
+                role="tab"
+                aria-selected={selected}
+                aria-controls="tl-content"
+                tabIndex={selected ? 0 : -1}
+                title={title}
+                onClick={() => onSelect(tab)}
+              >
+                {title}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      <button
+        className="tl-close-active"
+        aria-label="Close current view"
+        title="Close current view (Delete)"
+        onClick={() => onClose(route)}
+      >
+        <Icon name="Close" />
+      </button>
     </div>
   );
 }

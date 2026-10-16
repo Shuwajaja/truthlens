@@ -50,3 +50,26 @@ mark a run verified. Semantic criterion colors and textual trust axes remain
 independent of theme/accent. The concept's synthetic counts are not app data.
 The newly supplied assets supersede the package's missing-logo prerequisite;
 additional unseen reference images are not claimed as reviewed.
+
+## Review-led workbench (owner direction, 2026-10-16)
+
+The owner requested a complete visual rethink and explicitly rejected generic
+AI-dashboard styling. The workspace entry now begins with recorded work that
+needs inspection, a single review action and a compact work register. Code
+previews belong in the result view; raw provenance and event detail are progressive
+disclosures. Failed checks appear first in evidence presentation without changing
+recorded event order or source data. Mobile uses five persistent navigation targets
+and a full-width source inspector. Connections provides separate guided paths for
+local preview, Codex and ChatGPT without claiming a connection is installed.
+
+Obsidian, Midnight and Paper are complete surface/text/accent palettes. Presets
+reuse the versioned local appearance profile; semantic colors remain separate.
+Lucide supplies consistent outline icons. Recorded JSON uses a bounded interactive
+tree with plain/raw fallback. Both are presentation dependencies, not evidence or
+agent execution frameworks. Review claims and sources remain the product focus.
+
+The owner's subsequent motion request permits short spatial transitions: 180 ms
+content reveals, a 240 ms modal entrance, and a one-shot trace of selected recorded
+graph edges. They explain navigation/selection, never imply active verification.
+No repeating particles or animated trust values. All spatial effects stop under
+`prefers-reduced-motion`; keyboard selection and modal focus return remain intact.

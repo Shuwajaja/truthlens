@@ -1,3 +1,5 @@
+import { reveal } from "../app/motion.ts";
+import { JsonTree } from "../renderkit/JsonTree.tsx";
 import { useEffect, useRef, useState } from "react";
 import type { Run, Artifact } from "../workspace.ts";
 import { SourceTrust, RunEvidence, RunTimeline } from "../renderkit/index.ts";
@@ -20,7 +22,9 @@ export function Detail({
   useEffect(() => {
     const trigger = document.activeElement as HTMLElement;
     ref.current?.showModal();
+    const cancelMotion = reveal(ref.current, "panel");
     return () => {
+      cancelMotion?.();
       if (trigger?.isConnected) trigger.focus();
     };
   }, []);
@@ -76,6 +80,8 @@ export function Detail({
         ))}
       </div>
       <div
+        key={tab}
+        className="tl-reveal-panel"
         id="inspector-panel"
         role="tabpanel"
         aria-labelledby={"inspector-" + tab}
@@ -109,14 +115,28 @@ export function Detail({
                 </>
               )}
             </dl>
-            <h3>Raw source record</h3>
-            <pre tabIndex={0}>
-              {json(
+            <h3>Recorded data</h3>
+            <JsonTree
+              data={
                 run.integrity === "failed"
                   ? { id: run.id, integrity: run.integrity, errors: run.errors }
-                  : (sourceRecord ?? artifact ?? run),
-              )}
-            </pre>
+                  : (sourceRecord ?? artifact ?? run)
+              }
+            />
+            <details>
+              <summary>Raw JSON</summary>
+              <pre tabIndex={0}>
+                {json(
+                  run.integrity === "failed"
+                    ? {
+                        id: run.id,
+                        integrity: run.integrity,
+                        errors: run.errors,
+                      }
+                    : (sourceRecord ?? artifact ?? run),
+                )}
+              </pre>
+            </details>
             <p>
               Exported record. This browser does not authenticate ledger
               signatures.

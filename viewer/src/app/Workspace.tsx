@@ -1,3 +1,6 @@
+import { tabKey } from "./tabs.ts";
+import { Overview } from "../features/Overview.tsx";
+import { Brand } from "./Brand.tsx";
 import { SecondaryPanels } from "../features/SecondaryPanels.tsx";
 import { useEffect, useRef, useState } from "react";
 import { CodexNavigator } from "../CodexNavigator.tsx";
@@ -132,10 +135,6 @@ export function Workspace({
     .filter((r) => r.integrity !== "failed")
     .flatMap((run) => run.artifacts.map((artifact) => ({ run, artifact })))
     .slice(0, 200);
-  const featured =
-    artifacts.find(({ artifact }) => artifact.kind === "diff") ??
-    artifacts.find(({ artifact }) => artifact.kind === "markdown") ??
-    artifacts[0];
   const memory = d.memory
     .filter(
       (m) =>
@@ -456,8 +455,11 @@ export function Workspace({
       />
       <div className="tl-body">
         <header className="tl-header">
-          <span>
-            Workspace /{" "}
+          <span className="tl-project-heading">
+            <span className="tl-mobile-brand">
+              <Brand compact />
+            </span>
+            <span className="tl-workspace-prefix">Workspace / </span>{" "}
             {d.projects.find((p) => p.id === project)?.name ?? "No project"}
           </span>
           <form
@@ -506,16 +508,31 @@ export function Workspace({
           onSelect={selectTab}
           onClose={closeTab}
         />
-        <main id="tl-content" role="tabpanel" tabIndex={-1}>
+        <main
+          id="tl-content"
+          role="tabpanel"
+          aria-labelledby={"tab-" + encodeURIComponent(tabKey(route))}
+          tabIndex={-1}
+        >
           <h1>
             {detail
               ? (detail.artifact?.path.split("/").at(-1) ?? detail.run.title)
               : view === "Overview"
-                ? "Project overview"
-                : view}
+                ? "Review your workspace"
+                : view === "Sources"
+                  ? "Connections"
+                  : view}
           </h1>
           <p className="tl-muted">
-            Results, activity and evidence — with recorded provenance.
+            {detail
+              ? "Inspect the recorded result, then trace its source."
+              : view === "Sources"
+                ? "Choose your tool. Follow the steps. Read your recorded evidence."
+                : view === "Appearance"
+                  ? "Make this workspace comfortable to read."
+                  : view === "Results"
+                    ? "Open the files produced by recorded work."
+                    : "Open a run. Compare its claims with the recorded evidence."}
           </p>
           {askOpen && (
             <section className="tl-ask-panel" aria-label="Ask TruthLens">
@@ -648,18 +665,19 @@ export function Workspace({
                   run={detail.run}
                   artifact={detail.artifact}
                   renderer={selectedRenderer as RendererId | undefined}
-                  onOpenSource={() => setInspectorOpen(true)}
                 />
               ) : (
                 <>
-                  <SourceTrust run={detail.run} doc={d} />
-                  <RunStory
-                    run={detail.run}
-                    onOpenSource={(ref) => {
-                      setInspectorRef(ref);
-                      setInspectorOpen(true);
-                    }}
-                  />
+                  <details className="tl-run-provenance">
+                    <summary>
+                      About this record ·{" "}
+                      {detail.run.origin === "IMPORTED"
+                        ? "Imported report"
+                        : "Native recording"}{" "}
+                      · {detail.run.integrity}
+                    </summary>
+                    <SourceTrust run={detail.run} doc={d} />
+                  </details>
                   <RunEvidence
                     run={detail.run}
                     onOpenSource={(ref) => {
@@ -667,125 +685,64 @@ export function Workspace({
                       setInspectorOpen(true);
                     }}
                   />
+                  {detail.run.integrity !== "failed" &&
+                    detail.run.artifacts.length > 0 && (
+                      <section className="tl-output-shelf">
+                        <h2>Files from this run</h2>
+                        <div className="tl-output-items">
+                          {detail.run.artifacts.map((artifact) => (
+                            <button
+                              key={artifact.id}
+                              onClick={() =>
+                                setDetail({ run: detail.run, artifact })
+                              }
+                            >
+                              {artifact.path.split("/").at(-1)}
+                            </button>
+                          ))}
+                        </div>
+                      </section>
+                    )}
+                  <details className="tl-run-activity">
+                    <summary>
+                      Recorded activity ·{" "}
+                      {detail.run.integrity === "failed"
+                        ? "isolated"
+                        : `${detail.run.events.length} events`}
+                    </summary>
+                    <RunStory
+                      run={detail.run}
+                      onOpenSource={(ref) => {
+                        setInspectorRef(ref);
+                        setInspectorOpen(true);
+                      }}
+                    />
+                  </details>
                 </>
               )}
             </section>
           )}
           {!detail && view === "Overview" && (
-            <>
-              <p className="tl-selection-summary">
-                {filtered.length} recorded runs · {artifacts.length} artifacts ·{" "}
-                {filtered.filter((r) => r.verification === "FAILED").length}{" "}
-                runs with failed checks
-              </p>
-              {featured ? (
-                <section className="tl-featured-result">
-                  <div className="tl-section-heading">
-                    <h2>Recorded result</h2>
-                    <button
-                      onClick={() =>
-                        act({
-                          type: "open_artifact",
-                          project_id: project,
-                          run_id: featured.run.id,
-                          artifact_id: featured.artifact.id,
-                        })
-                      }
-                    >
-                      Open result
-                    </button>
-                  </div>
-                  <ArtifactCanvas
-                    key={featured.artifact.id}
-                    doc={d}
-                    run={featured.run}
-                    artifact={featured.artifact}
-                    onOpenSource={() => {
-                      setDetail(featured);
-                      setInspectorOpen(true);
-                    }}
-                  />
-                </section>
-              ) : (
-                <section className="tl-empty">
-                  <h2>No recorded results</h2>
-                  <p>
-                    Choose a workspace or open a local export to inspect its
-                    recorded work.
-                  </p>
-                  <button onClick={() => setView("Sources")}>
-                    Inspect sources
-                  </button>
-                </section>
-              )}
-              <div className="tl-columns">
-                <div>
-                  {profile.pane === "activity-first"
-                    ? activity
-                    : profile.pane_order.map((pane) => (
-                        <div key={pane}>
-                          {pane === "runs" ? (
-                            runList
-                          ) : pane === "results" ? (
-                            <section>
-                              <h2>Artifact collection</h2>
-                              <p>
-                                {artifacts.length} recorded artifacts in this
-                                selection.
-                              </p>
-                              <button onClick={() => setView("Results")}>
-                                Browse results
-                              </button>
-                            </section>
-                          ) : (
-                            <section>
-                              <h2>Knowledge</h2>
-                              <p>
-                                {memory.length} recorded memory entries in this
-                                project selection.
-                              </p>
-                              <button onClick={() => setView("Knowledge")}>
-                                Inspect knowledge
-                              </button>
-                            </section>
-                          )}
-                        </div>
-                      ))}
-                </div>
-                <aside className="tl-context">
-                  <h2>Review remains separate</h2>
-                  <p>
-                    Recorded integrity and check results do not establish human
-                    acceptance.
-                  </p>
-                  <button onClick={() => setView("Evidence")}>
-                    Inspect evidence
-                  </button>
-                  <h2>Results in scope</h2>
-                  <p>{artifacts.length} recorded artifacts</p>
-                  {artifacts.slice(0, 3).map(({ run, artifact }) => (
-                    <button
-                      className="tl-result"
-                      key={artifact.id}
-                      onClick={() =>
-                        act({
-                          type: "open_artifact",
-                          project_id: project,
-                          run_id: run.id,
-                          artifact_id: artifact.id,
-                        })
-                      }
-                    >
-                      <strong>{artifact.path.split("/").at(-1)}</strong>
-                      <span>{artifact.kind}</span>
-                    </button>
-                  ))}
-                  <button onClick={() => setView("Results")}>
-                    Browse all results
-                  </button>
-                </aside>
-              </div>
-            </>
+            <Overview
+              memoryCount={memory.length}
+              onKnowledge={() => setView("Knowledge")}
+              paneOrder={profile.pane_order}
+              activity={profile.pane === "activity-first" ? activity : null}
+              runs={filtered}
+              total={runs.length}
+              artifacts={artifacts}
+              onRun={(run) => setDetail({ run })}
+              onArtifact={(run, artifact) =>
+                act({
+                  type: "open_artifact",
+                  project_id: project,
+                  run_id: run.id,
+                  artifact_id: artifact.id,
+                })
+              }
+              onConnect={() => setView("Sources")}
+              onResults={() => setView("Results")}
+            />
           )}
           {!detail && view === "Projects" && (
             <section>
