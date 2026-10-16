@@ -53,7 +53,7 @@ export function WorkspaceOverview({
         run.verification === "FAILED" ||
         run.criteria.some((item) => item.status === "unmet"),
     );
-  const latest = [...runs].sort((a, b) => date(b) - date(a)).slice(0, 4);
+  const latest = [...runs].sort((a, b) => date(b) - date(a)).slice(0, 3);
   const sourceIds = new Set(runs.map((run) => run.source_id));
   const sources = doc.sources.filter((source) =>
     sourceIds.has(String(source.id)),
@@ -69,9 +69,12 @@ export function WorkspaceOverview({
     <section className="wo" aria-label="Workspace summary">
       <header className="wo-heading">
         <div>
-          <p className="wo-eyebrow">{title}</p>
-          <h2>Your work at a glance.</h2>
-          <p>What was created, what was checked, and what needs you.</p>
+          <h2>{title}</h2>
+          <p>
+            {runs.length
+              ? `${runs.length} saved ${runs.length === 1 ? "piece" : "pieces"} of work. Pick up where you left off.`
+              : "Your work, in one place."}
+          </p>
         </div>
         {onConnect && (
           <button onClick={onConnect}>
@@ -79,43 +82,23 @@ export function WorkspaceOverview({
           </button>
         )}
       </header>
-      <dl className="wo-totals" aria-label="Totals in this snapshot">
-        <div>
-          <dt>Recorded work</dt>
-          <dd>{runs.length}</dd>
-        </div>
-        <div>
-          <dt>Results</dt>
-          <dd>{results}</dd>
-        </div>
-        <div>
-          <dt>Needs attention</dt>
-          <dd>{attention.length}</dd>
-        </div>
-      </dl>
-      <p className="wo-snapshot">
-        In this snapshot · Updated {stamp(doc.generated_at)}
-        {isolated > 0 &&
-          ` · ${isolated} damaged ${isolated === 1 ? "record excluded" : "records excluded"} from result and check totals`}
-      </p>
       {priority && (
         <section
           className="wo-attention tl-review-focus"
           aria-label="Needs your attention"
         >
-          <CircleAlert size={23} aria-hidden="true" />
+          <CircleAlert size={19} aria-hidden="true" />
           <div>
             <h3>
-              {priority.integrity === "failed"
-                ? "One record needs inspection."
-                : "Start with the open points."}
+              {attention.length}{" "}
+              {attention.length === 1 ? "item needs" : "items need"} a closer
+              look
             </h3>
             <p>
               {priority.integrity === "failed"
-                ? "Content is withheld because its integrity check failed."
-                : `${attention.length} ${attention.length === 1 ? "piece of work needs" : "pieces of work need"} a closer look.`}
+                ? "A damaged record has been isolated."
+                : failed ? `${failed} failed ${failed === 1 ? "check" : "checks"} in this snapshot.` : "A recorded verification needs review."}
             </p>
-            <strong>{priority.title}</strong>
           </div>
           {onRun && (
             <button
@@ -145,7 +128,7 @@ export function WorkspaceOverview({
           )}
         </div>
       ) : (
-        <div className="wo-columns">
+        <div>
           <section className="wo-recent">
             <header>
               <h3>Latest work</h3>
@@ -181,7 +164,6 @@ export function WorkspaceOverview({
                     <div>
                       <h4>{run.title}</h4>
                       <p>{status}</p>
-                      <small>{stamp(run.started)}</small>
                     </div>
                     {artifact && onArtifact ? (
                       <button
@@ -210,6 +192,30 @@ export function WorkspaceOverview({
               })}
             </ul>
           </section>
+        </div>
+      )}
+      <details className="wo-details">
+        <summary>Workspace details</summary>
+        <div className="wo-details-content">
+          <dl className="wo-totals" aria-label="Totals in this snapshot">
+            <div>
+              <dt>Recorded work</dt>
+              <dd>{runs.length}</dd>
+            </div>
+            <div>
+              <dt>Results</dt>
+              <dd>{results}</dd>
+            </div>
+            <div>
+              <dt>Needs attention</dt>
+              <dd>{attention.length}</dd>
+            </div>
+          </dl>
+          <p className="wo-snapshot">
+            In this snapshot · Updated {stamp(doc.generated_at)}
+            {isolated > 0 &&
+              ` · ${isolated} damaged ${isolated === 1 ? "record excluded" : "records excluded"} from result and check totals`}
+          </p>
           <aside className="wo-checks">
             <h3>Checks, explained</h3>
             <dl>
@@ -240,30 +246,42 @@ export function WorkspaceOverview({
               have no individual checks recorded.
             </p>
             <p>Recorded checks do not establish human acceptance.</p>
-          </aside>
+          </aside>{" "}
+          <footer className="wo-sources">
+            <div>
+              <h3>Where this work comes from</h3>
+              {sources.length ? (
+                <ul className="wo-source-list">
+                  {sources.slice(0, 6).map((source) => (
+                    <li key={String(source.id)}>
+                      <strong>{String(source.name)}</strong>
+                      <span>
+                        {Array.isArray(source.errors) && source.errors.length
+                          ? "Source unavailable"
+                          : "Recorded snapshot"}
+                      </span>
+                    </li>
+                  ))}
+                  {sources.length > 6 && (
+                    <li>{sources.length - 6} more recorded sources</li>
+                  )}
+                </ul>
+              ) : (
+                <p>No recorded source in this view.</p>
+              )}
+              <small>
+                Sources describe this snapshot. They do not indicate a live
+                connection.
+              </small>
+            </div>
+            {onConnect && (
+              <button onClick={onConnect}>
+                Manage connections <ArrowUpRight size={16} aria-hidden="true" />
+              </button>
+            )}
+          </footer>{" "}
         </div>
-      )}
-      <footer className="wo-sources">
-        <div>
-          <h3>Where this work comes from</h3>
-          {sources.length ? <ul className="wo-source-list">
-            {sources.slice(0, 6).map((source) => <li key={String(source.id)}>
-              <strong>{String(source.name)}</strong>
-              <span>{Array.isArray(source.errors) && source.errors.length ? "Source unavailable" : "Recorded snapshot"}</span>
-            </li>)}
-            {sources.length > 6 && <li>{sources.length - 6} more recorded sources</li>}
-          </ul> : <p>No recorded source in this view.</p>}
-          <small>
-            Sources describe this snapshot. They do not indicate a live
-            connection.
-          </small>
-        </div>
-        {onConnect && (
-          <button onClick={onConnect}>
-            Manage connections <ArrowUpRight size={16} aria-hidden="true" />
-          </button>
-        )}
-      </footer>
+      </details>
     </section>
   );
 }

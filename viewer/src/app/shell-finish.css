@@ -100,3 +100,7 @@
 @media (prefers-reduced-motion: reduce) {
   .tl-app .tl-iconrail > button:not(.tl-project-switch) { transition: none; }
 }
+
+/* Keep navigation secondary to the selected workspace view. */
+.tl-app .tl-secondary-menu { margin-top: auto; }
+@media (max-width:640px) { .tl-app .tl-secondary-menu { margin-top:0; } }

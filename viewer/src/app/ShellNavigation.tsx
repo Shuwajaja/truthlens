@@ -4,8 +4,8 @@ import "./shell-finish.css";
 import { Brand } from "./Brand.tsx";
 import { Icon } from "./Icon.tsx";
 import { tabKey, viewLabel, type Route, type ShellView } from "./tabs.ts";
-const primary: ShellView[] = ["Overview", "Results", "Activity", "Evidence", "Sources"];
-const secondary: ShellView[] = ["Knowledge", "Renderers", "Appearance"];
+const primary: ShellView[] = ["Overview", "Sources"];
+const secondary: ShellView[] = ["Evidence", "Knowledge", "Renderers", "Appearance"];
 
 type Props = {
   doc: WorkspaceDoc;
@@ -104,7 +104,6 @@ export function ShellNavigation(props: Props) {
           </span>
           <span className="tl-project-switch-arrow" aria-hidden="true">⌄</span>
         </button>
-        <span className="tl-nav-section">Your work</span>
         {primary.map((v) => (
           <button
             key={v}
@@ -119,7 +118,6 @@ export function ShellNavigation(props: Props) {
             <span>{viewLabel(v)}</span>
           </button>
         ))}
-        <p className="tl-nav-guidance">A clearer picture of<br />what your AI created.</p>
         <details
           ref={menu}
           className="tl-secondary-menu"

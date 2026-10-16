@@ -82,8 +82,8 @@ export default function App() {
     <>
       {import.meta.env.VITE_PRIVATE_PREVIEW === "1" && (
         <aside className="tl-hosted-preview" aria-label="Preview information">
-          <span>Private preview · bundled examples · no live AI connection</span>
-          <a href="/demo-widgets.html">Explore widget views →</a>
+          <span>Private preview · sample data</span>
+          <a href="/demo-widgets.html">Widgets →</a>
         </aside>
       )}
       <Workspace key={documentRevision} doc={doc} onImport={replaceDocument} />

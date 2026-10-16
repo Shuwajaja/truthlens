@@ -44,7 +44,8 @@ with sync_playwright() as p:
     page.keyboard.press("Escape")
     expect(page.get_by_role("dialog")).to_have_count(0)
     expect(page.get_by_role("button", name="View recorded source").first).to_be_focused()
-    page.get_by_test_id("nav-results").click()
+    page.get_by_test_id("nav-overview").click()
+    page.get_by_test_id("workspace-view-results").click()
     page.get_by_test_id("artifact-open").filter(has_text="git_diff").first.click()
     expect(page.locator(".rk-canvas")).to_be_visible()
     page.get_by_role("button", name="Raw source", exact=True).click()
@@ -52,6 +53,7 @@ with sync_playwright() as p:
     page.get_by_role("button", name="Rendered", exact=True).click()
     page.get_by_role("button", name="Wrap lines").click()
     expect(page.locator(".rk-canvas")).not_to_have_class("rk-wrap")
+    page.locator('.tl-iconrail [aria-label="More views"]').click()
     page.get_by_test_id("nav-evidence").click()
     expect(page.locator(".tl-graph")).to_be_visible()
     graphnode = page.locator('.tl-graph svg [role="button"]').first

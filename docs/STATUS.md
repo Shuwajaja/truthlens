@@ -2,6 +2,28 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Readable overview revision (2026-10-16)
+
+Owner rejected the crowded screen. Shared app/MCP/gallery overview now has three
+recent work rows, one compact attention prompt and a single disclosure for
+totals/checks/sources. Sidebar duplicates and decorative guidance are removed;
+document tabs show only in details. Existing result renderers remain one click
+away. Logo unchanged. Gallery wrapper still has room for density improvement.
+
+App/widget builds, lint, nine shell checks and five-width browser smoke passed.
+Independent agent review verified result opening, expected/observed checks,
+source navigation/focus return, import discovery, native mobile swipe and reduced
+motion. Axe reported zero findings at 360/390/1280 and compiled gallery390.
+Real local MCP bridge exercised four views, refresh, themes, project isolation
+and four widths without browser errors or remote requests. Reports/screenshots:
+outside repository at /workspace/projects/truthlens-runs/clean-review.
+These are agent checks, not human approval. Hosted preview remains sample data;
+live harness connectivity and authenticated post-publication review are not claimed.
+
+Private deployment succeeded: `appgdep_6ad25fe45124819181da6bf1fe554e14`,
+hosting commit `1ef6c4be75509f7346c06915ef473eda1041622c`.
+Owner-only access was confirmed before publication.
+
 ## Workspace overview and mobile view tabs (2026-10-16)
 
 Home now opens a shared WorkspaceOverview renderer instead of an individual

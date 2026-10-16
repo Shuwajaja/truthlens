@@ -222,3 +222,16 @@ content reveals, a 240 ms modal entrance, and a one-shot trace of selected recor
 graph edges. They explain navigation/selection, never imply active verification.
 No repeating particles or animated trust values. All spatial effects stop under
 `prefers-reduced-motion`; keyboard selection and modal focus return remain intact.
+
+### Overview density revision — 2026-10-16
+
+Owner rejected the overview as crowded and difficult to read. Default home now
+uses a centered reading column, one attention prompt and three recent work rows.
+Totals, check breakdown and source provenance belong in a single disclosure.
+Results open their existing specialized renderer rather than filling home with
+several simultaneous previews. Preserve mobile view swipes and explicit tabs.
+
+Avoid duplicating Results/History in both sidebar and workspace tabs. Primary
+navigation contains Home and Connections; Checks and other tools remain in More.
+Open-document tabs appear only while inspecting a detail. Original logo and green
+brand accents stay unchanged. This iteration is agent-reviewed, not owner-approved.

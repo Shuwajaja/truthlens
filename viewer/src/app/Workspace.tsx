@@ -533,7 +533,7 @@ export function Workspace({
             </div>
           </details>
         </div>
-        {tabs.length > 1 && (
+        {detail && tabs.length > 1 && (
           <Worktabs
             tabs={tabs}
             route={route}
