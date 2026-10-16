@@ -460,6 +460,36 @@ def test_r6_gate_config_value_outside_path_refused(tmp_path):
         gate.act(led, {"kind": "agent", "id": "a"}, ["cat", f"--config={outside}"], str(repo))
 
 
+def test_r6_gate_config_file_outside_refused_even_if_missing(tmp_path):
+    """#83: pytest reads the file named by `-c`/`--config-file`, so an absolute value outside the live tree
+    must be refused even when the file does not exist yet (it could be created between approval and run),
+    while a value inside the tree stays usable and `-o` (out of scope) is untouched."""
+    led = _open_ledger(tmp_path)
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    (repo / "pytest.ini").write_text("[pytest]\n")
+    missing = tmp_path / "outside-not-yet.ini"
+    assert not missing.exists()
+    for argv in (["python", "-m", "pytest", "-c", str(missing)],
+                 ["python", "-m", "pytest", f"--config-file={missing}"],
+                 ["python", "-m", "pytest", "-c", "../outside.ini"]):
+        with pytest.raises(LedgerError, match="outside the working tree"):
+            gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+    for argv in (["python", "-m", "pytest", "-c", str(repo / "pytest.ini")],
+                 ["python", "-m", "pytest", "--config-file=pytest.ini"]):
+        rc, _ = gate.act(led, {"kind": "agent", "id": "a"}, argv, str(repo))
+        assert rc == gate.BLOCKED  # blocked for approval, not refused
+    # `-o` is not part of issue #83: a value there is left exactly like origin/main handles it.
+    rc, _ = gate.act(led, {"kind": "agent", "id": "a"},
+                     ["python", "-m", "pytest", "-o", "pythonpath=" + str(repo)], str(repo))
+    assert rc == gate.BLOCKED
+    # After `--` everything is a positional argument, so `-c` there is not an option and must not be refused
+    # (origin/main executes it too; round-19 finding).
+    rc, _ = gate.act(led, {"kind": "agent", "id": "a"},
+                     ["python", "args.py", "--", "-c", str(missing)], str(repo))
+    assert rc == gate.BLOCKED
+
+
 def test_r6_gate_short_opt_value_arg_mapped(tmp_path, monkeypatch):
     """-C/<root>/cfg changed after approval via monkeypatched _materialize -> approved content used."""
     import truthlens.gate as g

@@ -235,6 +235,19 @@ def _bundled_value_opt(tok: str) -> bool:
     return False
 
 
+def _cfg_option_values(args: list[str]):
+    """Yield (opt, value) for every `-c <path>` / `--config-file <path>` / `--config-file=<path>` form: pytest
+    reads that file to decide a gated action's behaviour, so a value naming a file outside the live tree must
+    not be accepted just because the file does not exist yet (#83)."""
+    for i, a in enumerate(args):
+        if a == "--":  # end-of-options: everything after it is a positional argument, not an option
+            break
+        if a in ("-c", "--config-file") and i + 1 < len(args):
+            yield a, args[i + 1]
+        elif a.startswith("--config-file="):
+            yield "--config-file", a.split("=", 1)[1]
+
+
 def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
     """Fail closed on argv that could run code not bound in the approved snapshot: relative paths are
     resolved lexically against the root and must stay inside it and outside `.git`; the same applies to
@@ -243,6 +256,11 @@ def _check_args(args: list[str], root: str, snap: dict | None = None) -> None:
     for a in args:  # a bundled -c/-o/-p carries a config/ini/plugin outside the approved binding
         if len(a) > 2 and _bundled_value_opt(a):
             raise LedgerError(f"bundled short option with -c/-o/-p in gated action: {a}")
+    for _opt, _val in _cfg_option_values(args):  # (#83) refuse an outside config file that does not exist yet
+        if _val and _os.path.isabs(_val):
+            _norm = _norm_against_root(_val, root)
+            if not (_norm == root or _norm.startswith(root + _os.sep)):
+                raise LedgerError(f"config file outside the working tree in gated action: {_opt} {_val}")
     for a in args:  # an outside alias (symlink) resolving into the live tree would bypass the snapshot
         cands = [a, a.split("=", 1)[1] if "=" in a else ""]
         if len(a) > 2 and a[0] == "-" and a[1] != "-":
