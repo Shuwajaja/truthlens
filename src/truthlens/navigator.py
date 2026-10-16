@@ -55,7 +55,14 @@ class Navigator:
         return project
 
     def _items(self, collection: str, project: str) -> list[dict]:
-        return [x for x in self.doc.get(collection, []) if x.get("project_id") == project]
+        items = [x for x in self.doc.get(collection, []) if x.get("project_id") == project]
+        if collection == "runs":
+            return [{**{k: v for k, v in x.items() if k in {
+                        "id", "project_id", "workspace_id", "source_id", "source_run_id", "title",
+                        "started", "agent", "origin", "integrity", "verification", "review", "acceptance"}},
+                     **{key: [] for key in ("events", "artifacts", "claims", "criteria")}}
+                    if x.get("integrity") == "failed" else x for x in items]
+        return items
 
     def _run(self, rid: str, project: str) -> dict:
         item = next((x for x in self._items("runs", project) if x["id"] == rid), None)
@@ -130,9 +137,14 @@ class Navigator:
         project = self._project(project)
         if not isinstance(action, dict) or action.get("type") not in ACTIONS:
             raise ValueError("unsupported presentation action")
-        allowed_fields = {"type", "project_id", "run_id", "artifact_id", "renderer", "view", "filters",
-                          "layout", "evidence_id"}
-        if set(action) - allowed_fields or action.get("project_id") != project:
+        allowed_fields = {
+            "navigate": {"view"}, "open_run": {"run_id"},
+            "open_artifact": {"run_id", "artifact_id"},
+            "select_renderer": {"run_id", "artifact_id", "renderer"},
+            "focus_evidence": {"run_id", "evidence_id"},
+            "set_filters": {"filters"}, "set_layout": {"layout"},
+        }[action["type"]] | {"type", "project_id"}
+        if set(action) != allowed_fields or action.get("project_id") != project:
             raise ValueError("invalid action fields or project scope")
         kind = action["type"]
         if kind == "navigate" and action.get("view") not in VIEWS:

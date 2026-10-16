@@ -99,6 +99,7 @@ export function ArtifactCanvas({
               <pre>{rawText(recorded.content)}</pre>
             ) : (
               <ArtifactRenderer
+                controls={false}
                 artifact={{ ...recorded, kind: selected }}
                 mode={mode}
               />

@@ -1,5 +1,5 @@
 import { ConnectionGuide } from "./ConnectionGuide.tsx";
-import { RecordedGraph } from "../RecordedGraph.tsx";
+import { ProjectMemory } from "../renderkit/ProjectMemory.tsx";
 import {
   defaultProfile,
   validateWorkspace,
@@ -67,64 +67,16 @@ export function SecondaryPanels({
   const collection = profile.collection;
   return (
     <>
-      {view === "Knowledge" && (
-        <section>
-          <h2>Project memory</h2>
-          <RecordedGraph
-            data={{
-              nodes: memory.map((m) => ({
-                id: String(m.id),
-                label: String(m.text),
-              })),
-              edges: memory
-                .filter(
-                  (m) =>
-                    typeof m.revision_of === "string" &&
-                    memory.some((other) => other.id === m.revision_of),
-                )
-                .map((m) => ({
-                  source: String(m.revision_of),
-                  target: String(m.id),
-                  type: "revision_of",
-                  status: "OBSERVED",
-                  source_ref: String(m.source_ref),
-                })),
-            }}
-          />
-          <p>
-            {memory.length} of{" "}
-            {d.memory.filter((m) => m.project_id === project).length} records
-            shown
-          </p>
-          {!memory.length && <p>No matching memory records.</p>}
-          {memory.map((m) => (
-            <article className="tl-memory" key={String(m.id)}>
-              <p>{String(m.text)}</p>
-              <dl>
-                {[
-                  "source_ref",
-                  "captured_at",
-                  "valid_from",
-                  "valid_to",
-                  "revision_of",
-                  "claim_refs",
-                  "retrieval_refs",
-                  "access_policy",
-                ].map((k) => (
-                  <div key={k}>
-                    <dt>{k.replaceAll("_", " ")}</dt>
-                    <dd>{json(m[k] ?? "Not recorded")}</dd>
-                  </div>
-                ))}
-              </dl>
-            </article>
-          ))}
-        </section>
-      )}
+      {view === "Knowledge" && <ProjectMemory key={project} records={memory} projectId={project} total={d.memory.filter(item => item.project_id === project).length} />}
       {view === "Sources" && (
         <section>
           <h2>Bring in your work</h2>
           <p>Open a TruthLens export from your computer to see its results here.</p>
+          <details><summary>Start with your own files</summary>
+            <p>On your computer, package selected documents, images or structured data. This creates a local snapshot, not a live harness connection.</p>
+            <pre>truthlens import-files --project my-project --output-dir ./my-truthlens report.md screenshot.png</pre>
+            <p>Then choose <code>my-truthlens/workspace.json</code> below. The output directory must be new. Images must fit the 256 KiB encoded limit; image pixels are not automatically redacted.</p>
+          </details>
           <label>
             Choose a TruthLens export (.json)
             <input

@@ -82,7 +82,7 @@ export default function App() {
     <>
       {import.meta.env.VITE_PRIVATE_PREVIEW === "1" && (
         <aside className="tl-hosted-preview" aria-label="Preview information">
-          <span>Private preview · sample data</span>
+          <span>{documentRevision > 0 ? "Private preview · your local import" : "Private preview · recorded snapshots"}</span>
           <a href="/demo-widgets.html">Widgets →</a>
         </aside>
       )}

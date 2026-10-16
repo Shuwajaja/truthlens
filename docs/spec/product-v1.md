@@ -104,3 +104,24 @@ universal filesystem discovery, automatic extraction of unreviewed memory, arbit
 agent execution and a custom workflow engine are not prerequisites for the local
 reader release. Hosted multi-user service and universal harness adapters require
 separate implementation and verification, not merely UI switches.
+
+
+## D56 Local projection recipe and file-import delivery
+
+The first saved perspective contract is `truthlens.projection/1`, exact keys:
+`schema_version,id,title,project_id,workspace_id,view,query`. IDs max200, title80,
+project/workspace512, query500 characters; workspace nullable; view one of Results,
+Activity, Knowledge, Evidence. Maximum20 unique-ID recipes in browser storage.
+Knowledge requires null workspace because memory has only project scope. Unknown
+fields, payload/trust/action injection, foreign/stale scope are rejected/unavailable.
+This is user-importable agent presentation JSON, not a remote persistence API.
+
+`import-files` packages only explicitly named files in a new output directory.
+Structured JSON objects/arrays stay structured through redaction and become JSON
+text after the final catalog redaction pass. No native witness/HMAC semantics
+change. Bundle publication is complete on successful CLI return; it is not a
+transactional directory API for concurrent observers. The data remains IMPORTED.
+
+Text-only flowchart rendering is a web capability. Host widgets retain original
+source and do not load the full Mermaid engine. This deliberate host fallback
+satisfies D54 without claiming all diagram dialects or hosts are supported.

@@ -71,7 +71,7 @@ def run_model(source: dict, raw: dict, local_id: str, native: bool = False) -> d
         elif isinstance(content, (dict, list)):
             encoded = json.dumps(content, ensure_ascii=False)
             if len(encoded.encode()) <= 262144:
-                item["content"] = encoded
+                item["content"] = content
         artifacts.append(item)
     events = []
     for index, event in enumerate(array(raw.get("events", []), 10000)):

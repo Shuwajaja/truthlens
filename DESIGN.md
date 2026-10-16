@@ -258,3 +258,18 @@ iteration. Vaul is not selected because its README declares it unmaintained.
 Next composition work needs an adapter to json-render's actual root/elements
 format, scoped record resolution and bounded allowed actions. Before/after
 requires explicit paired records; do not guess versions from unrelated files.
+
+### Local reader and generative UI boundary
+
+Saved perspectives are collapsed by default; Memory shows statements and sources
+before graphs/raw metadata. Markdown uses shared reader typography and one source
+toggle inside ArtifactCanvas. Diagram source always survives rendering failure.
+Text-only Mermaid preview is explicit and web-only; the MCP widget retains source.
+
+[OpenIntelligentUI](https://github.com/CopilotKit/OpenIntelligentUI) was reviewed
+as MIT-licensed inspiration: presentation selection, contextual follow-ups and
+separate answer artifacts are relevant. Its generated HTML/JavaScript sandbox,
+provider router and agent runtime are not installed. Keep registered components
+and scoped recorded data as TruthLens authority; generated visualization never
+changes evidence. Its standalone HTML assembler does not by itself establish a
+ChatGPT MCP App connection. Runtime/provider behavior has not been tested here.

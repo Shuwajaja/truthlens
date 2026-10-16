@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import { validProjection, projectionAvailable, readProjections } from '../src/projections.ts';
+import type { WorkspaceDoc } from '../src/workspace.ts';
+const p = { schema_version: 'truthlens.projection/1', id:'view', title:'Website', project_id:'a', workspace_id:null, view:'Results', query:'page' };
+assert(validProjection(p));
+assert(!validProjection({...p, payload:'fake evidence'}));
+assert(!validProjection({...p, view:'execute'}));
+assert(!validProjection({...p, query:'x'.repeat(501)}));
+assert.deepEqual(readProjections(JSON.stringify([p,p])), []);
+assert.deepEqual(readProjections(JSON.stringify(Array.from({length:21},(_,i)=>({...p,id:String(i)})))), []);
+const doc = {projects:[{id:'a',name:'A'}],workspaces:[{id:'w',name:'W',project_id:'a'}]} as WorkspaceDoc;
+assert(projectionAvailable(p,doc,'a','all'));
+assert(!projectionAvailable(p,doc,'b','all'));
+assert(!projectionAvailable({...p,workspace_id:'missing'},doc,'a','missing'));
+assert(!projectionAvailable({...p,workspace_id:'w',view:'Knowledge'},doc,'a','w'));
+assert(projectionAvailable({...p,workspace_id:'w'},doc,'a','w'));
+console.log('Projection contract: 10 acceptance checks passed');

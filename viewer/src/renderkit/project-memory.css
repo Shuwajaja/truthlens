@@ -1,0 +1,16 @@
+.rk-memory { max-width:900px; margin:auto; overflow-wrap:anywhere; }
+.rk-memory header { display:flex; align-items:flex-start; gap:24px; justify-content:space-between; }
+.rk-memory header p,.rk-memory-scope,.rk-memory-source { color:var(--muted); line-height:1.6; }
+.rk-memory header h2 { margin-top:0; }
+.rk-memory button,.rk-memory summary { min-height:44px; cursor:pointer; }
+.rk-memory header button { flex-shrink:0; }
+.rk-memory ol { list-style:none; padding:0; }
+.rk-memory li { padding:24px 0; border-bottom:1px solid var(--border); }
+.rk-memory-statement { font-size:18px; line-height:1.6; margin:0 0 8px; white-space:pre-wrap; }
+.rk-memory-source,.rk-memory-scope { font-size:13px; }
+.rk-memory summary { padding:12px 0; }
+.rk-memory dl > div { display:grid; grid-template-columns:100px minmax(0,1fr); gap:16px; margin:10px 0; }
+.rk-memory dd { margin:0; }
+.rk-memory pre { white-space:pre-wrap; overflow-wrap:anywhere; }
+.rk-memory li:focus { outline:2px solid var(--accent); outline-offset:4px; }
+@media(max-width:640px) { .rk-memory header { flex-direction:column; gap:8px; } }

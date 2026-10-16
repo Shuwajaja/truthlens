@@ -10,7 +10,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-COMMANDS = frozenset({"catalog", "projects", "search", "show", "ask", "navigator", "serve", "mcp-app"})
+COMMANDS = frozenset({"catalog", "projects", "search", "show", "ask", "navigator", "serve", "mcp-app", "import-files"})
 
 
 def _write(doc: object, dest: str) -> None:
@@ -51,6 +51,11 @@ def main(argv: list[str]) -> int:
 
     parser = argparse.ArgumentParser(prog="truthlens")
     subs = parser.add_subparsers(dest="command", required=True)
+    pack = subs.add_parser("import-files", help="package explicitly selected local files; no live connection")
+    pack.add_argument("--project", required=True)
+    pack.add_argument("--output-dir", required=True, help="new directory in an existing parent")
+    pack.add_argument("--memory", help="optional JSON records export")
+    pack.add_argument("files", nargs="+")
     p = subs.add_parser("catalog", help="build/export the local rebuildable workspace catalog")
     actions = p.add_subparsers(dest="operation", required=True)
     rebuild = actions.add_parser("rebuild")
@@ -95,6 +100,11 @@ def main(argv: list[str]) -> int:
             p.add_argument("--args", default="{}", help="bounded JSON tool arguments")
     a = parser.parse_args(argv)
     try:
+        if a.command == "import-files":
+            from truthlens.package_import import package_files
+            _write(package_files(a.files, project=a.project, output_dir=a.output_dir,
+                                 memory_path=a.memory), "-")
+            return 0
         if a.command == "mcp-app":
             if not 1 <= a.port <= 65535:
                 raise ValueError("invalid port")

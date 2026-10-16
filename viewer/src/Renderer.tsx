@@ -13,9 +13,11 @@ const show = (v: unknown) =>
 export function ArtifactRenderer({
   artifact: a,
   mode = "web",
+  controls = true,
 }: {
   artifact: Artifact;
   mode?: "web" | "mcp-app";
+  controls?: boolean;
 }) {
   const kind = a.content === undefined ? "plain" : rendererFor(a.kind),
     text = show(a.content);
@@ -36,7 +38,7 @@ export function ArtifactRenderer({
   }
   if (kind === "json" && data !== null && typeof data === "object")
     return <JsonTree data={data} />;
-  if (kind === "markdown") return <MarkdownView text={text} />;
+  if (kind === "markdown") return <MarkdownView text={text} controls={controls} />;
   if (kind === "diff") return <RecordedDiff text={text} />;
   if (kind === "html" && mode === "mcp-app")
     return (

@@ -4,6 +4,7 @@ import { viteSingleFile } from "vite-plugin-singlefile";
 export default defineConfig(({ mode }) => ({
   plugins: [react(), viteSingleFile()],
   publicDir: false,
+  define: { "import.meta.env.VITE_MCP_WIDGET": "true" },
   build: {
     outDir: "dist-widget",
     emptyOutDir: mode !== "preview",

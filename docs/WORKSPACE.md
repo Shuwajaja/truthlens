@@ -181,3 +181,53 @@ Screenshots stay in `/tmp/truthlens-visual-review` or an explicit `--output`
 directory. Review them visually; the script does not certify design quality or
 replace agreed screenshot baselines. Use demo data, not private exports, when
 sharing output. This optional smoke is not a second full browser suite in CI.
+
+
+## Import selected local files
+
+No API key or harness login is needed for a local snapshot. Build the viewer, then:
+
+```bash
+truthlens import-files --project my-project --output-dir ./my-truthlens report.md screenshot.png
+truthlens serve --db ./my-truthlens/catalog.sqlite --static viewer/dist --project my-project
+```
+
+The output parent must exist and the output directory must be new. The command
+creates `import.json`, `sources.json`, `catalog.sqlite` and `workspace.json`.
+Alternatively open `workspace.json` with Connections / Choose a TruthLens export
+in the private preview; this browser import does not upload files. Original files
+are unchanged. A snapshot is not a live connection; to capture changed files,
+create a new bundle and import it or restart the reader with its catalog.
+
+Select 1–32 files. Each rendered payload is limited to 256 KiB after encoding and
+redaction (base64 images therefore allow fewer original bytes). Text/code,
+Markdown, diff, HTML, JSON objects/arrays, CSV and PNG/JPEG/GIF/WebP are supported.
+Raster signatures must match; SVG, directories, symlinks and unsupported binaries
+are rejected. Pixels are **not** automatically redacted. Markdown images/links do
+not automatically fetch external content. Use `.chart.json`, `.graph.json`,
+`.timeline.json` or `.table.json` for existing structured renderer formats.
+CSV supports at most 1000 data rows and 100 columns; JSON files must be valid.
+
+Optional `--memory notes.json` accepts a bounded `records` (or `memory`) array
+using the existing memory-source fields. Project/access restrictions still apply;
+returned `memory_records` reports accepted records. Memory is project-wide, never
+implicitly workspace-specific. Statements are source records, not verified facts.
+
+## Local saved perspectives
+
+Saved views stores at most 20 closed `truthlens.projection/1` recipes in this
+browser. Name, project/workspace, view and text filter are stored, never evidence
+or trust state. Open resolves the current snapshot. Memory views require All
+workspaces. Remove deletes the local recipe only. Agent proposal / JSON accepts
+the same bounded format, with an example for the selected scope. It is explicit
+user import, not remote MCP control or cloud synchronization.
+
+## Document reader
+
+Markdown supports GFM tables, task lists and footnotes; raw HTML and automatic
+remote image loading are disabled. Source remains available. Web-only Mermaid
+preview currently accepts bounded text-only flowcharts: no configuration,
+styling, links, images or embedded HTML. Unsupported syntax retains source.
+The diagram engine loads on request, and the resulting diagram is sandboxed.
+MCP widgets retain diagram source to keep the widget self-contained and below
+its resource limit. Graphical relationships are not a verification outcome.

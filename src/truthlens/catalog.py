@@ -188,6 +188,15 @@ def rebuild(config_path: str | Path, db_path: str | Path, key: bytes | None = No
             if failure["project_id"] is None:
                 document["unassigned"].append(failure["id"])
     document = redact(document)
+    # Preserve structured artifacts through recursive redaction, serialize only
+    # after the last redaction pass so JSON tokens cannot become invalid text.
+    for run in document["runs"]:
+        for artifact in run.get("artifacts", []):
+            if isinstance(artifact.get("content"), (dict, list)):
+                encoded = json.dumps(artifact["content"], ensure_ascii=False, allow_nan=False)
+                if len(encoded.encode()) > 262144:
+                    raise ValueError("structured artifact exceeds size limit after redaction")
+                artifact["content"] = encoded
     for collection in ("runs", "memory"):
         for item in document[collection]:
             item["search_text"] = searchable_text(item)

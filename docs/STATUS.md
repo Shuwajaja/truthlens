@@ -2,6 +2,52 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Local own-data reader increment (2026-10-16)
+
+Implemented against product-v1 D51–D56. `truthlens import-files` packages explicitly
+selected text/Markdown/JSON/CSV/HTML/raster files plus optional memory into a new
+local bundle/catalog/export. Originals unchanged, 256 KiB rendered-content limit,
+no symlink discovery, imported/unknown trust preserved. Structured JSON remains
+structured through redaction and is serialized after the final catalog pass.
+
+Navigator now isolates failed-content arrays and cached body metadata across reads,
+search and activity, and accepts exact action-specific fields. Regression failures
+were reproduced before fixes. Memory presents statements/source/history first and
+recorded revision graph on demand. Saved views use a separate bounded browser-only
+projection recipe; explicit JSON proposals supported, no remote client steering.
+
+Markdown now uses react-markdown + remark-gfm (tables/tasklists/footnotes, no raw
+HTML/remote images). Explicit web Mermaid preview admits only bounded text-only
+flowcharts before rendering, then sanitized SVG in a sandbox. Unsupported dialects
+keep source. Full diagram engine is excluded from self-contained MCP widget; widget
+is ~751 KiB. Web engine chunks are lazy and some exceed Vite's 500 KiB warning.
+These dependencies serve actual reader requirements; no CopilotKit runtime added.
+
+Verification: 211 Python tests passed, 2 skipped, 1 expected failure; one existing
+Starlette/httpx deprecation warning. Ruff clean. Frontend contract checks, lint,
+app/widget builds passed. Actual CLI-imported spec Markdown/logo image/memory
+fixtures exercised locally, and actual MCP SDK bridge displayed imported Markdown.
+Independent code/browser review found and verified fixes for cached damaged content,
+JSON redaction and blank diagram labels. Mobile/desktop image, memory revision,
+saved-view reload/remove/stale scope and diagram checks passed. Generated test
+notes are labelled fixtures; no personal harness or human acceptance claimed.
+Five-width compiled browser smoke passed. Reader axe check found an unlabeled
+task checkbox; explicit labels fixed it, final checked reader state had zero
+violations. Axe injection used a QA-only CSP bypass; separate reader execution
+checked real CSP with no remote requests/script execution.
+Reports remain outside repo under /workspace/projects/truthlens-runs/product-final.
+
+Remaining product work: dedicated MCP memory view, full agent-driven composition
+adapter, ongoing harness collectors, explicit image revision comparison, remote
+backend/authentication and target-client installation. Private site remains a static
+snapshot/import preview, not a final connected production service. OpenIntelligentUI
+README/architecture/routing/MCP docs inspected as inspiration; no installation or
+provider runtime test. Repository alone does not replace hosted-client validation.
+
+Private publication succeeded: `appgdep_6ad2920a603c8191aaad8a4db16dcb95`,
+hosting commit `bb779b1693186d245600c812d805d9374234b980`. Owner-only access
+confirmed before publication; authenticated remote browser review not performed.
+
 ## Product specification and implementation audit (2026-10-16)
 
 Owner requested a product specification and continued implementation. The target

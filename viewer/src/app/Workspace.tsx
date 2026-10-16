@@ -1,3 +1,4 @@
+import { SavedProjections } from "../features/SavedProjections.tsx";
 import { RendererExplorer } from "../features/RendererExplorer.tsx";
 import { tabKey, viewLabel } from "./tabs.ts";
 import { Overview } from "../features/Overview.tsx";
@@ -547,6 +548,11 @@ export function Workspace({
           {workspaceViews.map((item, index) => <button key={item.key} data-testid={`workspace-view-${item.key}`} aria-pressed={activeWorkspaceView === item.key} onClick={() => selectWorkspaceView(index)}>{item.label}</button>)}
           <span>Swipe to switch views on mobile</span>
         </nav>}
+        {!detail && <SavedProjections key={`${project}/${workspace}`} doc={d} project={project} workspace={workspace} query={query} onOpen={p => {
+          setQuery(p.query); setOriginFilter(""); setVerificationFilter("");
+          setFocusedEvidence(null); setSelectedRenderer(undefined); setView(p.view);
+          setNotice(`Saved view: ${p.title} · current snapshot`);
+        }} />}
         <main
           onTouchStart={(event) => {
             viewSwipe.current = null;
