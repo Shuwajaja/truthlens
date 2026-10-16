@@ -1,0 +1,483 @@
+.tl-app {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #a3aeb9;
+  --accent: #3fb950;
+  background: var(--bg);
+  color: var(--text);
+  font:
+    15px/1.6 system-ui,
+    sans-serif;
+  min-height: 100vh;
+  display: flex;
+}
+.tl-light {
+  --bg: #f8f9fa;
+  --surface: #fff;
+  --border: #c5cbd2;
+  --text: #17202a;
+  --muted: #526171;
+}
+.tl-accent-blue {
+  --accent: #58a6ff;
+}
+.tl-accent-purple {
+  --accent: #bc8cff;
+}
+.tl-app * {
+  box-sizing: border-box;
+}
+.tl-app button,
+.tl-app select,
+.tl-app input {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  max-width: 100%;
+}
+.tl-app button {
+  cursor: pointer;
+  text-align: left;
+}
+.tl-app button:hover {
+  border-color: var(--muted);
+}
+.tl-app :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.tl-sidebar {
+  width: 218px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.tl-logo {
+  font-size: 24px;
+  color: var(--accent);
+  padding: 0 8px;
+}
+.tl-logo span {
+  color: var(--text);
+}
+.tl-sidebar nav {
+  display: grid;
+  gap: 4px;
+}
+.tl-sidebar nav button {
+  border-color: transparent;
+}
+.tl-sidebar nav button[aria-current] {
+  border-left: 3px solid var(--accent);
+  background: var(--bg);
+}
+.tl-app label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.tl-bottom {
+  margin-top: auto;
+  font-size: 13px;
+  color: var(--muted);
+}
+.tl-body {
+  flex: 1;
+  min-width: 0;
+}
+.tl-header {
+  min-height: 72px;
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.tl-app .tl-lens {
+  flex-direction: row;
+  align-items: center;
+}
+.tl-sourcebar {
+  padding: 8px 32px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+}
+.tl-app main {
+  padding: 24px 32px;
+  max-width: 1600px;
+  margin: auto;
+}
+.tl-app h1 {
+  font-size: 32px;
+  line-height: 1.25;
+  margin: 8px 0 12px;
+  font-weight: 650;
+}
+.tl-app h2 {
+  font-size: 19px;
+  font-weight: 600;
+  margin: 24px 0 16px;
+}
+.tl-app h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+.tl-muted,
+.tl-app section > p {
+  color: var(--muted);
+}
+.tl-navigator {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 8px;
+}
+.tl-navigator > label:first-child {
+  flex: 1;
+  min-width: 180px;
+}
+.tl-intro {
+  padding: 24px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 24px 0;
+}
+.tl-intro h2 {
+  font-size: 28px;
+  line-height: 1.3;
+  margin: 0 0 16px;
+}
+.tl-intro button {
+  margin: 8px 8px 0 0;
+}
+.tl-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 24px;
+}
+.tl-context {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 0 24px 24px;
+  align-self: start;
+  color: var(--muted);
+}
+.tl-context h2 {
+  color: var(--text);
+}
+.tl-list {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.tl-app .tl-run {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  width: 100%;
+  padding: 16px 20px;
+}
+.tl-run > span,
+.tl-result > span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.tl-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 11px;
+}
+.tl-badges span {
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--muted);
+}
+.tl-result {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0;
+  width: 100%;
+  padding: 16px !important;
+}
+.tl-overlay {
+  position: fixed;
+  inset: 0;
+  background: #000a;
+  z-index: 100;
+  display: flex;
+  justify-content: flex-end;
+}
+.tl-dialog {
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  width: min(840px, 100%);
+  height: 100%;
+  overflow: auto;
+  padding: 24px;
+}
+.tl-dialog h2 {
+  overflow-wrap: anywhere;
+}
+.tl-app pre {
+  font:
+    12px/1.65 ui-monospace,
+    monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: 6px;
+  max-width: 100%;
+  overflow: auto;
+}
+.tl-app iframe {
+  width: 100%;
+  height: 450px;
+  background: white;
+  border: 1px solid var(--border);
+  margin-top: 16px;
+}
+.tl-memory {
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+}
+.tl-memory dl > div {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 16px;
+}
+.tl-memory dt {
+  color: var(--muted);
+}
+.tl-memory dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.tl-settings {
+  max-width: 520px;
+  display: grid;
+  gap: 16px;
+}
+.tl-scroll {
+  overflow: auto;
+}
+.tl-app table {
+  border-collapse: collapse;
+  min-width: 100%;
+}
+.tl-app td,
+.tl-app th {
+  border-bottom: 1px solid var(--border);
+  padding: 8px;
+  text-align: left;
+  vertical-align: top;
+}
+.tl-criterion {
+  border: 1px solid var(--border);
+  border-left: 3px solid #8b949e;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 6px;
+}
+.tl-met {
+  border-left-color: #3fb950;
+}
+.tl-unmet {
+  border-left-color: #f85149;
+}
+.tl-proposed {
+  border-style: dashed;
+}
+.tl-chart-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  gap: 16px;
+  margin: 8px 0;
+}
+.tl-compact main {
+  padding: 16px 24px;
+}
+.tl-compact .tl-run,
+.tl-compact .tl-result {
+  padding: 8px 12px !important;
+}
+.tl-skip {
+  position: fixed;
+  left: 12px;
+  top: -100px;
+  z-index: 200;
+  background: var(--surface);
+  padding: 8px;
+  color: var(--text);
+}
+.tl-skip:focus {
+  top: 8px;
+}
+.tl-load {
+  background: #0d1117;
+  color: #e6edf3;
+  min-height: 100vh;
+  padding: 32px;
+  font-family: system-ui;
+}
+.tl-app li {
+  margin: 8px 0;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 1000px) {
+  .tl-columns {
+    grid-template-columns: 1fr;
+  }
+  .tl-context {
+    display: none;
+  }
+  .tl-sidebar {
+    width: 190px;
+  }
+}
+@media (max-width: 640px) {
+  .tl-app {
+    display: block;
+  }
+  .tl-sidebar {
+    width: 100%;
+    padding: 12px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .tl-logo {
+    font-size: 20px;
+  }
+  .tl-sidebar nav {
+    display: flex;
+    overflow-x: auto;
+  }
+  .tl-sidebar nav button {
+    white-space: nowrap;
+  }
+  .tl-sidebar label {
+    display: inline-flex;
+    width: 48%;
+  }
+  .tl-bottom {
+    display: none;
+  }
+  .tl-header,
+  .tl-sourcebar {
+    padding: 12px 16px;
+  }
+  .tl-header {
+    flex-wrap: wrap;
+  }
+  .tl-app main,
+  .tl-compact main {
+    padding: 16px;
+  }
+  .tl-app h1 {
+    font-size: 26px;
+  }
+  .tl-intro {
+    padding: 20px;
+  }
+  .tl-intro h2 {
+    font-size: 24px;
+  }
+  .tl-dialog {
+    padding: 16px;
+  }
+  .tl-memory dl > div {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 8px 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tl-app * {
+    scroll-behavior: auto !important;
+  }
+}
+.tl-error {
+  color: #f85149;
+  border: 1px solid #f85149;
+  padding: 12px;
+  border-radius: 6px;
+}
+.tl-load label {
+  display: grid;
+  gap: 8px;
+  max-width: 500px;
+}
+.tl-load input {
+  padding: 12px;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+}
+.tl-collection-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 8px;
+  border: 0;
+}
+.tl-collection-cards .tl-run {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.tl-app li[data-focused="true"] {
+  outline: 2px solid var(--accent);
+  padding: 12px;
+}
+.tl-codex {
+  margin: 16px 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.tl-codex form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px;
+}
+.tl-codex form label {
+  flex: 1;
+  min-width: 180px;
+}
+.tl-codex button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.tl-codex li code {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  color: var(--muted);
+}
+.tl-codex article > p {
+  overflow-wrap: anywhere;
+}

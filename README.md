@@ -22,6 +22,12 @@ cp /tmp/tl-demo/run.json viewer/public/run.json && cd viewer && npm i && npm run
 Expected: c1 `met`, c2 `unmet`, c3 `unverified`, the agent's "all done" claim `claim_unwitnessed`, and the tampered copy fails `verify`. Recorded real runs: [docs/DEMO-RUNS.md](docs/DEMO-RUNS.md).
 
 ## CLI
+
+The additive local workspace supports projects, multiple runs, imported snapshots,
+Memory revisions, safe artifact renderers and read-only navigation. Start with
+[the workspace guide](docs/WORKSPACE.md). The bundled Factory/OTel/Memory examples
+are explicitly synthetic; original native runs retain their verification limits.
+
 | Command | What it does |
 |---|---|
 | `truthlens run --out DIR [--criteria F --confirm ids --test 'c1=CMD' --pass-env VAR --gate-env VAR --hmac-key-file F] -- <agent>` | witnesses one agent run (git before/after, agent output as claims, tests run by TruthLens, manifest) |

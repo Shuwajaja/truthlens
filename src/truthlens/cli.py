@@ -23,7 +23,17 @@ def _key(env: str | None) -> bytes | None:
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(prog="truthlens")
+    from truthlens.workspace_cli import COMMANDS
+
+    actual = list(sys.argv[1:] if argv is None else argv)
+    if actual and actual[0] in COMMANDS:
+        from truthlens.workspace_cli import main as workspace_main
+        return workspace_main(actual)
+    ap = argparse.ArgumentParser(
+        prog="truthlens",
+        epilog="Workspace commands: catalog rebuild/export, projects, search, show, ask, navigator, serve. "
+               "Run truthlens <command> --help for their options.",
+    )
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("init", help="create a ledger with run.started")
     p.add_argument("ledger")

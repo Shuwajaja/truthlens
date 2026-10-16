@@ -1,0 +1,8 @@
+{
+  "schema_version": "truthlens.memory-snapshot/1",
+  "synthetic": true,
+  "records": [
+    {"id": "design-1", "text": "SYNTHETIC revision 1: one recorded run is shown in the Client Lens.", "source_ref": "synthetic:design-note:1", "captured_at": "2026-10-16T08:10:00Z", "valid_from": "2026-10-16T08:10:00Z", "valid_to": "2026-10-16T08:20:00Z", "project_scope": "truthlens", "access_policy": "project", "claim_refs": [], "retrieval_refs": []},
+    {"id": "design-2", "text": "SYNTHETIC revision 2: project workspaces group multiple runs; imported statements remain distinct from native evidence.", "source_ref": "synthetic:design-note:2", "captured_at": "2026-10-16T08:20:00Z", "valid_from": "2026-10-16T08:20:00Z", "valid_to": null, "revision_of": "design-1", "project_scope": "truthlens", "access_policy": "project", "claim_refs": [], "retrieval_refs": []}
+  ]
+}

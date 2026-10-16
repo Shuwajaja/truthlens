@@ -1,0 +1,5 @@
+{
+  "schema_version": "truthlens.otel-snapshot/1",
+  "synthetic": true,
+  "resourceSpans": [{"scopeSpans": [{"spans": [{"traceId": "synthetic-research-trace", "spanId": "synthetic-span-1", "name": "Synthetic document lookup", "startTimeUnixNano": "1792138200000000000", "endTimeUnixNano": "1792138201000000000", "attributes": [{"key": "synthetic", "value": {"boolValue": true}}]}]}]}]
+}

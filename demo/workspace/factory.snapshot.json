@@ -1,0 +1,21 @@
+{
+  "schema_version": "truthlens.factory-snapshot/1",
+  "synthetic": true,
+  "description": "Illustrative reports inspired by the specification; not actual Factory evidence or human approvals.",
+  "runs": [
+    {
+      "run_id": "synthetic-92", "title": "Documentation updated · synthetic #92 example",
+      "agent": "Factory report example", "started": "2026-10-16T08:00:00Z",
+      "status": "AWAITING_HUMAN", "verified": true,
+      "summary": "SYNTHETIC: the source reports a successful formatting check. Human acceptance remains unknown. The source's verified flag must not become a TruthLens verification.",
+      "artifacts": [{"artifact_id": "contribution", "path": "CONTRIBUTING.md", "kind": "markdown", "content": "# Contribution note\n\nThis is a **synthetic imported artifact**. No real Factory report or approval is represented.\n"}],
+      "events": [{"id": "synthetic-event-92", "ts": "2026-10-16T08:00:00Z", "type": "source.reported", "summary": "Source reports AWAITING_HUMAN; no human acceptance witnessed", "actor": {"kind": "agent", "id": "synthetic-factory"}, "payload": {"synthetic": true, "reported_status": "AWAITING_HUMAN"}}]
+    },
+    {
+      "run_id": "synthetic-71", "title": "Demo script prerequisite missing · synthetic #71 example",
+      "agent": "Factory report example", "started": "2026-10-16T08:05:00Z",
+      "status": "BLOCKED", "summary": "SYNTHETIC: prerequisite document unavailable. No claim that the real Factory run was inspected.",
+      "artifacts": [], "events": []
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import type { View } from '../App.tsx'
+import type { View } from '../LegacyApp.tsx'
 import type { Lens } from '../lens.ts'
 import { LensToggle } from './LensToggle.tsx'
 

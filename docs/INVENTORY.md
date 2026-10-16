@@ -39,3 +39,16 @@ Naming of hash fields, sequence numbers, entity model and taxonomy all differ. T
 
 ## Rule for porting
 Every ported file: header with source repo, commit SHA, path, and what changed; commit message `port(<area>): from <repo>@<sha>:<path>`. werktools code may be reused (owner-authored only), with AGPL origin noted in the header.
+
+## Workspace upgrade dependencies (2026-10-16)
+
+The workspace implementation reuses TruthLens's own verifier, manifest checks,
+redaction and existing React text/Markdown/Diff views. No WERKAgent,
+WERKCommander or CrewTYY code was copied: their candidates remain reference-only
+pending full license/dependency review. Backend runtime dependencies remain empty.
+
+Viewer dependency `dompurify` 3.4.17 (lockfile pinned; upstream license
+`MPL-2.0 OR Apache-2.0`, Apache-2.0 option) removes executable/navigation markup
+before HTML enters the separate opaque sandbox. This dependency is justified by
+untrusted HTML preview safety rather than a custom regex sanitizer. The sandbox
+also applies restrictive CSP and strips navigation/resource URL attributes.

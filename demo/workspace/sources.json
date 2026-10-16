@@ -1,0 +1,18 @@
+{
+  "schema_version": "truthlens.sources/1",
+  "projects": [
+    {"id": "truthlens", "name": "TruthLens"},
+    {"id": "research-example", "name": "Research · synthetic example"}
+  ],
+  "workspaces": [
+    {"id": "truthlens-demo", "project_id": "truthlens", "name": "Recorded demos", "root": "../runs", "repo_remote": "https://github.com/Shuwajaja/truthlens", "branch": "demo", "mapping_reason": "Explicit demo registration; not a historical Git attestation"},
+    {"id": "research-local", "project_id": "research-example", "name": "Research example", "root": "./research", "mapping_reason": "Explicit synthetic example registration"}
+  ],
+  "sources": [
+    {"id": "native-demos", "kind": "native", "name": "Recorded OpenCode demos · hash-only without key", "path": "../runs", "project_id": "truthlens", "workspace_id": "truthlens-demo"},
+    {"id": "factory-example", "kind": "factory", "name": "SYNTHETIC Factory snapshot · not original #71/#92 reports", "path": "factory.snapshot.json", "project_id": "truthlens", "workspace_id": "truthlens-demo"},
+    {"id": "memory-example", "kind": "memory", "name": "SYNTHETIC Memory revisions", "path": "memory.snapshot.json", "project_id": "truthlens"},
+    {"id": "otel-example", "kind": "otel", "name": "SYNTHETIC OTLP trace", "path": "otel.snapshot.json", "project_id": "research-example", "workspace_id": "research-local"}
+  ],
+  "overrides": []
+}

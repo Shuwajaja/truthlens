@@ -1,6 +1,61 @@
 # TruthLens – Build Status (persistent supervisor state)
 
-Updated: 2026-10-11 10:30 Europe/Berlin · by supervisor (actor.kind=agent)
+Updated: 2026-10-16 · by Codex (actor.kind=agent)
+
+## Workspace upgrade implementation (2026-10-16)
+
+Branch `w6/vision-plan`, baseline `9f7d636`. User authorized working through the
+uploaded v5 specification after its review. This section describes a local
+implementation and witnessed checks, not full production acceptance.
+
+- Added versioned workspace/source contracts (D32–D41), consistent bounded native
+  snapshot reading, stable source-qualified IDs and a rebuildable atomic SQLite
+  catalog with project filters, conservative mapping, persistent config overrides,
+  FTS5 search and isolated adapter failures.
+- Read-only local snapshot adapters: native packages, Factory JSON, OTLP JSON,
+  GitHub JSON and Memory revisions/provenance. The two recorded native demos are
+  reused; Factory/OTel/Memory demo data is clearly synthetic. Original Factory
+  reports for #71/#92 remain UNKNOWN, not manufactured.
+- React workspace: project/workspace navigation, results/activity/evidence/memory,
+  deterministic renderer registry, recorded relationship graph, safe HTML preview,
+  bounded local file import, persistent closed presentation profiles, Client and
+  Developer Lenses, optional push-to-talk and explicit text fallback.
+- Additive CLI projects/search/show/ask/catalog/navigator and optional loopback
+  reader. Codex CLI subscription adapter has bounded project context, disabled
+  execution/app/plugin tools, schema-/scope-checked presentation proposals, Stop,
+  origin/session checks, concurrency and resource limits. No agent task execution
+  or source/config write endpoint is exposed.
+- Security review fixed an asset traversal that could bypass the server's project
+  filter, export overwriting inputs, trust/check conflation, and unbounded model
+  output. Existing ledger/gate/manifest/redaction/wrapper contracts are unchanged.
+
+Validation on this branch: Ruff exit 0; full Python suite **190 passed, 2 skipped,
+1 xfailed** (exit 0). The two skipped tests require the separate tl-agent Unix
+account; same-user isolation is not newly established here. Viewer TypeScript/Vite
+build and lint exit 0; 23 targeted contract/action/profile/renderer assertions pass.
+New HTTP/subprocess boundary corrections were also checked with their focused
+tests after review. CI now includes the Viewer checks; remote CI has not yet run
+on this unpushed branch.
+
+Browser evidence (headless system Chromium, real built/static reader and dev
+viewer): project switching removes prior project artifacts; recorded diffs and
+imported Markdown open; Memory revisions and persisted/reset profiles work;
+360px layout has no page overflow; HTML script/refresh/URL payloads are stripped
+and make no external request. Native check FAILED retains evidence; only failed
+integrity isolates content. Microphone denial falls back to text. No successful
+live speech transcription is claimed.
+
+Open external acceptance: Codex CLI reports ChatGPT login but the real connection
+returned 401 (expired/unusable credential). Device login was started and needs
+owner confirmation. Model protocol tests are not evidence of a working account;
+live model feature-disable behavior remains to be witnessed after login. No API
+key was created. See [WORKSPACE.md](WORKSPACE.md) for operation and restore.
+
+Not a delivered claim: live Factory/GitHub/OTel connections, public hosting/auth,
+remote MCP Apps interoperability, arbitrary media/PDF execution, human acceptance,
+or an automatic deployment. Media without a supported safe preview has an explicit
+text fallback. Source retention/deletion is an explicit owner operation followed
+by rebuild. No merge/deploy was performed.
 
 ## Mission
 Build the TruthLens MVP autonomously to completion (owner mandate 2026-10-11). Agent decisions are never recorded as human approval.
