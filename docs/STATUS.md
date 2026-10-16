@@ -2,6 +2,31 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Usability improvement loop (2026-10-16)
+
+Independent five-task browser audit at390/1280 found that file-to-check return
+relied on document tabs, recorded observations were hidden behind source inspection,
+and local-file setup omitted installation prerequisites. These are corrected:
+files expose Checks for this work; criteria show actual referenced event summaries
+(or explicit missing-summary text); own-file packaging links the setup guide.
+
+A separate before/after loop reduced composed-view density: the editor collapses
+on successful preview and labelled controls render one section at a time. Scope
+validation remains over the entire recipe before rendering; invalid proposals
+clear previous output. Actual browser checks exercised own imported Markdown,
+section switching, invalid input, file/check/source return and390/1280 layouts.
+All8 frontend contract files, lint and web/widget builds passed. Python/backend
+code is unchanged, so no repeated full Python suite was needed. Reports and
+screenshots: /workspace/projects/truthlens-runs/improvement-loop. Independent final
+review found no blockers: keyboard flow,390px overflow, foreign recipe rejection
+and failed-content withholding passed; scoped axe checks had no serious/critical
+findings. The advanced setup area remains relatively tall on mobile. This is agent
+review, not real-person acceptance or a change to the hosted-backend boundary.
+
+Private preview update succeeded: deployment
+`appgdep_6ad2a0a53438819193336d147a623b4f`, source commit
+`1dfea8d51d4cdcee55ce54b7654a9040de925ae8`. Owner-only audience retained.
+
 ## Standalone core completion (2026-10-16)
 
 Continues the owner's standalone TruthLens goal; Jarvis/Mausbot is outside this

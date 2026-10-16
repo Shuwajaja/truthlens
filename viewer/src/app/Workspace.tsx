@@ -721,6 +721,7 @@ export function Workspace({
             <section className="tl-primary-canvas" aria-label="Recorded result">
               <div className="tl-canvas-toolbar">
                 <button onClick={() => setDetail(null)}>Back to {view}</button>
+                {detail.artifact && <button onClick={() => setDetail({ run: detail.run })}>Checks for this work</button>}
                 <button
                   onClick={() => {
                     setInspectorRef(undefined);

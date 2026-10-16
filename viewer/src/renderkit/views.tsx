@@ -86,15 +86,23 @@ export function RunEvidence({ run, onOpenSource }: RunProps) {
               <ul>
                 {c.evidence
                   .filter((ref): ref is string => typeof ref === "string")
-                  .map((ref) => (
-                    <li key={ref}>
-                      <SourceRef
-                        run={run}
-                        refId={ref}
-                        onOpenSource={onOpenSource}
-                      />
-                    </li>
-                  ))}
+                  .map((ref) => {
+                    const summary = run.events.find((event) => event.id === ref)?.summary;
+                    return (
+                      <li key={ref}>
+                        <p>
+                          {typeof summary === "string" && summary.trim()
+                            ? <>Recorded observation: {summary}</>
+                            : "Observation not included in this snapshot."}
+                        </p>
+                        <SourceRef
+                          run={run}
+                          refId={ref}
+                          onOpenSource={onOpenSource}
+                        />
+                      </li>
+                    );
+                  })}
               </ul>
             ) : (
               <p>No evidence recorded.</p>

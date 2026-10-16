@@ -284,3 +284,18 @@ columns. Composed perspectives use the actual json-render catalog through a
 closed reference-only adapter. Keep the recipe editor under Saved views / advanced;
 ordinary navigation never requires JSON. MCP project memory uses the same readable
 notes/history component as web, with a bounded explicit count and optional graph.
+
+
+### Task-review loop — 2026-10-16
+
+Observed long composed perspectives buried content beneath the recipe editor and
+stacked every heavy reader. Render one selected section at a time with labelled
+44px controls; collapse the recipe editor after successful preview. Keep exact
+scope validation before section selection. Invalid proposals remove the old view.
+
+Recorded checks show the referenced event's actual summary next to the expected
+requirement, labelled Recorded observation. Missing summaries are explicit; no
+inferred cause or invented diagnosis. Files expose Checks for this work so users
+can return to the associated criteria without relying on truncated document tabs.
+Own-file instructions distinguish opening an existing export from installing local
+packaging tools. Browser task simulation is not human design approval.

@@ -5,3 +5,7 @@
 .composed-preview { border-top: 1px solid var(--border); margin-top: 16px; padding-top: 12px; }
 .composed-sections { display: grid; gap: 24px; min-width: 0; overflow-wrap: anywhere; }
 .composed-sections > * { min-width: 0; max-width: 100%; }
+
+.composed-section-picker { display:flex; flex-wrap:wrap; gap:8px; margin-block:12px 20px; }
+.composed-section-picker button { min-height:44px; max-width:100%; overflow-wrap:anywhere; text-align:left; }
+.composed-section-picker button[aria-pressed="true"] { border-color:var(--accent); background:var(--surface); box-shadow:inset 0 -2px var(--accent); }

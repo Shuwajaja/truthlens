@@ -73,7 +73,8 @@ export function SecondaryPanels({
           <h2>Bring in your work</h2>
           <p>Open a TruthLens export from your computer to see its results here.</p>
           <details><summary>Start with your own files</summary>
-            <p>On your computer, package selected documents, images or structured data. This creates a local snapshot, not a live harness connection.</p>
+            <p>Already have a TruthLens workspace export? Choose it below; no installation is needed to open it.</p>
+            <p>For individual documents or images, first install the local TruthLens tools using the <a href="https://github.com/Shuwajaja/truthlens/blob/w6/vision-plan/README.md#start-with-your-own-work" target="_blank" rel="noopener noreferrer">setup guide</a>. Then run this command on your computer. It creates a snapshot, not a live connection.</p>
             <pre>truthlens import-files --project my-project --output-dir ./my-truthlens report.md screenshot.png</pre>
             <p>Then choose <code>my-truthlens/workspace.json</code> below. The output directory must be new. Images must fit the 256 KiB encoded limit; image pixels are not automatically redacted.</p>
           </details>

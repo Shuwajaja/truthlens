@@ -289,6 +289,8 @@ recipe from an agent, or creates an example from the selected workspace. Preview
 renders actual existing records using the json-render catalog: Overview, Result,
 Checks, Timeline and project-wide Memory. The recipe cannot supply content,
 verification, actions or executable code. A root contains at most six sections;
-invalid, stale or foreign references produce a readable error. Close preview or
-reload to discard this temporary composition. This is independent of the saved
+invalid, stale or foreign references produce a readable error. The preview shows one selected section at a time; use its labelled section
+buttons to switch. After a successful preview the recipe editor collapses; expand
+Edit view recipe to change it. Close preview or reload to discard this temporary
+composition. This is independent of the saved
 single-view recipes above, and requires no model API key.
