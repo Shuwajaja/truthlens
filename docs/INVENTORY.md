@@ -105,3 +105,13 @@ checked Motion (MIT), Pierre Diffs (Apache-2.0), Streamdown (Apache-2.0), Shiki
 (MIT), React Flow (MIT) and Animate UI (MIT plus Commons Clause). No code/runtime
 from those candidates is included. Current animation uses native Web Animations
 and CSS; a richer syntax engine remains contingent on actual widget size/CSP needs.
+
+
+## Reader composition dependencies (2026-10-16)
+
+The web reader uses `@json-render/core` and `@json-render/react`0.21.1
+(Apache-2.0) with Zod4.3.6 (MIT) for the closed presentation catalog. The adapter
+resolves existing TruthLens records; no upstream demo agent/runtime or generated
+HTML/JavaScript execution is copied. Markdown uses react-markdown/remark-gfm
+(MIT); bounded optional diagrams use Mermaid (MIT). Package lock records the
+installed dependency versions. Original TruthLens trust contracts remain local.

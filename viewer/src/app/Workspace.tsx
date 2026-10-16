@@ -1,3 +1,4 @@
+import { ImageComparison } from "../renderkit/ImageComparison.tsx";
 import { SavedProjections } from "../features/SavedProjections.tsx";
 import { RendererExplorer } from "../features/RendererExplorer.tsx";
 import { tabKey, viewLabel } from "./tabs.ts";
@@ -348,6 +349,7 @@ export function Workspace({
         {artifacts.length} of {runs.reduce((n, r) => n + r.artifacts.length, 0)}{" "}
         recorded artifacts shown
       </p>
+      <ImageComparison key={`${project}/${workspace}`} runs={filtered} project={project} />
       {!artifacts.length && <p>No recorded artifacts in this selection.</p>}
       {artifacts.map(({ run, artifact: a }) => (
         <button

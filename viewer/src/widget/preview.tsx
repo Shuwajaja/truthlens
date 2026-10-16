@@ -127,7 +127,7 @@ export function Preview() {
       const args = {
         project_id: project,
         view,
-        ...(view !== "workspace-overview" && runIds[0]
+        ...(view !== "workspace-overview" && view !== "project-memory" && runIds[0]
           ? { run_id: runIds[0] }
           : {}),
         ...(artifactId ? { artifact_id: artifactId } : {}),
@@ -239,6 +239,7 @@ export function Preview() {
         <option value="artifact-viewer">Artifact viewer</option>
         <option value="evidence-inspector">Evidence inspector</option>
         <option value="run-timeline">Run timeline</option>
+        <option value="project-memory">Project memory</option>
       </select>
       <div className="actions">
         <button

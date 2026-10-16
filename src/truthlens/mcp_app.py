@@ -62,6 +62,7 @@ class WidgetResult(BaseModel):
     view: View | None = None
     selected_artifact_id: str | None = None
     envelope: RenderEnvelope | None = None
+    memory_total: int | None = Field(default=None, ge=0)
 
 
 def _serialize(value: object) -> str:

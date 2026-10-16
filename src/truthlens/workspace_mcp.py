@@ -1,6 +1,7 @@
 """Scoped read-only workspace tools shared by official SDK transports."""
 
 import hashlib
+import json
 import secrets
 from collections import OrderedDict
 from collections.abc import Callable
@@ -16,7 +17,9 @@ from truthlens.searching import matches
 Identifier = Annotated[str, Field(min_length=1, max_length=400, strict=True)]
 PageSize = Annotated[int, Field(ge=1, le=50, strict=True)]
 Cursor = Annotated[str | None, Field(max_length=100)]
-View = Literal["workspace-overview", "artifact-viewer", "evidence-inspector", "run-timeline"]
+View = Literal[
+    "workspace-overview", "artifact-viewer", "evidence-inspector", "run-timeline", "project-memory"
+]
 UI_URIS = tuple("ui://truthlens/" + name for name in View.__args__)
 
 
@@ -196,6 +199,22 @@ def register_workspace_tools(
         items.sort(key=lambda item: (item["kind"], item["id"]))
         return page(items, sid, ("search", project_id, query, tuple(wanted)), page_size, cursor, project_id)
 
+    @server.tool(annotations=readonly)
+    def truthlens_list_memory(
+        project_id: Identifier, page_size: PageSize = 20, cursor: Cursor = None
+    ) -> Page:
+        """Read project-scoped recorded notes and sources, not independently verified facts."""
+        doc, sid = snapshot(project_id)
+        items = sorted(
+            [
+                m
+                for m in doc["memory"]
+                if m.get("project_id") == project_id and m.get("access_policy") in ("project", "public")
+            ],
+            key=lambda m: m["id"],
+        )
+        return page(items, sid, ("memory", project_id), page_size, cursor, project_id)
+
     @server.tool(annotations=readonly, meta={"ui": {"resourceUri": UI_URIS[0]}})
     def truthlens_compose_view(
         project_id: Identifier,
@@ -208,6 +227,49 @@ def register_workspace_tools(
         doc, sid = snapshot(project_id)
         if expected_snapshot_id is not None and expected_snapshot_id != sid:
             raise ValueError("Snapshot changed; read the selection again.")
+        if view == "project-memory":
+            if run_id is not None or artifact_id is not None:
+                raise ValueError("Memory is project-wide; run and artifact selections are not supported.")
+            notes = sorted(
+                [
+                    m
+                    for m in doc["memory"]
+                    if m.get("project_id") == project_id and m.get("access_policy") in ("project", "public")
+                ],
+                key=lambda m: m["id"],
+            )
+            selected = []
+            memory_bytes = 0
+            for record in notes:
+                if len(selected) == 100:
+                    break
+                # Search caches duplicate source text and are not presentation data.
+                note = {k: v for k, v in record.items() if k != "search_text"}
+                size = len(json.dumps(note, ensure_ascii=False, separators=(",", ":")).encode())
+                if memory_bytes + size > 512 * 1024:
+                    continue
+                selected.append(note)
+                memory_bytes += size
+            sources = {m["source_id"] for m in selected}
+            doc = {
+                **doc,
+                "runs": [],
+                "memory": selected,
+                "unassigned": [],
+                "sources": [s for s in doc["sources"] if s["id"] in sources],
+            }
+            return result(
+                widget_model(
+                    project_id=project_id,
+                    snapshot_id=sid,
+                    selected_run_id=None,
+                    view=view,
+                    summary=[],
+                    memory_total=len(notes),
+                    generated_at=doc["generated_at"],
+                ),
+                doc,
+            )
         if (artifact_id is not None and run_id is None) or (
             view == "artifact-viewer" and artifact_id is None
         ):

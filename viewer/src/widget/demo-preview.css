@@ -68,3 +68,6 @@
   .demo-example-picker > summary > strong { display: inline; margin-left: 0; font-size: 12px; }
   .demo-example-picker > summary > span { margin-right: 8px; font-size: 12px; }
 }
+.demo-view-picker { overflow-x: auto; }
+.widget.demo-gallery .demo-widget-frame .demo-view-picker button { flex: 1 0 auto; white-space: nowrap; padding-inline: 6px; }
+.demo-memory-provenance { color: var(--muted); font-size: 13px; line-height: 1.6; margin-top: 24px; }

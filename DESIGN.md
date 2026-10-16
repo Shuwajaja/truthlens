@@ -273,3 +273,14 @@ provider router and agent runtime are not installed. Keep registered components
 and scoped recorded data as TruthLens authority; generated visualization never
 changes evidence. Its standalone HTML assembler does not by itself establish a
 ChatGPT MCP App connection. Runtime/provider behavior has not been tested here.
+
+
+### Core reader completion — 2026-10-16
+
+Image comparison lives behind a Results disclosure and requires an explicit pair.
+First/Second labels preserve uncertainty about chronology; each image keeps its
+own source. Mobile stacks the two images instead of compressing them into tiny
+columns. Composed perspectives use the actual json-render catalog through a
+closed reference-only adapter. Keep the recipe editor under Saved views / advanced;
+ordinary navigation never requires JSON. MCP project memory uses the same readable
+notes/history component as web, with a bounded explicit count and optional graph.

@@ -2,6 +2,55 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Standalone core completion (2026-10-16)
+
+Continues the owner's standalone TruthLens goal; Jarvis/Mausbot is outside this
+increment. D57–D59 add a dedicated project-memory MCP tool/view, explicit scoped
+raster image comparison and a real json-render catalog adapter. Agent recipes
+select canonical data only; no supplied evidence/status/actions or arbitrary code.
+Memory is bounded to100 notes/512KiB in the widget with an honest total. Other
+widget views exclude memory. The static widget gallery also exposes project memory independently of runs.
+Repeated memory readers have instance-local revision
+focus targets. The image pair is explicitly selected, not inferred before/after.
+
+The local refresh gate was exercised through a persistent server and Chromium:
+source edit -> same-path catalog rebuild -> browser Reload shows changed content;
+deleted records disappear, malformed sources surface errors, recovery works, and
+foreign projects remain excluded. Original file edits do not recapture an old
+import-files bundle. README now leads with own-data setup; WORKSPACE documents
+refresh/import distinctions and a suggested three-minute walkthrough.
+
+Validation: final Python suite214 passed/2 skipped/1 xfailed; focused
+MCP+refresh and reviewer regression passed; Ruff clean. All8 frontend contract files pass through npm test
+and CI now includes the previously omitted projection/diagram checks. Lint and
+web/widget production builds passed. Browser checks used actual own-file content
+and explicit labelled fixtures: Memory SDK bridge390/1280, image pair and composed
+Markdown390/1280, plus existing five-width smoke passed. No human acceptance or
+hosted-client installation is claimed. Reports are outside the repository under
+core-finish, product-final and product-finish/memory.
+
+Independent final review reproduced a large-note delivery bug: duplicated internal
+search_text could exhaust the widget budget and hide later notes. Regression test
+failed first, then passed after omitting that internal cache and skipping oversized
+entries without truncating statements. Empty-state guidance now distinguishes
+existing excluded notes from an empty project. Independent360px checks found no
+overflow/errors in composition, comparison or actual MCP memory; axe found zero
+critical/serious violations in the two new web disclosures. Optional composed-view
+density remains polish, not a verified human usability conclusion.
+
+Remaining beyond the local reader: ongoing harness collectors, authenticated remote
+backend, real target-client installation and native mobile packaging. The private
+site is still a static recorded/import preview; the MCP service runs locally.
+Known build note: lazy Mermaid chunks exceed Vite's500KiB recommendation; the
+self-contained widget remains below its2MiB resource ceiling. Existing Python
+Starlette/httpx deprecation warning remains.
+
+Private preview updated successfully through Sites:
+`appgdep_6ad29ed679688191b1a460e8c0629464`, hosting commit
+`3e8dff399c8c8c1abfba0a16e113a716e0ecb8e0`. Owner-only access confirmed;
+no external visitors or groups. New five-view gallery includes Memory. Remote
+publication succeeded; authenticated hosted-browser validation was not performed.
+
 ## Local own-data reader increment (2026-10-16)
 
 Implemented against product-v1 D51–D56. `truthlens import-files` packages explicitly

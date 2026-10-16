@@ -9,6 +9,7 @@ import {
   SourceTrust,
   WorkspaceOverview,
 } from "../renderkit/index.ts";
+import { ProjectMemory } from "../renderkit/ProjectMemory.tsx";
 import wordmark from "../assets/truthlens-wordmark.jpg";
 import { parseWidgetResult, type WidgetSnapshot } from "./data.ts";
 import "./widget.css";
@@ -194,7 +195,7 @@ export function Widget() {
         <>
           <div className="snapshot">
             <strong>{snapshot.document.projects[0].name}</strong>
-            <span>{snapshot.document.runs.length} recorded runs</span>
+            <span>{snapshot.view === "project-memory" ? `${snapshot.memoryTotal} recorded notes` : `${snapshot.document.runs.length} recorded runs`}</span>
           </div>
           {stale && (
             <p className="notice" role="status">
@@ -202,12 +203,13 @@ export function Widget() {
               catalog snapshot.
             </p>
           )}
-          {!snapshot.document.runs.length && (
+          {snapshot.view !== "project-memory" && !snapshot.document.runs.length && (
             <p>
               No runs in this snapshot. Ask TruthLens to find runs in this
               project.
             </p>
           )}
+          {snapshot.view === "project-memory" && <ProjectMemory records={snapshot.document.memory} projectId={snapshot.projectId} total={snapshot.memoryTotal} />}
           {snapshot.view === "workspace-overview" && workspaceView && (
             <WorkspaceOverview
               doc={snapshot.document}
@@ -353,7 +355,7 @@ export function Widget() {
           <footer>
             Snapshot recorded{" "}
             <time dateTime={snapshot.generatedAt}>{snapshot.generatedAt}</time>{" "}
-            · Human acceptance: {run?.acceptance ?? "UNKNOWN"}
+            · {snapshot.view === "project-memory" ? "Recorded statements · not independently verified" : `Human acceptance: ${run?.acceptance ?? "UNKNOWN"}`}
           </footer>
         </>
       )}

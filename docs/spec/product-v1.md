@@ -125,3 +125,37 @@ transactional directory API for concurrent observers. The data remains IMPORTED.
 Text-only flowchart rendering is a web capability. Host widgets retain original
 source and do not load the full Mermaid engine. This deliberate host fallback
 satisfies D54 without claiming all diagram dialects or hosts are supported.
+
+## D57 Dedicated project-memory MCP view
+
+`truthlens_list_memory` reads authorized project/public notes with snapshot-bound
+pagination (maximum50 per page). `truthlens_compose_view(view="project-memory")`
+selects at most100 notes within a512KiB note budget; `memory_total` retains the
+full authorized count. Run/artifact selectors are rejected for project memory.
+Other widget views carry no memory. The shared reader shows statements, recorded
+sources and revision links; no statement becomes verified merely by being shown.
+
+## D58 Explicit image comparison
+
+Results permits explicit selection of two different embedded raster artifacts
+from the current filtered project/workspace results, capped at200 candidates.
+Failed-integrity content, remote URLs and SVG are excluded. The two images retain
+original proportions and independent provenance. Selection order is labelled
+First/Second, never inferred chronological Before/After or proof of improvement.
+Missing/deleted selections resolve against the current records and stop rendering.
+
+## D59 Bounded agent-composed perspective
+
+The optional web adapter uses json-render's actual `root`/`elements` model with
+`truthlens.composition/1`, `project_id` and nullable `workspace_id`. One Perspective
+root contains1–6 leaf sections: Overview, Result, Checks, Timeline or Memory.
+Result takes canonical runId/artifactId; Checks/Timeline take runId; others empty
+props. No nested/repeated/unreachable sections, arbitrary props, expressions,
+actions, URLs, payloads or trust overrides. Memory requires All workspaces.
+
+The advanced browser disclosure accepts at most20000 characters, validates exact
+scope and unique existing references before invoking the rendering engine, and
+revalidates against current data on render. Every section reuses authoritative
+RenderKit components. The recipe is temporary local presentation state, not a
+saved remote channel, an LLM connection or a new evidence record. No API key is
+required. MCP fixed views remain their own bounded delivery contract.

@@ -99,7 +99,7 @@ def test_sdk_initialize_scope_status_and_widget_contract(app_files):
         )
         assert init["serverInfo"]["name"] == "TruthLens"
         tools = rpc(client, "tools/list")["tools"]
-        assert len(tools) == 11
+        assert len(tools) == 12
         for tool in tools:
             assert tool["annotations"]["readOnlyHint"] is True
             assert tool["annotations"]["openWorldHint"] is False
@@ -234,7 +234,7 @@ def test_workspace_tools_pagination_acl_and_negotiated_ui(app_files):
             },
         )
         resources = rpc(client, "resources/list")["resources"]
-        assert len(resources) == 5
+        assert len(resources) == 6
         compose = next(t for t in rpc(client, "tools/list")["tools"] if t["name"] == "truthlens_compose_view")
         assert compose["_meta"]["ui"]["resourceUri"] == "ui://truthlens/workspace-overview"
         for resource in resources:
@@ -311,3 +311,97 @@ def test_corrupt_artifact_composition_is_diagnostic_only(app_files, monkeypatch)
         assert composed["structuredContent"]["selected_artifact_id"] is None
         assert composed["structuredContent"]["summary"][0]["integrity"] == "failed"
         assert composed["_meta"]["truthlens/workspace"]["runs"][0]["artifacts"] == []
+
+
+def test_project_memory_widget_scope_bounds_and_pagination(app_files):
+    db, widget = app_files
+    config = widget.with_name("sources.json")
+    document = json.loads(config.read_text())
+    widget.with_name("notes.json").write_text(
+        json.dumps(
+            {
+                "memory": [
+                    {"id": str(i), "text": f"Recorded note {i}", "source_ref": "notes.md"} for i in range(102)
+                ]
+                + [{"id": "private", "text": "Private content", "access_policy": "private"}]
+            }
+        )
+    )
+    document["sources"] += [
+        {"id": "ma", "kind": "memory", "path": "notes.json", "project_id": "a"},
+        {"id": "mb", "kind": "memory", "path": "notes.json", "project_id": "b"},
+    ]
+    config.write_text(json.dumps(document))
+    rebuild(config, db)
+    server = create_app_server(db, {"a", "b"}, widget, port=4177)
+    with TestClient(server.streamable_http_app(), base_url="http://127.0.0.1:4177") as client:
+
+        def call(name, **arguments):
+            return rpc(client, "tools/call", {"name": name, "arguments": arguments})
+
+        result = call("truthlens_compose_view", project_id="a", view="project-memory")
+        summary = result["structuredContent"]
+        workspace = result["_meta"]["truthlens/workspace"]
+        assert summary["memory_total"] == 102
+        assert summary["selected_run_id"] is None and summary["summary"] == []
+        assert len(workspace["memory"]) == 100 and workspace["runs"] == []
+        assert {m["project_id"] for m in workspace["memory"]} == {"a"}
+        assert {s["id"] for s in workspace["sources"]} == {"ma"}
+        assert all(m["access_policy"] == "project" for m in workspace["memory"])
+        first = call("truthlens_list_memory", project_id="a", page_size=50)["structuredContent"]
+        second = call("truthlens_list_memory", project_id="a", page_size=50, cursor=first["next_cursor"])[
+            "structuredContent"
+        ]
+        assert first["total"] == 102 and len(first["items"]) == len(second["items"]) == 50
+        assert not {m["id"] for m in first["items"]} & {m["id"] for m in second["items"]}
+        assert call("truthlens_list_memory", project_id="b", page_size=50, cursor=first["next_cursor"])[
+            "isError"
+        ]
+        assert call("truthlens_compose_view", project_id="a", view="project-memory", run_id="irrelevant")[
+            "isError"
+        ]
+        assert call(
+            "truthlens_compose_view", project_id="a", view="project-memory", expected_snapshot_id="stale"
+        )["isError"]
+        unrelated = call("truthlens_compose_view", project_id="a")
+        assert unrelated["_meta"]["truthlens/workspace"]["memory"] == []
+        assert call("truthlens_list_memory", project_id="outside")["isError"]
+        widget.with_name("notes.json").write_text(
+            json.dumps({"memory": [{"id": str(i), "text": "x" * 10000} for i in range(102)]})
+        )
+        rebuild(config, db)
+        bounded = call("truthlens_compose_view", project_id="a", view="project-memory")
+        notes = bounded["_meta"]["truthlens/workspace"]["memory"]
+        assert 0 < len(notes) < 100
+        assert (
+            sum(len(json.dumps(n, ensure_ascii=False, separators=(",", ":")).encode()) for n in notes)
+            <= 512 * 1024
+        )
+        assert bounded["structuredContent"]["memory_total"] == 102
+        assert call("truthlens_list_memory", project_id="a", page_size=50, cursor=first["next_cursor"])[
+            "isError"
+        ]
+
+
+def test_memory_budget_omits_search_cache_and_keeps_later_readable_notes(app_files):
+    db, widget = app_files
+    config = widget.with_name("sources.json")
+    document = json.loads(config.read_text())
+    document["sources"] = [{"id": "notes", "kind": "memory", "path": "notes.json", "project_id": "a"}]
+    config.write_text(json.dumps(document))
+    long_text = "😀" * 65536
+    widget.with_name("notes.json").write_text(json.dumps({"memory": [
+        {"id": "unicode", "text": long_text},
+        {"id": "large", "text": long_text, "captured_at": long_text, "valid_from": long_text},
+        {"id": "short", "text": "A readable recorded note"},
+    ]}))
+    rebuild(config, db)
+    server = create_app_server(db, {"a"}, widget, port=4177)
+    with TestClient(server.streamable_http_app(), base_url="http://127.0.0.1:4177") as client:
+        result = rpc(client, "tools/call", {"name": "truthlens_compose_view", "arguments": {
+            "project_id": "a", "view": "project-memory",
+        }})
+        notes = result["_meta"]["truthlens/workspace"]["memory"]
+        assert result["structuredContent"]["memory_total"] == 3
+        assert {n["text"] for n in notes} == {long_text, "A readable recorded note"}
+        assert len(notes) == 2 and all("search_text" not in n for n in notes)

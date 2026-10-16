@@ -48,14 +48,16 @@ widget. No Codex account or model call is needed to run the preview itself.
 | `truthlens_list_artifacts` | List recorded artifacts with render envelopes |
 | `truthlens_get_artifact_view` | Read authoritative envelope and bounded payload |
 | `truthlens_search` | Search recorded project evidence |
-| `truthlens_compose_view` | Compose overview, artifact, evidence or timeline UI |
+| `truthlens_list_memory` | Page through authorized recorded project notes |
+| `truthlens_compose_view` | Compose overview, artifact, evidence, timeline or memory UI |
 
 The four older `_v1` tools remain available. New list results use `items`,
 `next_cursor` and `snapshot_id`; cursors are bound to the query and snapshot.
 Initialize with experimental capability `io.modelcontextprotocol/ui` and MIME
 `text/html;profile=mcp-app` to receive UI metadata and these resources:
 `ui://truthlens/workspace-overview`, `ui://truthlens/artifact-viewer`,
-`ui://truthlens/evidence-inspector`, `ui://truthlens/run-timeline`.
+`ui://truthlens/evidence-inspector`, `ui://truthlens/run-timeline`,
+`ui://truthlens/project-memory`.
 Without that capability, the new tools return text/JSON without a UI template.
 
 Example compose arguments:
@@ -66,7 +68,14 @@ Example compose arguments:
 
 Artifact views additionally require `run_id` and `artifact_id` from list results.
 `truthlens_get_artifact_view` returns data without opening a widget. The local
-preview offers all four views and selects a recorded run/artifact for detail views.
+preview offers all five views and selects a recorded run/artifact for detail views.
+
+Project memory uses `{"project_id":"truthlens","view":"project-memory"}` without
+run/artifact IDs. It shows up to100 notes within a512KiB note-content budget and
+reports the full authorized count. Use `truthlens_list_memory` to read additional
+pages. Memory stays project-wide, includes only project/public access records,
+and does not appear in unrelated widget metadata. Notes and revision links are
+recorded statements, not automatically verified facts.
 
 For an stdio client, use the same executable with these arguments:
 
@@ -154,8 +163,8 @@ Checked against official documentation on 2026-10-16:
 
 ## Hosted component preview
 
-The standard viewer build also includes `/demo-widgets.html`: four interactive
-shared RenderKit views (overview, result, checks and history), project/example/file
+The standard viewer build also includes `/demo-widgets.html`: five interactive
+shared RenderKit views (overview, result, checks, history and project memory), project/example/file
 selection, and light/dark appearance. It validates the bundled workspace export
 before rendering and preserves failed-integrity isolation. It uses recorded
 examples, including explicitly synthetic entries. This is a component gallery,

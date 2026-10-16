@@ -16,6 +16,7 @@ export type WidgetSnapshot = {
   view: string;
   selectedArtifactId: string | null;
   envelope: RenderEnvelope | null;
+  memoryTotal: number;
 };
 /** Business state only comes from validated server tool results, never tool inputs. */
 export function parseWidgetResult(result: unknown): WidgetSnapshot {
@@ -49,7 +50,7 @@ export function parseWidgetResult(result: unknown): WidgetSnapshot {
     document.projects[0].id !== summary.project_id ||
     document.runs.some((r) => r.project_id !== summary.project_id) ||
     document.workspaces.some((w) => w.project_id !== summary.project_id) ||
-    document.memory.length ||
+    document.memory.some(m => m.project_id !== summary.project_id || !["project", "public"].includes(String(m.access_policy))) ||
     document.unassigned.length
   )
     throw new Error("Project scope mismatch. No evidence displayed.");
@@ -90,9 +91,19 @@ export function parseWidgetResult(result: unknown): WidgetSnapshot {
       "artifact-viewer",
       "evidence-inspector",
       "run-timeline",
+      "project-memory",
     ].includes(String(view))
   )
     throw new Error("Unsupported widget view.");
+  const memoryTotal = summary.memory_total ?? 0;
+  if (view === "project-memory") {
+    if (!Number.isSafeInteger(memoryTotal) || Number(memoryTotal) < document.memory.length ||
+        document.memory.length > 100 || document.runs.length ||
+        summary.selected_run_id !== null || selectedArtifactId !== null || envelope !== null)
+      throw new Error("Invalid project memory selection.");
+  } else if (document.memory.length || memoryTotal !== 0) {
+    throw new Error("Memory is only available in its dedicated view.");
+  }
   if (
     selectedArtifactId !== null &&
     !document.runs.some(
@@ -113,6 +124,7 @@ export function parseWidgetResult(result: unknown): WidgetSnapshot {
     throw new Error("Artifact view requires recorded artifact evidence.");
   return {
     view: String(view),
+    memoryTotal: Number(memoryTotal),
     selectedArtifactId: selectedArtifactId as string | null,
     envelope: envelope as RenderEnvelope | null,
     document,

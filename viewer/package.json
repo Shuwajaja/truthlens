@@ -8,9 +8,12 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "build:widget": "tsc -b && vite build --config vite.widget.config.ts && vite build --config vite.widget.config.ts --mode preview"
+    "build:widget": "tsc -b && vite build --config vite.widget.config.ts && vite build --config vite.widget.config.ts --mode preview",
+    "test": "node --experimental-strip-types --test tests/*.test.ts"
   },
   "dependencies": {
+    "@json-render/core": "0.21.1",
+    "@json-render/react": "0.21.1",
     "@modelcontextprotocol/client": "^2.3.1",
     "@modelcontextprotocol/ext-apps": "^2.0.3",
     "dompurify": "^3.4.17",
@@ -20,7 +23,8 @@
     "react-dom": "^19.2.8",
     "react-json-view-lite": "2.5.0",
     "react-markdown": "^10.1.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "zod": "4.3.6"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

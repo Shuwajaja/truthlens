@@ -1,0 +1,7 @@
+.composed-perspective { min-width: 0; }
+.composed-perspective label { display: grid; gap: 8px; }
+.composed-perspective textarea { width: 100%; min-width: 0; box-sizing: border-box; font-family: monospace; }
+.composed-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 12px; }
+.composed-preview { border-top: 1px solid var(--border); margin-top: 16px; padding-top: 12px; }
+.composed-sections { display: grid; gap: 24px; min-width: 0; overflow-wrap: anywhere; }
+.composed-sections > * { min-width: 0; max-width: 100%; }

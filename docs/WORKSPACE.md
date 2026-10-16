@@ -231,3 +231,64 @@ styling, links, images or embedded HTML. Unsupported syntax retains source.
 The diagram engine loads on request, and the resulting diagram is sandboxed.
 MCP widgets retain diagram source to keep the widget self-contained and below
 its resource limit. Graphical relationships are not a verification outcome.
+
+
+## Refresh recorded sources
+
+For a catalog built from configured source exports:
+
+1. Update the export at the path registered in `sources.json`.
+2. Run `truthlens catalog rebuild --config /path/sources.json --db /path/catalog.sqlite`
+   using the **same database path** as the running reader.
+3. Reload the browser. No reader restart is needed. Each workspace request reads
+   the current catalog; the browser does not poll your harness automatically.
+
+The rebuild replaces the catalog, so deleted runs and notes disappear too. An
+unreadable source produces a source error instead of retaining its old results.
+Correct that source and rebuild again. Project access remains limited by the
+reader's original `--project` arguments.
+
+For a JSON file opened in the static/private preview, generate a new scoped export
+and import it again instead:
+
+```bash
+truthlens catalog export --db /path/catalog.sqlite --project my-project -o ./workspace.json
+```
+
+`import-files` bundles contain copies of explicitly selected files. Editing the
+original files does not change an existing bundle: package them into a new output
+directory and import its workspace export, or restart the reader with its catalog.
+
+## Three-minute local walkthrough
+
+This is a suggested demonstration, not a recorded human acceptance test.
+
+1. Open the recorded example workspace. From Overview, open a result. Show the
+   actual document and expand Source & verification.
+2. Open the native demo with the failed email check. Distinguish the failed check,
+   the unverified mobile requirement and hash-only integrity. None implies human
+   approval.
+3. Open History, then return to the result. On a narrow screen use the labelled
+   view tabs or swipe; document scrolling remains inside the document.
+4. Open Connections and import an own-file bundle's `workspace.json`. Open its
+   result, noting that imported content is not a cryptographic verification.
+5. In the local MCP preview, load the same project's records and open a shared
+   view. This demonstrates the local MCP bridge, not a ChatGPT installation.
+
+
+## Compare images and compose a perspective
+
+In Results, expand **Compare recorded images** when raster images are available.
+Choose First and Second explicitly. Both must be in the current filtered results;
+changing project, workspace or filter can make the pair unavailable. The view
+preserves proportions and offers each image's recorded source. It does not infer
+which is newer or whether the change is correct.
+
+Under Saved views, **Compose a view · advanced** accepts a reference-only JSON
+recipe from an agent, or creates an example from the selected workspace. Preview
+renders actual existing records using the json-render catalog: Overview, Result,
+Checks, Timeline and project-wide Memory. The recipe cannot supply content,
+verification, actions or executable code. A root contains at most six sections;
+invalid, stale or foreign references produce a readable error. Close preview or
+reload to discard this temporary composition. This is independent of the saved
+single-view recipes above, and requires no model API key.

@@ -12,14 +12,59 @@ For vibe coders and anyone handing work to AI agents — coding, research, writi
 > Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user.
 > "met" means: the restored test command that TruthLens started reported success; app code running in the test process can forge it (accepted v1 limit).
 
-## Quickstart (reproducible demo)
+## Start with your own work
+
+TruthLens opens recorded work as a workspace: overview, results, checks, history
+and project notes. Read the result first; expand source details when needed.
+The local reader and widgets need **no model API key**. An imported file is a
+source report, not a signed verification or human approval.
+
+Requires Python 3.12+ and Node 24. From the repository root:
+
 ```bash
-pip install -e '.[dev]'
-demo/run-demo.sh /tmp/tl-demo --offline   # scripted agent, no API key, deterministic
-demo/run-demo.sh /tmp/tl-demo2            # real OpenCode run (OPENROUTER_API_KEY, opencode on PATH)
-cp /tmp/tl-demo/run.json viewer/public/run.json && cd viewer && npm i && npm run dev
+python -m venv .venv
+. .venv/bin/activate
+python -m pip install -e '.[app]'
+npm --prefix viewer ci
+npm --prefix viewer run build
+truthlens import-files --project my-project --output-dir ./my-truthlens report.md screenshot.png
+truthlens serve --db ./my-truthlens/catalog.sqlite --static viewer/dist --project my-project
 ```
-Expected: c1 `met`, c2 `unmet`, c3 `unverified`, the agent's "all done" claim `claim_unwitnessed`, and the tampered copy fails `verify`. Recorded real runs: [docs/DEMO-RUNS.md](docs/DEMO-RUNS.md).
+
+Replace `report.md screenshot.png` with your own supported files; use a new output
+directory. Open **http://127.0.0.1:4174** on the same machine, then choose a result
+from the overview. Files remain local. On another device, `localhost` refers to
+that device; this listener is not a hosted service.
+
+For recorded examples instead of your files, replace the last two commands with:
+
+```bash
+truthlens catalog rebuild --config demo/workspace/sources.json --db /tmp/truthlens-workspace.sqlite
+truthlens serve --db /tmp/truthlens-workspace.sqlite --static viewer/dist --project truthlens
+```
+
+Native examples are recorded runs; Factory/OTel/Memory fixtures are labelled
+synthetic. See [the workspace guide](docs/WORKSPACE.md) for source refresh,
+file limits and saved perspectives, and [the MCP App guide](docs/MCP-APP.md)
+for interactive widgets in the local test host. The private web preview supports
+explicit snapshot import; it has no connected private backend.
+
+## Reproduce an agent recording
+
+The separate capture demo exercises the ledger and tamper detection:
+
+```bash
+python -m pip install -e '.[dev]'
+demo/run-demo.sh /tmp/tl-demo --offline   # scripted agent, no API key, deterministic
+# Optional real OpenCode run; requires opencode and OPENROUTER_API_KEY:
+demo/run-demo.sh /tmp/tl-demo2
+```
+
+Expected: c1 `met`, c2 `unmet`, c3 `unverified`, an unwitnessed agent claim,
+and the tampered copy fails `verify`. Recorded real runs:
+[docs/DEMO-RUNS.md](docs/DEMO-RUNS.md). To inspect a new recording in the workspace, register its directory as a native
+source following the workspace guide and rebuild the catalog. Connections imports
+`truthlens.workspace/1` exports, not the legacy single-run `run.json` format.
 
 ## CLI
 

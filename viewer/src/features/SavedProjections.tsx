@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { WorkspaceDoc } from '../workspace.ts';
 import { projectionAvailable, projectionKey, projectionViews, readProjections, validProjection, type Projection } from '../projections.ts';
 import './saved-projections.css';
+import { ComposedPerspective } from './ComposedPerspective.tsx';
 
 export function SavedProjections({ doc, project, workspace, query, onOpen }: {
   doc: WorkspaceDoc; project: string; workspace: string; query: string; onOpen: (p: Projection) => void;
@@ -37,6 +38,7 @@ export function SavedProjections({ doc, project, workspace, query, onOpen }: {
         <button onClick={() => { try { const p: unknown = JSON.parse(proposal); if (!validProjection(p)) throw Error(); add(p); } catch { setMessage('Invalid projection recipe. No view was saved.'); } }}>Import proposed view</button>
         <details><summary>Example recipe for this workspace</summary><pre>{JSON.stringify({schema_version:'truthlens.projection/1',id:'website',title:'Website',project_id:project,workspace_id:workspace === 'all' ? null : workspace,view:'Results',query:'website'},null,2)}</pre></details>
       </details>
+      <ComposedPerspective doc={doc} project={project} workspace={workspace} />
       {message && <p role="status">{message}</p>}
     </div>
   </details>;

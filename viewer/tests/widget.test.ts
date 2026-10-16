@@ -85,3 +85,25 @@ assert.throws(() => parseWidgetResult({...result, structuredContent: {...result.
 assert.throws(() => parseWidgetResult({...result, structuredContent: {...result.structuredContent, view: "artifact-viewer"}}), /requires recorded/);
 assert.throws(() => parseWidgetResult({...result, structuredContent: {...result.structuredContent, selected_artifact_id: "foreign"}}), /outside this run/);
 assert.throws(() => parseWidgetResult({...result, structuredContent: {...result.structuredContent, envelope: {schema_version: "truthlens.render/1", project_id: "foreign"}}}), /Invalid render envelope/);
+
+const memoryNote = { id: "note", text: "Recorded statement", project_id: projectId,
+  source_ref: "notes.md", access_policy: "project", claim_refs: [], retrieval_refs: [] };
+const memoryResult = {
+  structuredContent: { ...result.structuredContent, view: "project-memory", selected_run_id: null,
+    summary: [], memory_total: 101 },
+  _meta: { "truthlens/workspace": {...document, runs: [], memory: [memoryNote]} },
+};
+assert.equal(parseWidgetResult(memoryResult).memoryTotal, 101);
+assert.throws(() => parseWidgetResult({...result, _meta: {"truthlens/workspace": {...document, memory: [memoryNote]}}}), /dedicated view/);
+for (const patch of [{project_id: "foreign"}, {access_policy: "private"}, {project_id: null}]) {
+  assert.throws(() => parseWidgetResult({...memoryResult, _meta: {"truthlens/workspace": {
+    ...memoryResult._meta["truthlens/workspace"], memory: [{...memoryNote, ...patch}],
+  }}}));
+}
+for (const total of [-1, 0, 1.5, "101"]) {
+  assert.throws(() => parseWidgetResult({...memoryResult, structuredContent: {...memoryResult.structuredContent, memory_total: total}}), /Invalid project memory/);
+}
+assert.throws(() => parseWidgetResult({...memoryResult, _meta: {"truthlens/workspace": {
+  ...memoryResult._meta["truthlens/workspace"], memory: Array.from({length:101}, (_, i) => ({...memoryNote, id:String(i)})),
+}}}), /Invalid project memory/);
+console.log("Memory widget checks passed: explicit view, project/policy scope, total and count bounds.");

@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { comparisonImages, resolveComparison } from '../src/renderkit/comparison.ts';
+import type { Run } from '../src/workspace.ts';
+const image = 'data:image/png;base64,aGVsbG8=';
+const run = {id:'a',project_id:'p',integrity:'unknown',artifacts:[{id:'one',path:'one.png',kind:'media',content:image},{id:'two',path:'two.png',kind:'media',content:image}]} as Run;
+const images = comparisonImages([run, {...run,id:'failed',integrity:'failed'}, {...run,id:'other',project_id:'other'}, {...run,id:'url',artifacts:[{id:'external',path:'image.png',kind:'media',content:'https://example.com/image.png'}]}], 'p');
+assert.equal(images.length, 2);
+assert.equal(resolveComparison(images, images[0].key, images[1].key)?.[0].artifact, run.artifacts[0]);
+assert.equal(resolveComparison(images, images[0].key, images[0].key), null);
+assert.equal(resolveComparison(images, images[0].key, 'missing'), null);
+assert.equal(resolveComparison(comparisonImages([{...run,integrity:'failed'}],'p'), images[0].key, images[1].key), null);
+assert.equal(resolveComparison([...images,{...images[1],key:'foreign',run:{...run,project_id:'other'}}],images[0].key,'foreign'),null);
+console.log('Image comparison: scope, canonical selection, isolation and URL rejection passed');
