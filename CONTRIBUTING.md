@@ -20,3 +20,4 @@ Examples: `w1/ledger-core`, `w2/artifact-manifest`, `w3/web-viewer`.
 When an AI agent authors a pull request, agent decisions (approvals,
 rejections, sign-offs) must be recorded with `actor.kind = agent`. Agents
 must never represent themselves as human approvers.
+<!-- factory-self-test-canary-03 -->
