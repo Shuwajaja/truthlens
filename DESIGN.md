@@ -1,5 +1,39 @@
 # DESIGN.md – product design contract
 
+## Feed direction — latest owner feedback, 2026-10-16
+
+The owner rejected the library/dashboard presentation and requested an
+Instagram-like feed with swiping between perspectives. This supersedes the
+Result studio layout recommendation below, while preserving original branding
+and all data/trust rules. The implemented first version uses one centered post
+of actual recorded work, a horizontal story selector and previous/next work
+buttons. This keeps only one heavy result renderer mounted. Horizontal swiping
+explores its result, checks and open questions; buttons and keyboard arrows offer
+equivalent navigation. A continuous multi-post vertical feed remains a possible
+extension, not a shipped behavior. Recorded claims must remain explicitly
+claims, never additional versions of objective truth. No fabricated likes,
+followers, social activity or confidence scores. Technical source details stay
+behind an explicit action. Reduced motion disables animated transitions.
+
+This is an implementation direction based on the owner's request, not a claim
+that the owner has visually approved the resulting screen.
+
+### Owner-supplied myCompany Design System v1.0
+
+The supplied ZIP is a design reference and reusable starter, not a replacement
+for TruthLens's data contracts or a new authorization source. The scoped adapter
+`viewer/src/design/mycompany-foundation.css` adopts its spacing/radius scale,
+system-font stack and segmented controls in the feed and widget gallery. Semantic
+color aliases map to the existing TruthLens theme: logo-green remains authoritative
+over the starter's cyan TruthLens palette. Touch controls retain 44px targets.
+
+Its showcase fixtures, generic verified boolean, "Live component" labels and
+standalone stdio design catalogue are not imported into product behavior. The
+existing renderers keep distinct integrity, check and human-acceptance states.
+No claim of MCP Apps integration follows from the archive's design catalogue.
+Original starter content has no public reuse license declared; this is an
+owner-supplied private adaptation, not a newly published open-source package.
+
 ## Brand palette update — 2026-10-16
 
 Owner requested that the result studio match the original logo: neutral black,

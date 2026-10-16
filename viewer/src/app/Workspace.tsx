@@ -535,11 +535,11 @@ export function Workspace({
           }
           tabIndex={-1}
         >
-          <h1 id="workspace-title">
+          <h1 id="workspace-title" className={!detail && view === "Overview" ? "tl-feed-page-title" : undefined}>
             {detail
               ? (detail.artifact?.path.split("/").at(-1) ?? detail.run.title)
               : view === "Overview"
-                ? "Your work"
+                ? "Your feed"
                 : view === "Sources"
                   ? "Connections"
                   : viewLabel(view)}

@@ -1,18 +1,20 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   ArrowUpRight,
   ArrowRight,
+  ArrowLeft,
   CircleAlert,
   CheckCircle2,
   CircleDashed,
-  ChevronRight,
   FileText,
-  Plug,
+  Layers,
+  Plus,
 } from "lucide-react";
 import type { Artifact, Run } from "../workspace.ts";
 import { stamp } from "../app/format.ts";
 import { ArtifactRenderer } from "../Renderer.tsx";
-import "./overview-studio.css";
+import "./truth-feed.css";
+import "../design/mycompany-foundation.css";
 
 type Props = {
   memoryCount: number;
@@ -40,15 +42,13 @@ const previewKinds = [
   "table",
   "chart",
 ];
+const perspectives = ["Result", "Checks", "Open points"];
 
 export function Overview({
   memoryCount,
   onKnowledge,
-  paneOrder,
-  activity,
   runs,
   total,
-  artifacts,
   onRun,
   onArtifact,
   onConnect,
@@ -59,12 +59,23 @@ export function Overview({
     work: string;
     file: string;
   } | null>(null);
+  const [perspective, setPerspective] = useState({ work: "", page: 0 });
+  const carousel = useRef<HTMLDivElement>(null);
   const priority =
     runs.find((run) => run.integrity === "failed") ??
     runs.find((run) => run.verification === "FAILED") ??
     runs[0];
-  // Resolve every selection against the currently visible scope, never retained data.
   const selected = runs.find((run) => identity(run) === selection) ?? priority;
+  const selectedKey = selected ? identity(selected) : "";
+  const page = perspective.work === selectedKey ? perspective.page : 0;
+  if (perspective.work !== selectedKey) {
+    setPerspective({ work: selectedKey, page: 0 });
+  }
+  const setPage = (next: number) =>
+    setPerspective({ work: selectedKey, page: next });
+  useEffect(() => {
+    carousel.current?.scrollTo({ left: 0, behavior: "instant" });
+  }, [selectedKey]);
   const isolated = selected?.integrity === "failed";
   const files = selected && !isolated ? selected.artifacts : [];
   const selectedFile =
@@ -80,321 +91,408 @@ export function Overview({
     ) ??
     files[0];
   const failed =
-    selected?.criteria.filter((criterion) => criterion.status === "unmet") ??
-    [];
+    selected?.criteria.filter((item) => item.status === "unmet") ?? [];
   const passed =
-    selected?.criteria.filter((criterion) => criterion.status === "met")
-      .length ?? 0;
+    selected?.criteria.filter((item) => item.status === "met").length ?? 0;
   const other = (selected?.criteria.length ?? 0) - failed.length - passed;
   const needsAttention =
     isolated || failed.length > 0 || selected?.verification === "FAILED";
-
+  const selectedIndex = selected ? runs.indexOf(selected) : 0;
+  function goToPage(index: number) {
+    const node = carousel.current;
+    if (!node) return;
+    node.scrollTo({
+      left: node.clientWidth * index,
+      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+    });
+  }
+  function choose(run: Run) {
+    setSelection(identity(run));
+    setPage(0);
+    carousel.current?.scrollTo({ left: 0, behavior: "instant" });
+  }
   return (
-    <div className="tl-result-studio">
-
-      {runs.length > 0 ? (
-        <div className="studio-desk">
-          <section
-            className="studio-work-picker"
-            aria-label="Choose work to explore"
-          >
-            <div className="studio-section-heading">
-              <h3>Work library</h3>
-              <span>
-                {runs.length} of {total}
-              </span>
-            </div>
-            <div className="studio-work-list" aria-label="Recorded work">
-              {runs.map((run) => {
-                const active = selected && identity(run) === identity(selected);
-                const failedCount = run.criteria.filter((criterion) => criterion.status === "unmet").length;
-                const unchecked = run.criteria.some((criterion) => criterion.status !== "met" && criterion.status !== "unmet");
-                const status = run.integrity === "failed" ? "Record needs inspection" : failedCount > 0 ? `${failedCount} ${failedCount === 1 ? "check needs" : "checks need"} attention` : run.verification === "FAILED" ? "Checks need attention" : unchecked || !run.criteria.length ? "Checks incomplete" : "Recorded checks passed";
-                const hasIssue = run.integrity === "failed" || failedCount > 0 || run.verification === "FAILED";
-                const StatusIcon = hasIssue ? CircleAlert : unchecked || !run.criteria.length ? CircleDashed : CheckCircle2;
-                return (
-                  <button
-                    key={identity(run)}
-                    className={`studio-work-row${active ? " is-selected" : ""}`}
-                    aria-pressed={Boolean(active)}
-                    onClick={() => setSelection(identity(run))}
-                  >
-                    <span className="studio-work-row-top"><FileText size={16} aria-hidden="true" /><span>{run.origin === "IMPORTED" ? "Imported report" : "Recorded work"}</span><ChevronRight size={15} aria-hidden="true" /></span>
-                    <strong>{run.title}</strong>
-                    <span className="studio-work-date">{stamp(run.started).replace(/:\d{2}\.\d{3} UTC$/, " UTC")}</span>
-                    <span className={`studio-work-status${hasIssue ? " has-issue" : ""}`}><StatusIcon size={14} aria-hidden="true" />{status}</span>
-                  </button>
-                );
-              })}
-            </div>
-            <select
-              className="studio-mobile-picker"
-              aria-label="Choose your work"
-              value={selected ? identity(selected) : ""}
-              onChange={(event) => setSelection(event.target.value)}
-            >
-              {runs.map((run) => (
-                <option key={identity(run)} value={identity(run)}>
-                  {run.title} · {stamp(run.started)}{run.verification === "FAILED" ? " · Open checks" : ""}
-                </option>
-              ))}
-            </select>
-
-          </section>
-          {selected && (
-            <section className="studio-workspace" aria-label="Selected work">
-              <div className="studio-result" data-testid="studio-result">
-                <header className="studio-result-heading">
-                  <div>
-                    <h3>{selected.title}</h3>
-                    <p>
-                      {selected.origin === "IMPORTED"
-                        ? "Imported report"
-                        : "Recorded work"}
-                      {selected.started ? ` · ${stamp(selected.started)}` : ""}
-                    </p>
-                  </div>
-                  <span className="studio-file-count">
-                    {isolated
-                      ? "Content withheld"
-                      : `${files.length} ${files.length === 1 ? "file" : "files"}`}
-                  </span>
-                </header>
-                {!isolated && needsAttention && (
-                  <button className="studio-attention-link" onClick={() => onRun(selected)}>
-                    <CircleAlert size={17} aria-hidden="true" />
-                    {failed.length ? `${failed.length} ${failed.length === 1 ? "check failed" : "checks failed"}` : "A check failed"} · See what needs attention
-                    <ArrowRight size={16} aria-hidden="true" />
-                  </button>
-                )}
-                {isolated ? (
-                  <div className="studio-empty">
-                    <CircleAlert size={28} aria-hidden="true" />
-                    <h4>This result needs a closer look.</h4>
-                    <p>
-                      The record did not pass its integrity check. Its content
-                      is withheld until you inspect the problem.
-                    </p>
-                    <button onClick={() => onRun(selected)}>
-                      Inspect the record{" "}
-                      <ArrowRight size={18} aria-hidden="true" />
-                    </button>
-                  </div>
-                ) : selectedFile ? (
-                  <>
-                    <div className="studio-preview-bar">
-                      <label htmlFor="studio-result-file">Preview</label>
-                      <select
-                        id="studio-result-file"
-                        value={selectedFile.id}
-                        onChange={(event) =>
-                          setFileSelection({
-                            work: identity(selected),
-                            file: event.target.value,
-                          })
-                        }
-                      >
-                        {files.map((file) => (
-                          <option key={file.id} value={file.id}>
-                            {fileName(file)}
-                          </option>
-                        ))}
-                      </select>
-                      <button
-                        onClick={() => onArtifact(selected, selectedFile)}
-                        aria-label={`Open ${fileName(selectedFile)}`}
-                      >
-                        <ArrowUpRight size={20} aria-hidden="true" />
-                      </button>
-                    </div>
-                    <div
-                      className="studio-preview"
-                      key={`${identity(selected)}:${selectedFile.id}`}
-                      role="region"
-                      aria-label={`Preview of ${fileName(selectedFile)}`}
-                      tabIndex={0}
-                    >
-                      <ArtifactRenderer artifact={selectedFile} />
-                    </div>
-                    <footer className="studio-preview-footer">
-                      <span>Recorded output · preview is not an approval</span>
-                      <button
-                        onClick={() => onArtifact(selected, selectedFile)}
-                      >
-                        Open result <ArrowRight size={17} aria-hidden="true" />
-                      </button>
-                    </footer>
-                  </>
-                ) : (
-                  <div className="studio-empty">
-                    <FileText size={28} aria-hidden="true" />
-                    <h4>No result files were recorded.</h4>
-                    <p>You can still explore the checks and recorded work.</p>
-                    <button onClick={() => onRun(selected)}>
-                      Explore this work{" "}
-                      <ArrowRight size={18} aria-hidden="true" />
-                    </button>
-                  </div>
-                )}
-              </div>
-              <aside
-                className="tl-review-focus studio-review"
-                aria-labelledby="studio-review-title"
+    <div className="truth-feed">
+      <header className="feed-intro">
+        <div>
+          <span className="feed-kicker">YOUR WORK, IN FOCUS</span>
+          <h2>See the whole story.</h2>
+        </div>
+        <button onClick={onConnect} className="feed-add">
+          <Plus size={18} /> Add work
+        </button>
+      </header>
+      {selected ? (
+        <>
+          <nav className="feed-stories" aria-label="Choose work to explore">
+            {runs.map((run, index) => (
+              <button
+                key={identity(run)}
+                className={`feed-story${identity(run) === identity(selected) ? " is-selected" : ""}`}
+                aria-pressed={identity(run) === identity(selected)}
+                onClick={() => choose(run)}
+                title={`${run.title} · ${stamp(run.started)}`}
               >
-                <div className="studio-review-eyebrow">Before you use this result</div>
-                <div className="studio-review-symbol" aria-hidden="true">
-                  {needsAttention ? (
-                    <CircleAlert size={26} />
-                  ) : (
-                    <FileText size={26} />
-                  )}
+                <span className="feed-story-orbit">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                </span>
+                <strong>{run.title}</strong>
+                <small>{stamp(run.started) === "Not recorded" ? "Undated" : stamp(run.started).split(" ")[0]}</small>
+              </button>
+            ))}
+          </nav>
+          <article className="feed-post" aria-label="Selected work">
+            <header className="feed-post-heading">
+              <span className="feed-avatar" aria-hidden="true">
+                <Layers size={21} />
+              </span>
+              <div>
+                <h3>{selected.title}</h3>
+                <p>
+                  {selected.origin === "IMPORTED"
+                    ? "Imported report"
+                    : "Recorded work"}{" "}
+                  · {stamp(selected.started)}
+                </p>
+              </div>
+              <span className="feed-position">
+                {selectedIndex + 1} / {runs.length}
+              </span>
+            </header>
+            {!isolated && needsAttention && (
+              <button
+                className="feed-early-attention"
+                onClick={() => onRun(selected)}
+              >
+                <CircleAlert size={15} aria-hidden="true" />
+                {failed.length
+                  ? `${failed.length} ${failed.length === 1 ? "check failed" : "checks failed"}`
+                  : "Verification failed"}{" "}
+                · Review open points
+                <ArrowRight size={15} aria-hidden="true" />
+              </button>
+            )}
+            {isolated ? (
+              <div className="feed-isolated">
+                <CircleAlert size={32} />
+                <h3>Check the record first.</h3>
+                <p>
+                  This record did not pass its integrity check. Its content is
+                  withheld until the problem is inspected.
+                </p>
+              </div>
+            ) : (
+              <>
+                <nav
+                  className="feed-perspectives"
+                  aria-label="Perspectives on this work"
+                >
+                  {perspectives.map((label, index) => (
+                    <button
+                      key={label}
+                      aria-pressed={page === index}
+                      onClick={() => goToPage(index)}
+                    >
+                      <span>0{index + 1}</span>
+                      {label}
+                    </button>
+                  ))}
+                </nav>
+                <div
+                  className="feed-carousel"
+                  ref={carousel}
+                  onScroll={(event) => {
+                    const element = event.currentTarget;
+                    setPage(
+                      Math.round(element.scrollLeft / element.clientWidth),
+                    );
+                  }}
+                  aria-label="Swipe between result, checks and open points"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.target !== event.currentTarget) return;
+                    if (
+                      event.key === "ArrowRight" ||
+                      event.key === "ArrowLeft"
+                    ) {
+                      event.preventDefault();
+                      goToPage(
+                        Math.max(
+                          0,
+                          Math.min(
+                            2,
+                            page + (event.key === "ArrowRight" ? 1 : -1),
+                          ),
+                        ),
+                      );
+                    }
+                  }}
+                >
+                  <section
+                    className="feed-slide feed-result"
+                    aria-label="Result"
+                    inert={page !== 0}
+                  >
+                    <div className="feed-swipe-hint">
+                      Swipe for checks and open points{" "}
+                      <ArrowRight size={13} aria-hidden="true" />
+                    </div>
+                    {selectedFile ? (
+                      <>
+                        <div className="feed-file-picker">
+                          <label htmlFor="studio-result-file">Preview</label>
+                          <select
+                            id="studio-result-file"
+                            value={selectedFile.id}
+                            onChange={(event) =>
+                              setFileSelection({
+                                work: identity(selected),
+                                file: event.target.value,
+                              })
+                            }
+                          >
+                            {files.map((file) => (
+                              <option key={file.id} value={file.id}>
+                                {fileName(file)}
+                              </option>
+                            ))}
+                          </select>
+                          <button
+                            aria-label={`Open ${fileName(selectedFile)}`}
+                            onClick={() => onArtifact(selected, selectedFile)}
+                          >
+                            <ArrowUpRight size={19} />
+                          </button>
+                        </div>
+                        <div
+                          className="studio-preview feed-preview"
+                          role="region"
+                          aria-label={`Preview of ${fileName(selectedFile)}`}
+                          tabIndex={0}
+                          key={`${identity(selected)}:${selectedFile.id}`}
+                        >
+                          <ArtifactRenderer artifact={selectedFile} />
+                        </div>
+                      </>
+                    ) : (
+                      <div className="feed-slide-message">
+                        <FileText size={32} />
+                        <h4>No preview was recorded.</h4>
+                        <p>
+                          The checks and open points are still available. Swipe
+                          to explore them.
+                        </p>
+                      </div>
+                    )}
+                  </section>
+                  <section
+                    className="feed-slide feed-checks"
+                    aria-label="Checks"
+                    inert={page !== 1}
+                  >
+                    <span className="feed-kicker">THE RECORDED CHECKS</span>
+                    <h4>What holds up?</h4>
+                    <div className="feed-check-totals">
+                      <span>
+                        <CheckCircle2 size={20} />
+                        <b>{passed}</b> Passed
+                      </span>
+                      <span>
+                        <CircleAlert size={20} />
+                        <b>{failed.length}</b> Failed
+                      </span>
+                      <span>
+                        <CircleDashed size={20} />
+                        <b>{other}</b> Unconfirmed
+                      </span>
+                    </div>
+                    <ul className="feed-criteria">
+                      {selected.criteria.map((criterion, index) => (
+                        <li key={index}>
+                          <span
+                            className={`feed-check-icon ${criterion.status === "unmet" ? "is-failed" : ""}`}
+                          >
+                            {criterion.status === "met" ? (
+                              <CheckCircle2 size={18} />
+                            ) : criterion.status === "unmet" ? (
+                              <CircleAlert size={18} />
+                            ) : (
+                              <CircleDashed size={18} />
+                            )}
+                          </span>
+                          <div>
+                            <strong>
+                              {String(
+                                criterion.text ??
+                                  criterion.title ??
+                                  "Recorded requirement",
+                              )}
+                            </strong>
+                            <small>
+                              {criterion.status === "met"
+                                ? "This check passed."
+                                : criterion.status === "unmet"
+                                  ? "This check failed."
+                                  : "This requirement is not confirmed."}
+                            </small>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                    {!selected.criteria.length && (
+                      <p>No individual checks were recorded.</p>
+                    )}
+                  </section>
+                  <section
+                    className="feed-slide feed-open"
+                    aria-label="Open points"
+                    inert={page !== 2}
+                  >
+                    <span className="feed-kicker">BEFORE YOU USE IT</span>
+                    <h4>
+                      {needsAttention
+                        ? "Worth a closer look."
+                        : other || !selected.criteria.length
+                          ? "There’s more to check."
+                          : "Your decision comes next."}
+                    </h4>
+                    {failed.map((criterion, index) => (
+                      <div className="feed-open-point" key={index}>
+                        <small>Expected requirement</small>
+                        <p>
+                          {String(
+                            criterion.text ??
+                              criterion.title ??
+                              "A recorded requirement was not met.",
+                          )}
+                        </p>
+                        <span>
+                          <CircleAlert size={16} /> This check failed.
+                        </span>
+                      </div>
+                    ))}
+                    {!failed.length && (
+                      <p>
+                        {selected.verification === "FAILED"
+                          ? "The overall verification failed. Open the recorded source for the available details."
+                          : other || !selected.criteria.length
+                            ? "Some checks are missing or not confirmed. A preview cannot fill those gaps."
+                            : "The recorded checks passed. That does not establish human acceptance or prove every aspect of this result."}
+                      </p>
+                    )}
+                  </section>
                 </div>
-                <h3 id="studio-review-title">
+                <div className="feed-swipe-controls">
+                  <button
+                    aria-label="Previous perspective"
+                    disabled={page === 0}
+                    onClick={() => goToPage(page - 1)}
+                  >
+                    <ArrowLeft size={17} />
+                  </button>
+                  <div
+                    className="feed-dots"
+                    aria-label={`Perspective ${page + 1} of 3`}
+                  >
+                    {perspectives.map((label, index) => (
+                      <button
+                        key={label}
+                        aria-label={`Show ${label}`}
+                        aria-pressed={page === index}
+                        onClick={() => goToPage(index)}
+                      >
+                        <span />
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    aria-label="Next perspective"
+                    disabled={page === 2}
+                    onClick={() => goToPage(page + 1)}
+                  >
+                    <ArrowRight size={17} />
+                  </button>
+                </div>
+              </>
+            )}
+            <footer className="tl-review-focus feed-caption">
+              <div>
+                <strong>
                   {isolated
-                    ? "Check the record first."
+                    ? "Content withheld"
                     : needsAttention
-                      ? `${failed.length || "Some"} ${failed.length === 1 ? "check needs" : "checks need"} attention.`
-                      : "Your checks, explained."}
-                </h3>
+                      ? `${failed.length || "Some"} ${failed.length === 1 ? "check needs" : "checks need"} attention`
+                      : "Recorded output · your review comes next"}
+                </strong>
                 <p>
                   {isolated
-                    ? "This record cannot be relied on. Open the details before using its results."
-                    : needsAttention
-                      ? "Open the checks to understand what needs your attention before accepting this work."
-                      : "Review the recorded checks before deciding whether the result meets your needs."}
+                    ? "Inspect the source before using this work."
+                    : `${passed} passed · ${failed.length} failed · ${other} unconfirmed. Preview is not approval.`}
                 </p>
-                {!isolated && (
-                  <dl className="studio-check-counts">
-                    <div>
-                      <dt><CheckCircle2 size={15} aria-hidden="true" />Passed checks</dt>
-                      <dd>{passed}</dd>
-                    </div>
-                    <div>
-                      <dt><CircleAlert size={15} aria-hidden="true" />Failed checks</dt>
-                      <dd>{failed.length}</dd>
-                    </div>
-                    <div>
-                      <dt><CircleDashed size={15} aria-hidden="true" />Not confirmed</dt>
-                      <dd>{other}</dd>
-                    </div>
-                  </dl>
-                )}
-                {!isolated && failed[0] && (
-                  <div className="studio-expected">
-                    <strong>Expected</strong>
-                    <p>
-                      {String(
-                        failed[0].text ??
-                          failed[0].title ??
-                          "A recorded requirement has not been met.",
-                      )}
-                    </p>
-                    <span>This check failed.</span>
-                  </div>
-                )}
-                <button
-                  className="studio-review-action"
-                  data-testid="review-open-points"
-                  onClick={() => onRun(selected)}
-                >
-                  {isolated
-                    ? "Inspect the record"
-                    : needsAttention
-                      ? "Review open points"
-                      : "Review this work"}
-                  <ArrowRight size={18} aria-hidden="true" />
-                </button>
-                <p className="studio-review-note">
-                  Opening a result never approves it.
-                </p>
-              </aside>
-            </section>
-          )}
-        </div>
+              </div>
+              <button
+                data-testid="review-open-points"
+                onClick={() => onRun(selected)}
+              >
+                {isolated
+                  ? "Inspect record"
+                  : needsAttention
+                    ? "Review open points"
+                    : "Review this work"}
+                <ArrowUpRight size={18} />
+              </button>
+            </footer>
+          </article>
+          <nav
+            className="feed-work-navigation"
+            aria-label="Browse recorded work"
+          >
+            <button
+              disabled={selectedIndex === 0}
+              onClick={() => choose(runs[selectedIndex - 1])}
+            >
+              <ArrowLeft size={18} /> Previous work
+            </button>
+            <span>
+              {selectedIndex + 1} of {runs.length}
+            </span>
+            <button
+              disabled={selectedIndex === runs.length - 1}
+              onClick={() => choose(runs[selectedIndex + 1])}
+            >
+              Next work <ArrowRight size={18} />
+            </button>
+          </nav>
+        </>
       ) : (
-        <section className="studio-empty">
-          <FileText size={32} aria-hidden="true" />
+        <section className="feed-empty">
+          <FileText size={32} />
           <h3>
             {total
               ? "No work matches this view."
-              : "Bring your first result into view."}
+              : "Your first story starts here."}
           </h3>
           <p>
             {total
-              ? "Clear your search or choose another project to see its work."
-              : "Connect your tools or open an existing report to explore what was created and checked."}
+              ? "Clear your search or choose another project."
+              : "Open a report to explore what was created, what was checked and what remains open."}
           </p>
           <button onClick={onConnect}>
-            Connect your tools <ArrowRight size={18} aria-hidden="true" />
+            Add your work <ArrowRight size={18} />
           </button>
         </section>
       )}
-
-      <div className="studio-secondary">
-        {activity && (
-          <section
-            style={{ order: paneOrder.indexOf("runs") }}
-            aria-label="Recorded activity"
-          >
-            {activity}
-          </section>
-        )}
-        <section
-          className="studio-library"
-          style={{ order: paneOrder.indexOf("results") }}
-        >
-          <div className="studio-section-heading">
-            <h3>More to explore</h3>
-            <button onClick={onResults}>
-              All {artifacts.length} files{" "}
-              <ArrowRight size={16} aria-hidden="true" />
-            </button>
-          </div>
-          <div className="studio-library-list">
-            {artifacts
-              .filter(({ run }) => run.integrity !== "failed")
-              .slice(0, 3)
-              .map(({ run, artifact }) => (
-                <button
-                  key={`${identity(run)}:${artifact.id}`}
-                  onClick={() => onArtifact(run, artifact)}
-                >
-                  <FileText size={22} aria-hidden="true" />
-                  <span>
-                    <strong>{fileName(artifact)}</strong>
-                    <span>{run.title}</span>
-                  </span>
-                  <ArrowUpRight size={18} aria-hidden="true" />
-                </button>
-              ))}
-          </div>
-          {!artifacts.length && <p>No recorded result files in this view.</p>}
-        </section>
-        {memoryCount > 0 && (
-          <section
-            className="studio-memory"
-            style={{ order: paneOrder.indexOf("knowledge") }}
-          >
-            <h3>Project notes</h3>
-            <button onClick={onKnowledge}>
-              Read {memoryCount} saved notes{" "}
-              <ArrowRight size={16} aria-hidden="true" />
-            </button>
-          </section>
-        )}
-      </div>
-      <section className="studio-connect">
-        <Plug size={22} aria-hidden="true" />
-        <div>
-          <h3>Bring your tools along.</h3>
-          <p>
-            Open a report from your computer, or explore the setup guides.
-          </p>
-        </div>
-        <button onClick={onConnect}>
-          Connect your tools <ArrowRight size={17} aria-hidden="true" />
+      <footer className="feed-bottom">
+        <button onClick={onResults}>
+          Explore all results <ArrowRight size={16} />
         </button>
-      </section>
+        {memoryCount > 0 && (
+          <button onClick={onKnowledge}>{memoryCount} project notes</button>
+        )}
+        <button onClick={onConnect}>Connect your tools</button>
+      </footer>
     </div>
   );
 }

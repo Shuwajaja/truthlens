@@ -1,0 +1,619 @@
+.truth-feed {
+  max-width: 760px;
+  margin: 0 auto;
+  min-width: 0;
+  color: var(--text);
+}
+.truth-feed * {
+  box-sizing: border-box;
+}
+.truth-feed button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  cursor: pointer;
+}
+.truth-feed button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.truth-feed :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.feed-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 8px 0 24px;
+}
+.feed-kicker {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+.truth-feed .feed-intro h2 {
+  font-size: 32px;
+  font-weight: 650;
+  letter-spacing: -0.055em;
+  line-height: 1.15;
+  margin: 8px 0 0;
+}
+.truth-feed .feed-add {
+  border-radius: 30px;
+  padding: 8px 17px;
+  background: var(--text);
+  color: var(--bg);
+  flex-shrink: 0;
+}
+.feed-stories {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 5px 4px 20px;
+  scrollbar-width: thin;
+  margin: 0 0 20px;
+  overscroll-behavior-x: contain;
+}
+.truth-feed .feed-story {
+  border: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 88px;
+  max-width: 88px;
+  gap: 7px;
+  padding: 0;
+  min-width: 0;
+}
+.feed-story-orbit {
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  padding: 4px;
+  display: grid;
+  place-items: center;
+  width: 66px;
+  height: 66px;
+  transition: border-color 160ms;
+}
+.feed-story-orbit > span {
+  display: grid;
+  place-items: center;
+  background: var(--surface-muted);
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+.feed-story.is-selected .feed-story-orbit {
+  border-color: var(--accent);
+}
+.feed-story.is-selected .feed-story-orbit > span {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.feed-story strong {
+  font-size: 11px;
+  font-weight: 500;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.feed-story small {
+  color: var(--muted);
+  font-size: 10px;
+}
+.feed-post {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  overflow: hidden;
+}
+.feed-post-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+}
+.feed-avatar {
+  height: 40px;
+  width: 40px;
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.feed-post-heading > div {
+  min-width: 0;
+  flex: 1;
+}
+.truth-feed .feed-post-heading h3 {
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.feed-post-heading p {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+.feed-position {
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+.feed-perspectives {
+  display: flex;
+  border-block: 1px solid var(--border);
+}
+.truth-feed .feed-perspectives button {
+  flex: 1;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  font-size: 13px;
+  gap: 7px;
+  padding: 12px 4px;
+}
+.feed-perspectives button > span {
+  font-size: 10px;
+  color: var(--muted);
+}
+.truth-feed .feed-perspectives button[aria-pressed="true"] {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+.feed-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  min-width: 0;
+}
+.feed-carousel::-webkit-scrollbar {
+  display: none;
+}
+.feed-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  height: 390px;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
+  background: var(--bg);
+}
+.feed-file-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 5px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+.feed-file-picker label {
+  font-size: 11px;
+  color: var(--muted);
+}
+.feed-file-picker select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  background: transparent;
+  color: var(--text);
+  border: 0;
+  font: inherit;
+  font-size: 12px;
+  text-overflow: ellipsis;
+}
+.feed-file-picker button {
+  flex-shrink: 0;
+  width: 44px;
+  border: 0;
+  background: transparent;
+}
+.feed-preview {
+  height: 334px;
+  padding: 24px;
+  overflow: auto;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.feed-preview > :first-child {
+  margin-top: 0;
+}
+.feed-preview pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.feed-preview img {
+  max-width: 100%;
+}
+.feed-preview iframe {
+  border: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+}
+.feed-preview:has(> iframe) {
+  padding: 0;
+}
+.feed-preview table {
+  border-collapse: collapse;
+}
+.feed-preview td,
+.feed-preview th {
+  padding: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.feed-checks,
+.feed-open {
+  padding: 30px 32px;
+}
+.truth-feed .feed-slide h4 {
+  font-size: 30px;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  margin: 9px 0 24px;
+  font-weight: 550;
+}
+.feed-check-totals {
+  display: flex;
+  gap: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.feed-check-totals > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.feed-check-totals b {
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 550;
+}
+.feed-check-totals > span:nth-child(2) > svg {
+  color: var(--tl-unmet);
+}
+.feed-criteria {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.feed-criteria li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.feed-check-icon {
+  padding-top: 2px;
+}
+.feed-check-icon.is-failed {
+  color: var(--tl-unmet);
+}
+.feed-criteria strong {
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.feed-criteria small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 5px;
+}
+.feed-open > p,
+.feed-slide-message p,
+.feed-isolated p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 48ch;
+}
+.feed-open-point {
+  padding: 0 0 20px 16px;
+  border-left: 2px solid var(--tl-unmet);
+  margin-bottom: 20px;
+}
+.feed-open-point small {
+  color: var(--muted);
+  font-size: 11px;
+}
+.feed-open-point p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 6px 0 12px;
+  overflow-wrap: anywhere;
+}
+.feed-open-point > span {
+  display: flex;
+  gap: 7px;
+  color: var(--tl-unmet);
+  font-size: 12px;
+  align-items: center;
+}
+.feed-slide-message,
+.feed-isolated {
+  padding: 44px 32px;
+}
+.feed-isolated {
+  border-block: 1px solid var(--border);
+}
+.feed-swipe-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-top: 1px solid var(--border);
+  padding: 2px 0;
+}
+.truth-feed .feed-swipe-controls button {
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  min-width: 44px;
+  padding: 0;
+}
+.feed-dots {
+  display: flex;
+}
+.feed-dots button > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.feed-dots button[aria-pressed="true"] > span {
+  background: var(--accent);
+  width: 18px;
+  border-radius: 6px;
+}
+.truth-feed .feed-caption.tl-review-focus {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px;
+  border: 0;
+  border-top: 1px solid var(--border);
+  background: transparent;
+  border-radius: 0;
+  margin: 0;
+}
+.feed-caption > div {
+  flex: 1;
+  min-width: 0;
+}
+.feed-caption strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+.feed-caption p {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 5px 0 0;
+}
+.truth-feed .feed-caption > button {
+  flex-shrink: 0;
+  border: 0;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  border-radius: 24px;
+  padding: 10px 14px;
+}
+.feed-work-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+.truth-feed .feed-work-navigation button {
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  padding: 4px;
+}
+.feed-work-navigation > span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.feed-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  justify-content: center;
+  padding: 22px 0;
+}
+.truth-feed .feed-bottom button {
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  color: var(--muted);
+}
+.feed-empty {
+  padding: 40px 0;
+}
+.feed-empty p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+@media (max-width: 600px) {
+  .feed-intro {
+    margin: 0 0 15px;
+  }
+  .truth-feed .feed-intro h2 {
+    font-size: 25px;
+  }
+  .feed-kicker {
+    font-size: 9px;
+  }
+  .truth-feed .feed-add {
+    font-size: 11px;
+    padding: 7px 11px;
+  }
+  .feed-stories {
+    gap: 10px;
+    padding-bottom: 14px;
+    margin-bottom: 10px;
+  }
+  .truth-feed .feed-story {
+    flex-basis: 72px;
+    max-width: 72px;
+  }
+  .feed-story-orbit {
+    width: 57px;
+    height: 57px;
+  }
+  .feed-story-orbit > span {
+    font-size: 18px;
+  }
+  .feed-post {
+    border-radius: 12px;
+  }
+  .feed-post-heading {
+    padding: 14px 12px;
+    gap: 9px;
+  }
+  .truth-feed .feed-post-heading h3 {
+    font-size: 14px;
+  }
+  .feed-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  .feed-position {
+    display: none;
+  }
+  .feed-post-heading p {
+    font-size: 10px;
+  }
+  .truth-feed .feed-perspectives button {
+    font-size: 12px;
+  }
+  .feed-perspectives button > span {
+    display: none;
+  }
+  .feed-slide {
+    height: 350px;
+  }
+  .feed-preview {
+    height: 294px;
+    padding: 18px;
+  }
+  .feed-checks,
+  .feed-open {
+    padding: 24px 20px;
+  }
+  .truth-feed .feed-slide h4 {
+    font-size: 27px;
+  }
+  .feed-check-totals {
+    gap: 12px;
+    justify-content: space-between;
+  }
+  .feed-check-totals > span {
+    flex-direction: column;
+    gap: 4px;
+    font-size: 11px;
+  }
+  .feed-check-totals > span > svg {
+    display: none;
+  }
+  .truth-feed .feed-caption.tl-review-focus {
+    padding: 15px 14px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .truth-feed .feed-caption > button {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .feed-bottom {
+    gap: 4px 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feed-story-orbit {
+    transition: none;
+  }
+  .feed-carousel {
+    scroll-behavior: auto;
+  }
+}
+
+.feed-swipe-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 30px;
+  font-size: 10px;
+  color: var(--muted);
+  background: var(--surface-muted);
+  touch-action: pan-x pan-y;
+}
+.feed-result .feed-preview {
+  height: 304px;
+}
+.feed-preview iframe {
+  pointer-events: none;
+}
+@media (max-width: 600px) {
+  .feed-result .feed-preview {
+    height: 264px;
+  }
+}
+
+.truth-feed .feed-early-attention {
+  width: 100%;
+  justify-content: flex-start;
+  min-height: 36px;
+  border: 0;
+  border-radius: 0;
+  border-top: 1px solid var(--border);
+  padding: 8px 20px;
+  background: var(--surface-muted);
+  color: var(--tl-unmet);
+  font-size: 11px;
+  text-align: left;
+}
+.feed-early-attention > svg:last-child {
+  margin-left: auto;
+}
+/* Keep the feed introduction as the visible headline, with one accessible page title. */
+.tl-feed-page-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

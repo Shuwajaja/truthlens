@@ -2,6 +2,43 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Stories and swipe perspectives (2026-10-16)
+
+Owner requested an Instagram-inspired interaction after rejecting the library
+layout. Home now shows a centered post, numbered story selectors, previous/next
+work controls and native horizontal swipe between Result, Checks and Open points.
+One result renderer is mounted at a time; this is not a continuous multi-post
+vertical feed. Visible arrows, perspective buttons and keyboard controls provide
+alternatives to touch. Failed checks remain visible above the result. Source
+integrity failures withhold content; previewing or swiping never grants approval.
+Iframe previews do not intercept gestures; full details remain reachable explicitly.
+
+App build and lint passed. Existing browser smoke passed at five widths, including
+source focus return, graph controls and themes. Independent QA used native CDP
+touch events for Result→Checks→Open points and vertical scrolling, checked work
+and project resets, source inspection, import access, 360px overflow and selected
+axe states (zero violations). No JS errors observed. Compiled build also passed
+perspective navigation, work reset and reduced-motion checks. A missing-date label
+found by review was corrected. Screenshots/review stay outside the repository.
+This is agent simulation, not physical-device or real-person acceptance.
+
+Widget gallery and real MCP transport are unchanged by this Home redesign.
+
+The subsequently supplied myCompany Design System v1.0 was inspected, including
+its offline preview and token/component/renderer source. Six supplied source
+contract tests passed; these are file/string checks, not runtime validation.
+A scoped foundation adapter now shares its spacing/radius scale, font stack and
+segmented controls between Home and the widget gallery. Existing logo-green and
+44px touch targets are preserved. The archive's cyan theme, fixture data and
+generic live/verified renderer labels were not imported. No separate registry,
+design MCP service or external design account was installed by this adaptation.
+Independent visual/axe review of the adapter passed at 390/1280 in both feed and
+gallery; the compiled output's control styling was also checked. Owner-private
+publication succeeded at the existing URL, deployment
+`appgdep_6ad24a0fadf48191be68510a10ea49f2`, hosting source
+`666a3885c7be443958df59ae8051e8892f8b07d9`. No signed-in owner browser was available
+for post-publication QA; Sites confirmed the successful private deployment.
+
 ## Reference-led frontend release (2026-10-16)
 
 Implemented the inspected GitHub reference direction without importing a second

@@ -5,6 +5,7 @@ import { validateWorkspace, type WorkspaceDoc } from '../workspace.ts';
 import wordmark from '../assets/truthlens-wordmark.jpg';
 import './widget.css';
 import './demo-preview.css';
+import "../design/mycompany-foundation.css";
 
 const views = [
   ['summary', 'Overview', 'Understand what was recorded.'],
