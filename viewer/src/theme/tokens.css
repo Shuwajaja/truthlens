@@ -43,12 +43,12 @@
 }
 .tl-app.tl-light {
   color-scheme: light;
-  --bg: #f7f8fa;
-  --surface: #fff;
-  --surface-raised: #f0f3f7;
-  --surface-muted: #eceff3;
-  --border: #c7ced8;
-  --text: #202936;
+  --bg: #f6f3ec;
+  --surface: #fffefa;
+  --surface-raised: #eeeae1;
+  --surface-muted: #f0ece4;
+  --border: #d2cec5;
+  --text: #232e40;
   --muted: #586477;
   --accent: #23643c;
   --accent-soft: #e0eee5;

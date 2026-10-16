@@ -2,20 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import type { WorkspaceDoc } from "../workspace.ts";
 import { Brand } from "./Brand.tsx";
 import { Icon } from "./Icon.tsx";
-import { tabKey, type Route, type ShellView } from "./tabs.ts";
-const primary: ShellView[] = [
-  "Overview",
-  "Projects",
-  "Results",
-  "Activity",
-  "Evidence",
-];
-const secondary: ShellView[] = [
-  "Knowledge",
-  "Sources",
-  "Renderers",
-  "Appearance",
-];
+import { tabKey, viewLabel, type Route, type ShellView } from "./tabs.ts";
+const primary: ShellView[] = ["Overview", "Results", "Evidence", "Sources"];
+const secondary: ShellView[] = ["Knowledge", "Renderers", "Appearance"];
+
 type Props = {
   doc: WorkspaceDoc;
   project: string;
@@ -34,7 +24,6 @@ function ProjectTree({
 }: Props) {
   return (
     <>
-      <Brand />
       <label>
         Project
         <select
@@ -71,9 +60,9 @@ function ProjectTree({
           ))}
       </div>
       <p className="tl-bottom">
-        Read-only workspace
+        Your original files stay unchanged
         <br />
-        Recorded work, inspectable sources.
+        Browse saved work and its sources.
       </p>
     </>
   );
@@ -100,23 +89,29 @@ export function ShellNavigation(props: Props) {
   return (
     <>
       <nav className="tl-iconrail" aria-label="Primary navigation">
-        <Brand compact />
+        <Brand />
+        <button
+          className="tl-project-switch"
+          aria-label="Choose project and workspace"
+          onClick={() => setMobile(true)}
+        >
+          <Icon name="Projects" />
+          <span>
+            {props.doc.projects.find((p) => p.id === props.project)?.name ??
+              "Choose project"}
+          </span>
+        </button>
         {primary.map((v) => (
           <button
             key={v}
-            className={
-              v === "Projects" || v === "Activity"
-                ? "tl-desktop-nav"
-                : undefined
-            }
             data-testid={`nav-${v.toLowerCase()}`}
-            title={v}
-            aria-label={v}
+            title={viewLabel(v)}
+            aria-label={viewLabel(v)}
             aria-current={props.view === v ? "page" : undefined}
             onClick={() => nav(v)}
           >
             <Icon name={v} />
-            <span>{v}</span>
+            <span>{viewLabel(v)}</span>
           </button>
         ))}
         <details
@@ -134,38 +129,36 @@ export function ShellNavigation(props: Props) {
             <span>More</span>
           </summary>
           <div>
+            <button
+              className="tl-mobile-nav"
+              aria-label="Choose project and workspace"
+              onClick={() => {
+                if (menu.current) {
+                  menu.current.open = false;
+                  menu.current.querySelector("summary")?.focus();
+                }
+                setMobile(true);
+              }}
+            >
+              <Icon name="Projects" />
+              Choose project
+            </button>
             {(["Projects", "Activity", ...secondary] as ShellView[]).map(
               (v) => (
                 <button
                   key={v}
-                  className={
-                    v === "Projects" || v === "Activity"
-                      ? "tl-mobile-nav"
-                      : undefined
-                  }
                   data-testid={`nav-${v.toLowerCase()}`}
                   onClick={() => nav(v)}
                   aria-current={props.view === v ? "page" : undefined}
                 >
                   <Icon name={v} />
-                  {v === "Sources" ? "Connections" : v}
+                  {viewLabel(v)}
                 </button>
               ),
             )}
           </div>
         </details>
-        <button
-          className="tl-mobile-projects"
-          aria-label="Choose project and workspace"
-          onClick={() => setMobile(true)}
-        >
-          <Icon name="Menu" />
-          <span>Scope</span>
-        </button>
       </nav>
-      <aside className="tl-sidebar" aria-label="Project navigator">
-        <ProjectTree {...props} />
-      </aside>
       {mobile && (
         <dialog
           ref={dialog}
@@ -243,7 +236,7 @@ export function Worktabs({
               ?.path.split("/")
               .at(-1) ??
             run?.title ??
-            tab.view;
+            viewLabel(tab.view);
           const selected = tabKey(tab) === tabKey(route);
           return (
             <div className="tl-worktab" role="presentation" key={tabKey(tab)}>

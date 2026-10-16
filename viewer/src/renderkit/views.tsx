@@ -58,7 +58,7 @@ export function RunEvidence({ run, onOpenSource }: RunProps) {
     return <p role="alert">Integrity failed. Evidence content is isolated.</p>;
   return (
     <section className="rk-evidence">
-      <h3>Claims and evidence</h3>
+      <h3>What was checked</h3>
       {!run.criteria.length && <p>No criteria recorded.</p>}
       {[...run.criteria]
         .sort(
@@ -69,7 +69,7 @@ export function RunEvidence({ run, onOpenSource }: RunProps) {
             key={String(c.criterion_id ?? i)}
             className={`rk-criterion rk-${c.status}`}
           >
-            <h4>{String(c.text ?? c.title)}</h4>
+            <h4>Expected: {String(c.text ?? c.title)}</h4>
             <p>
               <strong>
                 {c.status === "met"
@@ -80,7 +80,7 @@ export function RunEvidence({ run, onOpenSource }: RunProps) {
                       ? "Awaiting confirmation"
                       : "Not checked"}
               </strong>{" "}
-              <span className="rk-schema-status">({String(c.status)})</span>
+
             </p>
             {Array.isArray(c.evidence) && c.evidence.length ? (
               <ul>
@@ -110,10 +110,17 @@ export function RunEvidence({ run, onOpenSource }: RunProps) {
                 <blockquote key={j}>
                   <p>Agent claimed: {String(claim.text)}</p>
                   <p>
-                    Claim finding: {String(claim.finding ?? "not recorded")}
+                    {claim.finding === "supported" ? "The recorded evidence supports this claim." : claim.finding === "claim_unwitnessed" ? "The recorded evidence does not establish this claim." : "No conclusion about this claim was recorded."}
                   </p>
                 </blockquote>
               ))}
+            <details>
+              <summary>Technical check details</summary>
+              <p>Status: {String(c.status)}</p>
+              {run.claims.filter(isRecord).filter((claim) => Array.isArray(claim.criterion_ids) && claim.criterion_ids.includes(c.criterion_id)).map((claim, j) => (
+                <p key={j}>Claim finding: {String(claim.finding ?? "not recorded")}</p>
+              ))}
+            </details>
           </article>
         ))}
       {run.claims

@@ -1,4 +1,43 @@
-# DESIGN.md – visual direction v2 (binding for viewer, mockups, application page)
+# DESIGN.md – product design contract
+
+## Current owner direction — 2026-10-16
+
+This section supersedes conflicting historical style rules below, including the
+fixed dark palette, two-column navigation, system-font-only and card prescriptions.
+The owner rejected the existing workbench and granted freedom over layout, color,
+typography and animation. The original logo assets remain unchanged.
+
+TruthLens is for people who want to understand their AI-created work, not only
+engineers. Lead with the result, then explain what needs attention. Technical
+records, IDs, hashes, transport names and raw data belong in contextual details.
+Keep original source values available there; never rewrite recorded facts.
+
+Selected implementation direction: **Result studio** (agent recommendation, not
+a claim of owner visual approval). Give the actual result the largest useful
+area, with an adjacent readable check summary on desktop and a stacked flow on
+mobile. Use real exported content or an explicit unavailable-preview state.
+A failed requirement describes what was expected, not what actually happened;
+label expectation and observed outcome separately.
+
+Dynamic flows follow recorded state: work with failed checks leads to open
+points; unchecked work explains the missing checks; empty work offers a real
+import path; damaged records stay isolated with an understandable explanation.
+No animation, generated view or model inference creates evidence or approval.
+Short spatial transitions may explain selection and navigation; reduced motion
+disables them. No framework is required solely for decoration.
+
+### Persistent feedback
+
+- Rejected: recoloring the same dashboard and calling it a redesign. Structure
+  and user tasks must improve, not only tokens.
+- Rejected: duplicate navigation/logos and a screenful of metadata before work.
+- Rejected: developer terminology and terminal setup as the everyday entry flow.
+- Retained: the original logo, truthful source distinctions, accessible controls,
+  existing working renderers, and technical depth on request.
+- Review method: `.agents/skills/frontend-review-loop.md`. Independent agent
+  review is a simulation; only real people provide human usability evidence.
+
+## Historical directions (context, not current style constraints)
 
 Direction approved by the owner on 2026-10-11 (concept mockups `v2-01-truth-overview`, `v2-02-claimed-vs-proven`, `v2-03-timeline`, kept by CodexChat, Drive `Projekte/truthlens`): **dark mission-control**. The first screen answers one question in plain language: *what did the agent say, and what is actually proven?*
 

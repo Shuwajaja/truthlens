@@ -1,4 +1,4 @@
-import { tabKey } from "./tabs.ts";
+import { tabKey, viewLabel } from "./tabs.ts";
 import { Overview } from "../features/Overview.tsx";
 import { Brand } from "./Brand.tsx";
 import { SecondaryPanels } from "../features/SecondaryPanels.tsx";
@@ -60,6 +60,7 @@ export function Workspace({
     closeTab,
   } = useWorktabs(d);
   const [askOpen, setAskOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [inspectorOpen, setInspectorOpen] = useState(false);
   const [inspectorRef, setInspectorRef] = useState<string>();
   const [query, setQuery] = useState("");
@@ -459,11 +460,19 @@ export function Workspace({
             <span className="tl-mobile-brand">
               <Brand compact />
             </span>
-            <span className="tl-workspace-prefix">Workspace / </span>{" "}
             {d.projects.find((p) => p.id === project)?.name ?? "No project"}
           </span>
+          <button
+            className="tl-search-toggle"
+            aria-expanded={searchOpen}
+            aria-controls="workspace-search"
+            onClick={() => setSearchOpen(!searchOpen)}
+          >
+            Search
+          </button>
           <form
-            className="tl-command-search"
+            id="workspace-search"
+            className={`tl-command-search${searchOpen ? " is-open" : ""}`}
             role="search"
             onSubmit={(e) => {
               e.preventDefault();
@@ -489,51 +498,65 @@ export function Workspace({
           >
             Ask TruthLens
           </button>
-          <label className="tl-lens">
-            <input
-              type="checkbox"
-              checked={developer}
-              onChange={(e) => setDeveloper(e.target.checked)}
-            />{" "}
-            Developer Lens
-          </label>
         </header>
         <div className="tl-sourcebar">
-          Local export · Generated {stamp(d.generated_at)} · No live connection
+          <span>Saved work · Not connected live</span>
+          <details className="tl-technical-details">
+            <summary>Technical details</summary>
+            <div>
+              <p>Local export · Generated {stamp(d.generated_at)}</p>
+              <label className="tl-lens">
+                <input
+                  type="checkbox"
+                  checked={developer}
+                  onChange={(e) => setDeveloper(e.target.checked)}
+                />
+                Developer Lens
+              </label>
+            </div>
+          </details>
         </div>
-        <Worktabs
-          tabs={tabs}
-          route={route}
-          doc={d}
-          onSelect={selectTab}
-          onClose={closeTab}
-        />
+        {tabs.length > 1 && (
+          <Worktabs
+            tabs={tabs}
+            route={route}
+            doc={d}
+            onSelect={selectTab}
+            onClose={closeTab}
+          />
+        )}
         <main
           id="tl-content"
-          role="tabpanel"
-          aria-labelledby={"tab-" + encodeURIComponent(tabKey(route))}
+          role={tabs.length > 1 ? "tabpanel" : undefined}
+          aria-labelledby={
+            tabs.length > 1
+              ? "tab-" + encodeURIComponent(tabKey(route))
+              : "workspace-title"
+          }
           tabIndex={-1}
         >
-          <h1>
+          <h1 id="workspace-title">
             {detail
               ? (detail.artifact?.path.split("/").at(-1) ?? detail.run.title)
               : view === "Overview"
-                ? "Review your workspace"
+                ? "Your work"
                 : view === "Sources"
                   ? "Connections"
-                  : view}
+                  : viewLabel(view)}
           </h1>
-          <p className="tl-muted">
-            {detail
-              ? "Inspect the recorded result, then trace its source."
-              : view === "Sources"
-                ? "Choose your tool. Follow the steps. Read your recorded evidence."
-                : view === "Appearance"
-                  ? "Make this workspace comfortable to read."
-                  : view === "Results"
-                    ? "Open the files produced by recorded work."
-                    : "Open a run. Compare its claims with the recorded evidence."}
-          </p>
+          {view !== "Overview" || detail ? (
+            <p className="tl-muted">
+              {detail
+                ? "Inspect the recorded result, then trace its source."
+                : view === "Sources"
+                  ? "Open your work or set up a connection."
+                  : view === "Appearance"
+                    ? "Make this workspace comfortable to read."
+                    : view === "Results"
+                      ? "Open the files produced by recorded work."
+                      : "Open a run. Compare its claims with the recorded evidence."}
+            </p>
+          ) : null}
           {askOpen && (
             <section className="tl-ask-panel" aria-label="Ask TruthLens">
               <label>
@@ -642,7 +665,7 @@ export function Workspace({
               )}
             </section>
           )}
-          <p role="status">
+          <p className="tl-workspace-notice" role="status">
             {notice} {voice !== "Idle" ? voice : ""}
           </p>
           {detail && (
@@ -670,11 +693,11 @@ export function Workspace({
                 <>
                   <details className="tl-run-provenance">
                     <summary>
-                      About this record ·{" "}
+                      Technical record details ·{" "}
                       {detail.run.origin === "IMPORTED"
                         ? "Imported report"
                         : "Native recording"}{" "}
-                      · {detail.run.integrity}
+
                     </summary>
                     <SourceTrust run={detail.run} doc={d} />
                   </details>
@@ -688,7 +711,7 @@ export function Workspace({
                   {detail.run.integrity !== "failed" &&
                     detail.run.artifacts.length > 0 && (
                       <section className="tl-output-shelf">
-                        <h2>Files from this run</h2>
+                        <h2>Files from this work</h2>
                         <div className="tl-output-items">
                           {detail.run.artifacts.map((artifact) => (
                             <button

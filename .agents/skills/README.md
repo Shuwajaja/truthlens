@@ -10,4 +10,6 @@ runtime, installs hooks/shims, needs network or write permissions beyond the iss
 | `python-conventions.md` | Inspired by [trailofbits/skills](https://github.com/trailofbits/skills) `modern-python` | CC BY-SA 4.0 upstream | **Not vendored** (ShareAlike + SessionStart hook installs PATH shims for `pip`/`python` → rejected). Rules written in our own words, adapted to this repo. |
 | `web-interface-review.md` | Inspired by [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) `web-design-guidelines` | MIT | **Not vendored**: upstream skill fetches its rules from a URL at every run (remote, changeable instructions → rejected). Checklist written in our own words. |
 
-Use order for UI work: `DESIGN.md` (project decisions, wins on conflict) → `no-slop-ui` (style) → `web-interface-review.md` (final check).
+| `frontend-review-loop.md` | Project-authored, owner-requested 2026-10-16 | Repository terms | Separate visual review and task simulation; actual browser evidence, bounded correction loops, persistent decisions. |
+
+Use order for UI work: `DESIGN.md` (project decisions, wins on conflict) → `frontend-review-loop.md` (implementation/review loop) → `no-slop-ui` (compatible guidance only; fixed sidebar, palette and font prescriptions are superseded) → `web-interface-review.md` (final check).

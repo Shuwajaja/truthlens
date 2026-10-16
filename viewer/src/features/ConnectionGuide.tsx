@@ -32,7 +32,7 @@ export function ConnectionGuide({ projectId }: { projectId: string }) {
       >
         {(
           [
-            ["preview", "Try in your browser"],
+            ["preview", "Set up a local preview"],
             ["codex", "Use with Codex"],
             ["chatgpt", "Use with ChatGPT"],
           ] as const
@@ -53,8 +53,8 @@ export function ConnectionGuide({ projectId }: { projectId: string }) {
           <>
             <h3>ChatGPT needs a hosted connection</h3>
             <p>
-              Your local preview is ready to try first. ChatGPT setup is a
-              separate step.
+              You can set up a local preview first. A hosted ChatGPT connection
+              is not included in this local version.
             </p>
             <ol>
               <li>

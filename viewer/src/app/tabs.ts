@@ -1,6 +1,17 @@
 import type { WorkspaceDoc, View } from "../workspace.ts";
 import { views } from "../workspace.ts";
 export type ShellView = View | "Projects" | "Renderers";
+export const viewLabel = (view: ShellView) =>
+  (
+    ({
+      Overview: "Home",
+      Evidence: "Checks",
+      Sources: "Connections",
+      Knowledge: "Notes",
+      Renderers: "Supported formats",
+    }) as Partial<Record<ShellView, string>>
+  )[view] ?? view;
+
 export type Route = {
   project: string;
   workspace: string;

@@ -29,13 +29,14 @@ with sync_playwright() as p:
         assert page.evaluate("document.documentElement.scrollWidth<=innerWidth"), width
         page.screenshot(path=ROOT + f"final-overview-{width}.png")
     page.set_viewport_size({"width": 390, "height": 844})
-    page.get_by_role("button", name="Review this run").click()
+    page.get_by_test_id("review-open-points").click()
     expect(page.locator(".rk-criterion").first).to_contain_text("Check failed")
     page.wait_for_timeout(240)
     page.screenshot(path=ROOT + "final-run-review-390.png")
     page.get_by_role("button", name="View recorded source").first.click()
     expect(page.get_by_role("dialog")).to_be_visible()
     page.wait_for_timeout(260)
+    page.get_by_role("dialog").get_by_text("Technical source details", exact=True).click()
     expect(page.locator(".rk-json")).to_be_visible()
     page.screenshot(path=ROOT + "final-source-390.png")
     page.get_by_role("dialog").get_by_role("button", name="expand JSON").first.focus()
@@ -61,6 +62,7 @@ with sync_playwright() as p:
     expect(page.get_by_role("button", name="Reset graph zoom")).to_have_text("120%")
     page.locator('.tl-iconrail [aria-label="More views"]').click()
     page.get_by_test_id("nav-sources").click()
+    page.get_by_text("Connect an AI tool · setup instructions", exact=True).click()
     page.get_by_role("button", name="Use with Codex", exact=True).click()
     expect(page.get_by_label("Add TruthLens to Codex")).to_contain_text("codex mcp add")
     page.get_by_role("button", name="Use with ChatGPT", exact=True).click()
@@ -78,7 +80,7 @@ with sync_playwright() as p:
         page.screenshot(path=ROOT + f"final-overview-{name}-1280.png")
         page.set_viewport_size({"width": 390, "height": 844})
     page.emulate_media(reduced_motion="reduce")
-    page.get_by_role("button", name="Review this run").click()
+    page.get_by_test_id("review-open-points").click()
     page.get_by_role("button", name="View recorded source").first.click()
     assert page.evaluate('document.getAnimations().filter(a=>a.playState==="running").length') == 0
     if args.axe:

@@ -14,5 +14,5 @@
 | [DEMO-RUNS.md](DEMO-RUNS.md) | Real recorded demo runs (ledgers in `demo/runs/`) |
 | [UI-CONCEPT.md](UI-CONCEPT.md) | Viewer views and post-v1 ideas |
 | [INVENTORY.md](INVENTORY.md) | Reused code and sources |
-| [../DESIGN.md](../DESIGN.md) | Visual direction v2 (binding) |
+| [../DESIGN.md](../DESIGN.md) | Current design contract and historical decisions |
 | [../AGENTS.md](../AGENTS.md) | Rules for agents working in this repo |

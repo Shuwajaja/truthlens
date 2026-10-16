@@ -2,6 +2,43 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Result studio and persistent review loop (2026-10-16)
+
+The owner rejected the previous design and requested an everyday-user interface,
+with engineering details available on demand. Original logo assets are unchanged.
+The current implementation replaces the review-first home with an actual result
+preview, a compact work selector and adjacent check explanation. Mobile stacks
+these and exposes failed checks directly above the preview. Default appearance
+is warm Paper/blue; previously saved appearance choices remain respected.
+
+The shell now has one desktop navigation, compact mobile header, project picker,
+and optional technical record details. Importing an existing export comes before
+developer setup. Check requirements are explicitly labelled Expected; schema
+statuses and raw source trees are available in disclosures. This presentation
+does not change source integrity, verification or human acceptance.
+
+Two independent agents critiqued actual screenshots. A browser task simulation
+opened a result, followed a failed check to its source and located file import.
+The second correction removed duplicate introduction text, compressed the work
+picker, fixed the clipped wordmark and moved raw check/source values into details.
+These are agent observations, not human usability tests or owner acceptance.
+
+The durable workflow is `.agents/skills/frontend-review-loop.md`, linked from
+AGENTS.md. It requires separate implementation, visual review and task simulation,
+actual screenshots, a maximum of three priority fixes per iteration, and honest
+untested-state reporting. DESIGN.md records rejected patterns and supersedes the
+old forced-sidebar/system-font style prescriptions. No model retraining is implied.
+
+Verification: web/widget builds and lint passed; existing workspace, widget,
+RenderKit and shell checks passed. The browser smoke covered five widths,
+keyboard source inspection, modal focus return, raw/preview switching, graph
+selection/zoom, connection instructions, three themes and reduced motion. Final
+axe checks found zero selected-rule violations on mobile/desktop Home, mobile
+checks, source and connections. The actual mobile preview now starts around
+409px, down from roughly 675px in the first studio iteration; there remains
+room to compress the selection/header further. No physical-device or real-person
+usability test was performed. Hosted ChatGPT remains outside this local change.
+
 ## Design and interaction loops (2026-10-16)
 
 Owner requested a full visual rethink after rejecting generic AI-dashboard

@@ -1,7 +1,7 @@
 import { reveal } from "../app/motion.ts";
 import { JsonTree } from "../renderkit/JsonTree.tsx";
 import { useEffect, useRef, useState } from "react";
-import type { Run, Artifact } from "../workspace.ts";
+import { isRecord, type Run, type Artifact } from "../workspace.ts";
 import { SourceTrust, RunEvidence, RunTimeline } from "../renderkit/index.ts";
 import { json, stamp } from "../app/format.ts";
 export function Detail({
@@ -102,6 +102,16 @@ export function Detail({
         )}
         {tab === "Source" && (
           <>
+            <h3>What the source says</h3>
+            <p>
+              {run.integrity === "failed"
+                ? "This record failed its integrity check. Its contents are withheld."
+                : isRecord(sourceRecord) && "summary" in sourceRecord && typeof sourceRecord.summary === "string"
+                  ? sourceRecord.summary
+                  : "No plain-language summary was recorded for this source. You can inspect the original data below."}
+            </p>
+            <details>
+            <summary>Technical source details</summary>
             <h3>Original reference</h3>
             <dl>
               <dt>Source</dt>
@@ -136,6 +146,7 @@ export function Detail({
                     : (sourceRecord ?? artifact ?? run),
                 )}
               </pre>
+            </details>
             </details>
             <p>
               Exported record. This browser does not authenticate ledger

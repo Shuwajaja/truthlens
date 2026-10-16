@@ -123,10 +123,10 @@ export function SecondaryPanels({
       )}
       {view === "Sources" && (
         <section>
-          <ConnectionGuide projectId={project} />
-          <h2>Or open a recorded export</h2>
+          <h2>Bring in your work</h2>
+          <p>Open a TruthLens export from your computer to see its results here.</p>
           <label>
-            Workspace export JSON
+            Choose a TruthLens export (.json)
             <input
               data-testid="workspace-import"
               type="file"
@@ -154,7 +154,12 @@ export function SecondaryPanels({
           <p>
             Read-only import in this browser. Nothing is uploaded or persisted.
           </p>
-          <h2>Recorded sources</h2>
+          <details className="tl-connection-setup">
+            <summary>Connect an AI tool · setup instructions</summary>
+            <p>These steps are for the person setting up TruthLens. They require access to a terminal. ChatGPT hosting is not available in this local version.</p>
+            <ConnectionGuide projectId={project} />
+          </details>
+          <h2>Where your work came from</h2>
           {!d.sources.length && <p>No sources recorded.</p>}
           {d.sources
             .filter(
@@ -171,6 +176,8 @@ export function SecondaryPanels({
                 {developer && <pre>{json(s)}</pre>}
               </article>
             ))}
+          <details>
+          <summary>Technical import details</summary>
           <h2>Workspace mapping</h2>
           {d.workspaces
             .filter((w) => w.project_id === project)
@@ -185,6 +192,7 @@ export function SecondaryPanels({
             project results.
           </p>
           {developer && <pre>{json(d.unassigned)}</pre>}
+          </details>
         </section>
       )}
       {view === "Appearance" && (
