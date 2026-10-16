@@ -1,5 +1,7 @@
 # TruthLens
 
+[![CI](https://github.com/Shuwajaja/truthlens/actions/workflows/ci.yml/badge.svg)](https://github.com/Shuwajaja/truthlens/actions/workflows/ci.yml) [![Spec v1 frozen](https://img.shields.io/badge/spec-v1%20frozen-blue)](docs/spec/event-schema-v1.md) [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 **See what your AI agent really did.**  
 *Here's what's actually proven.*
 
