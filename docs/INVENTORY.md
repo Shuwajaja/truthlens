@@ -45,10 +45,26 @@ Every ported file: header with source repo, commit SHA, path, and what changed; 
 The workspace implementation reuses TruthLens's own verifier, manifest checks,
 redaction and existing React text/Markdown/Diff views. No WERKAgent,
 WERKCommander or CrewTYY code was copied: their candidates remain reference-only
-pending full license/dependency review. Backend runtime dependencies remain empty.
+pending full license/dependency review. Base backend runtime dependencies remain empty.
 
 Viewer dependency `dompurify` 3.4.17 (lockfile pinned; upstream license
 `MPL-2.0 OR Apache-2.0`, Apache-2.0 option) removes executable/navigation markup
 before HTML enters the separate opaque sandbox. This dependency is justified by
 untrusted HTML preview safety rather than a custom regex sanitizer. The sandbox
 also applies restrictive CSP and strips navigation/resource URL attributes.
+
+## Optional MCP Apps adapter (2026-10-16)
+
+The `app` Python extra pins the official `mcp` SDK 1.30.0 (MIT) for protocol
+negotiation, schema validation, Streamable HTTP and transport origin protection.
+It is optional so capture/verifier/legacy stdio users retain the dependency-free
+base package. SDK transitive dependencies are installed only with this extra.
+
+The widget uses `@modelcontextprotocol/ext-apps` 2.0.3 (MIT) for the standard
+App/AppBridge protocol; its local preview uses `@modelcontextprotocol/client`
+2.3.1 and its transitive `@modelcontextprotocol/core` 2.3.1 (Apache-2.0) to call
+the real server. `vite-plugin-singlefile` 2.3.3 (MIT, build-only)
+inlines the React widget and local preview into separate HTML resources, avoiding
+external script/font hosting and a hand-written postMessage transport. The npm
+lockfile records exact versions. The normal workspace entry does not import
+these host/bridge modules. Artifact views reuse TruthLens's own existing renderers.

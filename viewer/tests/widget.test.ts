@@ -1,0 +1,82 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { parseWidgetResult } from "../src/widget/data.ts";
+const all = JSON.parse(
+  readFileSync(new URL("../public/workspace.json", import.meta.url), "utf8"),
+);
+const projectId = all.projects[0].id;
+const document = {
+  ...all,
+  projects: all.projects.filter((p: { id: string }) => p.id === projectId),
+  workspaces: all.workspaces.filter(
+    (w: { project_id: string }) => w.project_id === projectId,
+  ),
+  runs: all.runs
+    .filter((r: { project_id: string }) => r.project_id === projectId)
+    .slice(0, 10),
+  memory: [],
+  unassigned: [],
+};
+const result = {
+  structuredContent: {
+    schema_version: "truthlens.widget/1",
+    project_id: projectId,
+    snapshot_id: "recorded-snapshot",
+    generated_at: "2026-10-16T12:00:00Z",
+    selected_run_id: document.runs[0].id,
+    summary: document.runs.map((r: Record<string, unknown>) =>
+      Object.fromEntries(
+        [
+          "id",
+          "title",
+          "origin",
+          "integrity",
+          "verification",
+          "review",
+          "acceptance",
+        ].map((k) => [k, r[k]]),
+      ),
+    ),
+  },
+  _meta: { "truthlens/workspace": document },
+};
+assert.equal(
+  parseWidgetResult(result).document.runs.length,
+  document.runs.length,
+);
+const forged = structuredClone(result);
+forged.structuredContent.summary[0].verification = "INVENTED";
+assert.throws(() => parseWidgetResult(forged), /differs/);
+assert.throws(() => parseWidgetResult({ ...result, _meta: {} }), /Invalid/);
+assert.throws(
+  () =>
+    parseWidgetResult({
+      ...result,
+      structuredContent: { ...result.structuredContent, project_id: "foreign" },
+    }),
+  /scope mismatch/,
+);
+assert.throws(
+  () =>
+    parseWidgetResult({
+      ...result,
+      structuredContent: {
+        ...result.structuredContent,
+        selected_run_id: "foreign",
+      },
+    }),
+  /outside/,
+);
+const duplicate = structuredClone(result);
+duplicate.structuredContent.summary = Array(document.runs.length).fill(
+  result.structuredContent.summary[0],
+);
+if (document.runs.length > 1)
+  assert.throws(() => parseWidgetResult(duplicate), /differs/);
+assert.throws(
+  () => parseWidgetResult({ ...result, isError: true }),
+  /could not return/,
+);
+console.log(
+  "Widget boundary checks passed: server data required, summary parity, project scope, selection, duplicate IDs, error isolation.",
+);

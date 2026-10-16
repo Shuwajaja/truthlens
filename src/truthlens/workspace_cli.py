@@ -10,7 +10,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-COMMANDS = frozenset({"catalog", "projects", "search", "show", "ask", "navigator", "serve"})
+COMMANDS = frozenset({"catalog", "projects", "search", "show", "ask", "navigator", "serve", "mcp-app"})
 
 
 def _write(doc: object, dest: str) -> None:
@@ -67,6 +67,11 @@ def main(argv: list[str]) -> int:
     server.add_argument("--static", required=True, help="built viewer/dist directory")
     server.add_argument("--project", action="append", required=True, help="explicit project read ceiling")
     server.add_argument("--port", type=int, default=4174)
+    app = subs.add_parser("mcp-app", help="local read-only MCP Apps server and widget preview")
+    app.add_argument("--db", required=True)
+    app.add_argument("--widget", required=True, help="built viewer/dist-widget/widget.html")
+    app.add_argument("--project", action="append", required=True, help="explicit project read ceiling")
+    app.add_argument("--port", type=int, default=4177)
     for command in ("projects", "search", "show", "ask", "navigator"):
         p = subs.add_parser(command)
         p.add_argument("--db", required=True)
@@ -89,6 +94,19 @@ def main(argv: list[str]) -> int:
             p.add_argument("--args", default="{}", help="bounded JSON tool arguments")
     a = parser.parse_args(argv)
     try:
+        if a.command == "mcp-app":
+            if not 1 <= a.port <= 65535:
+                raise ValueError("invalid port")
+            try:
+                from truthlens.mcp_app import create_app_server
+            except ModuleNotFoundError:
+                print("MCP Apps needs the optional dependencies: pip install -e '.[app]'", file=sys.stderr)
+                return 2
+            instance = create_app_server(a.db, set(a.project), a.widget, port=a.port)
+            print(f"Local MCP: http://127.0.0.1:{a.port}/mcp", file=sys.stderr, flush=True)
+            print(f"Local widget preview: http://127.0.0.1:{a.port}/preview", file=sys.stderr, flush=True)
+            instance.run(transport="streamable-http")
+            return 0
         if a.command == "serve":
             from truthlens.workspace_server import serve
             if not 0 <= a.port <= 65535:

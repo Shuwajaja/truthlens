@@ -69,6 +69,30 @@ old CLI commands retain their contracts.
   source/config write endpoint. Model access needs a working CLI login and quota;
   static reading and local search require neither. UI explanations are never
   witness evidence and proposed actions need validated client application.
+- **D42 MCP Apps is a delivery adapter.** The optional `mcp-app` command uses the
+  official MCP SDK and Streamable HTTP. Existing stdio tools retain their names
+  and outputs. New tools have explicit version suffixes and read-only annotations.
+  Data tools return useful text and structured data without requiring a widget.
+  Only the render tool advertises a `text/html;profile=mcp-app` UI resource.
+- **D43 Server-owned widget evidence.** Render arguments contain project/run IDs
+  and an optional expected snapshot digest, never claims, trust labels, HTML or
+  artifact contents. The server resolves every ID within its startup project
+  ceiling and builds the widget result from the catalog. A stale expected digest
+  fails explicitly. A snapshot digest identifies a presentation version; it is
+  neither a new ledger signature nor proof of factual correctness. Widget and
+  tool text preserve D35's separate trust axes and source provenance.
+- **D44 Embedded presentation boundary.** The widget uses the standard MCP Apps
+  bridge and accepts validated tool results. Host tool calls are read-only and
+  checked by the server. Artifacts reuse safe renderers; unsupported nested HTML
+  previews fall back to text. No remote scripts, fonts, media requests, source
+  writes, model execution or automatic approval occurs inside the component.
+  Widget state is temporary presentation state, never a source of truth.
+- **D45 Local qualification before remote access.** The first MCP Apps server
+  binds loopback only, with Host/Origin validation and an explicit project ceiling.
+  Its local host preview exercises actual MCP HTTP and the standard app bridge;
+  this does not constitute ChatGPT host acceptance. Public/VPS delivery needs
+  HTTPS, OAuth 2.1 resource-server validation and authenticated project grants
+  before private records can be exposed. No anonymous public mode is supplied.
 
 ## Source configuration
 

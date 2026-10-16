@@ -15,8 +15,10 @@ jobs:
           cache-dependency-path: viewer/package-lock.json
       - run: npm ci
       - run: npm run build
+      - run: npm run build:widget
       - run: npm run lint
       - run: node --experimental-strip-types tests/workspace.test.ts
+      - run: node --experimental-strip-types tests/widget.test.ts
   docs:
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +38,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
-      - run: pip install -e '.[dev]'
+      - run: pip install -e '.[dev,app]'
       - run: ruff check src tests
       - name: Separate test user (tl-agent) for the UID-isolation tests
         run: |

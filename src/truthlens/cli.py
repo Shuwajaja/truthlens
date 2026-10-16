@@ -31,7 +31,7 @@ def main(argv: list[str] | None = None) -> int:
         return workspace_main(actual)
     ap = argparse.ArgumentParser(
         prog="truthlens",
-        epilog="Workspace commands: catalog rebuild/export, projects, search, show, ask, navigator, serve. "
+        epilog="Workspace commands: catalog rebuild/export, projects, search, show, ask, navigator, serve, mcp-app. "
                "Run truthlens <command> --help for their options.",
     )
     sub = ap.add_subparsers(dest="cmd", required=True)

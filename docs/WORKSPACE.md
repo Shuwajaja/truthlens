@@ -73,6 +73,10 @@ project-scope results. The original three-tool stdio MCP remains unchanged;
 these additional tools are a local versioned workspace interface, not a claim of
 remote MCP or embedded host compatibility.
 
+The optional [MCP App adapter](MCP-APP.md) now exposes a separate set of four
+versioned read tools over local Streamable HTTP, including an embedded evidence
+widget and a real local host preview. It has no public endpoint or remote login.
+
 ## Codex subscription Navigator (optional)
 
 Use your existing Codex CLI ChatGPT login; no API key is copied into TruthLens.

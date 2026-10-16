@@ -2,6 +2,35 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Local MCP App implementation (2026-10-16)
+
+User requested a high-quality MCP/widget integration and explicitly chose local
+testing before a later VPS deployment. Decisions D42–D45 extend the workspace
+contract without changing the original ledger, manifest, gate or stdio MCP.
+
+- Optional official Python MCP SDK adapter, launched with `truthlens mcp-app`,
+  provides four versioned read-only tools over loopback Streamable HTTP.
+- Project ceiling, bounded input/results, extra-field rejection and stale
+  snapshot checks prevent caller-provided statuses/content or foreign IDs from
+  becoming widget evidence. Full run evidence is also available without a UI.
+- React widget uses the official MCP Apps bridge, shared safe artifact views,
+  separate trust axes, source provenance, claim findings and referenced events.
+  The local preview uses the official client/AppBridge against the actual server.
+- No remote OAuth, public endpoint, tunnel, ChatGPT installation or host acceptance
+  is claimed. Local preview is labelled accordingly. Setup and the later private
+  tunnel/VPS options are documented in [MCP-APP.md](MCP-APP.md).
+
+Focused backend verification: **7 passed**, covering the new HTTP protocol,
+scope/widget parity, legacy MCP and workspace CLI; Ruff exit 0. The optional SDK
+test client emits an upstream Starlette deprecation warning. CI installs the
+optional app dependencies and builds/tests the widget alongside the workspace.
+Widget boundary checks, normal workspace/widget builds and lint passed. Real
+Chromium acceptance exercised HTTP MCP plus AppBridge, referenced evidence JSON,
+failed-check artifact access, HTML text fallback, provenance, refresh, host theme
+changes and project switching. The 360px view had no horizontal page overflow;
+no browser JavaScript errors or external network requests were observed. This
+was a local host test, not a ChatGPT host session.
+
 ## Workspace upgrade implementation (2026-10-16)
 
 Branch `w6/vision-plan`, baseline `9f7d636`. User authorized working through the

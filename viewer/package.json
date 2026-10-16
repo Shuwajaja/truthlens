@@ -7,9 +7,12 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:widget": "tsc -b && vite build --config vite.widget.config.ts && vite build --config vite.widget.config.ts --mode preview"
   },
   "dependencies": {
+    "@modelcontextprotocol/client": "^2.3.1",
+    "@modelcontextprotocol/ext-apps": "^2.0.3",
     "dompurify": "^3.4.17",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
@@ -23,6 +26,7 @@
     "oxlint": "^1.81.0",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
-    "vite": "^8.3.0"
+    "vite": "^8.3.0",
+    "vite-plugin-singlefile": "^2.3.3"
   }
 }

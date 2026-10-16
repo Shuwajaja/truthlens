@@ -28,6 +28,10 @@ Memory revisions, safe artifact renderers and read-only navigation. Start with
 [the workspace guide](docs/WORKSPACE.md). The bundled Factory/OTel/Memory examples
 are explicitly synthetic; original native runs retain their verification limits.
 
+For the optional HTTP MCP server and embedded evidence widget, follow the
+[local MCP App guide](docs/MCP-APP.md). It includes a real local host preview;
+connecting ChatGPT is a separate host integration step.
+
 | Command | What it does |
 |---|---|
 | `truthlens run --out DIR [--criteria F --confirm ids --test 'c1=CMD' --pass-env VAR --gate-env VAR --hmac-key-file F] -- <agent>` | witnesses one agent run (git before/after, agent output as claims, tests run by TruthLens, manifest) |
