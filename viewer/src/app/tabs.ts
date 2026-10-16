@@ -5,6 +5,7 @@ export const viewLabel = (view: ShellView) =>
   (
     ({
       Overview: "Home",
+      Activity: "History",
       Evidence: "Checks",
       Sources: "Connections",
       Knowledge: "Notes",

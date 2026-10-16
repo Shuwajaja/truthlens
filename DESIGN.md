@@ -45,6 +45,50 @@ disables them. No framework is required solely for decoration.
 - Review method: `.agents/skills/frontend-review-loop.md`. Independent agent
   review is a simulation; only real people provide human usability evidence.
 
+## GitHub reference package — 2026-10-16
+
+These are inspected design references, not newly installed dependencies or a
+claim that the upstream applications passed our browser review. Repository
+metadata, READMEs and license files were checked; ShadcnStore and Shadcn Admin
+screenshots were visually reviewed. The MagicPath project
+`TruthLens · GitHub references & design system` holds the reference board and
+the proposed user journey. It is a planning canvas, not the deployed app.
+
+| Reference | Pattern to reuse | Boundary |
+|---|---|---|
+| [ShadcnStore](https://github.com/shadcnstore/shadcn-dashboard-landing-template) | Result list/detail layout, task filtering, responsive settings | MIT template; linked premium blocks separate. Adapt mechanics to our existing React app. |
+| [Shadcn Admin](https://github.com/satnaing/shadcn-admin) | Compact navigation, search and settings | MIT; upstream explicitly does not describe it as a starter template. |
+| [Langfuse](https://github.com/langfuse/langfuse) | Work selection, readable observation, optional source/JSON detail | MIT core; exclude commercially licensed enterprise source. |
+| [LibreChat](https://github.com/LibreChat-AI/LibreChat) | Familiar question, answer and artifact interaction | MIT; optional navigator, not a mandatory chat-only workspace. |
+| [Novu](https://github.com/novuhq/novu) | Workflow steps and event inbox | MIT and enterprise-specific licensing; not an MCP renderer. |
+| [React Flow](https://github.com/xyflow/xyflow) | Optional map of recorded relationships | MIT core, separate Pro examples; retain current graph unless replacement improves an actual task. |
+| [json-render](https://github.com/vercel-labs/json-render) | Composition of approved app/widget views | Apache-2.0; strict TruthLens validation remains necessary. Not a data-verification system. |
+
+Selected combination: ShadcnStore list/detail mechanics, Langfuse progressive
+explanation, and LibreChat's approachable question/result interaction. Proposed
+primary destinations are Results, History and Connections; this is the next
+layout direction. The implemented shell keeps Home and Checks as direct actions
+alongside Results and Connections; History is direct on desktop and under More
+on mobile to preserve the compact five-target navigation.
+
+The shared journey is **view result → notice open points → read explanation →
+inspect original source if needed**. Desktop keeps result and explanation beside
+each other. Mobile uses a focused detail view with a reliable back action. Chat
+widgets present one useful result with expandable details and no duplicated app
+navigation. Original logo and black/white/green tokens remain authoritative.
+Animation should explain selection, opening details and workflow progress;
+recorded events must never look like newly executing work.
+
+The implemented desktop home now uses a visible work library beside the result;
+mobile uses a compact native selector. Dates distinguish repeated task titles.
+Checks stack below the result at medium widths and sit beside it when space
+allows. The failed-check action remains above the preview in both cases.
+
+Apply through the existing frontend review loop: reuse working renderers, review
+the actual desktop/mobile/widget screenshots, exercise the main user tasks, then
+fix concrete findings. Do not import a whole template or add multiple UI runtimes
+merely to imitate its screenshots. Keep upstream attribution when copying code.
+
 ## Historical directions (context, not current style constraints)
 
 Direction approved by the owner on 2026-10-11 (concept mockups `v2-01-truth-overview`, `v2-02-claimed-vs-proven`, `v2-03-timeline`, kept by CodexChat, Drive `Projekte/truthlens`): **dark mission-control**. The first screen answers one question in plain language: *what did the agent say, and what is actually proven?*

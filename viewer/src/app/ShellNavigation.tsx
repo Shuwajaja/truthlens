@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import type { WorkspaceDoc } from "../workspace.ts";
+import "./shell-finish.css";
 import { Brand } from "./Brand.tsx";
 import { Icon } from "./Icon.tsx";
 import { tabKey, viewLabel, type Route, type ShellView } from "./tabs.ts";
-const primary: ShellView[] = ["Overview", "Results", "Evidence", "Sources"];
+const primary: ShellView[] = ["Overview", "Results", "Activity", "Evidence", "Sources"];
 const secondary: ShellView[] = ["Knowledge", "Renderers", "Appearance"];
 
 type Props = {
@@ -96,15 +97,19 @@ export function ShellNavigation(props: Props) {
           onClick={() => setMobile(true)}
         >
           <Icon name="Projects" />
-          <span>
-            {props.doc.projects.find((p) => p.id === props.project)?.name ??
-              "Choose project"}
+          <span className="tl-project-switch-copy">
+            <small>Workspace</small>
+            <strong>{props.doc.projects.find((p) => p.id === props.project)?.name ??
+              "Choose project"}</strong>
           </span>
+          <span className="tl-project-switch-arrow" aria-hidden="true">⌄</span>
         </button>
+        <span className="tl-nav-section">Your work</span>
         {primary.map((v) => (
           <button
             key={v}
-            data-testid={`nav-${v.toLowerCase()}`}
+            className={v === "Activity" ? "tl-desktop-nav" : undefined}
+            data-testid={v === "Activity" ? "nav-history-shortcut" : `nav-${v.toLowerCase()}`}
             title={viewLabel(v)}
             aria-label={viewLabel(v)}
             aria-current={props.view === v ? "page" : undefined}
@@ -114,6 +119,7 @@ export function ShellNavigation(props: Props) {
             <span>{viewLabel(v)}</span>
           </button>
         ))}
+        <p className="tl-nav-guidance">A clearer picture of<br />what your AI created.</p>
         <details
           ref={menu}
           className="tl-secondary-menu"

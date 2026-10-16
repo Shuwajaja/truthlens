@@ -2,6 +2,40 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Reference-led frontend release (2026-10-16)
+
+Implemented the inspected GitHub reference direction without importing a second
+application or adding runtime dependencies. Desktop Home has a visible work
+library, meaningful check states and dates distinguishing repeated task titles.
+The selected result gets the main surface; review details adapt to available
+width. Mobile retains a compact work selector and persistent navigation.
+Desktop History is directly reachable. Original logo assets remain unchanged.
+
+The widget gallery now provides compact view navigation, collapsible example
+selection, a direct check-review action and explicit preview/connection limits.
+Actual MCP transport and renderer isolation are unchanged. HTML source fallback
+in a chat host is intentional; arbitrary interactive HTML is not enabled there.
+
+Validation: app and MCP-widget builds and lint passed; existing shell (9),
+workspace (34) and widget-boundary checks passed. Browser smoke on the compiled
+app passed at 360/390/768/1280/1600 pixels, including source inspection, keyboard
+focus return, raw/rendered views, graph controls, themes and reduced motion.
+Independent agent task simulation completed all five review-loop tasks and
+checked empty, invalid and failed-load states. Widget views were exercised at
+360/390/1280 pixels. This is agent QA, not real-person usability acceptance.
+
+Private hosting continues to serve recorded examples, not a live AI connection.
+No OpenRouter key is needed for these views. Live service hosting and a signed-in
+ChatGPT end-to-end connection remain separate from this frontend release.
+
+Final gallery correction: a concise Overview with check counts and explicit
+file/check actions replaces the initial HTML-source wall; mobile introduction is
+compressed. The compiled gallery was rechecked after this correction. Private
+publication succeeded at the existing URL below, deployment
+`appgdep_6ad2448a8ef08191b91543daba429dac`, hosting commit
+`2c3ce1fa6648b7cd5f0a1d381aa39fd090338b35`. Native Sites confirmed success;
+post-publication testing in the owner's signed-in browser remains unperformed.
+
 ## Logo palette and owner-private preview (2026-10-16)
 
 The owner requested logo-aligned colors and a private clickable web address.

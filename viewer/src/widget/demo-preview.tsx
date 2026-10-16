@@ -44,25 +44,24 @@ export function DemoWidgets() {
 
   const runs = workspace?.runs.filter((run) => run.project_id === projectId) ?? [];
   const run = runs.find((item) => item.id === runId) ?? runs[0];
-  const artifact = run?.artifacts.find((item) => item.id === artifactId) ?? run?.artifacts[0];
+  const artifact = run?.artifacts.find((item) => item.id === artifactId) ?? run?.artifacts.find((item) => ['markdown', 'image', 'chart', 'table'].includes(item.kind)) ?? run?.artifacts[0];
 
   return <main className="widget demo-gallery">
     <header>
       <div>
         <div className="widget-brand"><img src={wordmark} alt="TruthLens" /></div>
-        <h1>Small views. The whole story.</h1>
-        <p>Explore the views you can open alongside a conversation.</p>
+
       </div>
       <div className="actions">
-        <a href="/">Back to your workspace</a>
+        <a href="/">Workspace</a>
         <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? 'Light appearance' : 'Dark appearance'}</button>
       </div>
     </header>
-    <p className="notice">Widget component preview · recorded examples, including synthetic examples. These are the shared TruthLens views; this page is not connected to a live MCP server or ChatGPT.</p>
+    <div className="demo-intro"><div><p className="demo-eyebrow">TRUTHLENS / WIDGET STUDIO</p><h1>Your work, in the conversation.</h1><p>Open the result. Understand the checks. Follow the source.</p></div><details className="demo-preview-note"><summary>Preview · no live chat connection</summary><p>Recorded examples, including synthetic data. These shared TruthLens views are not connected to a live MCP server or ChatGPT.</p></details></div>
     {error && <p role="alert">{error}</p>}
     {!workspace && !error && <p role="status">Loading examples…</p>}
     {workspace && <>
-      <div className="demo-selectors">
+      <details className="demo-example-picker"><summary><span>Choose an example</span><strong>{workspace.projects.find((project) => project.id === projectId)?.name ?? 'Project'} · {runs.length} recorded examples</strong></summary><div className="demo-selectors">
         <label htmlFor="demo-project">Project<select id="demo-project" value={projectId} onChange={(event) => { setProjectId(event.target.value); setRunId(''); setArtifactId(''); }}>
           {workspace.projects.map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}
         </select></label>
@@ -70,14 +69,16 @@ export function DemoWidgets() {
           {runs.map((item, index) => <option key={item.id} value={item.id}>{index + 1}. {item.title}</option>)}
         </select></label>
       </div>
-      <div className="demo-view-picker" role="group" aria-label="Widget view">
-        {views.map(([id, title, description]) => <button key={id} aria-pressed={view === id} onClick={() => setView(id)}><strong>{title}</strong><span>{description}</span></button>)}
-      </div>
+      </details>
       {!run ? <p>No recorded work in this project.</p> : <article className="demo-widget-frame" aria-label="Selected widget preview">
         <p className="demo-eyebrow">{views.find(([id]) => id === view)?.[1]} · recorded example</p>
         <h2>{run.title}</h2>
+        <div className="demo-view-picker" role="group" aria-label="Widget view">
+          {views.map(([id, title, description]) => <button key={id} aria-pressed={view === id} title={description} onClick={() => setView(id)}>{title}</button>)}
+        </div>
         {run.integrity === 'failed' ? <p role="alert" className="notice">This record could not be verified. Its contents are isolated and cannot be displayed.</p> : <>
-          {view === 'summary' && <RunStory run={run} />}
+          {view === 'summary' && <section className="demo-summary" aria-label="Example summary"><h3>What’s in this record</h3><p>{run.artifacts.length} recorded files · {run.criteria.length} checks</p><p>{run.criteria.filter((criterion) => criterion.status === 'met').length} passed · {run.criteria.filter((criterion) => criterion.status === 'unmet').length} failed · {run.criteria.filter((criterion) => criterion.status !== 'met' && criterion.status !== 'unmet').length} not confirmed</p><div className="actions"><button onClick={() => setView('checks')}>Review checks <span aria-hidden="true">→</span></button><button onClick={() => setView('result')}>Explore files</button></div><details><summary>Read the recorded story</summary><RunStory run={run} /></details></section>}
+          {view === 'result' && <div className="demo-check-bridge"><div><strong>{run.criteria.some((criterion) => criterion.status === 'unmet') ? 'There are open points to review.' : run.criteria.length ? 'See what was checked.' : 'No checks recorded yet.'}</strong><p>{run.criteria.filter((criterion) => criterion.status === 'met').length} passed · {run.criteria.filter((criterion) => criterion.status === 'unmet').length} failed · {run.criteria.filter((criterion) => criterion.status !== 'met' && criterion.status !== 'unmet').length} not confirmed</p></div><button onClick={() => setView('checks')}>Review checks <span aria-hidden="true">→</span></button></div>}
           {view === 'checks' && <RunEvidence run={run} />}
           {view === 'timeline' && <RunTimeline run={run} />}
           {view === 'result' && (artifact ? <>

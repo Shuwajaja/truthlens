@@ -3,6 +3,9 @@ import {
   ArrowUpRight,
   ArrowRight,
   CircleAlert,
+  CheckCircle2,
+  CircleDashed,
+  ChevronRight,
   FileText,
   Plug,
 } from "lucide-react";
@@ -90,16 +93,39 @@ export function Overview({
     <div className="tl-result-studio">
 
       {runs.length > 0 ? (
-        <>
+        <div className="studio-desk">
           <section
             className="studio-work-picker"
             aria-label="Choose work to explore"
           >
             <div className="studio-section-heading">
-              <h3>Choose your work</h3>
+              <h3>Work library</h3>
               <span>
                 {runs.length} of {total}
               </span>
+            </div>
+            <div className="studio-work-list" aria-label="Recorded work">
+              {runs.map((run) => {
+                const active = selected && identity(run) === identity(selected);
+                const failedCount = run.criteria.filter((criterion) => criterion.status === "unmet").length;
+                const unchecked = run.criteria.some((criterion) => criterion.status !== "met" && criterion.status !== "unmet");
+                const status = run.integrity === "failed" ? "Record needs inspection" : failedCount > 0 ? `${failedCount} ${failedCount === 1 ? "check needs" : "checks need"} attention` : run.verification === "FAILED" ? "Checks need attention" : unchecked || !run.criteria.length ? "Checks incomplete" : "Recorded checks passed";
+                const hasIssue = run.integrity === "failed" || failedCount > 0 || run.verification === "FAILED";
+                const StatusIcon = hasIssue ? CircleAlert : unchecked || !run.criteria.length ? CircleDashed : CheckCircle2;
+                return (
+                  <button
+                    key={identity(run)}
+                    className={`studio-work-row${active ? " is-selected" : ""}`}
+                    aria-pressed={Boolean(active)}
+                    onClick={() => setSelection(identity(run))}
+                  >
+                    <span className="studio-work-row-top"><FileText size={16} aria-hidden="true" /><span>{run.origin === "IMPORTED" ? "Imported report" : "Recorded work"}</span><ChevronRight size={15} aria-hidden="true" /></span>
+                    <strong>{run.title}</strong>
+                    <span className="studio-work-date">{stamp(run.started).replace(/:\d{2}\.\d{3} UTC$/, " UTC")}</span>
+                    <span className={`studio-work-status${hasIssue ? " has-issue" : ""}`}><StatusIcon size={14} aria-hidden="true" />{status}</span>
+                  </button>
+                );
+              })}
             </div>
             <select
               className="studio-mobile-picker"
@@ -215,6 +241,7 @@ export function Overview({
                 className="tl-review-focus studio-review"
                 aria-labelledby="studio-review-title"
               >
+                <div className="studio-review-eyebrow">Before you use this result</div>
                 <div className="studio-review-symbol" aria-hidden="true">
                   {needsAttention ? (
                     <CircleAlert size={26} />
@@ -227,7 +254,7 @@ export function Overview({
                     ? "Check the record first."
                     : needsAttention
                       ? `${failed.length || "Some"} ${failed.length === 1 ? "check needs" : "checks need"} attention.`
-                      : "Take a closer look."}
+                      : "Your checks, explained."}
                 </h3>
                 <p>
                   {isolated
@@ -239,15 +266,15 @@ export function Overview({
                 {!isolated && (
                   <dl className="studio-check-counts">
                     <div>
-                      <dt>Passed checks</dt>
+                      <dt><CheckCircle2 size={15} aria-hidden="true" />Passed checks</dt>
                       <dd>{passed}</dd>
                     </div>
                     <div>
-                      <dt>Failed checks</dt>
+                      <dt><CircleAlert size={15} aria-hidden="true" />Failed checks</dt>
                       <dd>{failed.length}</dd>
                     </div>
                     <div>
-                      <dt>Not confirmed</dt>
+                      <dt><CircleDashed size={15} aria-hidden="true" />Not confirmed</dt>
                       <dd>{other}</dd>
                     </div>
                   </dl>
@@ -283,7 +310,7 @@ export function Overview({
               </aside>
             </section>
           )}
-        </>
+        </div>
       ) : (
         <section className="studio-empty">
           <FileText size={32} aria-hidden="true" />
@@ -361,7 +388,7 @@ export function Overview({
         <div>
           <h3>Bring your tools along.</h3>
           <p>
-            Choose a tool. Follow a short setup guide. Start with your own work.
+            Open a report from your computer, or explore the setup guides.
           </p>
         </div>
         <button onClick={onConnect}>
