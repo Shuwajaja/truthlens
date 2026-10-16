@@ -117,7 +117,6 @@ export function Overview({
     <div className="truth-feed">
       <header className="feed-intro">
         <div>
-          <span className="feed-kicker">YOUR WORK, IN FOCUS</span>
           <h2>See the whole story.</h2>
         </div>
         <button onClick={onConnect} className="feed-add">
@@ -139,7 +138,11 @@ export function Overview({
                   <span>{String(index + 1).padStart(2, "0")}</span>
                 </span>
                 <strong>{run.title}</strong>
-                <small>{stamp(run.started) === "Not recorded" ? "Undated" : stamp(run.started).split(" ")[0]}</small>
+                <small title={stamp(run.started)}>
+                  {stamp(run.started) === "Not recorded"
+                    ? "Undated"
+                    : `${stamp(run.started).slice(5, 10)} · ${stamp(run.started).slice(11, 16)} UTC`}
+                </small>
               </button>
             ))}
           </nav>
@@ -263,7 +266,7 @@ export function Overview({
                             aria-label={`Open ${fileName(selectedFile)}`}
                             onClick={() => onArtifact(selected, selectedFile)}
                           >
-                            <ArrowUpRight size={19} />
+                            Open <ArrowUpRight size={17} aria-hidden="true" />
                           </button>
                         </div>
                         <div

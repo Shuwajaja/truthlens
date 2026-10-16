@@ -18,6 +18,11 @@ behind an explicit action. Reduced motion disables animated transitions.
 This is an implementation direction based on the owner's request, not a claim
 that the owner has visually approved the resulting screen.
 
+Feed review refinement: keep the introductory headline compact, use smaller
+story circles with visible UTC times to distinguish repeated titles, and label
+the result-opening action with text. Avoid adding navigation chrome above the
+actual result merely for decoration. Existing swipe and source actions remain.
+
 ### Owner-supplied myCompany Design System v1.0
 
 The supplied ZIP is a design reference and reusable starter, not a replacement

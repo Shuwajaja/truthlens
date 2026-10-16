@@ -2,6 +2,22 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Feed improvement loop (2026-10-16)
+
+After inspecting the rendered feed, reduced introductory/story spacing, added
+visible UTC times to distinguish repeated story titles and labelled the result
+opening action "Open". The mobile result preview begins roughly 50px earlier in
+the reviewed 390px view. Existing swipe, keyboard and source flows are retained.
+Build/lint and the existing five-width browser smoke passed. An apparent initial
+Checks slide was traced by independent QA to full-page screenshot capture moving
+the carousel; fresh normal navigation starts on Result. Source detail and real
+file import paths were exercised by the independent reviewer. This remains agent
+QA, not real-person acceptance.
+Private publication succeeded, deployment
+`appgdep_6ad24c5723388191905f60205ef6d204`, hosting commit
+`f7842437205145d0ad17028cf4b6f61e59565785`. Hosted owner-session QA remains
+unperformed; the native publication result confirms owner-private deployment.
+
 ## Stories and swipe perspectives (2026-10-16)
 
 Owner requested an Instagram-inspired interaction after rejecting the library

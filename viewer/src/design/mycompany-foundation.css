@@ -67,3 +67,17 @@
   .tl-app .truth-feed .feed-check-totals { gap: var(--mc-spacing-3); }
   .tl-app .truth-feed .feed-perspectives { margin: var(--mc-spacing-2); }
 }
+/* Review loop: show the result sooner and make repeated stories distinguishable. */
+.tl-app .truth-feed .feed-intro { margin: 0 0 var(--mc-spacing-3); }
+.tl-app .truth-feed .feed-intro h2 { margin: 0; font-size: 26px; }
+.tl-app .truth-feed .feed-stories { margin-bottom: var(--mc-spacing-2); padding-bottom: var(--mc-spacing-2); gap: var(--mc-spacing-3); }
+.tl-app .truth-feed .feed-story { flex-basis: 108px; max-width: 108px; gap: var(--mc-spacing-1); }
+.tl-app .truth-feed .feed-story-orbit { width: 48px; height: 48px; }
+.tl-app .truth-feed .feed-story-orbit > span { font-size: 16px; }
+.tl-app .truth-feed .feed-story small { white-space: nowrap; font-size: 10px; }
+.tl-app .truth-feed .feed-perspectives { margin-block: var(--mc-spacing-1); }
+.tl-app .truth-feed .feed-file-picker button { width: auto; padding-inline: var(--mc-spacing-2); font-size: 12px; }
+@media (max-width: 600px) {
+  .tl-app .truth-feed .feed-intro h2 { font-size: 22px; }
+  .tl-app .truth-feed .feed-stories { gap: var(--mc-spacing-2); }
+}
