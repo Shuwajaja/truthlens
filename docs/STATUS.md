@@ -2,6 +2,23 @@
 
 Updated: 2026-10-16 · by Codex (actor.kind=agent)
 
+## Product specification and implementation audit (2026-10-16)
+
+Owner requested a product specification and continued implementation. The target
+is docs/spec/product-v1.md (D51–D55): projection/evidence layer, own-data ingestion,
+shared renderers, saved perspectives, local release gates and a separate hosted
+connected release. This is a target, not a product-readiness certification.
+
+Read-only audits identified follow-up work: native image content transport, saved
+channel-like projections, richer Markdown/diagram rendering, and memory delivery
+to MCP views. Existing import adapters do not imply live harness connectors.
+A reviewer also flagged possible failed-integrity content exposure in Navigator
+read methods; reproduce and fix before extending those projection interfaces.
+Audit reports remain outside the repository under
+/workspace/projects/truthlens-runs/product-final/. No implementation changes are
+included in this specification commit. Verification: documentation diff/links and
+Git whitespace checks; no application test suite needed for this docs-only change.
+
 ## Renderer inspiration and interactive examples (2026-10-16)
 
 More / Supported formats now renders five explicitly fictional examples, one at
