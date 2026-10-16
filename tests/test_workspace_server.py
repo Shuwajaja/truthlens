@@ -42,6 +42,8 @@ def test_local_reader_origin_project_and_session_boundaries(tmp_path, monkeypatc
         assert request("POST", "/api/navigator", "{}", {"Content-Type": "application/json"})[0] == 403
         token = request("GET", "/api/session")[1]["token"]
         headers = {"Content-Type": "application/json", "X-TruthLens-Token": token}
+        assert request("POST", "/api/navigator", "{}", {**headers, "X-TruthLens-Token": "é"})[0] == 403
+        assert request("POST", "/api/navigator", "[" * 1100 + "]" * 1100, headers)[0] == 400
         assert request("POST", "/api/navigator", json.dumps({"question": "x", "project_id": "b"}), headers)[0] == 400
         observed = []
 
@@ -53,6 +55,11 @@ def test_local_reader_origin_project_and_session_boundaries(tmp_path, monkeypatc
         assert request("POST", "/api/navigator", json.dumps({"question": "x", "project_id": "a"}), headers)[0] == 200
         assert observed[0][2] == "a" and len(observed[0][0]["projects"]) == 1
         assert request("POST", "/api/navigator/cancel", "{}", headers)[1]["cancel_requested"] is True
+        backup = db.with_suffix(".backup")
+        db.rename(backup)
+        assert request("GET", "/workspace.json") == (503, {"error": "workspace catalog unavailable"})
+        backup.rename(db)
+        assert request("GET", "/workspace.json")[0] == 200
     finally:
         server.shutdown()
         server.server_close()

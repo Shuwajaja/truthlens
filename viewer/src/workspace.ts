@@ -1,3 +1,4 @@
+import { rendererOptions } from "./registry.ts";
 export type RecordValue = Record<string, unknown>;
 export type Artifact = {
   id: string;
@@ -250,7 +251,7 @@ export function validAction(
   };
   if (
     typeof a.type !== "string" ||
-    !keys[a.type] ||
+    !Object.hasOwn(keys, a.type) ||
     Object.keys(a).some((k) => !keys[a.type as string].includes(k))
   )
     return false;
@@ -263,7 +264,7 @@ export function validAction(
       "knowledge",
       "evidence",
       "sources",
-    ].includes(String(a.view));
+    ].includes(typeof a.view === "string" ? a.view : "");
   if (a.type === "set_filters")
     return (
       isRecord(a.filters) &&
@@ -284,9 +285,9 @@ export function validAction(
         ["density", "collection", "pane_order"].includes(k),
       ) &&
       (l.density === undefined ||
-        ["comfortable", "compact"].includes(String(l.density))) &&
+        (typeof l.density === "string" && ["comfortable", "compact"].includes(l.density))) &&
       (l.collection === undefined ||
-        ["list", "cards"].includes(String(l.collection))) &&
+        (typeof l.collection === "string" && ["list", "cards"].includes(l.collection))) &&
       (l.pane_order === undefined ||
         (Array.isArray(l.pane_order) &&
           JSON.stringify([...l.pane_order].sort()) ===
@@ -305,22 +306,9 @@ export function validAction(
   const artifact = r.artifacts.find((x) => x.id === a.artifact_id);
   if (!artifact) return false;
   if (a.type === "open_artifact") return true;
-  const kinds: Record<string, string[]> = {
-    plain: ["plain", "text", "code", "unknown"],
-    markdown: ["markdown", "md"],
-    diff: ["diff", "patch"],
-    json: ["json"],
-    table: ["table", "csv"],
-    chart: ["chart"],
-    timeline: ["timeline"],
-    graph: ["graph"],
-    html: ["html"],
-    media: ["image", "audio", "video", "media", "pdf"],
-  };
   return (
     typeof a.renderer === "string" &&
-    !!kinds[a.renderer] &&
-    (a.renderer === "plain" || kinds[a.renderer].includes(artifact.kind))
+    rendererOptions(artifact).some((id) => id === a.renderer)
   );
 }
 export type Profile = {
@@ -346,11 +334,16 @@ export function validateProfile(v: unknown): v is Profile {
     isRecord(v) &&
     Object.keys(v).length === 7 &&
     v.schema_version === "truthlens.profile/1" &&
-    ["dark", "light"].includes(String(v.theme)) &&
-    ["comfortable", "compact"].includes(String(v.density)) &&
-    ["green", "blue", "purple"].includes(String(v.accent)) &&
-    ["results-first", "activity-first"].includes(String(v.pane)) &&
-    ["list", "cards"].includes(String(v.collection)) &&
+    typeof v.theme === "string" &&
+    ["dark", "light"].includes(v.theme) &&
+    typeof v.density === "string" &&
+    ["comfortable", "compact"].includes(v.density) &&
+    typeof v.accent === "string" &&
+    ["green", "blue", "purple"].includes(v.accent) &&
+    typeof v.pane === "string" &&
+    ["results-first", "activity-first"].includes(v.pane) &&
+    typeof v.collection === "string" &&
+    ["list", "cards"].includes(v.collection) &&
     Array.isArray(v.pane_order) &&
     JSON.stringify([...v.pane_order].sort()) ===
       JSON.stringify(["knowledge", "results", "runs"])

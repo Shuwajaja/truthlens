@@ -92,6 +92,9 @@ export function CodexNavigator({
           project_id: project,
         }),
       });
+      // A restarted local server rotates its session token. Refresh on the
+      // next explicit Ask, without automatically repeating a paid request.
+      if (response.status === 403) token.current = "";
       const raw = await response.text();
       if (raw.length > 65536)
         throw Error("Codex response exceeded the display limit.");

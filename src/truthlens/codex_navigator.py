@@ -157,16 +157,26 @@ def ask_codex(document: dict, question: str, project: str, *, timeout: int = 90,
     for line in output.splitlines():
         try:
             event = json.loads(line)
-        except ValueError:
+        except (ValueError, RecursionError):
             continue
+        if not isinstance(event, dict):
+            raise ValueError("invalid Codex event")  # noqa: TRY004
         item = event.get("item", {})
+        if not isinstance(item, dict):
+            raise ValueError("invalid Codex event item")  # noqa: TRY004
         if event.get("type") == "item.completed" and item.get("type") == "agent_message":
-            messages.append(item.get("text", ""))
+            message = item.get("text", "")
+            if not isinstance(message, str):
+                raise ValueError("invalid Codex message")
+            messages.append(message)
         if item.get("type") in {"command_execution", "mcp_tool_call", "file_change", "web_search"}:
             raise ValueError("Codex attempted a non-presentation tool; response rejected")
     if not messages or len(messages[-1]) > 65536:
         raise ValueError("Codex returned no bounded presentation response")
-    result = json.loads(messages[-1])
+    try:
+        result = json.loads(messages[-1])
+    except RecursionError:
+        raise ValueError("Codex response nesting exceeded limit") from None
     if not isinstance(result, dict) or set(result) != {"message", "source_ids", "actions"}:
         raise ValueError("invalid Codex response")
     if not isinstance(result["message"], str) or len(result["message"]) > 8192:

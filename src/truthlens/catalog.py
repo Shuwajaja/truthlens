@@ -164,7 +164,7 @@ def rebuild(config_path: str | Path, db_path: str | Path, key: bytes | None = No
                 if run["project_id"] is None:
                     document["unassigned"].append(run["id"])
             document["sources"].append(redact(receipt))
-        except (OSError, ValueError, TypeError, KeyError, AttributeError):
+        except (OSError, ValueError, TypeError, KeyError, AttributeError, RecursionError):
             for field, length in checkpoint.items():
                 del document[field][length:]
             failure = run_model(

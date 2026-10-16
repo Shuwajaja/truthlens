@@ -170,3 +170,17 @@ assert.ok(
     "opaque-origin-no-network",
 );
 console.log("4 deterministic renderer/fallback/security policy checks passed");
+
+// Reject hostile JSON discriminants without throwing or coercing their types.
+for (const name of ["__proto__", "constructor", "toString"]) {
+  assert.equal(validAction({ type: name, project_id: "p" }, d, "p"), false);
+  assert.equal(validAction({ type: "select_renderer", project_id: "p", run_id: "r", artifact_id: "a", renderer: name }, d, "p"), false);
+}
+assert.equal(validAction({ type: "navigate", project_id: "p", view: ["overview"] }, d, "p"), false);
+assert.equal(validAction({ type: "set_layout", project_id: "p", layout: { density: ["compact"] } }, d, "p"), false);
+assert.equal(validateProfile({ ...defaultProfile, theme: ["dark"] }), false);
+const absent = { ...d, runs: [{ ...d.runs[0], artifacts: [{ id: "a", path: "absent.html", kind: "html" }] }] };
+assert.equal(validAction({ type: "select_renderer", project_id: "p", run_id: "r", artifact_id: "a", renderer: "html" }, absent, "p"), false);
+const upper = { ...d, runs: [{ ...d.runs[0], artifacts: [{ id: "a", path: "readme.md", kind: "MD", content: "# Recorded" }] }] };
+assert.equal(validAction({ type: "select_renderer", project_id: "p", run_id: "r", artifact_id: "a", renderer: "markdown" }, upper, "p"), true);
+console.log("11 hostile action/profile and renderer capability regression checks passed");

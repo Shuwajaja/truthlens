@@ -289,7 +289,7 @@ function Workspace({
   const [selectedRenderer, setSelectedRenderer] = useState<
     string | undefined
   >();
-  const [focusedEvidence, setFocusedEvidence] = useState("");
+  const [focusedEvidence, setFocusedEvidence] = useState<{ run_id: string; evidence_id: string } | null>(null);
   const runs = d.runs.filter(
     (r) =>
       r.project_id === project &&
@@ -319,6 +319,7 @@ function Workspace({
         (!originFilter || r.origin === originFilter) &&
         (!verificationFilter || r.verification === verificationFilter),
     )
+    .sort((a, b) => Number(b.id === focusedEvidence?.run_id) - Number(a.id === focusedEvidence?.run_id))
     .slice(0, 100);
   const artifacts = filtered
     .filter((r) => r.integrity !== "failed")
@@ -385,7 +386,11 @@ function Workspace({
       } else return false;
     }
     if (a.type === "focus_evidence") {
-      setFocusedEvidence(a.evidence_id);
+      setFocusedEvidence({ run_id: a.run_id, evidence_id: a.evidence_id });
+      setDetail(null);
+      setQuery("");
+      setOriginFilter("");
+      setVerificationFilter("");
       setWorkspace("all");
       setView("Activity");
     }
@@ -548,7 +553,7 @@ function Workspace({
           )}
           <ol>
             {(r.integrity === "failed" ? [] : r.events).map((e, i) => (
-              <li key={i} data-focused={e.id === focusedEvidence}>
+              <li key={i} data-focused={r.id === focusedEvidence?.run_id && e.id === focusedEvidence.evidence_id}>
                 <p>
                   {String(e.type ?? e.kind ?? "Recorded event")} ·{" "}
                   {stamp(e.ts ?? e.timestamp ?? e.at)}
@@ -562,7 +567,7 @@ function Workspace({
                         type: "focus_evidence",
                         project_id: project,
                         run_id: r.id,
-                        evidence_id: `${r.id}/e/${e.id}`,
+                        evidence_id: String(e.id),
                       })
                     }
                   >
@@ -1186,6 +1191,13 @@ function Workspace({
 }
 export default function App() {
   const [doc, setDoc] = useState<WorkspaceDoc | null>(null);
+  const [documentRevision, setDocumentRevision] = useState(0);
+  function replaceDocument(next: WorkspaceDoc) {
+    setDoc(next);
+    // Imported snapshots may share timestamps and IDs. Reset selections and
+    // pending Navigator requests whenever the underlying evidence changes.
+    setDocumentRevision((revision) => revision + 1);
+  }
   const [legacy, setLegacy] = useState(false);
   const [error, setError] = useState("");
   const upload = (
@@ -1202,7 +1214,7 @@ export default function App() {
             if (f.size > 20_000_000) throw Error("Export exceeds size limit");
             const d: unknown = JSON.parse(await f.text());
             if (!validateWorkspace(d)) throw Error("Invalid workspace export");
-            setDoc(d);
+            replaceDocument(d);
             setLegacy(false);
             setError("");
           } catch (e) {
@@ -1254,9 +1266,9 @@ export default function App() {
     );
   return doc ? (
     <Workspace
-      key={`${doc.generated_at ?? ""}:${doc.projects.map((p) => p.id).join("/")}`}
+      key={documentRevision}
       doc={doc}
-      onImport={setDoc}
+      onImport={replaceDocument}
     />
   ) : (
     <main className="tl-load">Loading workspace…</main>

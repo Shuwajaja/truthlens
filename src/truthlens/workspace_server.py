@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import mimetypes
 import secrets
+import sqlite3
 import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -72,7 +73,10 @@ def create_server(db: str, static: str, projects: set[str], port: int = 4174) ->
                 return
             route = unquote(urlsplit(self.path).path)
             if route == "/workspace.json":
-                self._json(200, export_catalog(db, allowed_projects=projects))
+                try:
+                    self._json(200, export_catalog(db, allowed_projects=projects))
+                except (ValueError, OSError, sqlite3.Error):
+                    self._json(503, {"error": "workspace catalog unavailable"})
                 return
             if route == "/api/session":
                 self._json(200, {"token": token, "provider": "codex-cli", "read_only": True})
@@ -94,7 +98,8 @@ def create_server(db: str, static: str, projects: set[str], port: int = 4174) ->
                 self._json(404, {"error": "not found"})
 
         def do_POST(self) -> None:
-            if not self._allowed_origin() or not secrets.compare_digest(self.headers.get("X-TruthLens-Token", ""), token):
+            supplied_token = self.headers.get("X-TruthLens-Token", "")
+            if not self._allowed_origin() or not secrets.compare_digest(supplied_token.encode("utf-8"), token.encode("ascii")):
                 self._json(403, {"error": "session or origin denied"})
                 return
             route = urlsplit(self.path).path
@@ -119,7 +124,7 @@ def create_server(db: str, static: str, projects: set[str], port: int = 4174) ->
                 project = request["project_id"]
                 if project not in projects or not isinstance(request["question"], str):
                     raise ValueError("scope")
-            except (ValueError, OSError, TypeError):
+            except (ValueError, OSError, TypeError, RecursionError):
                 self._json(400, {"error": "invalid bounded request or project scope"})
                 return
             if not active.acquire(blocking=False):
@@ -134,7 +139,7 @@ def create_server(db: str, static: str, projects: set[str], port: int = 4174) ->
                 current = export_catalog(db, project=project, allowed_projects=projects)
                 result = ask_codex(current, request["question"], project, cancel=cancel)
                 self._json(200, result)
-            except (ValueError, OSError, TypeError):
+            except (ValueError, OSError, TypeError, sqlite3.Error):
                 self._json(503, {"error": "Codex unavailable, stopped, or response rejected; local search remains available"})
             finally:
                 active.release()

@@ -50,3 +50,15 @@ def test_process_output_limit_and_cancellation():
     cancel.set()
     with pytest.raises(ValueError, match="stopped"):
         _run_cli([sys.executable, "-c", "import time;time.sleep(10)"], "", 5, cancel)
+
+
+@pytest.mark.parametrize("event", [
+    [], None, {"item": None},
+    {"type": "item.completed", "item": {"type": "agent_message", "text": None}},
+    {"type": "item.completed", "item": {"type": "agent_message", "text": "[" * 1100 + "]" * 1100}},
+])
+def test_malformed_provider_output_rejected_cleanly(monkeypatch, event):
+    monkeypatch.setattr("truthlens.codex_navigator.shutil.which", lambda _: "/fake/codex")
+    monkeypatch.setattr("truthlens.codex_navigator._run_cli", lambda *_: (0, json.dumps(event)))
+    with pytest.raises(ValueError):
+        ask_codex({"projects": [{"id": "a"}], "runs": [], "memory": []}, "what happened?", "a")

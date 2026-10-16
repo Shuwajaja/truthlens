@@ -25,6 +25,9 @@ The viewer also accepts a bounded workspace JSON via **Sources → Workspace exp
 JSON**. This loads only in browser memory; it does not upload or persist the file.
 Never distribute a combined export containing private projects to unauthorized
 users. All data in an exported file is available to its recipient.
+Loading a new export resets open details and pending Navigator requests, even
+when its IDs and timestamp match the previous export. Focusing evidence clears
+filters that could hide it and highlights only the selected run's event.
 
 ## Register your own sources
 
@@ -100,6 +103,11 @@ with user config/rules ignored, read-only sandbox, and shell, execution, apps,
 plugins, browser, image, hooks and multi-agent tools disabled. An unsupported CLI
 or failed login returns an error; it never pretends local search was a model
 answer. No new Codex agent worker is started to execute project tasks.
+Malformed provider responses are rejected without applying proposals. If the
+catalog temporarily becomes unavailable, the reader returns a bounded error;
+restoring the catalog lets subsequent requests succeed without restarting it.
+After a server restart invalidates the browser's session token, the next explicit
+Ask obtains a fresh token; model requests are never automatically retried.
 
 Subscription access, model availability and quota follow the installed Codex
 CLI/account. Live account verification and real microphone use require the

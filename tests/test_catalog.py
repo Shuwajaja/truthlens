@@ -178,6 +178,11 @@ def test_adapter_validation_isolation_and_github_snapshot(tmp_path):
         runs = export_catalog(db)["runs"]
         assert runs[0]["origin"] == "IMPORTED" and runs[0]["verification"] == "UNKNOWN"
         assert runs[1]["verification"] == "FAILED" and runs[1]["errors"]
+    bad.write_text("[" * 1100 + "]" * 1100)
+    rebuild(config, db)
+    runs = export_catalog(db)["runs"]
+    assert runs[0]["verification"] == "UNKNOWN"
+    assert runs[1]["verification"] == "FAILED" and runs[1]["errors"]
     # Wrong runtime types in global configuration fail before replacing generation.
     before = db.read_bytes()
     settings["projects"][0]["name"] = {"invalid": True}
