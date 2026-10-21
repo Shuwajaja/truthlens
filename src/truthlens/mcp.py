@@ -63,7 +63,9 @@ class Server:
                     "events": [{k: e[k] for k in ("seq", "ts", "type", "actor", "summary")} for e in doc["events"]]}
         raise ValueError(f"unknown tool {name}")
 
-    def handle(self, msg: dict) -> dict | None:
+    def handle(self, msg: object) -> dict | None:
+        if not isinstance(msg, dict):
+            return {"jsonrpc": "2.0", "id": None, "error": {"code": -32600, "message": "Invalid Request"}}
         mid, method = msg.get("id"), msg.get("method")
         if mid is None:
             return None  # notification
