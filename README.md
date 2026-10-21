@@ -34,8 +34,8 @@ npm run screenshots
 ```
 
 The optional screenshot script starts a temporary `vite preview` on loopback,
-captures Overview, Claimed vs Proven and Timeline in both lenses, and captures
-criterion/diff drawers when the selected export contains them. PNGs go to
+captures Overview, Claimed vs Proven, Timeline and Agent Story in both lenses,
+and captures story/criterion/diff drawers when the selected export contains them. PNGs go to
 `viewer/.screenshots/` (ignored); browser binaries stay in the clone's `.venv/`.
 It checks browser and HTTP errors and stops the preview afterward. It is not
 required by CI and does not install system packages.
@@ -44,6 +44,17 @@ The renderer registry changes presentation only; lens settings and drawer action
 are separate from recorded inputs. Pre-migration Vitest snapshots cover the real
 `viewer/public/run.json` views; the combined diff/Markdown drawer uses a labelled
 synthetic Markdown fixture because that export contains no Markdown evidence.
+
+Agent Story orders supported event types by `seq`; each step opens its exact
+recorded event in the existing drawer. It displays exported criterion statuses
+and claim findings without deriving new verification results. Claim steps stay
+yellow, including `supported` claims; only `met` criteria can appear green.
+Client Lens uses plain sentences; Developer Lens adds event seq/type/ID. Unknown
+event types are omitted. Missing events never become inferred story steps.
+“Review required” is always a separate policy note, including for an empty story;
+it is not presented as a recorded event or a new export status. The existing
+integrity notice remains visible. With a drawer open, only the floating integrity
+badge moves clear of the Close button, including at narrow viewport widths.
 
 ## CLI
 | Command | What it does |

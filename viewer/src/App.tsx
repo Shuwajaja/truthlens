@@ -9,7 +9,7 @@ import { RenderView } from './renderkit/RenderView.tsx'
 import { Drawer, type DrawerTarget } from './components/Drawer.tsx'
 import { IntegrityNotice } from './components/IntegrityNotice.tsx'
 
-export type View = 'overview' | 'claimed-vs-proven' | 'timeline'
+export type View = 'overview' | 'claimed-vs-proven' | 'timeline' | 'agent-story'
 
 export default function App() {
   const [doc, setDoc] = useState<RunDoc | null>(null)
@@ -76,6 +76,7 @@ export default function App() {
         {view === 'overview' && <Overview doc={doc} onOpenDrawer={setDrawerTarget} />}
         {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} lens={lens} />}
         {view === 'timeline' && <RenderView input={{ kind: 'events', events: doc.events }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
+        {view === 'agent-story' && <RenderView input={{ kind: 'run', doc }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
       </main>
       {drawerTarget && (
         <Drawer

@@ -50,6 +50,7 @@ const target: DrawerTarget = {
 }
 const fixtureBlobs = { ...doc.blobs, [markdownSha]: markdown }
 
+// Agent Story adds only its sidebar entry to the six full-App snapshots; view/drawer content stays fixed.
 describe('pre-migration viewer snapshots (must remain unchanged)', () => {
   for (const lens of lenses) {
     for (const view of ['Overview', 'Claimed vs Proven', 'Timeline']) {

@@ -1,0 +1,854 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented start/finish 1`] = `
+<DocumentFragment>
+  <section>
+    <h1
+      class="text-2xl font-bold mb-6"
+    >
+      Agent Story
+    </h1>
+    <p
+      class="text-sm text-[#8b949e] border border-[#30363d] rounded-lg p-3 mb-4"
+    >
+      Review required — technical checks do not replace human acceptance.
+    </p>
+    <ol
+      aria-label="Recorded story"
+      class="divide-y divide-[#30363d]"
+    >
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#d29922]"
+        >
+          Agent claimed
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          Created index.html with a page that has a heading and a contact form
+        </p>
+        <div
+          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+        >
+          <span>
+            claimed
+          </span>
+          <span
+            class="break-all"
+          >
+            claim_unwitnessed
+          </span>
+        </div>
+        <ul
+          aria-label="Related criteria"
+          class="text-sm mt-2 space-y-1"
+        >
+          <li>
+            Page exists (index.html with a heading and a form) —
+            <span
+              class="ml-1 text-[#8b949e]"
+            >
+              unverified
+            </span>
+          </li>
+        </ul>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+    </ol>
+  </section>
+</DocumentFragment>
+`;
+
+exports[`Agent Story > shows the real demo story and real event links in the client lens 1`] = `
+<DocumentFragment>
+  <section>
+    <h1
+      class="text-2xl font-bold mb-6"
+    >
+      Agent Story
+    </h1>
+    <p
+      class="text-sm text-[#8b949e] border border-[#30363d] rounded-lg p-3 mb-4"
+    >
+      Review required — technical checks do not replace human acceptance.
+    </p>
+    <ol
+      aria-label="Recorded story"
+      class="divide-y divide-[#30363d]"
+    >
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Agent started
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          The agent started this run.
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Task received
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          Build a small landing page with a contact form.
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Evidence recorded
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          Recorded result: info.
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Command recorded
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          Exit code 0.
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#d29922]"
+        >
+          Agent claimed
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          Created index.html with a page that has a heading and a contact form
+        </p>
+        <div
+          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+        >
+          <span>
+            claimed
+          </span>
+          <span
+            class="break-all"
+          >
+            supported
+          </span>
+        </div>
+        <ul
+          aria-label="Related criteria"
+          class="text-sm mt-2 space-y-1"
+        >
+          <li>
+            Page exists (index.html with a heading and a form) —
+            <span
+              class="ml-1 text-[#8b949e]"
+            >
+              met
+            </span>
+          </li>
+        </ul>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#d29922]"
+        >
+          Agent claimed
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          The form validates the e-mail address using a regex and shows an error
+        </p>
+        <div
+          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+        >
+          <span>
+            claimed
+          </span>
+          <span
+            class="break-all"
+          >
+            claim_unwitnessed
+          </span>
+        </div>
+        <ul
+          aria-label="Related criteria"
+          class="text-sm mt-2 space-y-1"
+        >
+          <li>
+            Form validates the e-mail address (invalid input rejected) —
+            <span
+              class="ml-1 text-[#8b949e]"
+            >
+              unmet
+            </span>
+          </li>
+        </ul>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#d29922]"
+        >
+          Agent claimed
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          The page uses a fluid max-width container so it works on mobile
+        </p>
+        <div
+          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+        >
+          <span>
+            claimed
+          </span>
+          <span
+            class="break-all"
+          >
+            claim_unwitnessed
+          </span>
+        </div>
+        <ul
+          aria-label="Related criteria"
+          class="text-sm mt-2 space-y-1"
+        >
+          <li>
+            Mobile layout works —
+            <span
+              class="ml-1 text-[#8b949e]"
+            >
+              unverified
+            </span>
+          </li>
+        </ul>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Files changed
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          File changes were recorded.
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Artifact recorded
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          An artifact was recorded for this run.
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Checks reported
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          1 passed, 0 failed, 0 skipped. Exit code 0.
+        </p>
+        <ul
+          aria-label="Related criteria"
+          class="text-sm mt-2 space-y-1"
+        >
+          <li>
+            Page exists (index.html with a heading and a form) —
+            <span
+              class="ml-1 text-[#3fb950]"
+            >
+              met
+            </span>
+          </li>
+        </ul>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Checks reported
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          0 passed, 1 failed, 0 skipped. Exit code 1.
+        </p>
+        <ul
+          aria-label="Related criteria"
+          class="text-sm mt-2 space-y-1"
+        >
+          <li>
+            Form validates the e-mail address (invalid input rejected) —
+            <span
+              class="ml-1 text-[#f85149]"
+            >
+              unmet
+            </span>
+          </li>
+        </ul>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Agent finished
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          The run finished with exit code 0.
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View recorded event
+        </button>
+      </li>
+    </ol>
+  </section>
+</DocumentFragment>
+`;
+
+exports[`Agent Story > shows the real demo story and real event links in the developer lens 1`] = `
+<DocumentFragment>
+  <section>
+    <h1
+      class="text-2xl font-bold mb-6"
+    >
+      Agent Story
+    </h1>
+    <p
+      class="text-sm text-[#8b949e] border border-[#30363d] rounded-lg p-3 mb-4"
+    >
+      Review required — technical checks do not replace human acceptance.
+    </p>
+    <ol
+      aria-label="Recorded story"
+      class="divide-y divide-[#30363d]"
+    >
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Agent started
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          The agent started this run.
+        </p>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #1 · run.started · evt_01M4NPV2THH34J9C2CESGZ6Q7G
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #1
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Task received
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          Build a small landing page with a contact form.
+        </p>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #2 · requirement.recorded · evt_01M4NPV2TSPARXKQ958TKPDE0W
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #2
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Evidence recorded
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          Recorded result: info.
+        </p>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #7 · evidence.attached · evt_01M4NPV2V7QVDACAFBAEVQYN1H
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #7
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Command recorded
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          Exit code 0.
+        </p>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #8 · evidence.attached · evt_01M4NPVPHT05GPAH27CGK65CE3
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #8
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#d29922]"
+        >
+          Agent claimed
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          Created index.html with a page that has a heading and a contact form
+        </p>
+        <div
+          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+        >
+          <span>
+            claimed
+          </span>
+          <span
+            class="break-all"
+          >
+            supported
+          </span>
+        </div>
+        <ul
+          aria-label="Related criteria"
+          class="text-sm mt-2 space-y-1"
+        >
+          <li>
+            Page exists (index.html with a heading and a form) —
+            <span
+              class="ml-1 text-[#8b949e]"
+            >
+              met
+            </span>
+          </li>
+        </ul>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #9 · agent.claim · evt_01M4NPVPHWHNGGZ1X5EMANZ97B
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #9
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#d29922]"
+        >
+          Agent claimed
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          The form validates the e-mail address using a regex and shows an error
+        </p>
+        <div
+          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+        >
+          <span>
+            claimed
+          </span>
+          <span
+            class="break-all"
+          >
+            claim_unwitnessed
+          </span>
+        </div>
+        <ul
+          aria-label="Related criteria"
+          class="text-sm mt-2 space-y-1"
+        >
+          <li>
+            Form validates the e-mail address (invalid input rejected) —
+            <span
+              class="ml-1 text-[#8b949e]"
+            >
+              unmet
+            </span>
+          </li>
+        </ul>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #10 · agent.claim · evt_01M4NPVPHXB6QT6QRX9GAHVJ27
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #10
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#d29922]"
+        >
+          Agent claimed
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          The page uses a fluid max-width container so it works on mobile
+        </p>
+        <div
+          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+        >
+          <span>
+            claimed
+          </span>
+          <span
+            class="break-all"
+          >
+            claim_unwitnessed
+          </span>
+        </div>
+        <ul
+          aria-label="Related criteria"
+          class="text-sm mt-2 space-y-1"
+        >
+          <li>
+            Mobile layout works —
+            <span
+              class="ml-1 text-[#8b949e]"
+            >
+              unverified
+            </span>
+          </li>
+        </ul>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #11 · agent.claim · evt_01M4NPVPHZVR60R2A57PDX3A7P
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #11
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Files changed
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          File changes were recorded.
+        </p>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #12 · evidence.attached · evt_01M4NPVPJ71QG0VYEDQK4FRVCR
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #12
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Artifact recorded
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          An artifact was recorded for this run.
+        </p>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #13 · artifact.recorded · evt_01M4NPVPJCQDXQ7S0H25AS1178
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #13
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Checks reported
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          1 passed, 0 failed, 0 skipped. Exit code 0.
+        </p>
+        <ul
+          aria-label="Related criteria"
+          class="text-sm mt-2 space-y-1"
+        >
+          <li>
+            Page exists (index.html with a heading and a form) —
+            <span
+              class="ml-1 text-[#3fb950]"
+            >
+              met
+            </span>
+          </li>
+        </ul>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #14 · test.reported · evt_01M4NPVPSNGNVVK6R10MZ0XV01
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #14
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Checks reported
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          0 passed, 1 failed, 0 skipped. Exit code 1.
+        </p>
+        <ul
+          aria-label="Related criteria"
+          class="text-sm mt-2 space-y-1"
+        >
+          <li>
+            Form validates the e-mail address (invalid input rejected) —
+            <span
+              class="ml-1 text-[#f85149]"
+            >
+              unmet
+            </span>
+          </li>
+        </ul>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #15 · test.reported · evt_01M4NPVQ5W413BNVPF8E9VKTSF
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #15
+        </button>
+      </li>
+      <li
+        class="py-4"
+      >
+        <h2
+          class="text-base font-medium text-[#e6edf3]"
+        >
+          Agent finished
+        </h2>
+        <p
+          class="text-sm mt-1 break-words"
+        >
+          The run finished with exit code 0.
+        </p>
+        <p
+          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+        >
+          #16 · run.finished · evt_01M4NPVQ5ZKWK38BJV9D9RYHSN
+        </p>
+        <button
+          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          type="button"
+        >
+          View event #16
+        </button>
+      </li>
+    </ol>
+  </section>
+</DocumentFragment>
+`;

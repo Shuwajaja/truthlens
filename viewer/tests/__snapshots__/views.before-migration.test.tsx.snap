@@ -69,6 +69,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
             Timeline
           </button>
         </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Agent Story
+          </button>
+        </li>
       </ul>
     </nav>
     <main
@@ -244,6 +252,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
             type="button"
           >
             Timeline
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Agent Story
           </button>
         </li>
       </ul>
@@ -531,6 +547,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
             Timeline
           </button>
         </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Agent Story
+          </button>
+        </li>
       </ul>
     </nav>
     <main
@@ -796,6 +820,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
             Timeline
           </button>
         </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Agent Story
+          </button>
+        </li>
       </ul>
     </nav>
     <main
@@ -1059,6 +1091,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
             type="button"
           >
             Timeline
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Agent Story
           </button>
         </li>
       </ul>
@@ -1407,6 +1447,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
             type="button"
           >
             Timeline
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Agent Story
           </button>
         </li>
       </ul>
