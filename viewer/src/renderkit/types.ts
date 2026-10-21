@@ -1,5 +1,7 @@
 import type { ComponentType } from 'react'
 import type { RunDoc, RunEvent } from '../types.ts'
+import type { Lens } from '../lens.ts'
+import type { DrawerTarget } from '../components/Drawer.tsx'
 import { validateRunDoc } from '../validateRunDoc.ts'
 
 /** Presentation inputs contain recorded data; renderers must not modify or upgrade it. */
@@ -9,12 +11,21 @@ export type RenderInput =
   | { readonly kind: 'events'; readonly events: readonly RunEvent[] }
   | { readonly kind: 'run'; readonly doc: RunDoc }
 
+/** Presentation options and evidence lookup, kept separate from recorded RenderInput data. */
+export interface RenderContext {
+  readonly lens?: Lens
+  readonly blobs?: Record<string, string>
+  readonly onOpenDrawer?: (target: DrawerTarget) => void
+}
+
+export interface RendererProps { input: RenderInput; context?: RenderContext }
+
 export interface Renderer {
   readonly id: string
   readonly label: string
   /** Pure, deterministic rule: zero means no match; higher finite positive scores win. */
   readonly match: (input: RenderInput) => number
-  readonly Component: ComponentType<{ input: RenderInput }>
+  readonly Component: ComponentType<RendererProps>
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

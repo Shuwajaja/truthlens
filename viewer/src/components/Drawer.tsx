@@ -1,6 +1,6 @@
 import type { Criterion, RunEvent } from '../types.ts'
 import type { Lens } from '../lens.ts'
-import { EventDetail } from './EventDetail.tsx'
+import { RenderView } from '../renderkit/RenderView.tsx'
 
 export type DrawerTarget =
   | { kind: 'criterion'; criterion: Criterion; matched: RunEvent[] }
@@ -37,7 +37,7 @@ export function Drawer({ target, blobs, lens, onClose }: {
             ) : (
               <div className="space-y-4">
                 {matched.map(e => (
-                  <EventDetail key={e.id} evt={e} blobs={blobs} lens={lens} />
+                  <RenderView key={e.id} input={{ kind: 'event', event: e }} context={{ blobs, lens }} />
                 ))}
               </div>
             )}
@@ -57,7 +57,7 @@ export function Drawer({ target, blobs, lens, onClose }: {
           <button type="button" className="text-[#8b949e] text-lg leading-none px-2" onClick={onClose} aria-label="Close">&times;</button>
         </div>
         <div className="px-4 py-4">
-          <EventDetail evt={event} blobs={blobs} lens={lens} />
+          <RenderView input={{ kind: 'event', event }} context={{ blobs, lens }} />
         </div>
       </div>
     </>

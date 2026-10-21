@@ -1,5 +1,6 @@
 import { RawFallback } from './RawFallback.tsx'
 import { isRenderInput, type Renderer } from './types.ts'
+import { builtinRenderers } from './builtins.tsx'
 
 const raw: Renderer = { id: 'raw', label: 'Raw data', match: () => 0, Component: RawFallback }
 
@@ -30,5 +31,4 @@ export function createRegistry(renderers: readonly Renderer[] = []): Registry {
   }
 }
 
-/** Empty until existing views are explicitly migrated/registered in the next step. */
-export const defaultRegistry = createRegistry()
+export const defaultRegistry = createRegistry(builtinRenderers)
