@@ -17,7 +17,7 @@ function changeField(path: string, value: unknown, remove = false): unknown {
 }
 
 const requiredFields = [
-  'verified', 'headline', 'review_required', 'run', 'counts', 'criteria', 'claims', 'artifacts', 'events',
+  'verified', 'integrity', 'headline', 'review_required', 'run', 'counts', 'criteria', 'claims', 'artifacts', 'events',
   'run.run_id', 'run.project', 'run.agent', 'run.command', 'run.started', 'run.finished',
   'run.exit_code', 'run.ledger_last_hash', 'run.events',
   'counts.green', 'counts.yellow', 'counts.red', 'counts.gray', 'counts.outline',
@@ -32,6 +32,18 @@ const requiredFields = [
 describe('validateRunDoc', () => {
   it('accepts the public run.json export', () => {
     expect(validateRunDoc(fixture)).toBe(true)
+  })
+
+  it.each([
+    [false, 'hash-only', true],
+    [true, 'hmac', true],
+    [false, 'hmac', false],
+    [true, 'hash-only', false],
+    [false, 'failed', false],
+    [true, 'failed', false],
+    [false, 'unknown', false],
+  ])('checks verified=%s against integrity=%s', (verified, integrity, accepted) => {
+    expect(validateRunDoc({ ...fixture, verified, integrity })).toBe(accepted)
   })
 
   it('rejects an incomplete document with consistent empty counts', () => {
@@ -88,6 +100,6 @@ describe('validateRunDoc', () => {
   it('preserves card and count consistency checks', () => {
     expect(validateRunDoc(changeField('criteria.0.card', 'red'))).toBe(false)
     expect(validateRunDoc(changeField('counts.green', 99))).toBe(false)
-    expect(validateRunDoc(changeField('verified', false))).toBe(false)
+    expect(validateRunDoc(changeField('verified', !fixture.verified))).toBe(false)
   })
 })

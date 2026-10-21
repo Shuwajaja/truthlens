@@ -3,7 +3,7 @@ import type { Card, Criterion, RunDoc } from './types.ts'
 const VALID_STATUSES = new Set(['met', 'unmet', 'unverified', 'proposed'])
 const CARD_KEYS: Card[] = ['green', 'yellow', 'red', 'gray', 'outline']
 
-/** Card colour rules from src/truthlens/export.py (must match a verified export). */
+/** Card colour rules from src/truthlens/export.py. */
 function expectedCard(c: Pick<Criterion, 'status' | 'claimed'>): Card {
   if (c.status === 'met') return 'green'
   if (c.status === 'unmet') return 'red'
@@ -59,7 +59,8 @@ function isEvent(v: unknown): boolean {
 /** Reject incomplete or internally inconsistent run exports before rendering. */
 export function validateRunDoc(data: unknown): data is RunDoc {
   if (!isRecord(data)) return false
-  if (data.verified !== true) return false
+  if (!((data.integrity === 'hmac' && data.verified === true)
+    || (data.integrity === 'hash-only' && data.verified === false))) return false
   if (!isStringArray(data.headline) || typeof data.review_required !== 'boolean') return false
   if (!isRun(data.run)) return false
   if (!Array.isArray(data.claims) || !data.claims.every(isClaim)) return false

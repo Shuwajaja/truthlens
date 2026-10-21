@@ -1,24 +1,24 @@
 {
- "verified": true,
+ "verified": false,
+ "integrity": "hash-only",
  "headline": [
   "Your agent said: Done.",
   "Here's what's actually proven."
  ],
  "review_required": true,
  "trust": [
-  "integrity_verified",
   "review_required"
  ],
  "run": {
-  "run_id": "run_01M4MCGT1XXYT2JQYWFWJES0X6",
+  "run_id": "run_01M4NPV2TEX4NE8M3PQNBXTPPV",
   "project": "Build a small landing page with a contact form.",
   "agent": "opencode/deepseek-v4-flash",
   "command": "opencode run -m openrouter/deepseek/deepseek-v4-flash Build a small landing page with a contact form.",
-  "started": "2026-10-11T02:26:24.960Z",
-  "finished": "2026-10-11T02:26:38.302Z",
+  "started": "2026-10-11T14:46:01.809Z",
+  "finished": "2026-10-11T14:46:22.655Z",
   "exit_code": 0,
-  "ledger_last_hash": "a81ed4cb22882b1cfafaf5ef0c13f7cb2efb0c22ef1cf5072bb02c0e3a8d0547",
-  "events": 14
+  "ledger_last_hash": "1ee1070622af117a68822eab958aaff23f56d2723cd2ea1067ee10c119141c38",
+  "events": 16
  },
  "counts": {
   "green": 1,
@@ -32,7 +32,7 @@
    "criterion_id": "c1",
    "text": "Page exists (index.html with a heading and a form)",
    "evidence": [
-    "evt_01M4MCH6M1TB65E1RZQCMBEH4T"
+    "evt_01M4NPVPSNGNVVK6R10MZ0XV01"
    ],
    "status": "met",
    "claimed": true,
@@ -43,7 +43,7 @@
    "criterion_id": "c2",
    "text": "Form validates the e-mail address (invalid input rejected)",
    "evidence": [
-    "evt_01M4MCH72W0QXTV4XEVCDTA58V"
+    "evt_01M4NPVQ5W413BNVPF8E9VKTSF"
    ],
    "status": "unmet",
    "claimed": true,
@@ -62,11 +62,25 @@
  ],
  "claims": [
   {
-   "claim_id": "clm_01M4MCH6CZ6J9804EJFFE8AQ08",
-   "text": "Small landing page with contact form built with plain HTML/CSS/JS",
+   "claim_id": "clm_01M4NPVPHV57DCCK79YPB8D4VV",
+   "text": "Created index.html with a page that has a heading and a contact form",
    "criterion_ids": [
-    "c1",
-    "c2",
+    "c1"
+   ],
+   "finding": "supported"
+  },
+  {
+   "claim_id": "clm_01M4NPVPHXB6QT6QRX9GAHVJ26",
+   "text": "The form validates the e-mail address using a regex and shows an error",
+   "criterion_ids": [
+    "c2"
+   ],
+   "finding": "claim_unwitnessed"
+  },
+  {
+   "claim_id": "clm_01M4NPVPHYVYQSBR7027ER82SR",
+   "text": "The page uses a fluid max-width container so it works on mobile",
+   "criterion_ids": [
     "c3"
    ],
    "finding": "claim_unwitnessed"
@@ -74,47 +88,47 @@
  ],
  "artifacts": [
   {
-   "artifact_id": "art_01M4MCH6DAXXSQ4FK6Z108TYXD",
+   "artifact_id": "art_01M4NPVPJA2S91C8X06B4QS5RG",
    "criterion_ids": [],
    "events": {
-    "recorded": "evt_01M4MCH6DBSM252Y9XV3SD46H9"
+    "recorded": "evt_01M4NPVPJCQDXQ7S0H25AS1178"
    },
    "kind": "file",
    "path": "index.html",
    "provenance": "original",
-   "sha256": "fdecc0d1afaf6c01a67c9701587dfc31790337f99423ba15e7eb769087204ca2"
+   "sha256": "2900e4b93a92c3e12d83a3ae9665a13bfeb059156a9399292403a3c8be652b0e"
   }
  ],
  "events": [
   {
    "seq": 1,
-   "id": "evt_01M4MCGT200NJ0VDN9C9T2PE72",
-   "ts": "2026-10-11T02:26:24.960Z",
+   "id": "evt_01M4NPV2THH34J9C2CESGZ6Q7G",
+   "ts": "2026-10-11T14:46:01.809Z",
    "type": "run.started",
    "actor": {
     "id": "truthlens-run",
     "kind": "wrapper"
    },
    "summary": "run.started",
-   "hash": "5c84d6e0d84a62e804243face003f8fd23b8d10fa89337421737e3f4d412d7d6",
+   "hash": "0a1dd123723b55afa9ea83d115112743c0a2ddca56fcb82c15d74ebaad18485b",
    "payload": {
     "agent": "opencode/deepseek-v4-flash",
     "command": "opencode run -m openrouter/deepseek/deepseek-v4-flash Build a small landing page with a contact form.",
-    "ref": "06393ff17f91f8523673a9de49c7b3ff0858a0a3",
-    "repo": "/workspace/projects/truthlens-runs/demo-2/fixture"
+    "ref": "f4bcc8466422deddb83197ebe106b4dd925a74c6",
+    "repo": "/tmp/d2/fixture"
    }
   },
   {
    "seq": 2,
-   "id": "evt_01M4MCGT2152KQNGT3R6JEFYQ6",
-   "ts": "2026-10-11T02:26:24.961Z",
+   "id": "evt_01M4NPV2TSPARXKQ958TKPDE0W",
+   "ts": "2026-10-11T14:46:01.817Z",
    "type": "requirement.recorded",
    "actor": {
     "id": "box",
     "kind": "human"
    },
    "summary": "requirement.recorded",
-   "hash": "69f2b08937ed3dbfe8fd170d6eb52bfa18911739d7563de622696c664ff987a4",
+   "hash": "bdb0720d32adc40d03cab49489ddc983d5c414b10ac141fd2a47b49f90b9645c",
    "payload": {
     "requirement_id": "r1",
     "source": "user",
@@ -123,15 +137,15 @@
   },
   {
    "seq": 3,
-   "id": "evt_01M4MCGT239P4TB18YV61M022M",
-   "ts": "2026-10-11T02:26:24.963Z",
+   "id": "evt_01M4NPV2TTH9GK7ZPXJEWQQT1C",
+   "ts": "2026-10-11T14:46:01.818Z",
    "type": "criterion.recorded",
    "actor": {
     "id": "admin-supervisor",
     "kind": "agent"
    },
    "summary": "Criterion c1: Page exists (index.html with a heading and a form)",
-   "hash": "0956cb75f447c2af7dfe90bcd34e785553e18a06125121afd6f27400b7683af6",
+   "hash": "98fb4f0a85b340da9bb37638b9cb3f0b002d42b864459f3acedc8f65bb2e3177",
    "payload": {
     "criterion_id": "c1",
     "derived_by": {
@@ -146,15 +160,15 @@
   },
   {
    "seq": 4,
-   "id": "evt_01M4MCGT239P4TB18YV61M022N",
-   "ts": "2026-10-11T02:26:24.963Z",
+   "id": "evt_01M4NPV2TW7EAQYFMEY80RTRDN",
+   "ts": "2026-10-11T14:46:01.820Z",
    "type": "criterion.recorded",
    "actor": {
     "id": "admin-supervisor",
     "kind": "agent"
    },
    "summary": "Criterion c2: Form validates the e-mail address (invalid input rejected)",
-   "hash": "e789b5a8ec37ed613996f9454718101bd37c2a6825f1df34e8d82a18484117a0",
+   "hash": "716b4914d5211bd8ebe781c40a46733960326264b1a9beb175fbfedc03803c8a",
    "payload": {
     "criterion_id": "c2",
     "derived_by": {
@@ -169,15 +183,15 @@
   },
   {
    "seq": 5,
-   "id": "evt_01M4MCGT2476RFWFSJEQ48JZQH",
-   "ts": "2026-10-11T02:26:24.964Z",
+   "id": "evt_01M4NPV2TX5XSKSA1S3ER6CSPG",
+   "ts": "2026-10-11T14:46:01.821Z",
    "type": "criterion.recorded",
    "actor": {
     "id": "admin-supervisor",
     "kind": "agent"
    },
    "summary": "Criterion c3: Mobile layout works",
-   "hash": "c1c77b97a9d863336ac622de40678ae4cd92d871e364c0b8135df7ea09e6b9c5",
+   "hash": "605811ac24bf5919d23f820d91bf0093ed13ddadf3241c1bfb630d03dcc481da",
    "payload": {
     "criterion_id": "c3",
     "derived_by": {
@@ -192,15 +206,15 @@
   },
   {
    "seq": 6,
-   "id": "evt_01M4MCGT25PP5GJTP3PSMDP4M4",
-   "ts": "2026-10-11T02:26:24.965Z",
+   "id": "evt_01M4NPV2TY3WTQJTN410XA3AZR",
+   "ts": "2026-10-11T14:46:01.822Z",
    "type": "criteria.confirmed",
    "actor": {
     "id": "box",
     "kind": "human"
    },
    "summary": "criteria.confirmed",
-   "hash": "2ee2b62d39c0efa4eeed8d118ada32c2df622bcd3799fa93929bad6d4677354d",
+   "hash": "215a5b119d85bde95c712242f1782ad74027aea93b1aa12d99df6e73b6da1c55",
    "payload": {
     "criteria": [
      {
@@ -225,118 +239,156 @@
   },
   {
    "seq": 7,
-   "id": "evt_01M4MCGT2A6X2K66SWVDCXBXQB",
-   "ts": "2026-10-11T02:26:24.970Z",
+   "id": "evt_01M4NPV2V7QVDACAFBAEVQYN1H",
+   "ts": "2026-10-11T14:46:01.831Z",
    "type": "evidence.attached",
    "actor": {
     "id": "truthlens-run",
     "kind": "wrapper"
    },
    "summary": "evidence.attached",
-   "hash": "7d611aaa446a6f11ec18fb8b56de568d1f38802fae84784186d6469e82a6df10",
+   "hash": "bb3db30d799fa7334b2c950343d741dca5f4d3aa79a8bb7de0d35447128406e7",
    "payload": {
-    "evidence_id": "evd_01M4MCGT2A6X2K66SWVDCXBXQA",
+    "evidence_id": "evd_01M4NPV2V7QVDACAFBAEVQYN1G",
     "kind": "file_changed",
     "refers_to": "git_state_before",
     "result": "info",
-    "sha256": "036a99821ff0ff0530b9a002d7405307074c9a4cf370a7f0b66c091c224b932c"
+    "sha256": "c1a389b15c3b23d240274bdda6b8b392e56f569695d87a6a14af4291f3b6ccf4"
    }
   },
   {
    "seq": 8,
-   "id": "evt_01M4MCH6CXK2NGY0Y6SP3CZ4M3",
-   "ts": "2026-10-11T02:26:37.597Z",
+   "id": "evt_01M4NPVPHT05GPAH27CGK65CE3",
+   "ts": "2026-10-11T14:46:22.010Z",
    "type": "evidence.attached",
    "actor": {
     "id": "truthlens-run",
     "kind": "wrapper"
    },
    "summary": "Agent process finished (exit 0)",
-   "hash": "cf0d39c236d4f551e74d6e5101a032d5ec0ef5cfd1beead8dcc0fafb87da530e",
+   "hash": "2111e9d47a2b09b6f480cb24422de799468af693455bbecba9269106a4cce9de",
    "payload": {
-    "evidence_id": "evd_01M4MCH6CTB127KN6YJN2DPTFK",
+    "evidence_id": "evd_01M4NPVPHR1RSQ56D7KKP00GRB",
     "exit_code": 0,
     "kind": "command_run",
     "refers_to": "agent_command",
     "result": "info",
-    "sha256": "8914b78b2ad65f26cea41df9ada3ab914941ce093b2cffc75e54e2d68f468285"
+    "sha256": "fbc1ffb819bfdfa7a1e83cbb52d0adee5f2ff1cc7f1327862445f0f044ce062f"
    }
   },
   {
    "seq": 9,
-   "id": "evt_01M4MCH6D0DAVNJWS060D25R3B",
-   "ts": "2026-10-11T02:26:37.600Z",
+   "id": "evt_01M4NPVPHWHNGGZ1X5EMANZ97B",
+   "ts": "2026-10-11T14:46:22.012Z",
    "type": "agent.claim",
    "actor": {
     "id": "opencode/deepseek-v4-flash",
     "kind": "agent"
    },
-   "summary": "Agent said: Small landing page with contact form built with plain HTML/CSS/JS",
-   "hash": "180d19e60221b4adb449d6896c0fe1ab7ea9dec4c66ab7487584d4db01f4881c",
+   "summary": "Agent said: Created index.html with a page that has a heading and a contact form",
+   "hash": "8a54a9b60a356362e7ee4f3295f549b65d95f83897036311c4b22e38307d7593",
    "payload": {
-    "claim_id": "clm_01M4MCH6CZ6J9804EJFFE8AQ08",
+    "claim_id": "clm_01M4NPVPHV57DCCK79YPB8D4VV",
     "criterion_ids": [
-     "c1",
-     "c2",
-     "c3"
+     "c1"
     ],
     "kind": "completion",
-    "text": "Small landing page with contact form built with plain HTML/CSS/JS"
+    "text": "Created index.html with a page that has a heading and a contact form"
    }
   },
   {
    "seq": 10,
-   "id": "evt_01M4MCH6D79Y0YHXF7267HCJCH",
-   "ts": "2026-10-11T02:26:37.607Z",
+   "id": "evt_01M4NPVPHXB6QT6QRX9GAHVJ27",
+   "ts": "2026-10-11T14:46:22.013Z",
+   "type": "agent.claim",
+   "actor": {
+    "id": "opencode/deepseek-v4-flash",
+    "kind": "agent"
+   },
+   "summary": "Agent said: The form validates the e-mail address using a regex and shows an error",
+   "hash": "2e5d8b763ac700098909ab756fdad551707ee193b55720823d8fbb5005b73d52",
+   "payload": {
+    "claim_id": "clm_01M4NPVPHXB6QT6QRX9GAHVJ26",
+    "criterion_ids": [
+     "c2"
+    ],
+    "kind": "completion",
+    "text": "The form validates the e-mail address using a regex and shows an error"
+   }
+  },
+  {
+   "seq": 11,
+   "id": "evt_01M4NPVPHZVR60R2A57PDX3A7P",
+   "ts": "2026-10-11T14:46:22.015Z",
+   "type": "agent.claim",
+   "actor": {
+    "id": "opencode/deepseek-v4-flash",
+    "kind": "agent"
+   },
+   "summary": "Agent said: The page uses a fluid max-width container so it works on mobile",
+   "hash": "7a90def4b46da9d17dd26d547981fe1412a73509b88fb7fedc95efc4ddd0f5fa",
+   "payload": {
+    "claim_id": "clm_01M4NPVPHYVYQSBR7027ER82SR",
+    "criterion_ids": [
+     "c3"
+    ],
+    "kind": "completion",
+    "text": "The page uses a fluid max-width container so it works on mobile"
+   }
+  },
+  {
+   "seq": 12,
+   "id": "evt_01M4NPVPJ71QG0VYEDQK4FRVCR",
+   "ts": "2026-10-11T14:46:22.023Z",
    "type": "evidence.attached",
    "actor": {
     "id": "truthlens-run",
     "kind": "wrapper"
    },
    "summary": "Files changed: index.html",
-   "hash": "8dfabdbda1d5a00305aebd5d7a282755daba4825d0e9178bab34f303df74497e",
+   "hash": "fa79051f24630a3553778e71fc35f6a9b23710bbc674025c1e26cf1a14d00f77",
    "payload": {
     "changed": [
      "index.html"
     ],
-    "evidence_id": "evd_01M4MCH6D6R8RD41YFV701SBZP",
+    "evidence_id": "evd_01M4NPVPJ5WM8CBA8GRZXYK5G1",
     "kind": "file_changed",
     "refers_to": "git_diff_after",
     "result": "info",
-    "sha256": "7ff8ec854827eb13dae32eda7bb2d4df7da81a16b3a9e9c0c275a3661879a1c8"
+    "sha256": "5922c528692994157f1e26ecb3cf8d44f1e8dfbe5530f78153f3635e92d24c49"
    }
   },
   {
-   "seq": 11,
-   "id": "evt_01M4MCH6DBSM252Y9XV3SD46H9",
-   "ts": "2026-10-11T02:26:37.611Z",
+   "seq": 13,
+   "id": "evt_01M4NPVPJCQDXQ7S0H25AS1178",
+   "ts": "2026-10-11T14:46:22.028Z",
    "type": "artifact.recorded",
    "actor": {
     "id": "truthlens-run",
     "kind": "wrapper"
    },
    "summary": "File recorded: index.html",
-   "hash": "000242593dfe88c8db1730e77b52f3c49f7b75ebaade8e142347ba293a9d452a",
+   "hash": "1263b83393a31f8201d65dbd1d17c6ae069fcd65331d45fd7a58ba773c8451c6",
    "payload": {
-    "artifact_id": "art_01M4MCH6DAXXSQ4FK6Z108TYXD",
+    "artifact_id": "art_01M4NPVPJA2S91C8X06B4QS5RG",
     "kind": "file",
     "manifest_ref": "manifest.json",
     "path": "index.html",
     "provenance": "original",
-    "sha256": "fdecc0d1afaf6c01a67c9701587dfc31790337f99423ba15e7eb769087204ca2"
+    "sha256": "2900e4b93a92c3e12d83a3ae9665a13bfeb059156a9399292403a3c8be652b0e"
    }
   },
   {
-   "seq": 12,
-   "id": "evt_01M4MCH6M1TB65E1RZQCMBEH4T",
-   "ts": "2026-10-11T02:26:37.825Z",
+   "seq": 14,
+   "id": "evt_01M4NPVPSNGNVVK6R10MZ0XV01",
+   "ts": "2026-10-11T14:46:22.261Z",
    "type": "test.reported",
    "actor": {
     "id": "truthlens-run",
     "kind": "wrapper"
    },
    "summary": "Tests run by TruthLens: 1 passed, 0 failed, 0 skipped",
-   "hash": "f8e16c379fb2f666217269d2aa80cdf6edbc12d32f9031d13be033b5d554cecb",
+   "hash": "43598f03569326cd77f78d8cb9eca56b64264fa93967045aab15c8aaf37daa4e",
    "payload": {
     "criterion_ids": [
      "c1"
@@ -350,16 +402,16 @@
    }
   },
   {
-   "seq": 13,
-   "id": "evt_01M4MCH72W0QXTV4XEVCDTA58V",
-   "ts": "2026-10-11T02:26:38.300Z",
+   "seq": 15,
+   "id": "evt_01M4NPVQ5W413BNVPF8E9VKTSF",
+   "ts": "2026-10-11T14:46:22.652Z",
    "type": "test.reported",
    "actor": {
     "id": "truthlens-run",
     "kind": "wrapper"
    },
    "summary": "Tests run by TruthLens: 0 passed, 1 failed, 0 skipped",
-   "hash": "902412b954e2c41823ae7989be24836f95d61c746bd3222be086219d11d42dae",
+   "hash": "06f07efce6f26b824f08911c60ebc1cdb5c0a7e0cda32bfe1240b4d45f4d70ff",
    "payload": {
     "criterion_ids": [
      "c2"
@@ -367,33 +419,33 @@
     "exit_code": 1,
     "failed": 1,
     "passed": 0,
-    "report_artifact_id": "d1c28d762c94ddb5b947d0a031f340e8054a4811dd93d93ade1886fa9968191d",
+    "report_artifact_id": "dedecd82fa4273c2f24733822c79ef4796927bed2f8a9fd33122210b1156afab",
     "skipped": 0,
     "suite": "/workspace/projects/truthlens/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_email_validation.py"
    }
   },
   {
-   "seq": 14,
-   "id": "evt_01M4MCH72YK3JDCNBJE9FGVT5Q",
-   "ts": "2026-10-11T02:26:38.302Z",
+   "seq": 16,
+   "id": "evt_01M4NPVQ5ZKWK38BJV9D9RYHSN",
+   "ts": "2026-10-11T14:46:22.655Z",
    "type": "run.finished",
    "actor": {
     "id": "truthlens-run",
     "kind": "wrapper"
    },
    "summary": "Run closed (exit 0)",
-   "hash": "a81ed4cb22882b1cfafaf5ef0c13f7cb2efb0c22ef1cf5072bb02c0e3a8d0547",
+   "hash": "1ee1070622af117a68822eab958aaff23f56d2723cd2ea1067ee10c119141c38",
    "payload": {
     "exit_code": 0,
-    "last_hash": "902412b954e2c41823ae7989be24836f95d61c746bd3222be086219d11d42dae",
+    "last_hash": "06f07efce6f26b824f08911c60ebc1cdb5c0a7e0cda32bfe1240b4d45f4d70ff",
     "status": "ok"
    }
   }
  ],
  "blobs": {
-  "036a99821ff0ff0530b9a002d7405307074c9a4cf370a7f0b66c091c224b932c": "{\"files\":{\"AGENTS.md\":\"439416ddcb99b082999da8608cb09e0fcb6eb78da676790cfc87bc40ade3c308\",\"README.md\":\"d6f296d8322233c0844860c5b5717befdf0d5ef3109b409f7a076ba53e09b6b2\",\"tests/test_email_validation.py\":\"970323226af6e8391c4581ce47f732968ab4802c92a214c788b0eef3db57872d\",\"tests/test_page_exists.py\":\"34e2840280c3460647717b14b28a2e9feced126bac30af838d98d4c2cf2961ae\"},\"head\":\"06393ff17f91f8523673a9de49c7b3ff0858a0a3\"}\n",
-  "8914b78b2ad65f26cea41df9ada3ab914941ce093b2cffc75e54e2d68f468285": "$ opencode run -m openrouter/deepseek/deepseek-v4-flash Build a small landing page with a contact form.\n--- stdout\nDone.\n\nTRUTHLENS_CLAIMS: [{\"text\": \"Small landing page with contact form built with plain HTML/CSS/JS\", \"criterion_ids\": [\"c1\", \"c2\", \"c3\"]}]\n\n--- stderr\n\u001b[0m\n> build \u00b7 deepseek/deepseek-v4-flash\n\u001b[0m\n\u001b[0m\u2192 \u001b[0mRead .\n\u001b[0m\n\u001b[0m\u2190 \u001b[0mWrite index.html\nWrote file successfully.\n\u001b[0m\n",
-  "7ff8ec854827eb13dae32eda7bb2d4df7da81a16b3a9e9c0c275a3661879a1c8": "diff --git a/index.html b/index.html\nnew file mode 100644\nindex 0000000..f65e25a\n--- /dev/null\n+++ b/index.html\n@@ -0,0 +1,163 @@\n+<!DOCTYPE html>\n+<html lang=\"en\">\n+<head>\n+<meta charset=\"UTF-8\">\n+<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n+<title>TruthLens</title>\n+<style>\n+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\n+body {\n+  font-family: system-ui, -apple-system, sans-serif;\n+  min-height: 100vh;\n+  display: flex;\n+  align-items: center;\n+  justify-content: center;\n+  background: #f4f6f9;\n+  color: #1a1a2e;\n+  padding: 1.5rem;\n+}\n+.landing {\n+  max-width: 480px;\n+  width: 100%;\n+  background: #fff;\n+  border-radius: 1rem;\n+  padding: 2.5rem 2rem;\n+  box-shadow: 0 8px 30px rgba(0,0,0,.08);\n+}\n+h1 {\n+  font-size: 1.75rem;\n+  font-weight: 700;\n+  margin-bottom: .5rem;\n+  letter-spacing: -.02em;\n+}\n+p.sub {\n+  color: #5b5f6b;\n+  margin-bottom: 1.75rem;\n+  line-height: 1.5;\n+}\n+.form-group { margin-bottom: 1.25rem; }\n+label {\n+  display: block;\n+  font-weight: 600;\n+  font-size: .875rem;\n+  margin-bottom: .375rem;\n+  color: #2d2d3e;\n+}\n+input, textarea {\n+  width: 100%;\n+  padding: .7rem .85rem;\n+  border: 1px solid #d1d5db;\n+  border-radius: .5rem;\n+  font: inherit;\n+  font-size: .9375rem;\n+  transition: border .2s, box-shadow .2s;\n+}\n+input:focus, textarea:focus {\n+  outline: none;\n+  border-color: #5b67d4;\n+  box-shadow: 0 0 0 3px rgba(91,103,212,.25);\n+}\n+textarea { resize: vertical; min-height: 5rem; }\n+.error {\n+  color: #d7373f;\n+  font-size: .8125rem;\n+  margin-top: .375rem;\n+  display: none;\n+}\n+button {\n+  width: 100%;\n+  padding: .8rem 1rem;\n+  background: #1a1a2e;\n+  color: #fff;\n+  border: none;\n+  border-radius: .5rem;\n+  font-weight: 600;\n+  font-size: 1rem;\n+  cursor: pointer;\n+  transition: background .2s;\n+}\n+button:hover { background: #2f2f4a; }\n+.thank-you {\n+  display: none;\n+  text-align: center;\n+  padding: 1.5rem 0;\n+}\n+.thank-you h2 { margin-bottom: .5rem; }\n+.thank-you p { color: #5b5f6b; }\n+</style>\n+</head>\n+<body>\n+\n+<div class=\"landing\">\n+  <div id=\"formView\">\n+    <h1>Get early access</h1>\n+    <p class=\"sub\">Leave your details and we'll reach out when we launch.</p>\n+\n+    <form id=\"contactForm\" novalidate>\n+      <div class=\"form-group\">\n+        <label for=\"name\">Name</label>\n+        <input type=\"text\" id=\"name\" name=\"name\" required>\n+      </div>\n+\n+      <div class=\"form-group\">\n+        <label for=\"email\">Email</label>\n+        <input type=\"email\" id=\"email\" name=\"email\" required>\n+        <div class=\"error\" id=\"emailError\">Please enter a valid email address.</div>\n+      </div>\n+\n+      <div class=\"form-group\">\n+        <label for=\"message\">Message</label>\n+        <textarea id=\"message\" name=\"message\" rows=\"3\"></textarea>\n+      </div>\n+\n+      <button type=\"submit\">Submit</button>\n+    </form>\n+  </div>\n+\n+  <div class=\"thank-you\" id=\"thankYouView\">\n+    <h2>Thank you!</h2>\n+    <p>We'll be in touch soon.</p>\n+  </div>\n+</div>\n+\n+<script>\n+const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/;\n+const form = document.getElementById('contactForm');\n+const emailInput = document.getElementById('email');\n+const emailError = document.getElementById('emailError');\n+const formView = document.getElementById('formView');\n+const thankYouView = document.getElementById('thankYouView');\n+\n+emailInput.addEventListener('blur', function () {\n+  if (this.value && !emailRegex.test(this.value)) {\n+    emailError.style.display = 'block';\n+  } else {\n+    emailError.style.display = 'none';\n+  }\n+});\n+\n+emailInput.addEventListener('input', function () {\n+  if (emailError.style.display === 'block') {\n+    emailError.style.display = emailRegex.test(this.value) ? 'none' : 'block';\n+  }\n+});\n+\n+form.addEventListener('submit', function (e) {\n+  e.preventDefault();\n+  let valid = true;\n+\n+  if (!emailRegex.test(emailInput.value)) {\n+    emailError.style.display = 'block';\n+    valid = false;\n+  } else {\n+    emailError.style.display = 'none';\n+  }\n+\n+  if (valid) {\n+    formView.style.display = 'none';\n+    thankYouView.style.display = 'block';\n+  }\n+});\n+</script>\n+</body>\n+</html>\n\\ No newline at end of file\n",
-  "fdecc0d1afaf6c01a67c9701587dfc31790337f99423ba15e7eb769087204ca2": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>TruthLens</title>\n<style>\n*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }\nbody {\n  font-family: system-ui, -apple-system, sans-serif;\n  min-height: 100vh;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: #f4f6f9;\n  color: #1a1a2e;\n  padding: 1.5rem;\n}\n.landing {\n  max-width: 480px;\n  width: 100%;\n  background: #fff;\n  border-radius: 1rem;\n  padding: 2.5rem 2rem;\n  box-shadow: 0 8px 30px rgba(0,0,0,.08);\n}\nh1 {\n  font-size: 1.75rem;\n  font-weight: 700;\n  margin-bottom: .5rem;\n  letter-spacing: -.02em;\n}\np.sub {\n  color: #5b5f6b;\n  margin-bottom: 1.75rem;\n  line-height: 1.5;\n}\n.form-group { margin-bottom: 1.25rem; }\nlabel {\n  display: block;\n  font-weight: 600;\n  font-size: .875rem;\n  margin-bottom: .375rem;\n  color: #2d2d3e;\n}\ninput, textarea {\n  width: 100%;\n  padding: .7rem .85rem;\n  border: 1px solid #d1d5db;\n  border-radius: .5rem;\n  font: inherit;\n  font-size: .9375rem;\n  transition: border .2s, box-shadow .2s;\n}\ninput:focus, textarea:focus {\n  outline: none;\n  border-color: #5b67d4;\n  box-shadow: 0 0 0 3px rgba(91,103,212,.25);\n}\ntextarea { resize: vertical; min-height: 5rem; }\n.error {\n  color: #d7373f;\n  font-size: .8125rem;\n  margin-top: .375rem;\n  display: none;\n}\nbutton {\n  width: 100%;\n  padding: .8rem 1rem;\n  background: #1a1a2e;\n  color: #fff;\n  border: none;\n  border-radius: .5rem;\n  font-weight: 600;\n  font-size: 1rem;\n  cursor: pointer;\n  transition: background .2s;\n}\nbutton:hover { background: #2f2f4a; }\n.thank-you {\n  display: none;\n  text-align: center;\n  padding: 1.5rem 0;\n}\n.thank-you h2 { margin-bottom: .5rem; }\n.thank-you p { color: #5b5f6b; }\n</style>\n</head>\n<body>\n\n<div class=\"landing\">\n  <div id=\"formView\">\n    <h1>Get early access</h1>\n    <p class=\"sub\">Leave your details and we'll reach out when we launch.</p>\n\n    <form id=\"contactForm\" novalidate>\n      <div class=\"form-group\">\n        <label for=\"name\">Name</label>\n        <input type=\"text\" id=\"name\" name=\"name\" required>\n      </div>\n\n      <div class=\"form-group\">\n        <label for=\"email\">Email</label>\n        <input type=\"email\" id=\"email\" name=\"email\" required>\n        <div class=\"error\" id=\"emailError\">Please enter a valid email address.</div>\n      </div>\n\n      <div class=\"form-group\">\n        <label for=\"message\">Message</label>\n        <textarea id=\"message\" name=\"message\" rows=\"3\"></textarea>\n      </div>\n\n      <button type=\"submit\">Submit</button>\n    </form>\n  </div>\n\n  <div class=\"thank-you\" id=\"thankYouView\">\n    <h2>Thank you!</h2>\n    <p>We'll be in touch soon.</p>\n  </div>\n</div>\n\n<script>\nconst emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/;\nconst form = document.getElementById('contactForm');\nconst emailInput = document.getElementById('email');\nconst emailError = document.getElementById('emailError');\nconst formView = document.getElementById('formView');\nconst thankYouView = document.getElementById('thankYouView');\n\nemailInput.addEventListener('blur', function () {\n  if (this.value && !emailRegex.test(this.value)) {\n    emailError.style.display = 'block';\n  } else {\n    emailError.style.display = 'none';\n  }\n});\n\nemailInput.addEventListener('input', function () {\n  if (emailError.style.display === 'block') {\n    emailError.style.display = emailRegex.test(this.value) ? 'none' : 'block';\n  }\n});\n\nform.addEventListener('submit', function (e) {\n  e.preventDefault();\n  let valid = true;\n\n  if (!emailRegex.test(emailInput.value)) {\n    emailError.style.display = 'block';\n    valid = false;\n  } else {\n    emailError.style.display = 'none';\n  }\n\n  if (valid) {\n    formView.style.display = 'none';\n    thankYouView.style.display = 'block';\n  }\n});\n</script>\n</body>\n</html>"
+  "c1a389b15c3b23d240274bdda6b8b392e56f569695d87a6a14af4291f3b6ccf4": "{\"files\":{\"AGENTS.md\":\"439416ddcb99b082999da8608cb09e0fcb6eb78da676790cfc87bc40ade3c308\",\"README.md\":\"d6f296d8322233c0844860c5b5717befdf0d5ef3109b409f7a076ba53e09b6b2\",\"tests/test_email_validation.py\":\"970323226af6e8391c4581ce47f732968ab4802c92a214c788b0eef3db57872d\",\"tests/test_page_exists.py\":\"34e2840280c3460647717b14b28a2e9feced126bac30af838d98d4c2cf2961ae\"},\"head\":\"f4bcc8466422deddb83197ebe106b4dd925a74c6\"}\ndiff --git a/AGENTS.md b/AGENTS.md\n--- a/AGENTS.md\n+++ b/AGENTS.md\n--- a/AGENTS.md\n+++ b/AGENTS.md\n@@ -0,0 +1,5 @@\n+# Agent notes\n+- Keep it plain HTML/CSS/JS, no frameworks, no npm install.\n+- End your final message with one line exactly in this form (JSON list, one entry per thing you claim):\n+  `TRUTHLENS_CLAIMS: [{\"text\": \"<what you claim>\", \"criterion_ids\": [\"c1\"]}]`\n+  Criteria: c1 page exists with heading and form \u00b7 c2 form validates the e-mail address \u00b7 c3 mobile layout works.\ndiff --git a/README.md b/README.md\n--- a/README.md\n+++ b/README.md\n--- a/README.md\n+++ b/README.md\n@@ -0,0 +1,4 @@\n+# Landing page fixture\n+Static site, no build step. Put the page in `index.html`.\n+Contact-form e-mail validation lives in `validate.js` as `function isValidEmail(s)` exported via\n+`module.exports = { isValidEmail }` (and usable in the browser).\ndiff --git a/tests/test_email_validation.py b/tests/test_email_validation.py\n--- a/tests/test_email_validation.py\n+++ b/tests/test_email_validation.py\n--- a/tests/test_email_validation.py\n+++ b/tests/test_email_validation.py\n@@ -0,0 +1,6 @@\n+import json, subprocess\n+CASES = {\"a@b.co\": True, \"user.name+tag@example.org\": True, \"\": False, \"plain\": False, \"a@b\": False, \"@x.de\": False, \"a b@c.de\": False}\n+def test_email_validation():\n+    js = \"const {isValidEmail}=require('./validate.js');console.log(JSON.stringify(%s.map(isValidEmail)))\" % json.dumps(list(CASES))\n+    out = subprocess.run([\"node\", \"-e\", js], capture_output=True, text=True, check=True).stdout\n+    assert json.loads(out) == list(CASES.values())\ndiff --git a/tests/test_page_exists.py b/tests/test_page_exists.py\n--- a/tests/test_page_exists.py\n+++ b/tests/test_page_exists.py\n--- a/tests/test_page_exists.py\n+++ b/tests/test_page_exists.py\n@@ -0,0 +1,4 @@\n+import pathlib, re\n+def test_page_exists():\n+    html = pathlib.Path(\"index.html\").read_text()\n+    assert re.search(r\"<h1[\\s>]\", html, re.I) and re.search(r\"<form[\\s>]\", html, re.I)",
+  "fbc1ffb819bfdfa7a1e83cbb52d0adee5f2ff1cc7f1327862445f0f044ce062f": "$ opencode run -m openrouter/deepseek/deepseek-v4-flash Build a small landing page with a contact form.\n--- stdout\nDone. Created `/tmp/d2/fixture/index.html` with a landing page header, contact form (name, email, message), email validation, and responsive layout.\n\nTRUTHLENS_CLAIMS: [{\"text\": \"Created index.html with a page that has a heading and a contact form\", \"criterion_ids\": [\"c1\"]}, {\"text\": \"The form validates the e-mail address using a regex and shows an error\", \"criterion_ids\": [\"c2\"]}, {\"text\": \"The page uses a fluid max-width container so it works on mobile\", \"criterion_ids\": [\"c3\"]}]\n\n--- stderr\n\u001b[0m\n> build \u00b7 deepseek/deepseek-v4-flash\n\u001b[0m\n\u001b[0m\u2190 \u001b[0mWrite index.html\nWrote file successfully.\n\u001b[0m\n\u001b[0m\u2190 \u001b[0mEdit index.html\nIndex: /tmp/d2/fixture/index.html\n===================================================================\n--- /tmp/d2/fixture/index.html\n+++ /tmp/d2/fixture/index.html\n@@ -17,9 +17,9 @@\n header h1 { font-size: 2.4rem; color: #0d1b2a; }\n header p { color: #5a6270; margin-top: 0.5rem; }\n form {\n   background: #fff;\n-  border: 1px solid #e4e7 ee;\n+  border: 1px solid #e4e7ee;\n   border-radius: 12px;\n   padding: 1.75rem;\n   box-shadow: 0 8px 24px rgba(0,0,0,0.06);\n   display: flex;\n\n\u001b[0m\n",
+  "5922c528692994157f1e26ecb3cf8d44f1e8dfbe5530f78153f3635e92d24c49": "diff --git a/dev/null b/index.html\nnew file mode 100644\n--- /dev/null\n+++ b/index.html\n--- a/index.html\n+++ b/index.html\n@@ -0,0 +1,117 @@\n+<!DOCTYPE html>\n+<html lang=\"en\">\n+<head>\n+  <meta charset=\"UTF-8\">\n+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n+  <title>Acme \u2014 Contact Us</title>\n+  <style>\n+    * { box-sizing: border-box; margin: 0; padding: 0; }\n+    body {\n+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;\n+      line-height: 1.6;\n+      color: #1f2430;\n+      background: #f6f7fb;\n+    }\n+    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }\n+    header { text-align: center; padding: 3rem 1rem 1.5rem; }\n+    header h1 { font-size: 2.4rem; color: #0d1b2a; }\n+    header p { color: #5a6270; margin-top: 0.5rem; }\n+    form {\n+      background: #fff;\n+      border: 1px solid #e4e7ee;\n+      border-radius: 12px;\n+      padding: 1.75rem;\n+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);\n+      display: flex;\n+      flex-direction: column;\n+      gap: 1.1rem;\n+    }\n+    label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; display: block; }\n+    input, textarea {\n+      width: 100%;\n+      padding: 0.7rem 0.8rem;\n+      border: 1px solid #cdd2dd;\n+      border-radius: 8px;\n+      font: inherit;\n+    }\n+    input:focus, textarea:focus {\n+      outline: none;\n+      border-color: #2563eb;\n+      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);\n+    }\n+    .error { color: #dc2626; font-size: 0.85rem; display: none; }\n+    .field.invalid input, .field.invalid textarea { border-color: #dc2626; }\n+    .field.invalid .error { display: block; }\n+    button {\n+      background: #2563eb;\n+      color: #fff;\n+      border: none;\n+      padding: 0.8rem 1.2rem;\n+      border-radius: 8px;\n+      font-size: 1rem;\n+      font-weight: 600;\n+      cursor: pointer;\n+      transition: background 0.15s;\n+    }\n+    button:hover { background: #1d4ed8; }\n+    .success {\n+      display: none;\n+      background: #ecfdf5;\n+      border: 1px solid #34d399;\n+      color: #065f46;\n+      border-radius: 8px;\n+      padding: 0.9rem 1rem;\n+      margin-top: 1rem;\n+    }\n+  </style>\n+</head>\n+<body>\n+  <header>\n+    <h1>Get in touch</h1>\n+    <p>Tell us a little about your project and we'll get back to you within a day.</p>\n+  </header>\n+\n+  <main class=\"wrap\">\n+    <form id=\"contactForm\" novalidate>\n+      <div class=\"field\">\n+        <label for=\"name\">Name</label>\n+        <input type=\"text\" id=\"name\" name=\"name\" autocomplete=\"name\">\n+      </div>\n+      <div class=\"field\">\n+        <label for=\"email\">Email</label>\n+        <input type=\"email\" id=\"email\" name=\"email\" autocomplete=\"email\">\n+        <span class=\"error\">Please enter a valid email address.</span>\n+      </div>\n+      <div class=\"field\">\n+        <label for=\"message\">Message</label>\n+        <textarea id=\"message\" name=\"message\" rows=\"5\"></textarea>\n+      </div>\n+      <button type=\"submit\">Send message</button>\n+    </form>\n+    <div class=\"success\" id=\"success\">Thanks! Your message has been sent.</div>\n+  </main>\n+\n+  <script>\n+    const form = document.getElementById('contactForm');\n+    const email = document.getElementById('email');\n+    const emailField = email.closest('.field');\n+    const success = document.getElementById('success');\n+    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n+\n+    form.addEventListener('submit', (e) => {\n+      e.preventDefault();\n+      success.style.display = 'none';\n+      emailField.classList.remove('invalid');\n+\n+      let valid = true;\n+      if (!emailRegex.test(email.value.trim())) {\n+        emailField.classList.add('invalid');\n+        valid = false;\n+      }\n+      if (valid) success.style.display = 'block';\n+    });\n+\n+    email.addEventListener('input', () => emailField.classList.remove('invalid'));\n+  </script>\n+</body>\n+</html>",
+  "2900e4b93a92c3e12d83a3ae9665a13bfeb059156a9399292403a3c8be652b0e": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Acme \u2014 Contact Us</title>\n  <style>\n    * { box-sizing: border-box; margin: 0; padding: 0; }\n    body {\n      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;\n      line-height: 1.6;\n      color: #1f2430;\n      background: #f6f7fb;\n    }\n    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }\n    header { text-align: center; padding: 3rem 1rem 1.5rem; }\n    header h1 { font-size: 2.4rem; color: #0d1b2a; }\n    header p { color: #5a6270; margin-top: 0.5rem; }\n    form {\n      background: #fff;\n      border: 1px solid #e4e7ee;\n      border-radius: 12px;\n      padding: 1.75rem;\n      box-shadow: 0 8px 24px rgba(0,0,0,0.06);\n      display: flex;\n      flex-direction: column;\n      gap: 1.1rem;\n    }\n    label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; display: block; }\n    input, textarea {\n      width: 100%;\n      padding: 0.7rem 0.8rem;\n      border: 1px solid #cdd2dd;\n      border-radius: 8px;\n      font: inherit;\n    }\n    input:focus, textarea:focus {\n      outline: none;\n      border-color: #2563eb;\n      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);\n    }\n    .error { color: #dc2626; font-size: 0.85rem; display: none; }\n    .field.invalid input, .field.invalid textarea { border-color: #dc2626; }\n    .field.invalid .error { display: block; }\n    button {\n      background: #2563eb;\n      color: #fff;\n      border: none;\n      padding: 0.8rem 1.2rem;\n      border-radius: 8px;\n      font-size: 1rem;\n      font-weight: 600;\n      cursor: pointer;\n      transition: background 0.15s;\n    }\n    button:hover { background: #1d4ed8; }\n    .success {\n      display: none;\n      background: #ecfdf5;\n      border: 1px solid #34d399;\n      color: #065f46;\n      border-radius: 8px;\n      padding: 0.9rem 1rem;\n      margin-top: 1rem;\n    }\n  </style>\n</head>\n<body>\n  <header>\n    <h1>Get in touch</h1>\n    <p>Tell us a little about your project and we'll get back to you within a day.</p>\n  </header>\n\n  <main class=\"wrap\">\n    <form id=\"contactForm\" novalidate>\n      <div class=\"field\">\n        <label for=\"name\">Name</label>\n        <input type=\"text\" id=\"name\" name=\"name\" autocomplete=\"name\">\n      </div>\n      <div class=\"field\">\n        <label for=\"email\">Email</label>\n        <input type=\"email\" id=\"email\" name=\"email\" autocomplete=\"email\">\n        <span class=\"error\">Please enter a valid email address.</span>\n      </div>\n      <div class=\"field\">\n        <label for=\"message\">Message</label>\n        <textarea id=\"message\" name=\"message\" rows=\"5\"></textarea>\n      </div>\n      <button type=\"submit\">Send message</button>\n    </form>\n    <div class=\"success\" id=\"success\">Thanks! Your message has been sent.</div>\n  </main>\n\n  <script>\n    const form = document.getElementById('contactForm');\n    const email = document.getElementById('email');\n    const emailField = email.closest('.field');\n    const success = document.getElementById('success');\n    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;\n\n    form.addEventListener('submit', (e) => {\n      e.preventDefault();\n      success.style.display = 'none';\n      emailField.classList.remove('invalid');\n\n      let valid = true;\n      if (!emailRegex.test(email.value.trim())) {\n        emailField.classList.add('invalid');\n        valid = false;\n      }\n      if (valid) success.style.display = 'block';\n    });\n\n    email.addEventListener('input', () => emailField.classList.remove('invalid'));\n  </script>\n</body>\n</html>\n"
  }
 }

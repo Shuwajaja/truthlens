@@ -41,14 +41,7 @@ class Server:
         events, errs = _verified_dir(str(d), self.key)
         if events is None:
             return {"verified": False, "integrity": "failed", "errors": errs}
-        doc = export.build(events, json.loads((d / "manifest.json").read_text()))
-        if self.key is not None:
-            doc["verified"] = True
-            doc["integrity"] = "hmac"
-        else:
-            doc["verified"] = False
-            doc["integrity"] = "hash-only"
-        return doc
+        return export.build(events, json.loads((d / "manifest.json").read_text()), hmac_key=self.key)
 
     def call(self, name: str, args: dict) -> dict:
         if name == "list_runs":

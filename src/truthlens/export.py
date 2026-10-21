@@ -1,11 +1,13 @@
-"""Viewer export: one JSON document for the web viewer, built only from a verified run (fail-closed upstream).
+"""Viewer export with checked hash-chain integrity and optional HMAC verification.
 
 Card colours follow DESIGN.md v2: green=met, yellow=claimed only, red=unmet, gray=unverified, outline=proposed.
 """
 
 from __future__ import annotations
 
-from truthlens.manifest import acceptance, claims
+from truthlens.canonical import CanonicalError, canonical_bytes
+from truthlens.ledger import verify_bytes
+from truthlens.manifest import acceptance, check_manifest, claims
 
 PLAIN = {
     "met": "Proven – witnessed evidence passed.",
@@ -61,7 +63,23 @@ def blob_texts(events: list[dict], read_blob) -> dict[str, str]:
     return out
 
 
-def build(events: list[dict], manifest: dict, read_blob=None) -> dict:
+def build(events: list[dict], manifest: dict, read_blob=None, *, hmac_key: bytes | None = None) -> dict:
+    """Check event hashes, the manifest and, when supplied, HMAC before labelling an export.
+
+    CLI/MCP additionally verify the original ledger bytes and stored blobs before calling this.
+    Supplying a key alone never establishes verification: every event's HMAC must match.
+    """
+    try:
+        result = verify_bytes(b"".join(canonical_bytes(e) + b"\n" for e in events), hmac_key)
+    except CanonicalError as e:
+        errors = [f"not canonical: {e}"]
+    else:
+        errors = [f"line {n}: {message}" for n, message in result.errors]
+        if not errors:
+            errors = check_manifest(manifest, events)
+    if errors:
+        return {"verified": False, "integrity": "failed", "errors": errors}
+    verified = hmac_key is not None
     acc, cl = acceptance(events), claims(events)
     claimed = {c for x in cl for c in x["criterion_ids"]}
     cards = []
@@ -85,10 +103,11 @@ def build(events: list[dict], manifest: dict, read_blob=None) -> dict:
     headline = (["Your agent said: Done.", "Here's what's actually proven."] if cl
                 else ["Here's what this run actually proves."])
     return {
-        "verified": True,
+        "verified": verified,
+        "integrity": "hmac" if verified else "hash-only",
         "headline": headline,
         "review_required": True,  # D7: human/domain acceptance is never automatic; shown by default
-        "trust": ["integrity_verified", "review_required"],
+        "trust": (["integrity_verified"] if verified else []) + ["review_required"],
         "run": {"run_id": start["run_id"], "project": req, "agent": manifest.get("agent", {}).get("name", ""),
                 "command": start["payload"].get("command", ""), "started": start["ts"],
                 "finished": fin["ts"] if fin else None, "exit_code": fin["payload"].get("exit_code") if fin else None,

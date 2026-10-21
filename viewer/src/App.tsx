@@ -7,13 +7,14 @@ import { Overview } from './components/Overview.tsx'
 import { ClaimedVsProven } from './components/ClaimedVsProven.tsx'
 import { Timeline } from './components/Timeline.tsx'
 import { Drawer, type DrawerTarget } from './components/Drawer.tsx'
+import { IntegrityNotice } from './components/IntegrityNotice.tsx'
 
 export type View = 'overview' | 'claimed-vs-proven' | 'timeline'
 
 export default function App() {
   const [doc, setDoc] = useState<RunDoc | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [verificationFailed, setVerificationFailed] = useState(false)
+  const [invalidExport, setInvalidExport] = useState(false)
   const [view, setView] = useState<View>('overview')
   const [drawerTarget, setDrawerTarget] = useState<DrawerTarget | null>(null)
   const [lens, setLens] = useState<Lens>(() => readLens())
@@ -23,7 +24,7 @@ export default function App() {
       .then(r => r.json())
       .then((data: unknown) => {
         if (!validateRunDoc(data)) {
-          setVerificationFailed(true)
+          setInvalidExport(true)
           return
         }
         setDoc(data)
@@ -43,12 +44,12 @@ export default function App() {
       </div>
     )
   }
-  if (verificationFailed) {
+  if (invalidExport) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-[#0d1117] text-[#e6edf3] font-sans px-6 text-center">
-        <h1 className="text-xl font-semibold text-[#f85149]">Verification failed</h1>
+        <h1 className="text-xl font-semibold text-[#f85149]">Invalid or inconsistent export</h1>
         <p className="mt-3 max-w-md text-[#8b949e] leading-relaxed">
-          This run export could not be verified. Restore a valid export and reload to view run data.
+          Restore a valid export and reload to view run data.
         </p>
       </div>
     )
@@ -70,8 +71,8 @@ export default function App() {
         onLensChange={handleLensChange}
         reviewRequired={doc.review_required}
       />
-      <div className="verified-badge">Verified run</div>
       <main className="ml-[220px] p-8 min-h-screen flex-1">
+        <IntegrityNotice integrity={doc.integrity} />
         {view === 'overview' && <Overview doc={doc} onOpenDrawer={setDrawerTarget} />}
         {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} lens={lens} />}
         {view === 'timeline' && <Timeline events={doc.events} lens={lens} onOpenDrawer={setDrawerTarget} />}
