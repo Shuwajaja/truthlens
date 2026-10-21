@@ -46,6 +46,18 @@ try {
       await page.getByRole('button', { name: 'Claimed vs Proven', exact: true }).click()
       await page.getByRole('heading', { level: 2 }).waitFor()
       await capture('claimed-vs-proven')
+      stage = `capture Agent Story (${lens})`
+      await page.getByRole('button', { name: 'Agent Story', exact: true }).click()
+      await page.getByRole('heading', { name: 'Agent Story', exact: true }).waitFor()
+      await page.getByText('Review required — technical checks do not replace human acceptance.', { exact: true }).waitFor()
+      await capture('agent-story')
+      const storyLinks = page.getByRole('list', { name: 'Recorded story' }).getByRole('button')
+      if (await storyLinks.count()) {
+        await storyLinks.first().click()
+        await page.getByRole('dialog', { name: 'Event detail' }).waitFor()
+        await capture('agent-story-drawer')
+        await page.getByRole('button', { name: 'Close', exact: true }).click()
+      }
       await page.getByRole('button', { name: 'Timeline', exact: true }).click()
       await page.getByRole('heading', { name: 'Timeline', exact: true }).waitFor()
       await capture('timeline')
@@ -60,14 +72,19 @@ try {
         await capture('diff-drawer')
         stage = `close diff drawer (${lens})`
         const close = page.getByRole('button', { name: 'Close', exact: true })
-        const overlaps = await close.evaluate(button => {
-          const badge = document.querySelector('.integrity-badge')
-          if (!badge) return false
-          const a = button.getBoundingClientRect()
-          const b = badge.getBoundingClientRect()
-          return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
-        })
-        if (overlaps) throw new Error('Integrity badge overlaps the drawer close button')
+        for (const width of [1440, 360]) {
+          await page.setViewportSize({ width, height: 1000 })
+          const blocked = await close.evaluate(button => {
+            const badge = document.querySelector('.integrity-badge')
+            if (!badge) return true
+            const a = button.getBoundingClientRect()
+            const b = badge.getBoundingClientRect()
+            return b.left < 0 || b.right > window.innerWidth
+              || (a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top)
+          })
+          if (blocked) throw new Error('Integrity badge is offscreen or overlaps Close')
+        }
+        await page.setViewportSize({ width: 1440, height: 1000 })
         await close.click()
       }
       const criterion = doc.criteria.find(criterion => criterion.evidence.length > 0)

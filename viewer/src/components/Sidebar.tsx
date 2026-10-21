@@ -19,6 +19,7 @@ export function Sidebar({
     { key: 'overview', label: 'Overview' },
     { key: 'claimed-vs-proven', label: 'Claimed vs Proven' },
     { key: 'timeline', label: 'Timeline' },
+    { key: 'agent-story', label: 'Agent Story' },
   ]
 
   return (
