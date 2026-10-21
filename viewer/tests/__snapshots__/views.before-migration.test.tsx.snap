@@ -2158,236 +2158,1012 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
             </div>
           </div>
           <div
-            aria-label="Kriterien und Belege"
-            class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criteria-panel"
-            data-slot="card"
-            role="region"
+            class="graph-evidence-row"
           >
             <div
-              class="panel-heading"
+              aria-label="Beleg-Graph"
+              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel evidence-graph"
+              data-slot="card"
+              role="region"
             >
-              <h2>
-                Kriterien & Belege
-              </h2>
-              <span
+              <div
+                class="panel-heading"
+              >
+                <h2>
+                  Beleg-Graph
+                </h2>
+                <span
+                  class="section-note"
+                >
+                  13 Datensätze · 4 Verbindungen
+                </span>
+              </div>
+              <p
                 class="section-note"
               >
-                Status aus dem Export
-              </span>
+                Nur aufgezeichnete Verknüpfungen. Claims ohne Beleg bleiben allein.
+              </p>
+              <div
+                class="graph-canvas"
+              >
+                <div
+                  aria-label="Interaktiver Beleg-Graph"
+                  class="react-flow dark"
+                  data-testid="rf__wrapper"
+                  id="evidence-flow"
+                  role="application"
+                  style="width: 100%; height: 100%; overflow: hidden; position: relative; z-index: 0;"
+                >
+                  <div
+                    class="react-flow__renderer"
+                    style="position: absolute; width: 100%; height: 100%; top: 0px; left: 0px;"
+                  >
+                    <div
+                      class="react-flow__pane draggable"
+                      style="position: absolute; width: 100%; height: 100%; top: 0px; left: 0px;"
+                    >
+                      <div
+                        class="react-flow__viewport xyflow__viewport react-flow__container"
+                        style="transform: translate(0px,0px) scale(1);"
+                      >
+                        <div
+                          class="react-flow__edges"
+                        />
+                        <div
+                          class="react-flow__edgelabel-renderer"
+                        />
+                        <div
+                          class="react-flow__nodes"
+                          style="position: absolute; width: 100%; height: 100%; top: 0px; left: 0px;"
+                        >
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="claim:0"
+                            data-testid="rf__node-claim:0"
+                            style="z-index: 0; transform: translate(0px,0px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-claim:0-null-target"
+                              data-nodeid="claim:0"
+                            />
+                            <button
+                              aria-label="Claim: Created index.html with a page that has a heading and a contact form · supported"
+                              class="graph-record nodrag nopan graph-claim"
+                              title="Created index.html with a page that has a heading and a contact form"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Claim · supported
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Created index.html with a page that has a heading and a contact form
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-claim:0-null-source"
+                              data-nodeid="claim:0"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="claim:1"
+                            data-testid="rf__node-claim:1"
+                            style="z-index: 0; transform: translate(0px,100px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-claim:1-null-target"
+                              data-nodeid="claim:1"
+                            />
+                            <button
+                              aria-label="Claim: The form validates the e-mail address using a regex and shows an error · claim_unwitnessed"
+                              class="graph-record nodrag nopan graph-claim"
+                              title="The form validates the e-mail address using a regex and shows an error"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Claim · claim_unwitnessed
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                The form validates the e-mail address using a regex and shows an error
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-claim:1-null-source"
+                              data-nodeid="claim:1"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="claim:2"
+                            data-testid="rf__node-claim:2"
+                            style="z-index: 0; transform: translate(0px,200px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-claim:2-null-target"
+                              data-nodeid="claim:2"
+                            />
+                            <button
+                              aria-label="Claim: The page uses a fluid max-width container so it works on mobile · claim_unwitnessed"
+                              class="graph-record nodrag nopan graph-claim"
+                              title="The page uses a fluid max-width container so it works on mobile"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Claim · claim_unwitnessed
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                The page uses a fluid max-width container so it works on mobile
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-claim:2-null-source"
+                              data-nodeid="claim:2"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="criterion:0"
+                            data-testid="rf__node-criterion:0"
+                            style="z-index: 0; transform: translate(240px,0px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-criterion:0-null-target"
+                              data-nodeid="criterion:0"
+                            />
+                            <button
+                              aria-label="Kriterium: Page exists (index.html with a heading and a form) · met"
+                              class="graph-record nodrag nopan graph-criterion"
+                              title="Page exists (index.html with a heading and a form)"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Kriterium · met
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Page exists (index.html with a heading and a form)
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-criterion:0-null-source"
+                              data-nodeid="criterion:0"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="criterion:1"
+                            data-testid="rf__node-criterion:1"
+                            style="z-index: 0; transform: translate(240px,100px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-criterion:1-null-target"
+                              data-nodeid="criterion:1"
+                            />
+                            <button
+                              aria-label="Kriterium: Form validates the e-mail address (invalid input rejected) · unmet"
+                              class="graph-record nodrag nopan graph-criterion"
+                              title="Form validates the e-mail address (invalid input rejected)"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Kriterium · unmet
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Form validates the e-mail address (invalid input rejected)
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-criterion:1-null-source"
+                              data-nodeid="criterion:1"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="criterion:2"
+                            data-testid="rf__node-criterion:2"
+                            style="z-index: 0; transform: translate(240px,200px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-criterion:2-null-target"
+                              data-nodeid="criterion:2"
+                            />
+                            <button
+                              aria-label="Kriterium: Mobile layout works · unverified"
+                              class="graph-record nodrag nopan graph-criterion"
+                              title="Mobile layout works"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Kriterium · unverified
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Mobile layout works
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-criterion:2-null-source"
+                              data-nodeid="criterion:2"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:0"
+                            data-testid="rf__node-evidence:0"
+                            style="z-index: 0; transform: translate(480px,0px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:0-null-target"
+                              data-nodeid="evidence:0"
+                            />
+                            <button
+                              aria-label="Ereignis: evidence.attached"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="evidence.attached"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                evidence.attached
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:0-null-source"
+                              data-nodeid="evidence:0"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:1"
+                            data-testid="rf__node-evidence:1"
+                            style="z-index: 0; transform: translate(480px,100px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:1-null-target"
+                              data-nodeid="evidence:1"
+                            />
+                            <button
+                              aria-label="Ereignis: Agent process finished (exit 0)"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="Agent process finished (exit 0)"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Agent process finished (exit 0)
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:1-null-source"
+                              data-nodeid="evidence:1"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:2"
+                            data-testid="rf__node-evidence:2"
+                            style="z-index: 0; transform: translate(480px,200px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:2-null-target"
+                              data-nodeid="evidence:2"
+                            />
+                            <button
+                              aria-label="Ereignis: Files changed: index.html"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="Files changed: index.html"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Files changed: index.html
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:2-null-source"
+                              data-nodeid="evidence:2"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:3"
+                            data-testid="rf__node-evidence:3"
+                            style="z-index: 0; transform: translate(480px,300px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:3-null-target"
+                              data-nodeid="evidence:3"
+                            />
+                            <button
+                              aria-label="Ereignis: File recorded: index.html"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="File recorded: index.html"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                File recorded: index.html
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:3-null-source"
+                              data-nodeid="evidence:3"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:4"
+                            data-testid="rf__node-evidence:4"
+                            style="z-index: 0; transform: translate(480px,400px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:4-null-target"
+                              data-nodeid="evidence:4"
+                            />
+                            <button
+                              aria-label="Ereignis: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:4-null-source"
+                              data-nodeid="evidence:4"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:5"
+                            data-testid="rf__node-evidence:5"
+                            style="z-index: 0; transform: translate(480px,500px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:5-null-target"
+                              data-nodeid="evidence:5"
+                            />
+                            <button
+                              aria-label="Ereignis: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:5-null-source"
+                              data-nodeid="evidence:5"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="file:0"
+                            data-testid="rf__node-file:0"
+                            style="z-index: 0; transform: translate(720px,0px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-file:0-null-target"
+                              data-nodeid="file:0"
+                            />
+                            <button
+                              aria-label="Datei: index.html"
+                              class="graph-record nodrag nopan graph-file"
+                              title="index.html"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Datei
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                index.html
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-file:0-null-source"
+                              data-nodeid="file:0"
+                            />
+                          </div>
+                        </div>
+                        <div
+                          class="react-flow__viewport-portal"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    aria-label="Graph vergrößern, verkleinern oder einpassen"
+                    class="react-flow__panel react-flow__controls vertical bottom left"
+                    data-testid="rf__controls"
+                  >
+                    <button
+                      aria-label="Zoom In"
+                      class="react-flow__controls-button react-flow__controls-zoomin"
+                      title="Zoom In"
+                      type="button"
+                    >
+                      <svg
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M32 18.133H18.133V32h-4.266V18.133H0v-4.266h13.867V0h4.266v13.867H32z"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      aria-label="Zoom Out"
+                      class="react-flow__controls-button react-flow__controls-zoomout"
+                      title="Zoom Out"
+                      type="button"
+                    >
+                      <svg
+                        viewBox="0 0 32 5"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0h32v4.2H0z"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      aria-label="Fit View"
+                      class="react-flow__controls-button react-flow__controls-fitview"
+                      title="Fit View"
+                      type="button"
+                    >
+                      <svg
+                        viewBox="0 0 32 30"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3.692 4.63c0-.53.4-.938.939-.938h5.215V0H4.708C2.13 0 0 2.054 0 4.63v5.216h3.692V4.631zM27.354 0h-5.2v3.692h5.17c.53 0 .984.4.984.939v5.215H32V4.631A4.624 4.624 0 0027.354 0zm.954 24.83c0 .532-.4.94-.939.94h-5.215v3.768h5.215c2.577 0 4.631-2.13 4.631-4.707v-5.139h-3.692v5.139zm-23.677.94c-.531 0-.939-.4-.939-.94v-5.138H0v5.139c0 2.577 2.13 4.707 4.708 4.707h5.138V25.77H4.631z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  <div
+                    class="react-flow__panel react-flow__attribution bottom right"
+                    data-message="Please only hide this attribution when you are subscribed to React Flow Pro: https://reactflow.dev/attribution"
+                  >
+                    <a
+                      aria-label="React Flow attribution"
+                      href="https://reactflow.dev/attribution"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      React Flow
+                    </a>
+                  </div>
+                  <div
+                    id="react-flow__node-desc-evidence-flow"
+                    style="display: none;"
+                  >
+                    Press enter or space to select a node. You can then use the arrow keys to move the node around. Press delete to remove it and escape to cancel.
+                  </div>
+                  <div
+                    id="react-flow__edge-desc-evidence-flow"
+                    style="display: none;"
+                  >
+                    Press enter or space to select an edge. You can then press delete to remove it or escape to cancel.
+                  </div>
+                  <div
+                    aria-atomic="true"
+                    aria-live="assertive"
+                    id="react-flow__aria-live-evidence-flow"
+                    style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(100%);"
+                  />
+                </div>
+              </div>
+              <details
+                class="graph-list"
+              >
+                <summary>
+                  Alle Datensätze und Verknüpfungen als Liste
+                </summary>
+                <ul
+                  aria-label="Graph-Datensätze"
+                >
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Claim: Created index.html with a page that has a heading and a contact form
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Claim: The form validates the e-mail address using a regex and shows an error
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Claim: The page uses a fluid max-width container so it works on mobile
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Kriterium: Page exists (index.html with a heading and a form)
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Kriterium: Form validates the e-mail address (invalid input rejected)
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Kriterium: Mobile layout works
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: evidence.attached
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: Agent process finished (exit 0)
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: Files changed: index.html
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: File recorded: index.html
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Datei: index.html
+                    </button>
+                  </li>
+                </ul>
+                <ul
+                  aria-label="Aufgezeichnete Verknüpfungen"
+                >
+                  <li>
+                    Created index.html with a page that has a heading and a contact form → Page exists (index.html with a heading and a form)
+                    <small>
+                      claim.clm_01M4NPVPHV57DCCK79YPB8D4VV.criterion_ids
+                    </small>
+                  </li>
+                  <li>
+                    Page exists (index.html with a heading and a form) → Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
+                    <small>
+                      criterion.c1.evidence; event.evt_01M4NPVPSNGNVVK6R10MZ0XV01.payload.criterion_ids
+                    </small>
+                  </li>
+                  <li>
+                    Form validates the e-mail address (invalid input rejected) → Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                    <small>
+                      criterion.c2.evidence; event.evt_01M4NPVQ5W413BNVPF8E9VKTSF.payload.criterion_ids
+                    </small>
+                  </li>
+                  <li>
+                    File recorded: index.html → index.html
+                    <small>
+                      event.evt_01M4NPVPJCQDXQ7S0H25AS1178.payload.artifact_id; event.evt_01M4NPVPJCQDXQ7S0H25AS1178.payload.sha256
+                    </small>
+                  </li>
+                </ul>
+              </details>
             </div>
-            <p
-              class="recorded-headline"
+            <div
+              aria-label="Kriterien und Belege"
+              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criteria-panel"
+              data-slot="card"
+              role="region"
             >
-              Your agent said: Done. Here's what's actually proven.
-            </p>
-            <ul
-              class="criterion-list"
-            >
-              <li>
-                <button
-                  aria-describedby="criterion-description-0 criterion-status-0"
-                  aria-label="Belege: Page exists (index.html with a heading and a form)"
-                  class="criterion-button"
-                  type="button"
+              <div
+                class="panel-heading"
+              >
+                <h2>
+                  Kriterien & Belege
+                </h2>
+                <span
+                  class="section-note"
                 >
-                  <span
-                    class="criterion-content"
+                  Status aus dem Export
+                </span>
+              </div>
+              <p
+                class="recorded-headline"
+              >
+                Your agent said: Done. Here's what's actually proven.
+              </p>
+              <ul
+                class="criterion-list"
+              >
+                <li>
+                  <button
+                    aria-describedby="criterion-description-0 criterion-status-0"
+                    aria-label="Belege: Page exists (index.html with a heading and a form)"
+                    class="criterion-button"
+                    type="button"
                   >
-                    <strong>
-                      Page exists (index.html with a heading and a form)
-                    </strong>
                     <span
-                      id="criterion-description-0"
+                      class="criterion-content"
                     >
-                      Proven – witnessed evidence passed.
-                    </span>
-                  </span>
-                  <span
-                    class="criterion-labels"
-                    id="criterion-status-0"
-                  >
-                    <span
-                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-success/40 bg-success/10 text-success"
-                      data-slot="status-badge"
-                      data-variant="belegt"
-                    >
-                      <span>
-                        Belegt
-                      </span>
-                      <code
-                        class="font-mono"
+                      <strong>
+                        Page exists (index.html with a heading and a form)
+                      </strong>
+                      <span
+                        id="criterion-description-0"
                       >
-                        · met
-                      </code>
-                    </span>
-                    <span
-                      class="text-warning text-xs"
-                    >
-                      claimed
-                    </span>
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-arrow-up-right"
-                    fill="none"
-                    height="16"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="16"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M7 7h10v10"
-                    />
-                    <path
-                      d="M7 17 17 7"
-                    />
-                  </svg>
-                </button>
-              </li>
-              <li>
-                <button
-                  aria-describedby="criterion-description-1 criterion-status-1"
-                  aria-label="Belege: Form validates the e-mail address (invalid input rejected)"
-                  class="criterion-button"
-                  type="button"
-                >
-                  <span
-                    class="criterion-content"
-                  >
-                    <strong>
-                      Form validates the e-mail address (invalid input rejected)
-                    </strong>
-                    <span
-                      id="criterion-description-1"
-                    >
-                      Failed – the witnessed check did not pass.
-                    </span>
-                  </span>
-                  <span
-                    class="criterion-labels"
-                    id="criterion-status-1"
-                  >
-                    <span
-                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-destructive/40 bg-destructive/10 text-destructive"
-                      data-slot="status-badge"
-                      data-variant="fehlgeschlagen"
-                    >
-                      <span>
-                        Fehlgeschlagen
+                        Proven – witnessed evidence passed.
                       </span>
-                      <code
-                        class="font-mono"
+                    </span>
+                    <span
+                      class="criterion-labels"
+                      id="criterion-status-0"
+                    >
+                      <span
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-success/40 bg-success/10 text-success"
+                        data-slot="status-badge"
+                        data-variant="belegt"
                       >
-                        · unmet
-                      </code>
-                    </span>
-                    <span
-                      class="text-warning text-xs"
-                    >
-                      claimed
-                    </span>
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-arrow-up-right"
-                    fill="none"
-                    height="16"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="16"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M7 7h10v10"
-                    />
-                    <path
-                      d="M7 17 17 7"
-                    />
-                  </svg>
-                </button>
-              </li>
-              <li>
-                <button
-                  aria-describedby="criterion-description-2 criterion-status-2"
-                  aria-label="Belege: Mobile layout works"
-                  class="criterion-button"
-                  type="button"
-                >
-                  <span
-                    class="criterion-content"
-                  >
-                    <strong>
-                      Mobile layout works
-                    </strong>
-                    <span
-                      id="criterion-description-2"
-                    >
-                      Claimed only – nothing checked this yet.
-                    </span>
-                  </span>
-                  <span
-                    class="criterion-labels"
-                    id="criterion-status-2"
-                  >
-                    <span
-                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
-                      data-slot="status-badge"
-                      data-variant="offen"
-                    >
-                      <span>
-                        Offen
+                        <span>
+                          Belegt
+                        </span>
+                        <code
+                          class="font-mono"
+                        >
+                          · met
+                        </code>
                       </span>
-                      <code
-                        class="font-mono"
+                      <span
+                        class="text-warning text-xs"
                       >
-                        · unverified
-                      </code>
+                        claimed
+                      </span>
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-arrow-up-right"
+                      fill="none"
+                      height="16"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7 7h10v10"
+                      />
+                      <path
+                        d="M7 17 17 7"
+                      />
+                    </svg>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    aria-describedby="criterion-description-1 criterion-status-1"
+                    aria-label="Belege: Form validates the e-mail address (invalid input rejected)"
+                    class="criterion-button"
+                    type="button"
+                  >
+                    <span
+                      class="criterion-content"
+                    >
+                      <strong>
+                        Form validates the e-mail address (invalid input rejected)
+                      </strong>
+                      <span
+                        id="criterion-description-1"
+                      >
+                        Failed – the witnessed check did not pass.
+                      </span>
                     </span>
                     <span
-                      class="text-warning text-xs"
+                      class="criterion-labels"
+                      id="criterion-status-1"
                     >
-                      claimed
+                      <span
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-destructive/40 bg-destructive/10 text-destructive"
+                        data-slot="status-badge"
+                        data-variant="fehlgeschlagen"
+                      >
+                        <span>
+                          Fehlgeschlagen
+                        </span>
+                        <code
+                          class="font-mono"
+                        >
+                          · unmet
+                        </code>
+                      </span>
+                      <span
+                        class="text-warning text-xs"
+                      >
+                        claimed
+                      </span>
                     </span>
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-arrow-up-right"
-                    fill="none"
-                    height="16"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="16"
-                    xmlns="http://www.w3.org/2000/svg"
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-arrow-up-right"
+                      fill="none"
+                      height="16"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7 7h10v10"
+                      />
+                      <path
+                        d="M7 17 17 7"
+                      />
+                    </svg>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    aria-describedby="criterion-description-2 criterion-status-2"
+                    aria-label="Belege: Mobile layout works"
+                    class="criterion-button"
+                    type="button"
                   >
-                    <path
-                      d="M7 7h10v10"
-                    />
-                    <path
-                      d="M7 17 17 7"
-                    />
-                  </svg>
-                </button>
-              </li>
-            </ul>
-            <p
-              class="claim-callout"
-            >
-              <strong>
-                Claim · claim_unwitnessed
-              </strong>
-              <br />
-              The form validates the e-mail address using a regex and shows an error
-            </p>
+                    <span
+                      class="criterion-content"
+                    >
+                      <strong>
+                        Mobile layout works
+                      </strong>
+                      <span
+                        id="criterion-description-2"
+                      >
+                        Claimed only – nothing checked this yet.
+                      </span>
+                    </span>
+                    <span
+                      class="criterion-labels"
+                      id="criterion-status-2"
+                    >
+                      <span
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                        data-slot="status-badge"
+                        data-variant="offen"
+                      >
+                        <span>
+                          Offen
+                        </span>
+                        <code
+                          class="font-mono"
+                        >
+                          · unverified
+                        </code>
+                      </span>
+                      <span
+                        class="text-warning text-xs"
+                      >
+                        claimed
+                      </span>
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-arrow-up-right"
+                      fill="none"
+                      height="16"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7 7h10v10"
+                      />
+                      <path
+                        d="M7 17 17 7"
+                      />
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+              <p
+                class="claim-callout"
+              >
+                <strong>
+                  Claim · claim_unwitnessed
+                </strong>
+                <br />
+                The form validates the e-mail address using a regex and shows an error
+              </p>
+            </div>
           </div>
           <div
             class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel"
@@ -4064,236 +4840,1012 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
             </div>
           </div>
           <div
-            aria-label="Kriterien und Belege"
-            class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criteria-panel"
-            data-slot="card"
-            role="region"
+            class="graph-evidence-row"
           >
             <div
-              class="panel-heading"
+              aria-label="Beleg-Graph"
+              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel evidence-graph"
+              data-slot="card"
+              role="region"
             >
-              <h2>
-                Kriterien & Belege
-              </h2>
-              <span
+              <div
+                class="panel-heading"
+              >
+                <h2>
+                  Beleg-Graph
+                </h2>
+                <span
+                  class="section-note"
+                >
+                  13 Datensätze · 4 Verbindungen
+                </span>
+              </div>
+              <p
                 class="section-note"
               >
-                Status aus dem Export
-              </span>
+                Nur aufgezeichnete Verknüpfungen. Claims ohne Beleg bleiben allein.
+              </p>
+              <div
+                class="graph-canvas"
+              >
+                <div
+                  aria-label="Interaktiver Beleg-Graph"
+                  class="react-flow dark"
+                  data-testid="rf__wrapper"
+                  id="evidence-flow"
+                  role="application"
+                  style="width: 100%; height: 100%; overflow: hidden; position: relative; z-index: 0;"
+                >
+                  <div
+                    class="react-flow__renderer"
+                    style="position: absolute; width: 100%; height: 100%; top: 0px; left: 0px;"
+                  >
+                    <div
+                      class="react-flow__pane draggable"
+                      style="position: absolute; width: 100%; height: 100%; top: 0px; left: 0px;"
+                    >
+                      <div
+                        class="react-flow__viewport xyflow__viewport react-flow__container"
+                        style="transform: translate(0px,0px) scale(1);"
+                      >
+                        <div
+                          class="react-flow__edges"
+                        />
+                        <div
+                          class="react-flow__edgelabel-renderer"
+                        />
+                        <div
+                          class="react-flow__nodes"
+                          style="position: absolute; width: 100%; height: 100%; top: 0px; left: 0px;"
+                        >
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="claim:0"
+                            data-testid="rf__node-claim:0"
+                            style="z-index: 0; transform: translate(0px,0px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-claim:0-null-target"
+                              data-nodeid="claim:0"
+                            />
+                            <button
+                              aria-label="Claim: Created index.html with a page that has a heading and a contact form · supported"
+                              class="graph-record nodrag nopan graph-claim"
+                              title="Created index.html with a page that has a heading and a contact form"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Claim · supported
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Created index.html with a page that has a heading and a contact form
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-claim:0-null-source"
+                              data-nodeid="claim:0"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="claim:1"
+                            data-testid="rf__node-claim:1"
+                            style="z-index: 0; transform: translate(0px,100px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-claim:1-null-target"
+                              data-nodeid="claim:1"
+                            />
+                            <button
+                              aria-label="Claim: The form validates the e-mail address using a regex and shows an error · claim_unwitnessed"
+                              class="graph-record nodrag nopan graph-claim"
+                              title="The form validates the e-mail address using a regex and shows an error"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Claim · claim_unwitnessed
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                The form validates the e-mail address using a regex and shows an error
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-claim:1-null-source"
+                              data-nodeid="claim:1"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="claim:2"
+                            data-testid="rf__node-claim:2"
+                            style="z-index: 0; transform: translate(0px,200px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-claim:2-null-target"
+                              data-nodeid="claim:2"
+                            />
+                            <button
+                              aria-label="Claim: The page uses a fluid max-width container so it works on mobile · claim_unwitnessed"
+                              class="graph-record nodrag nopan graph-claim"
+                              title="The page uses a fluid max-width container so it works on mobile"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Claim · claim_unwitnessed
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                The page uses a fluid max-width container so it works on mobile
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-claim:2-null-source"
+                              data-nodeid="claim:2"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="criterion:0"
+                            data-testid="rf__node-criterion:0"
+                            style="z-index: 0; transform: translate(240px,0px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-criterion:0-null-target"
+                              data-nodeid="criterion:0"
+                            />
+                            <button
+                              aria-label="Kriterium: Page exists (index.html with a heading and a form) · met"
+                              class="graph-record nodrag nopan graph-criterion"
+                              title="Page exists (index.html with a heading and a form)"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Kriterium · met
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Page exists (index.html with a heading and a form)
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-criterion:0-null-source"
+                              data-nodeid="criterion:0"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="criterion:1"
+                            data-testid="rf__node-criterion:1"
+                            style="z-index: 0; transform: translate(240px,100px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-criterion:1-null-target"
+                              data-nodeid="criterion:1"
+                            />
+                            <button
+                              aria-label="Kriterium: Form validates the e-mail address (invalid input rejected) · unmet"
+                              class="graph-record nodrag nopan graph-criterion"
+                              title="Form validates the e-mail address (invalid input rejected)"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Kriterium · unmet
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Form validates the e-mail address (invalid input rejected)
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-criterion:1-null-source"
+                              data-nodeid="criterion:1"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="criterion:2"
+                            data-testid="rf__node-criterion:2"
+                            style="z-index: 0; transform: translate(240px,200px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-criterion:2-null-target"
+                              data-nodeid="criterion:2"
+                            />
+                            <button
+                              aria-label="Kriterium: Mobile layout works · unverified"
+                              class="graph-record nodrag nopan graph-criterion"
+                              title="Mobile layout works"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Kriterium · unverified
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Mobile layout works
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-criterion:2-null-source"
+                              data-nodeid="criterion:2"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:0"
+                            data-testid="rf__node-evidence:0"
+                            style="z-index: 0; transform: translate(480px,0px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:0-null-target"
+                              data-nodeid="evidence:0"
+                            />
+                            <button
+                              aria-label="Ereignis: evidence.attached"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="evidence.attached"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                evidence.attached
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:0-null-source"
+                              data-nodeid="evidence:0"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:1"
+                            data-testid="rf__node-evidence:1"
+                            style="z-index: 0; transform: translate(480px,100px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:1-null-target"
+                              data-nodeid="evidence:1"
+                            />
+                            <button
+                              aria-label="Ereignis: Agent process finished (exit 0)"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="Agent process finished (exit 0)"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Agent process finished (exit 0)
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:1-null-source"
+                              data-nodeid="evidence:1"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:2"
+                            data-testid="rf__node-evidence:2"
+                            style="z-index: 0; transform: translate(480px,200px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:2-null-target"
+                              data-nodeid="evidence:2"
+                            />
+                            <button
+                              aria-label="Ereignis: Files changed: index.html"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="Files changed: index.html"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Files changed: index.html
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:2-null-source"
+                              data-nodeid="evidence:2"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:3"
+                            data-testid="rf__node-evidence:3"
+                            style="z-index: 0; transform: translate(480px,300px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:3-null-target"
+                              data-nodeid="evidence:3"
+                            />
+                            <button
+                              aria-label="Ereignis: File recorded: index.html"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="File recorded: index.html"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                File recorded: index.html
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:3-null-source"
+                              data-nodeid="evidence:3"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:4"
+                            data-testid="rf__node-evidence:4"
+                            style="z-index: 0; transform: translate(480px,400px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:4-null-target"
+                              data-nodeid="evidence:4"
+                            />
+                            <button
+                              aria-label="Ereignis: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:4-null-source"
+                              data-nodeid="evidence:4"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="evidence:5"
+                            data-testid="rf__node-evidence:5"
+                            style="z-index: 0; transform: translate(480px,500px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-evidence:5-null-target"
+                              data-nodeid="evidence:5"
+                            />
+                            <button
+                              aria-label="Ereignis: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
+                              class="graph-record nodrag nopan graph-evidence"
+                              title="Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Ereignis
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-evidence:5-null-source"
+                              data-nodeid="evidence:5"
+                            />
+                          </div>
+                          <div
+                            aria-describedby="react-flow__node-desc-evidence-flow"
+                            aria-roledescription="node"
+                            class="react-flow__node react-flow__node-record"
+                            data-id="file:0"
+                            data-testid="rf__node-file:0"
+                            style="z-index: 0; transform: translate(720px,0px); pointer-events: all; visibility: visible; width: 196px; height: 82px;"
+                          >
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag nopan target connectablestart connectableend"
+                              data-handlepos="left"
+                              data-id="evidence-flow-file:0-null-target"
+                              data-nodeid="file:0"
+                            />
+                            <button
+                              aria-label="Datei: index.html"
+                              class="graph-record nodrag nopan graph-file"
+                              title="index.html"
+                              type="button"
+                            >
+                              <span
+                                class="graph-kind"
+                              >
+                                Datei
+                              </span>
+                              <span
+                                class="graph-label"
+                              >
+                                index.html
+                              </span>
+                            </button>
+                            <div
+                              class="react-flow__handle react-flow__handle-right nodrag nopan source connectablestart connectableend"
+                              data-handlepos="right"
+                              data-id="evidence-flow-file:0-null-source"
+                              data-nodeid="file:0"
+                            />
+                          </div>
+                        </div>
+                        <div
+                          class="react-flow__viewport-portal"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    aria-label="Graph vergrößern, verkleinern oder einpassen"
+                    class="react-flow__panel react-flow__controls vertical bottom left"
+                    data-testid="rf__controls"
+                  >
+                    <button
+                      aria-label="Zoom In"
+                      class="react-flow__controls-button react-flow__controls-zoomin"
+                      title="Zoom In"
+                      type="button"
+                    >
+                      <svg
+                        viewBox="0 0 32 32"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M32 18.133H18.133V32h-4.266V18.133H0v-4.266h13.867V0h4.266v13.867H32z"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      aria-label="Zoom Out"
+                      class="react-flow__controls-button react-flow__controls-zoomout"
+                      title="Zoom Out"
+                      type="button"
+                    >
+                      <svg
+                        viewBox="0 0 32 5"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0h32v4.2H0z"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      aria-label="Fit View"
+                      class="react-flow__controls-button react-flow__controls-fitview"
+                      title="Fit View"
+                      type="button"
+                    >
+                      <svg
+                        viewBox="0 0 32 30"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M3.692 4.63c0-.53.4-.938.939-.938h5.215V0H4.708C2.13 0 0 2.054 0 4.63v5.216h3.692V4.631zM27.354 0h-5.2v3.692h5.17c.53 0 .984.4.984.939v5.215H32V4.631A4.624 4.624 0 0027.354 0zm.954 24.83c0 .532-.4.94-.939.94h-5.215v3.768h5.215c2.577 0 4.631-2.13 4.631-4.707v-5.139h-3.692v5.139zm-23.677.94c-.531 0-.939-.4-.939-.94v-5.138H0v5.139c0 2.577 2.13 4.707 4.708 4.707h5.138V25.77H4.631z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  <div
+                    class="react-flow__panel react-flow__attribution bottom right"
+                    data-message="Please only hide this attribution when you are subscribed to React Flow Pro: https://reactflow.dev/attribution"
+                  >
+                    <a
+                      aria-label="React Flow attribution"
+                      href="https://reactflow.dev/attribution"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      React Flow
+                    </a>
+                  </div>
+                  <div
+                    id="react-flow__node-desc-evidence-flow"
+                    style="display: none;"
+                  >
+                    Press enter or space to select a node. You can then use the arrow keys to move the node around. Press delete to remove it and escape to cancel.
+                  </div>
+                  <div
+                    id="react-flow__edge-desc-evidence-flow"
+                    style="display: none;"
+                  >
+                    Press enter or space to select an edge. You can then press delete to remove it or escape to cancel.
+                  </div>
+                  <div
+                    aria-atomic="true"
+                    aria-live="assertive"
+                    id="react-flow__aria-live-evidence-flow"
+                    style="position: absolute; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); clip-path: inset(100%);"
+                  />
+                </div>
+              </div>
+              <details
+                class="graph-list"
+              >
+                <summary>
+                  Alle Datensätze und Verknüpfungen als Liste
+                </summary>
+                <ul
+                  aria-label="Graph-Datensätze"
+                >
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Claim: Created index.html with a page that has a heading and a contact form
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Claim: The form validates the e-mail address using a regex and shows an error
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Claim: The page uses a fluid max-width container so it works on mobile
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Kriterium: Page exists (index.html with a heading and a form)
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Kriterium: Form validates the e-mail address (invalid input rejected)
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Kriterium: Mobile layout works
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: evidence.attached
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: Agent process finished (exit 0)
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: Files changed: index.html
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: File recorded: index.html
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Ereignis: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                    >
+                      Datei: index.html
+                    </button>
+                  </li>
+                </ul>
+                <ul
+                  aria-label="Aufgezeichnete Verknüpfungen"
+                >
+                  <li>
+                    Created index.html with a page that has a heading and a contact form → Page exists (index.html with a heading and a form)
+                    <small>
+                      claim.clm_01M4NPVPHV57DCCK79YPB8D4VV.criterion_ids
+                    </small>
+                  </li>
+                  <li>
+                    Page exists (index.html with a heading and a form) → Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
+                    <small>
+                      criterion.c1.evidence; event.evt_01M4NPVPSNGNVVK6R10MZ0XV01.payload.criterion_ids
+                    </small>
+                  </li>
+                  <li>
+                    Form validates the e-mail address (invalid input rejected) → Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                    <small>
+                      criterion.c2.evidence; event.evt_01M4NPVQ5W413BNVPF8E9VKTSF.payload.criterion_ids
+                    </small>
+                  </li>
+                  <li>
+                    File recorded: index.html → index.html
+                    <small>
+                      event.evt_01M4NPVPJCQDXQ7S0H25AS1178.payload.artifact_id; event.evt_01M4NPVPJCQDXQ7S0H25AS1178.payload.sha256
+                    </small>
+                  </li>
+                </ul>
+              </details>
             </div>
-            <p
-              class="recorded-headline"
+            <div
+              aria-label="Kriterien und Belege"
+              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criteria-panel"
+              data-slot="card"
+              role="region"
             >
-              Your agent said: Done. Here's what's actually proven.
-            </p>
-            <ul
-              class="criterion-list"
-            >
-              <li>
-                <button
-                  aria-describedby="criterion-description-0 criterion-status-0"
-                  aria-label="Belege: Page exists (index.html with a heading and a form)"
-                  class="criterion-button"
-                  type="button"
+              <div
+                class="panel-heading"
+              >
+                <h2>
+                  Kriterien & Belege
+                </h2>
+                <span
+                  class="section-note"
                 >
-                  <span
-                    class="criterion-content"
+                  Status aus dem Export
+                </span>
+              </div>
+              <p
+                class="recorded-headline"
+              >
+                Your agent said: Done. Here's what's actually proven.
+              </p>
+              <ul
+                class="criterion-list"
+              >
+                <li>
+                  <button
+                    aria-describedby="criterion-description-0 criterion-status-0"
+                    aria-label="Belege: Page exists (index.html with a heading and a form)"
+                    class="criterion-button"
+                    type="button"
                   >
-                    <strong>
-                      Page exists (index.html with a heading and a form)
-                    </strong>
                     <span
-                      id="criterion-description-0"
+                      class="criterion-content"
                     >
-                      Proven – witnessed evidence passed.
-                    </span>
-                  </span>
-                  <span
-                    class="criterion-labels"
-                    id="criterion-status-0"
-                  >
-                    <span
-                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-success/40 bg-success/10 text-success"
-                      data-slot="status-badge"
-                      data-variant="belegt"
-                    >
-                      <span>
-                        Belegt
-                      </span>
-                      <code
-                        class="font-mono"
+                      <strong>
+                        Page exists (index.html with a heading and a form)
+                      </strong>
+                      <span
+                        id="criterion-description-0"
                       >
-                        · met
-                      </code>
-                    </span>
-                    <span
-                      class="text-warning text-xs"
-                    >
-                      claimed
-                    </span>
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-arrow-up-right"
-                    fill="none"
-                    height="16"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="16"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M7 7h10v10"
-                    />
-                    <path
-                      d="M7 17 17 7"
-                    />
-                  </svg>
-                </button>
-              </li>
-              <li>
-                <button
-                  aria-describedby="criterion-description-1 criterion-status-1"
-                  aria-label="Belege: Form validates the e-mail address (invalid input rejected)"
-                  class="criterion-button"
-                  type="button"
-                >
-                  <span
-                    class="criterion-content"
-                  >
-                    <strong>
-                      Form validates the e-mail address (invalid input rejected)
-                    </strong>
-                    <span
-                      id="criterion-description-1"
-                    >
-                      Failed – the witnessed check did not pass.
-                    </span>
-                  </span>
-                  <span
-                    class="criterion-labels"
-                    id="criterion-status-1"
-                  >
-                    <span
-                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-destructive/40 bg-destructive/10 text-destructive"
-                      data-slot="status-badge"
-                      data-variant="fehlgeschlagen"
-                    >
-                      <span>
-                        Fehlgeschlagen
+                        Proven – witnessed evidence passed.
                       </span>
-                      <code
-                        class="font-mono"
+                    </span>
+                    <span
+                      class="criterion-labels"
+                      id="criterion-status-0"
+                    >
+                      <span
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-success/40 bg-success/10 text-success"
+                        data-slot="status-badge"
+                        data-variant="belegt"
                       >
-                        · unmet
-                      </code>
-                    </span>
-                    <span
-                      class="text-warning text-xs"
-                    >
-                      claimed
-                    </span>
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-arrow-up-right"
-                    fill="none"
-                    height="16"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="16"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M7 7h10v10"
-                    />
-                    <path
-                      d="M7 17 17 7"
-                    />
-                  </svg>
-                </button>
-              </li>
-              <li>
-                <button
-                  aria-describedby="criterion-description-2 criterion-status-2"
-                  aria-label="Belege: Mobile layout works"
-                  class="criterion-button"
-                  type="button"
-                >
-                  <span
-                    class="criterion-content"
-                  >
-                    <strong>
-                      Mobile layout works
-                    </strong>
-                    <span
-                      id="criterion-description-2"
-                    >
-                      Claimed only – nothing checked this yet.
-                    </span>
-                  </span>
-                  <span
-                    class="criterion-labels"
-                    id="criterion-status-2"
-                  >
-                    <span
-                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
-                      data-slot="status-badge"
-                      data-variant="offen"
-                    >
-                      <span>
-                        Offen
+                        <span>
+                          Belegt
+                        </span>
+                        <code
+                          class="font-mono"
+                        >
+                          · met
+                        </code>
                       </span>
-                      <code
-                        class="font-mono"
+                      <span
+                        class="text-warning text-xs"
                       >
-                        · unverified
-                      </code>
+                        claimed
+                      </span>
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-arrow-up-right"
+                      fill="none"
+                      height="16"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7 7h10v10"
+                      />
+                      <path
+                        d="M7 17 17 7"
+                      />
+                    </svg>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    aria-describedby="criterion-description-1 criterion-status-1"
+                    aria-label="Belege: Form validates the e-mail address (invalid input rejected)"
+                    class="criterion-button"
+                    type="button"
+                  >
+                    <span
+                      class="criterion-content"
+                    >
+                      <strong>
+                        Form validates the e-mail address (invalid input rejected)
+                      </strong>
+                      <span
+                        id="criterion-description-1"
+                      >
+                        Failed – the witnessed check did not pass.
+                      </span>
                     </span>
                     <span
-                      class="text-warning text-xs"
+                      class="criterion-labels"
+                      id="criterion-status-1"
                     >
-                      claimed
+                      <span
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-destructive/40 bg-destructive/10 text-destructive"
+                        data-slot="status-badge"
+                        data-variant="fehlgeschlagen"
+                      >
+                        <span>
+                          Fehlgeschlagen
+                        </span>
+                        <code
+                          class="font-mono"
+                        >
+                          · unmet
+                        </code>
+                      </span>
+                      <span
+                        class="text-warning text-xs"
+                      >
+                        claimed
+                      </span>
                     </span>
-                  </span>
-                  <svg
-                    aria-hidden="true"
-                    class="lucide lucide-arrow-up-right"
-                    fill="none"
-                    height="16"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    width="16"
-                    xmlns="http://www.w3.org/2000/svg"
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-arrow-up-right"
+                      fill="none"
+                      height="16"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7 7h10v10"
+                      />
+                      <path
+                        d="M7 17 17 7"
+                      />
+                    </svg>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    aria-describedby="criterion-description-2 criterion-status-2"
+                    aria-label="Belege: Mobile layout works"
+                    class="criterion-button"
+                    type="button"
                   >
-                    <path
-                      d="M7 7h10v10"
-                    />
-                    <path
-                      d="M7 17 17 7"
-                    />
-                  </svg>
-                </button>
-              </li>
-            </ul>
-            <p
-              class="claim-callout"
-            >
-              <strong>
-                Claim · claim_unwitnessed
-              </strong>
-              <br />
-              The form validates the e-mail address using a regex and shows an error
-            </p>
+                    <span
+                      class="criterion-content"
+                    >
+                      <strong>
+                        Mobile layout works
+                      </strong>
+                      <span
+                        id="criterion-description-2"
+                      >
+                        Claimed only – nothing checked this yet.
+                      </span>
+                    </span>
+                    <span
+                      class="criterion-labels"
+                      id="criterion-status-2"
+                    >
+                      <span
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                        data-slot="status-badge"
+                        data-variant="offen"
+                      >
+                        <span>
+                          Offen
+                        </span>
+                        <code
+                          class="font-mono"
+                        >
+                          · unverified
+                        </code>
+                      </span>
+                      <span
+                        class="text-warning text-xs"
+                      >
+                        claimed
+                      </span>
+                    </span>
+                    <svg
+                      aria-hidden="true"
+                      class="lucide lucide-arrow-up-right"
+                      fill="none"
+                      height="16"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7 7h10v10"
+                      />
+                      <path
+                        d="M7 17 17 7"
+                      />
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+              <p
+                class="claim-callout"
+              >
+                <strong>
+                  Claim · claim_unwitnessed
+                </strong>
+                <br />
+                The form validates the e-mail address using a regex and shows an error
+              </p>
+            </div>
           </div>
           <div
             class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel"
@@ -6170,46 +7722,65 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
 exports[`pre-migration viewer snapshots (must remain unchanged) > criterion drawer with diff and synthetic Markdown, client lens 1`] = `
 <DocumentFragment>
   <div
-    class="drawer-backdrop"
-  />
-  <div
+    aria-describedby="evidence-description radix-_r_2_"
     aria-label="Evidence detail"
-    class="drawer-pane"
+    class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
+    data-slot="sheet-content"
+    data-state="open"
+    id="evidence-drawer"
     role="dialog"
-    tabindex="0"
+    style="pointer-events: auto;"
+    tabindex="-1"
   >
     <div
-      class="flex items-center justify-between px-4 py-3 border-b border-[#30363d]"
+      class="flex flex-col gap-1.5 p-4 border-b border-border pr-12"
+      data-slot="sheet-header"
     >
-      <h3
-        class="text-base font-medium"
+      <h2
+        class="font-semibold text-foreground"
+        data-slot="sheet-title"
+        id="evidence-title"
       >
         Details
-      </h3>
-      <button
-        aria-label="Close"
-        class="text-[#8b949e] text-lg leading-none px-2"
-        type="button"
+      </h2>
+      <p
+        class="text-sm text-muted-foreground sr-only"
+        data-slot="sheet-description"
+        id="evidence-description"
       >
-        ×
-      </button>
+        Recorded export data. Technical integrity does not establish human acceptance.
+      </p>
     </div>
     <div
-      class="px-4 py-4"
+      class="drawer-body px-4 py-4 min-w-0"
     >
       <div
         class="mb-4"
       >
-        <div
-          class="text-sm"
-        >
-          Synthetic fixture, not a recorded witness.
-        </div>
-        <div
-          class="text-[#8b949e] text-sm mt-1"
+        <p
+          class="text-sm mb-2"
         >
           Synthetic renderer snapshot fixture
-        </div>
+        </p>
+        <p
+          class="text-sm text-muted-foreground mb-2"
+        >
+          Synthetic fixture, not a recorded witness.
+        </p>
+        <span
+          class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+          data-slot="status-badge"
+          data-variant="offen"
+        >
+          <span>
+            Offen
+          </span>
+          <code
+            class="font-mono"
+          >
+            · unverified
+          </code>
+        </span>
       </div>
       <div
         class="space-y-4"
@@ -6932,6 +8503,36 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
         </div>
       </div>
     </div>
+    <button
+      class="absolute top-4 right-4 p-2 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-secondary"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-x size-4"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M18 6 6 18"
+        />
+        <path
+          d="m6 6 12 12"
+        />
+      </svg>
+      <span
+        class="sr-only"
+      >
+        Close
+      </span>
+    </button>
   </div>
 </DocumentFragment>
 `;
@@ -6939,46 +8540,65 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
 exports[`pre-migration viewer snapshots (must remain unchanged) > criterion drawer with diff and synthetic Markdown, developer lens 1`] = `
 <DocumentFragment>
   <div
-    class="drawer-backdrop"
-  />
-  <div
+    aria-describedby="evidence-description radix-_r_5_"
     aria-label="Evidence detail"
-    class="drawer-pane"
+    class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
+    data-slot="sheet-content"
+    data-state="open"
+    id="evidence-drawer"
     role="dialog"
-    tabindex="0"
+    style="pointer-events: auto;"
+    tabindex="-1"
   >
     <div
-      class="flex items-center justify-between px-4 py-3 border-b border-[#30363d]"
+      class="flex flex-col gap-1.5 p-4 border-b border-border pr-12"
+      data-slot="sheet-header"
     >
-      <h3
-        class="text-base font-medium"
+      <h2
+        class="font-semibold text-foreground"
+        data-slot="sheet-title"
+        id="evidence-title"
       >
-        Evidence
-      </h3>
-      <button
-        aria-label="Close"
-        class="text-[#8b949e] text-lg leading-none px-2"
-        type="button"
+        Evidence detail
+      </h2>
+      <p
+        class="text-sm text-muted-foreground sr-only"
+        data-slot="sheet-description"
+        id="evidence-description"
       >
-        ×
-      </button>
+        Recorded export data. Technical integrity does not establish human acceptance.
+      </p>
     </div>
     <div
-      class="px-4 py-4"
+      class="drawer-body px-4 py-4 min-w-0"
     >
       <div
         class="mb-4"
       >
-        <div
-          class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
-        >
-          Criterion
-        </div>
-        <div
-          class="text-sm"
+        <p
+          class="text-sm mb-2"
         >
           Synthetic renderer snapshot fixture
-        </div>
+        </p>
+        <p
+          class="text-sm text-muted-foreground mb-2"
+        >
+          Synthetic fixture, not a recorded witness.
+        </p>
+        <span
+          class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+          data-slot="status-badge"
+          data-variant="offen"
+        >
+          <span>
+            Offen
+          </span>
+          <code
+            class="font-mono"
+          >
+            · unverified
+          </code>
+        </span>
       </div>
       <div
         class="space-y-4"
@@ -7823,6 +9443,36 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
         </div>
       </div>
     </div>
+    <button
+      class="absolute top-4 right-4 p-2 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-secondary"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-x size-4"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M18 6 6 18"
+        />
+        <path
+          d="m6 6 12 12"
+        />
+      </svg>
+      <span
+        class="sr-only"
+      >
+        Close
+      </span>
+    </button>
   </div>
 </DocumentFragment>
 `;
@@ -7850,46 +9500,65 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > preserves plai
 exports[`pre-migration viewer snapshots (must remain unchanged) > preserves the Markdown source toggle inside the criterion drawer 1`] = `
 <DocumentFragment>
   <div
-    class="drawer-backdrop"
-  />
-  <div
+    aria-describedby="evidence-description radix-_r_8_"
     aria-label="Evidence detail"
-    class="drawer-pane"
+    class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
+    data-slot="sheet-content"
+    data-state="open"
+    id="evidence-drawer"
     role="dialog"
-    tabindex="0"
+    style="pointer-events: auto;"
+    tabindex="-1"
   >
     <div
-      class="flex items-center justify-between px-4 py-3 border-b border-[#30363d]"
+      class="flex flex-col gap-1.5 p-4 border-b border-border pr-12"
+      data-slot="sheet-header"
     >
-      <h3
-        class="text-base font-medium"
+      <h2
+        class="font-semibold text-foreground"
+        data-slot="sheet-title"
+        id="evidence-title"
       >
         Details
-      </h3>
-      <button
-        aria-label="Close"
-        class="text-[#8b949e] text-lg leading-none px-2"
-        type="button"
+      </h2>
+      <p
+        class="text-sm text-muted-foreground sr-only"
+        data-slot="sheet-description"
+        id="evidence-description"
       >
-        ×
-      </button>
+        Recorded export data. Technical integrity does not establish human acceptance.
+      </p>
     </div>
     <div
-      class="px-4 py-4"
+      class="drawer-body px-4 py-4 min-w-0"
     >
       <div
         class="mb-4"
       >
-        <div
-          class="text-sm"
-        >
-          Synthetic fixture, not a recorded witness.
-        </div>
-        <div
-          class="text-[#8b949e] text-sm mt-1"
+        <p
+          class="text-sm mb-2"
         >
           Synthetic renderer snapshot fixture
-        </div>
+        </p>
+        <p
+          class="text-sm text-muted-foreground mb-2"
+        >
+          Synthetic fixture, not a recorded witness.
+        </p>
+        <span
+          class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+          data-slot="status-badge"
+          data-variant="offen"
+        >
+          <span>
+            Offen
+          </span>
+          <code
+            class="font-mono"
+          >
+            · unverified
+          </code>
+        </span>
       </div>
       <div
         class="space-y-4"
@@ -8590,6 +10259,36 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > preserves the 
         </div>
       </div>
     </div>
+    <button
+      class="absolute top-4 right-4 p-2 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-secondary"
+      type="button"
+    >
+      <svg
+        aria-hidden="true"
+        class="lucide lucide-x size-4"
+        fill="none"
+        height="24"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        width="24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M18 6 6 18"
+        />
+        <path
+          d="m6 6 12 12"
+        />
+      </svg>
+      <span
+        class="sr-only"
+      >
+        Close
+      </span>
+    </button>
   </div>
 </DocumentFragment>
 `;

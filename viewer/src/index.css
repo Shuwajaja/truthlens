@@ -8,8 +8,8 @@ button, a, input, [tabindex] { -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 button { cursor: pointer; }
 button:disabled { cursor: default; }
-.skip-link { position: fixed; top: 8px; left: 8px; z-index: 100; padding: 8px 16px; background: var(--surface-2); border: 2px solid var(--accent); transform: translateY(-200%); }
-.skip-link:focus { transform: none; }
+.skip-link { position: fixed; top: 8px; left: 8px; z-index: 100; padding: 8px 16px; background: var(--surface-2); border: 2px solid var(--accent); clip-path: inset(50%); height: 1px; width: 1px; overflow: hidden; white-space: nowrap; }
+.skip-link:focus { clip-path: none; height: auto; width: auto; }
 .mountain-header { height: 150px; position: relative; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px 32px; border-bottom: 1px solid var(--border); background: var(--bg) url('/mountains.svg') center / 100% 150px no-repeat; }
 .brand { display: flex; gap: 16px; align-items: center; }
 .brand-name { display: block; color: var(--accent); font-size: 40px; font-weight: 800; letter-spacing: -.02em; }
@@ -95,3 +95,22 @@ main { padding: 20px 24px 32px; min-width: 0; }
   .criterion-labels { flex-direction: row; flex-wrap: wrap; align-items: center; flex: 1; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+.graph-evidence-row { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; align-items: start; }
+.graph-canvas { height: 400px; min-width: 0; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); overflow: hidden; }
+.evidence-graph .react-flow { --xy-background-color: var(--bg); --xy-edge-stroke: var(--neutral); --xy-controls-button-background-color: var(--surface-2); --xy-controls-button-background-color-hover: var(--accent-soft); --xy-controls-button-color: var(--text); --xy-controls-button-border-color: var(--neutral); --xy-attribution-background-color: var(--surface-2); }
+.graph-record { width: 196px; height: 82px; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 8px 12px; border: 1px solid var(--neutral); border-radius: var(--radius-sm); background: var(--surface-2); text-align: left; }
+.graph-record:hover { border-color: var(--accent); }
+.graph-claim { border-color: var(--warning); }
+.graph-claim .graph-kind { color: var(--warning); }
+.graph-kind { color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
+.graph-label { font-size: 14px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.graph-list { font-size: 12px; color: var(--muted); }
+.graph-list summary { cursor: pointer; min-height: 32px; padding: 8px 0; }
+.graph-list ul { display: grid; gap: 8px; margin-top: 12px; }
+.graph-list button { min-height: 32px; width: 100%; padding: 4px 0; text-align: left; color: var(--text); text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.graph-list small { display: block; overflow-wrap: anywhere; }
+.graph-canvas .react-flow__attribution a { color: var(--muted); }
+.drawer-pane { overflow: hidden; gap: 0; }
+.drawer-pane > [data-slot=sheet-header], .drawer-pane > .px-4 { flex-shrink: 0; }
+.drawer-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+@media (max-width: 1100px) { .graph-evidence-row { grid-template-columns: minmax(0,1fr); } }
