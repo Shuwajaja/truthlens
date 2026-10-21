@@ -1,7 +1,8 @@
 """Content-addressed blob store (Artifact Manifest v1, D18): blobs are never inline in events.
 
 Layout: <root>/sha256/<aa>/<full-hex>. Writes are atomic (temp + fsync + os.replace) and
-idempotent; reads re-hash and fail closed on mismatch.
+idempotent; corrupt existing blobs are repaired through the same write path.
+Reads re-hash and fail closed on mismatch.
 """
 
 from __future__ import annotations
@@ -28,7 +29,7 @@ class BlobStore:
     def put(self, data: bytes) -> str:
         digest = hashlib.sha256(data).hexdigest()
         dest = self.path(digest)
-        if dest.exists():
+        if dest.exists() and hashlib.sha256(dest.read_bytes()).hexdigest() == digest:
             return digest
         dest.parent.mkdir(parents=True, exist_ok=True)
         fd, tmp = tempfile.mkstemp(dir=dest.parent)
