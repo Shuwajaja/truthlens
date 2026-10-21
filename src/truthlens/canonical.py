@@ -31,10 +31,13 @@ class _CanonicalEncoder(json.JSONEncoder):
         if isinstance(obj, str):
             return unicodedata.normalize("NFC", obj)
         if isinstance(obj, dict):
-            return {
-                unicodedata.normalize("NFC", k): self._normalize(v)
-                for k, v in obj.items()
-            }
+            normalized = {}
+            for key, value in obj.items():
+                key = unicodedata.normalize("NFC", key)
+                if key in normalized:
+                    raise CanonicalError("key collision after NFC normalization")
+                normalized[key] = self._normalize(value)
+            return normalized
         if isinstance(obj, list):
             return [self._normalize(item) for item in obj]
         return obj
@@ -54,7 +57,7 @@ def canonical_bytes(obj) -> bytes:
     """Serialize obj to canonical JSON bytes.
 
     Raises CanonicalError if obj contains floats (including NaN/Infinity),
-    non-string keys, or other unsupported types.
+    non-string keys, keys that collide after NFC normalization, or other unsupported types.
     """
     encoder = _CanonicalEncoder(
         sort_keys=True,

@@ -2,6 +2,8 @@
 
 import unicodedata
 
+import pytest
+
 from truthlens.canonical import CanonicalError, canonical_bytes
 from truthlens.ids import new_id
 
@@ -54,6 +56,16 @@ def test_nfc_key_equivalence():
     c1 = canonical_bytes({decomposed: 1})
     c2 = canonical_bytes({composed: 1})
     assert c1 == c2
+
+
+@pytest.mark.parametrize("obj", [
+    {"\u00e9": 0, "e\u0301": 1},
+    {"e\u0301": 1, "\u00e9": 0},
+    {"nested": [{"\u00e9": None, "e\u0301": None}]},
+], ids=["composed-first", "decomposed-first", "nested-equal-null-values"])
+def test_nfc_key_collision_rejected(obj):
+    with pytest.raises(CanonicalError, match="NFC"):
+        canonical_bytes(obj)
 
 
 def test_non_str_key_rejected():
