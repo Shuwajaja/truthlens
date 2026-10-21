@@ -70,6 +70,6 @@ Not in v1: comments fed back to agents, hosted storage or sync, multiple agent a
 - [All docs index](docs/README.md) · [Design v2](DESIGN.md) · [Wrapper design](docs/WRAPPER-DESIGN.md)
 
 ## License
-**TBD** — pending the provenance and license review in [docs/INVENTORY.md](docs/INVENTORY.md). Until then, all rights reserved; no code is ported before the review is done.
+TruthLens is licensed under the [MIT License](LICENSE). Source provenance is documented in [docs/INVENTORY.md](docs/INVENTORY.md).
 
 > **Security note:** Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user. With the same UID the agent can approve itself; protection only with a separate Unix user/sandbox. The approval gate is not a sandbox. See `docs/TRUST-LEVELS.md`.
