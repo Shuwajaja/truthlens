@@ -1,32 +1,15 @@
-# React + TypeScript + Vite
+# TruthLens viewer
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React/TypeScript viewer for a local exported RunDoc. Node >=22.19 is required; CI uses Node 24. Run `npm ci`, `npm test`, `npm run lint`, and `npm run build` here. The browser loads only the local `/run.json`; it checks internal consistency, not signatures.
 
-Currently, two official plugins are available:
+## UI foundations
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+`src/theme.css` contains the approved base and TruthLens token overrides. Tailwind aliases use those tokens; fonts fall back to system fonts without remote requests. No other product themes are included.
 
-## React Compiler
+`src/components/ui/` contains source components adapted from [shadcn/ui](https://github.com/shadcn-ui/ui/tree/main/apps/v4/registry/new-york-v4/ui), under the adjacent MIT license. Radix supplies keyboard/focus behaviour for Sheet, Tabs, Tooltip, ScrollArea and Separator. Motion is limited to colour/opacity; no animation package is required.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Use `StatusBadge` with exported criterion status, claim finding, or both integrity fields. Semantic variants are private: a caller cannot request an HMAC badge directly. HMAC checked requires `verified === true` **and** `integrity === 'hmac'`; hash-only is always labelled “Nur Hash · HMAC nicht geprüft”. Claims stay visually separate from witnessed criteria. Technical integrity never implies human acceptance.
 
-## Expanding the Oxlint configuration
+## Optional screenshots
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+After building, `npm run screenshots` captures existing views in both lenses under `.screenshots/` (ignored). Playwright is a dev dependency; its Chromium binary and any required local libraries stay inside this clone. See the root README for browser setup. Screenshots are not required by CI.

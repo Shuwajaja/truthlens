@@ -1,0 +1,59 @@
+/* Approved P2 palette: base tokens and TruthLens overrides only. System fonts, no remote imports. */
+:root {
+  --primary: #3B82F6;
+  --secondary: #8B5CF6;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --neutral: #6B7280;
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font: Inter, system-ui, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --bg: #0a0d12;
+  --surface: #11161d;
+  --surface-2: #161c25;
+  --border: #232b36;
+  --text: #e8edf3;
+  --muted: #8b96a5;
+  --accent: var(--primary);
+  --accent-soft: #3b82f622;
+}
+[data-theme="truthlens"] {
+  --accent: #22c55e;
+  --accent-soft: #22c55e1f;
+  --bg: #070a09;
+  --surface: #0d1210;
+  --surface-2: #121a16;
+  --border: #1f2a24;
+}
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--text);
+  --color-popover: var(--surface-2);
+  --color-popover-foreground: var(--text);
+  --color-primary: var(--accent);
+  --color-primary-foreground: var(--bg);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--text);
+  --color-muted: var(--surface-2);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--accent-soft);
+  --color-accent-foreground: var(--text);
+  --color-destructive: var(--error);
+  --color-border: var(--border);
+  --color-input: var(--neutral);
+  --color-ring: var(--accent);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --font-sans: var(--font);
+  --font-mono: var(--mono);
+  --radius-lg: var(--radius);
+  --radius-md: var(--radius-sm);
+}
