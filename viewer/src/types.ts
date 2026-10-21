@@ -2,7 +2,7 @@
 export type Card = 'green' | 'yellow' | 'red' | 'gray' | 'outline'
 export interface Criterion { criterion_id: string; text: string; status: string; evidence: string[]; claimed: boolean; card: Card; plain: string }
 export interface Claim { claim_id: string; text: string; criterion_ids: string[]; finding: 'supported' | 'claim_unwitnessed' }
-export interface Artifact { artifact_id: string; path: string; sha256: string; kind: string; provenance: string }
+export interface Artifact { artifact_id: string; path: string; sha256: string; kind: string | null; provenance: string }
 export interface RunEvent { seq: number; id: string; ts: string; type: string; actor: { kind: string; id: string }; summary: string; hash: string; payload: Record<string, unknown> }
 export interface RunDoc {
   verified: boolean
