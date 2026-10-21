@@ -59,9 +59,16 @@ try {
         await page.getByRole('dialog').locator('pre code').waitFor()
         await capture('diff-drawer')
         stage = `close diff drawer (${lens})`
-        // The existing fixed integrity badge overlaps Close; Escape is the drawer's
-        // supported close path and leaves the pre-migration layout untouched.
-        await page.getByRole('dialog', { name: 'Event detail' }).press('Escape')
+        const close = page.getByRole('button', { name: 'Close', exact: true })
+        const overlaps = await close.evaluate(button => {
+          const badge = document.querySelector('.integrity-badge')
+          if (!badge) return false
+          const a = button.getBoundingClientRect()
+          const b = badge.getBoundingClientRect()
+          return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top
+        })
+        if (overlaps) throw new Error('Integrity badge overlaps the drawer close button')
+        await close.click()
       }
       const criterion = doc.criteria.find(criterion => criterion.evidence.length > 0)
       if (criterion) {
