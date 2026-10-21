@@ -43,8 +43,16 @@ try {
         written++
       }
       await capture('overview')
+      for (const width of [1280, 360]) {
+        stage = `capture overview at ${width}px (${lens})`
+        await page.setViewportSize({ width, height: 1000 })
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)
+        if (overflow) throw new Error('Overview overflows the viewport')
+        await capture(`overview-${width}`)
+      }
+      await page.setViewportSize({ width: 1440, height: 1000 })
       await page.getByRole('button', { name: 'Claimed vs Proven', exact: true }).click()
-      await page.getByRole('heading', { level: 2 }).waitFor()
+      await page.locator('main').getByRole('heading', { level: 1 }).waitFor()
       await capture('claimed-vs-proven')
       stage = `capture Agent Story (${lens})`
       await page.getByRole('button', { name: 'Agent Story', exact: true }).click()
@@ -66,7 +74,8 @@ try {
       if (diffEvent) {
         stage = `open diff drawer (${lens})`
         const index = [...doc.events].sort((a, b) => a.seq - b.seq).indexOf(diffEvent)
-        await page.locator('main').getByRole('row').nth(index + 1).click()
+        await page.locator('main').getByRole('row').nth(index + 1).getByRole('button').focus()
+        await page.keyboard.press('Enter')
         await page.getByRole('dialog', { name: 'Event detail' }).waitFor()
         await page.getByRole('dialog').locator('pre code').waitFor()
         await capture('diff-drawer')
@@ -75,7 +84,7 @@ try {
         for (const width of [1440, 360]) {
           await page.setViewportSize({ width, height: 1000 })
           const blocked = await close.evaluate(button => {
-            const badge = document.querySelector('.integrity-badge')
+            const badge = document.querySelector('.drawer-pane .integrity-badge')
             if (!badge) return true
             const a = button.getBoundingClientRect()
             const b = badge.getBoundingClientRect()
@@ -92,7 +101,7 @@ try {
         stage = `return to Overview (${lens})`
         await page.getByRole('button', { name: 'Overview', exact: true }).click()
         stage = `open criterion drawer (${lens})`
-        await page.locator('main').getByRole('button').nth(doc.criteria.indexOf(criterion)).click()
+        await page.getByRole('button', { name: `Belege: ${criterion.text}`, exact: true }).click()
         await page.getByRole('dialog', { name: 'Evidence detail' }).waitFor()
         await capture('criterion-drawer')
       }
