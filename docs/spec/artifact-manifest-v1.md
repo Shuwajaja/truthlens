@@ -39,3 +39,17 @@ One JSON document per run (`manifest.json`), written after `run.finished`; bound
 - ~~The manifest is recorded via `artifact.recorded` (D8)~~ – superseded by D28: the manifest is a post-close artifact outside the chain; verify checks `ledger_last_hash` and every `sha256`.
 - `trust` values: `imported | integrity_verified | review_required | verification_failed` (see TRUST-LEVELS.md). `review_required` may be shown together with `integrity_verified` (`trust` = integrity, `review` = `required|accepted` separately).
 - `acceptance` (D19): per criterion the witnessed evidence event ids and `status` = `proposed` (derived, not confirmed by a human – D22) | `met` (witnessed decisive evidence, passing – D25/D27) | `unmet` (witnessed evidence, failing) | `unverified` (no witnessed evidence; agent claims alone never yield `met`).
+
+## Changelog — 2026-10-21: export verification semantics (D32)
+
+The stored Event Schema v1 and Artifact Manifest v1 contracts and their hashes are unchanged. This corrects computed metadata in the separate Viewer export JSON:
+
+- The existing `verified` boolean now means **HMAC verification actually passed with a supplied key**. Merely reading a hash-consistent run or finding HMAC fields does not establish this.
+- `integrity: "hmac"` pairs with `verified: true`; only this case includes `integrity_verified` in the export's `trust` array.
+- `integrity: "hash-only"` pairs with `verified: false`: hashes and the manifest check passed, but no key was supplied and no HMAC was checked. The Viewer renders this state.
+- Failed hash, manifest or HMAC checks yield `verified: false`, `integrity: "failed"` and errors, without `integrity_verified`. The CLI refuses to write a failed export; MCP and the export builder report the failed state. The Viewer rejects it.
+- CLI export and MCP share the export builder's integrity result. `export.build(..., hmac_key=key)` checks every event's HMAC; a supplied but incorrect key, or a key supplied for unsigned events, fails.
+- The browser validates the full export shape, integrity-label consistency and card/count consistency. It does **not** recompute ledger/blob hashes or verify HMAC/signatures. Its badge describes the export-time check, not a browser check.
+- Older exports without an explicit `integrity` level must be regenerated. The bundled `viewer/public/run.json` was regenerated without a key from `demo/runs/demo-2`; it therefore says `verified: false`, `integrity: "hash-only"`.
+
+See [Trust levels](../TRUST-LEVELS.md) for the browser trust boundary. Human review and acceptance remain separate from all integrity levels.

@@ -66,7 +66,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("dir")
     p.add_argument("--hmac-key-env", metavar="VAR")
     p.add_argument("--json", action="store_true")
-    p = sub.add_parser("export", help="write viewer JSON for a verified run dir")
+    p = sub.add_parser("export", help="write viewer JSON with hash-only or HMAC-checked integrity")
     p.add_argument("dir")
     p.add_argument("--hmac-key-env", metavar="VAR")
     p.add_argument("-o", "--output", default="-")
@@ -224,7 +224,12 @@ def _w2(a) -> int:
                 except Exception:  # noqa: BLE001 - invalid sha in a payload -> no content
                     return None
                 return f.read_bytes() if f.is_file() and not f.is_symlink() else None
-            doc = json.dumps(export.build(events, mf, _rb), indent=1)
+            exported = export.build(events, mf, _rb, hmac_key=key)
+            if exported["integrity"] == "failed":
+                for error in exported["errors"]:
+                    print(f"FAIL {error}")
+                return 1
+            doc = json.dumps(exported, indent=1)
             if a.output == "-":
                 print(doc)
             else:

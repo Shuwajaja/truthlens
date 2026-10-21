@@ -126,9 +126,14 @@ def test_r27_repair_rules_and_bad_actor(tmp_path):
     assert not r.ok and any("invalid actor" in m for _, m in r.errors)
 
 
-def test_r28_headline_neutral_without_claim():
+def test_r28_headline_neutral_without_claim(tmp_path):
     from truthlens.export import build
-    ev = [{"seq": 1, "id": "e1", "ts": "t", "run_id": "r", "type": "run.started", "actor": {"kind": "wrapper", "id": "w"},
-           "payload": {"command": ""}, "hash": "h"}]
-    doc = build(ev, {})
+    from truthlens.manifest import build_manifest
+
+    ledger = Ledger(tmp_path / "ledger.jsonl")
+    actor = {"kind": "wrapper", "id": "w"}
+    start = ledger.append("run_test", actor, "run.started", {"command": "", "agent": ""})
+    ledger.append("run_test", actor, "run.finished", {"exit_code": 0, "status": "ok", "last_hash": start["hash"]})
+    events = ledger.read()
+    doc = build(events, build_manifest(events, {}))
     assert "said" not in " ".join(doc["headline"]) and doc["review_required"] is True

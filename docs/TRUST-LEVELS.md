@@ -3,20 +3,35 @@
 | Label | Meaning |
 |---|---|
 | **Imported** | File was imported; its origin and execution are not independently evidenced. |
-| **Integrity verified** | Hashes and existing evidence match the ledger; chain verifies. |
-| **Review required** | Technical checks exist; human/domain acceptance is still open. Orthogonal to integrity: shown alongside "Integrity verified". Client Lens shows it by default (D7). |
-| **Verification failed** | Hash, chain, HMAC or anchor check failed. Never shown as verified; the failing line and reason are displayed. |
+| **Hash chain only** | Hashes and the manifest match, but no HMAC was checked with a key. This does not authenticate the record. |
+| **HMAC verified at export** | The exporter checked the ledger HMAC with a supplied key, as well as hashes and the manifest. The browser displays that export-time result. |
+| **Review required** | Technical checks exist; human/domain acceptance is still open. Orthogonal to integrity: shown alongside either successful integrity level. Client Lens shows it by default (D7). |
+| **Verification failed** | Hash, chain, HMAC or anchor check failed. CLI/MCP report errors; the Viewer shows an invalid export state. |
 
 Principles:
 - **Scope of proof:** TruthLens proves the integrity and provenance of what it witnessed — not the quality, correctness or completeness of the work.
 - **Claimed ≠ witnessed.** An `agent.claim` ("all tests green") is shown as a claim; only wrapper-produced `test.reported`/evidence counts. Unwitnessed claims are flagged.
 - **A valid hash does not prove the agent told the truth.** It proves the record has not changed since it was written.
 - **The wrapper only witnesses what passes through it** or is explicitly handed to it. It cannot attest internal agent actions.
-- "Verified" is only shown for things TruthLens observed at runtime. GitHub imports are at most "Imported".
+- Integrity labels name the checks performed by the exporter/MCP. Browser rendering does not establish authenticity. GitHub imports are at most "Imported".
 - **Approvals must actually block.** An `approval.granted` event alone proves nothing; the gate must have prevented execution beforehand.
 - **A changed action invalidates the approval** (different action hash). Approvals are single-use.
 - **Timeout = deny** (`approval.expired`).
 - Execution ≠ Verification ≠ Approval ≠ Acceptance.
+
+## Viewer export and browser boundary (D32, 2026-10-21)
+
+| Export `integrity` | `verified` | Export `trust` includes `integrity_verified` | Viewer behavior |
+|---|---|---|---|
+| `hmac` | `true` | Yes, only after an HMAC check with a key passes | Shows “Integrity: HMAC verified at export”. |
+| `hash-only` | `false` | No | Renders the run and shows “Hash chain only – HMAC not checked”. |
+| `failed` | `false` | No | Rejects the export and shows the invalid/inconsistent state. |
+
+Every rendered run carries the note: **“This browser checks the file's internal consistency only; it does not verify signatures.”** Internal consistency means required fields/types, integrity-label consistency, criterion status/card rules and counts. The browser does not hash the ledger or blobs, hold an HMAC key or verify signatures. A consistently forged JSON export can therefore still be displayed: the badge reports what the export says was checked, not independent browser proof.
+
+CLI export and MCP verify the original ledger and stored blobs before rendering a result. The shared export builder also checks canonical event hashes, the manifest and any HMAC key supplied to it. Without a key, a stored HMAC is **not** considered checked. Wrong keys and keys supplied for unsigned events fail closed. On verification failure the CLI returns a non-zero exit and leaves an existing output file untouched; MCP returns `verified: false`, `integrity: "failed"` with errors.
+
+This changes the meaning of the existing export `verified` field from an unconditional success claim to an actual HMAC-check result. Re-export legacy JSON that lacks `integrity`; the browser refuses to infer a signed state from an old `verified: true`. Stored event/manifest contracts and hashes remain unchanged; see the [spec changelog](spec/artifact-manifest-v1.md#changelog--2026-10-21-export-verification-semantics-d32).
 
 ## Lenses
 - **Client Lens (primary):** plain language per request/criterion — "You asked for X — done, witnessed by Y", "claimed, not witnessed", "not done", "review required".
