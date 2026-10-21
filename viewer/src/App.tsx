@@ -5,7 +5,7 @@ import { readLens, writeLens, type Lens } from './lens.ts'
 import { Sidebar } from './components/Sidebar.tsx'
 import { Overview } from './components/Overview.tsx'
 import { ClaimedVsProven } from './components/ClaimedVsProven.tsx'
-import { Timeline } from './components/Timeline.tsx'
+import { RenderView } from './renderkit/RenderView.tsx'
 import { Drawer, type DrawerTarget } from './components/Drawer.tsx'
 import { IntegrityNotice } from './components/IntegrityNotice.tsx'
 
@@ -75,7 +75,7 @@ export default function App() {
         <IntegrityNotice integrity={doc.integrity} />
         {view === 'overview' && <Overview doc={doc} onOpenDrawer={setDrawerTarget} />}
         {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} lens={lens} />}
-        {view === 'timeline' && <Timeline events={doc.events} lens={lens} onOpenDrawer={setDrawerTarget} />}
+        {view === 'timeline' && <RenderView input={{ kind: 'events', events: doc.events }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
       </main>
       {drawerTarget && (
         <Drawer

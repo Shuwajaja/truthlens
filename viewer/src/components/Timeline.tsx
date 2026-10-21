@@ -15,7 +15,7 @@ function formatTime(ts: string): string {
 }
 
 export function Timeline({ events, lens, onOpenDrawer }: {
-  events: RunEvent[]
+  events: readonly RunEvent[]
   lens: Lens
   onOpenDrawer: (t: DrawerTarget) => void
 }) {

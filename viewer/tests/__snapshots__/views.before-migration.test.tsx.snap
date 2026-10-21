@@ -1,0 +1,4350 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Proven, client lens, real public/run.json 1`] = `
+<DocumentFragment>
+  <div
+    class="flex bg-[#0d1117] text-[#e6edf3] font-sans min-h-screen"
+  >
+    <nav
+      class="sidebar"
+    >
+      <div
+        class="px-4 py-6 text-[#e6edf3] font-bold text-lg tracking-tight"
+      >
+        TruthLens
+      </div>
+      <div
+        class="px-4 pb-4 space-y-3"
+      >
+        <div
+          aria-label="View lens"
+          class="flex rounded-lg border border-[#30363d] overflow-hidden text-xs"
+          role="group"
+        >
+          <button
+            aria-pressed="true"
+            class="flex-1 px-3 py-1.5 bg-[#21262d] text-[#e6edf3]"
+            type="button"
+          >
+            Client
+          </button>
+          <button
+            aria-pressed="false"
+            class="flex-1 px-3 py-1.5 border-l border-[#30363d] text-[#8b949e] hover:bg-[#21262d]/50"
+            type="button"
+          >
+            Developer
+          </button>
+        </div>
+        <span
+          class="inline-flex text-xs px-2 py-[1px] rounded-[4px] border border-[#30363d] text-[#e6edf3]"
+        >
+          Review required
+        </span>
+      </div>
+      <ul
+        class="space-y-1 px-2 flex-1"
+      >
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Overview
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item nav-item-active"
+            type="button"
+          >
+            Claimed vs Proven
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Timeline
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <main
+      class="ml-[220px] p-8 min-h-screen flex-1"
+    >
+      <div
+        class="mb-4 text-sm text-[#8b949e]"
+      >
+        <span
+          class="integrity-badge"
+        >
+          Hash chain only – HMAC not checked
+        </span>
+        <p>
+          This browser checks the file's internal consistency only; it does not verify signatures.
+        </p>
+      </div>
+      <div>
+        <h2
+          class="text-2xl font-bold mb-6"
+        >
+          What your agent said
+        </h2>
+        <div
+          class="space-y-6"
+        >
+          <div
+            class="card-wrap p-4"
+            style="border-color: rgb(48, 54, 61);"
+          >
+            <p
+              class="text-base"
+            >
+              <span
+                class="text-[#8b949e]"
+              >
+                Agent said 
+              </span>
+              “Created index.html with a page that has a heading and a contact form”
+              <span
+                class="text-[#8b949e]"
+              >
+                 – 
+              </span>
+              <span
+                style="color: rgb(63, 185, 80);"
+              >
+                proven
+              </span>
+            </p>
+          </div>
+          <div
+            class="card-wrap p-4"
+            style="border-color: rgb(48, 54, 61);"
+          >
+            <p
+              class="text-base"
+            >
+              <span
+                class="text-[#8b949e]"
+              >
+                Agent said 
+              </span>
+              “The form validates the e-mail address using a regex and shows an error”
+              <span
+                class="text-[#8b949e]"
+              >
+                 – 
+              </span>
+              <span
+                style="color: rgb(210, 153, 34);"
+              >
+                not proven
+              </span>
+            </p>
+          </div>
+          <div
+            class="card-wrap p-4"
+            style="border-color: rgb(48, 54, 61);"
+          >
+            <p
+              class="text-base"
+            >
+              <span
+                class="text-[#8b949e]"
+              >
+                Agent said 
+              </span>
+              “The page uses a fluid max-width container so it works on mobile”
+              <span
+                class="text-[#8b949e]"
+              >
+                 – 
+              </span>
+              <span
+                style="color: rgb(210, 153, 34);"
+              >
+                not proven
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Proven, developer lens, real public/run.json 1`] = `
+<DocumentFragment>
+  <div
+    class="flex bg-[#0d1117] text-[#e6edf3] font-sans min-h-screen"
+  >
+    <nav
+      class="sidebar"
+    >
+      <div
+        class="px-4 py-6 text-[#e6edf3] font-bold text-lg tracking-tight"
+      >
+        TruthLens
+      </div>
+      <div
+        class="px-4 pb-4 space-y-3"
+      >
+        <div
+          aria-label="View lens"
+          class="flex rounded-lg border border-[#30363d] overflow-hidden text-xs"
+          role="group"
+        >
+          <button
+            aria-pressed="false"
+            class="flex-1 px-3 py-1.5 text-[#8b949e] hover:bg-[#21262d]/50"
+            type="button"
+          >
+            Client
+          </button>
+          <button
+            aria-pressed="true"
+            class="flex-1 px-3 py-1.5 border-l border-[#30363d] bg-[#21262d] text-[#e6edf3]"
+            type="button"
+          >
+            Developer
+          </button>
+        </div>
+        <span
+          class="inline-flex text-xs px-2 py-[1px] rounded-[4px] border border-[#30363d] text-[#e6edf3]"
+        >
+          Review required
+        </span>
+      </div>
+      <ul
+        class="space-y-1 px-2 flex-1"
+      >
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Overview
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item nav-item-active"
+            type="button"
+          >
+            Claimed vs Proven
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Timeline
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <main
+      class="ml-[220px] p-8 min-h-screen flex-1"
+    >
+      <div
+        class="mb-4 text-sm text-[#8b949e]"
+      >
+        <span
+          class="integrity-badge"
+        >
+          Hash chain only – HMAC not checked
+        </span>
+        <p>
+          This browser checks the file's internal consistency only; it does not verify signatures.
+        </p>
+      </div>
+      <div>
+        <h2
+          class="text-2xl font-bold mb-6"
+        >
+          What your agent said vs. what we saw.
+        </h2>
+        <div
+          class="space-y-6"
+        >
+          <div
+            class="card-wrap p-4"
+            style="border-color: rgb(48, 54, 61);"
+          >
+            <div
+              class="flex items-start gap-4"
+            >
+              <div
+                class="flex-1"
+              >
+                <div
+                  class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+                >
+                  Your agent said
+                </div>
+                <div
+                  class="text-base"
+                >
+                  Created index.html with a page that has a heading and a contact form
+                </div>
+              </div>
+              <div
+                class="text-right"
+              >
+                <span
+                  class="inline-flex items-center px-2 py-1 text-xs rounded-[4px]"
+                  style="color: rgb(63, 185, 80); border: 1px solid rgb(63, 185, 80);"
+                >
+                  Proven
+                </span>
+              </div>
+            </div>
+            <div
+              class="mt-4 pt-3 border-t border-[#30363d]"
+            >
+              <div
+                class="text-xs text-[#8b949e] uppercase tracking-wider mb-2"
+              >
+                We actually saw
+              </div>
+              <div
+                class="space-y-2"
+              >
+                <div
+                  class="flex items-center gap-3"
+                >
+                  <span
+                    class="text-sm"
+                  >
+                    Page exists (index.html with a heading and a form)
+                  </span>
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px]"
+                    style="color: rgb(63, 185, 80); border: 1px solid rgb(63, 185, 80);"
+                  >
+                    Proven
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="card-wrap p-4"
+            style="border-color: rgb(48, 54, 61);"
+          >
+            <div
+              class="flex items-start gap-4"
+            >
+              <div
+                class="flex-1"
+              >
+                <div
+                  class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+                >
+                  Your agent said
+                </div>
+                <div
+                  class="text-base"
+                >
+                  The form validates the e-mail address using a regex and shows an error
+                </div>
+              </div>
+              <div
+                class="text-right"
+              >
+                <span
+                  class="inline-flex items-center px-2 py-1 text-xs rounded-[4px]"
+                  style="color: rgb(210, 153, 34); border: 1px solid rgb(210, 153, 34);"
+                >
+                  Claimed only
+                </span>
+              </div>
+            </div>
+            <div
+              class="mt-4 pt-3 border-t border-[#30363d]"
+            >
+              <div
+                class="text-xs text-[#8b949e] uppercase tracking-wider mb-2"
+              >
+                We actually saw
+              </div>
+              <div
+                class="space-y-2"
+              >
+                <div
+                  class="flex items-center gap-3"
+                >
+                  <span
+                    class="text-sm"
+                  >
+                    Form validates the e-mail address (invalid input rejected)
+                  </span>
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px]"
+                    style="color: rgb(248, 81, 73); border: 1px solid rgb(248, 81, 73);"
+                  >
+                    Failed
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="card-wrap p-4"
+            style="border-color: rgb(48, 54, 61);"
+          >
+            <div
+              class="flex items-start gap-4"
+            >
+              <div
+                class="flex-1"
+              >
+                <div
+                  class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+                >
+                  Your agent said
+                </div>
+                <div
+                  class="text-base"
+                >
+                  The page uses a fluid max-width container so it works on mobile
+                </div>
+              </div>
+              <div
+                class="text-right"
+              >
+                <span
+                  class="inline-flex items-center px-2 py-1 text-xs rounded-[4px]"
+                  style="color: rgb(210, 153, 34); border: 1px solid rgb(210, 153, 34);"
+                >
+                  Claimed only
+                </span>
+              </div>
+            </div>
+            <div
+              class="mt-4 pt-3 border-t border-[#30363d]"
+            >
+              <div
+                class="text-xs text-[#8b949e] uppercase tracking-wider mb-2"
+              >
+                We actually saw
+              </div>
+              <div
+                class="space-y-2"
+              >
+                <div
+                  class="flex items-center gap-3"
+                >
+                  <span
+                    class="text-sm"
+                  >
+                    Mobile layout works
+                  </span>
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px]"
+                    style="color: rgb(210, 153, 34); border: 1px solid rgb(210, 153, 34);"
+                  >
+                    Claimed only
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, client lens, real public/run.json 1`] = `
+<DocumentFragment>
+  <div
+    class="flex bg-[#0d1117] text-[#e6edf3] font-sans min-h-screen"
+  >
+    <nav
+      class="sidebar"
+    >
+      <div
+        class="px-4 py-6 text-[#e6edf3] font-bold text-lg tracking-tight"
+      >
+        TruthLens
+      </div>
+      <div
+        class="px-4 pb-4 space-y-3"
+      >
+        <div
+          aria-label="View lens"
+          class="flex rounded-lg border border-[#30363d] overflow-hidden text-xs"
+          role="group"
+        >
+          <button
+            aria-pressed="true"
+            class="flex-1 px-3 py-1.5 bg-[#21262d] text-[#e6edf3]"
+            type="button"
+          >
+            Client
+          </button>
+          <button
+            aria-pressed="false"
+            class="flex-1 px-3 py-1.5 border-l border-[#30363d] text-[#8b949e] hover:bg-[#21262d]/50"
+            type="button"
+          >
+            Developer
+          </button>
+        </div>
+        <span
+          class="inline-flex text-xs px-2 py-[1px] rounded-[4px] border border-[#30363d] text-[#e6edf3]"
+        >
+          Review required
+        </span>
+      </div>
+      <ul
+        class="space-y-1 px-2 flex-1"
+      >
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item nav-item-active"
+            type="button"
+          >
+            Overview
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Claimed vs Proven
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Timeline
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <main
+      class="ml-[220px] p-8 min-h-screen flex-1"
+    >
+      <div
+        class="mb-4 text-sm text-[#8b949e]"
+      >
+        <span
+          class="integrity-badge"
+        >
+          Hash chain only – HMAC not checked
+        </span>
+        <p>
+          This browser checks the file's internal consistency only; it does not verify signatures.
+        </p>
+      </div>
+      <div>
+        <h1
+          class="text-4xl font-bold leading-tight mb-2"
+        >
+          <span
+            class="block"
+          >
+            Your agent said: Done.
+          </span>
+          <span
+            class="block"
+          >
+            Here's what's actually proven.
+          </span>
+        </h1>
+        <p
+          class="text-[#8b949e] text-base mb-4"
+        >
+          Project: Build a small landing page with a contact form.
+        </p>
+        <p
+          class="text-base mb-6"
+        >
+          1 met, 1 unmet, 1 unverified
+        </p>
+        <div
+          class="space-y-4"
+        >
+          <button
+            class="card-wrap w-full text-left p-4 "
+            style="border-color: rgb(63, 185, 80);"
+            type="button"
+          >
+            <div
+              class="flex items-start gap-4"
+            >
+              <span
+                class="icon-circle"
+                style="background-color: rgb(63, 185, 80);"
+              >
+                ✓
+              </span>
+              <div
+                class="flex-1"
+              >
+                <div
+                  class="text-base font-medium"
+                >
+                  Page exists (index.html with a heading and a form)
+                </div>
+                <div
+                  class="text-[#8b949e] text-sm mt-1"
+                >
+                  Proven – witnessed evidence passed.
+                </div>
+                <div
+                  class="flex items-center gap-2 mt-2"
+                >
+                  <span
+                    class="text-xs px-[6px] py-[1px] rounded-[4px]"
+                    style="color: rgb(63, 185, 80);"
+                  >
+                    met
+                  </span>
+                  <span
+                    class="text-xs text-[#d29922]"
+                  >
+                    claimed
+                  </span>
+                </div>
+              </div>
+            </div>
+          </button>
+          <button
+            class="card-wrap w-full text-left p-4 "
+            style="border-color: rgb(248, 81, 73);"
+            type="button"
+          >
+            <div
+              class="flex items-start gap-4"
+            >
+              <span
+                class="icon-circle"
+                style="background-color: rgb(248, 81, 73);"
+              >
+                ✕
+              </span>
+              <div
+                class="flex-1"
+              >
+                <div
+                  class="text-base font-medium"
+                >
+                  Form validates the e-mail address (invalid input rejected)
+                </div>
+                <div
+                  class="text-[#8b949e] text-sm mt-1"
+                >
+                  Failed – the witnessed check did not pass.
+                </div>
+                <div
+                  class="flex items-center gap-2 mt-2"
+                >
+                  <span
+                    class="text-xs px-[6px] py-[1px] rounded-[4px]"
+                    style="color: rgb(248, 81, 73);"
+                  >
+                    unmet
+                  </span>
+                  <span
+                    class="text-xs text-[#d29922]"
+                  >
+                    claimed
+                  </span>
+                </div>
+              </div>
+            </div>
+          </button>
+          <button
+            class="card-wrap w-full text-left p-4 "
+            style="border-color: rgb(210, 153, 34);"
+            type="button"
+          >
+            <div
+              class="flex items-start gap-4"
+            >
+              <span
+                class="icon-circle"
+                style="background-color: rgb(210, 153, 34);"
+              >
+                ?
+              </span>
+              <div
+                class="flex-1"
+              >
+                <div
+                  class="text-base font-medium"
+                >
+                  Mobile layout works
+                </div>
+                <div
+                  class="text-[#8b949e] text-sm mt-1"
+                >
+                  Claimed only – nothing checked this yet.
+                </div>
+                <div
+                  class="flex items-center gap-2 mt-2"
+                >
+                  <span
+                    class="text-xs px-[6px] py-[1px] rounded-[4px]"
+                    style="color: rgb(210, 153, 34);"
+                  >
+                    unverified
+                  </span>
+                  <span
+                    class="text-xs text-[#d29922]"
+                  >
+                    claimed
+                  </span>
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="callout-wrap mt-8"
+        >
+          <p
+            class="text-sm text-[#e6edf3]"
+          >
+            Your agent said ‘The form validates the e-mail address using a regex and shows an error’. Not everything in it was proven.
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, developer lens, real public/run.json 1`] = `
+<DocumentFragment>
+  <div
+    class="flex bg-[#0d1117] text-[#e6edf3] font-sans min-h-screen"
+  >
+    <nav
+      class="sidebar"
+    >
+      <div
+        class="px-4 py-6 text-[#e6edf3] font-bold text-lg tracking-tight"
+      >
+        TruthLens
+      </div>
+      <div
+        class="px-4 pb-4 space-y-3"
+      >
+        <div
+          aria-label="View lens"
+          class="flex rounded-lg border border-[#30363d] overflow-hidden text-xs"
+          role="group"
+        >
+          <button
+            aria-pressed="false"
+            class="flex-1 px-3 py-1.5 text-[#8b949e] hover:bg-[#21262d]/50"
+            type="button"
+          >
+            Client
+          </button>
+          <button
+            aria-pressed="true"
+            class="flex-1 px-3 py-1.5 border-l border-[#30363d] bg-[#21262d] text-[#e6edf3]"
+            type="button"
+          >
+            Developer
+          </button>
+        </div>
+        <span
+          class="inline-flex text-xs px-2 py-[1px] rounded-[4px] border border-[#30363d] text-[#e6edf3]"
+        >
+          Review required
+        </span>
+      </div>
+      <ul
+        class="space-y-1 px-2 flex-1"
+      >
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item nav-item-active"
+            type="button"
+          >
+            Overview
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Claimed vs Proven
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Timeline
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <main
+      class="ml-[220px] p-8 min-h-screen flex-1"
+    >
+      <div
+        class="mb-4 text-sm text-[#8b949e]"
+      >
+        <span
+          class="integrity-badge"
+        >
+          Hash chain only – HMAC not checked
+        </span>
+        <p>
+          This browser checks the file's internal consistency only; it does not verify signatures.
+        </p>
+      </div>
+      <div>
+        <h1
+          class="text-4xl font-bold leading-tight mb-2"
+        >
+          <span
+            class="block"
+          >
+            Your agent said: Done.
+          </span>
+          <span
+            class="block"
+          >
+            Here's what's actually proven.
+          </span>
+        </h1>
+        <p
+          class="text-[#8b949e] text-base mb-4"
+        >
+          Project: Build a small landing page with a contact form.
+        </p>
+        <p
+          class="text-base mb-6"
+        >
+          1 met, 1 unmet, 1 unverified
+        </p>
+        <div
+          class="space-y-4"
+        >
+          <button
+            class="card-wrap w-full text-left p-4 "
+            style="border-color: rgb(63, 185, 80);"
+            type="button"
+          >
+            <div
+              class="flex items-start gap-4"
+            >
+              <span
+                class="icon-circle"
+                style="background-color: rgb(63, 185, 80);"
+              >
+                ✓
+              </span>
+              <div
+                class="flex-1"
+              >
+                <div
+                  class="text-base font-medium"
+                >
+                  Page exists (index.html with a heading and a form)
+                </div>
+                <div
+                  class="text-[#8b949e] text-sm mt-1"
+                >
+                  Proven – witnessed evidence passed.
+                </div>
+                <div
+                  class="flex items-center gap-2 mt-2"
+                >
+                  <span
+                    class="text-xs px-[6px] py-[1px] rounded-[4px]"
+                    style="color: rgb(63, 185, 80);"
+                  >
+                    met
+                  </span>
+                  <span
+                    class="text-xs text-[#d29922]"
+                  >
+                    claimed
+                  </span>
+                </div>
+              </div>
+            </div>
+          </button>
+          <button
+            class="card-wrap w-full text-left p-4 "
+            style="border-color: rgb(248, 81, 73);"
+            type="button"
+          >
+            <div
+              class="flex items-start gap-4"
+            >
+              <span
+                class="icon-circle"
+                style="background-color: rgb(248, 81, 73);"
+              >
+                ✕
+              </span>
+              <div
+                class="flex-1"
+              >
+                <div
+                  class="text-base font-medium"
+                >
+                  Form validates the e-mail address (invalid input rejected)
+                </div>
+                <div
+                  class="text-[#8b949e] text-sm mt-1"
+                >
+                  Failed – the witnessed check did not pass.
+                </div>
+                <div
+                  class="flex items-center gap-2 mt-2"
+                >
+                  <span
+                    class="text-xs px-[6px] py-[1px] rounded-[4px]"
+                    style="color: rgb(248, 81, 73);"
+                  >
+                    unmet
+                  </span>
+                  <span
+                    class="text-xs text-[#d29922]"
+                  >
+                    claimed
+                  </span>
+                </div>
+              </div>
+            </div>
+          </button>
+          <button
+            class="card-wrap w-full text-left p-4 "
+            style="border-color: rgb(210, 153, 34);"
+            type="button"
+          >
+            <div
+              class="flex items-start gap-4"
+            >
+              <span
+                class="icon-circle"
+                style="background-color: rgb(210, 153, 34);"
+              >
+                ?
+              </span>
+              <div
+                class="flex-1"
+              >
+                <div
+                  class="text-base font-medium"
+                >
+                  Mobile layout works
+                </div>
+                <div
+                  class="text-[#8b949e] text-sm mt-1"
+                >
+                  Claimed only – nothing checked this yet.
+                </div>
+                <div
+                  class="flex items-center gap-2 mt-2"
+                >
+                  <span
+                    class="text-xs px-[6px] py-[1px] rounded-[4px]"
+                    style="color: rgb(210, 153, 34);"
+                  >
+                    unverified
+                  </span>
+                  <span
+                    class="text-xs text-[#d29922]"
+                  >
+                    claimed
+                  </span>
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div
+          class="callout-wrap mt-8"
+        >
+          <p
+            class="text-sm text-[#e6edf3]"
+          >
+            Your agent said ‘The form validates the e-mail address using a regex and shows an error’. Not everything in it was proven.
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, client lens, real public/run.json 1`] = `
+<DocumentFragment>
+  <div
+    class="flex bg-[#0d1117] text-[#e6edf3] font-sans min-h-screen"
+  >
+    <nav
+      class="sidebar"
+    >
+      <div
+        class="px-4 py-6 text-[#e6edf3] font-bold text-lg tracking-tight"
+      >
+        TruthLens
+      </div>
+      <div
+        class="px-4 pb-4 space-y-3"
+      >
+        <div
+          aria-label="View lens"
+          class="flex rounded-lg border border-[#30363d] overflow-hidden text-xs"
+          role="group"
+        >
+          <button
+            aria-pressed="true"
+            class="flex-1 px-3 py-1.5 bg-[#21262d] text-[#e6edf3]"
+            type="button"
+          >
+            Client
+          </button>
+          <button
+            aria-pressed="false"
+            class="flex-1 px-3 py-1.5 border-l border-[#30363d] text-[#8b949e] hover:bg-[#21262d]/50"
+            type="button"
+          >
+            Developer
+          </button>
+        </div>
+        <span
+          class="inline-flex text-xs px-2 py-[1px] rounded-[4px] border border-[#30363d] text-[#e6edf3]"
+        >
+          Review required
+        </span>
+      </div>
+      <ul
+        class="space-y-1 px-2 flex-1"
+      >
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Overview
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Claimed vs Proven
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item nav-item-active"
+            type="button"
+          >
+            Timeline
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <main
+      class="ml-[220px] p-8 min-h-screen flex-1"
+    >
+      <div
+        class="mb-4 text-sm text-[#8b949e]"
+      >
+        <span
+          class="integrity-badge"
+        >
+          Hash chain only – HMAC not checked
+        </span>
+        <p>
+          This browser checks the file's internal consistency only; it does not verify signatures.
+        </p>
+      </div>
+      <div>
+        <h2
+          class="text-2xl font-bold mb-6"
+        >
+          Timeline
+        </h2>
+        <div
+          class="w-full"
+        >
+          <table
+            class="w-full"
+          >
+            <thead>
+              <tr
+                class="text-xs text-[#8b949e] uppercase tracking-wider border-b border-[#30363d]"
+              >
+                <th
+                  class="text-left py-2 px-3"
+                >
+                  Time
+                </th>
+                <th
+                  class="text-left py-2 px-3"
+                >
+                  What happened
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  run.started
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  requirement.recorded
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Criterion c1: Page exists (index.html with a heading and a form)
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Criterion c2: Form validates the e-mail address (invalid input rejected)
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Criterion c3: Mobile layout works
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  criteria.confirmed
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  evidence.attached
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Agent process finished (exit 0)
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Agent said: Created index.html with a page that has a heading and a contact form
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Agent said: The form validates the e-mail address using a regex and shows an error
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Agent said: The page uses a fluid max-width container so it works on mobile
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Files changed: index.html
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  File recorded: index.html
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Run closed (exit 0)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, developer lens, real public/run.json 1`] = `
+<DocumentFragment>
+  <div
+    class="flex bg-[#0d1117] text-[#e6edf3] font-sans min-h-screen"
+  >
+    <nav
+      class="sidebar"
+    >
+      <div
+        class="px-4 py-6 text-[#e6edf3] font-bold text-lg tracking-tight"
+      >
+        TruthLens
+      </div>
+      <div
+        class="px-4 pb-4 space-y-3"
+      >
+        <div
+          aria-label="View lens"
+          class="flex rounded-lg border border-[#30363d] overflow-hidden text-xs"
+          role="group"
+        >
+          <button
+            aria-pressed="false"
+            class="flex-1 px-3 py-1.5 text-[#8b949e] hover:bg-[#21262d]/50"
+            type="button"
+          >
+            Client
+          </button>
+          <button
+            aria-pressed="true"
+            class="flex-1 px-3 py-1.5 border-l border-[#30363d] bg-[#21262d] text-[#e6edf3]"
+            type="button"
+          >
+            Developer
+          </button>
+        </div>
+        <span
+          class="inline-flex text-xs px-2 py-[1px] rounded-[4px] border border-[#30363d] text-[#e6edf3]"
+        >
+          Review required
+        </span>
+      </div>
+      <ul
+        class="space-y-1 px-2 flex-1"
+      >
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Overview
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item "
+            type="button"
+          >
+            Claimed vs Proven
+          </button>
+        </li>
+        <li>
+          <button
+            class="w-full text-left px-4 py-2 text-sm rounded-lg nav-item nav-item-active"
+            type="button"
+          >
+            Timeline
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <main
+      class="ml-[220px] p-8 min-h-screen flex-1"
+    >
+      <div
+        class="mb-4 text-sm text-[#8b949e]"
+      >
+        <span
+          class="integrity-badge"
+        >
+          Hash chain only – HMAC not checked
+        </span>
+        <p>
+          This browser checks the file's internal consistency only; it does not verify signatures.
+        </p>
+      </div>
+      <div>
+        <h2
+          class="text-2xl font-bold mb-6"
+        >
+          Timeline
+        </h2>
+        <div
+          class="w-full"
+        >
+          <table
+            class="w-full"
+          >
+            <thead>
+              <tr
+                class="text-xs text-[#8b949e] uppercase tracking-wider border-b border-[#30363d]"
+              >
+                <th
+                  class="text-left py-2 px-3"
+                >
+                  Seq
+                </th>
+                <th
+                  class="text-left py-2 px-3"
+                >
+                  Time
+                </th>
+                <th
+                  class="text-left py-2 px-3"
+                >
+                  Actor
+                </th>
+                <th
+                  class="text-left py-2 px-3"
+                >
+                  Summary
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  1
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    wrapper
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  run.started
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  2
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    human
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  requirement.recorded
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  3
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    agent
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Criterion c1: Page exists (index.html with a heading and a form)
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  4
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    agent
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Criterion c2: Form validates the e-mail address (invalid input rejected)
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  5
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    agent
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Criterion c3: Mobile layout works
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  6
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    human
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  criteria.confirmed
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  7
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:01
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    wrapper
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  evidence.attached
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  8
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    wrapper
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Agent process finished (exit 0)
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  9
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    agent
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Agent said: Created index.html with a page that has a heading and a contact form
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  10
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    agent
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Agent said: The form validates the e-mail address using a regex and shows an error
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  11
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    agent
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Agent said: The page uses a fluid max-width container so it works on mobile
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  12
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    wrapper
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Files changed: index.html
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  13
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    wrapper
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  File recorded: index.html
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    wrapper
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  15
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    wrapper
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                </td>
+              </tr>
+              <tr
+                class="timeline-row border-b border-[#30363d]"
+              >
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  16
+                </td>
+                <td
+                  class="py-2 px-3 text-xs text-[#8b949e]"
+                >
+                  14:46:22
+                </td>
+                <td
+                  class="py-2 px-3"
+                >
+                  <span
+                    class="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]"
+                  >
+                    wrapper
+                  </span>
+                </td>
+                <td
+                  class="py-2 px-3 text-sm"
+                >
+                  Run closed (exit 0)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`pre-migration viewer snapshots (must remain unchanged) > criterion drawer with diff and synthetic Markdown, client lens 1`] = `
+<DocumentFragment>
+  <div
+    class="drawer-backdrop"
+  />
+  <div
+    aria-label="Evidence detail"
+    class="drawer-pane"
+    role="dialog"
+    tabindex="0"
+  >
+    <div
+      class="flex items-center justify-between px-4 py-3 border-b border-[#30363d]"
+    >
+      <h3
+        class="text-base font-medium"
+      >
+        Details
+      </h3>
+      <button
+        aria-label="Close"
+        class="text-[#8b949e] text-lg leading-none px-2"
+        type="button"
+      >
+        ×
+      </button>
+    </div>
+    <div
+      class="px-4 py-4"
+    >
+      <div
+        class="mb-4"
+      >
+        <div
+          class="text-sm"
+        >
+          Synthetic fixture, not a recorded witness.
+        </div>
+        <div
+          class="text-[#8b949e] text-sm mt-1"
+        >
+          Synthetic renderer snapshot fixture
+        </div>
+      </div>
+      <div
+        class="space-y-4"
+      >
+        <div
+          class="space-y-3"
+        >
+          <p
+            class="text-sm"
+          >
+            Files changed: index.html
+          </p>
+          <div
+            class="mb-3"
+          >
+            <div
+              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+            >
+              Content
+            </div>
+            <pre
+              class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+            >
+              <code>
+                <div
+                  class="font-semibold text-[#e6edf3]"
+                >
+                  diff --git a/dev/null b/index.html
+                </div>
+                <div
+                  class="text-[#e6edf3]"
+                >
+                  new file mode 100644
+                </div>
+                <div
+                  class="font-semibold text-[#e6edf3]"
+                >
+                  --- /dev/null
+                </div>
+                <div
+                  class="font-semibold text-[#e6edf3]"
+                >
+                  +++ b/index.html
+                </div>
+                <div
+                  class="font-semibold text-[#e6edf3]"
+                >
+                  --- a/index.html
+                </div>
+                <div
+                  class="font-semibold text-[#e6edf3]"
+                >
+                  +++ b/index.html
+                </div>
+                <div
+                  class="text-[#8b949e]"
+                >
+                  @@ -0,0 +1,117 @@
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;!DOCTYPE html&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;html lang="en"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;head&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;meta charset="UTF-8"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;title&gt;Acme — Contact Us&lt;/title&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;style&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    * { box-sizing: border-box; margin: 0; padding: 0; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    body {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      line-height: 1.6;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      color: #1f2430;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      background: #f6f7fb;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    header { text-align: center; padding: 3rem 1rem 1.5rem; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    header h1 { font-size: 2.4rem; color: #0d1b2a; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    header p { color: #5a6270; margin-top: 0.5rem; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    form {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      background: #fff;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border: 1px solid #e4e7ee;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border-radius: 12px;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      padding: 1.75rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      display: flex;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      flex-direction: column;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      gap: 1.1rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; display: block; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    input, textarea {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      width: 100%;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      padding: 0.7rem 0.8rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border: 1px solid #cdd2dd;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border-radius: 8px;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      font: inherit;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    input:focus, textarea:focus {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      outline: none;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border-color: #2563eb;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    .error { color: #dc2626; font-size: 0.85rem; display: none; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    .field.invalid input, .field.invalid textarea { border-color: #dc2626; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    .field.invalid .error { display: block; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    button {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      background: #2563eb;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      color: #fff;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border: none;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      padding: 0.8rem 1.2rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border-radius: 8px;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      font-size: 1rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      font-weight: 600;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      cursor: pointer;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      transition: background 0.15s;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    button:hover { background: #1d4ed8; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    .success {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      display: none;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      background: #ecfdf5;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border: 1px solid #34d399;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      color: #065f46;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border-radius: 8px;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      padding: 0.9rem 1rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      margin-top: 1rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;/style&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;/head&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;body&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;header&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    &lt;h1&gt;Get in touch&lt;/h1&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    &lt;p&gt;Tell us a little about your project and we'll get back to you within a day.&lt;/p&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;/header&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;main class="wrap"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    &lt;form id="contactForm" novalidate&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;div class="field"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;label for="name"&gt;Name&lt;/label&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;input type="text" id="name" name="name" autocomplete="name"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;/div&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;div class="field"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;label for="email"&gt;Email&lt;/label&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;input type="email" id="email" name="email" autocomplete="email"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;span class="error"&gt;Please enter a valid email address.&lt;/span&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;/div&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;div class="field"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;label for="message"&gt;Message&lt;/label&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;textarea id="message" name="message" rows="5"&gt;&lt;/textarea&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;/div&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;button type="submit"&gt;Send message&lt;/button&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    &lt;/form&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    &lt;div class="success" id="success"&gt;Thanks! Your message has been sent.&lt;/div&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;/main&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;script&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    const form = document.getElementById('contactForm');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    const email = document.getElementById('email');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    const emailField = email.closest('.field');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    const success = document.getElementById('success');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    form.addEventListener('submit', (e) =&gt; {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      e.preventDefault();
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      success.style.display = 'none';
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      emailField.classList.remove('invalid');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      let valid = true;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      if (!emailRegex.test(email.value.trim())) {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        emailField.classList.add('invalid');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        valid = false;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      if (valid) success.style.display = 'block';
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    });
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    email.addEventListener('input', () =&gt; emailField.classList.remove('invalid'));
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;/script&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;/body&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;/html&gt;
+                </div>
+              </code>
+            </pre>
+          </div>
+        </div>
+        <div
+          class="space-y-3"
+        >
+          <p
+            class="text-sm"
+          >
+            Synthetic Markdown fixture, not a recorded witness
+          </p>
+          <div
+            class="mb-3"
+          >
+            <div
+              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+            >
+              Content
+            </div>
+            <div>
+              <div
+                class="flex gap-2 mb-2"
+              >
+                <button
+                  class="text-xs px-2 py-1 rounded border border-[#8b949e] text-[#e6edf3]"
+                  type="button"
+                >
+                  Rendered
+                </button>
+                <button
+                  class="text-xs px-2 py-1 rounded border border-[#30363d] text-[#8b949e]"
+                  type="button"
+                >
+                  Source
+                </button>
+              </div>
+              <div
+                class="text-sm space-y-3 text-[#e6edf3]"
+              >
+                <div
+                  class="font-semibold text-xl"
+                >
+                  Synthetic snapshot fixture
+                </div>
+                <p>
+                  <strong>
+                    Claimed
+                  </strong>
+                  , not witnessed. See 
+                  <code
+                    class="font-mono text-xs bg-[#161b22] px-1 rounded border border-[#30363d]"
+                  >
+                    fixture.ts
+                  </code>
+                  .
+                </p>
+                <ul
+                  class="list-disc pl-5 space-y-1"
+                >
+                  <li>
+                    one
+                  </li>
+                  <li>
+                    two
+                  </li>
+                </ul>
+                <pre
+                  class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+                >
+                  &lt;script&gt;escaped&lt;/script&gt;
+                </pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`pre-migration viewer snapshots (must remain unchanged) > criterion drawer with diff and synthetic Markdown, developer lens 1`] = `
+<DocumentFragment>
+  <div
+    class="drawer-backdrop"
+  />
+  <div
+    aria-label="Evidence detail"
+    class="drawer-pane"
+    role="dialog"
+    tabindex="0"
+  >
+    <div
+      class="flex items-center justify-between px-4 py-3 border-b border-[#30363d]"
+    >
+      <h3
+        class="text-base font-medium"
+      >
+        Evidence
+      </h3>
+      <button
+        aria-label="Close"
+        class="text-[#8b949e] text-lg leading-none px-2"
+        type="button"
+      >
+        ×
+      </button>
+    </div>
+    <div
+      class="px-4 py-4"
+    >
+      <div
+        class="mb-4"
+      >
+        <div
+          class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+        >
+          Criterion
+        </div>
+        <div
+          class="text-sm"
+        >
+          Synthetic renderer snapshot fixture
+        </div>
+      </div>
+      <div
+        class="space-y-4"
+      >
+        <div
+          class="space-y-3"
+        >
+          <div
+            class="grid grid-cols-[100px_1fr] gap-1 text-sm"
+          >
+            <span
+              class="text-xs text-[#8b949e]"
+            >
+              Type
+            </span>
+            <span>
+              evidence.attached
+            </span>
+            <span
+              class="text-xs text-[#8b949e]"
+            >
+              Actor
+            </span>
+            <span>
+              wrapper / truthlens-run
+            </span>
+            <span
+              class="text-xs text-[#8b949e]"
+            >
+              Timestamp
+            </span>
+            <span>
+              2026-10-11T14:46:22.023Z
+            </span>
+            <span
+              class="text-xs text-[#8b949e]"
+            >
+              Hash
+            </span>
+            <span
+              class="font-mono text-xs break-all"
+            >
+              fa79051f24630a3553778e71fc35f6a9b23710bbc674025c1e26cf1a14d00f77
+            </span>
+            <span
+              class="text-xs text-[#8b949e]"
+            >
+              ID
+            </span>
+            <span
+              class="font-mono text-xs break-all"
+            >
+              evt_01M4NPVPJ71QG0VYEDQK4FRVCR
+            </span>
+          </div>
+          <div>
+            <div
+              class="mb-3"
+            >
+              <div
+                class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+              >
+                Content
+              </div>
+              <pre
+                class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+              >
+                <code>
+                  <div
+                    class="font-semibold text-[#e6edf3]"
+                  >
+                    diff --git a/dev/null b/index.html
+                  </div>
+                  <div
+                    class="text-[#e6edf3]"
+                  >
+                    new file mode 100644
+                  </div>
+                  <div
+                    class="font-semibold text-[#e6edf3]"
+                  >
+                    --- /dev/null
+                  </div>
+                  <div
+                    class="font-semibold text-[#e6edf3]"
+                  >
+                    +++ b/index.html
+                  </div>
+                  <div
+                    class="font-semibold text-[#e6edf3]"
+                  >
+                    --- a/index.html
+                  </div>
+                  <div
+                    class="font-semibold text-[#e6edf3]"
+                  >
+                    +++ b/index.html
+                  </div>
+                  <div
+                    class="text-[#8b949e]"
+                  >
+                    @@ -0,0 +1,117 @@
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +&lt;!DOCTYPE html&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +&lt;html lang="en"&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +&lt;head&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +  &lt;meta charset="UTF-8"&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +  &lt;title&gt;Acme — Contact Us&lt;/title&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +  &lt;style&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    * { box-sizing: border-box; margin: 0; padding: 0; }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    body {
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      line-height: 1.6;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      color: #1f2430;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      background: #f6f7fb;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    header { text-align: center; padding: 3rem 1rem 1.5rem; }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    header h1 { font-size: 2.4rem; color: #0d1b2a; }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    header p { color: #5a6270; margin-top: 0.5rem; }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    form {
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      background: #fff;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      border: 1px solid #e4e7ee;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      border-radius: 12px;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      padding: 1.75rem;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      display: flex;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      flex-direction: column;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      gap: 1.1rem;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; display: block; }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    input, textarea {
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      width: 100%;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      padding: 0.7rem 0.8rem;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      border: 1px solid #cdd2dd;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      border-radius: 8px;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      font: inherit;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    input:focus, textarea:focus {
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      outline: none;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      border-color: #2563eb;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    .error { color: #dc2626; font-size: 0.85rem; display: none; }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    .field.invalid input, .field.invalid textarea { border-color: #dc2626; }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    .field.invalid .error { display: block; }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    button {
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      background: #2563eb;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      color: #fff;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      border: none;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      padding: 0.8rem 1.2rem;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      border-radius: 8px;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      font-size: 1rem;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      font-weight: 600;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      cursor: pointer;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      transition: background 0.15s;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    button:hover { background: #1d4ed8; }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    .success {
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      display: none;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      background: #ecfdf5;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      border: 1px solid #34d399;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      color: #065f46;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      border-radius: 8px;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      padding: 0.9rem 1rem;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      margin-top: 1rem;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +  &lt;/style&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +&lt;/head&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +&lt;body&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +  &lt;header&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    &lt;h1&gt;Get in touch&lt;/h1&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    &lt;p&gt;Tell us a little about your project and we'll get back to you within a day.&lt;/p&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +  &lt;/header&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +  &lt;main class="wrap"&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    &lt;form id="contactForm" novalidate&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      &lt;div class="field"&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +        &lt;label for="name"&gt;Name&lt;/label&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +        &lt;input type="text" id="name" name="name" autocomplete="name"&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      &lt;/div&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      &lt;div class="field"&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +        &lt;label for="email"&gt;Email&lt;/label&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +        &lt;input type="email" id="email" name="email" autocomplete="email"&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +        &lt;span class="error"&gt;Please enter a valid email address.&lt;/span&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      &lt;/div&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      &lt;div class="field"&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +        &lt;label for="message"&gt;Message&lt;/label&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +        &lt;textarea id="message" name="message" rows="5"&gt;&lt;/textarea&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      &lt;/div&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      &lt;button type="submit"&gt;Send message&lt;/button&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    &lt;/form&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    &lt;div class="success" id="success"&gt;Thanks! Your message has been sent.&lt;/div&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +  &lt;/main&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +  &lt;script&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    const form = document.getElementById('contactForm');
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    const email = document.getElementById('email');
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    const emailField = email.closest('.field');
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    const success = document.getElementById('success');
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    form.addEventListener('submit', (e) =&gt; {
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      e.preventDefault();
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      success.style.display = 'none';
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      emailField.classList.remove('invalid');
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      let valid = true;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      if (!emailRegex.test(email.value.trim())) {
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +        emailField.classList.add('invalid');
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +        valid = false;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      }
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +      if (valid) success.style.display = 'block';
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    });
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +    email.addEventListener('input', () =&gt; emailField.classList.remove('invalid'));
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +  &lt;/script&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +&lt;/body&gt;
+                  </div>
+                  <div
+                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                  >
+                    +&lt;/html&gt;
+                  </div>
+                </code>
+              </pre>
+            </div>
+            <div
+              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1 mt-3"
+            >
+              Payload
+            </div>
+            <pre
+              class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+            >
+              {
+  "changed": [
+    "index.html"
+  ],
+  "evidence_id": "evd_01M4NPVPJ5WM8CBA8GRZXYK5G1",
+  "kind": "file_changed",
+  "refers_to": "git_diff_after",
+  "result": "info",
+  "sha256": "5922c528692994157f1e26ecb3cf8d44f1e8dfbe5530f78153f3635e92d24c49"
+}
+            </pre>
+          </div>
+        </div>
+        <div
+          class="space-y-3"
+        >
+          <div
+            class="grid grid-cols-[100px_1fr] gap-1 text-sm"
+          >
+            <span
+              class="text-xs text-[#8b949e]"
+            >
+              Type
+            </span>
+            <span>
+              evidence.attached
+            </span>
+            <span
+              class="text-xs text-[#8b949e]"
+            >
+              Actor
+            </span>
+            <span>
+              agent / snapshot-fixture
+            </span>
+            <span
+              class="text-xs text-[#8b949e]"
+            >
+              Timestamp
+            </span>
+            <span>
+              2026-10-11T14:46:22.023Z
+            </span>
+            <span
+              class="text-xs text-[#8b949e]"
+            >
+              Hash
+            </span>
+            <span
+              class="font-mono text-xs break-all"
+            >
+              fa79051f24630a3553778e71fc35f6a9b23710bbc674025c1e26cf1a14d00f77
+            </span>
+            <span
+              class="text-xs text-[#8b949e]"
+            >
+              ID
+            </span>
+            <span
+              class="font-mono text-xs break-all"
+            >
+              synthetic-markdown-fixture
+            </span>
+          </div>
+          <div>
+            <div
+              class="mb-3"
+            >
+              <div
+                class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+              >
+                Content
+              </div>
+              <div>
+                <div
+                  class="flex gap-2 mb-2"
+                >
+                  <button
+                    class="text-xs px-2 py-1 rounded border border-[#8b949e] text-[#e6edf3]"
+                    type="button"
+                  >
+                    Rendered
+                  </button>
+                  <button
+                    class="text-xs px-2 py-1 rounded border border-[#30363d] text-[#8b949e]"
+                    type="button"
+                  >
+                    Source
+                  </button>
+                </div>
+                <div
+                  class="text-sm space-y-3 text-[#e6edf3]"
+                >
+                  <div
+                    class="font-semibold text-xl"
+                  >
+                    Synthetic snapshot fixture
+                  </div>
+                  <p>
+                    <strong>
+                      Claimed
+                    </strong>
+                    , not witnessed. See 
+                    <code
+                      class="font-mono text-xs bg-[#161b22] px-1 rounded border border-[#30363d]"
+                    >
+                      fixture.ts
+                    </code>
+                    .
+                  </p>
+                  <ul
+                    class="list-disc pl-5 space-y-1"
+                  >
+                    <li>
+                      one
+                    </li>
+                    <li>
+                      two
+                    </li>
+                  </ul>
+                  <pre
+                    class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+                  >
+                    &lt;script&gt;escaped&lt;/script&gt;
+                  </pre>
+                </div>
+              </div>
+            </div>
+            <div
+              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1 mt-3"
+            >
+              Payload
+            </div>
+            <pre
+              class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+            >
+              {
+  "path": "fixture-report.md",
+  "sha256": "a6732e9cabfadf77d559e7fb825ff8c716552a379a103a114f1f28ccecb02d9a"
+}
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`pre-migration viewer snapshots (must remain unchanged) > preserves plain text byte for byte, including JSON-looking content 1`] = `
+<DocumentFragment>
+  <div
+    class="mb-3"
+  >
+    <div
+      class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+    >
+      Content
+    </div>
+    <pre
+      class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d] whitespace-pre-wrap"
+    >
+      {"status":"unverified","verified":false}
+&lt;script&gt;escaped&lt;/script&gt;
+    </pre>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`pre-migration viewer snapshots (must remain unchanged) > preserves the Markdown source toggle inside the criterion drawer 1`] = `
+<DocumentFragment>
+  <div
+    class="drawer-backdrop"
+  />
+  <div
+    aria-label="Evidence detail"
+    class="drawer-pane"
+    role="dialog"
+    tabindex="0"
+  >
+    <div
+      class="flex items-center justify-between px-4 py-3 border-b border-[#30363d]"
+    >
+      <h3
+        class="text-base font-medium"
+      >
+        Details
+      </h3>
+      <button
+        aria-label="Close"
+        class="text-[#8b949e] text-lg leading-none px-2"
+        type="button"
+      >
+        ×
+      </button>
+    </div>
+    <div
+      class="px-4 py-4"
+    >
+      <div
+        class="mb-4"
+      >
+        <div
+          class="text-sm"
+        >
+          Synthetic fixture, not a recorded witness.
+        </div>
+        <div
+          class="text-[#8b949e] text-sm mt-1"
+        >
+          Synthetic renderer snapshot fixture
+        </div>
+      </div>
+      <div
+        class="space-y-4"
+      >
+        <div
+          class="space-y-3"
+        >
+          <p
+            class="text-sm"
+          >
+            Files changed: index.html
+          </p>
+          <div
+            class="mb-3"
+          >
+            <div
+              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+            >
+              Content
+            </div>
+            <pre
+              class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+            >
+              <code>
+                <div
+                  class="font-semibold text-[#e6edf3]"
+                >
+                  diff --git a/dev/null b/index.html
+                </div>
+                <div
+                  class="text-[#e6edf3]"
+                >
+                  new file mode 100644
+                </div>
+                <div
+                  class="font-semibold text-[#e6edf3]"
+                >
+                  --- /dev/null
+                </div>
+                <div
+                  class="font-semibold text-[#e6edf3]"
+                >
+                  +++ b/index.html
+                </div>
+                <div
+                  class="font-semibold text-[#e6edf3]"
+                >
+                  --- a/index.html
+                </div>
+                <div
+                  class="font-semibold text-[#e6edf3]"
+                >
+                  +++ b/index.html
+                </div>
+                <div
+                  class="text-[#8b949e]"
+                >
+                  @@ -0,0 +1,117 @@
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;!DOCTYPE html&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;html lang="en"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;head&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;meta charset="UTF-8"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;title&gt;Acme — Contact Us&lt;/title&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;style&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    * { box-sizing: border-box; margin: 0; padding: 0; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    body {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      line-height: 1.6;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      color: #1f2430;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      background: #f6f7fb;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    header { text-align: center; padding: 3rem 1rem 1.5rem; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    header h1 { font-size: 2.4rem; color: #0d1b2a; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    header p { color: #5a6270; margin-top: 0.5rem; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    form {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      background: #fff;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border: 1px solid #e4e7ee;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border-radius: 12px;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      padding: 1.75rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      display: flex;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      flex-direction: column;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      gap: 1.1rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; display: block; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    input, textarea {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      width: 100%;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      padding: 0.7rem 0.8rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border: 1px solid #cdd2dd;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border-radius: 8px;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      font: inherit;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    input:focus, textarea:focus {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      outline: none;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border-color: #2563eb;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    .error { color: #dc2626; font-size: 0.85rem; display: none; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    .field.invalid input, .field.invalid textarea { border-color: #dc2626; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    .field.invalid .error { display: block; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    button {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      background: #2563eb;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      color: #fff;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border: none;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      padding: 0.8rem 1.2rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border-radius: 8px;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      font-size: 1rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      font-weight: 600;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      cursor: pointer;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      transition: background 0.15s;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    button:hover { background: #1d4ed8; }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    .success {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      display: none;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      background: #ecfdf5;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border: 1px solid #34d399;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      color: #065f46;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      border-radius: 8px;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      padding: 0.9rem 1rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      margin-top: 1rem;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;/style&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;/head&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;body&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;header&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    &lt;h1&gt;Get in touch&lt;/h1&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    &lt;p&gt;Tell us a little about your project and we'll get back to you within a day.&lt;/p&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;/header&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;main class="wrap"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    &lt;form id="contactForm" novalidate&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;div class="field"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;label for="name"&gt;Name&lt;/label&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;input type="text" id="name" name="name" autocomplete="name"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;/div&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;div class="field"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;label for="email"&gt;Email&lt;/label&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;input type="email" id="email" name="email" autocomplete="email"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;span class="error"&gt;Please enter a valid email address.&lt;/span&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;/div&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;div class="field"&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;label for="message"&gt;Message&lt;/label&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        &lt;textarea id="message" name="message" rows="5"&gt;&lt;/textarea&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;/div&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      &lt;button type="submit"&gt;Send message&lt;/button&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    &lt;/form&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    &lt;div class="success" id="success"&gt;Thanks! Your message has been sent.&lt;/div&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;/main&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;script&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    const form = document.getElementById('contactForm');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    const email = document.getElementById('email');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    const emailField = email.closest('.field');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    const success = document.getElementById('success');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    form.addEventListener('submit', (e) =&gt; {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      e.preventDefault();
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      success.style.display = 'none';
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      emailField.classList.remove('invalid');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      let valid = true;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      if (!emailRegex.test(email.value.trim())) {
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        emailField.classList.add('invalid');
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +        valid = false;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      }
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +      if (valid) success.style.display = 'block';
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    });
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +    email.addEventListener('input', () =&gt; emailField.classList.remove('invalid'));
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +  &lt;/script&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;/body&gt;
+                </div>
+                <div
+                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                >
+                  +&lt;/html&gt;
+                </div>
+              </code>
+            </pre>
+          </div>
+        </div>
+        <div
+          class="space-y-3"
+        >
+          <p
+            class="text-sm"
+          >
+            Synthetic Markdown fixture, not a recorded witness
+          </p>
+          <div
+            class="mb-3"
+          >
+            <div
+              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+            >
+              Content
+            </div>
+            <div>
+              <div
+                class="flex gap-2 mb-2"
+              >
+                <button
+                  class="text-xs px-2 py-1 rounded border border-[#30363d] text-[#8b949e]"
+                  type="button"
+                >
+                  Rendered
+                </button>
+                <button
+                  class="text-xs px-2 py-1 rounded border border-[#8b949e] text-[#e6edf3]"
+                  type="button"
+                >
+                  Source
+                </button>
+              </div>
+              <pre
+                class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d] whitespace-pre-wrap"
+              >
+                # Synthetic snapshot fixture
+
+**Claimed**, not witnessed. See \`fixture.ts\`.
+
+- one
+- two
+
+\`\`\`text
+&lt;script&gt;escaped&lt;/script&gt;
+\`\`\`
+              </pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -21,6 +21,30 @@ cp /tmp/tl-demo/run.json viewer/public/run.json && cd viewer && npm i && npm run
 ```
 Expected: c1 `met`, c2 `unmet`, c3 `unverified`, the agent's "all done" claim `claim_unwitnessed`, and the tampered copy fails `verify`. Recorded real runs: [docs/DEMO-RUNS.md](docs/DEMO-RUNS.md).
 
+### Viewer development and screenshots
+
+Use Node 24 (as in CI); the viewer declares Node >=22.19 and its locked developer
+dependencies may require newer Node 22 patch releases. From `viewer/`:
+
+```bash
+npm ci
+npm test && npm run lint && npm run build
+PLAYWRIGHT_BROWSERS_PATH=../.venv/playwright npx playwright install chromium
+npm run screenshots
+```
+
+The optional screenshot script starts a temporary `vite preview` on loopback,
+captures Overview, Claimed vs Proven and Timeline in both lenses, and captures
+criterion/diff drawers when the selected export contains them. PNGs go to
+`viewer/.screenshots/` (ignored); browser binaries stay in the clone's `.venv/`.
+It checks browser and HTTP errors and stops the preview afterward. It is not
+required by CI and does not install system packages.
+
+The renderer registry changes presentation only; lens settings and drawer actions
+are separate from recorded inputs. Pre-migration Vitest snapshots cover the real
+`viewer/public/run.json` views; the combined diff/Markdown drawer uses a labelled
+synthetic Markdown fixture because that export contains no Markdown evidence.
+
 ## CLI
 | Command | What it does |
 |---|---|
