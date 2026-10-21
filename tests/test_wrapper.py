@@ -6,6 +6,8 @@ import sys
 import textwrap
 from pathlib import Path
 
+import pytest
+
 from truthlens.cli import main
 from truthlens.ledger import Ledger, verify
 from truthlens.store import BlobStore
@@ -238,6 +240,63 @@ def _pre_diff_of(out):
     ev = Ledger(out / "ledger.jsonl").read()
     git_before = next(e for e in ev if e["payload"].get("refers_to") == "git_state_before")
     return BlobStore(out / "blobs").get(git_before["payload"]["sha256"]).split(b"\n", 1)[1]
+
+
+@pytest.mark.parametrize("when", ["before", "before-staged", "after"])
+def test_diff_preserves_old_and_new_text(tmp_path, when):
+    r, _ = _repo(tmp_path)
+    (r / "notes.txt").write_text("old text\n")
+    for c in (["add", "notes.txt"], ["-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "notes"]):
+        subprocess.run(["git", "-C", str(r), *c], check=True)
+    command = [sys.executable, "-c", "from pathlib import Path; Path('notes.txt').write_text('new text\\n')"]
+    if when.startswith("before"):
+        subprocess.run(command, cwd=r, check=True)
+        if when == "before-staged":
+            subprocess.run(["git", "-C", str(r), "add", "notes.txt"], check=True)
+        command = ["true"]
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--hmac-key-file", str(_keyfile(tmp_path)),
+                 "--hmac-key-id", "k1", "--", *command]) == 0
+    if when.startswith("before"):
+        diff = _pre_diff_of(out)
+    else:
+        events = Ledger(out / "ledger.jsonl").read()
+        sha = next(e["payload"]["sha256"] for e in events if e["payload"].get("refers_to") == "git_diff_after")
+        diff = BlobStore(out / "blobs").get(sha)
+    assert b"-old text" in diff.splitlines()
+    assert b"+new text" in diff.splitlines()
+
+
+@pytest.mark.parametrize("deleted", [False, True])
+def test_diff_without_capture_refuses_unrecoverable_old_content(tmp_path, deleted):
+    from truthlens.wrapper import _make_diff, snapshot
+
+    r, _ = _repo(tmp_path)
+    notes = r / "uncommitted.txt"
+    notes.write_text("old text\n")
+    before = snapshot(r)
+    if deleted:
+        notes.unlink()
+    else:
+        notes.write_text("new text\n")
+    with pytest.raises(RuntimeError, match="pre-run content.*uncommitted.txt"):
+        _make_diff(r, before, snapshot(r))
+
+
+def test_pre_diff_preserves_old_symlink_target(tmp_path):
+    r, _ = _repo(tmp_path)
+    link = r / "link"
+    link.symlink_to("old-target")
+    for c in (["add", "link"], ["-c", "user.email=a@b", "-c", "user.name=a", "commit", "-qm", "link"]):
+        subprocess.run(["git", "-C", str(r), *c], check=True)
+    link.unlink()
+    link.symlink_to("new-target")
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(r), "--hmac-key-file", str(_keyfile(tmp_path)),
+                 "--hmac-key-id", "k1", "--", "true"]) == 0
+    diff = _pre_diff_of(out)
+    assert b"-symlink:old-target" in diff.splitlines()
+    assert b"+symlink:new-target" in diff.splitlines()
 
 
 def test_pre_diff_omits_unreadable_head_object(tmp_path):

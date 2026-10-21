@@ -186,12 +186,24 @@ def _read(f: Path) -> bytes:
 
 
 def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
-    path = repo / rel
-    if path.exists() and not path.is_symlink():
-        sha = hashlib.sha256(path.read_bytes()).hexdigest()
-        if sha == before_snapshot.get(rel):
-            return path.read_bytes()
-    return b""
+    """Recover the old side only when its bytes match the snapshot; never invent empty content."""
+    if rel not in before_snapshot:
+        return b""
+    expected = before_snapshot[rel]
+    try:
+        data = _read(repo / rel)
+    except OSError:
+        pass
+    else:
+        if hashlib.sha256(data).hexdigest() == expected:
+            return data
+    # The pre-diff compares HEAD to the working tree, so its old bytes live in git, not the tree.
+    data = _read_head_blob(repo, f"HEAD:{rel}")
+    if data is not None:
+        for candidate in (data, b"symlink:" + data):
+            if hashlib.sha256(candidate).hexdigest() == expected:
+                return candidate
+    raise RuntimeError(f"cannot recover pre-run content for {rel!r}")
 
 
 def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
@@ -265,7 +277,7 @@ def _capture_before(repo: Path, before: dict[str, str], dest: Path) -> None:
     content would be silently dropped. Holding every before-byte in RAM is unbounded (#90 review):
     a large tree would OOM the wrapper before the agent starts. The bytes therefore go to a temp
     dir and are read back on demand. A file is written only while it still hashes to `before[rel]`;
-    symlinks are skipped, exactly like `_read_before`.
+    symlinks are captured as link text, exactly like snapshot().
     """
     for rel, sha in before.items():
         if os.path.isabs(rel) or ".." in rel.split("/"):
@@ -297,68 +309,6 @@ def _read_captured(before_dir: Path, rel: str) -> bytes:
         return (before_dir / rel).read_bytes()
     except OSError as e:
         raise RuntimeError(f"missing pre-run capture for {rel!r}: {e}") from e
-
-
-def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
-    path = repo / rel
-    if path.exists() and not path.is_symlink():
-        sha = hashlib.sha256(path.read_bytes()).hexdigest()
-        if sha == before_snapshot.get(rel):
-            return path.read_bytes()
-    return b""
-
-
-def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
-               before_dir: Path | None = None) -> bytes:
-    lines: list[str] = []
-    all_keys = sorted(set(before) | set(after))
-    for rel in all_keys:
-        sha_b = before.get(rel)
-        sha_a = after.get(rel)
-        if sha_b == sha_a:
-            continue
-        path = repo / rel
-        if rel not in before:
-            lines.append(f"diff --git a/dev/null b/{rel}")
-            lines.append("new file mode 100644")
-            lines.append("--- /dev/null")
-            lines.append(f"+++ b/{rel}")
-            try:
-                data = _read(path)
-            except OSError:
-                continue
-        elif rel not in after:
-            lines.append(f"diff --git a/{rel} b/dev/null")
-            lines.append("deleted file mode 100644")
-            lines.append(f"--- a/{rel}")
-            lines.append("+++ /dev/null")
-            data = b""
-        else:
-            lines.append(f"diff --git a/{rel} b/{rel}")
-            lines.append(f"--- a/{rel}")
-            lines.append(f"+++ b/{rel}")
-            try:
-                data = _read(path)
-            except OSError:
-                continue
-        if b"\0" in data:
-            lines.append("Binary files differ")
-        else:
-            text = data.decode("utf-8", "replace")
-            # `before_dir` holds the pre-run bytes on disk; when absent (pre-diff) fall back to
-            # `_read_before` so that path is unchanged, otherwise read this changed file on demand.
-            # A file that did not exist before the run has a legitimately empty `-` side; a file that
-            # did exist must have a capture, else `_read_captured` raises instead of faking empty.
-            if before_dir is None:
-                src = _read_before(repo, rel, before).decode("utf-8", "replace")
-            elif rel in before:
-                src = _read_captured(before_dir, rel).decode("utf-8", "replace")
-            else:
-                src = ""
-            diff = list(difflib.unified_diff(src.splitlines(True), text.splitlines(True),
-                                             fromfile=f"a/{rel}", tofile=f"b/{rel}", n=3))
-            lines.extend(l.rstrip("\n") for l in diff)
-    return "\n".join(lines).encode()
 
 
 def child_env(pass_env: list[str], drop: set[str]) -> dict[str, str]:
