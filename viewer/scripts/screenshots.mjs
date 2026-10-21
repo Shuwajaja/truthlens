@@ -41,7 +41,9 @@ try {
 
       const capture = async name => {
         if (browserError) throw new Error('Browser resource or rendering error')
-        await page.screenshot({ path: join(output, `${name}-${lens}.png`), fullPage: (await page.getByRole('dialog').count()) === 0, animations: 'disabled' })
+        const hasDialog=(await page.getByRole('dialog').count()) > 0
+        if (!hasDialog) await page.evaluate(() => window.scrollTo(0,0))
+        await page.screenshot({ path: join(output, `${name}-${lens}.png`), fullPage: !hasDialog, animations: 'disabled' })
         written++
       }
       if (graph.nodes.length) {
@@ -51,12 +53,30 @@ try {
         written++
       }
       await capture('overview')
-      for (const width of [1280, 360]) {
+      for (const width of [1280, 1024, 900, 768, 701, 360]) {
         stage = `capture overview at ${width}px (${lens})`
         await page.setViewportSize({ width, height: 1000 })
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)
         if (overflow) throw new Error('Overview overflows the viewport')
+        if (width > 700) {
+          await page.evaluate(()=>window.scrollTo(0,900))
+          const navHidden=await page.getByRole('navigation',{name:'Viewer navigation'}).getByRole('button',{name:'Overview',exact:true}).evaluate(button=>{
+            const rect=button.getBoundingClientRect();return rect.top<0||rect.bottom>innerHeight
+          })
+          if(navHidden) throw new Error('Navigation is offscreen after scrolling')
+          const trustHidden=await page.locator('main > .integrity-notice').evaluate(notice=>{
+            const rect=notice.getBoundingClientRect();return rect.top<0||rect.bottom>innerHeight
+          })
+          if(trustHidden) throw new Error('Trust notice is offscreen after scrolling')
+        }
         await capture(`overview-${width}`)
+        stage = `toggle Navigator at ${width}px (${lens})`
+        await page.getByRole('button',{name:'Navigator einklappen',exact:true}).click()
+        if(await page.getByRole('textbox',{name:'Nachricht an Navigator'}).count()) throw new Error('Collapsed Navigator exposes its input')
+        if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)) throw new Error('Collapsed Navigator overflows')
+        await capture(`navigator-collapsed-${width}`)
+        await page.getByRole('button',{name:'Navigator ausklappen',exact:true}).click()
+        if(!await page.getByRole('textbox',{name:'Nachricht an Navigator'}).isDisabled()) throw new Error('Navigator input is enabled')
         if (width === 360 && graph.nodes.length) {
           stage = `tap graph node on mobile (${lens})`
           await page.locator('.react-flow__node button').first().tap({timeout:5000})

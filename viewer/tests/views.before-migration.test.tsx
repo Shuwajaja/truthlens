@@ -63,6 +63,7 @@ function dialogFragment() {
 // claim badges and keyboard-accessible Timeline). P2 Step 3 adds Graph to the two
 // Overview snapshots and replaces the outer drawer shell with a portalled Sheet.
 // Snapshot the actual dialog; diff/Markdown/plain content remains unchanged.
+// P2 Step 4 adds the static Navigator and a sticky-control wrapper to six App snapshots.
 describe('pre-migration viewer snapshots (must remain unchanged)', () => {
   for (const lens of lenses) {
     for (const view of ['Overview', 'Claimed vs Proven', 'Timeline']) {

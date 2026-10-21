@@ -1,6 +1,6 @@
 # DESIGN.md – TruthLens viewer, P2
 
-The owner approved the P2 overview reference on 2026-10-22: mountain header, left navigation, measured status cards, exported runs, code diff, evidence graph, criterion evidence, recorded timeline and collapsible Navigator. This updates the earlier v2 layout/palette rules. TruthLens only; no other product themes or workspace mock data.
+The owner-approved P2 overview reference specifies mountain header, left navigation, measured status cards, exported runs, code diff, evidence graph, criterion evidence, recorded timeline and collapsible Navigator. This updates the earlier v2 layout/palette rules. TruthLens only; no other product themes or workspace mock data.
 
 ## Visual system
 
