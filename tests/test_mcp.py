@@ -3,6 +3,8 @@ import json
 import shutil
 from pathlib import Path
 
+import pytest
+
 from truthlens.mcp import serve
 
 DEMO = Path(__file__).parent.parent / "demo" / "runs"
@@ -16,6 +18,17 @@ def _rpc(root, *msgs):
 
 def _call(i, name, **args):
     return {"jsonrpc": "2.0", "id": i, "method": "tools/call", "params": {"name": name, "arguments": args}}
+
+
+@pytest.mark.parametrize("msg", [[], 1, "x", None, True])
+def test_mcp_non_object_request_keeps_server_running(tmp_path, msg):
+    responses = _rpc(tmp_path, msg, _call(1, "list_runs"))
+    assert len(responses) == 2
+    assert responses[0] == {"jsonrpc": "2.0", "id": None,
+                            "error": {"code": -32600, "message": "Invalid Request"}}
+    assert responses[1]["id"] == 1
+    assert responses[1]["result"]["isError"] is False
+    assert json.loads(responses[1]["result"]["content"][0]["text"]) == {"runs": []}
 
 
 def test_mcp_read_only_report_and_tamper(tmp_path):
