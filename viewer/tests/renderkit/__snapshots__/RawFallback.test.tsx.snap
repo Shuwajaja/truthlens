@@ -1,0 +1,47 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`safe raw fallback > escapes markup and pretty-prints JSON text 1`] = `
+<DocumentFragment>
+  <div>
+    <pre
+      class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d] whitespace-pre-wrap"
+    >
+      {
+  "status": "unverified",
+  "text": "&lt;script&gt;alert(1)&lt;/script&gt;"
+}
+    </pre>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`safe raw fallback > renders plain text as text, including HTML-looking content 1`] = `
+<DocumentFragment>
+  <div>
+    <pre
+      class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d] whitespace-pre-wrap"
+    >
+      &lt;img src=x onerror=alert(1)&gt; & text
+    </pre>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`safe raw fallback > shows the whole unknown object without inventing a presentation 1`] = `
+<DocumentFragment>
+  <div>
+    <pre
+      class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d] whitespace-pre-wrap"
+    >
+      {
+  "kind": "unknown",
+  "values": [
+    false,
+    0,
+    null
+  ]
+}
+    </pre>
+  </div>
+</DocumentFragment>
+`;
