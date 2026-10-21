@@ -2,7 +2,7 @@
 
 | Doc | Purpose |
 |---|---|
-| [STATUS.md](STATUS.md) | Build status, blockers, budget, next task (updated every session) |
+| [STATUS.md](STATUS.md) | Current P0 branches, measured checks, known limits and next tasks |
 | [spec/](spec/) | Frozen specs: event schema v1, artifact manifest v1; all decisions as D-numbers |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Components and data flow |
 | [TRUST-LEVELS.md](TRUST-LEVELS.md) | Trust labels for artifacts |

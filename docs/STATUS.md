@@ -1,81 +1,68 @@
-# TruthLens – Build Status (persistent supervisor state)
+# TruthLens — P0 status
 
-Updated: 2026-10-11 10:30 Europe/Berlin · by supervisor (actor.kind=agent)
+Updated: **2026-10-21 UTC** · by Codex (`actor.kind=agent`). Target: **2026-10-25**.
 
-## Mission
-Build the TruthLens MVP autonomously to completion (owner mandate 2026-10-11). Agent decisions are never recorded as human approval.
+Scope is v1 stabilization and documentation. Event Schema v1 and Artifact Manifest v1 remain frozen. TruthLens is MIT-licensed under [LICENSE](../LICENSE), as confirmed by Shu. New product features remain outside P0.
 
-## Definition of done
-- [x] Ledger, redaction, integrity verification (#14 #18 #19 #27 merged)
-- [x] Artifact manifest + capture (#21 store, #23 manifest, #26 wrapper)
-- [x] Real OpenCode run recorded (docs/DEMO-RUNS.md, `demo/runs/demo-2`: c1 met, c2 unmet, c3 unverified, claim_unwitnessed)
-- [x] Run rendered in browser (#30, DESIGN v2: Overview cards, Claimed vs Proven, Timeline, evidence drawer); diff + markdown renderers in drawer (#37, Cursor); blob content export (#41); MVP viewer issues #57–#61 done 08:35 (status counts, claims, drawer markdown emphasis, review hint, "Verification failed" state) – checked in headless Chromium against demo-2/demo-1 exports
-- [x] Developer Lens + Client Lens (toggle, default Client, #47, Cursor worker)
-- [x] SQLite projections rebuildable (`truthlens project`, atomic replace)
-- [x] Approval gate blocks a real controlled action (#29 agent request channel, #32 hardening: verify-before-act, reserve, strict expiry)
-- [x] MCP read-only over stdio (#31); same statuses as export, `integrity` hmac / hash-only (no key → `verified:false`) / failed (#63, PR #76)
-- [x] CI + tamper tests pass (99 tests + offline demo in CI)
-- [~] README quickstart + reproducible demo (`demo/run-demo.sh`, #31); quickstart verified in a fresh clone + gated by CI (#69 closed); offline demo deterministic in CI (#67 closed); README wording PR #77 (#68) **waits for Shu's review**
-- [ ] 3-minute product demo prepared
+## Repository and integration state
 
-## MVP spec
-`docs/MVP-SPEC.md` approved by Shu 06:37 (#54) and **frozen**, target date **2026-10-25**; new ideas go to the post-v1 list. Accepted v1 limit: app code forging the test result inside the test process (#55).
+The baseline is local `main` at `9f7d636`. All changes below are local: no push, merge, pull request or deployment was performed. Items 1–5 were accepted by VPSMan on Shu's behalf in the task conversation. Items 6–7 have local checks; owner integration and the required HMAC security review remain open. No combined, merged P0 tree has been tested.
 
-## Session 10:10–10:30 (MCP + demo/README issues, OpenCode as tl-agent via tl-cycle.sh)
-| Issue | Result |
-|---|---|
-| #63 MCP status = viewer, integrity | PR #76 merged (mcp.py only: `integrity` hmac/hash-only/failed; no key → `verified:false`; 3 acceptance tests). 1 correction loop (ruff), Hermes QA PASS |
-| #67 offline demo deterministic in CI | already met on main – two local runs identical statuses, CI log checked, no key; closed without PR |
-| #69 reproducible quickstart | already met on main – fresh `gh repo clone` + venv + offline demo + viewer build exit 0; CI step guards it; closed without PR |
-| #68 README tagline/promise/no fake claims | PR #77 open, CI green, Hermes QA PASS – **not merged: needs Shu's review** (criterion 4) |
+The hashes below identify implementation commits. Later status-only commits may follow on the same branch.
 
-Infra note: `tl-cycle.sh` `chmod -R g+w` on the week folder (`/srv/tl-agent/wt/w5`) drops its setgid bit (box is not in group tl-agent), so a 2nd OpenCode run in the same week folder gets a worktree tl-agent cannot write (one #68 run failed 3× "no changes"). Workaround used: remove the empty week folder between runs. Fix in agent-config pending.
+| Item | Change | Branch | Implementation commit | Observed local checks |
+|---|---|---|---|---|
+| 1 | Preserve old diff content; remove duplicate functions | `p0/bug-1-diff` | `f32578a` | Python: 176 passed; Ruff; offline demo. |
+| 2 | Reject dictionary keys that collide after NFC normalization | `p0/bug-2-canonical` | `3e9e5c9` | Python: 173 passed; Ruff; offline demo; existing demo hashes unchanged. |
+| 3 | Validate the complete RunDoc shape before rendering | `p0/bug-3-viewer-validate` | `3ee4a7b` | Vitest: 66 passed; Viewer lint/build; Python: 170 passed; Ruff. |
+| 4 | Reject non-object MCP requests and keep processing | `p0/bug-4-mcp` | `663dbc1` | MCP: 9 passed; Python: 175 passed; Ruff; real stdio continuation check. |
+| 5 | Repair corrupted existing blobs using atomic replacement | `p0/bug-5-store` | `37a8ae3` | Store: 3 passed; Python: 172 passed; Ruff; offline demo. |
+| 7 | Report actual export integrity and the browser trust boundary | `p0/viewer-honest` | `90f6dc6` | Export integrity: 10 cases; Python: 180 passed; Vitest: 77 passed; Ruff; Viewer lint/build; offline demo. |
+| 6 | MIT license text, this status and Viewer CI | `p0/docs` | Recorded in the final status update | Baseline Python and Viewer build checks described below. |
 
-## Session 08:16–08:35 (viewer MVP issues, Cursor composer-2.5 via tl-cycle.sh)
-| Issue | Result |
-|---|---|
-| #57 Overview status counts | PR #72 merged ("1 met, 1 unmet, 1 unverified", no %) |
-| #58 Claimed vs Proven | already met on main – verified, closed without PR |
-| #59 Drawer diff/markdown | PR #73 merged (inline *em*/**strong** in MarkdownView) |
-| #60 Review required hint | already met on main – verified, closed without PR |
-| #61 Verification failed | PR #74 merged (`validateRunDoc`: verified flag + status/card/count consistency, fail-closed) |
+Every listed Python suite also reported **2 skipped, 1 xfailed**. The differing pass counts are from separate branches, not a cumulative test run. No remote CI result is claimed for these unpushed commits.
 
-All: 0 correction loops, Hermes QA PASS (advisory), `npm run build` exit 0, CI green. Note: a doc that is forged *consistently* can still not be detected by the browser alone (viewer trusts `truthlens export`).
+## Measurements on the documentation branch
 
-## Merged earlier (squash, admin rule 2026-10-11)
-#20 spec D23–D31 · #14 redaction · #18 ledger · #19 verify CLI + tamper · #23 manifest/acceptance/claims · #27 round-3 fixes (expiry, redaction leaks, claim ordering) · #26 wrapper/report/projection/gate · #28 DESIGN v2 + docs index · this STATUS (#25). agent-config #7 prune script.
-Later: #29 gate channel · #30 viewer · #31 MCP/demo/README · #32 fixes for CodexChat post-merge findings on #26/#27/#28 · #37 drawer diff/markdown · #38 manifest round-5 · #41 blob export · #47 lens toggle + ARCHITECTURE · #53 README wording + AGENTS docs rules · #54 MVP-SPEC v1 · #55 met definition + v1 limit · #72 #73 #74 viewer MVP · #76 MCP integrity.
+Python 3.12.3, with the clone's `.venv/bin` on the command's `PATH`:
 
-## Worker comparison (#36 diff + markdown view, same brief, separate worktrees)
-| | Cursor CLI (composer-2.5) | OpenCode (DeepSeek V4 Flash) |
-|---|---|---|
-| Wall time | ~41 s | ~2 min 2 s |
-| Correction rounds | 0 | 0 |
-| tsc + vite build | pass | pass |
-| Cost | Pro plan (no OpenRouter) | OpenRouter, part of session delta |
-| Quality | clean split (detect/view/blob helpers), React text only, plain fallback, "Content not exported" | works, but double-escapes text (`escapeHtml` inside React text → `<` shown as `&lt;`) |
-Result: Cursor merged, OpenCode branch discarded. Cursor = UI worker; OpenCode stays for small bounded tasks.
+```text
+pytest -q -rs
+170 passed, 2 skipped, 1 xfailed
+ruff check src tests
+All checks passed!
+```
 
-## Security stack: merged (2026-10-11 ~16:50)
-CodexChat approved the stack #34 → #40 → #42 → #43 → #45 → #46 (head 5f0eb6f). It was merged top-down with merge commits after main was merged into the top branch (conflicts in mcp/wrapper/TRUST-LEVELS resolved, CI green). Merge commit on main: 6e01556. New follow-up: #83 (separate `-c <path>` / `--config-file` in the gate, post-v1). Older follow-ups: #48–#52.
+The two skips require a separate Unix user `tl-agent`, sudo access and its dedicated environment. The expected failure records the known same-UID key-access risk; none of these results proves OS-level isolation. Running tests from an unactivated temporary extract can instead fail `test_r6_gate_config_file_outside_refused_even_if_missing` because the `python` executable cannot be found; use the intended virtual environment.
 
-## Demo-2 rerun (2026-10-11)
-Real OpenCode (DeepSeek V4 Flash) via `demo/run-demo.sh` on the merged main, run as the box user (not tl-agent). Verify OK (16 events, anchored, manifest consistent). c1 met, c2 unmet, c3 unverified; 1 claim supported, 2 claims unwitnessed. The tamper copy fails closed (hash + HMAC mismatch on line 15). Committed to `demo/runs/demo-2`.
+The Viewer CI job uses Node 24 and runs, from `viewer/`:
 
-## Worker isolation
-- OpenCode worker runs as unix user `tl-agent` (agent-config #9): own binary/config under `/srv/tl-agent`, OpenRouter key only in that process from a 600 file owned by tl-agent, worktree under `/srv/tl-agent/wt`. tl-agent cannot read `/home/box` (HMAC key, gh, ~/.cursor) or `/workspace/projects`.
-- Cursor still runs as the box user (Shu's token not copied) and is restricted to `viewer/` by `tl-cycle.sh` → same-UID risk remains for Cursor runs.
-- ruff + test command for OpenCode runs also run as tl-agent (own venv, agent-config #10).
+```sh
+npm ci
+npm test --if-present
+npm run build
+```
 
-## Blockers
-- Branch protection unavailable (private repo, free plan) – supervisor self-enforces PR-only, green CI, no force-push.
-- Same-user trust boundary: agent could read the HMAC key file if it finds the path (key never in env; documented in TRUST-LEVELS). Real fix = separate UID/container.
-- Merge rule changed 2026-10-11 05:00: security PRs never merged without CodexChat review (AGENTS.md).
+On this branch from `main`, there is no `npm test` script yet, so the middle command deliberately skips tests; install and production build are checked locally. After `p0/bug-3-viewer-validate` is integrated, the same command runs Vitest and test failures fail CI. The flag accommodates either merge order; it does not claim tests exist on the old baseline. The script-present path was also exercised on `p0/viewer-honest`: 77 tests passed.
 
-## Budget (OpenRouter, /api/v1/key usage)
-Total cap 10.00 USD · measured 08:16: $0.6701 · 08:31: $0.6878 (≈ $0.018, Hermes QA only) · 10:11: $0.6878 · 10:27: $0.8037 (this session ≈ $0.116, OpenCode + Hermes QA, incl. 3 wasted attempts from the permission bug) · 16:50: $1.8188.
+## Integration order and export compatibility
 
-## Next task
-1. Shu: review README PR #77 (#68).
-2. Optional: demo-2 rerun as tl-agent (#62); then #64–#66, #70, #71 (need `agent-ready` + contract lines).
-3. 3-minute product demo / video (still open).
+- `p0/viewer-honest` is based on `p0/bug-3-viewer-validate` (`3ee4a7b`), not directly on `main`; integrate bug-3 before its Item 7 follow-up.
+- Items 1, 2, 4, 5 and this documentation branch are based independently on `main`. The owner controls integration; no branch has been merged by Codex.
+- Item 7 changes the existing Viewer export `verified` meaning: only a real HMAC check with a key produces `true` / `hmac`; without a key, a consistent run is `false` / `hash-only`. Failed checks are `false` / `failed` and fail closed.
+- The Viewer in Item 7 renders hash-only runs, rejects failed/inconsistent exports and labels the export-time check. Legacy exports without an explicit `integrity` field must be regenerated. That branch regenerates `viewer/public/run.json` from the committed `demo/runs/demo-2` without a key.
+- Stored event/manifest formats and their hashes are unchanged. Item 7 records the metadata correction as D32 in the spec changelog and [TRUST-LEVELS.md](TRUST-LEVELS.md).
+
+## Known limits
+
+- The browser checks document shape, integrity-label consistency, card/status rules and counts. It does **not** verify ledger/blob hashes, HMAC or signatures. A consistently forged export can still be displayed.
+- A same-UID agent and HMAC key holder do not form an isolation boundary: the agent can read the key and forge records. Separate-user/container isolation remains necessary; this P0 work makes no server or security-configuration changes.
+- A witnessed test means the restored test command reported success. Code inside the test process can forge its result; this is the accepted v1 limit.
+- The approval gate is not a sandbox. It controls capabilities routed through the gate, not everything an agent can do with its own account.
+
+## Open work
+
+- Owner review/integration, including the required review for wrapper/HMAC changes, and CI on the eventual combined tree.
+- Prepare the 3-minute product demo. Existing scripted offline demo and tamper detection pass locally; this does not replace that product demo.
+- Ledger append performance (quadratic re-read) is **post-v1**, not a P0 optimization task.
+- No RenderKit, Factory, new capture features, remote hosting or deployment work is included.

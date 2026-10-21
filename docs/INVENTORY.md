@@ -5,11 +5,14 @@ All listed repos are the owner's reusable code pool. WERKAgent UI components are
 Source repos (all owned by Shuwajaja) were shallow-cloned read-only on 2026-10-11. Nothing was copied into TruthLens in this commit.
 
 ## License situation (checked: LICENSE files + pyproject/package.json)
+
+TruthLens itself is licensed under the [MIT License](../LICENSE), confirmed by Shu on 2026-10-21. The table below records the source repositories as inspected on 2026-10-11; it does not place TruthLens's MIT license on hold or change those repositories' licenses.
+
 | Repo | LICENSE file | Declared | Note |
 |---|---|---|---|
 | werktools | yes, AGPL-3.0 | `AGPL-3.0-or-later` | Copyleft. Ported code would make TruthLens a derivative work. |
 | CrewTYY | **no** | `MIT` in pyproject.toml only | Public repo; add a LICENSE file to make MIT unambiguous. |
-| WERKCommander | **no** | none | Unlicensed (all rights reserved by owner). `events.py` says it was "adapted from WERKAgent_Runtime events.py + store.py" — upstream origin to confirm. |
+| WERKCommander | **no** | none | No license file in the inspected snapshot. `events.py` says it was "adapted from WERKAgent_Runtime events.py + store.py" — upstream origin to confirm. |
 | ai-agent-workspace | **no** | none | Unlicensed. `core/ledger.py` header: adapted from WERKCommander `events.py` @ 8103cebc. |
 | agent-control-plane | **no** | none | Unlicensed. |
 | WERKAgent | **no** | none | Unlicensed. |
