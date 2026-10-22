@@ -1,0 +1,79 @@
+name: release-review
+on:
+  workflow_dispatch:
+jobs:
+  viewer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: viewer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: viewer/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+      - run: npm run check:styles --if-present
+      - run: npm run check:language
+      - run: npm run build
+        id: viewer-build
+      - name: Full unrestricted axe and keyboard review at 1440x900 and 390x844
+        if: ${{ !cancelled() && steps.viewer-build.outcome == 'success' }}
+        run: node scripts/audit-a11y.mjs
+        env:
+          REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
+          A11Y_OUTPUT: .screenshots/a11y
+      - name: Review all views at desktop and mobile widths
+        if: ${{ !cancelled() && steps.viewer-build.outcome == 'success' }}
+        run: |
+          google-chrome --version
+          npm run review:screenshots
+        env:
+          REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
+      - name: Mode colours and sticky mobile labels
+        if: ${{ !cancelled() && steps.viewer-build.outcome == 'success' }}
+        run: node scripts/check-mode-colours.mjs
+        env:
+          REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
+      - name: Preview-only toolbar browser gate
+        if: ${{ !cancelled() && steps.viewer-build.outcome == 'success' }}
+        run: npm run check:toolbar -- --browser
+        env:
+          REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
+          TOOLBAR_OUTPUT: .screenshots/toolbar
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: release-viewer-evidence-${{ github.sha }}
+          path: |
+            viewer/.screenshots/review/
+            viewer/.screenshots/a11y/
+            viewer/.screenshots/modes/
+            viewer/.screenshots/toolbar/
+          if-no-files-found: error
+          retention-days: 30
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e '.[dev]'
+      - run: ruff check src tests
+      - name: Separate test user (tl-agent) for the UID-isolation tests
+        run: |
+          sudo useradd --system --create-home --home-dir /srv/tl-agent --shell /usr/sbin/nologin tl-agent
+          sudo chmod 755 /srv/tl-agent
+          sudo install -d -o "$USER" -g tl-agent -m 2770 /srv/tl-agent/wt
+          sudo -u tl-agent /usr/bin/python3 -m venv /srv/tl-agent/venv
+          sudo -u tl-agent /srv/tl-agent/venv/bin/pip install -q pytest
+      - run: pytest -q -rs
+      - run: demo/run-demo.sh /tmp/tl-demo --offline
