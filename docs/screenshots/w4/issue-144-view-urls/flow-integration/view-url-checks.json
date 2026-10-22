@@ -1,0 +1,253 @@
+{
+  "browserVersion": "156.0.8078.4",
+  "checks": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "view": "overview",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "view": "claimed-vs-proven",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "view": "timeline",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "view": "agent-story",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "keyboard": true,
+      "backForward": true,
+      "sameViewNoDuplicate": true,
+      "preservesQueryHash": true,
+      "unknownFallback": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "view": "overview",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "view": "claimed-vs-proven",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "view": "timeline",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "view": "agent-story",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "keyboard": true,
+      "backForward": true,
+      "sameViewNoDuplicate": true,
+      "preservesQueryHash": true,
+      "unknownFallback": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "view": "overview",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "view": "claimed-vs-proven",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "view": "timeline",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "view": "agent-story",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "keyboard": true,
+      "backForward": true,
+      "sameViewNoDuplicate": true,
+      "preservesQueryHash": true,
+      "unknownFallback": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "view": "overview",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "view": "claimed-vs-proven",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "view": "timeline",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "view": "agent-story",
+      "direct": true,
+      "reload": true,
+      "copiedUrl": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "keyboard": true,
+      "backForward": true,
+      "sameViewNoDuplicate": true,
+      "preservesQueryHash": true,
+      "unknownFallback": true
+    }
+  ],
+  "errors": [],
+  "previewScriptBlocks": [
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set."
+  ],
+  "testedSource": "78681d8d90de41d01f0e8c2354e01643eb729748"
+}
