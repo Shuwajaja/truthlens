@@ -1,3 +1,5 @@
+Latest main integration: [Updated Stitch/URL screenshots and full axe](main-integration/axe-summary.md), source69063da. Earlier original-main reports below remain historical.
+
 # Main-view URL persistence — issue144 / PR145
 
 Tested source `8e83dac7fafed5914b008963268125564295acbc`, tree `13ba7fefd7dfbfeb20d5cf1e6cefd44e8657c26a`, based only on main31dbf35 after PR139 squash. Later changes publish evidence/STATUS only. Open PR141/143 theme/flow changes are deliberately not duplicated here; existing main styling is unchanged. This feature does not restore or reintroduce a theme.
