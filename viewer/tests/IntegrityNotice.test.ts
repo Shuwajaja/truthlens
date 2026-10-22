@@ -5,14 +5,14 @@ import { IntegrityNotice } from '../src/components/IntegrityNotice.tsx'
 
 describe('integrity notice', () => {
   it.each([
-    [true, 'hmac', 'HMAC geprüft'],
-    [false, 'hmac', 'HMAC nicht geprüft'],
-    [false, 'hash-only', 'Nur Hash · HMAC nicht geprüft'],
-    [false, 'failed', 'Integritätsprüfung fehlgeschlagen'],
+    [true, 'hmac', 'Signature checked'],
+    [false, 'hmac', 'Signature not checked'],
+    [false, 'hash-only', 'Hash only · signature not checked'],
+    [false, 'failed', 'Integrity check failed'],
   ] as const)('renders verified=%s / %s honestly with browser limitation', (verified, integrity, label) => {
     const html = renderToStaticMarkup(createElement(IntegrityNotice, { verified, integrity }))
     expect(html).toContain(label)
     expect(html).toContain('internal consistency only; it does not verify signatures.')
-    expect(html).toContain('Integrität ≠ fachliche Freigabe')
+    expect(html).toContain('Integrity is not approval')
   })
 })

@@ -1,6 +1,7 @@
 import {preview} from 'vite';
 import {mkdir,readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
+import {germanUI} from './check-language.mjs';
 process.env.PLAYWRIGHT_BROWSERS_PATH??=fileURLToPath(new URL('../../.venv/playwright',import.meta.url));
 const output=process.env.P3_SHOTS??'.screenshots/review';
 await mkdir(output,{recursive:true});
@@ -16,6 +17,16 @@ try{
  const origin='http://127.0.0.1:'+server.httpServer.address().port;
  async function audit(page){
   check(!failure,'browser errors');
+  check(await page.evaluate(()=>document.documentElement.lang==='en')&&await page.title()==='TruthLens','English document metadata');
+  const german=await page.evaluate(({source,flags})=>{
+   const pattern=new RegExp(source,flags),text=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+   while(text.nextNode()){
+    const element=text.currentNode.parentElement;
+    if(element&&!element.closest('script,style')&&element.checkVisibility()&&pattern.test(text.currentNode.textContent))return true;
+   }
+   return [...document.querySelectorAll('[aria-label],[title],[placeholder],[alt]')].some(element=>['aria-label','title','placeholder','alt'].some(name=>pattern.test(element.getAttribute(name)??'')));
+  },{source:germanUI.source,flags:germanUI.flags});
+  check(!german,'English text and accessible names');
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'page overflow');
   const obsoleteGreen=await page.evaluate(()=>[...document.querySelectorAll('body *')].some(element=>{
    if(!element.checkVisibility())return false;
@@ -66,8 +77,8 @@ try{
  async function capture(page,name,fullPage){await page.screenshot({path:output+'/'+name+lensSuffix+'.png',fullPage,animations:'disabled'});shots++;}
  async function sheet(page,trigger,name){
   await trigger.click();const dialog=page.getByRole('dialog');await dialog.waitFor();
-  check(await dialog.getByText('Nur Hash · HMAC nicht geprüft',{exact:true}).isVisible(),'sheet hash warning');
-  check(await dialog.getByText('Integrität ≠ fachliche Freigabe',{exact:true}).isVisible(),'sheet acceptance warning');
+  check(await dialog.getByText('Hash only · signature not checked',{exact:true}).isVisible(),'sheet hash warning');
+  check(await dialog.getByText('Integrity is not approval',{exact:true}).isVisible(),'sheet acceptance warning');
   const geometry=await dialog.evaluate(element=>{const box=element.getBoundingClientRect();return {bottom:box.bottom,top:box.top,radius:getComputedStyle(element).borderTopLeftRadius,viewport:innerHeight};});
   check(Math.abs(geometry.bottom-geometry.viewport)<1&&geometry.top>0&&geometry.radius==='16px','bottom sheet geometry');
   await audit(page);await capture(page,name,false);
@@ -121,8 +132,8 @@ try{
     if(i===0)await capture(page,'overview-420-full',true);
     await sheet(page,page.locator('.compact-trust'),name+'-sheet-420');
     if(i===0){
-     await sheet(page,page.getByRole('button',{name:/^Lauf öffnen:/}),'run-sheet-420');
-     await sheet(page,page.getByRole('button',{name:/^Belege:/}).first(),'criterion-sheet-420');
+     await sheet(page,page.getByRole('button',{name:/^Open run:/}),'run-sheet-420');
+     await sheet(page,page.getByRole('button',{name:/^Evidence:/}).first(),'criterion-sheet-420');
     }
     await page.evaluate(()=>window.scrollTo(0,Math.min(1200,document.documentElement.scrollHeight-innerHeight)));
    }

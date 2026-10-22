@@ -8,14 +8,14 @@ import type {DrawerTarget} from './Drawer.tsx'
 
 type Entry={event:RunEvent;previous?:RunEvent}
 const setup=new Set(['run.started','requirement.recorded','criterion.recorded','criteria.confirmed'])
-const number=new Intl.NumberFormat('de-DE')
+const number=new Intl.NumberFormat('en-GB')
 function relative(ts:string,base:string){
  const ms=Date.parse(ts)-Date.parse(base)
- return Number.isFinite(ms)?`${ms<0?'−':'+'}${number.format(Math.abs(ms))} ms`:'Zeit nicht lesbar'
+ return Number.isFinite(ms)?`${ms<0?'−':'+'}${number.format(Math.abs(ms))} ms`:'Unreadable time'
 }
 function label(event:RunEvent){
  if(event.summary!==event.type)return event.summary
- const known:Record<string,string>={'run.started':'Lauf gestartet','run.finished':'Lauf beendet','requirement.recorded':'Auftrag erfasst','criterion.recorded':'Kriterium erfasst','criteria.confirmed':'Kriterien bestätigt','evidence.attached':'Beleg angehängt','artifact.recorded':'Artefakt erfasst','agent.claim':'Agent-Aussage','test.reported':'Testergebnis erfasst'}
+ const known:Record<string,string>={'run.started':'Run started','run.finished':'Run ended','requirement.recorded':'Task recorded','criterion.recorded':'Criterion recorded','criteria.confirmed':'Criteria met','evidence.attached':'Evidence attached','artifact.recorded':'File recorded','agent.claim':'Agent claim','test.reported':'Test result recorded'}
  return known[event.type]??event.summary
 }
 function TimelineEvent({entry,base,lens,onOpenDrawer}:{entry:Entry;base:string;lens:Lens;onOpenDrawer:(target:DrawerTarget)=>void}){
@@ -26,8 +26,8 @@ function TimelineEvent({entry,base,lens,onOpenDrawer}:{entry:Entry;base:string;l
  const gap=previous?Date.parse(event.ts)-Date.parse(previous.ts):0
  const summary=label(event)
  return <Fragment>
-  {gap>1000&&<li className="timeline-gap">··· Agent arbeitet {new Intl.NumberFormat('de-DE',{maximumFractionDigits:1}).format(gap/1000)} s ···</li>}
-  <li className="timeline-event" data-tone={tone}><button type="button" aria-label={`Ereignis #${event.seq}: ${event.summary}${summary!==event.summary?` · ${summary}`:''}`} onClick={()=>onOpenDrawer({kind:'event',event})}>
+  {gap>1000&&<li className="timeline-gap">··· Agent working {new Intl.NumberFormat('en-GB',{maximumFractionDigits:1}).format(gap/1000)} s ···</li>}
+  <li className="timeline-event" data-tone={tone}><button type="button" aria-label={`Event #${event.seq}: ${event.summary}${summary!==event.summary?` · ${summary}`:''}`} onClick={()=>onOpenDrawer({kind:'event',event})}>
    <span className={`timeline-icon tone-${tone}`}><Icon size={14} aria-hidden="true"/></span>
    <span className="timeline-copy"><span>{summary}</span>{lens==='developer'&&<code>#{event.seq} · {event.type} · {event.actor.kind} / {event.actor.id}</code>}</span>
    <time dateTime={event.ts} title={recordedTime(event.ts)}>{relative(event.ts,base)}</time>
@@ -39,21 +39,21 @@ export function Timeline({events,lens,onOpenDrawer,headingLevel=1}:{events:reado
  const entries=sorted.map((event,index)=>({event,previous:sorted[index-1]}))
  const firstResult=entries.findIndex(entry=>!setup.has(entry.event.type))
  const boundary=firstResult<0?entries.length:firstResult
- const phases=[{title:'01 Auftrag',entries:entries.slice(0,boundary)},{title:'02 Ergebnis',entries:entries.slice(boundary)}].filter(phase=>phase.entries.length>0)
+ const phases=[{title:'01 Task',entries:entries.slice(0,boundary)},{title:'02 Result',entries:entries.slice(boundary)}].filter(phase=>phase.entries.length>0)
  const Heading=headingLevel===1?'h1':'h2'
  const PhaseHeading=headingLevel===1?'h2':'h3'
  const base=sorted[0]?.ts
- return <section className="timeline-view"><div className="panel-heading"><Heading>{headingLevel===1?'Timeline':'Zeitachse'}</Heading><span className="section-note">{events.length} Ereignisse</span></div>
-  <p className="section-note">Aufgezeichnete Spannen und Abstände aus Zeitstempeln; keine Live-Aktivität.</p>
-  {phases.length===0?<p className="text-2">Keine Ereignisse exportiert.</p>:phases.map(phase=>{
+ return <section className="timeline-view"><div className="panel-heading"><Heading>{headingLevel===1?'Timeline':'Timeline'}</Heading><span className="section-note">{events.length} events</span></div>
+  <p className="section-note">Times come from recorded timestamps. Not live.</p>
+  {phases.length===0?<p className="text-2">No events exported.</p>:phases.map(phase=>{
    const groups:Entry[][]=[]
    for(const entry of phase.entries){
     const last=groups.at(-1)
     if(entry.event.type==='agent.claim'&&last?.at(-1)?.event.type==='agent.claim')last.push(entry)
     else groups.push([entry])
    }
-   return <section className="timeline-phase" key={phase.title}><div className="phase-heading"><PhaseHeading>{phase.title}</PhaseHeading><p><time dateTime={phase.entries[0].event.ts}>{recordedTime(phase.entries[0].event.ts)}</time> · Spanne {recordedDuration(phase.entries[0].event.ts,phase.entries.at(-1)!.event.ts)}</p></div>
-    <ol className="timeline-rail">{groups.map((group,index)=>group.length>1?<li key={index} className="timeline-claims"><details><summary>{group.length} Aussagen</summary><ol>{group.map((entry,i)=><TimelineEvent key={i} entry={entry} base={base!} lens={lens} onOpenDrawer={onOpenDrawer}/>)}</ol></details></li>:<TimelineEvent key={index} entry={group[0]} base={base!} lens={lens} onOpenDrawer={onOpenDrawer}/>)}</ol>
+   return <section className="timeline-phase" key={phase.title}><div className="phase-heading"><PhaseHeading>{phase.title}</PhaseHeading><p><time dateTime={phase.entries[0].event.ts}>{recordedTime(phase.entries[0].event.ts)}</time> · Span {recordedDuration(phase.entries[0].event.ts,phase.entries.at(-1)!.event.ts)}</p></div>
+    <ol className="timeline-rail">{groups.map((group,index)=>group.length>1?<li key={index} className="timeline-claims"><details><summary>{group.length} claims</summary><ol>{group.map((entry,i)=><TimelineEvent key={i} entry={entry} base={base!} lens={lens} onOpenDrawer={onOpenDrawer}/>)}</ol></details></li>:<TimelineEvent key={index} entry={group[0]} base={base!} lens={lens} onOpenDrawer={onOpenDrawer}/>)}</ol>
    </section>
   })}
  </section>

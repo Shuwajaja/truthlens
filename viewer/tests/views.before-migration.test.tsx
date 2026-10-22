@@ -82,7 +82,7 @@ describe('pre-migration viewer snapshots (must remain unchanged)', () => {
         localStorage.setItem('tl-lens', lens)
         const { asFragment } = render(<App />)
         await screen.findByRole('heading', { level: 1 })
-        fireEvent.click(screen.getByRole('button', { name: ({Overview:'Übersicht','Claimed vs Proven':'Behauptet vs. belegt',Timeline:'Zeitachse'} as const)[view], exact: true }))
+        fireEvent.click(screen.getByRole('button', { name: ({Overview:'Overview','Claimed vs Proven':'Claimed vs proven',Timeline:'Timeline'} as const)[view], exact: true }))
         expect(screen.getByText("This browser checks the file's internal consistency only; it does not verify signatures.")).toBeTruthy()
         expect(stableFragment(asFragment())).toMatchSnapshot()
       })

@@ -8,30 +8,30 @@ afterEach(()=>{cleanup();localStorage.clear();vi.unstubAllGlobals()})
 it('opens a real test event from the evidence rail and preserves trust boundaries',async()=>{
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(publicRun)})))
  render(<App/>);await screen.findByRole('main');
- const rail=within(screen.getByRole('complementary',{name:'Beleg-Schublade'}));
+ const rail=within(screen.getByRole('complementary',{name:'Evidence drawer'}));
  const event=publicRun.events[13];
- fireEvent.click(rail.getByRole('button',{name:`Beleg #${event.seq}: ${event.summary}`}));
+ fireEvent.click(rail.getByRole('button',{name:`Evidence #${event.seq}: ${event.summary}`}));
  const dialog=within(screen.getByRole('dialog',{name:'Event detail'}));
  expect(dialog.getByText(event.summary)).toBeTruthy();
- expect(dialog.getByText('Nur Hash · HMAC nicht geprüft')).toBeTruthy();
- expect(dialog.getByText('Integrität ≠ fachliche Freigabe')).toBeTruthy();
+ expect(dialog.getByText('Hash only · signature not checked')).toBeTruthy();
+ expect(dialog.getByText('Integrity is not approval')).toBeTruthy();
 })
 
 it('filters real test and artifact records without inventing entries',async()=>{
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(publicRun)})))
  render(<App/>);await screen.findByRole('main');
- const rail=within(screen.getByRole('complementary',{name:'Beleg-Schublade'}));
+ const rail=within(screen.getByRole('complementary',{name:'Evidence drawer'}));
  fireEvent.mouseDown(rail.getByRole('tab',{name:'Tests'}),{button:0,ctrlKey:false});
- expect(rail.getAllByRole('button',{name:/^Beleg #/})).toHaveLength(2);
- fireEvent.mouseDown(rail.getByRole('tab',{name:'Artefakte'}),{button:0,ctrlKey:false});
- fireEvent.click(rail.getByRole('button',{name:`Datei: ${publicRun.artifacts[0].path}`}));
+ expect(rail.getAllByRole('button',{name:/^Evidence #/})).toHaveLength(2);
+ fireEvent.mouseDown(rail.getByRole('tab',{name:'Files'}),{button:0,ctrlKey:false});
+ fireEvent.click(rail.getByRole('button',{name:`File: ${publicRun.artifacts[0].path}`}));
  const dialog=within(screen.getByRole('dialog',{name:'File detail'}));
  expect(dialog.getByText(publicRun.artifacts[0].sha256)).toBeTruthy();
- fireEvent.mouseDown(dialog.getByRole('tab',{name:'Artefakte'}),{button:0,ctrlKey:false});
- fireEvent.click(dialog.getByRole('button',{name:'Datei öffnen'}));
- expect(dialog.getByRole('tab',{name:'Übersicht'}).getAttribute('aria-selected')).toBe('true');
+ fireEvent.mouseDown(dialog.getByRole('tab',{name:'Files'}),{button:0,ctrlKey:false});
+ fireEvent.click(dialog.getByRole('button',{name:'Open file'}));
+ expect(dialog.getByRole('tab',{name:'Overview'}).getAttribute('aria-selected')).toBe('true');
  const file=screen.getByRole('dialog',{name:'File detail'});
  expect(file.querySelector('pre')?.textContent).toBe(publicRun.blobs[publicRun.artifacts[0].sha256]);
- fireEvent.mouseDown(dialog.getByRole('tab',{name:'Zeit'}),{button:0,ctrlKey:false});
+ fireEvent.mouseDown(dialog.getByRole('tab',{name:'Time'}),{button:0,ctrlKey:false});
  expect(file.querySelector('time')?.getAttribute('dateTime')).toBe(publicRun.events[12].ts);
 })

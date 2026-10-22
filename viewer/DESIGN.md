@@ -1,70 +1,79 @@
-# TruthLens Viewer – Design-Regelwerk („Midnight Command“)
-Für alle Agenten (Codex u. a.). Ziel-Ort im Repo: `viewer/DESIGN.md`. Vorlage: `vorschlag-v3.html` (nach Shus Zielbild `refs/shu-zielbild.png`).
-Leitidee: **Kontrollraum für Beweise.** Dicht, ruhig, präzise. Farbe heißt immer etwas; sonst ist alles Grau/Weiß.
+# TruthLens Viewer – Design rules (Midnight Command)
+Binding viewer reference. Use the supplied TruthLens desktop/mobile reference images and Shu's logo.
+Purpose: a calm, readable view of recorded evidence. Every colour has a meaning; other content is grey or white.
 
-## 1. Tokens (einzige Farbquelle: `src/theme.css`)
-| Token | Hex | Bedeutung |
+## 1. Tokens (only colour source: src/theme.css)
+| Token | Hex | Meaning |
 |---|---|---|
-| `--bg` | #070A0D | Seitenhintergrund |
-| `--surface` | #0F151B | Hover, Zitat-/Detailflächen |
-| `--surface-2` | #161E26 | aktive Tabs, Popover |
-| `--border` | #22303A | alle 1px-Linien |
-| `--text` | #E6EDF3 | Haupttext, Zahlen (15:1) |
-| `--text-2` | #A9B4C2 | Erklärtext (8.5:1) |
-| `--text-3` | #8592A3 | Meta, Labels, Zeiten (≥5:1) – nie für Inhalt |
-| `--ok` | #1CDC44 | belegt / Test bestanden. „verified/HMAC geprüft“ **nur** bei `verified:true` |
-| `--fail` | #FF7B72 | fehlgeschlagen, unmet, Exit ≠ 0 |
-| `--info` | #79B8FF | Fokus, Links, Datei-/Artefakt- und Kriterien-Ereignisse (Vorgang, kein Urteil) |
-| `--neutral` | #97A3B3 | **offen / pending / unbelegt / Review nötig**, „Nur Hash“-Siegel, System-Ereignisse |
-Keine Hex-Werte außerhalb `theme.css`. Kein Tailwind `amber/green/red/...`. **Kein Orange/Gelb im Status-System.** Status = Grün (belegt/bestanden/verified), Rot (fehlgeschlagen/widerspricht), Grau (alles andere). Farbe nie allein: immer + Wort/Form.
+| `--bg` | #070A0D | Page background |
+| `--surface` | #0F151B | Hover, quotes and detail panels |
+| `--surface-2` | #161E26 | Active tabs and popovers |
+| `--border` | #22303A | All 1px lines |
+| `--text` | #E6EDF3 | Main text and numbers (15:1) |
+| `--text-2` | #A9B4C2 | Explanatory text (8.5:1) |
+| `--text-3` | #8592A3 | Metadata, labels and times (at least 5:1), never body content |
+| `--ok` | #1CDC44 | Proven/passed results and the logo; signature status only when `verified === true` and `integrity === 'hmac'` |
+| `--fail` | #FF7B72 | Failed, unmet or nonzero exit |
+| `--info` | #79B8FF | Focus, links, file and criterion events (an action, not a verdict) |
+| `--neutral` | #97A3B3 | Open, pending, unsupported or needs review; hash-only seal and system events |
+No colour literals outside theme.css. No Tailwind palette classes. No orange/yellow in the status system. Status uses green (proven/passed/checked), red (failed/contradicts), or grey (everything else). Always pair colour with a word or shape.
 
-## 2. Schrift
-Fonts: Inter (Text), JetBrains Mono (Zahlen, IDs, Zeiten, Labels). Mono immer mit `tabular-nums`.
-| Größe | Einsatz |
+## 2. Type
+Fonts: Inter for text, JetBrains Mono for numbers, IDs, times and labels. Mono always uses tabular numbers.
+| Size | Use |
 |---|---|
-| 12 | Labels (Mono, CAPS, +0.08em), Meta, Pills, Zeiten, Hash |
-| 14 | Standardtext, Tabellen, Zeitachse |
-| 16 | Abschnittstitel (600), Urteilssatz |
-| 20 | Mobil-Titel, Mobil-Zähler |
-| 28 | Lauf-Titel (600), Ledger-Zähler (Mono 600) |
-Gewichte nur 400 (Text) / 500 (Labels, Pills, aktive Nav) / 600 (Titel, Zahlen). Zeilenhöhe 1.5, Titel 1.25.
+| 12 | Mono uppercase labels (+0.08em), metadata, pills, times and hashes |
+| 14 | Body text, tables and timeline |
+| 16 | Section headings (600) and verdict text |
+| 20 | Mobile titles and values |
+| 28 | Run title (600) and evidence counts (mono 600) |
+Weights: 400 for body text, 500 for labels/pills/active navigation, 600 for headings/numbers. Line height: 1.5 for text, 1.25 for headings.
 
-## 3. Abstände & Form
-Raster 4px: 4/8/12/16/24/32. Panels: `--surface`, 1px `--border`, Radius 8, Innenabstand 14/16, Abstand 12–16. Pills/Siegel Radius 4. Icon-Kreise 28px (Timeline/Drawer), 36px (Graph). Keine Schatten.
+## 3. Spacing and shape
+4px grid: 4/8/12/16/24/32. Panels use surface, 1px border, radius 8, padding 14/16 and gaps 12–16. Pills/seals use radius 4. Icon circles: 28px in timeline/drawer, 36px in graph. No shadows.
 
-## 4. Status-Pills & Siegel
-- Pill: Mono 12/600 CAPS, 1px Rahmen + 10% Füllung in Statusfarbe: `PASSED/BELEGT` grün, `FAILED/UNMET` rot, `REVIEW/PENDING/OFFEN` grau.
-- Siegel (gestrichelt, grau): „◇ Nur Hash · HMAC nicht geprüft“ und „Integrität ≠ fachliche Freigabe“ – immer sichtbar (Desktop: Kopf der Übersicht; Mobil: „Nur Hash“-Siegel im Kopf + volle Texte im Drawer).
-- Grünes „Integrity Verified“-Siegel **nur** bei `verified:true`.
-- Don't: Grün für exit 0, „Agent fertig“, „Healthy“. Don't: Rot für „unbelegt“ (das ist grau).
+## 4. Status pills and seals
+- Pills: mono 12/600 uppercase, 1px border and 10% status fill. PASSED/PROVEN green, FAILED/UNMET red, REVIEW/PENDING/OPEN grey.
+- Neutral dashed seal: “Hash only · signature not checked” and “Integrity is not approval”. Always visible: full text above desktop content; compact “Hash only” in the mobile header, full text in the sheet.
+- “Signature checked” is green only when `verified === true` AND `integrity === 'hmac'`.
+- Never use green for exit 0, agent completion or “Healthy”. Unsupported is grey, never red.
 
-## 5. Layout & Signatur (Desktop ≥ 1024)
-1. **Berg-Header** 150px: Logo-Schild + „TruthLens“ (28/600, „Truth“ `--ok`, „Lens“ weiß) + Tagline (Mono-CAPS); rechts „Belege · Transparenz · Vertrauen“ + „Belege statt Behauptungen.“
-2. **Sidebar links** 200px (Übersicht, Behauptet vs. belegt, Zeitachse, Agent-Verlauf; Export-Hinweis). Aktiv: grüne Innenkante.
-3. **Status-Karten** (4): Gesamtstatus, Kriterien belegt X/Y, Fehlgeschlagen, Unbelegt – jeweils Punkt+Mono-Label, Wert 28/600. **Sparklines nur bei ≥ 2 Läufen** mit echten Werten; sonst weglassen.
-4. **Läufe-Liste** mit Status-Pill; bei 1 Lauf Detaildaten (Start/Ende/Dauer/Exit) + ehrlicher Leerzustand.
-5. **Code-Diff** (Mono 12, Zeilennr., +-Spalte grün); Pill „nicht signiert“ grau statt „Verified change“.
-6. **Beleg-Schublade** rechts 300px, sticky; Tabs Übersicht/Tests/Artefakte/Zeit; Liste aus Icon-Kreis + Titel + Kurzbeleg.
-7. **Detail-Panel (Node-Editor-Stil)**: Schlüssel/Wert-Liste des gewählten Kriteriums/Knotens + Status-Pill.
+## 5. Desktop layout and branding (at least 1024px)
+1. Mountain header, 150px: shield and TruthLens (28/600, Truth green, Lens white), mono uppercase tagline; right-side evidence statement.
+2. Left sidebar, 200px: Overview, Claimed vs proven, Timeline, Agent story; export notice. Active item has a green inner edge.
+3. Four status cards: Overall status, Criteria proven X/Y, Failed, Unproven. Dot plus mono label; value 28/600. Sparklines require at least two actual runs; otherwise omit them.
+4. Exported runs: status pill; with one run, show Start/End/Duration/Exit code and an honest missing-history state.
+5. Code diff: mono 12, line numbers and green addition markers; neutral “Not signed” pill.
+6. Right evidence drawer, 300px and sticky: Overview/Tests/Files/Time tabs; icon, title and short evidence text.
+7. Record details: selected criterion/record properties as key/value rows and a status pill.
 
-## Responsive (≤ 760px, eigenes Layout statt geschrumpft)
-- Kompakter Kopf 52px (kleines Logo + „Nur Hash“-Siegel), **kein Berg-Header**.
-- Reihenfolge: Urteil/Status-Karten (2×2) → Läufe → Beleg-Ledger/Kriterien → Zeitachse → Diff → Detail.
-- Graph als **Liste** (Kriterium ← Aussage/Test + Status), kein Canvas.
-- **Untere Tab-Leiste** (64px, 4 Tabs) statt Sidebar; Inhalt hat 84px Abstand unten.
-- Beleg-Schublade als **Bottom-Sheet** (Griff oben, Radius 16 oben), öffnet beim Tippen auf Lauf/Kriterium.
-- Werte 20 statt 28; nie Text < 12.
+## Responsive (760px or below; a separate arrangement)
+- Compact header, 52px: small logo and Hash only seal; no mountain.
+- Actual reading order: status cards (2×2), runs, criteria and graph list, timeline, diff, details.
+- Graph is a criterion/claim/test list, not a canvas.
+- Fixed bottom navigation, 64px and four tabs; content has 84px bottom clearance.
+- Evidence drawer becomes a bottom sheet with a top handle and top radius 16; run/criterion taps open real records.
+- Values use 20 rather than 28. No text below 12.
 
-## 6. Zeitachse
-Vertikale Schiene (1px), Icon-Kreis 28px je Ereignis (▶ Start, ✎ Auftrag, ✓/✕ Test, ◆ Datei, " Aussage, ● Ende). Farbe nach Typ: run.* neutral · requirement/criterion info · agent.claim neutral · evidence/artifact info · test.reported ok/fail nach Zahlen. Phasen „01 Auftrag“ / „02 Ergebnis“ mit Startzeit + Dauer; Zeiten relativ (`+251 ms`). Pausen > 1 s als graue Zeile „··· Agent arbeitet 20,2 s ···“. Gleichartige Claims bündeln (aufklappbar). Developer-Lens: seq/type/actor als Mono-Meta. Klick → Drawer.
-## 7. Beleg-Graph
-Knoten min. Schrift 12, Rahmen `--border`; Claim/Kriterium ohne Beleg: gestrichelter grauer Rahmen; Kanten: grün = belegt, rot = widerspricht, grau gestrichelt = ohne Beleg; Legende oben rechts; ok/fail-Punkt am Kriterium. Kein Grün an Knoten ohne verknüpften Test.
+## 6. Timeline
+Vertical 1px line and 28px event icon circles: start, task, passed/failed test, file, claim and end. Run events are neutral; requirement/criterion and evidence/file events use info; claims are neutral; test results use green/red from actual counts. Only nonempty Task/Result phases, with start time and duration. Relative times use milliseconds. Gaps over one second show the recorded time gap; consecutive claims can expand. Developer view adds sequence/type/actor metadata. Every event opens its real record.
 
-## 8. Ehrlichkeit (nicht verhandelbar)
-- Nie „verified“, „HMAC geprüft“ oder `--ok` für Integrität ohne `verified:true`.
-- „Nur Hash · HMAC nicht geprüft“ und „Integrität ≠ fachliche Freigabe“ immer sichtbar.
-- Nur echte Felder aus dem RunDoc anzeigen; keine Platzhalter-Zahlen, keine erfundenen Trends.
-- Zeiten in Lokalzeit mit Zonenkürzel (z. B. MESZ) oder relativ.
+## 7. Evidence graph
+Node text is at least 12px. Border uses border token; unsupported claims/criteria have grey dashed borders. Links: green proven, red contradicts, grey dashed no proof. Legend at top right; criterion result dot. Never use green for a node without a linked test.
+
+## 8. Honesty
+- Never show “Signature checked” or green integrity without both `verified === true` and `integrity === 'hmac'`.
+- Keep “Hash only · signature not checked” and “Integrity is not approval” visible at the existing locations.
+- Show only actual RunDoc data: no placeholder counts or invented trends/events. Claims never become proof.
+- Times stay local, with a zone abbreviation, formatted in English (`en-GB`, 24-hour); relative times can accompany them.
+- Do not translate, rename or alter recorded content, RunDoc field names or wire values.
 
 ## 9. Logo
-Quelle: `logo/logo-wortmarke.jpg` (Schild + Auge + Haken, „Truth“ grün, „Lens“ weiß) und `logo/logo-icon.jpg`. Als saubere SVGs nachbauen: `viewer/public/logo-wordmark.svg`, `logo-icon.svg`; daraus `favicon.svg`, `favicon.ico` (32), `apple-touch-icon.png` (180). Einsatz: Berg-Header (Wortmarke), Sidebar-Kopf + Mobil-Kopf (Icon). **Ein Grün für alles:** Logo nutzt dasselbe `--ok` #1CDC44 (aus Shus Logo; ≥9.9:1 auf allen Flächen). Wortmarke exakt wie Shus Logo: „Truth“ in `--ok`, „Lens“ in `--text`/Weiß – in SVG und Header. Grün in der UI sonst nur als echtes Ergebnis (belegt/bestanden/verified:true).
+Rebuild the supplied shield/eye/check logo as clean wordmark and icon SVGs. Truth is green and Lens is white, in the SVG and header. Both logos and actual results use the single --ok #1CDC44; no separate brand token. Shield outline uses text white. Use the wordmark in the desktop header and icon in sidebar/mobile header. Generate favicon.svg, favicon.ico (32) and apple-touch-icon.png (180) from the same theme palette. Outside the logo, green is reserved for real results or verified signatures.
+
+## 10. UI language and plain names
+**UI language: English only, no German.** This covers visible text, accessible names, titles, tooltips, placeholders, alt text, empty/error states, navigation, drawers/sheets and Navigator. Document language is en; document title is TruthLens. Use the approved glossary exactly; other wording must be plain, literal English without jargon or marketing.
+
+Use Overview, Project overview, Run/Runs, Exported runs, Evidence, Proven, No proof, Not checked, Open, Criteria/Criterion, Claim, Task/Result, Timeline, Event/Events, Start/End/Duration, File/Files and Close. Use Open run, Open record, Open file, Filter selected evidence, All records and links as a list, Recorded links, Criterion links and Graph records. Navigator says “Navigator coming later”; its suggestions are “Example questions (static)”.
+
+The neutral seal is exactly “Hash only · signature not checked”. The checked label is “Signature checked”, subject to the integrity guard above. The approval boundary is “Integrity is not approval”. `npm run check:language`, rendered-DOM tests and browser review protect the English-only UI. Export data remains unchanged.

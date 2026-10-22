@@ -22,8 +22,8 @@ describe('graph evidence and Sheet', () => {
     trigger.focus();fireEvent.click(trigger)
     const dialog=screen.getByRole('dialog',{name:'Event detail'})
     expect(dialog.contains(document.activeElement)).toBe(true)
-    expect(within(dialog).getByText('Nur Hash · HMAC nicht geprüft')).toBeTruthy()
-    expect(within(dialog).getByText('Integrität ≠ fachliche Freigabe')).toBeTruthy()
+    expect(within(dialog).getByText('Hash only · signature not checked')).toBeTruthy()
+    expect(within(dialog).getByText('Integrity is not approval')).toBeTruthy()
     fireEvent.keyDown(document.activeElement!,{key:'Escape'})
     await waitFor(()=>expect(screen.queryByRole('dialog')).toBeNull())
     await waitFor(()=>expect(document.activeElement).toBe(trigger))
@@ -31,8 +31,8 @@ describe('graph evidence and Sheet', () => {
   it('opens every actual graph record through its accessible list', () => {
     const targets: DrawerTarget[]=[]
     render(<EvidenceGraph doc={doc} onOpenDrawer={target=>targets.push(target)} />)
-    fireEvent.click(screen.getByText('Alle Datensätze und Verknüpfungen als Liste'))
-    const buttons=within(screen.getByRole('list',{name:'Graph-Datensätze'})).getAllByRole('button')
+    fireEvent.click(screen.getByText('All records and links as a list'))
+    const buttons=within(screen.getByRole('list',{name:'Graph records'})).getAllByRole('button')
     const graph=buildEvidenceGraph(doc)
     expect(buttons).toHaveLength(graph.nodes.length)
     buttons.forEach((button,index)=>{fireEvent.click(button);expect(targets.at(-1)).toEqual(graph.nodes[index].target)})
@@ -41,8 +41,8 @@ describe('graph evidence and Sheet', () => {
     render(<Drawer target={{kind:'claim',claim:doc.claims[1]}} trust={doc} lens="client" onClose={()=>{}} />)
     const dialog=screen.getByRole('dialog',{name:'Claim detail'})
     expect(within(dialog).getByText('Claim · claim_unwitnessed')).toBeTruthy()
-    expect(within(dialog).getByText('Kein zugehöriges Ereignis exportiert.')).toBeTruthy()
-    expect(dialog.querySelector('[data-variant=belegt]')).toBeNull()
+    expect(within(dialog).getByText('No matching event exported.')).toBeTruthy()
+    expect(dialog.querySelector('[data-variant=proven]')).toBeNull()
   })
   it.each([true,false])('shows artifact content only if exported (present=%s), with HTML escaped', present => {
     render(<Drawer target={{kind:'artifact',artifact:doc.artifacts[0]}} blobs={present?doc.blobs:undefined} trust={doc} lens="developer" onClose={()=>{}} />)

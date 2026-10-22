@@ -18,7 +18,7 @@ describe('Agent Story', () => {
     vi.stubGlobal('fetch', vi.fn(async () => ({ json: async () => structuredClone(doc) })))
     render(<App />)
     await screen.findByRole('heading', { level: 1 })
-    fireEvent.click(screen.getByRole('button', { name: 'Agent-Verlauf', exact: true }))
+    fireEvent.click(screen.getByRole('button', { name: 'Agent story', exact: true }))
     const main = within(screen.getByRole('main'))
     expect(main.getByRole('heading', { name: 'Agent Story' })).toBeTruthy()
     expect(main.getByText("This browser checks the file's internal consistency only; it does not verify signatures.")).toBeTruthy()
