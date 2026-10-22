@@ -27,9 +27,9 @@ describe('recorded overview', () => {
     expect(document.body.textContent).not.toContain('✓')
   })
   it.each(['client', 'developer'] as const)('keeps supported claims separate from proof in the %s lens', lens => {
-    render(<ClaimedVsProven doc={doc} lens={lens} />)
+    render(<ClaimedVsProven doc={doc} lens={lens} onOpenDrawer={()=>{}} />)
     expect(screen.getByText('Claim · supported').closest('[data-slot=status-badge]')?.getAttribute('data-variant')).toBe('open')
-    expect(screen.queryByText('· met') !== null).toBe(lens === 'developer')
+    expect(screen.getByText('· met')).toBeTruthy()
   })
   it('uses the actual diff, not a JSON snapshot containing a diff marker', () => {
     const diff = recordedDiff(doc)!
