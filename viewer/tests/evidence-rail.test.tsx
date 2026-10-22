@@ -27,4 +27,11 @@ it('filters real test and artifact records without inventing entries',async()=>{
  fireEvent.click(rail.getByRole('button',{name:`Datei: ${publicRun.artifacts[0].path}`}));
  const dialog=within(screen.getByRole('dialog',{name:'File detail'}));
  expect(dialog.getByText(publicRun.artifacts[0].sha256)).toBeTruthy();
+ fireEvent.mouseDown(dialog.getByRole('tab',{name:'Artefakte'}),{button:0,ctrlKey:false});
+ fireEvent.click(dialog.getByRole('button',{name:'Datei öffnen'}));
+ expect(dialog.getByRole('tab',{name:'Übersicht'}).getAttribute('aria-selected')).toBe('true');
+ const file=screen.getByRole('dialog',{name:'File detail'});
+ expect(file.querySelector('pre')?.textContent).toBe(publicRun.blobs[publicRun.artifacts[0].sha256]);
+ fireEvent.mouseDown(dialog.getByRole('tab',{name:'Zeit'}),{button:0,ctrlKey:false});
+ expect(file.querySelector('time')?.getAttribute('dateTime')).toBe(publicRun.events[12].ts);
 })

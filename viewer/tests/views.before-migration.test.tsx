@@ -93,7 +93,7 @@ describe('pre-migration viewer snapshots (must remain unchanged)', () => {
       expect(screen.getByRole('dialog', { name: 'Evidence detail' })).toBeTruthy()
       expect(screen.getByRole('button', { name: 'Source' })).toBeTruthy()
       expect(screen.getByText('diff --git a/dev/null b/index.html')).toBeTruthy()
-      expect(dialogFragment()).toMatchSnapshot()
+      expect(stableFragment(dialogFragment())).toMatchSnapshot()
     })
   }
 
@@ -101,7 +101,7 @@ describe('pre-migration viewer snapshots (must remain unchanged)', () => {
     render(<Drawer target={target} blobs={fixtureBlobs} lens="client" onClose={() => {}} />)
     fireEvent.click(screen.getByRole('button', { name: 'Source' }))
     expect(within(screen.getByRole('dialog')).getByText(markdown, { normalizer: text => text })).toBeTruthy()
-    expect(dialogFragment()).toMatchSnapshot()
+    expect(stableFragment(dialogFragment())).toMatchSnapshot()
   })
 
   it('preserves plain text byte for byte, including JSON-looking content', () => {

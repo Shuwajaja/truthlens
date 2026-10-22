@@ -1,0 +1,2 @@
+# Snapshot text intentionally preserves spaces around inline Markdown.
+tests/**/*.snap -whitespace

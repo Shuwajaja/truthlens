@@ -7,7 +7,7 @@ export interface EvidenceNode {
   kind: 'claim' | 'criterion' | 'evidence' | 'file'
   tone: ResultTone
   label: string
-  target: DrawerTarget
+  target: Exclude<DrawerTarget,{kind:'run'}>
   position: { x: number; y: number }
 }
 export interface EvidenceEdge { id: string; source: string; target: string; recordedBy: string[]; tone: ResultTone }
@@ -28,7 +28,7 @@ export function buildEvidenceGraph(doc: RunDoc): { nodes: EvidenceNode[]; edges:
   const artifactEvents=uniqueIndex(doc.events.filter(event=>event.type==='artifact.recorded' && typeof event.payload.artifact_id==='string'),event=>event.payload.artifact_id as string)
   const criterionEvidence=new Set(doc.criteria.flatMap(criterion=>criterion.evidence))
   const evidence=doc.events.filter(event=>['evidence.attached','test.reported','artifact.recorded'].includes(event.type) || criterionEvidence.has(event.id)).sort((a,b)=>a.seq-b.seq)
-  const addNode=(kind: EvidenceNode['kind'], index: number, column: number, label: string, target: DrawerTarget) => {
+  const addNode=(kind: EvidenceNode['kind'], index: number, column: number, label: string, target: EvidenceNode['target']) => {
     const tone:ResultTone=target.kind==='criterion'&&target.criterion.status==='met'&&target.matched.some(event=>testTone(event)==='ok')&&!target.matched.some(event=>testTone(event)==='fail')?'ok':target.kind==='criterion'&&target.criterion.status==='unmet'&&target.matched.some(event=>testTone(event)==='fail')?'fail':'open'
     const node={ tone, id: `${kind}:${index}`, kind, label, target, position: { x: column*240, y: index*100 } }
     nodes.push(node); return node

@@ -1,67 +1,57 @@
 # TruthLens viewer
 
-React/TypeScript viewer for a local exported RunDoc. Node >=22.19 is required; CI uses Node 24. Run `npm ci`, `npm test`, `npm run lint`, and `npm run build` here. The browser loads only the local `/run.json`; it checks internal consistency, not signatures.
+React/TypeScript viewer for a local exported RunDoc. Node >=22.19 is required; CI uses Node 24. From this directory:
 
-## UI foundations
+```sh
+npm ci
+npm test
+npm run check:styles
+npm run lint
+npm run build
+```
 
-`src/theme.css` contains the approved base and TruthLens token overrides. Tailwind aliases use those tokens; fonts fall back to system fonts without remote requests. No other product themes are included.
+The browser loads local `/run.json`, validates the complete export and checks internal consistency. It does not verify signatures. RunDoc fields, event hashes and the export vocabulary are unchanged.
 
-`src/components/ui/` contains source components adapted from [shadcn/ui](https://github.com/shadcn-ui/ui/tree/main/apps/v4/registry/new-york-v4/ui), under the adjacent MIT license. Radix supplies keyboard/focus behaviour for Sheet, Tabs, Tooltip, ScrollArea and Separator. Motion is limited to colour/opacity; no animation package is required.
+## UI contract
 
-Use `StatusBadge` with exported criterion status, claim finding, or both integrity fields. Semantic variants are private: a caller cannot request an HMAC badge directly. HMAC checked requires `verified === true` **and** `integrity === 'hmac'`; hash-only is always labelled “Nur Hash · HMAC nicht geprüft”. Claims stay visually separate from witnessed criteria. Technical integrity never implies human acceptance.
+[DESIGN.md](DESIGN.md) is binding. `src/theme.css` is the sole presentation palette and defines the five text sizes. Inter and JetBrains Mono are bundled locally; their SIL OFL licenses are in `public/licenses/`. No remote fonts or other product themes are loaded. `npm run check:styles` rejects colour literals outside theme.css, legacy palette classes and unsupported explicit type sizes/weights in src.
 
-## Optional screenshots
+`src/components/ui/` contains source components adapted from [shadcn/ui](https://github.com/shadcn-ui/ui/tree/main/apps/v4/registry/new-york-v4/ui), under the adjacent MIT license. Radix supplies keyboard and focus behaviour for Sheet, Tabs, Tooltip, ScrollArea and Separator. Motion respects reduced-motion preferences.
 
-After building, `npm run screenshots` captures existing views in both lenses under `.screenshots/` (ignored). Playwright is a dev dependency; its Chromium binary and any required local libraries stay inside this clone. See the root README for browser setup. Screenshots are not required by CI.
+Use `StatusBadge` with exported criterion status, claim finding, or both integrity fields. Its semantic variants are private. HMAC checked requires `verified === true` **and** `integrity === 'hmac'`; hash-only stays neutral and says “Nur Hash · HMAC nicht geprüft”. Claims never receive proof styling. Technical integrity never implies human acceptance. The unchanged wire types and fail-closed validator live in `contracts/`; legacy card field names there are data, not UI colours.
 
-## Recorded overview (P2)
+## Recorded views
 
-The header SVGs reuse the supplied TruthLens reference artwork locally. Overview shows one exported run, exported criterion counts and claim findings, and the first actual exported unified diff through RenderKit. Embedded diff snippets in JSON or command logs do not become a diff panel. Missing diff/criteria/events show neutral empty states. Timeline events and criterion buttons open their original recorded detail targets. Full Timeline also exposes native keyboard buttons and absolute UTC times.
+The supplied mountain and shield SVG shapes use theme paints. Desktop navigation is 200px; a 300px sticky evidence rail contains real export events and the disabled static Navigator below it. “Navigator kommt später” is explicit: there is no transport, model or generated reply.
 
-The six full-App snapshots deliberately change for the mountain header, responsive navigation, trust warning, overview layout, separate claim badges and accessible Timeline. The four isolated diff/Markdown/plain-text/drawer baselines and three Agent Story snapshots remain unchanged at this step. The optional screenshot script also checks Overview at 1280px and 360px for horizontal overflow.
+Status cards count criteria with met, unmet and still proposed/unverified results. They do not count failing runs or infer acceptance from exit 0. This format contains one run, with an explicit missing-history note and no trend or sparkline. Duration comes from recorded start/end timestamps; missing ends remain missing. Times use local time with a zone abbreviation.
 
-## Evidence graph and Sheet (P2)
+The diff panel uses the first actual exported unified diff through RenderKit. JSON or logs quoting a diff do not become a diff panel. Line numbers come only from bounded hunk headers; metadata remains unnumbered and all content is escaped. Addition/deletion colours describe edits. The diff is labelled “nicht signiert”.
 
-`src/graph/evidence-graph.ts` builds a deterministic, read-only model from exported claims, criteria, evidence/test/artifact events and artifact records. Edges cite their recorded field: criterion evidence IDs, event criterion IDs, exact artifact IDs or exact recorded content hashes. Unknown or ambiguous endpoints are omitted. `claim_unwitnessed` nodes are always isolated; even a `supported` claim has no edge if its criterion has no exported witness. Findings/status remain unchanged.
+The read-only graph cites recorded criterion evidence IDs, event criterion IDs, exact artifact IDs or content hashes. Unknown and ambiguous endpoints are omitted. Unwitnessed claims stay isolated; a supported claim has no edge without an exported witness. Green/red result colours require decisive linked wrapper/system tests, per D25/D27. Reference-only edges remain neutral. Selecting a record updates the property detail and opens that same record. Zoom never shrinks node text below 12px; panning and the complete record list expose larger graphs.
 
-React Flow displays that model without editing or connecting nodes. Keyboard-accessible node buttons and a complete expandable list open the same recorded details. Claims or files without a matching event show their exported projection and a neutral missing-event/content notice; no event is invented. Graph zoom and the list support inspecting larger exports.
+The timeline sorts sequence numbers, groups initial setup events as Auftrag and the remainder as Ergebnis, and shows only nonempty phases. Durations are recorded timestamp spans. Gaps over one second come from adjacent timestamps, not live telemetry. Consecutive claims expand. Every event opens its original record; the Developer lens adds seq/type/actor metadata.
 
-The existing drawer now uses the source Sheet component. It traps focus, supports Escape and restores the actual trigger. Close and the trust notice stay outside the scrolling content. Step 3 intentionally updates two Overview snapshots for Graph and three drawer-shell snapshots for Sheet; the snapshots clone the portal into a fragment so diff/Markdown text stays covered. Plain text and the three Agent Story baselines remain unchanged. jsdom lacks layout/ResizeObserver, so unit tests shim only that API; screenshots verify actual nodes/edges and keyboard activation in Chromium.
+## Mobile and evidence sheets
 
-The screenshot check exercises desktop mouse clicks, mobile touch taps, all four node kinds by keyboard, focus containment and restoration. Drawer captures use the viewport rather than a full-page image so fixed overlays appear in their real viewport position. React Flow/D3 are bundled separately with their dependencies to keep both JavaScript chunks below the build warning threshold; browser startup is also checked.
+At 760px and below, the viewer uses a 52px compact header, 64px bottom navigation, 84px content clearance and a graph list instead of a canvas. The actual DOM and visual reading order are status → run → criteria/graph list → timeline → diff → detail. Tab changes reset scroll and focus to the new view title. Client/Developer controls remain available.
 
-## Static Navigator (P2)
+Run/criterion taps open a bottom sheet with real data; the compact integrity seal opens run details. Full trust boundaries stay in the sheet. Overview/Tests/Artefakte/Zeit tabs filter the selected records; run details use the full export. Missing content remains an explicit neutral state. The sheet traps focus, Escape closes it, and focus returns to the original trigger. Close and the trust notice remain outside the scrolling body.
 
-The right Navigator can collapse to a rail. Its suggestions, composer and Send button are disabled, with the visible note “Navigator kommt später”. It has no transport, model or generated replies. Collapse state stays in memory. At tablet widths up to 1100px it moves below the content; at phone widths the navigation and content also stack. Narrow criterion cards place badges below their text. The left rail keeps sticky navigation controls on long runs.
+## Browser review
 
-Step 4 deliberately changes the six full-App snapshots for the Navigator and the sticky navigation wrapper. All isolated renderer/Sheet and Agent Story snapshots are retained. Screenshots check both Navigator states at 1280, 1024, 900, 768, 701 and 360px, plus scrolled navigation visibility. Other views and drawer interaction remain covered in both lenses.
+After building, `npm run review:screenshots` captures all four views at 1440px and 420px, the full mobile overview and mobile sheets: 15 images in ignored `.screenshots/review/`. It checks axe contrast, computed type sizes/weights, viewport overflow, mobile DOM/visual order, fixed navigation, sheet placement, trust text, Escape/focus return and view scroll reset. Additional 360/760/1024px probes guard intermediate layout. Desktop graph records are also exercised by keyboard.
 
-The main trust notice stays visible while scrolling recorded content; the optional browser check asserts this as well as sticky navigation. The Sheet keeps its own pinned notice above the evidence body.
+CI publishes a `viewer-screenshots-<commit>` artifact for each PR, retained for 30 days. PR descriptions link the run and image archive. Generated images and temporary reports are not source files. `npm run screenshots` runs the same review in both Client and Developer lenses, under ignored `.screenshots/both-lenses/`.
 
-## P3 review contract
+Playwright is a dev dependency. Local browser binaries and required libraries stay inside this clone; see the root README for setup. `PLAYWRIGHT_BROWSERS_PATH` defaults to the clone's `.venv/playwright`. `REVIEW_BROWSER_EXECUTABLE` can select an existing browser; CI uses the runner's installed Google Chrome. No browser download or system install is required by the review script.
 
-[DESIGN.md](DESIGN.md) is the binding viewer reference. `npm run review:screenshots` captures Overview, Claimed vs Proven, Timeline and Agent Story at 1440px and 420px and checks axe contrast, browser errors and page overflow. Images stay in ignored `.screenshots/review/`. CI publishes them as a `viewer-screenshots-<commit>` artifact for each PR; the PR description links the run and archive. The docs-first PR records the existing UI as a baseline; the following P3 branches apply the design in order. No screenshots or temporary reports are added to source history.
-
-P3 fonts are bundled locally with the build (Inter and JetBrains Mono, SIL OFL via the fontsource packages); viewing a run makes no font request to an external host. The theme defines the five text sizes and uses the information token for general focus and links. Component typography is normalized in the dedicated type-scale branch.
-
-`contracts/` preserves the unchanged RunDoc export vocabulary and fail-closed validator. Its legacy wire card names are data fields, not presentation colours. UI colours are semantic tokens only. `npm run check:styles` rejects colour literals outside theme.css and legacy palette classes in src; CI runs it too.
-
-The P3 screenshot check also inspects computed text sizes and weights in every view. Graph zoom never shrinks text below its declared 12px minimum; pan or the equivalent record list exposes the rest of a large graph.
-
-P3 shell uses the supplied mountain and shield SVG shapes inline so their paints share theme.css. The desktop navigation is 200px; the evidence rail is 300px with real export events, and the static Navigator sits below. No generated response or extra run is implied. Mobile-specific navigation follows in p3/mobile.
-
-Status cards count criteria by their exported result: met, unmet, or still proposed/unverified. They do not count failing runs or infer human acceptance from exit 0. This single-run format has no trend series, so no sparkline is drawn. Run duration comes from the recorded start/end timestamps; missing ends stay missing. Times use local time with a zone abbreviation.
-
-Unified diff line numbers come only from real, bounded hunk headers; metadata stays unnumbered and content remains escaped. Addition/deletion colours describe edits, not signature verification. The diff is labelled "nicht signiert". Evidence rail tabs filter the recorded tests and manifest artifacts; the time tab uses recorded run timestamps.
-
-Graph edges use recorded test counts for result colours. Artifact references remain neutral, and a criterion without a linked test never gets a green graph dot. Unwitnessed claims stay isolated. Selecting any graph record updates the property detail and opens that same record in the existing drawer; no inferred edge or placeholder node is added.
-
-The timeline rail sorts recorded sequence numbers, groups only the initial setup events as Auftrag and the remainder as Ergebnis, and displays only nonempty phases. Durations are recorded timestamp spans. Gaps over one second are labelled as timestamp gaps (not live execution telemetry); consecutive claims can be expanded. Result colours require decisive wrapper/system test counts. Every event button opens the original event, in both lenses.
+Tests retain the real export and isolated, explicitly labelled synthetic renderer fixtures. P3 intentionally updates visual snapshots. Only Radix's transient mount-animation style is normalized in cloned snapshots; live behaviour remains tested. Snapshot files preserve meaningful spaces around inline Markdown.
 
 ## Logo addendum (2026-10-22)
 
-The task folder was amended during P3 to add the owner logo and a single green token. The viewer now uses the amended DESIGN.md unchanged: Truth is green, Lens is white, and logo/result colours share --ok. General navigation uses info so it cannot imply a checked result. Native SVG geometry reconstructs the supplied JPEG references; wordmark glyph outlines use the bundled Inter600 font. No JPEG or external font is loaded at runtime.
+The task folder was amended during P3 to add the owner logo and a single green token. The viewer now uses the amended DESIGN.md unchanged: Truth is green, Lens is white, and logo/result colours share --ok. General navigation uses info so it cannot imply a checked result. Native SVG geometry reconstructs the supplied JPEG references; wordmark glyph outlines use the bundled Inter 600 font. No JPEG or external font is loaded at runtime.
 
-`npm run brand:build` generates the public SVG wordmark/icon, favicon SVG/ICO32 and touch PNG180. SVG templates use theme variables; generated public assets resolve those values from theme.css for standalone image/favicon rendering. There is no second hand-maintained palette. Build checks SVG regeneration and icon dimensions; rasterization uses the clone-local Playwright browser only when deliberately rebuilding assets.
+`npm run brand:build` generates the public SVG wordmark/icon, favicon SVG/ICO 32 and touch PNG 180. SVG templates use theme variables; generated public assets resolve those values from theme.css for standalone image/favicon rendering. There is no second hand-maintained palette. Build checks SVG regeneration and icon dimensions; rasterization uses the clone-local Playwright browser only when deliberately rebuilding assets.
 
-The p3/logo branch was inserted after the already-published timeline branch and before mobile because the task folder gained step4b while this run was in progress. Existing published branch history was preserved; no force-push or merge was performed.
+The p3/logo branch was inserted after the already-published timeline branch and before mobile because the task folder gained step 4b while this run was in progress. Existing published branch history was preserved; no force-push or merge was performed.
