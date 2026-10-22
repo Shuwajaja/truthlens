@@ -31,14 +31,15 @@ export function Drawer({ target, blobs, lens, trust, onClose, onOpenDrawer, doc 
   // Graph and timeline triggers do not live inside SheetTrigger. Restore their real focus.
   const [returnFocus]=useState(() => typeof document !== 'undefined' && document.activeElement instanceof HTMLElement ? document.activeElement : null)
   const label=target.kind==='criterion'?'Evidence detail':target.kind==='event'?'Event detail':target.kind==='claim'?'Claim detail':target.kind==='artifact'?'File detail':'Run detail'
+  const title=target.kind==='criterion'?`Criterion: ${target.criterion.text}`:target.kind==='event'?`Event: ${target.event.summary}`:target.kind==='claim'?`Claim: ${target.claim.text}`:target.kind==='artifact'?`File: ${target.artifact.path}`:`Run: ${target.doc.run.project}`
   const selectedEvents=(target.kind==='criterion'?target.matched:target.kind==='event'?[target.event]:target.kind==='run'?target.doc.events:target.event?[target.event]:[]).toSorted((a,b)=>a.seq-b.seq)
   const selectedArtifacts=target.kind==='artifact'?[target.artifact]:(doc?.artifacts.filter(artifact=>selectedEvents.some(event=>event.payload.artifact_id===artifact.artifact_id||event.payload.report_artifact_id===artifact.artifact_id||event.payload.sha256===artifact.sha256))??[])
   return <Sheet open onOpenChange={open=>{if(!open)onClose()}}>
     <SheetContent id="evidence-drawer" className="drawer-pane" aria-label={label} aria-labelledby={undefined} aria-describedby="evidence-description"
-      onCloseAutoFocus={event=>{event.preventDefault();returnFocus?.focus()}}>
+      onCloseAutoFocus={event=>{event.preventDefault();const active=document.activeElement;if(active===document.body||active?.closest('[role=dialog]'))returnFocus?.focus()}}>
       <div className="sheet-handle" aria-hidden="true"/>
       <SheetHeader className="border-b border-border pr-12">
-        <SheetTitle id="evidence-title">{lens==='client'?'Details':label}</SheetTitle>
+        <SheetTitle id="evidence-title">{title}</SheetTitle>
         <SheetDescription id="evidence-description" className="sr-only">Recorded export data. Technical integrity does not establish human acceptance.</SheetDescription>
       </SheetHeader>
       {trust && <div className="px-4 pt-4"><IntegrityNotice verified={trust.verified} integrity={trust.integrity} /></div>}

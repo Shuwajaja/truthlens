@@ -271,9 +271,19 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
           </div>
         </div>
       </nav>
+      <button
+        aria-label="Open run: Build a small landing page with a contact form. · Run details"
+        class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+        data-size="sm"
+        data-slot="button"
+        data-variant="outline"
+        type="button"
+      >
+        Run details
+      </button>
     </header>
     <div
-      class="workspace terminal-workspace "
+      class="workspace terminal-workspace"
     >
       <main
         id="main-content"
@@ -307,17 +317,42 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
             This browser checks the file's internal consistency only; it does not verify signatures.
           </p>
         </aside>
-        <section>
-          <h1
-            class="text-2xl font-semibold mb-6"
+        <div
+          class="review-return"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+            data-size="sm"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
           >
-            Claims and recorded results
-          </h1>
+            Review criteria
+          </button>
+        </div>
+        <section>
+          <div
+            class="view-heading"
+          >
+            <div>
+              <h1
+                tabindex="-1"
+              >
+                Claims and recorded results
+              </h1>
+              <p
+                class="text-2"
+              >
+                Compare recorded claims with criterion results and their evidence.
+              </p>
+            </div>
+          </div>
           <div
             class="space-y-4"
           >
             <article
-              class="card-wrap border-border p-4"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+              data-slot="card"
             >
               <p
                 class="text-base mb-4 break-words"
@@ -349,7 +384,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                   Page exists (index.html with a heading and a form)
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="met"
                 >
                   <h3
                     class="text-sm"
@@ -432,7 +468,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
               </section>
             </article>
             <article
-              class="card-wrap border-border p-4"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+              data-slot="card"
             >
               <p
                 class="text-base mb-4 break-words"
@@ -464,7 +501,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                   Form validates the e-mail address (invalid input rejected)
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="unmet"
                 >
                   <h3
                     class="text-sm"
@@ -547,7 +585,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
               </section>
             </article>
             <article
-              class="card-wrap border-border p-4"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+              data-slot="card"
             >
               <p
                 class="text-base mb-4 break-words"
@@ -579,7 +618,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                   Mobile layout works
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="unverified"
                 >
                   <h3
                     class="text-sm"
@@ -630,424 +670,6 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
           </div>
         </section>
       </main>
-      <aside
-        aria-label="Evidence drawer"
-        class="evidence-rail"
-      >
-        <div
-          class="rail-sticky"
-        >
-          <section
-            class="rail-evidence"
-          >
-            <div
-              class="panel-heading"
-            >
-              <h2>
-                Evidence drawer
-              </h2>
-              <span
-                class="section-note"
-              >
-                6 events
-              </span>
-            </div>
-            <div
-              class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col rail-tabs"
-              data-orientation="horizontal"
-              data-slot="tabs"
-              dir="ltr"
-            >
-              <div
-                aria-label="Filter evidence"
-                aria-orientation="horizontal"
-                class="group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-2 text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none bg-muted"
-                data-orientation="horizontal"
-                data-slot="tabs-list"
-                data-variant="default"
-                role="tablist"
-                style="outline: none;"
-                tabindex="0"
-              >
-                <button
-                  aria-controls="radix-_r_0_-content-overview"
-                  aria-selected="true"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="active"
-                  id="radix-_r_0_-trigger-overview"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Overview
-                </button>
-                <button
-                  aria-controls="radix-_r_0_-content-tests"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_0_-trigger-tests"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Tests
-                </button>
-                <button
-                  aria-controls="radix-_r_0_-content-artifacts"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_0_-trigger-artifacts"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Files
-                </button>
-                <button
-                  aria-controls="radix-_r_0_-content-time"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_0_-trigger-time"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Time
-                </button>
-              </div>
-              <div
-                aria-labelledby="radix-_r_0_-trigger-overview"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="active"
-                id="radix-_r_0_-content-overview"
-                role="tabpanel"
-                tabindex="0"
-              >
-                <ul
-                  class="rail-list"
-                >
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          evidence.attached
-                        </strong>
-                        <code>
-                          #7 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Agent process finished (exit 0)
-                        </strong>
-                        <code>
-                          #8 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Files changed: index.html
-                        </strong>
-                        <code>
-                          #12 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-file-text"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
-                          />
-                          <path
-                            d="M14 2v5a1 1 0 0 0 1 1h5"
-                          />
-                          <path
-                            d="M10 9H8"
-                          />
-                          <path
-                            d="M16 13H8"
-                          />
-                          <path
-                            d="M16 17H8"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          File recorded: index.html
-                        </strong>
-                        <code>
-                          #13 · artifact.recorded
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-list-checks"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M13 5h8"
-                          />
-                          <path
-                            d="M13 12h8"
-                          />
-                          <path
-                            d="M13 19h8"
-                          />
-                          <path
-                            d="m3 17 2 2 4-4"
-                          />
-                          <path
-                            d="m3 7 2 2 4-4"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
-                        </strong>
-                        <code>
-                          #14 · test.reported
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-list-checks"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M13 5h8"
-                          />
-                          <path
-                            d="M13 12h8"
-                          />
-                          <path
-                            d="M13 19h8"
-                          />
-                          <path
-                            d="m3 17 2 2 4-4"
-                          />
-                          <path
-                            d="m3 7 2 2 4-4"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
-                        </strong>
-                        <code>
-                          #15 · test.reported
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <div
-                aria-labelledby="radix-_r_0_-trigger-tests"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_0_-content-tests"
-                role="tabpanel"
-                tabindex="0"
-              />
-              <div
-                aria-labelledby="radix-_r_0_-trigger-artifacts"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_0_-content-artifacts"
-                role="tabpanel"
-                tabindex="0"
-              />
-              <div
-                aria-labelledby="radix-_r_0_-trigger-time"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_0_-content-time"
-                role="tabpanel"
-                tabindex="0"
-              />
-            </div>
-            <p
-              class="trust-seal"
-            >
-              Integrity is not approval
-            </p>
-          </section>
-        </div>
-      </aside>
     </div>
   </div>
 </DocumentFragment>
@@ -1324,9 +946,19 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
           </div>
         </div>
       </nav>
+      <button
+        aria-label="Open run: Build a small landing page with a contact form. · Run details"
+        class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+        data-size="sm"
+        data-slot="button"
+        data-variant="outline"
+        type="button"
+      >
+        Run details
+      </button>
     </header>
     <div
-      class="workspace terminal-workspace "
+      class="workspace terminal-workspace"
     >
       <main
         id="main-content"
@@ -1360,17 +992,42 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
             This browser checks the file's internal consistency only; it does not verify signatures.
           </p>
         </aside>
-        <section>
-          <h1
-            class="text-2xl font-semibold mb-6"
+        <div
+          class="review-return"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+            data-size="sm"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
           >
-            What your agent said vs. what we saw.
-          </h1>
+            Review criteria
+          </button>
+        </div>
+        <section>
+          <div
+            class="view-heading"
+          >
+            <div>
+              <h1
+                tabindex="-1"
+              >
+                What your agent said vs. what we saw.
+              </h1>
+              <p
+                class="text-2"
+              >
+                Compare recorded claims with criterion results and their evidence.
+              </p>
+            </div>
+          </div>
           <div
             class="space-y-4"
           >
             <article
-              class="card-wrap border-border p-4"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+              data-slot="card"
             >
               <p
                 class="text-base mb-4 break-words"
@@ -1402,7 +1059,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                   Page exists (index.html with a heading and a form)
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="met"
                 >
                   <h3
                     class="text-sm"
@@ -1485,7 +1143,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
               </section>
             </article>
             <article
-              class="card-wrap border-border p-4"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+              data-slot="card"
             >
               <p
                 class="text-base mb-4 break-words"
@@ -1517,7 +1176,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                   Form validates the e-mail address (invalid input rejected)
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="unmet"
                 >
                   <h3
                     class="text-sm"
@@ -1600,7 +1260,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
               </section>
             </article>
             <article
-              class="card-wrap border-border p-4"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+              data-slot="card"
             >
               <p
                 class="text-base mb-4 break-words"
@@ -1632,7 +1293,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                   Mobile layout works
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="unverified"
                 >
                   <h3
                     class="text-sm"
@@ -1683,424 +1345,6 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
           </div>
         </section>
       </main>
-      <aside
-        aria-label="Evidence drawer"
-        class="evidence-rail"
-      >
-        <div
-          class="rail-sticky"
-        >
-          <section
-            class="rail-evidence"
-          >
-            <div
-              class="panel-heading"
-            >
-              <h2>
-                Evidence drawer
-              </h2>
-              <span
-                class="section-note"
-              >
-                6 events
-              </span>
-            </div>
-            <div
-              class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col rail-tabs"
-              data-orientation="horizontal"
-              data-slot="tabs"
-              dir="ltr"
-            >
-              <div
-                aria-label="Filter evidence"
-                aria-orientation="horizontal"
-                class="group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-2 text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none bg-muted"
-                data-orientation="horizontal"
-                data-slot="tabs-list"
-                data-variant="default"
-                role="tablist"
-                style="outline: none;"
-                tabindex="0"
-              >
-                <button
-                  aria-controls="radix-_r_i_-content-overview"
-                  aria-selected="true"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="active"
-                  id="radix-_r_i_-trigger-overview"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Overview
-                </button>
-                <button
-                  aria-controls="radix-_r_i_-content-tests"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_i_-trigger-tests"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Tests
-                </button>
-                <button
-                  aria-controls="radix-_r_i_-content-artifacts"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_i_-trigger-artifacts"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Files
-                </button>
-                <button
-                  aria-controls="radix-_r_i_-content-time"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_i_-trigger-time"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Time
-                </button>
-              </div>
-              <div
-                aria-labelledby="radix-_r_i_-trigger-overview"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="active"
-                id="radix-_r_i_-content-overview"
-                role="tabpanel"
-                tabindex="0"
-              >
-                <ul
-                  class="rail-list"
-                >
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          evidence.attached
-                        </strong>
-                        <code>
-                          #7 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Agent process finished (exit 0)
-                        </strong>
-                        <code>
-                          #8 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Files changed: index.html
-                        </strong>
-                        <code>
-                          #12 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-file-text"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
-                          />
-                          <path
-                            d="M14 2v5a1 1 0 0 0 1 1h5"
-                          />
-                          <path
-                            d="M10 9H8"
-                          />
-                          <path
-                            d="M16 13H8"
-                          />
-                          <path
-                            d="M16 17H8"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          File recorded: index.html
-                        </strong>
-                        <code>
-                          #13 · artifact.recorded
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-list-checks"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M13 5h8"
-                          />
-                          <path
-                            d="M13 12h8"
-                          />
-                          <path
-                            d="M13 19h8"
-                          />
-                          <path
-                            d="m3 17 2 2 4-4"
-                          />
-                          <path
-                            d="m3 7 2 2 4-4"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
-                        </strong>
-                        <code>
-                          #14 · test.reported
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-list-checks"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M13 5h8"
-                          />
-                          <path
-                            d="M13 12h8"
-                          />
-                          <path
-                            d="M13 19h8"
-                          />
-                          <path
-                            d="m3 17 2 2 4-4"
-                          />
-                          <path
-                            d="m3 7 2 2 4-4"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
-                        </strong>
-                        <code>
-                          #15 · test.reported
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <div
-                aria-labelledby="radix-_r_i_-trigger-tests"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_i_-content-tests"
-                role="tabpanel"
-                tabindex="0"
-              />
-              <div
-                aria-labelledby="radix-_r_i_-trigger-artifacts"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_i_-content-artifacts"
-                role="tabpanel"
-                tabindex="0"
-              />
-              <div
-                aria-labelledby="radix-_r_i_-trigger-time"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_i_-content-time"
-                role="tabpanel"
-                tabindex="0"
-              />
-            </div>
-            <p
-              class="trust-seal"
-            >
-              Integrity is not approval
-            </p>
-          </section>
-        </div>
-      </aside>
     </div>
   </div>
 </DocumentFragment>
@@ -2377,9 +1621,19 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
           </div>
         </div>
       </nav>
+      <button
+        aria-label="Open run: Build a small landing page with a contact form. · Run details"
+        class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+        data-size="sm"
+        data-slot="button"
+        data-variant="outline"
+        type="button"
+      >
+        Run details
+      </button>
     </header>
     <div
-      class="workspace terminal-workspace overview-shell"
+      class="workspace terminal-workspace"
     >
       <main
         id="main-content"
@@ -2421,26 +1675,18 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
             class="overview-run"
           >
             <div
-              class="page-heading"
+              class="view-heading"
             >
               <div>
                 <h1>
                   Build a small landing page with a contact form.
                 </h1>
-                <p>
+                <p
+                  class="text-2"
+                >
                   opencode/deepseek-v4-flash
                 </p>
               </div>
-              <button
-                aria-label="Open run: Build a small landing page with a contact form. · Run details"
-                class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
-                data-size="sm"
-                data-slot="button"
-                data-variant="outline"
-                type="button"
-              >
-                Run details
-              </button>
             </div>
             <div
               class="run-summary"
@@ -2472,82 +1718,120 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
               </span>
             </div>
           </section>
+          <p
+            class="result-sentence"
+          >
+            1 of 3 criteria proven; 1 failed; 1 not checked.
+          </p>
           <div
             class="status-grid"
           >
             <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm status-card"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
               data-slot="card"
+              data-status="met"
             >
-              <h2
-                class="card-label"
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
+                data-size="default"
+                data-slot="button"
+                data-variant="ghost"
+                type="button"
               >
                 <span
-                  aria-hidden="true"
-                  class="status-dot tone-ok"
-                />
-                Proven
-              </h2>
-              <div
-                class="status-value"
-                data-testid="met-count"
+                  class="card-label"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="status-dot tone-ok"
+                  />
+                  Proven
+                </span>
+                <span
+                  class="status-value"
+                  data-testid="met-count"
+                >
+                  <span
+                    class="text-ok"
+                  >
+                    1
+                  </span>
+                   / 3
+                </span>
+                <span
+                  class="status-description"
+                >
+                  Criteria with recorded result met
+                </span>
+              </button>
+            </div>
+            <div
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
+              data-slot="card"
+              data-status="unmet"
+            >
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
+                data-size="default"
+                data-slot="button"
+                data-variant="ghost"
+                type="button"
               >
                 <span
-                  class="text-ok"
+                  class="card-label"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="status-dot tone-fail"
+                  />
+                  Failed
+                </span>
+                <span
+                  class="status-value text-fail"
+                  data-testid="failed-count"
                 >
                   1
                 </span>
-                 / 3
-              </div>
-              <p>
-                Criteria with recorded result met
-              </p>
+                <span
+                  class="status-description"
+                >
+                  Criteria with recorded result unmet
+                </span>
+              </button>
             </div>
             <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm status-card"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
               data-slot="card"
+              data-status="unverified"
             >
-              <h2
-                class="card-label"
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
+                data-size="default"
+                data-slot="button"
+                data-variant="ghost"
+                type="button"
               >
                 <span
-                  aria-hidden="true"
-                  class="status-dot tone-fail"
-                />
-                Failed
-              </h2>
-              <div
-                class="status-value text-fail"
-                data-testid="failed-count"
-              >
-                1
-              </div>
-              <p>
-                Criteria with recorded result unmet
-              </p>
-            </div>
-            <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm status-card"
-              data-slot="card"
-            >
-              <h2
-                class="card-label"
-              >
+                  class="card-label"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="status-dot tone-open"
+                  />
+                  Not checked
+                </span>
                 <span
-                  aria-hidden="true"
-                  class="status-dot tone-open"
-                />
-                Not checked
-              </h2>
-              <div
-                class="status-value text-open"
-                data-testid="unwitnessed-count"
-              >
-                1
-              </div>
-              <p>
-                Criteria without a confirmed result
-              </p>
+                  class="status-value text-open"
+                  data-testid="unwitnessed-count"
+                >
+                  1
+                </span>
+                <span
+                  class="status-description"
+                >
+                  Criteria without a confirmed result
+                </span>
+              </button>
             </div>
           </div>
           <div
@@ -2555,7 +1839,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
           >
             <div
               aria-label="Criteria and evidence"
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criteria-panel"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel criteria-panel"
               data-slot="card"
               role="region"
             >
@@ -2578,6 +1862,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                   <button
                     aria-pressed="false"
                     class="criterion-button"
+                    data-status="met"
                     type="button"
                   >
                     <span
@@ -2615,6 +1900,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                   <button
                     aria-pressed="true"
                     class="criterion-button"
+                    data-status="unmet"
                     type="button"
                   >
                     <span
@@ -2652,6 +1938,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                   <button
                     aria-pressed="false"
                     class="criterion-button"
+                    data-status="unverified"
                     type="button"
                   >
                     <span
@@ -2695,7 +1982,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
             </div>
             <div
               aria-label="Project preview"
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel project-preview"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel project-preview"
               data-slot="card"
               role="region"
             >
@@ -2859,10 +2146,11 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
             </div>
             <div
               aria-label="Criterion detail"
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criterion-detail"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel criterion-detail"
               data-slot="card"
               id="criterion-detail"
               role="region"
+              tabindex="-1"
             >
               <div
                 class="panel-heading"
@@ -2930,7 +2218,8 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                 </div>
               </dl>
               <div
-                class="space-y-4"
+                class="recorded-result space-y-4"
+                data-status="unmet"
               >
                 <h3
                   class="text-sm"
@@ -3012,7 +2301,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
               </div>
             </div>
             <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel timeline-panel"
               data-slot="card"
             >
               <div
@@ -3025,11 +2314,18 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                   class="timeline-view"
                 >
                   <div
-                    class="panel-heading"
+                    class="view-heading"
                   >
-                    <h2>
-                      Timeline
-                    </h2>
+                    <div>
+                      <h2>
+                        Timeline
+                      </h2>
+                      <p
+                        class="text-2"
+                      >
+                        Follow the recorded sequence; open an event to inspect its evidence.
+                      </p>
+                    </div>
                     <span
                       class="section-note"
                     >
@@ -3918,7 +3214,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
             >
               <div
                 aria-label="Evidence graph"
-                class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel evidence-graph"
+                class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel evidence-graph"
                 data-slot="card"
                 role="region"
               >
@@ -4713,7 +4009,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
               </div>
               <div
                 aria-label="Record details"
-                class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel node-detail"
+                class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel node-detail"
                 data-slot="card"
                 role="region"
               >
@@ -4738,7 +4034,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
               </div>
             </div>
             <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel diff-panel"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel diff-panel"
               data-slot="card"
             >
               <div
@@ -8495,9 +7791,19 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
           </div>
         </div>
       </nav>
+      <button
+        aria-label="Open run: Build a small landing page with a contact form. · Run details"
+        class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+        data-size="sm"
+        data-slot="button"
+        data-variant="outline"
+        type="button"
+      >
+        Run details
+      </button>
     </header>
     <div
-      class="workspace terminal-workspace overview-shell"
+      class="workspace terminal-workspace"
     >
       <main
         id="main-content"
@@ -8539,26 +7845,18 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
             class="overview-run"
           >
             <div
-              class="page-heading"
+              class="view-heading"
             >
               <div>
                 <h1>
                   Build a small landing page with a contact form.
                 </h1>
-                <p>
+                <p
+                  class="text-2"
+                >
                   opencode/deepseek-v4-flash
                 </p>
               </div>
-              <button
-                aria-label="Open run: Build a small landing page with a contact form. · Run details"
-                class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
-                data-size="sm"
-                data-slot="button"
-                data-variant="outline"
-                type="button"
-              >
-                Run details
-              </button>
             </div>
             <div
               class="run-summary"
@@ -8590,82 +7888,120 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
               </span>
             </div>
           </section>
+          <p
+            class="result-sentence"
+          >
+            1 of 3 criteria proven; 1 failed; 1 not checked.
+          </p>
           <div
             class="status-grid"
           >
             <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm status-card"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
               data-slot="card"
+              data-status="met"
             >
-              <h2
-                class="card-label"
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
+                data-size="default"
+                data-slot="button"
+                data-variant="ghost"
+                type="button"
               >
                 <span
-                  aria-hidden="true"
-                  class="status-dot tone-ok"
-                />
-                Proven
-              </h2>
-              <div
-                class="status-value"
-                data-testid="met-count"
+                  class="card-label"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="status-dot tone-ok"
+                  />
+                  Proven
+                </span>
+                <span
+                  class="status-value"
+                  data-testid="met-count"
+                >
+                  <span
+                    class="text-ok"
+                  >
+                    1
+                  </span>
+                   / 3
+                </span>
+                <span
+                  class="status-description"
+                >
+                  Criteria with recorded result met
+                </span>
+              </button>
+            </div>
+            <div
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
+              data-slot="card"
+              data-status="unmet"
+            >
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
+                data-size="default"
+                data-slot="button"
+                data-variant="ghost"
+                type="button"
               >
                 <span
-                  class="text-ok"
+                  class="card-label"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="status-dot tone-fail"
+                  />
+                  Failed
+                </span>
+                <span
+                  class="status-value text-fail"
+                  data-testid="failed-count"
                 >
                   1
                 </span>
-                 / 3
-              </div>
-              <p>
-                Criteria with recorded result met
-              </p>
+                <span
+                  class="status-description"
+                >
+                  Criteria with recorded result unmet
+                </span>
+              </button>
             </div>
             <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm status-card"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
               data-slot="card"
+              data-status="unverified"
             >
-              <h2
-                class="card-label"
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
+                data-size="default"
+                data-slot="button"
+                data-variant="ghost"
+                type="button"
               >
                 <span
-                  aria-hidden="true"
-                  class="status-dot tone-fail"
-                />
-                Failed
-              </h2>
-              <div
-                class="status-value text-fail"
-                data-testid="failed-count"
-              >
-                1
-              </div>
-              <p>
-                Criteria with recorded result unmet
-              </p>
-            </div>
-            <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm status-card"
-              data-slot="card"
-            >
-              <h2
-                class="card-label"
-              >
+                  class="card-label"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="status-dot tone-open"
+                  />
+                  Not checked
+                </span>
                 <span
-                  aria-hidden="true"
-                  class="status-dot tone-open"
-                />
-                Not checked
-              </h2>
-              <div
-                class="status-value text-open"
-                data-testid="unwitnessed-count"
-              >
-                1
-              </div>
-              <p>
-                Criteria without a confirmed result
-              </p>
+                  class="status-value text-open"
+                  data-testid="unwitnessed-count"
+                >
+                  1
+                </span>
+                <span
+                  class="status-description"
+                >
+                  Criteria without a confirmed result
+                </span>
+              </button>
             </div>
           </div>
           <div
@@ -8673,7 +8009,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
           >
             <div
               aria-label="Criteria and evidence"
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criteria-panel"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel criteria-panel"
               data-slot="card"
               role="region"
             >
@@ -8696,6 +8032,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                   <button
                     aria-pressed="false"
                     class="criterion-button"
+                    data-status="met"
                     type="button"
                   >
                     <span
@@ -8733,6 +8070,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                   <button
                     aria-pressed="true"
                     class="criterion-button"
+                    data-status="unmet"
                     type="button"
                   >
                     <span
@@ -8770,6 +8108,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                   <button
                     aria-pressed="false"
                     class="criterion-button"
+                    data-status="unverified"
                     type="button"
                   >
                     <span
@@ -8813,7 +8152,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
             </div>
             <div
               aria-label="Project preview"
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel project-preview"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel project-preview"
               data-slot="card"
               role="region"
             >
@@ -8977,10 +8316,11 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
             </div>
             <div
               aria-label="Criterion detail"
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criterion-detail"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel criterion-detail"
               data-slot="card"
               id="criterion-detail"
               role="region"
+              tabindex="-1"
             >
               <div
                 class="panel-heading"
@@ -9048,7 +8388,8 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                 </div>
               </dl>
               <div
-                class="space-y-4"
+                class="recorded-result space-y-4"
+                data-status="unmet"
               >
                 <h3
                   class="text-sm"
@@ -9130,7 +8471,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
               </div>
             </div>
             <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel timeline-panel"
               data-slot="card"
             >
               <div
@@ -9143,11 +8484,18 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                   class="timeline-view"
                 >
                   <div
-                    class="panel-heading"
+                    class="view-heading"
                   >
-                    <h2>
-                      Timeline
-                    </h2>
+                    <div>
+                      <h2>
+                        Timeline
+                      </h2>
+                      <p
+                        class="text-2"
+                      >
+                        Follow the recorded sequence; open an event to inspect its evidence.
+                      </p>
+                    </div>
                     <span
                       class="section-note"
                     >
@@ -10084,7 +9432,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
             >
               <div
                 aria-label="Evidence graph"
-                class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel evidence-graph"
+                class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel evidence-graph"
                 data-slot="card"
                 role="region"
               >
@@ -10879,7 +10227,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
               </div>
               <div
                 aria-label="Record details"
-                class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel node-detail"
+                class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel node-detail"
                 data-slot="card"
                 role="region"
               >
@@ -10904,7 +10252,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
               </div>
             </div>
             <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel diff-panel"
+              class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground panel diff-panel"
               data-slot="card"
             >
               <div
@@ -14661,9 +14009,19 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, client lens,
           </div>
         </div>
       </nav>
+      <button
+        aria-label="Open run: Build a small landing page with a contact form. · Run details"
+        class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+        data-size="sm"
+        data-slot="button"
+        data-variant="outline"
+        type="button"
+      >
+        Run details
+      </button>
     </header>
     <div
-      class="workspace terminal-workspace "
+      class="workspace terminal-workspace"
     >
       <main
         id="main-content"
@@ -14697,15 +14055,37 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, client lens,
             This browser checks the file's internal consistency only; it does not verify signatures.
           </p>
         </aside>
+        <div
+          class="review-return"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+            data-size="sm"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
+          >
+            Review criteria
+          </button>
+        </div>
         <section
           class="timeline-view"
         >
           <div
-            class="panel-heading"
+            class="view-heading"
           >
-            <h1>
-              Timeline
-            </h1>
+            <div>
+              <h1
+                tabindex="-1"
+              >
+                Timeline
+              </h1>
+              <p
+                class="text-2"
+              >
+                Follow the recorded sequence; open an event to inspect its evidence.
+              </p>
+            </div>
             <span
               class="section-note"
             >
@@ -15581,424 +14961,6 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, client lens,
           </section>
         </section>
       </main>
-      <aside
-        aria-label="Evidence drawer"
-        class="evidence-rail"
-      >
-        <div
-          class="rail-sticky"
-        >
-          <section
-            class="rail-evidence"
-          >
-            <div
-              class="panel-heading"
-            >
-              <h2>
-                Evidence drawer
-              </h2>
-              <span
-                class="section-note"
-              >
-                6 events
-              </span>
-            </div>
-            <div
-              class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col rail-tabs"
-              data-orientation="horizontal"
-              data-slot="tabs"
-              dir="ltr"
-            >
-              <div
-                aria-label="Filter evidence"
-                aria-orientation="horizontal"
-                class="group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-2 text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none bg-muted"
-                data-orientation="horizontal"
-                data-slot="tabs-list"
-                data-variant="default"
-                role="tablist"
-                style="outline: none;"
-                tabindex="0"
-              >
-                <button
-                  aria-controls="radix-_r_5_-content-overview"
-                  aria-selected="true"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="active"
-                  id="radix-_r_5_-trigger-overview"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Overview
-                </button>
-                <button
-                  aria-controls="radix-_r_5_-content-tests"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_5_-trigger-tests"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Tests
-                </button>
-                <button
-                  aria-controls="radix-_r_5_-content-artifacts"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_5_-trigger-artifacts"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Files
-                </button>
-                <button
-                  aria-controls="radix-_r_5_-content-time"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_5_-trigger-time"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Time
-                </button>
-              </div>
-              <div
-                aria-labelledby="radix-_r_5_-trigger-overview"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="active"
-                id="radix-_r_5_-content-overview"
-                role="tabpanel"
-                tabindex="0"
-              >
-                <ul
-                  class="rail-list"
-                >
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          evidence.attached
-                        </strong>
-                        <code>
-                          #7 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Agent process finished (exit 0)
-                        </strong>
-                        <code>
-                          #8 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Files changed: index.html
-                        </strong>
-                        <code>
-                          #12 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-file-text"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
-                          />
-                          <path
-                            d="M14 2v5a1 1 0 0 0 1 1h5"
-                          />
-                          <path
-                            d="M10 9H8"
-                          />
-                          <path
-                            d="M16 13H8"
-                          />
-                          <path
-                            d="M16 17H8"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          File recorded: index.html
-                        </strong>
-                        <code>
-                          #13 · artifact.recorded
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-list-checks"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M13 5h8"
-                          />
-                          <path
-                            d="M13 12h8"
-                          />
-                          <path
-                            d="M13 19h8"
-                          />
-                          <path
-                            d="m3 17 2 2 4-4"
-                          />
-                          <path
-                            d="m3 7 2 2 4-4"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
-                        </strong>
-                        <code>
-                          #14 · test.reported
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-list-checks"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M13 5h8"
-                          />
-                          <path
-                            d="M13 12h8"
-                          />
-                          <path
-                            d="M13 19h8"
-                          />
-                          <path
-                            d="m3 17 2 2 4-4"
-                          />
-                          <path
-                            d="m3 7 2 2 4-4"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
-                        </strong>
-                        <code>
-                          #15 · test.reported
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <div
-                aria-labelledby="radix-_r_5_-trigger-tests"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_5_-content-tests"
-                role="tabpanel"
-                tabindex="0"
-              />
-              <div
-                aria-labelledby="radix-_r_5_-trigger-artifacts"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_5_-content-artifacts"
-                role="tabpanel"
-                tabindex="0"
-              />
-              <div
-                aria-labelledby="radix-_r_5_-trigger-time"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_5_-content-time"
-                role="tabpanel"
-                tabindex="0"
-              />
-            </div>
-            <p
-              class="trust-seal"
-            >
-              Integrity is not approval
-            </p>
-          </section>
-        </div>
-      </aside>
     </div>
   </div>
 </DocumentFragment>
@@ -16275,9 +15237,19 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, developer le
           </div>
         </div>
       </nav>
+      <button
+        aria-label="Open run: Build a small landing page with a contact form. · Run details"
+        class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+        data-size="sm"
+        data-slot="button"
+        data-variant="outline"
+        type="button"
+      >
+        Run details
+      </button>
     </header>
     <div
-      class="workspace terminal-workspace "
+      class="workspace terminal-workspace"
     >
       <main
         id="main-content"
@@ -16311,15 +15283,37 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, developer le
             This browser checks the file's internal consistency only; it does not verify signatures.
           </p>
         </aside>
+        <div
+          class="review-return"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+            data-size="sm"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
+          >
+            Review criteria
+          </button>
+        </div>
         <section
           class="timeline-view"
         >
           <div
-            class="panel-heading"
+            class="view-heading"
           >
-            <h1>
-              Timeline
-            </h1>
+            <div>
+              <h1
+                tabindex="-1"
+              >
+                Timeline
+              </h1>
+              <p
+                class="text-2"
+              >
+                Follow the recorded sequence; open an event to inspect its evidence.
+              </p>
+            </div>
             <span
               class="section-note"
             >
@@ -17243,424 +16237,6 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, developer le
           </section>
         </section>
       </main>
-      <aside
-        aria-label="Evidence drawer"
-        class="evidence-rail"
-      >
-        <div
-          class="rail-sticky"
-        >
-          <section
-            class="rail-evidence"
-          >
-            <div
-              class="panel-heading"
-            >
-              <h2>
-                Evidence drawer
-              </h2>
-              <span
-                class="section-note"
-              >
-                6 events
-              </span>
-            </div>
-            <div
-              class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col rail-tabs"
-              data-orientation="horizontal"
-              data-slot="tabs"
-              dir="ltr"
-            >
-              <div
-                aria-label="Filter evidence"
-                aria-orientation="horizontal"
-                class="group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-2 text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none bg-muted"
-                data-orientation="horizontal"
-                data-slot="tabs-list"
-                data-variant="default"
-                role="tablist"
-                style="outline: none;"
-                tabindex="0"
-              >
-                <button
-                  aria-controls="radix-_r_n_-content-overview"
-                  aria-selected="true"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="active"
-                  id="radix-_r_n_-trigger-overview"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Overview
-                </button>
-                <button
-                  aria-controls="radix-_r_n_-content-tests"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_n_-trigger-tests"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Tests
-                </button>
-                <button
-                  aria-controls="radix-_r_n_-content-artifacts"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_n_-trigger-artifacts"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Files
-                </button>
-                <button
-                  aria-controls="radix-_r_n_-content-time"
-                  aria-selected="false"
-                  class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
-                  data-orientation="horizontal"
-                  data-radix-collection-item=""
-                  data-slot="tabs-trigger"
-                  data-state="inactive"
-                  id="radix-_r_n_-trigger-time"
-                  role="tab"
-                  tabindex="-1"
-                  type="button"
-                >
-                  Time
-                </button>
-              </div>
-              <div
-                aria-labelledby="radix-_r_n_-trigger-overview"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="active"
-                id="radix-_r_n_-content-overview"
-                role="tabpanel"
-                tabindex="0"
-              >
-                <ul
-                  class="rail-list"
-                >
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          evidence.attached
-                        </strong>
-                        <code>
-                          #7 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Agent process finished (exit 0)
-                        </strong>
-                        <code>
-                          #8 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-clock"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="12"
-                            cy="12"
-                            r="10"
-                          />
-                          <path
-                            d="M12 6v6l4 2"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Files changed: index.html
-                        </strong>
-                        <code>
-                          #12 · evidence.attached
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-file-text"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"
-                          />
-                          <path
-                            d="M14 2v5a1 1 0 0 0 1 1h5"
-                          />
-                          <path
-                            d="M10 9H8"
-                          />
-                          <path
-                            d="M16 13H8"
-                          />
-                          <path
-                            d="M16 17H8"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          File recorded: index.html
-                        </strong>
-                        <code>
-                          #13 · artifact.recorded
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-list-checks"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M13 5h8"
-                          />
-                          <path
-                            d="M13 12h8"
-                          />
-                          <path
-                            d="M13 19h8"
-                          />
-                          <path
-                            d="m3 17 2 2 4-4"
-                          />
-                          <path
-                            d="m3 7 2 2 4-4"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
-                        </strong>
-                        <code>
-                          #14 · test.reported
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      type="button"
-                    >
-                      <span
-                        class="rail-icon"
-                      >
-                        <svg
-                          aria-hidden="true"
-                          class="lucide lucide-list-checks"
-                          fill="none"
-                          height="14"
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          viewBox="0 0 24 24"
-                          width="14"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M13 5h8"
-                          />
-                          <path
-                            d="M13 12h8"
-                          />
-                          <path
-                            d="M13 19h8"
-                          />
-                          <path
-                            d="m3 17 2 2 4-4"
-                          />
-                          <path
-                            d="m3 7 2 2 4-4"
-                          />
-                        </svg>
-                      </span>
-                      <span>
-                        <strong>
-                          Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
-                        </strong>
-                        <code>
-                          #15 · test.reported
-                        </code>
-                      </span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <div
-                aria-labelledby="radix-_r_n_-trigger-tests"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_n_-content-tests"
-                role="tabpanel"
-                tabindex="0"
-              />
-              <div
-                aria-labelledby="radix-_r_n_-trigger-artifacts"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_n_-content-artifacts"
-                role="tabpanel"
-                tabindex="0"
-              />
-              <div
-                aria-labelledby="radix-_r_n_-trigger-time"
-                class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                data-orientation="horizontal"
-                data-slot="tabs-content"
-                data-state="inactive"
-                hidden=""
-                id="radix-_r_n_-content-time"
-                role="tabpanel"
-                tabindex="0"
-              />
-            </div>
-            <p
-              class="trust-seal"
-            >
-              Integrity is not approval
-            </p>
-          </section>
-        </div>
-      </aside>
     </div>
   </div>
 </DocumentFragment>
@@ -17669,7 +16245,7 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, developer le
 exports[`recorded viewer layouts and renderer snapshots > criterion drawer with diff and synthetic Markdown, client lens 1`] = `
 <DocumentFragment>
   <div
-    aria-describedby="evidence-description radix-_r_c_"
+    aria-describedby="evidence-description radix-_r_2_"
     aria-label="Evidence detail"
     class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
     data-slot="sheet-content"
@@ -17692,7 +16268,7 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
         data-slot="sheet-title"
         id="evidence-title"
       >
-        Details
+        Criterion: Synthetic renderer snapshot fixture
       </h2>
       <p
         class="text-sm text-muted-foreground sr-only"
@@ -17723,14 +16299,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           tabindex="0"
         >
           <button
-            aria-controls="radix-_r_d_-content-overview"
+            aria-controls="radix-_r_3_-content-overview"
             aria-selected="true"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="active"
-            id="radix-_r_d_-trigger-overview"
+            id="radix-_r_3_-trigger-overview"
             role="tab"
             tabindex="0"
             type="button"
@@ -17738,14 +16314,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Overview
           </button>
           <button
-            aria-controls="radix-_r_d_-content-tests"
+            aria-controls="radix-_r_3_-content-tests"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_d_-trigger-tests"
+            id="radix-_r_3_-trigger-tests"
             role="tab"
             tabindex="-1"
             type="button"
@@ -17753,14 +16329,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Tests
           </button>
           <button
-            aria-controls="radix-_r_d_-content-artifacts"
+            aria-controls="radix-_r_3_-content-artifacts"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_d_-trigger-artifacts"
+            id="radix-_r_3_-trigger-artifacts"
             role="tab"
             tabindex="-1"
             type="button"
@@ -17768,14 +16344,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Files
           </button>
           <button
-            aria-controls="radix-_r_d_-content-time"
+            aria-controls="radix-_r_3_-content-time"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_d_-trigger-time"
+            id="radix-_r_3_-trigger-time"
             role="tab"
             tabindex="-1"
             type="button"
@@ -17784,12 +16360,12 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           </button>
         </div>
         <div
-          aria-labelledby="radix-_r_d_-trigger-overview"
+          aria-labelledby="radix-_r_3_-trigger-overview"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="active"
-          id="radix-_r_d_-content-overview"
+          id="radix-_r_3_-content-overview"
           role="tabpanel"
           tabindex="0"
         >
@@ -21369,35 +19945,35 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           </div>
         </div>
         <div
-          aria-labelledby="radix-_r_d_-trigger-tests"
+          aria-labelledby="radix-_r_3_-trigger-tests"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_d_-content-tests"
+          id="radix-_r_3_-content-tests"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_d_-trigger-artifacts"
+          aria-labelledby="radix-_r_3_-trigger-artifacts"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_d_-content-artifacts"
+          id="radix-_r_3_-content-artifacts"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_d_-trigger-time"
+          aria-labelledby="radix-_r_3_-trigger-time"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_d_-content-time"
+          id="radix-_r_3_-content-time"
           role="tabpanel"
           tabindex="0"
         />
@@ -21440,7 +20016,7 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
 exports[`recorded viewer layouts and renderer snapshots > criterion drawer with diff and synthetic Markdown, developer lens 1`] = `
 <DocumentFragment>
   <div
-    aria-describedby="evidence-description radix-_r_u_"
+    aria-describedby="evidence-description radix-_r_a_"
     aria-label="Evidence detail"
     class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
     data-slot="sheet-content"
@@ -21463,7 +20039,7 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
         data-slot="sheet-title"
         id="evidence-title"
       >
-        Evidence detail
+        Criterion: Synthetic renderer snapshot fixture
       </h2>
       <p
         class="text-sm text-muted-foreground sr-only"
@@ -21494,14 +20070,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           tabindex="0"
         >
           <button
-            aria-controls="radix-_r_v_-content-overview"
+            aria-controls="radix-_r_b_-content-overview"
             aria-selected="true"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="active"
-            id="radix-_r_v_-trigger-overview"
+            id="radix-_r_b_-trigger-overview"
             role="tab"
             tabindex="0"
             type="button"
@@ -21509,14 +20085,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Overview
           </button>
           <button
-            aria-controls="radix-_r_v_-content-tests"
+            aria-controls="radix-_r_b_-content-tests"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_v_-trigger-tests"
+            id="radix-_r_b_-trigger-tests"
             role="tab"
             tabindex="-1"
             type="button"
@@ -21524,14 +20100,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Tests
           </button>
           <button
-            aria-controls="radix-_r_v_-content-artifacts"
+            aria-controls="radix-_r_b_-content-artifacts"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_v_-trigger-artifacts"
+            id="radix-_r_b_-trigger-artifacts"
             role="tab"
             tabindex="-1"
             type="button"
@@ -21539,14 +20115,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Files
           </button>
           <button
-            aria-controls="radix-_r_v_-content-time"
+            aria-controls="radix-_r_b_-content-time"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_v_-trigger-time"
+            id="radix-_r_b_-trigger-time"
             role="tab"
             tabindex="-1"
             type="button"
@@ -21555,12 +20131,12 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           </button>
         </div>
         <div
-          aria-labelledby="radix-_r_v_-trigger-overview"
+          aria-labelledby="radix-_r_b_-trigger-overview"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="active"
-          id="radix-_r_v_-content-overview"
+          id="radix-_r_b_-content-overview"
           role="tabpanel"
           tabindex="0"
         >
@@ -25268,35 +23844,35 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           </div>
         </div>
         <div
-          aria-labelledby="radix-_r_v_-trigger-tests"
+          aria-labelledby="radix-_r_b_-trigger-tests"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_v_-content-tests"
+          id="radix-_r_b_-content-tests"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_v_-trigger-artifacts"
+          aria-labelledby="radix-_r_b_-trigger-artifacts"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_v_-content-artifacts"
+          id="radix-_r_b_-content-artifacts"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_v_-trigger-time"
+          aria-labelledby="radix-_r_b_-trigger-time"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_v_-content-time"
+          id="radix-_r_b_-content-time"
           role="tabpanel"
           tabindex="0"
         />
@@ -25360,7 +23936,7 @@ exports[`recorded viewer layouts and renderer snapshots > preserves plain text b
 exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown source toggle inside the criterion drawer 1`] = `
 <DocumentFragment>
   <div
-    aria-describedby="evidence-description radix-_r_16_"
+    aria-describedby="evidence-description radix-_r_i_"
     aria-label="Evidence detail"
     class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
     data-slot="sheet-content"
@@ -25383,7 +23959,7 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
         data-slot="sheet-title"
         id="evidence-title"
       >
-        Details
+        Criterion: Synthetic renderer snapshot fixture
       </h2>
       <p
         class="text-sm text-muted-foreground sr-only"
@@ -25414,14 +23990,14 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
           tabindex="0"
         >
           <button
-            aria-controls="radix-_r_17_-content-overview"
+            aria-controls="radix-_r_j_-content-overview"
             aria-selected="true"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="active"
-            id="radix-_r_17_-trigger-overview"
+            id="radix-_r_j_-trigger-overview"
             role="tab"
             tabindex="0"
             type="button"
@@ -25429,14 +24005,14 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
             Overview
           </button>
           <button
-            aria-controls="radix-_r_17_-content-tests"
+            aria-controls="radix-_r_j_-content-tests"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_17_-trigger-tests"
+            id="radix-_r_j_-trigger-tests"
             role="tab"
             tabindex="-1"
             type="button"
@@ -25444,14 +24020,14 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
             Tests
           </button>
           <button
-            aria-controls="radix-_r_17_-content-artifacts"
+            aria-controls="radix-_r_j_-content-artifacts"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_17_-trigger-artifacts"
+            id="radix-_r_j_-trigger-artifacts"
             role="tab"
             tabindex="-1"
             type="button"
@@ -25459,14 +24035,14 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
             Files
           </button>
           <button
-            aria-controls="radix-_r_17_-content-time"
+            aria-controls="radix-_r_j_-content-time"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_17_-trigger-time"
+            id="radix-_r_j_-trigger-time"
             role="tab"
             tabindex="-1"
             type="button"
@@ -25475,12 +24051,12 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
           </button>
         </div>
         <div
-          aria-labelledby="radix-_r_17_-trigger-overview"
+          aria-labelledby="radix-_r_j_-trigger-overview"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="active"
-          id="radix-_r_17_-content-overview"
+          id="radix-_r_j_-content-overview"
           role="tabpanel"
           tabindex="0"
         >
@@ -29038,35 +27614,35 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
           </div>
         </div>
         <div
-          aria-labelledby="radix-_r_17_-trigger-tests"
+          aria-labelledby="radix-_r_j_-trigger-tests"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_17_-content-tests"
+          id="radix-_r_j_-content-tests"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_17_-trigger-artifacts"
+          aria-labelledby="radix-_r_j_-trigger-artifacts"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_17_-content-artifacts"
+          id="radix-_r_j_-content-artifacts"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_17_-trigger-time"
+          aria-labelledby="radix-_r_j_-trigger-time"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_17_-content-time"
+          id="radix-_r_j_-content-time"
           role="tabpanel"
           tabindex="0"
         />

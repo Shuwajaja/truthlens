@@ -35,6 +35,9 @@ try{
    return {profile:document.documentElement.dataset.viewerTheme,bg:getComputedStyle(document.body).backgroundColor,approval:getComputedStyle(status).color,approvalState:status.dataset.state,font:getComputedStyle(document.body).fontFamily,
     dots:[...document.querySelectorAll('.status-card .status-dot')].map(el=>getComputedStyle(el).backgroundColor),
     activeBorder:innerWidth<=760?navStyle.borderTopColor:navStyle.borderBottomColor,
+    activeText:navStyle.color,
+    cards:[...document.querySelectorAll('.status-card')].map(el=>({status:el.dataset.status,rail:getComputedStyle(el).borderLeftColor,width:getComputedStyle(el).borderLeftWidth,fill:getComputedStyle(el).backgroundColor,number:getComputedStyle(el.querySelector('.status-value')).color})),
+    criteria:[...document.querySelectorAll('.criterion-button')].map(el=>({status:el.dataset.status,rail:getComputedStyle(el).borderLeftColor,width:getComputedStyle(el).borderLeftWidth,fill:getComputedStyle(el).backgroundColor})),
     forbidden:[...document.querySelectorAll('body *')].some(el=>{if(!el.checkVisibility())return false;const style=getComputedStyle(el);return /Inter Variable/i.test(style.fontFamily)||['color','backgroundColor','borderColor'].some(key=>['rgb(59, 130, 246)','rgb(139, 92, 246)'].includes(style[key]))})}
   })
   assert.equal(semantics.profile,undefined)
@@ -42,8 +45,24 @@ try{
   assert.equal(semantics.approval,'rgb(245, 158, 11)')
   assert.equal(semantics.approvalState,'open')
   assert.deepEqual(semantics.dots,['rgb(16, 185, 129)','rgb(244, 63, 94)','rgb(113, 113, 122)'])
-  assert.equal(semantics.activeBorder,'rgb(244, 244, 245)')
+  assert.equal(semantics.activeBorder,'rgb(16, 185, 129)')
+  assert.equal(semantics.activeText,'rgb(16, 185, 129)')
+  const accents={'met':'rgb(16, 185, 129)','unmet':'rgb(251, 113, 133)','unverified':'rgb(161, 161, 170)'}
+  for(const item of [...semantics.cards,...semantics.criteria]){
+   assert.equal(item.rail,accents[item.status]);assert.equal(item.width,'4px');assert.notEqual(item.fill,'rgba(0, 0, 0, 0)')
+   if(item.number)assert.equal(item.number,accents[item.status])
+  }
   assert(semantics.font.includes('Plus Jakarta Sans')&&!semantics.forbidden,'final Stitch font/colours in Overview UI')
+  const paintedTints=await page.locator('.status-card').evaluateAll(cards=>{
+   const context=document.createElement('canvas').getContext('2d')
+   const rgb=value=>{context.clearRect(0,0,1,1);context.fillStyle=value;context.fillRect(0,0,1,1);return [...context.getImageData(0,0,1,1).data].slice(0,3)}
+   const root=getComputedStyle(document.documentElement),surface=rgb(root.getPropertyValue('--surface'))
+   return cards.map(el=>{
+    const key={met:'success',unmet:'error',unverified:'neutral'}[el.dataset.status],tint=rgb(root.getPropertyValue('--'+key))
+    return {status:el.dataset.status,actual:rgb(getComputedStyle(el).backgroundColor),expected:surface.map((v,i)=>v*.9+tint[i]*.1)}
+   })
+  })
+  for(const tint of paintedTints)tint.actual.forEach((v,i)=>assert(Math.abs(v-tint.expected[i])<=1,'actual10% status surface'))
   assert.equal(await page.locator('.sidebar .nav-list button').count(),4)
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true)
   const geometry=await page.locator('.overview-workspace').evaluate(el=>Object.fromEntries(['criteria-panel','project-preview','criterion-detail','timeline-panel'].map(name=>{const b=el.querySelector('.'+name).getBoundingClientRect();return [name,{x:b.x,y:b.y,right:b.right}]})))
@@ -79,10 +98,27 @@ try{
    const trigger=page.locator('.criterion-button').filter({hasText:criterion.text})
    await trigger.click();assert.equal(await trigger.getAttribute('aria-pressed'),'true')
    const detail=page.getByRole('region',{name:'Criterion detail'})
+   const result=detail.locator('.recorded-result')
+   assert.equal(await result.getAttribute('data-status'),criterion.status)
+   assert.equal(await result.evaluate(el=>getComputedStyle(el).borderLeftColor),accents[criterion.status])
    assert(await detail.getByText(criterion.text,{exact:true}).isVisible())
    if(criterion.evidence.length===0)assert(await detail.getByText('No evidence events exported for this criterion.').isVisible())
   }
-  report.actualExport.push({viewport,lens,geometry,selectionChecks:doc.criteria.length,sandboxOpaqueOrigin:true,inert:true,paintedColours,semantics})
+  const navigation=[]
+  for(const index of [0,1,2,3]){
+   await page.getByRole('navigation',{name:'Viewer navigation',exact:true}).getByRole('button').nth(index).click()
+   const style=await page.locator('.nav-item-active').evaluate(el=>{const s=getComputedStyle(el);return {text:s.color,border:innerWidth<=760?s.borderTopColor:s.borderBottomColor}})
+   assert.equal(style.text,accents.met);assert.equal(style.border,accents.met);navigation.push({index,...style})
+  }
+  await (viewport.width===390?page.locator('.compact-trust'):page.getByRole('button',{name:/^Open run:/})).click()
+  const dialog=page.getByRole('dialog'),tabs=dialog.getByRole('tab'),activeTabs=[]
+  for(let i=0;i<await tabs.count();i++){
+   await tabs.nth(i).click()
+   const style=await tabs.nth(i).evaluate(el=>{const s=getComputedStyle(el);return {name:el.textContent,text:s.color,border:s.borderBottomColor,fill:s.backgroundColor}})
+   assert.equal(style.text,accents.met);assert.equal(style.border,accents.met);activeTabs.push(style)
+  }
+  await page.keyboard.press('Escape')
+  report.actualExport.push({viewport,lens,geometry,selectionChecks:doc.criteria.length,sandboxOpaqueOrigin:true,inert:true,paintedColours,semantics,paintedTints,navigation,activeTabs})
   await context.close()
  }
  // Fixtures exercise denied behavior independently from the real-export screenshots.
