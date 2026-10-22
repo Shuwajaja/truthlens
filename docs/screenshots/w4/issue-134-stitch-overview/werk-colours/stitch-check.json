@@ -1,0 +1,195 @@
+{
+  "actualExport": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "geometry": {
+        "criteria-panel": {
+          "x": 24,
+          "y": 446,
+          "right": 457.546875
+        },
+        "project-preview": {
+          "x": 481.546875,
+          "y": 446,
+          "right": 958.4375
+        },
+        "criterion-detail": {
+          "x": 982.4375,
+          "y": 446,
+          "right": 1416
+        },
+        "timeline-panel": {
+          "x": 24,
+          "y": 796,
+          "right": 457.546875
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64,
+      "semantics": {
+        "approval": "rgb(245, 158, 11)",
+        "approvalState": "open",
+        "font": "\"Inter Variable\", system-ui, sans-serif",
+        "dots": [
+          "rgb(16, 185, 129)",
+          "rgb(239, 68, 68)",
+          "rgb(107, 114, 128)"
+        ],
+        "activeBorder": "rgb(59, 130, 246)",
+        "forbidden": false
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "geometry": {
+        "criteria-panel": {
+          "x": 24,
+          "y": 446,
+          "right": 457.546875
+        },
+        "project-preview": {
+          "x": 481.546875,
+          "y": 446,
+          "right": 958.4375
+        },
+        "criterion-detail": {
+          "x": 982.4375,
+          "y": 446,
+          "right": 1416
+        },
+        "timeline-panel": {
+          "x": 24,
+          "y": 796,
+          "right": 457.546875
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64,
+      "semantics": {
+        "approval": "rgb(245, 158, 11)",
+        "approvalState": "open",
+        "font": "\"Inter Variable\", system-ui, sans-serif",
+        "dots": [
+          "rgb(16, 185, 129)",
+          "rgb(239, 68, 68)",
+          "rgb(107, 114, 128)"
+        ],
+        "activeBorder": "rgb(59, 130, 246)",
+        "forbidden": false
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "geometry": {
+        "criteria-panel": {
+          "x": 16,
+          "y": 661,
+          "right": 374
+        },
+        "project-preview": {
+          "x": 16,
+          "y": 1089,
+          "right": 374
+        },
+        "criterion-detail": {
+          "x": 16,
+          "y": 1691,
+          "right": 374
+        },
+        "timeline-panel": {
+          "x": 16,
+          "y": 2241,
+          "right": 374
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64,
+      "semantics": {
+        "approval": "rgb(245, 158, 11)",
+        "approvalState": "open",
+        "font": "\"Inter Variable\", system-ui, sans-serif",
+        "dots": [
+          "rgb(16, 185, 129)",
+          "rgb(239, 68, 68)",
+          "rgb(107, 114, 128)"
+        ],
+        "activeBorder": "rgb(59, 130, 246)",
+        "forbidden": false
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "geometry": {
+        "criteria-panel": {
+          "x": 16,
+          "y": 661,
+          "right": 374
+        },
+        "project-preview": {
+          "x": 16,
+          "y": 1089,
+          "right": 374
+        },
+        "criterion-detail": {
+          "x": 16,
+          "y": 1691,
+          "right": 374
+        },
+        "timeline-panel": {
+          "x": 16,
+          "y": 2241,
+          "right": 374
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64,
+      "semantics": {
+        "approval": "rgb(245, 158, 11)",
+        "approvalState": "open",
+        "font": "\"Inter Variable\", system-ui, sans-serif",
+        "dots": [
+          "rgb(16, 185, 129)",
+          "rgb(239, 68, 68)",
+          "rgb(107, 114, 128)"
+        ],
+        "activeBorder": "rgb(59, 130, 246)",
+        "forbidden": false
+      }
+    }
+  ],
+  "fixture": "Synthetic hostile/missing-body scenarios; never recorded evidence",
+  "externalRequests": [],
+  "unexpectedErrors": [],
+  "expectedScriptBlocks": 4,
+  "fixtureDenials": [
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Loading the image 'https://preview-probe.invalid/image' violates the following Content Security Policy directive: \"img-src data:\". The action has been blocked.",
+    "Blocked form submission to 'https://preview-probe.invalid/form' because the form's frame is sandboxed and the 'allow-forms' permission is not set."
+  ],
+  "testedSourceCommit": "5b69fa91e0e1c4746559fd0423564097f0861db4",
+  "testedSourceTree": "43c176e733dd891da0d6fdb2a85bba544952bf85"
+}

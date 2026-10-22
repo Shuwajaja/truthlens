@@ -1,5 +1,7 @@
 # Stitch Overview verification — 2026-10-22
 
+**Latest colour mapping and screenshots:** [WERK follow-up](werk-colours/axe-summary.md). The report below records the preceding source and its original neutral Approval styling.
+
 Tested source: [`a4010db2b37758610ebc2b0afd4ae553e75448ea`](https://github.com/Shuwajaja/truthlens/commit/a4010db2b37758610ebc2b0afd4ae553e75448ea), tree `58d532ea439f928235abeed5a402d3181095cb95`. The full axe audit was run on this clean source commit. Production build, Chromium156.0.8078.4, Playwright1.64.1, axe-core4.14.0. Local loopback preview; no hosted validation claimed.
 
 ## Approved design and scope
