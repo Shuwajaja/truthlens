@@ -2,6 +2,11 @@
 Binding viewer reference. Use the supplied TruthLens desktop/mobile reference images and Shu's logo.
 Purpose: a calm, readable view of recorded evidence. Every colour has a meaning; other content is grey or white.
 
+## Semantic accents (Shu follow-up, 22 October 2026)
+KPI cards use a 4px left status rail, a 10% status tint over the surface, and status-coloured numerals. Proven uses emerald; failed uses rose with rose400 AA text; Not checked stays neutral. Criterion rows and their recorded-result blocks use the same status rails/tints, never a fabricated progress percentage. Approval OPEN alone uses the amber tint; unknown integrity/claims remain neutral.
+
+Central theme tokens define the tints and navigation accent. Active navigation and evidence tabs use an emerald edge/underline plus a subtle emerald tint to mean selected, retaining aria-current/data-state and text. This owner-approved selection meaning is an explicit exception to green-for-recorded-success; selected navigation is never proof. Lens controls and hash-only notice stay neutral. Text contrast >=4.5:1 and meaningful rails/active indicators >=3:1 against both adjacent surfaces; focus keeps its separate opaque neutral ring. No gradients, glow, decorative icons or new cards. All four existing views share these controls; fonts,8px spacing, recorded values and review flow remain unchanged.
+
 ## 1. One final Stitch theme (sole colour/font source: src/theme.css)
 Shu requires the final Stitch palette on every view, lens, header, graph and portalled drawer. One unconditional `:root` token set; no view-specific theme switching or legacy blue/purple palette. Exported artifact content keeps its historical styling and is not rewritten.
 
@@ -11,7 +16,7 @@ Shu requires the final Stitch palette on every view, lens, header, graph and por
 | `--surface` | #18181B | zinc900 cards/drawers |
 | `--surface-2` | #27272A | zinc800 nested surfaces |
 | `--border` | #3F3F46 | zinc700 decorative separators |
-| `--text`, `--primary`, `--primary-text`, `--focus` | #F4F4F5 | zinc100 text, neutral active controls and focus |
+| `--text`, `--primary`, `--primary-text`, `--focus` | #F4F4F5 | zinc100 text, neutral buttons and focus |
 | `--text-2`, `--text-3`, `--secondary`, `--neutral-text` | #A1A1AA | zinc400 AA secondary text |
 | `--secondary-text` | #D4D4D8 | zinc300 control text |
 | `--neutral` | #71717A | zinc500 control boundary/unchecked indicator |
@@ -20,13 +25,15 @@ Shu requires the final Stitch palette on every view, lens, header, graph and por
 | `--error-text` | #FB7185 | rose400, AA-readable failure text on tinted surfaces |
 | `--warning` | #F59E0B | amber500, Approval OPEN |
 | `--backdrop` | #09090B80 | translucent page-colour overlay |
+| `--status-success-bg`, `--status-error-bg`, `--status-warning-bg`, `--status-neutral-bg` | 10% corresponding status + 90% surface | opaque status areas |
+| `--navigation-accent`, `--navigation-bg` | success / status-success-bg | selected navigation/tabs, never proof |
 
 Plus Jakarta Sans Variable everywhere; JetBrains Mono Variable for IDs/code. Self-hosted fonts, OFL-1.1. Spacing8px, radius12px. No literal colours or default Tailwind palette classes outside theme.css in viewer/src; CSS/SVG/graph/inline styles use semantic variables, currentColor or transparent. `check:styles` enforces this in CI and has regression fixtures. Generated standalone brand assets resolve tokens at build time and use Plus Jakarta Sans; those generated files are outside src.
 
 Focus uses `--focus`, not the informational alias: opaque2px outline with3px offset. The offset leaves the underlying zinc surface between a light filled control and its outline, so adjacent pixels are the surrounding surface, never the matching control fill. Outline contrast must be >=3:1 against bg/surface/surface-2 and tinted control neighbours; check:theme records each ratio, browser checks computed outlines and keyboard reachability. `--color-ring` also resolves to --focus; do not dilute the outline. Text pairs >=4.5:1, including rose400 on rose50010% badges. Hash-only/unchecked remain neutral; integrity is not approval stays visible.
 
 ## 2. Type
-Plus Jakarta Sans Variable for UI text, numbers, labels and times, with tabular numbers. JetBrains Mono is reserved for code, hashes, IDs and raw records.
+Plus Jakarta Sans Variable for prose; JetBrains Mono for numeric glyphs, times, code, hashes, IDs and raw records, with tabular numbers.
 | Size | Use |
 |---|---|
 | 12 | Labels, metadata, badges, times and hashes |
@@ -75,7 +82,7 @@ Node text is at least 12px. Border uses border token; unsupported claims/criteri
 - Do not translate, rename or alter recorded content, RunDoc field names or wire values.
 
 ## 9. Logo
-Keep the supplied shield/eye/check geometry and generate wordmark/icon SVGs from it. Truth and Lens use neutral text; shield outline uses text white. Brand colour is independent of success. The wordmark and shield are neutral on every view. Use the wordmark in the desktop header and icon in sidebar/mobile header. Generate favicon.svg, favicon.ico (32) and apple-touch-icon.png (180) from the same theme palette. Green is reserved for real results or guarded verified signatures.
+Keep the supplied shield/eye/check geometry and generate wordmark/icon SVGs from it. Truth and Lens use neutral text; shield outline uses text white. Brand colour is independent of success. The wordmark and shield are neutral on every view. Use the wordmark in the desktop header and icon in sidebar/mobile header. Generate favicon.svg, favicon.ico (32) and apple-touch-icon.png (180) from the same theme palette. Green is reserved for real results, guarded verified signatures and the explicitly approved navigation/tab selection accent.
 
 ## 10. UI language and plain names
 **UI language: English only, no German.** This covers visible text, accessible names, titles, tooltips, placeholders, alt text, empty/error states, navigation, drawers/sheets and Navigator. Document language is en; document title is TruthLens. Use the approved glossary exactly; other wording must be plain, literal English without jargon or marketing.
@@ -101,11 +108,37 @@ Both lenses show the exported agent claim separately from the recorded criterion
 
 Evidence is resolved only from `criterion.evidence` event IDs; never guess by prose, actor timing or matching claim finding. Unverified is labelled “Not checked — no confirmed result exported.” Missing events and missing criterion/claim links are stated explicitly; missing evidence does not erase an independently exported criterion status or fabricate a test. Event buttons open the exact referenced record. No changes to exports, event schema, approval rules or signature guards.
 
+## 15. Shared Stitch components and review path
+
+Inventory and consolidation (all four views):
+- Actions: shadcn Button for primary/outline/ghost actions; icon-free text for record navigation. Header tabs/lens controls and timeline rows remain native semantic buttons with the same token focus treatment.
+- Cards: one shadcn Card base (surface, border,12px radius,16px padding/gap). Overview panels and Claims articles reuse it; chronological Story records use a divided list. No separate card-wrap styling for Claims.
+- Badges: StatusBadge remains the sole exported-status mapping; claim finding, recorded criterion result, approval and integrity remain separate. No decorative success.
+- Tabs: shared shadcn Tabs for selected evidence; one Header/Sidebar navigation across all views. No extra permanent desktop evidence rail or inactive Navigator in the shell.
+- Tables/properties: existing node-properties definition lists for metadata and existing recorded-payload/diff renderers for raw evidence; shared borders, mono IDs and focusable scrolling. No alternative table theme.
+- Headings: PageHeading supplies the same title/action/description layout. Timeline can use level2 when embedded. A real Review criteria action in the other views returns to Overview.
+- Empty/loading/error: shared shadcn Empty + compact ViewState/Card. Missing-data copy stays specific; no sample content. Loading uses status, failures alert. Invalid export stays fail-closed.
+- Drawer: one existing Sheet/Tabs implementation, now with the selected object in its visible title, while keeping established dialog kind names and trust notices.
+
+Existing Plus Jakarta Sans/JetBrains Mono, type12/14/16/20/28 and8px spacing tokens apply everywhere; add shell/content/header/footer spacing tokens rather than parallel layouts. Four views share Header, tabs, one main content column and the same Drawer. Overview retains its approved three-column workspace inside that column.
+
+UX proposals, individually justified (review points3–8):
+3. Adopt: recorded outcome cards select the first real criterion in that category; absent categories have disabled actions. Selecting a criterion moves focus/scroll to its detail, removing the separate mobile “find the detail” step. No outcome is inferred.
+4. Adopt: a data-derived outcome sentence accompanies the three separate counts; Approval remains distinct. No run-level verified/approved claim.
+5. Adopt: remove duplicate permanent EvidenceRail/Navigator from the shell; role descriptions explain Claims, Timeline and Story. Graph/diff remain optional disclosure. All records remain accessible through the run drawer and selected evidence.
+6. Adopt existing simple criterion list as primary; retain secondary Graph and its accessible record/link list. A new graph-layout algorithm is deferred because this task does not need one.
+7. Adopt plain purpose/absence explanations and consistent record actions. A new narrative summary or rewriting exported finding vocabulary is deferred: preserve the actual chronology and claims instead of inventing a story.
+8. Adopt selected criterion/event/file/claim/run identity in the visible drawer title; preserve contextual evidence tabs, original record identity and focus return. Run-wide evidence and selected records are no longer permanently side-by-side.
+
+These are design decisions, not measured user-study results. URL persistence (point9) and authenticated comments remain separate work.
+
+Drawer focus return must not override a newer deliberate focus target during a view change; restore the trigger only while focus remains in the closing dialog or has fallen back to the body.
+
 ## Anti-AI-slop rules (binding)
 
 - No gradients, glow effects or glassmorphism; no blurred/translucent decorative surfaces. Opaque zinc surfaces and plain separators remain the baseline. Focus rings are functional accessibility indicators.
 - No decorative icons without a function, no emoji in UI copy. Icons may identify navigation, an action, event type or an actual status; always retain accessible text. Do not display a disabled future feature as a working tool.
-- Emerald/green only for recorded success, rose/red for recorded failure, amber for an open human-review state. Unknown/unverified/hash-only remain neutral. Colour never substitutes for a label or evidence.
+- Emerald/green for recorded success and the explicitly approved active-navigation/tab selection accent; rose/red for recorded failure, amber for an open human-review state. Unknown/unverified/hash-only remain neutral. Colour never substitutes for a label or evidence; navigation selection never means proof.
 - Exactly one primary purpose per view: Overview evaluates criteria; Claims compares statements with recorded outcomes; Timeline reads chronology; Story reads recorded actions and claims. Secondary technical detail stays subordinate/on demand.
 - Prefer fewer cards and more whitespace. Group meaningful tasks, not every sentence or event into another card. Keep the three functional Overview outcome groups; use simple lists for chronological records.
 - Consistent8px spacing and existing type scale. UI digits use JetBrains Mono through a digit-only font-face fallback; numeric-only fields/time use --mono directly. Prose stays Plus Jakarta Sans; no raw export text is rewritten.

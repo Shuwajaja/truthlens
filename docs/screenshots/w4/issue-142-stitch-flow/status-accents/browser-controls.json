@@ -1,0 +1,730 @@
+{
+  "actualExport": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "geometry": {
+        "criteria-panel": {
+          "x": 24,
+          "y": 516.28125,
+          "right": 457.546875
+        },
+        "project-preview": {
+          "x": 481.546875,
+          "y": 516.28125,
+          "right": 958.4375
+        },
+        "criterion-detail": {
+          "x": 982.4375,
+          "y": 516.28125,
+          "right": 1416
+        },
+        "timeline-panel": {
+          "x": 24,
+          "y": 866.28125,
+          "right": 457.546875
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64,
+      "semantics": {
+        "bg": "rgb(9, 9, 11)",
+        "approval": "rgb(245, 158, 11)",
+        "approvalState": "open",
+        "font": "\"Viewer numerals\", \"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+        "dots": [
+          "rgb(16, 185, 129)",
+          "rgb(244, 63, 94)",
+          "rgb(113, 113, 122)"
+        ],
+        "activeBorder": "rgb(16, 185, 129)",
+        "activeText": "rgb(16, 185, 129)",
+        "cards": [
+          {
+            "status": "met",
+            "rail": "rgb(16, 185, 129)",
+            "width": "4px",
+            "fill": "color(srgb 0.0909804 0.157255 0.145882)",
+            "number": "rgb(16, 185, 129)"
+          },
+          {
+            "status": "unmet",
+            "rail": "rgb(251, 113, 133)",
+            "width": "4px",
+            "fill": "color(srgb 0.180392 0.109412 0.132157)",
+            "number": "rgb(251, 113, 133)"
+          },
+          {
+            "status": "unverified",
+            "rail": "rgb(161, 161, 170)",
+            "width": "4px",
+            "fill": "color(srgb 0.12902 0.12902 0.143137)",
+            "number": "rgb(161, 161, 170)"
+          }
+        ],
+        "criteria": [
+          {
+            "status": "met",
+            "rail": "rgb(16, 185, 129)",
+            "width": "4px",
+            "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+          },
+          {
+            "status": "unmet",
+            "rail": "rgb(251, 113, 133)",
+            "width": "4px",
+            "fill": "color(srgb 0.180392 0.109412 0.132157)"
+          },
+          {
+            "status": "unverified",
+            "rail": "rgb(161, 161, 170)",
+            "width": "4px",
+            "fill": "color(srgb 0.12902 0.12902 0.143137)"
+          }
+        ],
+        "forbidden": false
+      },
+      "paintedTints": [
+        {
+          "status": "met",
+          "actual": [
+            23,
+            40,
+            37
+          ],
+          "expected": [
+            23.200000000000003,
+            40.1,
+            37.2
+          ]
+        },
+        {
+          "status": "unmet",
+          "actual": [
+            46,
+            28,
+            34
+          ],
+          "expected": [
+            46,
+            27.900000000000002,
+            33.7
+          ]
+        },
+        {
+          "status": "unverified",
+          "actual": [
+            33,
+            33,
+            36
+          ],
+          "expected": [
+            32.900000000000006,
+            32.900000000000006,
+            36.5
+          ]
+        }
+      ],
+      "navigation": [
+        {
+          "index": 0,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 1,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 2,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 3,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        }
+      ],
+      "activeTabs": [
+        {
+          "name": "Overview",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Tests",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Files",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Time",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "geometry": {
+        "criteria-panel": {
+          "x": 24,
+          "y": 516.28125,
+          "right": 457.546875
+        },
+        "project-preview": {
+          "x": 481.546875,
+          "y": 516.28125,
+          "right": 958.4375
+        },
+        "criterion-detail": {
+          "x": 982.4375,
+          "y": 516.28125,
+          "right": 1416
+        },
+        "timeline-panel": {
+          "x": 24,
+          "y": 866.28125,
+          "right": 457.546875
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64,
+      "semantics": {
+        "bg": "rgb(9, 9, 11)",
+        "approval": "rgb(245, 158, 11)",
+        "approvalState": "open",
+        "font": "\"Viewer numerals\", \"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+        "dots": [
+          "rgb(16, 185, 129)",
+          "rgb(244, 63, 94)",
+          "rgb(113, 113, 122)"
+        ],
+        "activeBorder": "rgb(16, 185, 129)",
+        "activeText": "rgb(16, 185, 129)",
+        "cards": [
+          {
+            "status": "met",
+            "rail": "rgb(16, 185, 129)",
+            "width": "4px",
+            "fill": "color(srgb 0.0909804 0.157255 0.145882)",
+            "number": "rgb(16, 185, 129)"
+          },
+          {
+            "status": "unmet",
+            "rail": "rgb(251, 113, 133)",
+            "width": "4px",
+            "fill": "color(srgb 0.180392 0.109412 0.132157)",
+            "number": "rgb(251, 113, 133)"
+          },
+          {
+            "status": "unverified",
+            "rail": "rgb(161, 161, 170)",
+            "width": "4px",
+            "fill": "color(srgb 0.12902 0.12902 0.143137)",
+            "number": "rgb(161, 161, 170)"
+          }
+        ],
+        "criteria": [
+          {
+            "status": "met",
+            "rail": "rgb(16, 185, 129)",
+            "width": "4px",
+            "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+          },
+          {
+            "status": "unmet",
+            "rail": "rgb(251, 113, 133)",
+            "width": "4px",
+            "fill": "color(srgb 0.180392 0.109412 0.132157)"
+          },
+          {
+            "status": "unverified",
+            "rail": "rgb(161, 161, 170)",
+            "width": "4px",
+            "fill": "color(srgb 0.12902 0.12902 0.143137)"
+          }
+        ],
+        "forbidden": false
+      },
+      "paintedTints": [
+        {
+          "status": "met",
+          "actual": [
+            23,
+            40,
+            37
+          ],
+          "expected": [
+            23.200000000000003,
+            40.1,
+            37.2
+          ]
+        },
+        {
+          "status": "unmet",
+          "actual": [
+            46,
+            28,
+            34
+          ],
+          "expected": [
+            46,
+            27.900000000000002,
+            33.7
+          ]
+        },
+        {
+          "status": "unverified",
+          "actual": [
+            33,
+            33,
+            36
+          ],
+          "expected": [
+            32.900000000000006,
+            32.900000000000006,
+            36.5
+          ]
+        }
+      ],
+      "navigation": [
+        {
+          "index": 0,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 1,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 2,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 3,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        }
+      ],
+      "activeTabs": [
+        {
+          "name": "Overview",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Tests",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Files",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Time",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "geometry": {
+        "criteria-panel": {
+          "x": 16,
+          "y": 713.5625,
+          "right": 374
+        },
+        "project-preview": {
+          "x": 16,
+          "y": 1141.5625,
+          "right": 374
+        },
+        "criterion-detail": {
+          "x": 16,
+          "y": 1743.5625,
+          "right": 374
+        },
+        "timeline-panel": {
+          "x": 16,
+          "y": 2536.5625,
+          "right": 374
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64,
+      "semantics": {
+        "bg": "rgb(9, 9, 11)",
+        "approval": "rgb(245, 158, 11)",
+        "approvalState": "open",
+        "font": "\"Viewer numerals\", \"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+        "dots": [
+          "rgb(16, 185, 129)",
+          "rgb(244, 63, 94)",
+          "rgb(113, 113, 122)"
+        ],
+        "activeBorder": "rgb(16, 185, 129)",
+        "activeText": "rgb(16, 185, 129)",
+        "cards": [
+          {
+            "status": "met",
+            "rail": "rgb(16, 185, 129)",
+            "width": "4px",
+            "fill": "color(srgb 0.0909804 0.157255 0.145882)",
+            "number": "rgb(16, 185, 129)"
+          },
+          {
+            "status": "unmet",
+            "rail": "rgb(251, 113, 133)",
+            "width": "4px",
+            "fill": "color(srgb 0.180392 0.109412 0.132157)",
+            "number": "rgb(251, 113, 133)"
+          },
+          {
+            "status": "unverified",
+            "rail": "rgb(161, 161, 170)",
+            "width": "4px",
+            "fill": "color(srgb 0.12902 0.12902 0.143137)",
+            "number": "rgb(161, 161, 170)"
+          }
+        ],
+        "criteria": [
+          {
+            "status": "met",
+            "rail": "rgb(16, 185, 129)",
+            "width": "4px",
+            "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+          },
+          {
+            "status": "unmet",
+            "rail": "rgb(251, 113, 133)",
+            "width": "4px",
+            "fill": "color(srgb 0.180392 0.109412 0.132157)"
+          },
+          {
+            "status": "unverified",
+            "rail": "rgb(161, 161, 170)",
+            "width": "4px",
+            "fill": "color(srgb 0.12902 0.12902 0.143137)"
+          }
+        ],
+        "forbidden": false
+      },
+      "paintedTints": [
+        {
+          "status": "met",
+          "actual": [
+            23,
+            40,
+            37
+          ],
+          "expected": [
+            23.200000000000003,
+            40.1,
+            37.2
+          ]
+        },
+        {
+          "status": "unmet",
+          "actual": [
+            46,
+            28,
+            34
+          ],
+          "expected": [
+            46,
+            27.900000000000002,
+            33.7
+          ]
+        },
+        {
+          "status": "unverified",
+          "actual": [
+            33,
+            33,
+            36
+          ],
+          "expected": [
+            32.900000000000006,
+            32.900000000000006,
+            36.5
+          ]
+        }
+      ],
+      "navigation": [
+        {
+          "index": 0,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 1,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 2,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 3,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        }
+      ],
+      "activeTabs": [
+        {
+          "name": "Overview",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Tests",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Files",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Time",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "geometry": {
+        "criteria-panel": {
+          "x": 16,
+          "y": 713.5625,
+          "right": 374
+        },
+        "project-preview": {
+          "x": 16,
+          "y": 1141.5625,
+          "right": 374
+        },
+        "criterion-detail": {
+          "x": 16,
+          "y": 1743.5625,
+          "right": 374
+        },
+        "timeline-panel": {
+          "x": 16,
+          "y": 2536.5625,
+          "right": 374
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64,
+      "semantics": {
+        "bg": "rgb(9, 9, 11)",
+        "approval": "rgb(245, 158, 11)",
+        "approvalState": "open",
+        "font": "\"Viewer numerals\", \"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+        "dots": [
+          "rgb(16, 185, 129)",
+          "rgb(244, 63, 94)",
+          "rgb(113, 113, 122)"
+        ],
+        "activeBorder": "rgb(16, 185, 129)",
+        "activeText": "rgb(16, 185, 129)",
+        "cards": [
+          {
+            "status": "met",
+            "rail": "rgb(16, 185, 129)",
+            "width": "4px",
+            "fill": "color(srgb 0.0909804 0.157255 0.145882)",
+            "number": "rgb(16, 185, 129)"
+          },
+          {
+            "status": "unmet",
+            "rail": "rgb(251, 113, 133)",
+            "width": "4px",
+            "fill": "color(srgb 0.180392 0.109412 0.132157)",
+            "number": "rgb(251, 113, 133)"
+          },
+          {
+            "status": "unverified",
+            "rail": "rgb(161, 161, 170)",
+            "width": "4px",
+            "fill": "color(srgb 0.12902 0.12902 0.143137)",
+            "number": "rgb(161, 161, 170)"
+          }
+        ],
+        "criteria": [
+          {
+            "status": "met",
+            "rail": "rgb(16, 185, 129)",
+            "width": "4px",
+            "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+          },
+          {
+            "status": "unmet",
+            "rail": "rgb(251, 113, 133)",
+            "width": "4px",
+            "fill": "color(srgb 0.180392 0.109412 0.132157)"
+          },
+          {
+            "status": "unverified",
+            "rail": "rgb(161, 161, 170)",
+            "width": "4px",
+            "fill": "color(srgb 0.12902 0.12902 0.143137)"
+          }
+        ],
+        "forbidden": false
+      },
+      "paintedTints": [
+        {
+          "status": "met",
+          "actual": [
+            23,
+            40,
+            37
+          ],
+          "expected": [
+            23.200000000000003,
+            40.1,
+            37.2
+          ]
+        },
+        {
+          "status": "unmet",
+          "actual": [
+            46,
+            28,
+            34
+          ],
+          "expected": [
+            46,
+            27.900000000000002,
+            33.7
+          ]
+        },
+        {
+          "status": "unverified",
+          "actual": [
+            33,
+            33,
+            36
+          ],
+          "expected": [
+            32.900000000000006,
+            32.900000000000006,
+            36.5
+          ]
+        }
+      ],
+      "navigation": [
+        {
+          "index": 0,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 1,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 2,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        },
+        {
+          "index": 3,
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)"
+        }
+      ],
+      "activeTabs": [
+        {
+          "name": "Overview",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Tests",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Files",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        },
+        {
+          "name": "Time",
+          "text": "rgb(16, 185, 129)",
+          "border": "rgb(16, 185, 129)",
+          "fill": "color(srgb 0.0909804 0.157255 0.145882)"
+        }
+      ]
+    }
+  ],
+  "fixture": "Synthetic hostile/missing-body scenarios; never recorded evidence",
+  "externalRequests": [],
+  "unexpectedErrors": [],
+  "expectedScriptBlocks": 4,
+  "fixtureDenials": [
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Loading the image 'https://preview-probe.invalid/image' violates the following Content Security Policy directive: \"img-src data:\". The action has been blocked.",
+    "Blocked form submission to 'https://preview-probe.invalid/form' because the form's frame is sandboxed and the 'allow-forms' permission is not set."
+  ],
+  "testedSource": "52ed0975cc12e09e4760d22ac02cb97c17673794"
+}

@@ -7,7 +7,7 @@ import {recordedTime} from './overview-data.ts'
 
 type ResultProps={criterion:Criterion;matched:RunEvent[];onOpenDrawer:(target:DrawerTarget)=>void}
 export function CriterionResult({criterion,matched,onOpenDrawer}:ResultProps){
- return <div className="space-y-4">
+ return <div className="recorded-result space-y-4" data-status={criterion.status}>
   <h3 className="text-sm">Recorded result</h3>
   <StatusBadge source="criterion" status={criterion.status}/>
   <p className="text-2">{criterion.plain}</p>
@@ -23,7 +23,7 @@ export function CriterionResult({criterion,matched,onOpenDrawer}:ResultProps){
 }
 
 export function CriterionDetail({criterion,claims,matched,onOpenDrawer}:{criterion:Criterion|undefined;claims:readonly Claim[];matched:RunEvent[];onOpenDrawer:(target:DrawerTarget)=>void}){
- return <Card id="criterion-detail" className="panel criterion-detail" role="region" aria-label="Criterion detail">
+ return <Card id="criterion-detail" tabIndex={-1} className="panel criterion-detail" role="region" aria-label="Criterion detail">
   <div className="panel-heading"><h2>Criterion detail</h2></div>
   {!criterion?<p className="text-2">Select a recorded criterion to see its evidence.</p>:<>
    <h3 className="node-title">{criterion.text}</h3>

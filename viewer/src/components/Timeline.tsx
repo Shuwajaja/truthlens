@@ -1,3 +1,5 @@
+import {PageHeading} from './PageHeading.tsx'
+import {Empty,EmptyDescription} from './ui/empty.tsx'
 import {Fragment} from 'react'
 import {Play,FilePenLine,Check,X,FileText,Quote,Circle} from 'lucide-react'
 import {recordedTime,recordedDuration} from './overview-data.ts'
@@ -41,12 +43,11 @@ export function Timeline({events,lens,onOpenDrawer,headingLevel=1}:{events:reado
  const firstResult=entries.findIndex(entry=>!setup.has(entry.event.type))
  const boundary=firstResult<0?entries.length:firstResult
  const phases=[{title:'01 Task',entries:entries.slice(0,boundary)},{title:'02 Result',entries:entries.slice(boundary)}].filter(phase=>phase.entries.length>0)
- const Heading=headingLevel===1?'h1':'h2'
  const PhaseHeading=headingLevel===1?'h2':'h3'
  const base=sorted[0]?.ts
- return <section className="timeline-view"><div className="panel-heading"><Heading>{headingLevel===1?'Timeline':'Timeline'}</Heading><span className="section-note">{events.length} events</span></div>
+ return <section className="timeline-view"><PageHeading title="Timeline" level={headingLevel} description="Follow the recorded sequence; open an event to inspect its evidence." action={<span className="section-note">{events.length} events</span>}/>
   <p className="section-note">Times come from recorded timestamps. Not live.</p>
-  {phases.length===0?<p className="text-2">No events exported.</p>:phases.map(phase=>{
+  {phases.length===0?<Empty><EmptyDescription>No events exported.</EmptyDescription></Empty>:phases.map(phase=>{
    const groups:Entry[][]=[]
    for(const entry of phase.entries){
     const last=groups.at(-1)

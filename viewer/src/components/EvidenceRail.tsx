@@ -25,13 +25,3 @@ export function EvidenceTabs({doc,onOpenDrawer}:{doc:RunDoc;onOpenDrawer:(target
     <TabsContent value="time"><dl className="run-times"><div><dt>Start</dt><dd>{recordedTime(doc.run.started)}</dd></div><div><dt>End</dt><dd>{doc.run.finished?recordedTime(doc.run.finished):'Not exported'}</dd></div><div><dt>Duration</dt><dd>{recordedDuration(doc.run.started,doc.run.finished)}</dd></div></dl></TabsContent>
    </Tabs>
 }
-
-export function EvidenceRail({doc,onOpenDrawer}:{doc:RunDoc;onOpenDrawer:(target:DrawerTarget)=>void}){
- const evidence=doc.events.filter(event=>['test.reported','artifact.recorded','evidence.attached'].includes(event.type))
- return <aside className="evidence-rail" aria-label="Evidence drawer"><div className="rail-sticky">
-  <section className="rail-evidence"><div className="panel-heading"><h2>Evidence drawer</h2><span className="section-note">{evidence.length} events</span></div>
-   <EvidenceTabs doc={doc} onOpenDrawer={onOpenDrawer}/>
-   <p className="trust-seal">Integrity is not approval</p>
-  </section>
- </div></aside>
-}

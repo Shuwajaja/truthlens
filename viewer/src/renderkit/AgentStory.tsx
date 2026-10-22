@@ -1,3 +1,6 @@
+import {PageHeading} from '../components/PageHeading.tsx'
+import {Button} from '../components/ui/button.tsx'
+import {Empty,EmptyDescription} from '../components/ui/empty.tsx'
 import type { RunDoc } from '../types.ts'
 import type { RenderContext } from './types.ts'
 import { buildStory } from './story.ts'
@@ -8,11 +11,11 @@ export function AgentStory({ doc, context }: { doc: RunDoc; context?: RenderCont
   const developer = context?.lens === 'developer'
   return (
     <section>
-      <h1 className="text-2xl font-semibold mb-6">Agent Story</h1>
+      <PageHeading title="Agent Story" description="Read the recorded actions and claims; inspect their original events."/>
       <p className="text-sm text-2 border border-border rounded-lg p-4 mb-4">
         Review required — technical checks do not replace human acceptance.
       </p>
-      {steps.length === 0 ? <p className="text-sm text-2">No recorded story events.</p> : (
+      {steps.length === 0 ? <Empty><EmptyDescription>No recorded story events.</EmptyDescription></Empty> : (
         <ol aria-label="Recorded story" className="divide-y divide-border">
           {steps.map(step => (
             <li key={step.event.id} className="py-4">
@@ -39,10 +42,10 @@ export function AgentStory({ doc, context }: { doc: RunDoc; context?: RenderCont
                   #{step.event.seq} · {step.event.type} · {step.event.id}
                 </p>
               )}
-              <button type="button" className="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+              <Button variant="outline" size="sm" className="mt-2"
                 onClick={() => context?.onOpenDrawer?.({ kind: 'event', event: step.event })}>
                 {developer ? `View event #${step.event.seq}` : 'View recorded event'}
-              </button>
+              </Button>
             </li>
           ))}
         </ol>
