@@ -53,6 +53,8 @@ Weights: 400 body, 500 labels/active navigation, 600 headings/numbers. Line heig
 - Never use green for exit 0, agent completion or “Healthy”. Unsupported is grey, never red.
 
 ## 5. Stitch Overview layout and shared navigation
+Main-view URLs use the existing four view IDs in `?view=overview`, `?view=claimed-vs-proven`, `?view=timeline` or `?view=agent-story`. Direct links/reload restore that view; navigation adds a browser history entry only when the view changes, and Back/Forward restores it. Missing/unknown values show Overview. Keep unrelated query parameters/path/hash and existing lens persistence independent. No new Share control, router, visual styling or exported-data changes.
+
 Shu approved `stitch/shu-landing-run1.html` and `.png` on 2026-10-22. Adopt their layout and the final token profile above; never copy invented data or remote scripts. The local approved files take precedence over other Stitch project variants. The final Stitch profile above applies to all views.
 
 - Compact solid header (64px desktop, 56px mobile): existing shield, neutral Truth/Lens, and tabs for the four existing views. Desktop lens controls stay in the header; mobile navigation remains four bottom tabs. No mountain/hero or additional inactive tabs/actions.

@@ -14,6 +14,7 @@ const doc = publicRun as RunDoc
 const lenses: Lens[] = ['client', 'developer']
 
 beforeEach(() => {
+  history.replaceState(null, '', '/')
   vi.stubEnv('TZ', 'UTC')
   localStorage.clear()
   vi.stubGlobal('fetch', vi.fn(async () => ({ json: async () => structuredClone(doc) })))
