@@ -22,7 +22,7 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
     <div className="page-heading"><div><h1>Projektübersicht</h1><p>Läufe, Aussagen und was davon wirklich belegt ist.</p></div><Badge>{doc.run.agent}</Badge></div>
     <div className="status-grid">
       <Card className="status-card"><div className="card-label"><ListChecks size={16} aria-hidden="true" /> Fachliche Prüfung</div>
-        <div className="status-value text-warning">{doc.review_required ? 'Prüfung offen' : 'Nicht ausgewiesen'}</div><p>Integrität ist keine Abnahme.</p></Card>
+        <div className="status-value text-open">{doc.review_required ? 'Prüfung offen' : 'Nicht ausgewiesen'}</div><p>Integrität ist keine Abnahme.</p></Card>
       <Card className="status-card"><div className="card-label"><CircleDot size={16} aria-hidden="true" /> Kriterien fehlgeschlagen</div>
         <div className="status-value text-destructive" data-testid="failed-count">{doc.counts.red}</div><p>{doc.counts.green} von {doc.criteria.length} Kriterien: met</p></Card>
       <Card className="status-card"><div className="card-label"><MessageSquare size={16} aria-hidden="true" /> Aussagen ohne Beleg</div>
@@ -60,7 +60,7 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
             kind: 'criterion', criterion, matched: criterion.evidence.flatMap(id => { const event=events.get(id); return event ? [event] : [] }),
           })}>
             <span className="criterion-content"><strong>{criterion.text}</strong><span id={`criterion-description-${index}`}>{criterion.plain}</span></span>
-            <span className="criterion-labels" id={`criterion-status-${index}`}><StatusBadge source="criterion" status={criterion.status} />{criterion.claimed && <span className="text-warning text-xs">claimed</span>}</span>
+            <span className="criterion-labels" id={`criterion-status-${index}`}><StatusBadge source="criterion" status={criterion.status} />{criterion.claimed && <span className="text-open text-xs">claimed</span>}</span>
             <ArrowUpRight size={16} aria-hidden="true" />
           </button>
         </li>)}

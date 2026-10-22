@@ -1,16 +1,16 @@
 function diffLineClass(line: string): string {
-  if (line.startsWith('@@')) return 'text-[#8b949e]'
-  if (line.startsWith('+++') || line.startsWith('---')) return 'font-semibold text-[#e6edf3]'
-  if (line.startsWith('diff --git')) return 'font-semibold text-[#e6edf3]'
-  if (line.startsWith('+')) return 'bg-[#3fb950]/15 text-[#3fb950]'
-  if (line.startsWith('-')) return 'bg-[#f85149]/15 text-[#f85149]'
-  return 'text-[#e6edf3]'
+  if (line.startsWith('@@')) return 'text-2'
+  if (line.startsWith('+++') || line.startsWith('---')) return 'font-semibold text-foreground'
+  if (line.startsWith('diff --git')) return 'font-semibold text-foreground'
+  if (line.startsWith('+')) return 'bg-ok/15 text-ok'
+  if (line.startsWith('-')) return 'bg-fail/15 text-fail'
+  return 'text-foreground'
 }
 
 export function DiffView({ text }: { text: string }) {
   const lines = text.split(/\r?\n/)
   return (
-    <pre className="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]">
+    <pre className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border">
       <code>
         {lines.map((line, i) => (
           <div key={i} className={diffLineClass(line)}>

@@ -272,7 +272,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
               class="integrity-badge"
             >
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="nur-hash"
               >
@@ -312,7 +312,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                 “Created index.html with a page that has a heading and a contact form”
               </p>
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="offen"
               >
@@ -335,7 +335,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                 “The form validates the e-mail address using a regex and shows an error”
               </p>
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="offen"
               >
@@ -358,7 +358,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                 “The page uses a fluid max-width container so it works on mobile”
               </p>
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="offen"
               >
@@ -831,7 +831,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
               class="integrity-badge"
             >
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="nur-hash"
               >
@@ -871,7 +871,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                 “Created index.html with a page that has a heading and a contact form”
               </p>
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="offen"
               >
@@ -899,7 +899,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                       Page exists (index.html with a heading and a form)
                     </span>
                     <span
-                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-success/40 bg-success/10 text-success"
+                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
                       data-slot="status-badge"
                       data-variant="belegt"
                     >
@@ -930,7 +930,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                 “The form validates the e-mail address using a regex and shows an error”
               </p>
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="offen"
               >
@@ -958,7 +958,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                       Form validates the e-mail address (invalid input rejected)
                     </span>
                     <span
-                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-destructive/40 bg-destructive/10 text-destructive"
+                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
                       data-slot="status-badge"
                       data-variant="fehlgeschlagen"
                     >
@@ -989,7 +989,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                 “The page uses a fluid max-width container so it works on mobile”
               </p>
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="offen"
               >
@@ -1017,7 +1017,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                       Mobile layout works
                     </span>
                     <span
-                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                       data-slot="status-badge"
                       data-variant="offen"
                     >
@@ -1498,7 +1498,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
               class="integrity-badge"
             >
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="nur-hash"
               >
@@ -1578,7 +1578,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                  Fachliche Prüfung
               </div>
               <div
-                class="status-value text-warning"
+                class="status-value text-open"
               >
                 Prüfung offen
               </div>
@@ -1692,7 +1692,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                  Integrität
               </div>
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="nur-hash"
               >
@@ -1878,626 +1878,626 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     style="min-width: 100%; display: table;"
                   >
                     <pre
-                      class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+                      class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
                     >
                       <code>
                         <div
-                          class="font-semibold text-[#e6edf3]"
+                          class="font-semibold text-foreground"
                         >
                           diff --git a/dev/null b/index.html
                         </div>
                         <div
-                          class="text-[#e6edf3]"
+                          class="text-foreground"
                         >
                           new file mode 100644
                         </div>
                         <div
-                          class="font-semibold text-[#e6edf3]"
+                          class="font-semibold text-foreground"
                         >
                           --- /dev/null
                         </div>
                         <div
-                          class="font-semibold text-[#e6edf3]"
+                          class="font-semibold text-foreground"
                         >
                           +++ b/index.html
                         </div>
                         <div
-                          class="font-semibold text-[#e6edf3]"
+                          class="font-semibold text-foreground"
                         >
                           --- a/index.html
                         </div>
                         <div
-                          class="font-semibold text-[#e6edf3]"
+                          class="font-semibold text-foreground"
                         >
                           +++ b/index.html
                         </div>
                         <div
-                          class="text-[#8b949e]"
+                          class="text-2"
                         >
                           @@ -0,0 +1,117 @@
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;!DOCTYPE html&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;html lang="en"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;head&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;meta charset="UTF-8"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;title&gt;Acme — Contact Us&lt;/title&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;style&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    * { box-sizing: border-box; margin: 0; padding: 0; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    body {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      line-height: 1.6;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      color: #1f2430;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      background: #f6f7fb;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    header { text-align: center; padding: 3rem 1rem 1.5rem; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    header h1 { font-size: 2.4rem; color: #0d1b2a; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    header p { color: #5a6270; margin-top: 0.5rem; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    form {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      background: #fff;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border: 1px solid #e4e7ee;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border-radius: 12px;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      padding: 1.75rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      display: flex;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      flex-direction: column;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      gap: 1.1rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; display: block; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    input, textarea {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      width: 100%;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      padding: 0.7rem 0.8rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border: 1px solid #cdd2dd;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border-radius: 8px;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      font: inherit;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    input:focus, textarea:focus {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      outline: none;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border-color: #2563eb;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    .error { color: #dc2626; font-size: 0.85rem; display: none; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    .field.invalid input, .field.invalid textarea { border-color: #dc2626; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    .field.invalid .error { display: block; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    button {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      background: #2563eb;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      color: #fff;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border: none;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      padding: 0.8rem 1.2rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border-radius: 8px;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      font-size: 1rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      font-weight: 600;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      cursor: pointer;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      transition: background 0.15s;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    button:hover { background: #1d4ed8; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    .success {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      display: none;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      background: #ecfdf5;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border: 1px solid #34d399;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      color: #065f46;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border-radius: 8px;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      padding: 0.9rem 1rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      margin-top: 1rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;/style&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;/head&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;body&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;header&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    &lt;h1&gt;Get in touch&lt;/h1&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    &lt;p&gt;Tell us a little about your project and we'll get back to you within a day.&lt;/p&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;/header&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;main class="wrap"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    &lt;form id="contactForm" novalidate&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;div class="field"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;label for="name"&gt;Name&lt;/label&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;input type="text" id="name" name="name" autocomplete="name"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;/div&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;div class="field"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;label for="email"&gt;Email&lt;/label&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;input type="email" id="email" name="email" autocomplete="email"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;span class="error"&gt;Please enter a valid email address.&lt;/span&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;/div&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;div class="field"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;label for="message"&gt;Message&lt;/label&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;textarea id="message" name="message" rows="5"&gt;&lt;/textarea&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;/div&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;button type="submit"&gt;Send message&lt;/button&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    &lt;/form&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    &lt;div class="success" id="success"&gt;Thanks! Your message has been sent.&lt;/div&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;/main&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;script&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    const form = document.getElementById('contactForm');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    const email = document.getElementById('email');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    const emailField = email.closest('.field');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    const success = document.getElementById('success');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    form.addEventListener('submit', (e) =&gt; {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      e.preventDefault();
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      success.style.display = 'none';
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      emailField.classList.remove('invalid');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      let valid = true;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      if (!emailRegex.test(email.value.trim())) {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        emailField.classList.add('invalid');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        valid = false;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      if (valid) success.style.display = 'block';
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    });
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    email.addEventListener('input', () =&gt; emailField.classList.remove('invalid'));
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;/script&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;/body&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;/html&gt;
                         </div>
@@ -3362,7 +3362,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                       id="criterion-status-0"
                     >
                       <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-success/40 bg-success/10 text-success"
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
                         data-slot="status-badge"
                         data-variant="belegt"
                       >
@@ -3376,7 +3376,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                         </code>
                       </span>
                       <span
-                        class="text-warning text-xs"
+                        class="text-open text-xs"
                       >
                         claimed
                       </span>
@@ -3427,7 +3427,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                       id="criterion-status-1"
                     >
                       <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-destructive/40 bg-destructive/10 text-destructive"
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
                         data-slot="status-badge"
                         data-variant="fehlgeschlagen"
                       >
@@ -3441,7 +3441,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                         </code>
                       </span>
                       <span
-                        class="text-warning text-xs"
+                        class="text-open text-xs"
                       >
                         claimed
                       </span>
@@ -3492,7 +3492,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                       id="criterion-status-2"
                     >
                       <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                         data-slot="status-badge"
                         data-variant="offen"
                       >
@@ -3506,7 +3506,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                         </code>
                       </span>
                       <span
-                        class="text-warning text-xs"
+                        class="text-open text-xs"
                       >
                         claimed
                       </span>
@@ -4368,7 +4368,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
               class="integrity-badge"
             >
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="nur-hash"
               >
@@ -4448,7 +4448,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                  Fachliche Prüfung
               </div>
               <div
-                class="status-value text-warning"
+                class="status-value text-open"
               >
                 Prüfung offen
               </div>
@@ -4562,7 +4562,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                  Integrität
               </div>
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="nur-hash"
               >
@@ -4748,626 +4748,626 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     style="min-width: 100%; display: table;"
                   >
                     <pre
-                      class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+                      class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
                     >
                       <code>
                         <div
-                          class="font-semibold text-[#e6edf3]"
+                          class="font-semibold text-foreground"
                         >
                           diff --git a/dev/null b/index.html
                         </div>
                         <div
-                          class="text-[#e6edf3]"
+                          class="text-foreground"
                         >
                           new file mode 100644
                         </div>
                         <div
-                          class="font-semibold text-[#e6edf3]"
+                          class="font-semibold text-foreground"
                         >
                           --- /dev/null
                         </div>
                         <div
-                          class="font-semibold text-[#e6edf3]"
+                          class="font-semibold text-foreground"
                         >
                           +++ b/index.html
                         </div>
                         <div
-                          class="font-semibold text-[#e6edf3]"
+                          class="font-semibold text-foreground"
                         >
                           --- a/index.html
                         </div>
                         <div
-                          class="font-semibold text-[#e6edf3]"
+                          class="font-semibold text-foreground"
                         >
                           +++ b/index.html
                         </div>
                         <div
-                          class="text-[#8b949e]"
+                          class="text-2"
                         >
                           @@ -0,0 +1,117 @@
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;!DOCTYPE html&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;html lang="en"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;head&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;meta charset="UTF-8"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;title&gt;Acme — Contact Us&lt;/title&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;style&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    * { box-sizing: border-box; margin: 0; padding: 0; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    body {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      line-height: 1.6;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      color: #1f2430;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      background: #f6f7fb;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    header { text-align: center; padding: 3rem 1rem 1.5rem; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    header h1 { font-size: 2.4rem; color: #0d1b2a; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    header p { color: #5a6270; margin-top: 0.5rem; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    form {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      background: #fff;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border: 1px solid #e4e7ee;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border-radius: 12px;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      padding: 1.75rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      display: flex;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      flex-direction: column;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      gap: 1.1rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; display: block; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    input, textarea {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      width: 100%;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      padding: 0.7rem 0.8rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border: 1px solid #cdd2dd;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border-radius: 8px;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      font: inherit;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    input:focus, textarea:focus {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      outline: none;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border-color: #2563eb;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    .error { color: #dc2626; font-size: 0.85rem; display: none; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    .field.invalid input, .field.invalid textarea { border-color: #dc2626; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    .field.invalid .error { display: block; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    button {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      background: #2563eb;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      color: #fff;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border: none;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      padding: 0.8rem 1.2rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border-radius: 8px;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      font-size: 1rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      font-weight: 600;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      cursor: pointer;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      transition: background 0.15s;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    button:hover { background: #1d4ed8; }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    .success {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      display: none;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      background: #ecfdf5;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border: 1px solid #34d399;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      color: #065f46;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      border-radius: 8px;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      padding: 0.9rem 1rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      margin-top: 1rem;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;/style&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;/head&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;body&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;header&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    &lt;h1&gt;Get in touch&lt;/h1&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    &lt;p&gt;Tell us a little about your project and we'll get back to you within a day.&lt;/p&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;/header&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;main class="wrap"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    &lt;form id="contactForm" novalidate&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;div class="field"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;label for="name"&gt;Name&lt;/label&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;input type="text" id="name" name="name" autocomplete="name"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;/div&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;div class="field"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;label for="email"&gt;Email&lt;/label&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;input type="email" id="email" name="email" autocomplete="email"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;span class="error"&gt;Please enter a valid email address.&lt;/span&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;/div&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;div class="field"&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;label for="message"&gt;Message&lt;/label&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        &lt;textarea id="message" name="message" rows="5"&gt;&lt;/textarea&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;/div&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      &lt;button type="submit"&gt;Send message&lt;/button&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    &lt;/form&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    &lt;div class="success" id="success"&gt;Thanks! Your message has been sent.&lt;/div&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;/main&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;script&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    const form = document.getElementById('contactForm');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    const email = document.getElementById('email');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    const emailField = email.closest('.field');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    const success = document.getElementById('success');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    form.addEventListener('submit', (e) =&gt; {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      e.preventDefault();
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      success.style.display = 'none';
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      emailField.classList.remove('invalid');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      let valid = true;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      if (!emailRegex.test(email.value.trim())) {
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        emailField.classList.add('invalid');
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +        valid = false;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      }
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +      if (valid) success.style.display = 'block';
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    });
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +    email.addEventListener('input', () =&gt; emailField.classList.remove('invalid'));
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +  &lt;/script&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;/body&gt;
                         </div>
                         <div
-                          class="bg-[#3fb950]/15 text-[#3fb950]"
+                          class="bg-ok/15 text-ok"
                         >
                           +&lt;/html&gt;
                         </div>
@@ -6232,7 +6232,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                       id="criterion-status-0"
                     >
                       <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-success/40 bg-success/10 text-success"
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
                         data-slot="status-badge"
                         data-variant="belegt"
                       >
@@ -6246,7 +6246,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                         </code>
                       </span>
                       <span
-                        class="text-warning text-xs"
+                        class="text-open text-xs"
                       >
                         claimed
                       </span>
@@ -6297,7 +6297,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                       id="criterion-status-1"
                     >
                       <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-destructive/40 bg-destructive/10 text-destructive"
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
                         data-slot="status-badge"
                         data-variant="fehlgeschlagen"
                       >
@@ -6311,7 +6311,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                         </code>
                       </span>
                       <span
-                        class="text-warning text-xs"
+                        class="text-open text-xs"
                       >
                         claimed
                       </span>
@@ -6362,7 +6362,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                       id="criterion-status-2"
                     >
                       <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                         data-slot="status-badge"
                         data-variant="offen"
                       >
@@ -6376,7 +6376,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                         </code>
                       </span>
                       <span
-                        class="text-warning text-xs"
+                        class="text-open text-xs"
                       >
                         claimed
                       </span>
@@ -7253,7 +7253,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
               class="integrity-badge"
             >
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="nur-hash"
               >
@@ -8069,7 +8069,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
               class="integrity-badge"
             >
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
                 data-slot="status-badge"
                 data-variant="nur-hash"
               >
@@ -8896,7 +8896,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
           Synthetic fixture, not a recorded witness.
         </p>
         <span
-          class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+          class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
           data-slot="status-badge"
           data-variant="offen"
         >
@@ -8925,631 +8925,631 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
             class="mb-3"
           >
             <div
-              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+              class="text-xs text-2 uppercase tracking-wider mb-1"
             >
               Content
             </div>
             <pre
-              class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+              class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
             >
               <code>
                 <div
-                  class="font-semibold text-[#e6edf3]"
+                  class="font-semibold text-foreground"
                 >
                   diff --git a/dev/null b/index.html
                 </div>
                 <div
-                  class="text-[#e6edf3]"
+                  class="text-foreground"
                 >
                   new file mode 100644
                 </div>
                 <div
-                  class="font-semibold text-[#e6edf3]"
+                  class="font-semibold text-foreground"
                 >
                   --- /dev/null
                 </div>
                 <div
-                  class="font-semibold text-[#e6edf3]"
+                  class="font-semibold text-foreground"
                 >
                   +++ b/index.html
                 </div>
                 <div
-                  class="font-semibold text-[#e6edf3]"
+                  class="font-semibold text-foreground"
                 >
                   --- a/index.html
                 </div>
                 <div
-                  class="font-semibold text-[#e6edf3]"
+                  class="font-semibold text-foreground"
                 >
                   +++ b/index.html
                 </div>
                 <div
-                  class="text-[#8b949e]"
+                  class="text-2"
                 >
                   @@ -0,0 +1,117 @@
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;!DOCTYPE html&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;html lang="en"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;head&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;meta charset="UTF-8"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;title&gt;Acme — Contact Us&lt;/title&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;style&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    * { box-sizing: border-box; margin: 0; padding: 0; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    body {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      line-height: 1.6;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      color: #1f2430;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      background: #f6f7fb;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    header { text-align: center; padding: 3rem 1rem 1.5rem; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    header h1 { font-size: 2.4rem; color: #0d1b2a; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    header p { color: #5a6270; margin-top: 0.5rem; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    form {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      background: #fff;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border: 1px solid #e4e7ee;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border-radius: 12px;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      padding: 1.75rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      display: flex;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      flex-direction: column;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      gap: 1.1rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; display: block; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    input, textarea {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      width: 100%;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      padding: 0.7rem 0.8rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border: 1px solid #cdd2dd;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border-radius: 8px;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      font: inherit;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    input:focus, textarea:focus {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      outline: none;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border-color: #2563eb;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    .error { color: #dc2626; font-size: 0.85rem; display: none; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    .field.invalid input, .field.invalid textarea { border-color: #dc2626; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    .field.invalid .error { display: block; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    button {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      background: #2563eb;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      color: #fff;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border: none;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      padding: 0.8rem 1.2rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border-radius: 8px;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      font-size: 1rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      font-weight: 600;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      cursor: pointer;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      transition: background 0.15s;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    button:hover { background: #1d4ed8; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    .success {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      display: none;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      background: #ecfdf5;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border: 1px solid #34d399;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      color: #065f46;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border-radius: 8px;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      padding: 0.9rem 1rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      margin-top: 1rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;/style&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;/head&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;body&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;header&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    &lt;h1&gt;Get in touch&lt;/h1&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    &lt;p&gt;Tell us a little about your project and we'll get back to you within a day.&lt;/p&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;/header&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;main class="wrap"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    &lt;form id="contactForm" novalidate&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;div class="field"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;label for="name"&gt;Name&lt;/label&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;input type="text" id="name" name="name" autocomplete="name"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;/div&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;div class="field"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;label for="email"&gt;Email&lt;/label&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;input type="email" id="email" name="email" autocomplete="email"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;span class="error"&gt;Please enter a valid email address.&lt;/span&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;/div&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;div class="field"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;label for="message"&gt;Message&lt;/label&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;textarea id="message" name="message" rows="5"&gt;&lt;/textarea&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;/div&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;button type="submit"&gt;Send message&lt;/button&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    &lt;/form&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    &lt;div class="success" id="success"&gt;Thanks! Your message has been sent.&lt;/div&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;/main&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;script&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    const form = document.getElementById('contactForm');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    const email = document.getElementById('email');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    const emailField = email.closest('.field');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    const success = document.getElementById('success');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    form.addEventListener('submit', (e) =&gt; {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      e.preventDefault();
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      success.style.display = 'none';
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      emailField.classList.remove('invalid');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      let valid = true;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      if (!emailRegex.test(email.value.trim())) {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        emailField.classList.add('invalid');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        valid = false;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      if (valid) success.style.display = 'block';
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    });
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    email.addEventListener('input', () =&gt; emailField.classList.remove('invalid'));
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;/script&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;/body&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;/html&gt;
                 </div>
@@ -9569,7 +9569,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
             class="mb-3"
           >
             <div
-              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+              class="text-xs text-2 uppercase tracking-wider mb-1"
             >
               Content
             </div>
@@ -9578,20 +9578,20 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                 class="flex gap-2 mb-2"
               >
                 <button
-                  class="text-xs px-2 py-1 rounded border border-[#8b949e] text-[#e6edf3]"
+                  class="text-xs px-2 py-1 rounded border border-2 text-foreground"
                   type="button"
                 >
                   Rendered
                 </button>
                 <button
-                  class="text-xs px-2 py-1 rounded border border-[#30363d] text-[#8b949e]"
+                  class="text-xs px-2 py-1 rounded border border-border text-2"
                   type="button"
                 >
                   Source
                 </button>
               </div>
               <div
-                class="text-sm space-y-3 text-[#e6edf3]"
+                class="text-sm space-y-3 text-foreground"
               >
                 <div
                   class="font-semibold text-xl"
@@ -9604,7 +9604,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                   </strong>
                   , not witnessed. See 
                   <code
-                    class="font-mono text-xs bg-[#161b22] px-1 rounded border border-[#30363d]"
+                    class="font-mono text-xs bg-surface-2 px-1 rounded border border-border"
                   >
                     fixture.ts
                   </code>
@@ -9621,7 +9621,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                   </li>
                 </ul>
                 <pre
-                  class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+                  class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
                 >
                   &lt;script&gt;escaped&lt;/script&gt;
                 </pre>
@@ -9714,7 +9714,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
           Synthetic fixture, not a recorded witness.
         </p>
         <span
-          class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+          class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
           data-slot="status-badge"
           data-variant="offen"
         >
@@ -9738,7 +9738,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
             class="grid grid-cols-[100px_1fr] gap-1 text-sm"
           >
             <span
-              class="text-xs text-[#8b949e]"
+              class="text-xs text-2"
             >
               Type
             </span>
@@ -9746,7 +9746,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               evidence.attached
             </span>
             <span
-              class="text-xs text-[#8b949e]"
+              class="text-xs text-2"
             >
               Actor
             </span>
@@ -9754,7 +9754,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               wrapper / truthlens-run
             </span>
             <span
-              class="text-xs text-[#8b949e]"
+              class="text-xs text-2"
             >
               Timestamp
             </span>
@@ -9762,7 +9762,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               2026-10-11T14:46:22.023Z
             </span>
             <span
-              class="text-xs text-[#8b949e]"
+              class="text-xs text-2"
             >
               Hash
             </span>
@@ -9772,7 +9772,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               fa79051f24630a3553778e71fc35f6a9b23710bbc674025c1e26cf1a14d00f77
             </span>
             <span
-              class="text-xs text-[#8b949e]"
+              class="text-xs text-2"
             >
               ID
             </span>
@@ -9787,631 +9787,631 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               class="mb-3"
             >
               <div
-                class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+                class="text-xs text-2 uppercase tracking-wider mb-1"
               >
                 Content
               </div>
               <pre
-                class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+                class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
               >
                 <code>
                   <div
-                    class="font-semibold text-[#e6edf3]"
+                    class="font-semibold text-foreground"
                   >
                     diff --git a/dev/null b/index.html
                   </div>
                   <div
-                    class="text-[#e6edf3]"
+                    class="text-foreground"
                   >
                     new file mode 100644
                   </div>
                   <div
-                    class="font-semibold text-[#e6edf3]"
+                    class="font-semibold text-foreground"
                   >
                     --- /dev/null
                   </div>
                   <div
-                    class="font-semibold text-[#e6edf3]"
+                    class="font-semibold text-foreground"
                   >
                     +++ b/index.html
                   </div>
                   <div
-                    class="font-semibold text-[#e6edf3]"
+                    class="font-semibold text-foreground"
                   >
                     --- a/index.html
                   </div>
                   <div
-                    class="font-semibold text-[#e6edf3]"
+                    class="font-semibold text-foreground"
                   >
                     +++ b/index.html
                   </div>
                   <div
-                    class="text-[#8b949e]"
+                    class="text-2"
                   >
                     @@ -0,0 +1,117 @@
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +&lt;!DOCTYPE html&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +&lt;html lang="en"&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +&lt;head&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +  &lt;meta charset="UTF-8"&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +  &lt;title&gt;Acme — Contact Us&lt;/title&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +  &lt;style&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    * { box-sizing: border-box; margin: 0; padding: 0; }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    body {
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      line-height: 1.6;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      color: #1f2430;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      background: #f6f7fb;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    header { text-align: center; padding: 3rem 1rem 1.5rem; }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    header h1 { font-size: 2.4rem; color: #0d1b2a; }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    header p { color: #5a6270; margin-top: 0.5rem; }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    form {
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      background: #fff;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      border: 1px solid #e4e7ee;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      border-radius: 12px;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      padding: 1.75rem;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      display: flex;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      flex-direction: column;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      gap: 1.1rem;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; display: block; }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    input, textarea {
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      width: 100%;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      padding: 0.7rem 0.8rem;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      border: 1px solid #cdd2dd;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      border-radius: 8px;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      font: inherit;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    input:focus, textarea:focus {
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      outline: none;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      border-color: #2563eb;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    .error { color: #dc2626; font-size: 0.85rem; display: none; }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    .field.invalid input, .field.invalid textarea { border-color: #dc2626; }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    .field.invalid .error { display: block; }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    button {
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      background: #2563eb;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      color: #fff;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      border: none;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      padding: 0.8rem 1.2rem;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      border-radius: 8px;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      font-size: 1rem;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      font-weight: 600;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      cursor: pointer;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      transition: background 0.15s;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    button:hover { background: #1d4ed8; }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    .success {
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      display: none;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      background: #ecfdf5;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      border: 1px solid #34d399;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      color: #065f46;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      border-radius: 8px;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      padding: 0.9rem 1rem;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      margin-top: 1rem;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +  &lt;/style&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +&lt;/head&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +&lt;body&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +  &lt;header&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    &lt;h1&gt;Get in touch&lt;/h1&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    &lt;p&gt;Tell us a little about your project and we'll get back to you within a day.&lt;/p&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +  &lt;/header&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +  &lt;main class="wrap"&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    &lt;form id="contactForm" novalidate&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      &lt;div class="field"&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +        &lt;label for="name"&gt;Name&lt;/label&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +        &lt;input type="text" id="name" name="name" autocomplete="name"&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      &lt;/div&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      &lt;div class="field"&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +        &lt;label for="email"&gt;Email&lt;/label&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +        &lt;input type="email" id="email" name="email" autocomplete="email"&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +        &lt;span class="error"&gt;Please enter a valid email address.&lt;/span&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      &lt;/div&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      &lt;div class="field"&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +        &lt;label for="message"&gt;Message&lt;/label&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +        &lt;textarea id="message" name="message" rows="5"&gt;&lt;/textarea&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      &lt;/div&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      &lt;button type="submit"&gt;Send message&lt;/button&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    &lt;/form&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    &lt;div class="success" id="success"&gt;Thanks! Your message has been sent.&lt;/div&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +  &lt;/main&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +  &lt;script&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    const form = document.getElementById('contactForm');
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    const email = document.getElementById('email');
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    const emailField = email.closest('.field');
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    const success = document.getElementById('success');
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    form.addEventListener('submit', (e) =&gt; {
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      e.preventDefault();
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      success.style.display = 'none';
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      emailField.classList.remove('invalid');
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      let valid = true;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      if (!emailRegex.test(email.value.trim())) {
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +        emailField.classList.add('invalid');
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +        valid = false;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      }
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +      if (valid) success.style.display = 'block';
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    });
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +    email.addEventListener('input', () =&gt; emailField.classList.remove('invalid'));
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +  &lt;/script&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +&lt;/body&gt;
                   </div>
                   <div
-                    class="bg-[#3fb950]/15 text-[#3fb950]"
+                    class="bg-ok/15 text-ok"
                   >
                     +&lt;/html&gt;
                   </div>
@@ -10419,12 +10419,12 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               </pre>
             </div>
             <div
-              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1 mt-3"
+              class="text-xs text-2 uppercase tracking-wider mb-1 mt-3"
             >
               Payload
             </div>
             <pre
-              class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+              class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
             >
               {
   "changed": [
@@ -10446,7 +10446,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
             class="grid grid-cols-[100px_1fr] gap-1 text-sm"
           >
             <span
-              class="text-xs text-[#8b949e]"
+              class="text-xs text-2"
             >
               Type
             </span>
@@ -10454,7 +10454,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               evidence.attached
             </span>
             <span
-              class="text-xs text-[#8b949e]"
+              class="text-xs text-2"
             >
               Actor
             </span>
@@ -10462,7 +10462,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               agent / snapshot-fixture
             </span>
             <span
-              class="text-xs text-[#8b949e]"
+              class="text-xs text-2"
             >
               Timestamp
             </span>
@@ -10470,7 +10470,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               2026-10-11T14:46:22.023Z
             </span>
             <span
-              class="text-xs text-[#8b949e]"
+              class="text-xs text-2"
             >
               Hash
             </span>
@@ -10480,7 +10480,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               fa79051f24630a3553778e71fc35f6a9b23710bbc674025c1e26cf1a14d00f77
             </span>
             <span
-              class="text-xs text-[#8b949e]"
+              class="text-xs text-2"
             >
               ID
             </span>
@@ -10495,7 +10495,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               class="mb-3"
             >
               <div
-                class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+                class="text-xs text-2 uppercase tracking-wider mb-1"
               >
                 Content
               </div>
@@ -10504,20 +10504,20 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                   class="flex gap-2 mb-2"
                 >
                   <button
-                    class="text-xs px-2 py-1 rounded border border-[#8b949e] text-[#e6edf3]"
+                    class="text-xs px-2 py-1 rounded border border-2 text-foreground"
                     type="button"
                   >
                     Rendered
                   </button>
                   <button
-                    class="text-xs px-2 py-1 rounded border border-[#30363d] text-[#8b949e]"
+                    class="text-xs px-2 py-1 rounded border border-border text-2"
                     type="button"
                   >
                     Source
                   </button>
                 </div>
                 <div
-                  class="text-sm space-y-3 text-[#e6edf3]"
+                  class="text-sm space-y-3 text-foreground"
                 >
                   <div
                     class="font-semibold text-xl"
@@ -10530,7 +10530,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                     </strong>
                     , not witnessed. See 
                     <code
-                      class="font-mono text-xs bg-[#161b22] px-1 rounded border border-[#30363d]"
+                      class="font-mono text-xs bg-surface-2 px-1 rounded border border-border"
                     >
                       fixture.ts
                     </code>
@@ -10547,7 +10547,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                     </li>
                   </ul>
                   <pre
-                    class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+                    class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
                   >
                     &lt;script&gt;escaped&lt;/script&gt;
                   </pre>
@@ -10555,12 +10555,12 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
               </div>
             </div>
             <div
-              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1 mt-3"
+              class="text-xs text-2 uppercase tracking-wider mb-1 mt-3"
             >
               Payload
             </div>
             <pre
-              class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+              class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
             >
               {
   "path": "fixture-report.md",
@@ -10611,12 +10611,12 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > preserves plai
     class="mb-3"
   >
     <div
-      class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+      class="text-xs text-2 uppercase tracking-wider mb-1"
     >
       Content
     </div>
     <pre
-      class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d] whitespace-pre-wrap"
+      class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap"
     >
       {"status":"unverified","verified":false}
 &lt;script&gt;escaped&lt;/script&gt;
@@ -10674,7 +10674,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > preserves the 
           Synthetic fixture, not a recorded witness.
         </p>
         <span
-          class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-warning/40 bg-warning/10 text-warning"
+          class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
           data-slot="status-badge"
           data-variant="offen"
         >
@@ -10703,631 +10703,631 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > preserves the 
             class="mb-3"
           >
             <div
-              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+              class="text-xs text-2 uppercase tracking-wider mb-1"
             >
               Content
             </div>
             <pre
-              class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d]"
+              class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
             >
               <code>
                 <div
-                  class="font-semibold text-[#e6edf3]"
+                  class="font-semibold text-foreground"
                 >
                   diff --git a/dev/null b/index.html
                 </div>
                 <div
-                  class="text-[#e6edf3]"
+                  class="text-foreground"
                 >
                   new file mode 100644
                 </div>
                 <div
-                  class="font-semibold text-[#e6edf3]"
+                  class="font-semibold text-foreground"
                 >
                   --- /dev/null
                 </div>
                 <div
-                  class="font-semibold text-[#e6edf3]"
+                  class="font-semibold text-foreground"
                 >
                   +++ b/index.html
                 </div>
                 <div
-                  class="font-semibold text-[#e6edf3]"
+                  class="font-semibold text-foreground"
                 >
                   --- a/index.html
                 </div>
                 <div
-                  class="font-semibold text-[#e6edf3]"
+                  class="font-semibold text-foreground"
                 >
                   +++ b/index.html
                 </div>
                 <div
-                  class="text-[#8b949e]"
+                  class="text-2"
                 >
                   @@ -0,0 +1,117 @@
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;!DOCTYPE html&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;html lang="en"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;head&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;meta charset="UTF-8"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;title&gt;Acme — Contact Us&lt;/title&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;style&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    * { box-sizing: border-box; margin: 0; padding: 0; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    body {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      line-height: 1.6;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      color: #1f2430;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      background: #f6f7fb;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    .wrap { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    header { text-align: center; padding: 3rem 1rem 1.5rem; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    header h1 { font-size: 2.4rem; color: #0d1b2a; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    header p { color: #5a6270; margin-top: 0.5rem; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    form {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      background: #fff;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border: 1px solid #e4e7ee;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border-radius: 12px;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      padding: 1.75rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      display: flex;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      flex-direction: column;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      gap: 1.1rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    label { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.3rem; display: block; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    input, textarea {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      width: 100%;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      padding: 0.7rem 0.8rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border: 1px solid #cdd2dd;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border-radius: 8px;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      font: inherit;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    input:focus, textarea:focus {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      outline: none;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border-color: #2563eb;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    .error { color: #dc2626; font-size: 0.85rem; display: none; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    .field.invalid input, .field.invalid textarea { border-color: #dc2626; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    .field.invalid .error { display: block; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    button {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      background: #2563eb;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      color: #fff;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border: none;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      padding: 0.8rem 1.2rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border-radius: 8px;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      font-size: 1rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      font-weight: 600;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      cursor: pointer;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      transition: background 0.15s;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    button:hover { background: #1d4ed8; }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    .success {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      display: none;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      background: #ecfdf5;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border: 1px solid #34d399;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      color: #065f46;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      border-radius: 8px;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      padding: 0.9rem 1rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      margin-top: 1rem;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;/style&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;/head&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;body&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;header&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    &lt;h1&gt;Get in touch&lt;/h1&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    &lt;p&gt;Tell us a little about your project and we'll get back to you within a day.&lt;/p&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;/header&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;main class="wrap"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    &lt;form id="contactForm" novalidate&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;div class="field"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;label for="name"&gt;Name&lt;/label&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;input type="text" id="name" name="name" autocomplete="name"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;/div&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;div class="field"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;label for="email"&gt;Email&lt;/label&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;input type="email" id="email" name="email" autocomplete="email"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;span class="error"&gt;Please enter a valid email address.&lt;/span&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;/div&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;div class="field"&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;label for="message"&gt;Message&lt;/label&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        &lt;textarea id="message" name="message" rows="5"&gt;&lt;/textarea&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;/div&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      &lt;button type="submit"&gt;Send message&lt;/button&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    &lt;/form&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    &lt;div class="success" id="success"&gt;Thanks! Your message has been sent.&lt;/div&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;/main&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;script&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    const form = document.getElementById('contactForm');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    const email = document.getElementById('email');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    const emailField = email.closest('.field');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    const success = document.getElementById('success');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    form.addEventListener('submit', (e) =&gt; {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      e.preventDefault();
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      success.style.display = 'none';
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      emailField.classList.remove('invalid');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      let valid = true;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      if (!emailRegex.test(email.value.trim())) {
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        emailField.classList.add('invalid');
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +        valid = false;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      }
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +      if (valid) success.style.display = 'block';
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    });
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +    email.addEventListener('input', () =&gt; emailField.classList.remove('invalid'));
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +  &lt;/script&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;/body&gt;
                 </div>
                 <div
-                  class="bg-[#3fb950]/15 text-[#3fb950]"
+                  class="bg-ok/15 text-ok"
                 >
                   +&lt;/html&gt;
                 </div>
@@ -11347,7 +11347,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > preserves the 
             class="mb-3"
           >
             <div
-              class="text-xs text-[#8b949e] uppercase tracking-wider mb-1"
+              class="text-xs text-2 uppercase tracking-wider mb-1"
             >
               Content
             </div>
@@ -11356,20 +11356,20 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > preserves the 
                 class="flex gap-2 mb-2"
               >
                 <button
-                  class="text-xs px-2 py-1 rounded border border-[#30363d] text-[#8b949e]"
+                  class="text-xs px-2 py-1 rounded border border-border text-2"
                   type="button"
                 >
                   Rendered
                 </button>
                 <button
-                  class="text-xs px-2 py-1 rounded border border-[#8b949e] text-[#e6edf3]"
+                  class="text-xs px-2 py-1 rounded border border-2 text-foreground"
                   type="button"
                 >
                   Source
                 </button>
               </div>
               <pre
-                class="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d] whitespace-pre-wrap"
+                class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap"
               >
                 # Synthetic snapshot fixture
 

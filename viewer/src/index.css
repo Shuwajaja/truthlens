@@ -27,9 +27,9 @@ button:disabled { cursor: default; }
 .lens-toggle button { flex: 1; padding: 8px; color: var(--muted); font-size: 12px; }
 .lens-toggle button[aria-pressed=true] { color: var(--text); background: var(--surface-2); border-radius: var(--radius-sm); }
 main { padding: 20px 24px 32px; min-width: 0; }
-.integrity-notice { border: 1px solid color-mix(in srgb, var(--warning) 55%, var(--border)); background: color-mix(in srgb, var(--warning) 5%, var(--surface)); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 16px; font-size: 12px; color: var(--muted); }
+.integrity-notice { border: 1px solid color-mix(in srgb, var(--neutral) 55%, var(--border)); background: color-mix(in srgb, var(--neutral) 5%, var(--surface)); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 16px; font-size: 12px; color: var(--muted); }
 .integrity-level { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-bottom: 8px; }
-.integrity-level strong { color: var(--warning); font-weight: 500; }
+.integrity-level strong { color: var(--neutral); font-weight: 500; }
 .integrity-badge { display: inline-flex; max-width: 100%; }
 .overview { display: flex; flex-direction: column; gap: 16px; }
 .page-heading { display: flex; justify-content: space-between; gap: 16px; align-items: center; }
@@ -60,7 +60,7 @@ main { padding: 20px 24px 32px; min-width: 0; }
 .criterion-content strong { font-size: 13px; font-weight: 500; }
 .criterion-content > span { color: var(--muted); font-size: 12px; }
 .criterion-labels { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
-.claim-callout { font-size: 13px; border-left: 2px solid var(--warning); padding: 8px 12px; color: var(--warning); }
+.claim-callout { font-size: 13px; border-left: 2px solid var(--neutral); padding: 8px 12px; color: var(--neutral); }
 .recent-events button { width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px 0; text-align: left; }
 .recent-events button > span { flex: 1; display: grid; gap: 4px; min-width: 0; }
 .recent-events svg { flex-shrink: 0; color: var(--muted); }
@@ -70,8 +70,8 @@ main { padding: 20px 24px 32px; min-width: 0; }
 .card-outline { border-style: dashed; }
 .icon-circle { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; color: var(--bg); font-weight: 700; font-size: 14px; line-height: 1; }
 .drawer-pane { position: fixed; top: 0; right: 0; width: min(480px, 100%); height: 100dvh; background: var(--surface); border-left: 1px solid var(--border); overflow-y: auto; z-index: 50; }
-.drawer-backdrop { position: fixed; inset: 0; background: #0008; z-index: 40; }
-.callout-wrap { border-left: 4px solid var(--warning); background: var(--surface); border-radius: var(--radius-sm); padding: 16px; }
+.drawer-backdrop { position: fixed; inset: 0; background: var(--backdrop); z-index: 40; }
+.callout-wrap { border-left: 4px solid var(--neutral); background: var(--surface); border-radius: var(--radius-sm); padding: 16px; }
 .timeline-row { cursor: pointer; }
 .timeline-row:hover { background: var(--surface-2); }
 @media (max-width: 1280px) { .brand-note { margin-right: 0; } .status-grid { gap: 12px; } .status-value { font-size: 23px; } }
@@ -100,8 +100,8 @@ main { padding: 20px 24px 32px; min-width: 0; }
 .evidence-graph .react-flow { --xy-background-color: var(--bg); --xy-edge-stroke: var(--neutral); --xy-controls-button-background-color: var(--surface-2); --xy-controls-button-background-color-hover: var(--accent-soft); --xy-controls-button-color: var(--text); --xy-controls-button-border-color: var(--neutral); --xy-attribution-background-color: var(--surface-2); }
 .graph-record { width: 196px; height: 82px; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 8px 12px; border: 1px solid var(--neutral); border-radius: var(--radius-sm); background: var(--surface-2); text-align: left; }
 .graph-record:hover { border-color: var(--accent); }
-.graph-claim { border-color: var(--warning); }
-.graph-claim .graph-kind { color: var(--warning); }
+.graph-claim { border-color: var(--neutral); }
+.graph-claim .graph-kind { color: var(--neutral); }
 .graph-kind { color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
 .graph-label { font-size: 14px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .graph-list { font-size: 12px; color: var(--muted); }

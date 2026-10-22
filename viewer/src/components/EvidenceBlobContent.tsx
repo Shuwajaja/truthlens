@@ -13,12 +13,12 @@ export function EvidenceBlobContent({
 
   const blob = blobs?.[sha]
   if (blob === undefined) {
-    return <p className="text-sm text-[#8b949e] mb-2">Content not exported</p>
+    return <p className="text-sm text-2 mb-2">Content not exported</p>
   }
 
   return (
     <div className="mb-3">
-      <div className="text-xs text-[#8b949e] uppercase tracking-wider mb-1">Content</div>
+      <div className="text-xs text-2 uppercase tracking-wider mb-1">Content</div>
       <RenderView input={{ kind: 'blob', mediaType: 'text/plain', path: payloadPath(payload), text: blob }} />
     </div>
   )

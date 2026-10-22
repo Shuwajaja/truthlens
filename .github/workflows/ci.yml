@@ -16,6 +16,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run lint
+      - run: npm run check:styles --if-present
       - run: npm run build
       - name: Review all views at desktop and mobile widths
         working-directory: viewer

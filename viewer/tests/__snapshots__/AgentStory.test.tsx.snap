@@ -9,19 +9,19 @@ exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented
       Agent Story
     </h1>
     <p
-      class="text-sm text-[#8b949e] border border-[#30363d] rounded-lg p-3 mb-4"
+      class="text-sm text-2 border border-border rounded-lg p-3 mb-4"
     >
       Review required — technical checks do not replace human acceptance.
     </p>
     <ol
       aria-label="Recorded story"
-      class="divide-y divide-[#30363d]"
+      class="divide-y divide-border"
     >
       <li
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#d29922]"
+          class="text-base font-medium text-open"
         >
           Agent claimed
         </h2>
@@ -31,7 +31,7 @@ exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented
           Created index.html with a page that has a heading and a contact form
         </p>
         <div
-          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+          class="flex flex-wrap gap-2 text-xs text-open mt-2"
         >
           <span>
             claimed
@@ -49,14 +49,14 @@ exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented
           <li>
             Page exists (index.html with a heading and a form) —
             <span
-              class="ml-1 text-[#8b949e]"
+              class="ml-1 text-2"
             >
               unverified
             </span>
           </li>
         </ul>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -76,19 +76,19 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
       Agent Story
     </h1>
     <p
-      class="text-sm text-[#8b949e] border border-[#30363d] rounded-lg p-3 mb-4"
+      class="text-sm text-2 border border-border rounded-lg p-3 mb-4"
     >
       Review required — technical checks do not replace human acceptance.
     </p>
     <ol
       aria-label="Recorded story"
-      class="divide-y divide-[#30363d]"
+      class="divide-y divide-border"
     >
       <li
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Agent started
         </h2>
@@ -98,7 +98,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           The agent started this run.
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -108,7 +108,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Task received
         </h2>
@@ -118,7 +118,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Build a small landing page with a contact form.
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -128,7 +128,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Evidence recorded
         </h2>
@@ -138,7 +138,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Recorded result: info.
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -148,7 +148,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Command recorded
         </h2>
@@ -158,7 +158,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Exit code 0.
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -168,7 +168,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#d29922]"
+          class="text-base font-medium text-open"
         >
           Agent claimed
         </h2>
@@ -178,7 +178,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Created index.html with a page that has a heading and a contact form
         </p>
         <div
-          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+          class="flex flex-wrap gap-2 text-xs text-open mt-2"
         >
           <span>
             claimed
@@ -196,14 +196,14 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           <li>
             Page exists (index.html with a heading and a form) —
             <span
-              class="ml-1 text-[#8b949e]"
+              class="ml-1 text-2"
             >
               met
             </span>
           </li>
         </ul>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -213,7 +213,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#d29922]"
+          class="text-base font-medium text-open"
         >
           Agent claimed
         </h2>
@@ -223,7 +223,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           The form validates the e-mail address using a regex and shows an error
         </p>
         <div
-          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+          class="flex flex-wrap gap-2 text-xs text-open mt-2"
         >
           <span>
             claimed
@@ -241,14 +241,14 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           <li>
             Form validates the e-mail address (invalid input rejected) —
             <span
-              class="ml-1 text-[#8b949e]"
+              class="ml-1 text-2"
             >
               unmet
             </span>
           </li>
         </ul>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -258,7 +258,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#d29922]"
+          class="text-base font-medium text-open"
         >
           Agent claimed
         </h2>
@@ -268,7 +268,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           The page uses a fluid max-width container so it works on mobile
         </p>
         <div
-          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+          class="flex flex-wrap gap-2 text-xs text-open mt-2"
         >
           <span>
             claimed
@@ -286,14 +286,14 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           <li>
             Mobile layout works —
             <span
-              class="ml-1 text-[#8b949e]"
+              class="ml-1 text-2"
             >
               unverified
             </span>
           </li>
         </ul>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -303,7 +303,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Files changed
         </h2>
@@ -313,7 +313,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           File changes were recorded.
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -323,7 +323,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Artifact recorded
         </h2>
@@ -333,7 +333,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           An artifact was recorded for this run.
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -343,7 +343,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Checks reported
         </h2>
@@ -359,14 +359,14 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           <li>
             Page exists (index.html with a heading and a form) —
             <span
-              class="ml-1 text-[#3fb950]"
+              class="ml-1 text-ok"
             >
               met
             </span>
           </li>
         </ul>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -376,7 +376,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Checks reported
         </h2>
@@ -392,14 +392,14 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           <li>
             Form validates the e-mail address (invalid input rejected) —
             <span
-              class="ml-1 text-[#f85149]"
+              class="ml-1 text-fail"
             >
               unmet
             </span>
           </li>
         </ul>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -409,7 +409,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Agent finished
         </h2>
@@ -419,7 +419,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           The run finished with exit code 0.
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View recorded event
@@ -439,19 +439,19 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
       Agent Story
     </h1>
     <p
-      class="text-sm text-[#8b949e] border border-[#30363d] rounded-lg p-3 mb-4"
+      class="text-sm text-2 border border-border rounded-lg p-3 mb-4"
     >
       Review required — technical checks do not replace human acceptance.
     </p>
     <ol
       aria-label="Recorded story"
-      class="divide-y divide-[#30363d]"
+      class="divide-y divide-border"
     >
       <li
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Agent started
         </h2>
@@ -461,12 +461,12 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           The agent started this run.
         </p>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #1 · run.started · evt_01M4NPV2THH34J9C2CESGZ6Q7G
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #1
@@ -476,7 +476,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Task received
         </h2>
@@ -486,12 +486,12 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Build a small landing page with a contact form.
         </p>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #2 · requirement.recorded · evt_01M4NPV2TSPARXKQ958TKPDE0W
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #2
@@ -501,7 +501,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Evidence recorded
         </h2>
@@ -511,12 +511,12 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Recorded result: info.
         </p>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #7 · evidence.attached · evt_01M4NPV2V7QVDACAFBAEVQYN1H
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #7
@@ -526,7 +526,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Command recorded
         </h2>
@@ -536,12 +536,12 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Exit code 0.
         </p>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #8 · evidence.attached · evt_01M4NPVPHT05GPAH27CGK65CE3
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #8
@@ -551,7 +551,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#d29922]"
+          class="text-base font-medium text-open"
         >
           Agent claimed
         </h2>
@@ -561,7 +561,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Created index.html with a page that has a heading and a contact form
         </p>
         <div
-          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+          class="flex flex-wrap gap-2 text-xs text-open mt-2"
         >
           <span>
             claimed
@@ -579,19 +579,19 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           <li>
             Page exists (index.html with a heading and a form) —
             <span
-              class="ml-1 text-[#8b949e]"
+              class="ml-1 text-2"
             >
               met
             </span>
           </li>
         </ul>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #9 · agent.claim · evt_01M4NPVPHWHNGGZ1X5EMANZ97B
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #9
@@ -601,7 +601,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#d29922]"
+          class="text-base font-medium text-open"
         >
           Agent claimed
         </h2>
@@ -611,7 +611,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           The form validates the e-mail address using a regex and shows an error
         </p>
         <div
-          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+          class="flex flex-wrap gap-2 text-xs text-open mt-2"
         >
           <span>
             claimed
@@ -629,19 +629,19 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           <li>
             Form validates the e-mail address (invalid input rejected) —
             <span
-              class="ml-1 text-[#8b949e]"
+              class="ml-1 text-2"
             >
               unmet
             </span>
           </li>
         </ul>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #10 · agent.claim · evt_01M4NPVPHXB6QT6QRX9GAHVJ27
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #10
@@ -651,7 +651,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#d29922]"
+          class="text-base font-medium text-open"
         >
           Agent claimed
         </h2>
@@ -661,7 +661,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           The page uses a fluid max-width container so it works on mobile
         </p>
         <div
-          class="flex flex-wrap gap-2 text-xs text-[#d29922] mt-2"
+          class="flex flex-wrap gap-2 text-xs text-open mt-2"
         >
           <span>
             claimed
@@ -679,19 +679,19 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           <li>
             Mobile layout works —
             <span
-              class="ml-1 text-[#8b949e]"
+              class="ml-1 text-2"
             >
               unverified
             </span>
           </li>
         </ul>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #11 · agent.claim · evt_01M4NPVPHZVR60R2A57PDX3A7P
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #11
@@ -701,7 +701,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Files changed
         </h2>
@@ -711,12 +711,12 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           File changes were recorded.
         </p>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #12 · evidence.attached · evt_01M4NPVPJ71QG0VYEDQK4FRVCR
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #12
@@ -726,7 +726,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Artifact recorded
         </h2>
@@ -736,12 +736,12 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           An artifact was recorded for this run.
         </p>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #13 · artifact.recorded · evt_01M4NPVPJCQDXQ7S0H25AS1178
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #13
@@ -751,7 +751,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Checks reported
         </h2>
@@ -767,19 +767,19 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           <li>
             Page exists (index.html with a heading and a form) —
             <span
-              class="ml-1 text-[#3fb950]"
+              class="ml-1 text-ok"
             >
               met
             </span>
           </li>
         </ul>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #14 · test.reported · evt_01M4NPVPSNGNVVK6R10MZ0XV01
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #14
@@ -789,7 +789,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Checks reported
         </h2>
@@ -805,19 +805,19 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           <li>
             Form validates the e-mail address (invalid input rejected) —
             <span
-              class="ml-1 text-[#f85149]"
+              class="ml-1 text-fail"
             >
               unmet
             </span>
           </li>
         </ul>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #15 · test.reported · evt_01M4NPVQ5W413BNVPF8E9VKTSF
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #15
@@ -827,7 +827,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         class="py-4"
       >
         <h2
-          class="text-base font-medium text-[#e6edf3]"
+          class="text-base font-medium text-foreground"
         >
           Agent finished
         </h2>
@@ -837,12 +837,12 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           The run finished with exit code 0.
         </p>
         <p
-          class="font-mono text-xs text-[#8b949e] mt-2 break-all"
+          class="font-mono text-xs text-2 mt-2 break-all"
         >
           #16 · run.finished · evt_01M4NPVQ5ZKWK38BJV9D9RYHSN
         </p>
         <button
-          class="text-sm text-[#8b949e] underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
           type="button"
         >
           View event #16
