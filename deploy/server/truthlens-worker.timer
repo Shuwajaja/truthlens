@@ -1,0 +1,9 @@
+# TEMPLATE ONLY. It is not active on the VPS.
+[Unit]
+Description=Recover TruthLens queued audits
+[Timer]
+OnBootSec=15s
+OnUnitInactiveSec=5s
+Unit=truthlens-worker.service
+[Install]
+WantedBy=timers.target

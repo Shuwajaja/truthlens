@@ -166,3 +166,33 @@ Drawer focus return must not override a newer deliberate focus target during a v
 The style guard rejects gradients, backdrop blur/filter, glow/drop-shadow utilities and emoji; manual review verifies icon purpose, semantic colour meaning and primary-task hierarchy. The inactive Navigator is not part of the visible review interface. Its standalone legacy controls keep text/function labels, without decorative Compass/Send graphics.
 
 Code additions/removals use neutral styling and retain their literal +/- markers: a source change is not a recorded pass/fail result.
+
+## 16. Compact server-registry audit widget (issue154)
+
+A separate `widget.html` entry presents one registered server run, without changing
+the four viewer views. One compact panel, at most360px wide, with8/16px spacing,
+12px radius and the existing Stitch fonts/tokens. At standard text size the
+closed summary targets220–280px; text zoom may increase height. No fixed height
+or overflow clipping. Keep task/run identity, technical audit state, last recorded
+activity, connection state and "Integrity is not approval" visible at all times.
+Native closed `details` exposes claim findings beside their rule/evidence IDs and
+at most five recent recorded events. Additional records require an explicit action.
+No decorative icon, new palette, percentages, glow, gradient or dashboard.
+
+Registry admission is not browser authentication. Default is "Not connected";
+there is no verified Mausbot gateway or host setup. Unavailable, stale, unauthorized
+and consistency errors stay visible outside the disclosure, with existing neutral
+styling; a received contradiction uses the existing error text token and explicit
+text. Only an authenticated, deployed registry source can provide recorded status.
+No upload/import or editable JSON is treated as approval. HMAC is a server-reported
+check, separate from the domain conclusion and human approval. Agent completion,
+transport heartbeat and technical completed state are never green proof.
+
+The client uses a fixed same-origin read-only registry route with credentials,
+a single request at a time,2s polling, pause while hidden, and15s backoff after
+three errors. Cursor/seq/hash continuity is checked before accepting new events;
+duplicates are ignored, gaps or changed hashes reported. Last valid records remain
+visible but stale after interruptions. Content is rendered as text; no HTML from
+records or dynamic script is executed. Gateway implementation/routing is a later
+host step; no endpoint is invented as deployed. Browser/screenshots/axe remain
+manual release review, not automatic PR gates. Unit/lint/build checks are separate.

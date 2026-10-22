@@ -1,0 +1,11 @@
+# TEMPLATE ONLY. Replace names with reviewed actual OS accounts; use visudo.
+# This grants fixed commands, never a shell or caller-provided config/argv.
+User_Alias TL_INITIATORS = shu, vpsman, codex
+Cmnd_Alias TL_START = /opt/truthlens/venv/bin/truthlens pipeline run --profile agent-zero
+Cmnd_Alias TL_READ = /opt/truthlens/venv/bin/truthlens ^status run_[0-9A-HJKMNP-TV-Z]{26}( --session [a-f0-9]{32})?$
+Cmnd_Alias TL_ADMIT = /opt/truthlens/venv/bin/truthlens ^admit run_[0-9A-HJKMNP-TV-Z]{26}( --session [a-f0-9]{32})?$
+Defaults!TL_START env_reset, !setenv, secure_path=/usr/bin:/bin
+Defaults!TL_READ env_reset, !setenv, secure_path=/usr/bin:/bin
+Defaults!TL_ADMIT env_reset, !setenv, secure_path=/usr/bin:/bin
+TL_INITIATORS ALL=(root) NOPASSWD: TL_START, TL_READ, TL_ADMIT
+# Never grant tl-agent any sudo command. No docker/lxd/disk/privileged groups.

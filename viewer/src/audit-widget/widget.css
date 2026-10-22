@@ -1,0 +1,15 @@
+.audit-widget-shell { padding: 16px; max-width: 392px; }
+.audit-widget { width: 100%; max-width: 360px; gap: 8px; overflow-wrap: anywhere; }
+.audit-widget h1 { font-size: var(--size-heading, 16px); margin: 0 0 8px; }
+.audit-widget p { margin: 0; }
+.audit-widget header, .audit-widget details { min-width: 0; }
+.audit-task, .audit-last, .audit-boundary, .audit-connection { font-size: 12px; color: var(--text-2); }
+.audit-state { font-size: 16px; font-weight: 600; }
+.audit-contradiction { font-size: 16px; color: var(--error-text); font-weight: 600; }
+.audit-boundary { padding-block: 8px; border-block: 1px solid var(--border); }
+.audit-widget summary { cursor: pointer; padding-block: 8px; }
+.audit-widget details p { padding-block: 8px; }
+.audit-events { display: grid; gap: 8px; margin: 8px 0; padding: 0; list-style: none; }
+.audit-events li { border-block-end: 1px solid var(--border); padding-block: 8px; }
+.audit-events .mono { color: var(--text-2); font-size: 12px; }
+@media (max-width: 359px) { .audit-widget-shell { padding: 8px; } }

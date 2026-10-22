@@ -9,6 +9,7 @@ export default defineConfig({
   },
   build: {
     rolldownOptions: {
+      input: { main: "index.html", widget: "widget.html" },
       output: {
         codeSplitting: {
           groups: [{ name: 'evidence-graph', test: /node_modules[\\/](?:@xyflow|d3-[^\\/]+)[\\/]/, includeDependenciesRecursively: true }],
