@@ -15,7 +15,7 @@ h1, h2, h3, .brand-name { line-height: 1.25; }
 .mountain-art { position: absolute; inset: 0; width: 100%; height: 150px; pointer-events: none; }
 .brand, .brand-note { position: relative; }
 .brand { display: flex; gap: 16px; align-items: center; }
-.brand-name { display: block; color: var(--info); font-size: 28px; font-weight: 600; }
+.brand-name { display: block; color: var(--ok); font-size: 28px; font-weight: 600; }
 .brand p { color: var(--text-2); font: 400 12px/1.5 var(--mono); text-transform: uppercase; letter-spacing: .08em; margin-top: 8px; }
 .brand-note { text-align: right; padding: 8px 12px; background: var(--bg); }
 .brand-note p { font: 400 12px/1.5 var(--mono); color: var(--text-2); }

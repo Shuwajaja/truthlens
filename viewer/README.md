@@ -50,8 +50,8 @@ Tests retain the real export and isolated, explicitly labelled synthetic rendere
 
 ## Logo addendum (2026-10-22)
 
-The task folder was amended during P3 to add the owner logo and a single green token. The viewer now uses the amended DESIGN.md unchanged: Truth is green, Lens is white, and logo/result colours share --ok. General navigation uses info so it cannot imply a checked result. Native SVG geometry reconstructs the supplied JPEG references; wordmark glyph outlines use the bundled Inter 600 font. No JPEG or external font is loaded at runtime.
+Shu's logo and recorded results share the single --ok green token. Truth, eye and check are green; Lens and the shield outline use text white. Navigation and focus use info. Outside the logo, green describes real recorded results; an integrity badge is green only when verified is true and integrity is hmac. Hash-only remains grey. Native SVG geometry reconstructs the supplied JPEG references; wordmark glyph outlines use the bundled Inter 600 font. No JPEG or external font is loaded at runtime.
 
 `npm run brand:build` generates the public SVG wordmark/icon, favicon SVG/ICO 32 and touch PNG 180. SVG templates use theme variables; generated public assets resolve those values from theme.css for standalone image/favicon rendering. There is no second hand-maintained palette. Build checks SVG regeneration and icon dimensions; rasterization uses the clone-local Playwright browser only when deliberately rebuilding assets.
 
-The p3/logo branch was inserted after the already-published timeline branch and before mobile because the task folder gained step 4b while this run was in progress. Existing published branch history was preserved; no force-push or merge was performed.
+The browser review checks the shared logo/result green, white Lens text and neutral hash seal, rejects the superseded green shades and inspects all five generated assets, including ICO/PNG pixels and dimensions.
