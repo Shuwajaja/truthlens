@@ -1,0 +1,2889 @@
+{
+  "commit": "42ec8996b339a6b9816e21896760f57310eb1cc3",
+  "phase": "after",
+  "checks": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "view": "overview",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 4.5,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9cafa8",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9cafa8",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9cafa8",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 13.638053115939641
+        }
+      ],
+      "visibleLabel": "Client",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9cafa8",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "view": "claims",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 4.5,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9cafa8",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9cafa8",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9cafa8",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 13.638053115939641
+        }
+      ],
+      "visibleLabel": "Client",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9cafa8",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "view": "timeline",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 4.5,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9cafa8",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9cafa8",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9cafa8",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 13.638053115939641
+        }
+      ],
+      "visibleLabel": "Client",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9cafa8",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "view": "agent-story",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 4.5,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9cafa8",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9cafa8",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9cafa8",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 13.638053115939641
+        }
+      ],
+      "visibleLabel": "Client",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9cafa8",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "view": "overview",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 4.5,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9eadc2",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9eadc2",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9eadc2",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 13.595828621532227
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        }
+      ],
+      "visibleLabel": "Developer",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9eadc2",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "view": "claims",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 4.5,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9eadc2",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9eadc2",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9eadc2",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 13.595828621532227
+        }
+      ],
+      "visibleLabel": "Developer",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9eadc2",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "view": "timeline",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 4.5,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9eadc2",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9eadc2",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9eadc2",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 13.595828621532227
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        }
+      ],
+      "visibleLabel": "Developer",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9eadc2",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "view": "agent-story",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 4.5,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9eadc2",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9eadc2",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9eadc2",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 13.595828621532227
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        }
+      ],
+      "visibleLabel": "Developer",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9eadc2",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "view": "overview",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 4.5,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9cafa8",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9cafa8",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9cafa8",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 13.638053115939641
+        }
+      ],
+      "visibleLabel": "Client",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9cafa8",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "view": "claims",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 4.5,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9cafa8",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9cafa8",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9cafa8",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 13.638053115939641
+        }
+      ],
+      "visibleLabel": "Client",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9cafa8",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "view": "timeline",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 4.5,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9cafa8",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9cafa8",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9cafa8",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 13.638053115939641
+        }
+      ],
+      "visibleLabel": "Client",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9cafa8",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "view": "agent-story",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 4.5,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9cafa8",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.631746301383641
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9cafa8",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.68654799140829
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9cafa8",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.4621260507156135
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(156, 175, 168)",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 6.503726809398785
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.145882 0.153333 0.161176)",
+          "threshold": 3,
+          "ratio": 13.638053115939641
+        }
+      ],
+      "visibleLabel": "Client",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9cafa8",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "view": "overview",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 4.5,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9eadc2",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9eadc2",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9eadc2",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 13.595828621532227
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        }
+      ],
+      "visibleLabel": "Developer",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9eadc2",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "view": "claims",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 4.5,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9eadc2",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9eadc2",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9eadc2",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 13.595828621532227
+        }
+      ],
+      "visibleLabel": "Developer",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9eadc2",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "view": "timeline",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 4.5,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9eadc2",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9eadc2",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9eadc2",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 13.595828621532227
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        }
+      ],
+      "visibleLabel": "Developer",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9eadc2",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "view": "agent-story",
+      "measurements": [
+        {
+          "name": "active label",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 4.5,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "header rail/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "selected outline/bg",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#09090b",
+          "threshold": 3,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "mode text/bg",
+          "fg": "#9eadc2",
+          "bg": "#09090b",
+          "threshold": 4.5,
+          "ratio": 8.725778503616041
+        },
+        {
+          "name": "header rail/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "selected outline/surface",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "mode text/surface",
+          "fg": "#9eadc2",
+          "bg": "#18181b",
+          "threshold": 4.5,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "header rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "mode text/surface-2",
+          "fg": "#9eadc2",
+          "bg": "#27272a",
+          "threshold": 4.5,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "selected outline/inside",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 6.554221459123096
+        },
+        {
+          "name": "focus/selected fill",
+          "fg": "#f4f4f5",
+          "bg": "color(srgb 0.146667 0.152549 0.171373)",
+          "threshold": 3,
+          "ratio": 13.595828621532227
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        },
+        {
+          "name": "developer detail rail",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#18181b",
+          "threshold": 3,
+          "ratio": 7.770283426853292
+        },
+        {
+          "name": "developer rail/surface-2",
+          "fg": "rgb(158, 173, 194)",
+          "bg": "#27272a",
+          "threshold": 3,
+          "ratio": 6.532522923194912
+        }
+      ],
+      "visibleLabel": "Developer",
+      "headerRailWidth": "2px",
+      "selectedRailWidth": "2px",
+      "modeToken": "#9eadc2",
+      "statusTokens": [
+        "#10b981",
+        "#f43f5e",
+        "#f59e0b"
+      ]
+    }
+  ],
+  "errors": [],
+  "testedSource": "69767fa0a0fbabb5517b554e0a11b360ce22ec2d",
+  "testedTree": "24d3ef533d57f54a3e3d61d4dd6d6302a835c8d9"
+}

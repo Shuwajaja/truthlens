@@ -1,5 +1,8 @@
 name: ci
-on: [push, pull_request]
+on:
+  pull_request:
+  push:
+    branches: [main]
 jobs:
   viewer:
     runs-on: ubuntu-latest
@@ -14,35 +17,12 @@ jobs:
           cache: npm
           cache-dependency-path: viewer/package-lock.json
       - run: npm ci
-      - run: npm test
       - run: npm run lint
       - run: npm run check:styles --if-present
       - run: npm run check:language
+      - run: npm run check:theme
+      - run: npx vitest run
       - run: npm run build
-        id: viewer-build
-      - name: Full axe and keyboard audit at 1440x900 and 390x844
-        if: ${{ !cancelled() && steps.viewer-build.outcome == 'success' }}
-        run: node scripts/audit-a11y.mjs
-        env:
-          REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
-          A11Y_OUTPUT: .screenshots/a11y
-      - name: Review all views at desktop and mobile widths
-        if: ${{ !cancelled() && steps.viewer-build.outcome == 'success' }}
-        working-directory: viewer
-        run: |
-          google-chrome --version
-          npm run review:screenshots
-        env:
-          REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: viewer-screenshots-${{ github.sha }}
-          path: |
-            viewer/.screenshots/review/
-            viewer/.screenshots/a11y/
-          if-no-files-found: error
-          retention-days: 30
   docs:
     runs-on: ubuntu-latest
     steps:
@@ -64,12 +44,5 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: pip install -e '.[dev]'
       - run: ruff check src tests
-      - name: Separate test user (tl-agent) for the UID-isolation tests
-        run: |
-          sudo useradd --system --create-home --home-dir /srv/tl-agent --shell /usr/sbin/nologin tl-agent
-          sudo chmod 755 /srv/tl-agent
-          sudo install -d -o "$USER" -g tl-agent -m 2770 /srv/tl-agent/wt
-          sudo -u tl-agent /usr/bin/python3 -m venv /srv/tl-agent/venv
-          sudo -u tl-agent /srv/tl-agent/venv/bin/pip install -q pytest
-      - run: pytest -q -rs
-      - run: demo/run-demo.sh /tmp/tl-demo --offline
+      - name: Fast deterministic unit tests
+        run: pytest -q tests/test_canonical.py tests/test_redaction.py tests/test_ledger.py tests/test_manifest.py

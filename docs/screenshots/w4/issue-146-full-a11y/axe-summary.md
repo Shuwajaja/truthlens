@@ -1,4 +1,8 @@
-# Full axe CI and accessibility review — issue146
+# Full axe/AX accessibility review — issue146
+
+## Scheduling correction after Shu's policy update
+
+Current integration includes mainf1f6074 (mode colours). The full48-state axe/AX script and aria-modal fix are byte-identical to the previous PR head. Trigger routing is checked: release-review has only workflow_dispatch; automatic PR/main CI contains build/lint/fast units and no audit, screenshot/browser, toolbar matrix, UID setup or demo invocation. Workflow files are identical to the independently green Story PR151 configuration.277 quick units, lint/styles/language/theme/build pass locally on this integration. No full audit or manual workflow dispatch was rerun for this scheduling correction; all original screenshots/AX/full-axe results below remain tied to their original tested source. The independent review found no remaining issue. Updated fast-CI status is in PR147.
 
 Tested source `abd38f13a7dffd725c4efe2cc520151e158a90d5`, tree `b7b625bab01f4467c7ec28741d901a9275d6595e`, based on main776212c after the owner merged PR145. Later publication changes only STATUS/evidence. JSON preserves its recorded HEAD and adds the exact tested source/tree. Original recorded run data, layout, colours, trust labels and frozen contracts are unchanged.
 
@@ -29,7 +33,7 @@ Focus return after Escape is asynchronous: the audit now waits for the actual tr
 | Actual spoken screen reader | **Not performed.** Chromium AX-tree evidence is not an NVDA/VoiceOver spoken-output or human usability test. This remaining AT step stays open in STATUS.md. |
 | Overall accessibility | No blanket WCAG/other-export/hosted certification. Synthetic policy fixtures test the gate, not user-facing run evidence. |
 
-CI now runs the same script as a required viewer step after build. Missing coverage, any axe violation, browser errors or failed keyboard/AX checks fail it. The JSON writer runs in finally, retaining partial failure state. Artifact upload uses always() and explicit review/a11y paths for30 days. The older screenshot review remains separate and runs after build even if the full audit fails. CI status for the final head is in the PR; no agent merge.
+Historical scheduling at the tested source made this a required PR viewer step. Shu subsequently changed the policy: the current branch invokes the same script only in the manual workflow_dispatch release-review, never per PR. The original executed audit below is retained as historical evidence; it was not rerun for this scheduling-only correction. Missing coverage, any axe violation, browser errors or failed keyboard/AX checks fail it. The JSON writer runs in finally, retaining partial failure state. Artifact upload uses always() and explicit review/a11y paths for30 days. The older screenshot review remains separate and runs after build even if the full audit fails. Fast PR CI status for the updated head is in the PR; no manual workflow dispatch or agent merge claimed.
 
 Commands: `cd viewer && npm test && npm run lint && npm run check:styles && npm run build`; `A11Y_OUTPUT=/tmp/truthlens-full-a11y node scripts/audit-a11y.mjs`. Use the usual local Playwright browser/library variables, or REVIEW_BROWSER_EXECUTABLE for system Chrome.50 diagnostic captures are generated (48 states +2 legacy Overview aliases);32 selected images are published below. The explicit failing-modal report demonstrates local failure evidence retention; it is not a fabricated CI-failure run.
 

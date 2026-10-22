@@ -11,10 +11,10 @@ See `docs/STATUS.md` (MVP checklist). No mock-only feature counts as done.
 Do not state results you did not produce and check. "Tests pass" means you ran the test command and saw it pass. Agent decisions are `actor.kind = agent`, never human approval; simulated approvals are labelled `simulated`.
 
 ## Tests
-Lean: only tests that guard an acceptance criterion (ledger, tamper, crash, redaction, approval gate, …). No test bloat. Run the issue's `Test command:` locally; full suite runs in CI.
+Lean: only tests that guard an acceptance criterion (ledger, tamper, crash, redaction, approval gate, …). No test bloat. Run the issue's Test command locally. PR CI is build/lint/fast unit tests only; full suites/browser/axe/demo/UID checks run via manual release-review workflow. Retain every test file. When PR CI is green, report merge-ready without waiting for repeated long suites; never merge yourself (Shu, 2026-10-22).
 
 ## Branches & PRs
-- Branch `w<N>/issue-<n>-<slug>`; one issue per branch/worktree; only touch the issue's `Allowed paths:`.
+- Branch `w<N>/issue-<n>-<slug>`; bundle related authorized steps/issues into one independent PR, touching their Allowed paths. Avoid stacked PRs; if unavoidable, explicitly request merge-commit instead of squash in its description (Shu, 2026-10-22).
 - PR to `main` only; squash merge requires green CI and **Shu's explicit OK**. No force-push, no direct push to `main`.
 - **Security review rule (owner, binding since 2026-10-11 05:00):** any PR touching `gate.py`, `ledger.py`, `redaction.py`, `wrapper.py`, `manifest.py` or anything HMAC gets `needs-codex-review` (set automatically by `tl-cycle.sh` from a fixed path list, not by a model) and is **never merged without CodexChat's review**. Other low-risk PRs: merge requires Shu's OK, green CI and an admin diff check.
 - Acceptance criteria are fixed in the issue before the run; the issue's test command is the deterministic check.
@@ -39,10 +39,9 @@ Never write secrets/keys/tokens to files, logs, commits, prompts or test fixture
 ## UI pipeline (binding for all UI work)
 1. **Design first:** read and update `viewer/DESIGN.md` (tokens, colours, type scale) before UI code. Its honesty rules always apply: no signature verification claim unless `verified === true` and `integrity === 'hmac'`; no fake data; a neutral grey "Hash only · signature not checked" seal; "Integrity is not approval" stays visible.
 2. **Components:** prefer shadcn via MCP `shadcn` and Magic UI via MCP `magicui`. Do not use Origin UI / coss code (AGPL).
-3. **Verify every UI change:** use headless Playwright MCP (`playwright`) or a Playwright script to capture desktop **1440×900** and mobile **390×844** screenshots. Run an axe-core accessibility check with `@axe-core/playwright`; fix serious and critical violations.
+3. **Review UI changes, outside automatic PR CI:** use a targeted manual headless Playwright script to capture desktop **1440×900** and mobile **390×844** screenshots. Use @axe-core/playwright during manual/release review; fix serious and critical violations. Full browser/axe runs are not automatic PR gates.
 4. **Publish evidence:** attach screenshots and the axe summary to the PR description, or commit them under `docs/screenshots/<branch>/`. Identify the tested commit and viewports; report findings honestly.
-5. **Local rules and checks:** follow [docs/UI-PIPELINE.md](docs/UI-PIPELINE.md), the local React/interface checklists and the pinned source/license record. No mutable upstream skill fetches or automatic installers. `npm test` includes the preview-only toolbar build gate; run `npm run check:toolbar -- --browser` when changing the toolbar. Distinguish CI checks, full axe and manual review; report unresolved items.
-   CI also gates48 unrestricted full axe scans at1440×900/390×844, both lenses, with criterion tabs and keyboard/AX checks; any violation or missing required coverage fails. Keep raw incomplete/failure evidence in uploaded artifacts. AX-tree checks do not certify spoken screen-reader behaviour.
+5. **Local rules and checks:** follow [docs/UI-PIPELINE.md](docs/UI-PIPELINE.md), the local React/interface checklists and the pinned source/license record. No mutable upstream skill fetches or automatic installers. `npm test` retains the toolbar build matrix for manual/release review. Fast PR CI uses npx vitest run and the static lint/theme/language checks; toolbar browser verification belongs to the release workflow. Distinguish CI checks, full axe and manual review; report unresolved items.
 6. **Preview feedback:** Toolbar/Comments is preview-only; no production loader. Reuse platform injection. Preview provisioning stays in `p3/pr-previews`; do not duplicate it. Keep project Preview toolbar On and Production Off; report platform access limits instead of claiming an untested live comment flow.
 7. **Operational limits:** no merge without Shu's OK. Do not restart services, delete files or print secrets.
 
