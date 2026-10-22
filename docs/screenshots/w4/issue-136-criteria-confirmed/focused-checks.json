@@ -1,0 +1,77 @@
+{
+  "browserVersion": "156.0.8078.4",
+  "checks": [
+    {
+      "view": "overview",
+      "lens": "client",
+      "width": 1440,
+      "height": 900,
+      "confirmationVisible": true,
+      "tone": "info",
+      "noMisleadingLabel": true
+    },
+    {
+      "view": "timeline",
+      "lens": "client",
+      "width": 1440,
+      "height": 900,
+      "confirmationVisible": true,
+      "tone": "info",
+      "noMisleadingLabel": true
+    },
+    {
+      "view": "overview",
+      "lens": "client",
+      "width": 390,
+      "height": 844,
+      "confirmationVisible": true,
+      "tone": "info",
+      "noMisleadingLabel": true
+    },
+    {
+      "view": "timeline",
+      "lens": "client",
+      "width": 390,
+      "height": 844,
+      "confirmationVisible": true,
+      "tone": "info",
+      "noMisleadingLabel": true
+    },
+    {
+      "view": "overview",
+      "lens": "developer",
+      "width": 1440,
+      "height": 900,
+      "confirmationVisible": true,
+      "tone": "info",
+      "noMisleadingLabel": true
+    },
+    {
+      "view": "timeline",
+      "lens": "developer",
+      "width": 1440,
+      "height": 900,
+      "confirmationVisible": true,
+      "tone": "info",
+      "noMisleadingLabel": true
+    },
+    {
+      "view": "overview",
+      "lens": "developer",
+      "width": 390,
+      "height": 844,
+      "confirmationVisible": true,
+      "tone": "info",
+      "noMisleadingLabel": true
+    },
+    {
+      "view": "timeline",
+      "lens": "developer",
+      "width": 390,
+      "height": 844,
+      "confirmationVisible": true,
+      "tone": "info",
+      "noMisleadingLabel": true
+    }
+  ]
+}

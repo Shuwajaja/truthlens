@@ -1,6 +1,14 @@
 # TruthLens — Status
 
-## Viewer: geprüft am 22.10.2026
+## Viewer: P1-Korrektur zur Prüfung — 22.10.2026
+
+Aktueller Ausgangspunkt: `main` bei `980d8b7ea6be946080bbfcc2b84048af3ff85cbd`, nach den Merges von #133/#135. Dieser Auftrag ändert nur die Anzeige von `criteria.confirmed`; keine menschliche Abnahme, keine Änderung von Ereignisschema, Rohdaten oder Freigaberegeln. PR #95 bleibt unberührt.
+
+[Issue #136](https://github.com/Shuwajaja/truthlens/issues/136) / [PR #137](https://github.com/Shuwajaja/truthlens/pull/137): In Timeline und eingebetteter Overview steht jetzt „Criteria confirmed by human“ ausschließlich bei aufgezeichnetem menschlichem Akteur, sonst „Criteria confirmation recorded“. „Confirmation is not a test result.“ grenzt die Bestätigung von tatsächlich bestandenen Prüfungen ab. Englische UI und Stitch-Design bleiben erhalten; der Drawer erhält das unveränderte Originalereignis.
+
+Geprüfter Quellstand `961a00e083d36a663c34f12465dbc15db759b2f2`: 230 Tests/21 Dateien, Lint, Stil-/Sprachprüfung und Build erfolgreich; 36 vollständige axe-Scans ohne Verstöße, sieben Tastaturprüfungen und Screenshots bei 1440×900/390×844. [Nachweise und Grenzen](screenshots/w4/issue-136-criteria-confirmed/axe-summary.md). Axe-Incomplete-Ergebnisse bleiben manuelle Prüfpunkte. PR offen, noch nicht gemergt; der erste P1 ist damit zur Prüfung bereit, nicht auf main ausgeliefert. Die übrigen historischen P1/P2-Punkte wurden in diesem begrenzten Auftrag nicht neu bewertet. CI-Status zum aktuellen PR-Head steht im PR.
+
+## Historischer Viewer-Prüfstand vor den UI-Merges vom 22.10.2026
 
 Stand durch Codex (`actor.kind = agent`), keine menschliche Abnahme. `origin/main` steht bei `40dbb8c4f9521a56280c8b17a69e03216e1ba105`. **Im Rahmen dieses Auftrags wurde nichts gemergt.** Die nachfolgenden P0-Angaben vom 21.10. sind historische Einzelbranch-Nachweise und beschreiben nicht den heutigen Viewer-/PR-Stand.
 
@@ -20,7 +28,7 @@ Priorisierte Arbeitsliste aus dem Live-Review und den dokumentierten Prüflücke
 
 | Priorität | Offene Arbeit | Woran die Erledigung erkennbar wäre |
 | --- | --- | --- |
-| P1 | Irreführendes „Criteria met“ beim Ereignis `criteria.confirmed` korrigieren. | Die Anzeige unterscheidet menschlich bestätigte Prüfkriterien von tatsächlich bestandenen Prüfungen. Ereignisschema, Rohdaten und Freigaberegeln bleiben unverändert. |
+| P1 · PR offen | „Criteria met“ bei `criteria.confirmed`: Korrektur in [PR #137](https://github.com/Shuwajaja/truthlens/pull/137) zur Prüfung bereit, noch nicht auf main. | Menschliche Kriterienbestätigung und bestandene Prüfungen getrennt; Tests, Screenshots und vollständiger axe-Nachweis siehe aktuellen Abschnitt oben. Ereignisschema, Rohdaten und Freigaberegeln unverändert. |
 | P1 | In Client Behauptung und tatsächliches Prüfergebnis gemeinsam zeigen. | Für den realen Demo-Lauf sind Erfolg, fehlgeschlagener Test und ungeprüftes Kriterium ohne Developer-Wechsel samt vorhandenem Beleg auffindbar. Fehlende Belege werden nicht erfunden. |
 | P1 | Ergebnis und Kriterien nach vorn stellen; Hauptweg vereinfachen. | Bei beiden Bildschirmgrößen ist der Weg „Ergebnis → Kriterium → Beleg“ klar. Statuskarten, Laufdaten, Graph, Story und Detailbereiche konkurrieren weniger. Vorschläge aus den UX-Punkten 3–8 einzeln abstimmen; Designregeln vor UI-Änderungen aktualisieren. Den statischen Navigator nicht als fertige Funktion behandeln. |
 | P2 | Gewählte Hauptansicht wiederherstellbar machen. | Ein geteilter Link bzw. Neuladen öffnet die beabsichtigte Ansicht; der beobachtete Rücksprung von Timeline zu Overview ist behoben. |
