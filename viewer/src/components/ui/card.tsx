@@ -1,13 +1,15 @@
 // Adapted from shadcn/ui (MIT); see LICENSE.shadcn-ui.
 import * as React from "react"
+import * as Slot from "@radix-ui/react-slot"
 import { cn } from "../../lib/utils.ts"
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+function Card({ className, asChild=false, ...props }: React.ComponentProps<"div"> & {asChild?:boolean}) {
+  const Comp=asChild?Slot.Root:"div"
   return (
-    <div
+    <Comp
       data-slot="card"
       className={cn(
-        "flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm",
+        "flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground",
         className
       )}
       {...props}

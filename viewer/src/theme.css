@@ -31,6 +31,10 @@
   --size-section: 16px;
   --size-mobile: 20px;
   --size-title: 28px;
+  --header-height: 64px;
+  --content-padding: 24px;
+  --content-gap: 24px;
+  --nav-height-mobile: 64px;
   --space-1: 8px;
   --space-2: 16px;
   --space-3: 24px;

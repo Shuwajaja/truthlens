@@ -95,3 +95,34 @@ The neutral seal is exactly “Hash only · signature not checked”. The checke
 
 ## 13. Criteria confirmation is not a passed check
 For `criteria.confirmed`, Timeline and its embedded Overview show “Criteria confirmed by human” only when the recorded actor is human; otherwise “Criteria confirmation recorded”. Add “Confirmation is not a test result.” Use existing informational styling, never a passed-test icon/tone. These labels override a potentially misleading recorded summary in this navigation surface; the exact event/summary remains accessible in its unchanged raw-data drawer. Actual `test.reported` results retain their recorded passed/failed presentation. No schema, RunDoc data or approval-rule changes.
+
+## 14. Client claims, results and evidence together
+Both lenses show the exported agent claim separately from the recorded criterion result. In Claimed vs proven, each claim includes only criteria linked by its `criterion_ids`, with its recorded status and referenced evidence summaries/actions. Overview criterion detail includes all claims explicitly linked to that selected criterion. Claim finding is never a test result. Use existing cards, status badges, buttons, spacing, typography and tokens; retain the Stitch Overview layout.
+
+Evidence is resolved only from `criterion.evidence` event IDs; never guess by prose, actor timing or matching claim finding. Unverified is labelled “Not checked — no confirmed result exported.” Missing events and missing criterion/claim links are stated explicitly; missing evidence does not erase an independently exported criterion status or fabricate a test. Event buttons open the exact referenced record. No changes to exports, event schema, approval rules or signature guards.
+
+## 15. Shared Stitch components and review path
+
+Inventory and consolidation (all four views):
+- Actions: shadcn Button for primary/outline/ghost actions; icon-free text for record navigation. Header tabs/lens controls and timeline rows remain native semantic buttons with the same token focus treatment.
+- Cards: one shadcn Card base (surface, border,12px radius,16px padding/gap). Overview panels, Claims articles and Story records reuse it. No separate card-wrap styling for Claims.
+- Badges: StatusBadge remains the sole exported-status mapping; claim finding, recorded criterion result, approval and integrity remain separate. No decorative success.
+- Tabs: shared shadcn Tabs for selected evidence; one Header/Sidebar navigation across all views. No extra permanent desktop evidence rail or inactive Navigator in the shell.
+- Tables/properties: existing node-properties definition lists for metadata and existing recorded-payload/diff renderers for raw evidence; shared borders, mono IDs and focusable scrolling. No alternative table theme.
+- Headings: PageHeading supplies the same title/action/description layout. Timeline can use level2 when embedded. A real Review criteria action in the other views returns to Overview.
+- Empty/loading/error: shared shadcn Empty + compact ViewState/Card. Missing-data copy stays specific; no sample content. Loading uses status, failures alert. Invalid export stays fail-closed.
+- Drawer: one existing Sheet/Tabs implementation, now with the selected object in its visible title, while keeping established dialog kind names and trust notices.
+
+Existing Plus Jakarta Sans/JetBrains Mono, type12/14/16/20/28 and8px spacing tokens apply everywhere; add shell/content/header/footer spacing tokens rather than parallel layouts. Four views share Header, tabs, one main content column and the same Drawer. Overview retains its approved three-column workspace inside that column.
+
+UX proposals, individually justified (review points3–8):
+3. Adopt: recorded outcome cards select the first real criterion in that category; absent categories have disabled actions. Selecting a criterion moves focus/scroll to its detail, removing the separate mobile “find the detail” step. No outcome is inferred.
+4. Adopt: a data-derived outcome sentence accompanies the three separate counts; Approval remains distinct. No run-level verified/approved claim.
+5. Adopt: remove duplicate permanent EvidenceRail/Navigator from the shell; role descriptions explain Claims, Timeline and Story. Graph/diff remain optional disclosure. All records remain accessible through the run drawer and selected evidence.
+6. Adopt existing simple criterion list as primary; retain secondary Graph and its accessible record/link list. A new graph-layout algorithm is deferred because this task does not need one.
+7. Adopt plain purpose/absence explanations and consistent record actions. A new narrative summary or rewriting exported finding vocabulary is deferred: preserve the actual chronology and claims instead of inventing a story.
+8. Adopt selected criterion/event/file/claim/run identity in the visible drawer title; preserve contextual evidence tabs, original record identity and focus return. Run-wide evidence and selected records are no longer permanently side-by-side.
+
+These are design decisions, not measured user-study results. URL persistence (point9) and authenticated comments remain separate work.
+
+Drawer focus return must not override a newer deliberate focus target during a view change; restore the trigger only while focus remains in the closing dialog or has fallen back to the body.

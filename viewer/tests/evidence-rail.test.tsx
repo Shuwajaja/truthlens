@@ -3,15 +3,20 @@ import './browser-env.ts'
 import {afterEach,it,expect,vi} from 'vitest'
 import {cleanup,render,screen,within,fireEvent} from '@testing-library/react'
 import App from '../src/App.tsx'
+import {EvidenceTabs} from '../src/components/EvidenceRail.tsx'
+import {Drawer,type DrawerTarget} from '../src/components/Drawer.tsx'
+import {useState} from 'react'
+import type {RunDoc} from '../src/types.ts'
 import publicRun from '../public/run.json'
 afterEach(()=>{cleanup();localStorage.clear();vi.unstubAllGlobals()})
-it('opens a real test event from the evidence rail and preserves trust boundaries',async()=>{
+it('opens a real test event from Timeline without a duplicate shell rail',async()=>{
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(publicRun)})))
  render(<App/>);await screen.findByRole('main');
  fireEvent.click(within(screen.getByRole('navigation',{name:'Viewer navigation'})).getByRole('button',{name:'Timeline'}));
- const rail=within(screen.getByRole('complementary',{name:'Evidence drawer'}));
+ expect(screen.queryByRole('complementary',{name:'Evidence drawer'})).toBeNull();
+ const rail=within(screen.getByRole('main'));
  const event=publicRun.events[13];
- fireEvent.click(rail.getByRole('button',{name:name=>name.includes(event.summary)&&name.includes(`#${event.seq} · ${event.type}`)}));
+ fireEvent.click(rail.getByRole('button',{name:name=>name.includes(event.summary)}));
  const dialog=within(screen.getByRole('dialog',{name:'Event detail'}));
  expect(dialog.getByText(event.summary)).toBeTruthy();
  expect(dialog.getByText('Hash only · signature not checked')).toBeTruthy();
@@ -19,10 +24,9 @@ it('opens a real test event from the evidence rail and preserves trust boundarie
 })
 
 it('filters real test and artifact records without inventing entries',async()=>{
- vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(publicRun)})))
- render(<App/>);await screen.findByRole('main');
- fireEvent.click(within(screen.getByRole('navigation',{name:'Viewer navigation'})).getByRole('button',{name:'Timeline'}));
- const rail=within(screen.getByRole('complementary',{name:'Evidence drawer'}));
+ function Harness(){const [target,setTarget]=useState<DrawerTarget|null>(null);return <><section aria-label="Recorded evidence"><EvidenceTabs doc={publicRun as RunDoc} onOpenDrawer={setTarget}/></section>{target&&<Drawer target={target} doc={publicRun as RunDoc} lens="client" trust={publicRun as RunDoc} blobs={publicRun.blobs} onOpenDrawer={setTarget} onClose={()=>setTarget(null)}/>}</>}
+ render(<Harness/>);
+ const rail=within(screen.getByRole('region',{name:'Recorded evidence'}));
  fireEvent.mouseDown(rail.getByRole('tab',{name:'Tests'}),{button:0,ctrlKey:false});
  expect(rail.getAllByRole('button',{name:/#\d+ · test\.reported$/})).toHaveLength(2);
  fireEvent.mouseDown(rail.getByRole('tab',{name:'Files'}),{button:0,ctrlKey:false});

@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import type { RunDoc } from './types.ts'
 import { validateRunDoc } from './validateRunDoc.ts'
 import { readLens, writeLens, type Lens } from './lens.ts'
-import { EvidenceRail } from './components/EvidenceRail.tsx'
+import {ViewState} from './components/ViewState.tsx'
+import {Button} from './components/ui/button.tsx'
 import { Header } from './components/Header.tsx'
 import { Sidebar } from './components/Sidebar.tsx'
 import { Overview } from './components/Overview.tsx'
@@ -45,7 +46,7 @@ export default function App() {
       .catch((e: Error) => setError(e.message || 'Failed to load run data'))
   }, [])
 
-  useEffect(()=>{if(mobile)focusView()},[view,mobile])
+  useEffect(()=>{focusView()},[view,mobile])
   const handleViewChange=(next:View)=>{
     setView(next)
     if(mobile&&next===view)focusView()
@@ -56,35 +57,14 @@ export default function App() {
     writeLens(next)
   }
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-background text-foreground font-sans">
-        <p className="text-destructive">{error}</p>
-      </div>
-    )
-  }
-  if (invalidExport) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen bg-background text-foreground font-sans px-6 text-center">
-        <h1 className="text-xl font-semibold text-destructive">Invalid or inconsistent export</h1>
-        <p className="mt-4 max-w-md text-muted-foreground leading-relaxed">
-          Restore a valid export and reload to view run data.
-        </p>
-      </div>
-    )
-  }
-  if (!doc) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-background text-foreground font-sans">
-        <p>Loading run data…</p>
-      </div>
-    )
-  }
+  if(error)return <ViewState title="Unable to load run data" description={error} error/>
+  if(invalidExport)return <ViewState title="Invalid or inconsistent export" description="Restore a valid export and reload to view run data." error/>
+  if(!doc)return <ViewState title="Loading run data…"/>
 
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <Header mobile={mobile} trust={doc} onOpenRun={()=>setDrawerTarget({kind:'run',doc})} navigation={<Sidebar
+      <Header mobile={mobile} trust={doc} runTitle={doc.run.project} onOpenRun={()=>setDrawerTarget({kind:'run',doc})} navigation={<Sidebar
         mobile={mobile}
         currentView={view}
         onViewChange={handleViewChange}
@@ -92,15 +72,15 @@ export default function App() {
         onLensChange={handleLensChange}
         reviewRequired={doc.review_required}
       />}/>
-      <div className={`workspace terminal-workspace ${view==='overview'?'overview-shell':''}`}>
+      <div className="workspace terminal-workspace">
       <main id="main-content" tabIndex={-1}>
         <IntegrityNotice verified={doc.verified} integrity={doc.integrity} controls={mobile?<LensToggle lens={lens} onChange={handleLensChange}/>:undefined} />
-        {view === 'overview' && <Overview doc={doc} lens={lens} onOpenDrawer={setDrawerTarget} />}
-        {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} lens={lens} />}
+        {view!=='overview'&&<div className="review-return"><Button variant="outline" size="sm" onClick={()=>handleViewChange('overview')}>Review criteria</Button></div>}
+        {view === 'overview' && <Overview doc={doc} lens={lens} showRunAction={mobile} onOpenDrawer={setDrawerTarget} />}
+        {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} lens={lens} onOpenDrawer={setDrawerTarget} />}
         {view === 'timeline' && <RenderView input={{ kind: 'events', events: doc.events }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
         {view === 'agent-story' && <RenderView input={{ kind: 'run', doc }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
       </main>
-      {!mobile&&view!=='overview'&&<EvidenceRail doc={doc} onOpenDrawer={setDrawerTarget} />}
       </div>
       {drawerTarget && (
         <Drawer

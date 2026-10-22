@@ -3,11 +3,20 @@
 exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented start/finish 1`] = `
 <DocumentFragment>
   <section>
-    <h1
-      class="text-2xl font-semibold mb-6"
+    <div
+      class="view-heading"
     >
-      Agent Story
-    </h1>
+      <div>
+        <h1>
+          Agent Story
+        </h1>
+        <p
+          class="text-2"
+        >
+          Read the recorded actions and claims; inspect their original events.
+        </p>
+      </div>
+    </div>
     <p
       class="text-sm text-2 border border-border rounded-lg p-4 mb-4"
     >
@@ -15,10 +24,11 @@ exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented
     </p>
     <ol
       aria-label="Recorded story"
-      class="divide-y divide-border"
+      class="space-y-4"
     >
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-open"
@@ -56,7 +66,10 @@ exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented
           </li>
         </ul>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
@@ -70,11 +83,20 @@ exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented
 exports[`Agent Story > shows the real demo story and real event links in the client lens 1`] = `
 <DocumentFragment>
   <section>
-    <h1
-      class="text-2xl font-semibold mb-6"
+    <div
+      class="view-heading"
     >
-      Agent Story
-    </h1>
+      <div>
+        <h1>
+          Agent Story
+        </h1>
+        <p
+          class="text-2"
+        >
+          Read the recorded actions and claims; inspect their original events.
+        </p>
+      </div>
+    </div>
     <p
       class="text-sm text-2 border border-border rounded-lg p-4 mb-4"
     >
@@ -82,10 +104,11 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
     </p>
     <ol
       aria-label="Recorded story"
-      class="divide-y divide-border"
+      class="space-y-4"
     >
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -98,14 +121,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           The agent started this run.
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -118,14 +145,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Build a small landing page with a contact form.
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -138,14 +169,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Recorded result: info.
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -158,14 +193,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Exit code 0.
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-open"
@@ -203,14 +242,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           </li>
         </ul>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-open"
@@ -248,14 +291,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           </li>
         </ul>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-open"
@@ -293,14 +340,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           </li>
         </ul>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -313,14 +364,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           File changes were recorded.
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -333,14 +388,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           An artifact was recorded for this run.
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -366,14 +425,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           </li>
         </ul>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -399,14 +462,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           </li>
         </ul>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -419,7 +486,10 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           The run finished with exit code 0.
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View recorded event
@@ -433,11 +503,20 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
 exports[`Agent Story > shows the real demo story and real event links in the developer lens 1`] = `
 <DocumentFragment>
   <section>
-    <h1
-      class="text-2xl font-semibold mb-6"
+    <div
+      class="view-heading"
     >
-      Agent Story
-    </h1>
+      <div>
+        <h1>
+          Agent Story
+        </h1>
+        <p
+          class="text-2"
+        >
+          Read the recorded actions and claims; inspect their original events.
+        </p>
+      </div>
+    </div>
     <p
       class="text-sm text-2 border border-border rounded-lg p-4 mb-4"
     >
@@ -445,10 +524,11 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
     </p>
     <ol
       aria-label="Recorded story"
-      class="divide-y divide-border"
+      class="space-y-4"
     >
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -466,14 +546,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #1 · run.started · evt_01M4NPV2THH34J9C2CESGZ6Q7G
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #1
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -491,14 +575,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #2 · requirement.recorded · evt_01M4NPV2TSPARXKQ958TKPDE0W
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #2
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -516,14 +604,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #7 · evidence.attached · evt_01M4NPV2V7QVDACAFBAEVQYN1H
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #7
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -541,14 +633,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #8 · evidence.attached · evt_01M4NPVPHT05GPAH27CGK65CE3
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #8
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-open"
@@ -591,14 +687,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #9 · agent.claim · evt_01M4NPVPHWHNGGZ1X5EMANZ97B
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #9
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-open"
@@ -641,14 +741,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #10 · agent.claim · evt_01M4NPVPHXB6QT6QRX9GAHVJ27
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #10
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-open"
@@ -691,14 +795,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #11 · agent.claim · evt_01M4NPVPHZVR60R2A57PDX3A7P
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #11
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -716,14 +824,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #12 · evidence.attached · evt_01M4NPVPJ71QG0VYEDQK4FRVCR
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #12
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -741,14 +853,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #13 · artifact.recorded · evt_01M4NPVPJCQDXQ7S0H25AS1178
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #13
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -779,14 +895,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #14 · test.reported · evt_01M4NPVPSNGNVVK6R10MZ0XV01
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #14
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -817,14 +937,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #15 · test.reported · evt_01M4NPVQ5W413BNVPF8E9VKTSF
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #15
         </button>
       </li>
       <li
-        class="py-4"
+        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
+        data-slot="card"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -842,7 +966,10 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           #16 · run.finished · evt_01M4NPVQ5ZKWK38BJV9D9RYHSN
         </p>
         <button
-          class="text-sm text-2 underline mt-2 focus-visible:outline-2 focus-visible:outline-offset-2"
+          class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
+          data-size="sm"
+          data-slot="button"
+          data-variant="outline"
           type="button"
         >
           View event #16

@@ -1,7 +1,6 @@
 import {FileText, ListChecks, Clock} from 'lucide-react'
 import type {RunDoc, RunEvent} from '../types.ts'
 import type {DrawerTarget} from './Drawer.tsx'
-import {Navigator} from './Navigator.tsx'
 import {Tabs,TabsList,TabsTrigger,TabsContent} from './ui/tabs.tsx'
 import {recordedTime,recordedDuration} from './overview-data.ts'
 
@@ -25,15 +24,4 @@ export function EvidenceTabs({doc,onOpenDrawer}:{doc:RunDoc;onOpenDrawer:(target
     }}><span className="rail-icon"><FileText size={14} aria-hidden="true"/></span><span><strong>{artifact.path}</strong><code className="break-all">{artifact.sha256}</code></span></button></li>)}</ul>}</TabsContent>
     <TabsContent value="time"><dl className="run-times"><div><dt>Start</dt><dd>{recordedTime(doc.run.started)}</dd></div><div><dt>End</dt><dd>{doc.run.finished?recordedTime(doc.run.finished):'Not exported'}</dd></div><div><dt>Duration</dt><dd>{recordedDuration(doc.run.started,doc.run.finished)}</dd></div></dl></TabsContent>
    </Tabs>
-}
-
-export function EvidenceRail({doc,onOpenDrawer}:{doc:RunDoc;onOpenDrawer:(target:DrawerTarget)=>void}){
- const evidence=doc.events.filter(event=>['test.reported','artifact.recorded','evidence.attached'].includes(event.type))
- return <aside className="evidence-rail" aria-label="Evidence drawer"><div className="rail-sticky">
-  <section className="rail-evidence"><div className="panel-heading"><h2>Evidence drawer</h2><span className="section-note">{evidence.length} events</span></div>
-   <EvidenceTabs doc={doc} onOpenDrawer={onOpenDrawer}/>
-   <p className="trust-seal">Integrity is not approval</p>
-  </section>
-  <Navigator/>
- </div></aside>
 }

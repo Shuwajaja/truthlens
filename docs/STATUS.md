@@ -1,12 +1,20 @@
 # TruthLens — Status
 
-## Viewer: P1-Korrektur zur Prüfung — 22.10.2026
+## Viewer: Client-Behauptung und Prüfergebnis zur Prüfung — 22.10.2026
+
+Ausgangspunkt: `main` bei `29e930bd318dd8305e1dc6bb00e7cb6d11257669`, nach dem Squash-Merge von #137. [Issue #138](https://github.com/Shuwajaja/truthlens/issues/138) / [PR #139](https://github.com/Shuwajaja/truthlens/pull/139) ergänzt den nächsten P1: Im Client zeigt „Claimed vs proven“ Behauptung, aufgezeichnetes Kriteriumsergebnis und vorhandene Belege gemeinsam. Die Overview zeigt beim gewählten Kriterium die tatsächlich zugeordneten Behauptungstexte. Der Demo-Lauf hat einen belegten Erfolg, einen fehlgeschlagenen Test und ein ungeprüftes Kriterium mit ehrlichem Leerzustand. Kein Developer-Wechsel nötig.
+
+Zuordnung ausschließlich über exportierte Kriterien-/Ereignis-IDs; fehlende oder teilweise fehlende Referenzen werden benannt. Keine erfundenen Belege, keine Änderung von Schema, Rohdaten, Freigaberegeln oder Integritätsgrenzen. Englische UI und Stitch-Design beibehalten. PR #95 unberührt.
+
+Geprüfter Quellstand `c1883d531c37b137ddaea4b6496c47b68376e21e`: 237 Tests/22 Dateien, Lint, Stil-/Sprachprüfung und Build erfolgreich. 36 vollständige Baseline-axe-Scans plus8 zusätzliche Event-Drawer-Scans ohne Verstöße; sieben Tastaturprüfungen. Screenshots bei1440×900/390×844 und12 gezielte echte Client-Zustände. [Nachweise, Screenshots und Grenzen](screenshots/w4/issue-138-client-results/axe-summary.md). Incomplete-Ergebnisse bleiben manuelle Prüfpunkte. PR #139 offen, noch nicht gemergt: dieser P1 ist zur Prüfung bereit, nicht auf main ausgeliefert. Keine menschliche Abnahme. CI zum endgültigen Head steht im PR.
+
+## Vorheriger P1: Kriterienbestätigung — Nachweis vom 22.10.2026
 
 Aktueller Ausgangspunkt: `main` bei `980d8b7ea6be946080bbfcc2b84048af3ff85cbd`, nach den Merges von #133/#135. Dieser Auftrag ändert nur die Anzeige von `criteria.confirmed`; keine menschliche Abnahme, keine Änderung von Ereignisschema, Rohdaten oder Freigaberegeln. PR #95 bleibt unberührt.
 
 [Issue #136](https://github.com/Shuwajaja/truthlens/issues/136) / [PR #137](https://github.com/Shuwajaja/truthlens/pull/137): In Timeline und eingebetteter Overview steht jetzt „Criteria confirmed by human“ ausschließlich bei aufgezeichnetem menschlichem Akteur, sonst „Criteria confirmation recorded“. „Confirmation is not a test result.“ grenzt die Bestätigung von tatsächlich bestandenen Prüfungen ab. Englische UI und Stitch-Design bleiben erhalten; der Drawer erhält das unveränderte Originalereignis.
 
-Geprüfter Quellstand `961a00e083d36a663c34f12465dbc15db759b2f2`: 230 Tests/21 Dateien, Lint, Stil-/Sprachprüfung und Build erfolgreich; 36 vollständige axe-Scans ohne Verstöße, sieben Tastaturprüfungen und Screenshots bei 1440×900/390×844. [Nachweise und Grenzen](screenshots/w4/issue-136-criteria-confirmed/axe-summary.md). Axe-Incomplete-Ergebnisse bleiben manuelle Prüfpunkte. PR offen, noch nicht gemergt; der erste P1 ist damit zur Prüfung bereit, nicht auf main ausgeliefert. Die übrigen historischen P1/P2-Punkte wurden in diesem begrenzten Auftrag nicht neu bewertet. CI-Status zum aktuellen PR-Head steht im PR.
+Geprüfter Quellstand `961a00e083d36a663c34f12465dbc15db759b2f2`: 230 Tests/21 Dateien, Lint, Stil-/Sprachprüfung und Build erfolgreich; 36 vollständige axe-Scans ohne Verstöße, sieben Tastaturprüfungen und Screenshots bei 1440×900/390×844. [Nachweise und Grenzen](screenshots/w4/issue-136-criteria-confirmed/axe-summary.md). Axe-Incomplete-Ergebnisse bleiben manuelle Prüfpunkte. PR #137 wurde inzwischen als Squash29e930b auf main gemergt; der erste P1 ist damit dort enthalten. Die hier verlinkten Prüfungen bleiben historische Nachweise dieses früheren Quellstands. Die übrigen historischen P1/P2-Punkte wurden in diesem begrenzten Auftrag nicht neu bewertet. CI-Status zum aktuellen PR-Head steht im PR.
 
 ## Historischer Viewer-Prüfstand vor den UI-Merges vom 22.10.2026
 
@@ -28,8 +36,8 @@ Priorisierte Arbeitsliste aus dem Live-Review und den dokumentierten Prüflücke
 
 | Priorität | Offene Arbeit | Woran die Erledigung erkennbar wäre |
 | --- | --- | --- |
-| P1 · PR offen | „Criteria met“ bei `criteria.confirmed`: Korrektur in [PR #137](https://github.com/Shuwajaja/truthlens/pull/137) zur Prüfung bereit, noch nicht auf main. | Menschliche Kriterienbestätigung und bestandene Prüfungen getrennt; Tests, Screenshots und vollständiger axe-Nachweis siehe aktuellen Abschnitt oben. Ereignisschema, Rohdaten und Freigaberegeln unverändert. |
-| P1 | In Client Behauptung und tatsächliches Prüfergebnis gemeinsam zeigen. | Für den realen Demo-Lauf sind Erfolg, fehlgeschlagener Test und ungeprüftes Kriterium ohne Developer-Wechsel samt vorhandenem Beleg auffindbar. Fehlende Belege werden nicht erfunden. |
+| P1 · gemergt | „Criteria met“ bei `criteria.confirmed`: Korrektur aus [PR #137](https://github.com/Shuwajaja/truthlens/pull/137) auf main (29e930b). | Menschliche Kriterienbestätigung und bestandene Prüfungen getrennt; Tests, Screenshots und vollständiger axe-Nachweis siehe aktuellen Abschnitt oben. Ereignisschema, Rohdaten und Freigaberegeln unverändert. |
+| P1 · PR offen | Client-Behauptung und tatsächliches Prüfergebnis: [PR #139](https://github.com/Shuwajaja/truthlens/pull/139) zur Prüfung bereit, noch nicht auf main. | Demo-Erfolg, fehlgeschlagener Test und ungeprüftes Kriterium ohne Developer-Wechsel mit echten bzw. ausdrücklich fehlenden Belegen; Nachweise im aktuellen Abschnitt. |
 | P1 | Ergebnis und Kriterien nach vorn stellen; Hauptweg vereinfachen. | Bei beiden Bildschirmgrößen ist der Weg „Ergebnis → Kriterium → Beleg“ klar. Statuskarten, Laufdaten, Graph, Story und Detailbereiche konkurrieren weniger. Vorschläge aus den UX-Punkten 3–8 einzeln abstimmen; Designregeln vor UI-Änderungen aktualisieren. Den statischen Navigator nicht als fertige Funktion behandeln. |
 | P2 | Gewählte Hauptansicht wiederherstellbar machen. | Ein geteilter Link bzw. Neuladen öffnet die beabsichtigte Ansicht; der beobachtete Rücksprung von Timeline zu Overview ist behoben. |
 | P2 | Manuelle Barrierefreiheits-Prüfpunkte abschließen und vollständigen axe-Check dauerhaft absichern. | `aria-hidden-focus`, `aria-prohibited-attr` und `color-contrast`-Incomplete werden manuell geklärt; sie sind keine bestätigten Verstöße. Fokus, Screenreader und relevante Detail-Tabs prüfen. CI sollte vollständiges axe bei 1440×900/390×844 erzwingen; derzeit prüft ihr Screenshot-Schritt nur Kontrast bei anderen Größen. |
