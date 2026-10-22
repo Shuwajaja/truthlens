@@ -13,3 +13,9 @@ Use `StatusBadge` with exported criterion status, claim finding, or both integri
 ## Optional screenshots
 
 After building, `npm run screenshots` captures existing views in both lenses under `.screenshots/` (ignored). Playwright is a dev dependency; its Chromium binary and any required local libraries stay inside this clone. See the root README for browser setup. Screenshots are not required by CI.
+
+## Recorded overview (P2)
+
+The header SVGs reuse the supplied TruthLens reference artwork locally. Overview shows one exported run, exported criterion counts and claim findings, and the first actual exported unified diff through RenderKit. Embedded diff snippets in JSON or command logs do not become a diff panel. Missing diff/criteria/events show neutral empty states. Timeline events and criterion buttons open their original recorded detail targets. Full Timeline also exposes native keyboard buttons and absolute UTC times.
+
+The six full-App snapshots deliberately change for the mountain header, responsive navigation, trust warning, overview layout, separate claim badges and accessible Timeline. The four isolated diff/Markdown/plain-text/drawer baselines and three Agent Story snapshots remain unchanged at this step. The optional screenshot script also checks Overview at 1280px and 360px for horizontal overflow.

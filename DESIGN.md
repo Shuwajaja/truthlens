@@ -1,36 +1,27 @@
-# DESIGN.md – visual direction v2 (binding for viewer, mockups, application page)
+# DESIGN.md – TruthLens viewer, P2
 
-Direction approved by the owner on 2026-10-11 (concept mockups `v2-01-truth-overview`, `v2-02-claimed-vs-proven`, `v2-03-timeline`, kept by CodexChat, Drive `Projekte/truthlens`): **dark mission-control**. The first screen answers one question in plain language: *what did the agent say, and what is actually proven?*
+The owner approved the P2 overview reference on 2026-10-22: mountain header, left navigation, measured status cards, exported runs, code diff, evidence graph, criterion evidence, recorded timeline and collapsible Navigator. This updates the earlier v2 layout/palette rules. TruthLens only; no other product themes or workspace mock data.
 
-## Main view (Truth Overview)
-- Large plain-language headline: **"Your agent said: Done. Here's what's actually proven."** – only when the run contains an `agent.claim`. Without a recorded claim the headline is neutral ("Here's what this run actually proves."); the UI never invents a statement.
-- A neutral **"Review required"** badge is visible in the main view by default (D7, TRUST-LEVELS): integrity is verified, human acceptance is still open.
-- One sentence of counts below it: "2 of 3 things are proven. 1 is only claimed." Counts, never percentages, scores or trust meters.
-- One colour card per criterion: icon + short plain title + one plain sentence ("Proven – the test passed.") + the schema status as a small label.
-- One callout for the biggest gap ("Your agent said 'All tests passed'. Mobile was never tested.").
-- **No hashes, IDs, seq numbers or paths in the main view.** They live in the detail drawer and the audit/timeline view (Developer Lens).
+## Visual system
 
-## Card colours (dark first)
-| Card | When | Colour (dark) | Schema label shown |
-|---|---|---|---|
-| green – proven | `met` (witnessed evidence passes) | `#3fb950` | `met` |
-| yellow – claimed only | criterion `unverified` **and** an agent claim covers it | `#d29922` | `unverified` + "claimed" |
-| red – failed | `unmet` (witnessed evidence fails) | `#f85149` | `unmet` |
-| gray – not checked | `unverified` and not claimed | `#8b949e` | `unverified` |
-| outline only | `proposed` (awaiting human confirmation) | border `#8b949e`, dashed | `proposed` |
+- `viewer/src/theme.css`: only the supplied base tokens and TruthLens overrides, exposed to Tailwind. Dark green surfaces, subtle borders, 8/12px corners, system fonts. No remote fonts or assets.
+- Header mountain and shield/eye artwork reuse the supplied local SVG design. The mountain gradients belong to that approved artwork; other surfaces stay solid.
+- Four compact overview cards contain actual RunDoc values/counts. No invented history, sparklines, percentages, scores or trust meters. Show only the one exported run. Missing content has a neutral empty state.
+- Main layout follows the reference with 16px gaps, 20/24px content padding, 220px desktop navigation and a 300px Navigator when expanded. Mobile navigation and content stack; code/tables scroll inside their containers.
+- Preserve the four existing views and Client/Developer lens. Navigation labels and recorded text remain as before; new overview labels and required trust warnings follow the German reference.
 
-Card colour = the **criterion status** only. The claim finding (`supported` / `claim_unwitnessed`) is a separate label in "Claimed vs Proven": a claim on an `unmet` criterion stays a red card and its claim is shown as `claim_unwitnessed` next to it – the two are never merged.
+## Recorded data and trust
 
-Colour is never the only signal: every card has an icon and text. Human approval / confirmation is shown as a neutral "confirmed by you" line, not a separate colour. Trust badges (`integrity_verified`, `review_required`, …) stay neutral outline badges in the detail view.
+- Renderers display exported data only. Criterion status, claim finding, `verified` and `integrity` never change in the UI. Counts are counts of exported records, not a new verdict.
+- Criterion badges show plain language plus the exact schema status. Claims stay separate from proof, including `supported` claims; a related criterion may independently have status `met`.
+- HMAC checked requires both `verified === true` and `integrity === 'hmac'`. No verification label or green check for unsigned exports. Hash-only exports say **“Nur Hash · HMAC nicht geprüft”**.
+- **“Integrität ≠ fachliche Freigabe”** and the fixed browser limitation remain visible: the browser checks internal consistency only and does not verify signatures. Integrity does not establish human acceptance. Agent Story always retains its Review required notice.
+- Display recorded headlines, criterion explanations and claim findings without inventing statements. IDs/hashes belong in detail/audit views; timestamps are absolute with a zone.
+- Graph edges require recorded links between exported nodes. An unwitnessed claim remains isolated. Node selection opens the existing recorded evidence content.
+- Navigator is UI only: static suggestions and a disabled input explicitly labelled “Navigator kommt später”. No AI or network requests.
 
-## Rules (kept from v1)
-- No glassmorphism, no decorative gradients, no glow, no transform hover effects, no marketing hero.
-- Dark surfaces: bg `#0d1117`, surface `#161b22`, border `#30363d`, text `#e6edf3`, muted `#8b949e`. Light theme optional later, same tokens.
-- Layout: left nav (Overview · Claimed vs Proven · Timeline) + content column. Cards only for criteria; lists/tables elsewhere.
-- Type: system UI sans; headline 36–40 px bold (it states the run's result, it is not a marketing hero), body 15–16 px; monospace only in detail/audit for hashes, ids, paths.
-- Spacing 4/8/12/16/24/32; radius 8 px; at most a 1 px border, no heavy shadows.
-- UI labels English; schema values shown exactly as in the schema next to the plain-language words.
-- Mockups carry a visible "Concept" badge until they show a real recorded run.
+## Interaction and review
 
-## Review
-Before a UI PR: check against `.agents/skills/no-slop-ui/` and `.agents/skills/web-interface-review.md`; `DESIGN.md` wins on conflict.
+Real buttons/links, labelled icon controls, visible focus, semantic landmarks and one h1 per view. Status has text as well as colour. Drawers move/trap focus, close with Escape and restore focus. Text contrast meets AA. Respect reduced motion; colour/opacity transitions only.
+
+Use `.agents/skills/no-slop-ui/` and `.agents/skills/web-interface-review.md` for the final check. Explicit P2 reference choices (mountain artwork, metric cards and Navigator) take precedence over generic pattern restrictions. Snapshot changes must identify the intended visual change; isolated renderer baselines stay unchanged unless that renderer is deliberately updated.

@@ -1,4 +1,5 @@
-import type { Criterion, RunEvent } from '../types.ts'
+import type { Criterion, RunDoc, RunEvent } from '../types.ts'
+import { IntegrityNotice } from './IntegrityNotice.tsx'
 import type { Lens } from '../lens.ts'
 import { RenderView } from '../renderkit/RenderView.tsx'
 
@@ -6,10 +7,11 @@ export type DrawerTarget =
   | { kind: 'criterion'; criterion: Criterion; matched: RunEvent[] }
   | { kind: 'event'; event: RunEvent }
 
-export function Drawer({ target, blobs, lens, onClose }: {
+export function Drawer({ target, blobs, lens, trust, onClose }: {
   target: DrawerTarget
   blobs?: Record<string, string>
   lens: Lens
+  trust?: Pick<RunDoc, 'verified' | 'integrity'>
   onClose: () => void
 }) {
   if (target.kind === 'criterion') {
@@ -23,6 +25,7 @@ export function Drawer({ target, blobs, lens, onClose }: {
             <button type="button" className="text-[#8b949e] text-lg leading-none px-2" onClick={onClose} aria-label="Close">&times;</button>
           </div>
           <div className="px-4 py-4">
+            {trust && <IntegrityNotice verified={trust.verified} integrity={trust.integrity} />}
             <div className="mb-4">
               {lens === 'developer' && (
                 <div className="text-xs text-[#8b949e] uppercase tracking-wider mb-1">Criterion</div>
@@ -57,6 +60,7 @@ export function Drawer({ target, blobs, lens, onClose }: {
           <button type="button" className="text-[#8b949e] text-lg leading-none px-2" onClick={onClose} aria-label="Close">&times;</button>
         </div>
         <div className="px-4 py-4">
+            {trust && <IntegrityNotice verified={trust.verified} integrity={trust.integrity} />}
           <RenderView input={{ kind: 'event', event }} context={{ blobs, lens }} />
         </div>
       </div>

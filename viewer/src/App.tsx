@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import type { RunDoc } from './types.ts'
 import { validateRunDoc } from './validateRunDoc.ts'
 import { readLens, writeLens, type Lens } from './lens.ts'
+import { Header } from './components/Header.tsx'
 import { Sidebar } from './components/Sidebar.tsx'
 import { Overview } from './components/Overview.tsx'
 import { ClaimedVsProven } from './components/ClaimedVsProven.tsx'
@@ -39,16 +40,16 @@ export default function App() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen bg-[#0d1117] text-[#e6edf3] font-sans">
-        <p className="text-[#f85149]">{error}</p>
+      <div className="flex items-center justify-center h-screen bg-background text-foreground font-sans">
+        <p className="text-destructive">{error}</p>
       </div>
     )
   }
   if (invalidExport) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen bg-[#0d1117] text-[#e6edf3] font-sans px-6 text-center">
-        <h1 className="text-xl font-semibold text-[#f85149]">Invalid or inconsistent export</h1>
-        <p className="mt-3 max-w-md text-[#8b949e] leading-relaxed">
+      <div className="flex flex-col items-center justify-center h-screen bg-background text-foreground font-sans px-6 text-center">
+        <h1 className="text-xl font-semibold text-destructive">Invalid or inconsistent export</h1>
+        <p className="mt-3 max-w-md text-muted-foreground leading-relaxed">
           Restore a valid export and reload to view run data.
         </p>
       </div>
@@ -56,14 +57,17 @@ export default function App() {
   }
   if (!doc) {
     return (
-      <div className="flex items-center justify-center h-screen bg-[#0d1117] text-[#e6edf3] font-sans">
+      <div className="flex items-center justify-center h-screen bg-background text-foreground font-sans">
         <p>Loading run data…</p>
       </div>
     )
   }
 
   return (
-    <div className="flex bg-[#0d1117] text-[#e6edf3] font-sans min-h-screen">
+    <div className="app-shell">
+      <a className="skip-link" href="#main-content">Zum Inhalt</a>
+      <Header />
+      <div className="workspace">
       <Sidebar
         currentView={view}
         onViewChange={setView}
@@ -71,16 +75,18 @@ export default function App() {
         onLensChange={handleLensChange}
         reviewRequired={doc.review_required}
       />
-      <main className="ml-[220px] p-8 min-h-screen flex-1">
-        <IntegrityNotice integrity={doc.integrity} />
-        {view === 'overview' && <Overview doc={doc} onOpenDrawer={setDrawerTarget} />}
+      <main id="main-content" tabIndex={-1}>
+        <IntegrityNotice verified={doc.verified} integrity={doc.integrity} />
+        {view === 'overview' && <Overview doc={doc} lens={lens} onOpenDrawer={setDrawerTarget} />}
         {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} lens={lens} />}
         {view === 'timeline' && <RenderView input={{ kind: 'events', events: doc.events }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
         {view === 'agent-story' && <RenderView input={{ kind: 'run', doc }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
       </main>
+      </div>
       {drawerTarget && (
         <Drawer
           target={drawerTarget}
+          trust={doc}
           blobs={doc.blobs}
           lens={lens}
           onClose={() => setDrawerTarget(null)}

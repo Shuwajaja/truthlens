@@ -1,18 +1,8 @@
+import { recordedTime } from './overview-data.ts'
 import type { RunEvent } from '../types.ts'
 import type { Lens } from '../lens.ts'
 import type { DrawerTarget } from './Drawer.tsx'
 
-function formatTime(ts: string): string {
-  try {
-    const d = new Date(ts)
-    const h = d.getHours().toString().padStart(2, '0')
-    const m = d.getMinutes().toString().padStart(2, '0')
-    const s = d.getSeconds().toString().padStart(2, '0')
-    return `${h}:${m}:${s}`
-  } catch {
-    return ts
-  }
-}
 
 export function Timeline({ events, lens, onOpenDrawer }: {
   events: readonly RunEvent[]
@@ -24,12 +14,12 @@ export function Timeline({ events, lens, onOpenDrawer }: {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6">Timeline</h2>
+      <h1 className="text-2xl font-bold mb-6">Timeline</h1>
 
-      <div className="w-full">
+      <div className="w-full overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="text-xs text-[#8b949e] uppercase tracking-wider border-b border-[#30363d]">
+            <tr className="text-xs text-muted-foreground uppercase tracking-wider border-b border-border">
               {!client && <th className="text-left py-2 px-3">Seq</th>}
               <th className="text-left py-2 px-3">Time</th>
               {!client && <th className="text-left py-2 px-3">Actor</th>}
@@ -40,19 +30,19 @@ export function Timeline({ events, lens, onOpenDrawer }: {
             {sorted.map(evt => (
               <tr
                 key={evt.id}
-                className="timeline-row border-b border-[#30363d]"
+                className="timeline-row border-b border-border"
                 onClick={() => onOpenDrawer({ kind: 'event', event: evt })}
               >
-                {!client && <td className="py-2 px-3 text-xs text-[#8b949e]">{evt.seq}</td>}
-                <td className="py-2 px-3 text-xs text-[#8b949e]">{formatTime(evt.ts)}</td>
+                {!client && <td className="py-2 px-3 text-xs text-muted-foreground">{evt.seq}</td>}
+                <td className="py-2 px-3 text-xs text-muted-foreground">{recordedTime(evt.ts)}</td>
                 {!client && (
                   <td className="py-2 px-3">
-                    <span className="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-[#21262d] text-[#8b949e] border border-[#30363d]">
+                    <span className="inline-flex items-center px-2 py-1 text-xs rounded-[4px] bg-secondary text-muted-foreground border border-border">
                       {evt.actor.kind}
                     </span>
                   </td>
                 )}
-                <td className="py-2 px-3 text-sm">{evt.summary}</td>
+                <td className="py-2 px-3 text-sm"><button type="button" className="text-left underline decoration-transparent hover:decoration-current" onClick={e => { e.stopPropagation(); onOpenDrawer({ kind: 'event', event: evt }) }}>{evt.summary}</button></td>
               </tr>
             ))}
           </tbody>
