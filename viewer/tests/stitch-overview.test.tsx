@@ -2,11 +2,12 @@
 import './browser-env.ts'
 import {cleanup,fireEvent,render,screen,within} from '@testing-library/react'
 import {afterEach,expect,it,vi} from 'vitest'
+import App from '../src/App.tsx'
 import {Overview} from '../src/components/Overview.tsx'
 import type {RunDoc} from '../src/types.ts'
 import publicRun from '../public/run.json'
 const doc=publicRun as RunDoc
-afterEach(cleanup)
+afterEach(()=>{cleanup();vi.unstubAllGlobals();localStorage.clear()})
 const show=(value=doc,open=vi.fn())=>render(<Overview doc={value} lens="client" onOpenDrawer={open}/> )
 it('uses exactly three measured KPI cards and a separate warning approval boundary',()=>{
  show()
@@ -71,4 +72,16 @@ it('handles an empty export without inventing counts or selected evidence',()=>{
  expect(screen.getByText('No criteria exported.')).toBeTruthy()
  expect(screen.getByText('Select a recorded criterion to see its evidence.')).toBeTruthy()
  expect(screen.getByText('No project preview available.')).toBeTruthy()
+})
+
+it('applies the provisional Stitch profile only to Overview and restores it on navigation',async()=>{
+ vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(doc)})))
+ render(<App/>);await screen.findByRole('main')
+ expect(document.documentElement.dataset.viewerTheme).toBe('stitch')
+ const navigation=within(screen.getByRole('navigation',{name:'Viewer navigation'}))
+ fireEvent.click(navigation.getByRole('button',{name:'Timeline',exact:true}))
+ expect(document.documentElement.dataset.viewerTheme).toBe('werk')
+ fireEvent.click(navigation.getByRole('button',{name:'Overview',exact:true}))
+ expect(document.documentElement.dataset.viewerTheme).toBe('stitch')
+ cleanup();expect(document.documentElement.dataset.viewerTheme).toBeUndefined()
 })

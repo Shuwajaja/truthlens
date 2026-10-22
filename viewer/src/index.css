@@ -341,3 +341,6 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 .stitch-overview [data-slot=status-badge][data-variant=open] { color: var(--neutral-text); border-color: var(--neutral); background: color-mix(in srgb,var(--neutral) 10%,var(--surface)); }
 .compact-header .nav-item-active { color: var(--primary-text); background: color-mix(in srgb,var(--primary) 10%,var(--surface)); }
 @media(max-width:760px) { .compact-header .nav-item-active { border-top-color: var(--primary); } }
+
+/* Keep the existing shield geometry neutral in the provisional Stitch profile. */
+:root[data-viewer-theme=stitch] .compact-header .brand-icon { filter: grayscale(1) brightness(2); }

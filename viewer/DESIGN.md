@@ -1,8 +1,34 @@
-# TruthLens Viewer – Design rules (WERK dark)
+# TruthLens Viewer – Design rules (Stitch Overview / WERK base)
 Binding viewer reference. Use the supplied TruthLens desktop/mobile reference images and Shu's logo.
 Purpose: a calm, readable view of recorded evidence. Every colour has a meaning; other content is grey or white.
 
-## 1. WERK tokens (only colour source: src/theme.css)
+## 1. Theme profiles (sole colour/font source: src/theme.css)
+Shu corrected the Overview direction after the WERK addition: use the approved Stitch colours and fonts provisionally. The final palette is pending Shu. This instruction supersedes WERK-only statements for Overview below and in earlier evidence. `:root[data-viewer-theme=stitch]` overrides semantic tokens centrally; navigation to another existing view restores the WERK base. Root scope includes portalled drawers and is cleaned up on unmount. Do not change export/verification data with theme changes.
+
+### Provisional Stitch Overview
+| Token | Value | Use |
+|---|---|---|
+| `--bg` | #09090B | Page background |
+| `--surface` | #0D0E12 | Cards |
+| `--surface-2` | #14151B | Elevated panels |
+| `--primary` | #F4F4F5 | Neutral active tabs / brand |
+| `--secondary` | #A1A1AA | Secondary controls |
+| `--success` | #10B981 | Actual proven results (Stitch emerald) |
+| `--error` | #F43F5E | Failed results (Stitch rose) |
+| `--warning` | #F59E0B | Approval OPEN (Stitch amber) |
+| `--neutral` | #71717A | Neutral indicators and control boundaries |
+| `--text` | #F4F4F5 | Main text |
+| `--text-2`, `--text-3`, `--neutral-text` | #A1A1AA | AA-readable secondary/neutral text |
+| `--error-text` | #FB7185 | AA-readable rose text on tinted badges |
+| `--secondary-text` | #D4D4D8 | Secondary active text |
+| `--border` | #27272F | Decorative separators |
+| `--font` | Plus Jakarta Sans Variable | Locally hosted UI font, OFL-1.1 |
+| `--mono` | JetBrains Mono Variable | IDs, hashes and code |
+
+The original muted #71717A is retained as a base indicator/control colour; small text uses the brighter variant for AA. The existing shield is displayed neutral in this profile; base brand SVG assets remain for other views. All theme values remain swappable variables. Spacing/radius/layout and honesty rules remain binding; the current 8px spacing rhythm and12px corners are retained while final visual choices are pending.
+
+### WERK base for the other existing views
+
 Shu approved the shared WERK dark theme on 2026-10-22, replacing the earlier single-green rule. References: `werk-design-system.png` and `truthlens-mockup.png` supplied by Shu. The mockup is a visual reference only; its synthetic data and verification claims must not be copied.
 
 | Token | Hex | Meaning |
@@ -25,12 +51,12 @@ Shu approved the shared WERK dark theme on 2026-10-22, replacing the earlier sin
 | `--error-text` | #FF9292 | Small error text and error badges |
 | `--neutral-text` | #A7B0BF | Open/pending/unsupported, hash-only seal and system events |
 
-Shu clarified the Stitch colour mapping: Proven=success, Failed=error, Not checked=neutral, Approval OPEN=warning, active navigation=primary. Do not import Stitch rose or Plus Jakarta Sans.
+Earlier WERK direction (superseded on Overview by the provisional profile above): Proven=success, Failed=error, Not checked=neutral, Approval OPEN=warning, active navigation=primary. This earlier exclusion of Stitch rose and Plus Jakarta Sans no longer applies to Overview.
 
 The six base colours remain exact. Text variants provide AA contrast on dark surfaces and tinted badges. Filled primary/secondary buttons use dark foregrounds. Compatibility aliases: ok → success, fail → error-text, info → primary-text. No colour literals outside theme.css or raw Tailwind palette classes. Always pair colour with words or shapes. Not checked/open criteria, unsupported and hash-only stay neutral grey. Approval OPEN uses warning; a missing approval statement stays neutral. `npm run check:theme` checks the palette, spacing/radius and text/control contrast pairs; browser axe checks actual rendered combinations.
 
 ## 2. Type
-Inter for UI text, numbers, labels and times, with tabular numbers. JetBrains Mono is reserved for code, hashes, IDs and raw records.
+The active profile font (Plus Jakarta Sans on Overview, Inter on other views) for UI text, numbers, labels and times, with tabular numbers. JetBrains Mono is reserved for code, hashes, IDs and raw records.
 | Size | Use |
 |---|---|
 | 12 | Labels, metadata, badges, times and hashes |
@@ -44,15 +70,15 @@ Weights: 400 body, 500 labels/active navigation, 600 headings/numbers. Line heig
 8px layout grid: 8/16/24/32; central spacing variables. Panels use surface, 1px border, 12px radius, 16px padding and 8–16px gaps. Badges, seals, fields and sheets use 12px corners. Circular event icons remain circles. Border widths, focus outlines, typography and small icon details are optical exceptions to the layout grid. No shadows.
 
 ## 4. Status pills and seals
-- Pills: Inter 12/600 uppercase, 1px border and 10% status fill. PASSED/PROVEN green, FAILED/UNMET red, REVIEW/PENDING/OPEN criteria grey. Approval OPEN uses warning.
+- Pills: active profile font 12/600 uppercase, 1px border and 10% status fill. PASSED/PROVEN green, FAILED/UNMET red, REVIEW/PENDING/OPEN criteria grey. Approval OPEN uses warning.
 - Neutral dashed seal: “Hash only · signature not checked” and “Integrity is not approval”. Always visible: full text above desktop content; compact “Hash only” in the mobile header, full text in the sheet.
 - “Signature checked” is green only when `verified === true` AND `integrity === 'hmac'`.
 - Never use green for exit 0, agent completion or “Healthy”. Unsupported is grey, never red.
 
 ## 5. Stitch Overview layout and shared navigation
-Shu approved `stitch/shu-landing-run1.html` and `.png` on 2026-10-22. Adopt their layout, not invented data, styling literals, fonts or remote scripts. The local approved files take precedence over other Stitch project variants. WERK tokens above remain binding (dependency: PR #133 / issue #132).
+Shu approved `stitch/shu-landing-run1.html` and `.png` on 2026-10-22. Adopt their layout and the provisional token profile above; never copy invented data or remote scripts. The local approved files take precedence over other Stitch project variants. The provisional Stitch profile above applies to Overview; WERK remains the base for other views (dependency PR #133 / issue #132).
 
-- Compact solid header (64px desktop, 56px mobile): existing shield, blue Truth/white Lens, and tabs for the four existing views. Desktop lens controls stay in the header; mobile navigation remains four bottom tabs. No mountain/hero or additional inactive tabs/actions.
+- Compact solid header (64px desktop, 56px mobile): existing shield, neutral Truth/Lens on Stitch (blue Truth/white Lens on WERK), and tabs for the four existing views. Desktop lens controls stay in the header; mobile navigation remains four bottom tabs. No mountain/hero or additional inactive tabs/actions.
 - Overview title is the actual RunDoc project; show actual run ID, agent, start and duration. A real-record button opens full run details. Approval is separate: warning-coloured `Open` when review_required, otherwise neutral `Not stated`; never infer approval from a false review flag, exit code or integrity.
 - Three KPI cards: Proven X/Y, Failed and Not checked, computed from criteria. No fabricated percentages, timeout explanations, version/browser/company/hardware metadata or “Run verified”. Keep the full neutral integrity/approval notice visible above the workspace.
 - Desktop three-column workspace: criteria and recorded timeline on the left; exported project preview in the centre; selected criterion and its referenced evidence on the right. Criterion buttons update the detail selection with a visible selected state; an explicit action opens the real record. Timeline remains recorded events, not invented phases or durations.
@@ -79,7 +105,7 @@ Node text is at least 12px. Border uses border token; unsupported claims/criteri
 - Do not translate, rename or alter recorded content, RunDoc field names or wire values.
 
 ## 9. Logo
-Keep the supplied shield/eye/check geometry and generate wordmark/icon SVGs from it. Truth uses primary blue and Lens uses text white; shield outline uses text white. Brand colour is independent of success. Use the wordmark in the desktop header and icon in sidebar/mobile header. Generate favicon.svg, favicon.ico (32) and apple-touch-icon.png (180) from the same theme palette. Green is reserved for real results or guarded verified signatures.
+Keep the supplied shield/eye/check geometry and generate wordmark/icon SVGs from it. Truth uses primary blue and Lens uses text white; shield outline uses text white. Brand colour is independent of success. On Stitch Overview the wordmark and shield are neutral; the base SVG assets remain WERK for the other views. Use the wordmark in the desktop header and icon in sidebar/mobile header. Generate favicon.svg, favicon.ico (32) and apple-touch-icon.png (180) from the same theme palette. Green is reserved for real results or guarded verified signatures.
 
 ## 10. UI language and plain names
 **UI language: English only, no German.** This covers visible text, accessible names, titles, tooltips, placeholders, alt text, empty/error states, navigation, drawers/sheets and Navigator. Document language is en; document title is TruthLens. Use the approved glossary exactly; other wording must be plain, literal English without jargon or marketing.

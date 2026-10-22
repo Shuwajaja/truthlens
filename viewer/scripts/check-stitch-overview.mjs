@@ -32,16 +32,18 @@ try{
   const semantics=await page.evaluate(()=>{
    const status=document.querySelector('[data-testid=approval-status]')
    const nav=document.querySelector('.nav-item-active'),navStyle=getComputedStyle(nav)
-   return {approval:getComputedStyle(status).color,approvalState:status.dataset.state,font:getComputedStyle(document.body).fontFamily,
+   return {profile:document.documentElement.dataset.viewerTheme,bg:getComputedStyle(document.body).backgroundColor,approval:getComputedStyle(status).color,approvalState:status.dataset.state,font:getComputedStyle(document.body).fontFamily,
     dots:[...document.querySelectorAll('.status-card .status-dot')].map(el=>getComputedStyle(el).backgroundColor),
     activeBorder:innerWidth<=760?navStyle.borderTopColor:navStyle.borderBottomColor,
-    forbidden:[...document.querySelectorAll('body *')].some(el=>{if(!el.checkVisibility())return false;const style=getComputedStyle(el);return /Plus Jakarta/i.test(style.fontFamily)||['color','backgroundColor','borderColor'].some(key=>style[key]==='rgb(244, 63, 94)')})}
+    forbidden:[...document.querySelectorAll('body *')].some(el=>{if(!el.checkVisibility())return false;const style=getComputedStyle(el);return /Inter Variable/i.test(style.fontFamily)||['color','backgroundColor','borderColor'].some(key=>['rgb(59, 130, 246)','rgb(139, 92, 246)'].includes(style[key]))})}
   })
+  assert.equal(semantics.profile,'stitch')
+  assert.equal(semantics.bg,'rgb(9, 9, 11)')
   assert.equal(semantics.approval,'rgb(245, 158, 11)')
   assert.equal(semantics.approvalState,'open')
-  assert.deepEqual(semantics.dots,['rgb(16, 185, 129)','rgb(239, 68, 68)','rgb(107, 114, 128)'])
-  assert.equal(semantics.activeBorder,'rgb(59, 130, 246)')
-  assert(semantics.font.includes('Inter')&&!semantics.forbidden,'WERK fonts/colours only in Viewer UI')
+  assert.deepEqual(semantics.dots,['rgb(16, 185, 129)','rgb(244, 63, 94)','rgb(113, 113, 122)'])
+  assert.equal(semantics.activeBorder,'rgb(244, 244, 245)')
+  assert(semantics.font.includes('Plus Jakarta Sans')&&!semantics.forbidden,'provisional Stitch font/colours in Overview UI')
   assert.equal(await page.locator('.sidebar .nav-list button').count(),4)
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true)
   const geometry=await page.locator('.overview-workspace').evaluate(el=>Object.fromEntries(['criteria-panel','project-preview','criterion-detail','timeline-panel'].map(name=>{const b=el.querySelector('.'+name).getBoundingClientRect();return [name,{x:b.x,y:b.y,right:b.right}]})))

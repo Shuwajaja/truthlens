@@ -2,9 +2,17 @@
 import assert from 'node:assert/strict';
 import {readFile,readdir} from 'node:fs/promises';
 const css=await readFile(new URL('../src/theme.css',import.meta.url),'utf8');
-const values=Object.fromEntries([...css.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(m=>[m[1],m[2].trim()]));
-const expected={primary:'#3B82F6',secondary:'#8B5CF6',success:'#10B981',warning:'#F59E0B',error:'#EF4444',neutral:'#6B7280'};
-for(const [key,value] of Object.entries(expected))assert.equal(values[key],value,key);
+const parse=block=>Object.fromEntries([...block.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(m=>[m[1],m[2].trim()]));
+const base=parse(css.match(/:root\s*\{([\s\S]*?)\}/)[1]);
+const stitch={...base,...parse(css.match(/:root\[data-viewer-theme=stitch\]\s*\{([\s\S]*?)\}/)[1])};
+const profiles=[
+ ['WERK base',base,{primary:'#3B82F6',secondary:'#8B5CF6',success:'#10B981',warning:'#F59E0B',error:'#EF4444',neutral:'#6B7280'},'Inter Variable'],
+ ['provisional Stitch',stitch,{bg:'#09090B',primary:'#F4F4F5',secondary:'#A1A1AA',success:'#10B981',warning:'#F59E0B',error:'#F43F5E',neutral:'#71717A'},'Plus Jakarta Sans Variable'],
+];
+for(const [profile,values,expected,font] of profiles){
+ for(const [key,value] of Object.entries(expected))assert.equal(values[key],value,`${profile}: ${key}`);
+ assert(values.font.includes(font),`${profile}: font`);
+ assert(values.mono.includes('JetBrains Mono Variable'),`${profile}: mono`);
 assert.equal(values.radius,'12px');
 for(const [i,pixels] of [8,16,24,32].entries())assert.equal(values[`space-${i+1}`],`${pixels}px`);
 for(const entry of await readdir(new URL('../src/',import.meta.url),{recursive:true})){
@@ -40,4 +48,6 @@ for(const [text,fill] of [['warning','warning'],['error-text','error'],['neutral
  check(rgb(text),background,4.5,`${text}/semantic ${fill} fill`);
 }
 for(const fill of ['primary','secondary','success','warning','error'])check(rgb('bg'),rgb(fill),4.5,`dark text/${fill}`);
-console.log(`WERK: six exact base tokens, 8px grid, 12px radius; ${pairs} AA text/control pairs, minimum ${minimum.toFixed(2)}:1 (control threshold 3:1).`);
+console.log(`${profile}: exact profile tokens, 8px grid, 12px radius; ${pairs} AA text/control pairs, minimum ${minimum.toFixed(2)}:1 (control threshold 3:1).`);
+
+}

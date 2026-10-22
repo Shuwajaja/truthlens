@@ -1,3 +1,4 @@
+@font-face { font-family: 'Plus Jakarta Sans Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2'); }
 @font-face { font-family: 'Inter Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2'); }
 @font-face { font-family: 'JetBrains Mono Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2'); }
 /* WERK dark: the sole palette. Status meaning is defined in viewer/DESIGN.md. */
@@ -40,6 +41,27 @@
   --warning: #F59E0B;
   --error: #EF4444;
   --muted: var(--text-2);
+}
+/* Provisional owner-approved Stitch profile; swap this token block when Shu decides. */
+:root[data-viewer-theme=stitch] {
+  --bg: #09090B;
+  --surface: #0D0E12;
+  --surface-2: #14151B;
+  --border: #27272F;
+  --text: #F4F4F5;
+  --text-2: #A1A1AA;
+  --text-3: #A1A1AA;
+  --primary: #F4F4F5;
+  --primary-text: #F4F4F5;
+  --secondary: #A1A1AA;
+  --secondary-text: #D4D4D8;
+  --success: #10B981;
+  --error: #F43F5E;
+  --error-text: #FB7185;
+  --warning: #F59E0B;
+  --neutral: #71717A;
+  --neutral-text: #A1A1AA;
+  --font: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
 }
 @theme inline {
   --color-backdrop: var(--backdrop);

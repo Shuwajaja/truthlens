@@ -55,8 +55,8 @@ try{
    const colour=selector=>getComputedStyle(document.querySelector(selector)).color;
    return {truth:colour(document.querySelector('.brand-name')?'.brand-name':'.sidebar-brand > span'),lens:colour('.brand-lens'),met:colour('[data-testid=met-count] .text-ok'),hash:colour('.integrity-badge [data-slot=status-badge]')};
   });
-  check(colours.truth==='rgb(59, 130, 246)'&&colours.lens==='rgb(230, 237, 243)','Truth blue and Lens white');
-  check(colours.met==='rgb(16, 185, 129)'&&colours.hash==='rgb(167, 176, 191)','WERK success and neutral hash seal');
+  check(colours.truth==='rgb(244, 244, 245)'&&colours.lens==='rgb(244, 244, 245)','provisional Stitch neutral brand');
+  check(colours.met==='rgb(16, 185, 129)'&&colours.hash==='rgb(161, 161, 170)','Stitch success and neutral hash seal');
   // Inspect the built ICO's embedded PNG along with the directly served images.
   const ico=await readFile(new URL('../dist/favicon.ico',import.meta.url));
   const icoPng=ico.subarray(ico.readUInt32LE(18),ico.readUInt32LE(18)+ico.readUInt32LE(14)).toString('base64');
