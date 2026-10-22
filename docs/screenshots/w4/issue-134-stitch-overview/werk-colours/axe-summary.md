@@ -1,3 +1,5 @@
+> Superseded for Overview: Shu now requests the provisional Stitch palette and fonts. See [latest evidence](../stitch-colours/axe-summary.md). Final palette remains pending.
+
 # WERK colour clarification — 2026-10-22
 
 Latest tested source: [5b69fa91e0e1c4746559fd0423564097f0861db4](https://github.com/Shuwajaja/truthlens/commit/5b69fa91e0e1c4746559fd0423564097f0861db4). The full axe audit ran on this clean commit. Layout/colour checks ran against the identical staged source tree, verified against the published commit before advancing the local branch. This follow-up supersedes the earlier neutral Approval OPEN styling.
