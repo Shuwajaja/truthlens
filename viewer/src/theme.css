@@ -9,7 +9,8 @@
   --text: #E6EDF3;
   --text-2: #A9B4C2;
   --text-3: #8592A3;
-  --ok: #1CDC44;
+  --ok: #3FCF8E;
+  --brand: #22C55E; /* Logo only; never a status or navigation colour. */
   --fail: #FF7B72;
   --info: #79B8FF;
   --neutral: #97A3B3;

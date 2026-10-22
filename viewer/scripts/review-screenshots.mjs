@@ -1,5 +1,5 @@
 import {preview} from 'vite';
-import {mkdir} from 'node:fs/promises';
+import {mkdir,readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 process.env.PLAYWRIGHT_BROWSERS_PATH??=fileURLToPath(new URL('../../.venv/playwright',import.meta.url));
 const output=process.env.P3_SHOTS??'.screenshots/review';
@@ -17,6 +17,12 @@ try{
  async function audit(page){
   check(!failure,'browser errors');
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'page overflow');
+  const brandLeak=await page.evaluate(()=>[...document.querySelectorAll('body *')].some(element=>{
+   if(element.closest('.brand,.sidebar-brand')||!element.checkVisibility())return false;
+   const style=getComputedStyle(element);
+   return ['color','backgroundColor','borderTopColor','borderRightColor','borderBottomColor','borderLeftColor','outlineColor','fill','stroke'].some(key=>style[key]==='rgb(34, 197, 94)');
+  }));
+  check(!brandLeak,'brand green outside logo');
   const invalidType=await page.evaluate(()=>{
    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;
    while((node=walker.nextNode())){
@@ -31,6 +37,31 @@ try{
   check(!invalidType,'type scale');
   const axe=await new AxeBuilder({page}).withRules(['color-contrast']).analyze();
   check(axe.violations.length===0,'contrast');
+ }
+ async function branding(page){
+  const colours=await page.evaluate(()=>{
+   const colour=selector=>getComputedStyle(document.querySelector(selector)).color;
+   return {truth:colour(document.querySelector('.brand-name')?'.brand-name':'.sidebar-brand > span'),lens:colour('.brand-lens'),met:colour('[data-testid=met-count] .text-ok'),hash:colour('.integrity-badge [data-slot=status-badge]')};
+  });
+  check(colours.truth==='rgb(34, 197, 94)'&&colours.lens==='rgb(230, 237, 243)','Truth brand and Lens text colours');
+  check(colours.met==='rgb(63, 207, 142)'&&colours.hash==='rgb(151, 163, 179)','separate result green and neutral hash seal');
+  // Inspect the built ICO's embedded PNG along with the directly served images.
+  const ico=await readFile(new URL('../dist/favicon.ico',import.meta.url));
+  const icoPng=ico.subarray(ico.readUInt32LE(18),ico.readUInt32LE(18)+ico.readUInt32LE(14)).toString('base64');
+  const assets=await page.evaluate(async icoPng=>Promise.all(['logo-wordmark.svg','logo-icon.svg','favicon.svg','favicon.ico','apple-touch-icon.png'].map(async name=>{
+   const image=new Image();image.src=name.endsWith('.ico')?'data:image/png;base64,'+icoPng:'/'+name;await image.decode();
+   const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;
+   const context=canvas.getContext('2d');context.drawImage(image,0,0);
+   const pixels=context.getImageData(0,0,canvas.width,canvas.height).data;
+   let brand=0,status=0;
+   for(let i=0;i<pixels.length;i+=4){
+    if(pixels[i]===34&&pixels[i+1]===197&&pixels[i+2]===94&&pixels[i+3]===255)brand++;
+    if(pixels[i]===63&&pixels[i+1]===207&&pixels[i+2]===142&&pixels[i+3]===255)status++;
+   }
+   return {brand,status,width:image.naturalWidth,height:image.naturalHeight};
+  })),icoPng);
+  check(assets.every(asset=>asset.brand>0&&asset.status===0),'all logo/icon assets use brand green');
+  check(assets[3].width===32&&assets[3].height===32&&assets[4].width===180&&assets[4].height===180,'favicon and touch icon sizes');
  }
  async function capture(page,name,fullPage){await page.screenshot({path:output+'/'+name+lensSuffix+'.png',fullPage,animations:'disabled'});shots++;}
  async function sheet(page,trigger,name){
@@ -58,6 +89,7 @@ try{
    if(width===420)await page.waitForFunction(()=>scrollY===0&&document.activeElement===document.querySelector('main h1'));
    else await page.evaluate(()=>window.scrollTo(0,0));
    await audit(page);
+   if(i===0)await branding(page);
    if(width===420){
     const layout=await page.evaluate(()=>{const head=document.querySelector('.mountain-header').getBoundingClientRect(),nav=document.querySelector('.sidebar').getBoundingClientRect();return {head:head.height,nav:nav.height,bottom:nav.bottom,viewport:innerHeight,canvas:!!document.querySelector('.graph-canvas')};});
     check(layout.head===52&&layout.nav===64&&Math.abs(layout.bottom-layout.viewport)<1&&!layout.canvas,'mobile shell');
