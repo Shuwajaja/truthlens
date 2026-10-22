@@ -2,6 +2,7 @@ import { ArrowUpRight, CircleDot, FileDiff, ListChecks, MessageSquare, Shield } 
 import type { RunDoc } from '../types.ts'
 import type { Lens } from '../lens.ts'
 import type { DrawerTarget } from './Drawer.tsx'
+import { EvidenceGraph } from './EvidenceGraph.tsx'
 import { RenderView } from '../renderkit/RenderView.tsx'
 import { StatusBadge, Badge } from './ui/badge.tsx'
 import { Button } from './ui/button.tsx'
@@ -48,6 +49,8 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
       </Card>
     </div>
 
+    <div className="graph-evidence-row">
+    <EvidenceGraph doc={doc} onOpenDrawer={onOpenDrawer} />
     <Card className="panel criteria-panel" role="region" aria-label="Kriterien und Belege">
       <div className="panel-heading"><h2>Kriterien &amp; Belege</h2><span className="section-note">Status aus dem Export</span></div>
       <p className="recorded-headline">{doc.headline.join(' ')}</p>
@@ -65,6 +68,7 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
       {firstUnwitnessed && <p className="claim-callout"><strong>Claim · claim_unwitnessed</strong><br />{firstUnwitnessed.text}</p>}
     </Card>
 
+    </div>
     <Card className="panel">
       <div className="panel-heading"><h2>Zeitachse</h2><span className="section-note">{doc.events.length} Ereignisse · letzte {recent.length}</span></div>
       {recent.length === 0 ? <Empty><EmptyDescription>Keine Ereignisse exportiert.</EmptyDescription></Empty> : <ol className="recent-events">

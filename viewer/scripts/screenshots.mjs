@@ -3,6 +3,7 @@ import { mkdir, readFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'
 import { preview } from 'vite'
+import { buildEvidenceGraph } from '../src/graph/evidence-graph.ts'
 
 const viewerRoot = fileURLToPath(new URL('../', import.meta.url))
 const output = join(viewerRoot, '.screenshots')
@@ -16,6 +17,7 @@ let stage = 'initialization'
 try {
   const { chromium } = await import('playwright')
   const doc = JSON.parse(await readFile(join(viewerRoot, 'dist/run.json'), 'utf8'))
+  const graph = buildEvidenceGraph(doc)
   await mkdir(output, { recursive: true })
   stage = 'start vite preview'
   server = await preview({ root: viewerRoot, preview: { host: '127.0.0.1', port: 0, strictPort: true, open: false } })
@@ -25,7 +27,7 @@ try {
   browser = await chromium.launch({ headless: true })
   for (const lens of ['client', 'developer']) {
     stage = `capture ${lens} views`
-    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, timezoneId: 'UTC', reducedMotion: 'reduce' })
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, timezoneId: 'UTC', reducedMotion: 'reduce', hasTouch: true })
     try {
       await context.addInitScript(value => localStorage.setItem('tl-lens', value), lens)
       await context.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort())
@@ -39,7 +41,13 @@ try {
 
       const capture = async name => {
         if (browserError) throw new Error('Browser resource or rendering error')
-        await page.screenshot({ path: join(output, `${name}-${lens}.png`), fullPage: true, animations: 'disabled' })
+        await page.screenshot({ path: join(output, `${name}-${lens}.png`), fullPage: (await page.getByRole('dialog').count()) === 0, animations: 'disabled' })
+        written++
+      }
+      if (graph.nodes.length) {
+        stage = `wait for actual graph nodes and edges (${lens})`
+        await page.waitForFunction(({nodes,edges}) => document.querySelectorAll('.react-flow__node').length === nodes && document.querySelectorAll('.react-flow__edge').length === edges, {nodes:graph.nodes.length,edges:graph.edges.length})
+        await page.getByRole('region', {name:'Beleg-Graph',exact:true}).screenshot({path:join(output,`graph-${lens}.png`),animations:'disabled'})
         written++
       }
       await capture('overview')
@@ -49,8 +57,38 @@ try {
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth)
         if (overflow) throw new Error('Overview overflows the viewport')
         await capture(`overview-${width}`)
+        if (width === 360 && graph.nodes.length) {
+          stage = `tap graph node on mobile (${lens})`
+          await page.locator('.react-flow__node button').first().tap({timeout:5000})
+          await page.getByRole('dialog',{name:'Claim detail'}).waitFor()
+          await page.getByRole('dialog').getByText('Integrität ≠ fachliche Freigabe',{exact:true}).waitFor()
+          await capture('graph-mobile-drawer')
+          await page.getByRole('button',{name:'Close',exact:true}).click()
+        }
       }
       await page.setViewportSize({ width: 1440, height: 1000 })
+      if (graph.nodes.length) {
+        stage = `open graph node with pointer (${lens})`
+        await page.locator('.react-flow__node button').first().click({timeout:5000})
+        await page.getByRole('dialog',{name:'Claim detail'}).waitFor()
+        await page.keyboard.press('Tab')
+        if (!await page.getByRole('dialog').evaluate(dialog => dialog.contains(document.activeElement))) throw new Error('Focus escaped the Sheet')
+        await page.keyboard.press('Escape')
+        for (const kind of ['claim','criterion','evidence','file']) {
+          const node = page.locator(`.react-flow__node[data-id^="${kind}:"] button`).first()
+          if (!await node.count()) continue
+          stage = `open ${kind} graph node by keyboard (${lens})`
+          await node.focus()
+          await page.keyboard.press('Enter')
+          const dialog=page.getByRole('dialog')
+          await dialog.waitFor()
+          await dialog.getByText('Integrität ≠ fachliche Freigabe',{exact:true}).waitFor()
+          if (kind==='claim') await capture('graph-drawer')
+          await page.keyboard.press('Escape')
+          await dialog.waitFor({state:'hidden'})
+          await page.waitForFunction(() => document.activeElement?.matches('.graph-record'))
+        }
+      }
       await page.getByRole('button', { name: 'Claimed vs Proven', exact: true }).click()
       await page.locator('main').getByRole('heading', { level: 1 }).waitFor()
       await capture('claimed-vs-proven')

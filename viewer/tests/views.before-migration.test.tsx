@@ -1,4 +1,5 @@
 // @vitest-environment jsdom
+import './browser-env.ts'
 import { createHash } from 'node:crypto'
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -50,8 +51,18 @@ const target: DrawerTarget = {
 }
 const fixtureBlobs = { ...doc.blobs, [markdownSha]: markdown }
 
+// Snapshot a cloned portal as a fragment, preserving the original DOM serializer.
+function dialogFragment() {
+  const fragment=document.createDocumentFragment()
+  fragment.appendChild(screen.getByRole('dialog').cloneNode(true))
+  fragment.normalize() // Match RTL asFragment(): adjacent text nodes serialize together.
+  return fragment
+}
+
 // P2 intentionally updates six App layouts (header, navigation, trust notice, overview,
-// claim badges and keyboard-accessible Timeline); isolated renderer/drawer baselines stay fixed.
+// claim badges and keyboard-accessible Timeline). P2 Step 3 adds Graph to the two
+// Overview snapshots and replaces the outer drawer shell with a portalled Sheet.
+// Snapshot the actual dialog; diff/Markdown/plain content remains unchanged.
 describe('pre-migration viewer snapshots (must remain unchanged)', () => {
   for (const lens of lenses) {
     for (const view of ['Overview', 'Claimed vs Proven', 'Timeline']) {
@@ -66,19 +77,19 @@ describe('pre-migration viewer snapshots (must remain unchanged)', () => {
     }
 
     it(`criterion drawer with diff and synthetic Markdown, ${lens} lens`, () => {
-      const { asFragment } = render(<Drawer target={target} blobs={fixtureBlobs} lens={lens} onClose={() => {}} />)
+      render(<Drawer target={target} blobs={fixtureBlobs} lens={lens} onClose={() => {}} />)
       expect(screen.getByRole('dialog', { name: 'Evidence detail' })).toBeTruthy()
       expect(screen.getByRole('button', { name: 'Source' })).toBeTruthy()
       expect(screen.getByText('diff --git a/dev/null b/index.html')).toBeTruthy()
-      expect(asFragment()).toMatchSnapshot()
+      expect(dialogFragment()).toMatchSnapshot()
     })
   }
 
   it('preserves the Markdown source toggle inside the criterion drawer', () => {
-    const { asFragment } = render(<Drawer target={target} blobs={fixtureBlobs} lens="client" onClose={() => {}} />)
+    render(<Drawer target={target} blobs={fixtureBlobs} lens="client" onClose={() => {}} />)
     fireEvent.click(screen.getByRole('button', { name: 'Source' }))
     expect(within(screen.getByRole('dialog')).getByText(markdown, { normalizer: text => text })).toBeTruthy()
-    expect(asFragment()).toMatchSnapshot()
+    expect(dialogFragment()).toMatchSnapshot()
   })
 
   it('preserves plain text byte for byte, including JSON-looking content', () => {
