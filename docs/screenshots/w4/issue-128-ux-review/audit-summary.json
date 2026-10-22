@@ -1,0 +1,590 @@
+{
+  "liveUrl": "https://truthlens-viewer.vercel.app",
+  "captureStarted": "2026-10-22T05:13:20.837Z",
+  "checkedAt": "2026-10-22T05:14:39.737Z",
+  "browser": "156.0.8078.4",
+  "playwright": "1.64.1",
+  "locale": "en-GB",
+  "timezone": "Europe/Berlin",
+  "deviceScaleFactor": 1,
+  "reducedMotion": true,
+  "entry": {
+    "path": "/assets/index-4429mvGn.js",
+    "sha256": "02cebf10735a69a4e28c1aab72a94fabc4b07ad510e0a4e35ad8135362766a92",
+    "status": 200
+  },
+  "runSha256": "49a4972b98a77f8040f7c245d6f83eb7cca48f1e3441ac8ba0e7279853cad9ff",
+  "deploymentCommit": "not independently resolved via Vercel",
+  "sourceCrossCheckCommit": "40dbb8c4f9521a56280c8b17a69e03216e1ba105",
+  "screenshots": [
+    {
+      "file": "1440-client-claims-full.png",
+      "width": 1440,
+      "height": 1050,
+      "sha256": "522d80b5bc21a0361c811e829ce8929b844a40bec27094d827be1dba920ac92d",
+      "kind": "full-page",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-client-claims.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "0557dd452ecbb0b41a267667e90f514a51c28ad41903d484709f83f2436efb6b",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-client-criterion-detail.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "a5b7597e3dcec9058be05db746ab9efb4b398f10fb7753fdf36c72d0aa0cbc95",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-client-overview-full.png",
+      "width": 1440,
+      "height": 2823,
+      "sha256": "c1a8874b01f629a0bf3352b94af478f169967a35649e307ffa271b9cdb021aa5",
+      "kind": "full-page",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-client-overview.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "a11e4af8e6546edc7b4784f5a0d8f394558432116d67dc01f71d034b99d62240",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-client-story-full.png",
+      "width": 1440,
+      "height": 1854,
+      "sha256": "7cdcf89cc7bade42cfb6cfc511a9e2354effc64f445ca1a4f7da07feb0d72b08",
+      "kind": "full-page",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-client-story.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "258af7de21037085238d475f951cfc9e52a335e9e4961f052749a33127e8c315",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-client-timeline-full.png",
+      "width": 1440,
+      "height": 1236,
+      "sha256": "87977a5f89a0eed61e32cec52e6aebf95ce444711254a59f72c0cd856db8b9a9",
+      "kind": "full-page",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-client-timeline.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "bc847aa2b7a577a7b853007330da03ed01252254dfe8f922e599e1c1e58df345",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-developer-claims.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "5b8459759946ba65867c1664cfae574519a810dd115e5b608979add7721a1a3f",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-developer-overview.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "41a54a47ce601bb93b063afb127d51e566add8f44fcff9717326bf40a5fc4a84",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-developer-story.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "4cb0fc206ca0eac675db71592dc8682bcf878ac365873b835bc67a6230db34c9",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "1440-developer-timeline.png",
+      "width": 1440,
+      "height": 900,
+      "sha256": "874423cf2514e27d9d15dc6510105ab0f10e4bec8eaa6d3b37de3866167d41a4",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-client-claims-full.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c61dbc069bbfe1f6e8be9f2bf692c83765a63dfc3515075be71807d4622f8a36",
+      "kind": "full-page",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-client-claims.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c61dbc069bbfe1f6e8be9f2bf692c83765a63dfc3515075be71807d4622f8a36",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-client-criterion-detail.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "68021e85349e133d584a7095cef2d7db310395c327954cd1366beaf5711ca12b",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-client-overview-criteria.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "6930be64ba938ee186873adea3d4de20ac6828edd58002ce3f76f0d3b9ca1e30",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-client-overview-full.png",
+      "width": 390,
+      "height": 4629,
+      "sha256": "8bab4cd6e5c7f6f2fa8bd3a79dd0c200804c2df07627c05e700cf047623f84d8",
+      "kind": "full-page",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-client-overview-graph.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "050dd95ce1a67c4056f589a791b85875740e719af66520098b44d3ed80dc7d34",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-client-overview.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "fbb914da8e8b9f6ef2761401dd984280c017e2332b322eef25b3e0ed60be0434",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-client-story-full.png",
+      "width": 390,
+      "height": 2050,
+      "sha256": "95d2e7f6c33a00c5f8d8bb4ffc5de9f5cb52df6c46bd7f9cbe6607243dfaaf95",
+      "kind": "full-page",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-client-story.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "d3d59f9ef57bd4dfc54adba3ecfaa4805a9f39a9a2d99276dda4db818887bbe9",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-client-timeline-full.png",
+      "width": 390,
+      "height": 1682,
+      "sha256": "4f1442f67288c408d2ea7a76eed66b89bf8959f7ecdeb99e628a6e9a4d13328f",
+      "kind": "full-page",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-client-timeline.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "1ec04170f77cd8fd372444a461a087b78311ad3bdaca8bc1cdefb5f66ae0c521",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-developer-claims.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "1884855fd1734e0cf5a1609f5742a303d7fa0627ecfc093b7334396b5d8085a0",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-developer-overview.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "0fc5fac6069fd7b70b359d167a8c3f6fc37f595b554b45103d82629ea67b9b9e",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-developer-story.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "369ed7bd0cd36f0f68505737f9cf1b38377102cd5e62b1a042e9d0a820771041",
+      "kind": "viewport",
+      "visuallyInspected": true
+    },
+    {
+      "file": "390-developer-timeline.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "3bd59ddff98b76b85919246928781cc53b9cecf650416cf980cdddbdce944be9",
+      "kind": "viewport",
+      "visuallyInspected": true
+    }
+  ],
+  "axe": {
+    "scans": 18,
+    "ruleOrTagFilters": false,
+    "confirmedViolations": [],
+    "incompleteStates": {
+      "aria-prohibited-attr": 4,
+      "color-contrast": 10,
+      "aria-hidden-focus": 2
+    },
+    "states": [
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "lens": "client",
+        "view": "overview",
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "lens": "client",
+        "view": "criterion-detail",
+        "violations": [],
+        "incomplete": [
+          "aria-hidden-focus",
+          "color-contrast"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "lens": "client",
+        "view": "claims",
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "lens": "client",
+        "view": "timeline",
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "lens": "client",
+        "view": "story",
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "lens": "developer",
+        "view": "overview",
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr",
+          "color-contrast"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "lens": "developer",
+        "view": "claims",
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "lens": "developer",
+        "view": "timeline",
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "lens": "developer",
+        "view": "story",
+        "violations": [],
+        "incomplete": [
+          "color-contrast"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "lens": "client",
+        "view": "overview",
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "lens": "client",
+        "view": "criterion-detail",
+        "violations": [],
+        "incomplete": [
+          "aria-hidden-focus",
+          "color-contrast"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "lens": "client",
+        "view": "claims",
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "lens": "client",
+        "view": "timeline",
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "lens": "client",
+        "view": "story",
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "lens": "developer",
+        "view": "overview",
+        "violations": [],
+        "incomplete": [
+          "aria-prohibited-attr"
+        ]
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "lens": "developer",
+        "view": "claims",
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "lens": "developer",
+        "view": "timeline",
+        "violations": [],
+        "incomplete": []
+      },
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "lens": "developer",
+        "view": "story",
+        "violations": [],
+        "incomplete": []
+      }
+    ]
+  },
+  "interactions": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "criteriaTop": 1411,
+      "graphTop": 823,
+      "statusTop": 336,
+      "docHeight": 2823,
+      "graphNodes": 13,
+      "fullyVisibleGraphNodes": 6
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "detailOpenedWithEnter": true,
+      "closedWithEscape": true,
+      "focusRestored": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "reload": {
+        "before": {
+          "url": "https://truthlens-viewer.vercel.app/",
+          "title": "Timeline"
+        },
+        "after": {
+          "url": "https://truthlens-viewer.vercel.app/",
+          "title": "Project overview"
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "reload": {
+        "before": {
+          "url": "https://truthlens-viewer.vercel.app/",
+          "title": "Timeline"
+        },
+        "after": {
+          "url": "https://truthlens-viewer.vercel.app/",
+          "title": "Project overview"
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "criteriaTop": 941,
+      "graphTop": 1536,
+      "statusTop": 362,
+      "docHeight": 4629,
+      "graphNodes": 0,
+      "fullyVisibleGraphNodes": null
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "detailOpenedWithEnter": true,
+      "closedWithEscape": true,
+      "focusRestored": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "reload": {
+        "before": {
+          "url": "https://truthlens-viewer.vercel.app/",
+          "title": "Timeline"
+        },
+        "after": {
+          "url": "https://truthlens-viewer.vercel.app/",
+          "title": "Project overview"
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "reload": {
+        "before": {
+          "url": "https://truthlens-viewer.vercel.app/",
+          "title": "Timeline"
+        },
+        "after": {
+          "url": "https://truthlens-viewer.vercel.app/",
+          "title": "Project overview"
+        }
+      }
+    }
+  ],
+  "captureBrowserErrors": [],
+  "checkPageErrors": [],
+  "limitations": [
+    "Expert review, no user study or task-success timings",
+    "No full screen-reader review or complete dialog-tab coverage",
+    "Only one real live export; no loading/error fixtures",
+    "Full-page captures include fixed bars at the capture position; not evidence of scroll occlusion",
+    "No code/settings/deployment changes, no authenticated comments or approvals"
+  ]
+}
