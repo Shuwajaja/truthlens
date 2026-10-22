@@ -1,3 +1,5 @@
+> Latest combined Stitch/Toolbar validation: [integration evidence](toolbar-integration/axe-summary.md).
+
 > Superseded for Overview: Shu now requests the provisional Stitch palette and fonts. See [latest evidence](stitch-colours/axe-summary.md). Final palette remains pending.
 
 # Stitch Overview verification — 2026-10-22
