@@ -16,3 +16,15 @@ it('opens a real test event from the evidence rail and preserves trust boundarie
  expect(dialog.getByText('Nur Hash · HMAC nicht geprüft')).toBeTruthy();
  expect(dialog.getByText('Integrität ≠ fachliche Freigabe')).toBeTruthy();
 })
+
+it('filters real test and artifact records without inventing entries',async()=>{
+ vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(publicRun)})))
+ render(<App/>);await screen.findByRole('main');
+ const rail=within(screen.getByRole('complementary',{name:'Beleg-Schublade'}));
+ fireEvent.mouseDown(rail.getByRole('tab',{name:'Tests'}),{button:0,ctrlKey:false});
+ expect(rail.getAllByRole('button',{name:/^Beleg #/})).toHaveLength(2);
+ fireEvent.mouseDown(rail.getByRole('tab',{name:'Artefakte'}),{button:0,ctrlKey:false});
+ fireEvent.click(rail.getByRole('button',{name:`Datei: ${publicRun.artifacts[0].path}`}));
+ const dialog=within(screen.getByRole('dialog',{name:'File detail'}));
+ expect(dialog.getByText(publicRun.artifacts[0].sha256)).toBeTruthy();
+})
