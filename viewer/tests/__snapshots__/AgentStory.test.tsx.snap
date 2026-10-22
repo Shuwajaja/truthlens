@@ -4,7 +4,7 @@ exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented
 <DocumentFragment>
   <section>
     <h1
-      class="text-2xl font-bold mb-6"
+      class="text-2xl font-semibold mb-6"
     >
       Agent Story
     </h1>
@@ -71,7 +71,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
 <DocumentFragment>
   <section>
     <h1
-      class="text-2xl font-bold mb-6"
+      class="text-2xl font-semibold mb-6"
     >
       Agent Story
     </h1>
@@ -434,7 +434,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
 <DocumentFragment>
   <section>
     <h1
-      class="text-2xl font-bold mb-6"
+      class="text-2xl font-semibold mb-6"
     >
       Agent Story
     </h1>

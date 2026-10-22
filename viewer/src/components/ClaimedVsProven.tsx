@@ -6,7 +6,7 @@ export function ClaimedVsProven({ doc, lens }: { doc: RunDoc; lens: Lens }) {
   const criteriaById = new Map(doc.criteria.map(criterion => [criterion.criterion_id, criterion]))
   const client = lens === 'client'
   return <section>
-    <h1 className="text-2xl font-bold mb-6">{client ? 'What your agent said' : 'What your agent said vs. what we saw.'}</h1>
+    <h1 className="text-2xl font-semibold mb-6">{client ? 'What your agent said' : 'What your agent said vs. what we saw.'}</h1>
     {doc.claims.length === 0 && <p className="text-muted-foreground">No claims exported.</p>}
     <div className="space-y-4">
       {doc.claims.map(claim => {
