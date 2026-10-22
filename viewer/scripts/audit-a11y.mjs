@@ -1,3 +1,4 @@
+import {blockedPreviewScript} from './preview-console.mjs'
 // Full unrestricted axe audit of the actual exported run. Run npm run build first.
 import assert from 'node:assert/strict'
 import {mkdir,writeFile} from 'node:fs/promises'
@@ -8,7 +9,7 @@ import AxeBuilder from '@axe-core/playwright'
 process.env.PLAYWRIGHT_BROWSERS_PATH??=fileURLToPath(new URL('../../.venv/playwright',import.meta.url))
 const {chromium}=await import('playwright')
 const output=process.env.A11Y_OUTPUT??'.screenshots/a11y'
-const results=[],errors=[],keyboard=[]
+const results=[],errors=[],keyboard=[],previewScriptBlocks=[]
 let server,browser
 try{
  await mkdir(output,{recursive:true})
@@ -18,11 +19,11 @@ try{
  for(const viewport of [{width:1440,height:900},{width:390,height:844}])for(const lens of ['client','developer']){
   const mobile=viewport.width===390
   const context=await browser.newContext({viewport,locale:'en-GB',timezoneId:'Europe/Berlin',reducedMotion:'reduce',deviceScaleFactor:1})
-  await context.addInitScript(value=>localStorage.setItem('tl-lens',value),lens)
+  await context.addInitScript(value=>{if(window===window.top)localStorage.setItem('tl-lens',value)},lens)
   await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort())
   const page=await context.newPage()
   page.on('pageerror',error=>errors.push(error.message))
-  page.on('console',message=>{if(message.type()==='error')errors.push(message.text())})
+  page.on('console',message=>{if(blockedPreviewScript(message))previewScriptBlocks.push({viewport,lens,message:message.text()});else if(message.type()==='error')errors.push(message.text())})
   await page.goto(origin);await page.locator('main h1').waitFor();await page.evaluate(()=>document.fonts.ready)
   const scan=async state=>{
    const result=await new AxeBuilder({page}).analyze()
@@ -66,18 +67,18 @@ try{
    await page.locator('main h1').waitFor();await page.evaluate(()=>window.scrollTo(0,0))
    if(index===0&&lens==='client')await page.screenshot({path:`${output}/${mobile?'mobile-390x844':'desktop-1440x900'}.png`,animations:'disabled'})
    await scan(state)
-   if(!mobile&&index===0)for(const kind of ['claim','criterion','evidence','file'])await sheet(page.locator(`.react-flow__node[data-id^="${kind}:"] button`).first(),`${kind}-drawer`)
+   if(!mobile&&index===0){await page.getByText('Recorded links and code diff',{exact:true}).click();for(const kind of ['claim','criterion','evidence','file'])await sheet(page.locator(`.react-flow__node[data-id^="${kind}:"] button`).first(),`${kind}-drawer`);await page.getByText('Recorded links and code diff',{exact:true}).click()}
    if(mobile){
     await sheet(page.locator('.compact-trust'),`${state}-trust-sheet`)
     if(index===0){
      await sheet(page.getByRole('button',{name:/^Open run:/}),'run-sheet')
-     await sheet(page.locator('.criterion-button').first(),'criterion-sheet')
+     await page.locator('.criterion-button').first().click();await sheet(page.getByRole('button',{name:'Open criterion record',exact:true}),'criterion-sheet')
     }
    }
   }
   await context.close()
  }
- const report={browserVersion:browser.version(),commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),axeVersion:(await import('axe-core')).default.version,errors,keyboard,results}
+ const report={browserVersion:browser.version(),commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),previewScriptBlocks,axeVersion:(await import('axe-core')).default.version,errors,keyboard,results}
  await writeFile(`${output}/axe-results.json`,JSON.stringify(report,null,2)+'\n')
  assert.equal(results.length,36,'baseline coverage')
  assert.equal(errors.length,0,'browser errors')

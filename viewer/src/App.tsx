@@ -1,6 +1,6 @@
 import {useMobile} from './lib/use-mobile.ts'
 import {LensToggle} from './components/LensToggle.tsx'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
 import type { RunDoc } from './types.ts'
 import { validateRunDoc } from './validateRunDoc.ts'
 import { readLens, writeLens, type Lens } from './lens.ts'
@@ -31,6 +31,11 @@ export default function App() {
   const [view, setView] = useState<View>('overview')
   const [drawerTarget, setDrawerTarget] = useState<DrawerTarget | null>(null)
   const [lens, setLens] = useState<Lens>(() => readLens())
+
+  useLayoutEffect(()=>{
+    document.documentElement.dataset.viewerTheme=view==='overview'?'stitch':'werk'
+    return ()=>{delete document.documentElement.dataset.viewerTheme}
+  },[view])
 
   useEffect(() => {
     fetch('/run.json')
@@ -84,16 +89,15 @@ export default function App() {
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <Header mobile={mobile} trust={doc} onOpenRun={()=>setDrawerTarget({kind:'run',doc})} />
-      <div className="workspace">
-      <Sidebar
+      <Header mobile={mobile} trust={doc} onOpenRun={()=>setDrawerTarget({kind:'run',doc})} navigation={<Sidebar
         mobile={mobile}
         currentView={view}
         onViewChange={handleViewChange}
         lens={lens}
         onLensChange={handleLensChange}
         reviewRequired={doc.review_required}
-      />
+      />}/>
+      <div className={`workspace terminal-workspace ${view==='overview'?'overview-shell':''}`}>
       <main id="main-content" tabIndex={-1}>
         <IntegrityNotice verified={doc.verified} integrity={doc.integrity} controls={mobile?<LensToggle lens={lens} onChange={handleLensChange}/>:undefined} />
         {view === 'overview' && <Overview doc={doc} lens={lens} onOpenDrawer={setDrawerTarget} />}
@@ -101,7 +105,7 @@ export default function App() {
         {view === 'timeline' && <RenderView input={{ kind: 'events', events: doc.events }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
         {view === 'agent-story' && <RenderView input={{ kind: 'run', doc }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
       </main>
-      {!mobile&&<EvidenceRail doc={doc} onOpenDrawer={setDrawerTarget} />}
+      {!mobile&&view!=='overview'&&<EvidenceRail doc={doc} onOpenDrawer={setDrawerTarget} />}
       </div>
       {drawerTarget && (
         <Drawer

@@ -234,3 +234,113 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 }
 
 @media(max-width:760px) { main h1 { font-size: 20px; } }
+
+/* Shu's approved Stitch layout, painted with the shared WERK tokens. */
+.compact-header { height: 64px; position: sticky; top: 0; z-index: 30; padding: 0 var(--space-3); gap: var(--space-3); }
+.compact-header .brand { flex-shrink: 0; gap: var(--space-1); }
+.compact-header .brand-name { font-size: 16px; }
+.compact-header .brand-icon { width: 24px; height: 32px; }
+.terminal-workspace { grid-template-columns: minmax(0,1fr) 300px; min-height: calc(100dvh - 64px); }
+.terminal-workspace.overview-shell { display: block; }
+.terminal-workspace main { padding: var(--space-3); }
+.terminal-workspace main > .integrity-notice { position: static; }
+.stitch-overview { gap: var(--space-3); }
+.overview-run { display: grid; gap: var(--space-2); }
+.overview-run .page-heading { align-items: start; }
+.overview-run h1 { overflow-wrap: anywhere; }
+.run-summary { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); color: var(--text-2); font-size: 12px; }
+.run-summary code { overflow-wrap: anywhere; }
+.approval-boundary { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-2); color: var(--neutral-text); font-size: 12px; }
+.approval-boundary strong { border: 1px solid var(--neutral); border-radius: var(--radius); padding: var(--space-1); text-transform: uppercase; }
+.stitch-overview .status-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.stitch-overview .status-card { padding: var(--space-2); }
+.overview-workspace { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.1fr) minmax(0,1fr); grid-template-areas: 'criteria preview detail' 'timeline preview detail'; gap: var(--space-3); align-items: start; }
+.overview-workspace .criteria-panel { grid-area: criteria; }
+.overview-workspace .project-preview { grid-area: preview; }
+.overview-workspace .criterion-detail { grid-area: detail; }
+.overview-workspace .timeline-panel { grid-area: timeline; }
+.stitch-overview .criterion-button { flex-wrap: wrap; gap: var(--space-2); padding: var(--space-2); }
+.stitch-overview .criterion-content { flex-basis: 100%; }
+.criterion-button[aria-pressed=true] { border-color: var(--info); background: var(--surface-2); }
+.preview-path { overflow-wrap: anywhere; font-size: 12px; color: var(--text-2); }
+.preview-canvas { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.preview-canvas iframe { display: block; width: 100%; height: 480px; border: 0; pointer-events: none; }
+.project-preview > button, .criterion-detail > button { align-self: start; white-space: normal; height: auto; min-height: 32px; }
+.criterion-evidence { display: grid; gap: var(--space-2); }
+.criterion-evidence li { display: grid; gap: var(--space-2); border-top: 1px solid var(--border); padding-top: var(--space-2); min-width: 0; }
+.criterion-evidence h3 { overflow-wrap: anywhere; font-size: 14px; font-weight: 500; }
+.criterion-evidence time { font-size: 12px; color: var(--text-3); overflow-wrap: anywhere; }
+.criterion-evidence button { justify-self: start; }
+.criterion-evidence summary, .recorded-supplement > summary { cursor: pointer; padding: var(--space-1) 0; font-size: 14px; }
+.criterion-payload { max-width: 100%; max-height: 240px; overflow: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: var(--space-1); background: var(--bg); font-size: 12px; }
+.overview-timeline { max-height: 560px; overflow: auto; border-radius: var(--radius); }
+.overview-timeline .timeline-event button { grid-template-columns: 32px minmax(0,1fr); gap: var(--space-1); }
+.overview-timeline .timeline-event time { grid-column: 2; padding-top: 0; }
+.overview-timeline .timeline-copy { padding-top: 0; }
+.recorded-supplement { border-top: 1px solid var(--border); padding-top: var(--space-2); }
+.recorded-supplement > .graph-evidence-row, .recorded-supplement > .diff-panel { margin-top: var(--space-2); }
+.recorded-supplement .diff-preview { overflow: auto; }
+@media(min-width:761px) {
+ .compact-header .sidebar { position: static; flex: 1; min-width: 0; padding: 0; border: 0; background: transparent; align-self: auto; }
+ .compact-header .sidebar-content { position: static; display: flex; flex-direction: row; align-items: center; height: auto; min-height: 0; gap: var(--space-2); }
+ .compact-header .sidebar-brand, .compact-header .sidebar-meta > p, .compact-header .sidebar-meta > [data-slot=badge] { display: none; }
+ .compact-header .nav-list { display: flex; flex: 1; min-width: 0; overflow-x: auto; gap: var(--space-1); }
+ .compact-header .nav-list li { flex-shrink: 0; }
+ .compact-header .nav-item { padding: var(--space-1); border: 0; border-bottom: 2px solid transparent; white-space: nowrap; font-size: 12px; }
+ .compact-header .nav-item-active { border-bottom-color: var(--primary); }
+ .compact-header .nav-item svg { display: none; }
+ .compact-header .sidebar-meta { display: block; margin-top: 0; flex-shrink: 0; }
+ .compact-header .lens-toggle { width: 160px; }
+}
+@media(min-width:761px) and (max-width:1100px) {
+ .overview-workspace { grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-areas: 'criteria detail' 'preview detail' 'timeline timeline'; }
+}
+@media(max-width:760px) {
+ .compact-header { height: 56px; padding: 0 var(--space-2); justify-content: space-between; }
+ .compact-header .brand-name { font-size: 20px; }
+ .terminal-workspace { display: block; }
+ .terminal-workspace main { padding: var(--space-2) var(--space-2) 88px; }
+ .overview-run .page-heading { flex-direction: column; }
+ .overview-workspace { display: flex; flex-direction: column; gap: var(--space-2); }
+ .overview-workspace > * { width: 100%; }
+ .stitch-overview { gap: var(--space-2); }
+ .stitch-overview .status-grid { gap: var(--space-1); }
+ .stitch-overview .status-card { padding: var(--space-1); }
+ .stitch-overview .card-label { font-size: 12px; letter-spacing: 0; text-transform: none; gap: var(--space-1); }
+ .stitch-overview .status-value { font-size: 20px; }
+ .stitch-overview .status-card p { overflow-wrap: anywhere; }
+ .preview-canvas iframe { height: 360px; }
+ .overview-timeline { max-height: 400px; }
+}
+@media(min-width:761px) {
+ .terminal-workspace main > .integrity-notice { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1) var(--space-3); }
+ .terminal-workspace main > .integrity-notice .integrity-level { margin-bottom: 0; }
+ .overview-run { grid-template-columns: minmax(0,1fr) auto; gap: var(--space-1) var(--space-2); }
+ .overview-run .page-heading { grid-column: 1 / -1; }
+ .overview-run .approval-boundary { justify-self: end; }
+}
+.stitch-overview .criterion-button { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: start; gap: var(--space-1); padding: var(--space-1); }
+.stitch-overview .criterion-content > span { font-size: 12px; }
+.stitch-overview .criterion-button [data-slot=status-badge] { flex-direction: column; gap: 0; }
+.preview-canvas { height: 480px; }
+.preview-canvas iframe { width: 200%; height: 960px; transform: scale(.5); transform-origin: top left; }
+@media(max-width:760px) {
+ .overview-run { gap: var(--space-1); }
+ .preview-canvas { height: 400px; }
+ .preview-canvas iframe { height: 800px; }
+}
+.criterion-detail { scroll-margin-top: 80px; }
+.criterion-detail-link { display: none; }
+@media(max-width:760px) { .criterion-detail-link { display: block; text-decoration: underline; color: var(--info); font-size: 14px; padding: var(--space-1) 0; } }
+
+/* WERK semantic base fills/indicators; lighter text variants retain AA. */
+.approval-boundary strong[data-state=open] { color: var(--warning); border-color: var(--warning); background: color-mix(in srgb,var(--warning) 10%,var(--surface)); }
+.stitch-overview .status-dot.tone-fail { color: var(--error); }
+.stitch-overview .status-dot.tone-open { color: var(--neutral); }
+.stitch-overview [data-slot=status-badge][data-variant=failed] { color: var(--error-text); border-color: var(--error); background: color-mix(in srgb,var(--error) 10%,var(--surface)); }
+.stitch-overview [data-slot=status-badge][data-variant=open] { color: var(--neutral-text); border-color: var(--neutral); background: color-mix(in srgb,var(--neutral) 10%,var(--surface)); }
+.compact-header .nav-item-active { color: var(--primary-text); background: color-mix(in srgb,var(--primary) 10%,var(--surface)); }
+@media(max-width:760px) { .compact-header .nav-item-active { border-top-color: var(--primary); } }
+
+/* Keep the existing shield geometry neutral in the provisional Stitch profile. */
+:root[data-viewer-theme=stitch] .compact-header .brand-icon { filter: grayscale(1) brightness(2); }
