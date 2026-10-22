@@ -59,6 +59,16 @@ function dialogFragment() {
   return fragment
 }
 
+// Radix's mount-only animation suppression can be present for a single frame.
+// Normalize only that transient style on a cloned snapshot, not live behavior.
+function stableFragment(fragment: DocumentFragment) {
+  for(const panel of fragment.querySelectorAll<HTMLElement>('[role=tabpanel]')){
+    panel.style.removeProperty('animation-duration')
+    if(!panel.getAttribute('style'))panel.removeAttribute('style')
+  }
+  return fragment
+}
+
 // P2 intentionally updates six App layouts (header, navigation, trust notice, overview,
 // claim badges and keyboard-accessible Timeline). P2 Step 3 adds Graph to the two
 // Overview snapshots and replaces the outer drawer shell with a portalled Sheet.
@@ -74,7 +84,7 @@ describe('pre-migration viewer snapshots (must remain unchanged)', () => {
         await screen.findByRole('heading', { level: 1 })
         fireEvent.click(screen.getByRole('button', { name: ({Overview:'Übersicht','Claimed vs Proven':'Behauptet vs. belegt',Timeline:'Zeitachse'} as const)[view], exact: true }))
         expect(screen.getByText("This browser checks the file's internal consistency only; it does not verify signatures.")).toBeTruthy()
-        expect(asFragment()).toMatchSnapshot()
+        expect(stableFragment(asFragment())).toMatchSnapshot()
       })
     }
 
@@ -99,6 +109,6 @@ describe('pre-migration viewer snapshots (must remain unchanged)', () => {
     const { container, asFragment } = render(<EvidenceBlobContent payload={{ sha256: 'plain-fixture', path: 'fixture.txt' }} blobs={{ 'plain-fixture': text }} />)
     expect(container.querySelector('pre')?.textContent).toBe(text)
     expect(container.querySelector('script')).toBeNull()
-    expect(asFragment()).toMatchSnapshot()
+    expect(stableFragment(asFragment())).toMatchSnapshot()
   })
 })

@@ -554,7 +554,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                 data-state="active"
                 id="radix-_r_5_-content-overview"
                 role="tabpanel"
-                style=""
                 tabindex="0"
               >
                 <ul
@@ -1722,7 +1721,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                 data-state="active"
                 id="radix-_r_n_-content-overview"
                 role="tabpanel"
-                style="animation-duration: 0s;"
                 tabindex="0"
               >
                 <ul
@@ -7854,7 +7852,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                 data-state="active"
                 id="radix-_r_0_-content-overview"
                 role="tabpanel"
-                style="animation-duration: 0s;"
                 tabindex="0"
               >
                 <ul
@@ -14001,7 +13998,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                 data-state="active"
                 id="radix-_r_i_-content-overview"
                 role="tabpanel"
-                style="animation-duration: 0s;"
                 tabindex="0"
               >
                 <ul
@@ -15318,7 +15314,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-state="active"
                 id="radix-_r_a_-content-overview"
                 role="tabpanel"
-                style=""
                 tabindex="0"
               >
                 <ul
@@ -16869,7 +16864,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-state="active"
                 id="radix-_r_s_-content-overview"
                 role="tabpanel"
-                style="animation-duration: 0s;"
                 tabindex="0"
               >
                 <ul
