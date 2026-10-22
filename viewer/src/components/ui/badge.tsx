@@ -36,10 +36,10 @@ function statusBadge(data: StatusProps): { variant: VariantProps<typeof badgeVar
   return { variant: 'offen', label: 'Offen' }
 }
 
-export function StatusBadge(props: StatusProps) {
+export function StatusBadge(props: StatusProps & {compact?:boolean}) {
   const { variant, label } = statusBadge(props)
-  return <span data-slot="status-badge" data-variant={variant} className={badgeVariants({ variant })}>
-    <span>{label}</span>
+  return <span data-slot="status-badge" data-variant={variant} aria-label={props.compact?label:undefined} className={badgeVariants({ variant })}>
+    <span>{props.compact&&props.source==='integrity'?(variant==='nur-hash'?'Nur Hash':variant==='hmac-geprüft'?'HMAC geprüft':variant==='fehlgeschlagen'?'Fehlgeschlagen':'Ungeprüft'):label}</span>
     {props.source === 'criterion' && <code className="font-mono">· {props.status}</code>}
   </span>
 }

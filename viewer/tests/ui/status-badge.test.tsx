@@ -40,3 +40,12 @@ describe('recorded badge levels', () => {
     expect(screen.queryByText('Belegt')).toBeNull()
   })
 })
+
+it('keeps compact unsigned integrity neutral and only colours a real HMAC check',()=>{
+ const {rerender}=render(<StatusBadge source="integrity" verified={false} integrity="hash-only" compact/>);
+ expect(screen.getByText('Nur Hash').closest('[data-slot=status-badge]')?.className).not.toContain('text-ok');
+ rerender(<StatusBadge source="integrity" verified={false} integrity="hmac" compact/>);
+ expect(screen.getByText('Ungeprüft').closest('[data-slot=status-badge]')?.className).not.toContain('text-ok');
+ rerender(<StatusBadge source="integrity" verified integrity="hmac" compact/>);
+ expect(screen.getByText('HMAC geprüft').closest('[data-slot=status-badge]')?.className).toContain('text-ok');
+})

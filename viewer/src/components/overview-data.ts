@@ -10,10 +10,10 @@ export function recordedDiff(doc: RunDoc) {
   return undefined
 }
 
-const localTime=new Intl.DateTimeFormat('de-DE',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',fractionalSecondDigits:3,timeZoneName:'short',hour12:false})
+const localTimeOptions: Intl.DateTimeFormatOptions={year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',fractionalSecondDigits:3,timeZoneName:'short',hour12:false}
 export function recordedTime(value: string) {
   const date = new Date(value)
-  return Number.isNaN(date.getTime()) ? value : localTime.format(date)
+  return Number.isNaN(date.getTime()) ? value : new Intl.DateTimeFormat('de-DE',localTimeOptions).format(date)
 }
 
 export function recordedDuration(start: string, end: string | null) {

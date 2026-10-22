@@ -12,11 +12,9 @@ function EvidenceEvents({events,onOpenDrawer}:{events:RunEvent[];onOpenDrawer:(t
  })}</ul>
 }
 
-export function EvidenceRail({doc,onOpenDrawer}:{doc:RunDoc;onOpenDrawer:(target:DrawerTarget)=>void}){
+export function EvidenceTabs({doc,onOpenDrawer}:{doc:RunDoc;onOpenDrawer:(target:DrawerTarget)=>void}){
  const evidence=doc.events.filter(event=>['test.reported','artifact.recorded','evidence.attached'].includes(event.type))
- return <aside className="evidence-rail" aria-label="Beleg-Schublade"><div className="rail-sticky">
-  <section className="rail-evidence"><div className="panel-heading"><h2>Beleg-Schublade</h2><span className="section-note">{evidence.length} Ereignisse</span></div>
-   <Tabs defaultValue="overview" className="rail-tabs"><TabsList aria-label="Belege filtern">
+ return <Tabs defaultValue="overview" className="rail-tabs"><TabsList aria-label="Belege filtern">
     <TabsTrigger value="overview">Übersicht</TabsTrigger><TabsTrigger value="tests">Tests</TabsTrigger><TabsTrigger value="artifacts">Artefakte</TabsTrigger><TabsTrigger value="time">Zeit</TabsTrigger>
    </TabsList>
     <TabsContent value="overview"><EvidenceEvents events={evidence} onOpenDrawer={onOpenDrawer}/></TabsContent>
@@ -27,6 +25,13 @@ export function EvidenceRail({doc,onOpenDrawer}:{doc:RunDoc;onOpenDrawer:(target
     }}><span className="rail-icon"><FileText size={14} aria-hidden="true"/></span><span><strong>{artifact.path}</strong><code className="break-all">{artifact.sha256}</code></span></button></li>)}</ul>}</TabsContent>
     <TabsContent value="time"><dl className="run-times"><div><dt>Start</dt><dd>{recordedTime(doc.run.started)}</dd></div><div><dt>Ende</dt><dd>{doc.run.finished?recordedTime(doc.run.finished):'Nicht exportiert'}</dd></div><div><dt>Dauer</dt><dd>{recordedDuration(doc.run.started,doc.run.finished)}</dd></div></dl></TabsContent>
    </Tabs>
+}
+
+export function EvidenceRail({doc,onOpenDrawer}:{doc:RunDoc;onOpenDrawer:(target:DrawerTarget)=>void}){
+ const evidence=doc.events.filter(event=>['test.reported','artifact.recorded','evidence.attached'].includes(event.type))
+ return <aside className="evidence-rail" aria-label="Beleg-Schublade"><div className="rail-sticky">
+  <section className="rail-evidence"><div className="panel-heading"><h2>Beleg-Schublade</h2><span className="section-note">{evidence.length} Ereignisse</span></div>
+   <EvidenceTabs doc={doc} onOpenDrawer={onOpenDrawer}/>
    <p className="trust-seal">Integrität ≠ fachliche Freigabe</p>
   </section>
   <Navigator/>

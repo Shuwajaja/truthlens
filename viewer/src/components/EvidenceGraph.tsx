@@ -1,3 +1,5 @@
+import {useMobile} from '../lib/use-mobile.ts'
+import {Badge,StatusBadge} from './ui/badge.tsx'
 import { useMemo } from 'react'
 import { Controls, Handle, Position, ReactFlow, useReactFlow, type Edge, type Node, type NodeProps } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
@@ -28,7 +30,22 @@ function RecordNodeView({ data }: NodeProps<RecordNode>) {
 }
 const nodeTypes={record:RecordNodeView}
 
+function MobileGraph({graph,onOpen}:{graph:ReturnType<typeof buildEvidenceGraph>;onOpen:(node:EvidenceNode)=>void}){
+ const criteria=graph.nodes.filter(node=>node.kind==='criterion')
+ const isolated=graph.nodes.filter(node=>node.kind==='claim'&&!graph.edges.some(edge=>edge.source===node.id||edge.target===node.id))
+ return <div className="mobile-graph-list"><ul aria-label="Kriterienverknüpfungen">{criteria.map(node=>{
+  const related=graph.edges.filter(edge=>edge.source===node.id||edge.target===node.id).flatMap(edge=>{
+   const other=graph.nodes.find(candidate=>candidate.id===(edge.source===node.id?edge.target:edge.source))
+   return other?[other]:[]
+  })
+  return <li key={node.id}><button type="button" className="mobile-graph-record" aria-label={`Graph-Kriterium: ${node.label}`} onClick={()=>onOpen(node)}><strong>{node.label}</strong>{node.target.kind==='criterion'&&(node.tone==='open'?<Badge>{node.target.criterion.status} · offen</Badge>:<StatusBadge source="criterion" status={node.target.criterion.status}/>)}</button>
+   {related.length===0?<p className="text-2 text-xs">Kein aufgezeichneter Prüfnachweis.</p>:<ul>{related.map(other=><li key={other.id}><button type="button" className="graph-relation" onClick={()=>onOpen(other)}>← {kinds[other.kind]}: {other.label}</button></li>)}</ul>}
+  </li>
+ })}</ul>{isolated.length>0&&<section><h3>Isolierte Aussagen</h3><ul>{isolated.map(node=><li key={node.id}><button type="button" className="graph-relation text-open" onClick={()=>onOpen(node)}>{node.label}</button><p className="text-2 text-xs">Claim · ohne belegte Verbindung</p></li>)}</ul></section>}</div>
+}
+
 export function EvidenceGraph({ doc, onOpenDrawer, onSelectNode }: {doc: RunDoc; onOpenDrawer: (target: DrawerTarget)=>void; onSelectNode?:(id:string)=>void}) {
+  const mobile=useMobile()
   const graph=useMemo(()=>buildEvidenceGraph(doc),[doc])
   const nodes=useMemo<RecordNode[]>(()=>graph.nodes.map(record=>({id:record.id,type:'record',position:record.position,width:196,height:82,data:{record,onOpen:target=>{onSelectNode?.(record.id);onOpenDrawer(target)}}})),[graph,onOpenDrawer,onSelectNode])
   const edges=useMemo<Edge[]>(()=>graph.edges.map(edge=>({id:edge.id,source:edge.source,target:edge.target,ariaLabel:edge.recordedBy.join('; '),data:{recordedBy:edge.recordedBy},style:{stroke:`var(--${edge.tone==='open'?'neutral':edge.tone})`,strokeWidth:1.5,strokeDasharray:edge.tone==='open'?'5 4':undefined}})),[graph])
@@ -37,14 +54,14 @@ export function EvidenceGraph({ doc, onOpenDrawer, onSelectNode }: {doc: RunDoc;
     <ul className="graph-legend" aria-label="Graph-Legende"><li><span className="legend-line tone-ok"/>Belegt</li><li><span className="legend-line tone-fail"/>Widerspricht</li><li><span className="legend-line tone-open dashed"/>Ohne Prüfnachweis</li></ul>
     <p className="section-note">Nur aufgezeichnete Verknüpfungen. Claims ohne Beleg bleiben allein.</p>
     {nodes.length===0 ? <Empty><EmptyDescription>Keine Graph-Datensätze exportiert.</EmptyDescription></Empty> : <>
-      <div className="graph-canvas">
+      {mobile?<MobileGraph graph={graph} onOpen={node=>{onSelectNode?.(node.id);onOpenDrawer(node.target)}}/>:<div className="graph-canvas">
         <ReactFlow id="evidence-flow" nodes={nodes} edges={edges} nodeTypes={nodeTypes} colorMode="dark" fitView fitViewOptions={{padding:.12,minZoom:1,maxZoom:1}} minZoom={1} maxZoom={1.5}
           onNodeClick={(_,node)=>{onSelectNode?.(node.id);onOpenDrawer(node.data.record.target)}}
           nodesDraggable={false} nodesConnectable={false} nodesFocusable={false} edgesFocusable={false} edgesReconnectable={false} elementsSelectable={false}
           deleteKeyCode={null} zoomOnScroll={false} preventScrolling={false} aria-label="Interaktiver Beleg-Graph">
           <Controls showInteractive={false} aria-label="Graph vergrößern, verkleinern oder einpassen" />
         </ReactFlow>
-      </div>
+      </div>}
       <details className="graph-list"><summary>Alle Datensätze und Verknüpfungen als Liste</summary>
         <ul aria-label="Graph-Datensätze">{graph.nodes.map(node=><li key={node.id}><button type="button" onClick={()=>{onSelectNode?.(node.id);onOpenDrawer(node.target)}}>{kinds[node.kind]}: {node.label}</button></li>)}</ul>
         {graph.edges.length>0 && <ul aria-label="Aufgezeichnete Verknüpfungen">{graph.edges.map(edge=><li key={edge.id}>{graph.nodes.find(node=>node.id===edge.source)?.label} → {graph.nodes.find(node=>node.id===edge.target)?.label}<small>{edge.recordedBy.join('; ')}</small></li>)}</ul>}

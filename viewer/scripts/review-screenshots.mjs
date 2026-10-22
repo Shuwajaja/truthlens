@@ -1,51 +1,113 @@
-import { preview } from 'vite';
-import { mkdir } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
-process.env.PLAYWRIGHT_BROWSERS_PATH ??= fileURLToPath(new URL('../../.venv/playwright',import.meta.url));
-const output=process.env.P3_SHOTS ?? '.screenshots/review';
+import {preview} from 'vite';
+import {mkdir} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+process.env.PLAYWRIGHT_BROWSERS_PATH??=fileURLToPath(new URL('../../.venv/playwright',import.meta.url));
+const output=process.env.P3_SHOTS??'.screenshots/review';
 await mkdir(output,{recursive:true});
-let server;let browser;
-let stage='start'; let failure=false;
+let server,browser,stage='start',failure=false,shots=0,lensSuffix='';
+const lenses=[...new Set((process.env.P3_LENSES??'client').split(','))];
+const check=(condition,description)=>{if(!condition)throw new Error('P3 check: '+description)};
 try{
+ check(lenses.length>0&&lenses.every(lens=>['client','developer'].includes(lens)),'supported lenses');
  const {chromium}=await import('playwright');
  const {default:AxeBuilder}=await import('@axe-core/playwright');
  server=await preview({preview:{host:'127.0.0.1',port:0,strictPort:true}});
  browser=await chromium.launch({executablePath:process.env.REVIEW_BROWSER_EXECUTABLE});
  const origin='http://127.0.0.1:'+server.httpServer.address().port;
- for(const width of [1440,420]){
+ async function audit(page){
+  check(!failure,'browser errors');
+  check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'page overflow');
+  const invalidType=await page.evaluate(()=>{
+   const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;
+   while((node=walker.nextNode())){
+    const element=node.parentElement;
+    if(!node.textContent.trim()||!element||element.closest('svg')||!element.checkVisibility())continue;
+    const style=getComputedStyle(element);
+    if(![12,14,16,20,28].includes(parseFloat(style.fontSize))||![400,500,600].includes(Number(style.fontWeight)))return {tag:element.tagName,size:style.fontSize,weight:style.fontWeight};
+   }
+   return false;
+  });
+  if(invalidType)console.error(invalidType);
+  check(!invalidType,'type scale');
+  const axe=await new AxeBuilder({page}).withRules(['color-contrast']).analyze();
+  check(axe.violations.length===0,'contrast');
+ }
+ async function capture(page,name,fullPage){await page.screenshot({path:output+'/'+name+lensSuffix+'.png',fullPage,animations:'disabled'});shots++;}
+ async function sheet(page,trigger,name){
+  await trigger.click();const dialog=page.getByRole('dialog');await dialog.waitFor();
+  check(await dialog.getByText('Nur Hash · HMAC nicht geprüft',{exact:true}).isVisible(),'sheet hash warning');
+  check(await dialog.getByText('Integrität ≠ fachliche Freigabe',{exact:true}).isVisible(),'sheet acceptance warning');
+  const geometry=await dialog.evaluate(element=>{const box=element.getBoundingClientRect();return {bottom:box.bottom,top:box.top,radius:getComputedStyle(element).borderTopLeftRadius,viewport:innerHeight};});
+  check(Math.abs(geometry.bottom-geometry.viewport)<1&&geometry.top>0&&geometry.radius==='16px','bottom sheet geometry');
+  await audit(page);await capture(page,name,false);
+  await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});
+  await page.waitForFunction(element=>document.activeElement===element,await trigger.elementHandle());
+ }
+ for(const lens of lenses)for(const width of [1440,420]){
+  lensSuffix=lenses.length>1?'-'+lens:'';
   const context=await browser.newContext({viewport:{width,height:1000},timezoneId:'Europe/Berlin',reducedMotion:'reduce'});
+  await context.addInitScript(value=>localStorage.setItem('tl-lens',value),lens);
   await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
   const page=await context.newPage();
-  page.on('pageerror',()=>{failure=true});
-  page.on('console',message=>{if(message.type()==='error')failure=true});
-  await page.goto(origin);
-  await page.locator('main h1').waitFor();
-  await page.evaluate(()=>document.fonts.ready);
+  page.on('pageerror',()=>{failure=true});page.on('console',message=>{if(message.type()==='error')failure=true});
+  await page.goto(origin);await page.locator('main h1').waitFor();await page.evaluate(()=>document.fonts.ready);
   for(const [i,name] of ['overview','claimed','timeline','story'].entries()){
-   stage=name+'-'+width;
+   stage=name+'-'+width+'-'+lens;
    await page.getByRole('navigation',{name:'Viewer navigation',exact:true}).getByRole('button').nth(i).click();
    await page.locator('main h1').waitFor();
-   if(failure)throw new Error('Browser error');
-   await page.evaluate(()=>window.scrollTo(0,0));
-   const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
-   if(overflow)throw new Error('Page overflow');
-   const invalidType=await page.evaluate(()=>{
-    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;
-    while((node=walker.nextNode())){
-     const element=node.parentElement;
-     if(!node.textContent.trim()||!element||element.closest('svg')||!element.getClientRects().length||getComputedStyle(element).visibility==='hidden')continue;
-     const style=getComputedStyle(element);
-     if(![12,14,16,20,28].includes(parseFloat(style.fontSize))||![400,500,600].includes(Number(style.fontWeight)))return {tag:element.tagName,size:style.fontSize,weight:style.fontWeight};
+   if(width===420)await page.waitForFunction(()=>scrollY===0&&document.activeElement===document.querySelector('main h1'));
+   else await page.evaluate(()=>window.scrollTo(0,0));
+   await audit(page);
+   if(width===420){
+    const layout=await page.evaluate(()=>{const head=document.querySelector('.mountain-header').getBoundingClientRect(),nav=document.querySelector('.sidebar').getBoundingClientRect();return {head:head.height,nav:nav.height,bottom:nav.bottom,viewport:innerHeight,canvas:!!document.querySelector('.graph-canvas')};});
+    check(layout.head===52&&layout.nav===64&&Math.abs(layout.bottom-layout.viewport)<1&&!layout.canvas,'mobile shell');
+    if(i===0){
+     const order=await page.evaluate(()=>['.status-grid','.runs-panel','.criteria-panel','.evidence-graph','.timeline-panel','.diff-panel','.node-detail'].map(selector=>document.querySelector(selector)?.getBoundingClientRect().top));
+     check(order.every((top,index)=>Number.isFinite(top)&&(index===0||top>order[index-1])),'mobile reading order');
     }
-    return false;
-   });
-   if(invalidType){console.error(invalidType);throw new Error('Type scale violation');}
-   const axe=await new AxeBuilder({page}).withRules(['color-contrast']).analyze();
-   if(axe.violations.length)throw new Error('Contrast violations');
-   await page.screenshot({path:output+'/'+name+'-'+width+'.png',fullPage:true,animations:'disabled'});
+   }
+   await capture(page,name+'-'+width,width===1440);
+   if(width===1440&&i===0){
+    for(const kind of ['claim','criterion','evidence','file']){
+     const node=page.locator(`.react-flow__node[data-id^="${kind}:"] button`).first();
+     await page.keyboard.press('Tab');await node.focus();await page.keyboard.press('Enter');
+     const dialog=page.getByRole('dialog');await dialog.waitFor();
+     await page.keyboard.press('Tab');check(await dialog.evaluate(element=>element.contains(document.activeElement)),'desktop focus containment');
+     const overlap=await dialog.evaluate(element=>{
+      const close=element.querySelector(':scope > button');
+      const badge=element.querySelector('.integrity-badge');
+      if(!close||!badge)return true;
+      const a=close.getBoundingClientRect(),b=badge.getBoundingClientRect();
+      return b.left<0||b.right>innerWidth||(a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top);
+     });
+     check(!overlap,'trust badge and Close overlap');
+     await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});
+     await page.waitForFunction(element=>document.activeElement===element,await node.elementHandle());
+    }
+   }
+   if(width===420){
+    if(i===0)await capture(page,'overview-420-full',true);
+    await sheet(page,page.locator('.compact-trust'),name+'-sheet-420');
+    if(i===0){
+     await sheet(page,page.getByRole('button',{name:/^Lauf öffnen:/}),'run-sheet-420');
+     await sheet(page,page.getByRole('button',{name:/^Belege:/}).first(),'criterion-sheet-420');
+    }
+    await page.evaluate(()=>window.scrollTo(0,Math.min(1200,document.documentElement.scrollHeight-innerHeight)));
+   }
+  }
+  // Exercise intermediate widths without publishing additional review images.
+  if(width===420){
+   await page.getByRole('navigation',{name:'Viewer navigation',exact:true}).getByRole('button').first().click();
+   for(const probe of [360,760,1024]){
+    stage='responsive-'+probe;await page.setViewportSize({width:probe,height:1000});
+    await page.waitForFunction(width=>width<=760?!document.querySelector('.graph-canvas'):!!document.querySelector('.graph-canvas'),probe);
+    await audit(page);
+    const cardsFit=await page.locator('.status-card').evaluateAll(cards=>cards.every(card=>card.scrollWidth<=card.clientWidth));
+    check(cardsFit,'card content overflow');
+   }
   }
   await context.close();
  }
- console.log('8 screenshots (4 views,1440+420), no contrast violations, browser errors or page overflow: '+output);
-} catch(error){ console.error('P3 screenshots failed at '+stage+' ('+error.name+')');process.exitCode=1;}
+ console.log(shots+' screenshots: all4 views at1440+420, mobile sheets and overview reading order; no contrast/type/overflow/browser errors. '+output);
+}catch(error){console.error('P3 review failed at '+stage+' ('+(error.message.startsWith('P3 check:')?error.message:error.name)+')');process.exitCode=1;}
 finally{await browser?.close();await server?.close();}
