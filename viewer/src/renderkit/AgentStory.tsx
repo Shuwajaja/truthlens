@@ -38,8 +38,8 @@ export function AgentStory({ doc, context }: { doc: RunDoc; context?: RenderCont
                 </ul>
               )}
               {developer && (
-                <p className="font-mono text-xs text-2 mt-2 break-all">
-                  #{step.event.seq} · {step.event.type} · {step.event.id}
+                <p className="developer-only font-mono text-xs text-2 mt-2 break-all">
+                  <span className="developer-label">Developer</span> · #{step.event.seq} · {step.event.type} · {step.event.id}
                 </p>
               )}
               <Button variant="outline" size="sm" className="mt-2"

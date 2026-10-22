@@ -32,9 +32,14 @@ body { font-variant-numeric: tabular-nums; }
 .sidebar-meta { display: grid; gap: 16px; margin-top: auto; }
 .sidebar-meta p { color: var(--text-2); font-size: 12px; }
 .lens-toggle { display: flex; border: 1px solid var(--neutral); border-radius: var(--radius); }
-.lens-toggle button { flex: 1; padding: 8px; color: var(--text-2); font-size: 12px; }
-.lens-toggle button[aria-pressed=true] { color: var(--primary-text); background: var(--surface-2); border-radius: var(--radius); }
-.lens-toggle button:last-child[aria-pressed=true] { color: var(--secondary-text); background: color-mix(in srgb,var(--secondary) 10%,var(--surface)); }
+.lens-toggle button { border-bottom: 2px solid transparent; flex: 1; padding: 8px; color: var(--text-2); font-size: 12px; }
+[data-lens=client] { --mode-accent: var(--mode-client); }
+[data-lens=developer] { --mode-accent: var(--mode-developer); }
+.lens-toggle button[data-mode=client][aria-pressed=true] { color: var(--mode-client); background: var(--mode-client-bg); border-bottom-color: var(--mode-client); border-radius: var(--radius); }
+.lens-toggle button[data-mode=developer][aria-pressed=true] { color: var(--mode-developer); background: var(--mode-developer-bg); border-bottom-color: var(--mode-developer); border-radius: var(--radius); }
+.app-shell .compact-header { border-top: 2px solid var(--mode-accent); }
+.developer-only { border-inline-start: 2px solid var(--mode-developer); padding-inline-start: var(--space-1); }
+.developer-label, .timeline-copy code.developer-only { color: var(--mode-developer); }
 main { padding: 16px 16px 32px; min-width: 0; }
 .integrity-notice { border: 1px dashed var(--neutral); background: var(--surface); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; font-size: 12px; color: var(--text-2); }
 .integrity-level { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-bottom: 8px; }

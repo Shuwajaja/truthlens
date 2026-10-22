@@ -64,6 +64,22 @@ for(const [tint,accent,name] of [['success','success','success'],['error','error
  check(rgb('focus'),fill,3,`focus/${name} status surface`);
  check(rgb('neutral'),fill,3,`control boundary/${name} status surface`);
 }
+// Mode identity is independent of recorded status, with AA labels and non-text rails.
+for(const mode of ['client','developer']){
+ const key=`mode-${mode}`;
+ assert(values[key],`dedicated ${mode} token`);
+ for(const status of ['success','error','warning'])assert.notEqual(values[key],values[status],`${mode} is not ${status}`);
+ assert.equal(values[`${key}-bg`],`color-mix(in srgb, var(--${key}) 10%, var(--surface))`);
+ const fill=rgb('surface').map((v,i)=>v*.9+rgb(key)[i]*.1);
+ for(const parent of ['bg','surface','surface-2']){
+  check(rgb(key),rgb(parent),4.5,`${mode} label/${parent}`);
+  check(rgb(key),rgb(parent),3,`${mode} rail/${parent}`);
+ }
+ check(rgb(key),fill,4.5,`${mode} label/selected fill`);
+ check(rgb(key),fill,3,`${mode} rail/selected fill`);
+ check(rgb('focus'),fill,3,`focus/${mode} selected fill`);
+}
+assert.notEqual(values['mode-client'],values['mode-developer'],'distinct mode cues');
 assert.equal(values['navigation-accent'],'var(--success)');
 assert.equal(values['navigation-bg'],'var(--status-success-bg)');
 console.log(`${profile}: exact profile tokens, 8px grid, 12px radius; ${pairs} AA text/control pairs, minimum ${minimum.toFixed(2)}:1 (control threshold 3:1).`);
