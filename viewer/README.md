@@ -57,3 +57,11 @@ Unified diff line numbers come only from real, bounded hunk headers; metadata st
 Graph edges use recorded test counts for result colours. Artifact references remain neutral, and a criterion without a linked test never gets a green graph dot. Unwitnessed claims stay isolated. Selecting any graph record updates the property detail and opens that same record in the existing drawer; no inferred edge or placeholder node is added.
 
 The timeline rail sorts recorded sequence numbers, groups only the initial setup events as Auftrag and the remainder as Ergebnis, and displays only nonempty phases. Durations are recorded timestamp spans. Gaps over one second are labelled as timestamp gaps (not live execution telemetry); consecutive claims can be expanded. Result colours require decisive wrapper/system test counts. Every event button opens the original event, in both lenses.
+
+## Logo addendum (2026-10-22)
+
+The task folder was amended during P3 to add the owner logo and a single green token. The viewer now uses the amended DESIGN.md unchanged: Truth is green, Lens is white, and logo/result colours share --ok. General navigation uses info so it cannot imply a checked result. Native SVG geometry reconstructs the supplied JPEG references; wordmark glyph outlines use the bundled Inter600 font. No JPEG or external font is loaded at runtime.
+
+`npm run brand:build` generates the public SVG wordmark/icon, favicon SVG/ICO32 and touch PNG180. SVG templates use theme variables; generated public assets resolve those values from theme.css for standalone image/favicon rendering. There is no second hand-maintained palette. Build checks SVG regeneration and icon dimensions; rasterization uses the clone-local Playwright browser only when deliberately rebuilding assets.
+
+The p3/logo branch was inserted after the already-published timeline branch and before mobile because the task folder gained step4b while this run was in progress. Existing published branch history was preserved; no force-push or merge was performed.
