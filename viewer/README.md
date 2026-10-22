@@ -50,8 +50,8 @@ Tests retain the real export and isolated, explicitly labelled synthetic rendere
 
 ## Logo addendum (2026-10-22)
 
-Shu's logo uses the dedicated --brand token: Truth, eye and check are brand green; Lens and the shield outline use text white. Status green is the separate --ok token. Navigation and focus use info; brand green never marks results or integrity. Native SVG geometry reconstructs the supplied JPEG references; wordmark glyph outlines use the bundled Inter 600 font. No JPEG or external font is loaded at runtime.
+Shu's logo and recorded results share the single --ok green token. Truth, eye and check are green; Lens and the shield outline use text white. Navigation and focus use info. Outside the logo, green describes real recorded results; an integrity badge is green only when verified is true and integrity is hmac. Hash-only remains grey. Native SVG geometry reconstructs the supplied JPEG references; wordmark glyph outlines use the bundled Inter 600 font. No JPEG or external font is loaded at runtime.
 
 `npm run brand:build` generates the public SVG wordmark/icon, favicon SVG/ICO 32 and touch PNG 180. SVG templates use theme variables; generated public assets resolve those values from theme.css for standalone image/favicon rendering. There is no second hand-maintained palette. Build checks SVG regeneration and icon dimensions; rasterization uses the clone-local Playwright browser only when deliberately rebuilding assets.
 
-The browser review checks actual rendered logo/result/hash colours, forbids brand green outside logo regions and inspects all five generated assets, including ICO/PNG pixels and dimensions.
+The browser review checks the shared logo/result green, white Lens text and neutral hash seal, rejects the superseded green shades and inspects all five generated assets, including ICO/PNG pixels and dimensions.

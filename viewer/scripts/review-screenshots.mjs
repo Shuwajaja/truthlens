@@ -17,12 +17,12 @@ try{
  async function audit(page){
   check(!failure,'browser errors');
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'page overflow');
-  const brandLeak=await page.evaluate(()=>[...document.querySelectorAll('body *')].some(element=>{
-   if(element.closest('.brand,.sidebar-brand')||!element.checkVisibility())return false;
+  const obsoleteGreen=await page.evaluate(()=>[...document.querySelectorAll('body *')].some(element=>{
+   if(!element.checkVisibility())return false;
    const style=getComputedStyle(element);
-   return ['color','backgroundColor','borderTopColor','borderRightColor','borderBottomColor','borderLeftColor','outlineColor','fill','stroke'].some(key=>style[key]==='rgb(34, 197, 94)');
+   return ['color','backgroundColor','borderTopColor','borderRightColor','borderBottomColor','borderLeftColor','outlineColor','fill','stroke'].some(key=>['rgb(34, 197, 94)','rgb(63, 207, 142)'].includes(style[key]));
   }));
-  check(!brandLeak,'brand green outside logo');
+  check(!obsoleteGreen,'only the approved green in the UI');
   const invalidType=await page.evaluate(()=>{
    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;
    while((node=walker.nextNode())){
@@ -43,8 +43,8 @@ try{
    const colour=selector=>getComputedStyle(document.querySelector(selector)).color;
    return {truth:colour(document.querySelector('.brand-name')?'.brand-name':'.sidebar-brand > span'),lens:colour('.brand-lens'),met:colour('[data-testid=met-count] .text-ok'),hash:colour('.integrity-badge [data-slot=status-badge]')};
   });
-  check(colours.truth==='rgb(34, 197, 94)'&&colours.lens==='rgb(230, 237, 243)','Truth brand and Lens text colours');
-  check(colours.met==='rgb(63, 207, 142)'&&colours.hash==='rgb(151, 163, 179)','separate result green and neutral hash seal');
+  check(colours.truth==='rgb(28, 220, 68)'&&colours.lens==='rgb(230, 237, 243)','Truth green and Lens white');
+  check(colours.met==='rgb(28, 220, 68)'&&colours.hash==='rgb(151, 163, 179)','shared result green and neutral hash seal');
   // Inspect the built ICO's embedded PNG along with the directly served images.
   const ico=await readFile(new URL('../dist/favicon.ico',import.meta.url));
   const icoPng=ico.subarray(ico.readUInt32LE(18),ico.readUInt32LE(18)+ico.readUInt32LE(14)).toString('base64');
@@ -53,14 +53,14 @@ try{
    const canvas=document.createElement('canvas');canvas.width=image.naturalWidth;canvas.height=image.naturalHeight;
    const context=canvas.getContext('2d');context.drawImage(image,0,0);
    const pixels=context.getImageData(0,0,canvas.width,canvas.height).data;
-   let brand=0,status=0;
+   let green=0,obsolete=0;
    for(let i=0;i<pixels.length;i+=4){
-    if(pixels[i]===34&&pixels[i+1]===197&&pixels[i+2]===94&&pixels[i+3]===255)brand++;
-    if(pixels[i]===63&&pixels[i+1]===207&&pixels[i+2]===142&&pixels[i+3]===255)status++;
+    if(pixels[i]===28&&pixels[i+1]===220&&pixels[i+2]===68&&pixels[i+3]===255)green++;
+    if(pixels[i+3]===255&&((pixels[i]===34&&pixels[i+1]===197&&pixels[i+2]===94)||(pixels[i]===63&&pixels[i+1]===207&&pixels[i+2]===142)))obsolete++;
    }
-   return {brand,status,width:image.naturalWidth,height:image.naturalHeight};
+   return {green,obsolete,width:image.naturalWidth,height:image.naturalHeight};
   })),icoPng);
-  check(assets.every(asset=>asset.brand>0&&asset.status===0),'all logo/icon assets use brand green');
+  check(assets.every(asset=>asset.green>0&&asset.obsolete===0),'all logo/icon assets use the approved green');
   check(assets[3].width===32&&assets[3].height===32&&assets[4].width===180&&assets[4].height===180,'favicon and touch icon sizes');
  }
  async function capture(page,name,fullPage){await page.screenshot({path:output+'/'+name+lensSuffix+'.png',fullPage,animations:'disabled'});shots++;}

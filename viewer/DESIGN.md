@@ -12,8 +12,7 @@ Leitidee: **Kontrollraum für Beweise.** Dicht, ruhig, präzise. Farbe heißt im
 | `--text` | #E6EDF3 | Haupttext, Zahlen (15:1) |
 | `--text-2` | #A9B4C2 | Erklärtext (8.5:1) |
 | `--text-3` | #8592A3 | Meta, Labels, Zeiten (≥5:1) – nie für Inhalt |
-| `--ok` | #3FCF8E | belegt / Test bestanden. „verified/HMAC geprüft“ **nur** bei `verified:true` |
-| `--brand` | #22C55E | ausschließlich Logo: Auge/Haken und „Truth“; nie Status, Navigation oder Fokus |
+| `--ok` | #1CDC44 | belegt / Test bestanden. „verified/HMAC geprüft“ **nur** bei `verified:true` |
 | `--fail` | #FF7B72 | fehlgeschlagen, unmet, Exit ≠ 0 |
 | `--info` | #79B8FF | Fokus, Links, Datei-/Artefakt- und Kriterien-Ereignisse (Vorgang, kein Urteil) |
 | `--neutral` | #97A3B3 | **offen / pending / unbelegt / Review nötig**, „Nur Hash“-Siegel, System-Ereignisse |
@@ -40,8 +39,8 @@ Raster 4px: 4/8/12/16/24/32. Panels: `--surface`, 1px `--border`, Radius 8, Inne
 - Don't: Grün für exit 0, „Agent fertig“, „Healthy“. Don't: Rot für „unbelegt“ (das ist grau).
 
 ## 5. Layout & Signatur (Desktop ≥ 1024)
-1. **Berg-Header** 150px: Logo-Schild + „TruthLens“ (28/600, „Truth“ `--brand`, „Lens“ weiß) + Tagline (Mono-CAPS); rechts „Belege · Transparenz · Vertrauen“ + „Belege statt Behauptungen.“
-2. **Sidebar links** 200px (Übersicht, Behauptet vs. belegt, Zeitachse, Agent-Verlauf; Export-Hinweis). Aktiv: Innenkante in `--info` (Vorgang, kein Prüfergebnis).
+1. **Berg-Header** 150px: Logo-Schild + „TruthLens“ (28/600, „Truth“ `--ok`, „Lens“ weiß) + Tagline (Mono-CAPS); rechts „Belege · Transparenz · Vertrauen“ + „Belege statt Behauptungen.“
+2. **Sidebar links** 200px (Übersicht, Behauptet vs. belegt, Zeitachse, Agent-Verlauf; Export-Hinweis). Aktiv: grüne Innenkante.
 3. **Status-Karten** (4): Gesamtstatus, Kriterien belegt X/Y, Fehlgeschlagen, Unbelegt – jeweils Punkt+Mono-Label, Wert 28/600. **Sparklines nur bei ≥ 2 Läufen** mit echten Werten; sonst weglassen.
 4. **Läufe-Liste** mit Status-Pill; bei 1 Lauf Detaildaten (Start/Ende/Dauer/Exit) + ehrlicher Leerzustand.
 5. **Code-Diff** (Mono 12, Zeilennr., +-Spalte grün); Pill „nicht signiert“ grau statt „Verified change“.
@@ -68,6 +67,4 @@ Knoten min. Schrift 12, Rahmen `--border`; Claim/Kriterium ohne Beleg: gestriche
 - Zeiten in Lokalzeit mit Zonenkürzel (z. B. MESZ) oder relativ.
 
 ## 9. Logo
-Quelle: `logo/logo-wortmarke.jpg` (Schild + Auge + Haken, „Truth“ grün, „Lens“ weiß) und `logo/logo-icon.jpg`. Als saubere SVGs nachbauen: `viewer/public/logo-wordmark.svg`, `logo-icon.svg`; daraus `favicon.svg`, `favicon.ico` (32), `apple-touch-icon.png` (180). Einsatz: Berg-Header (Wortmarke), Sidebar-Kopf + Mobil-Kopf (Icon).
-
-Logo-Grün ist ausschließlich `--brand` #22C55E. „Truth“, Auge und Haken verwenden `--brand`; „Lens“ und Schildkontur verwenden `--text`/Weiß. `--brand` darf nirgends sonst eingesetzt werden: keine Status-Pills, Ergebnisse, Graph-Kanten, Navigation oder Fokusmarkierungen. Status-Grün bleibt `--ok` #3FCF8E für echte Ergebnisse (belegt/bestanden; Integrität nur bei `verified:true`). Alle Farbwerte kommen aus `src/theme.css`; eigenständig darstellbare SVG-/ICO-/PNG-Dateien werden daraus generiert.
+Quelle: `logo/logo-wortmarke.jpg` (Schild + Auge + Haken, „Truth“ grün, „Lens“ weiß) und `logo/logo-icon.jpg`. Als saubere SVGs nachbauen: `viewer/public/logo-wordmark.svg`, `logo-icon.svg`; daraus `favicon.svg`, `favicon.ico` (32), `apple-touch-icon.png` (180). Einsatz: Berg-Header (Wortmarke), Sidebar-Kopf + Mobil-Kopf (Icon). **Ein Grün für alles:** Logo nutzt dasselbe `--ok` #1CDC44 (aus Shus Logo; ≥9.9:1 auf allen Flächen). Wortmarke exakt wie Shus Logo: „Truth“ in `--ok`, „Lens“ in `--text`/Weiß – in SVG und Header. Grün in der UI sonst nur als echtes Ergebnis (belegt/bestanden/verified:true).
