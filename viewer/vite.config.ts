@@ -4,6 +4,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  define: {
+    'import.meta.env.TRUTHLENS_PREVIEW_TOOLBAR': JSON.stringify(process.env.VERCEL_ENV === 'preview'),
+  },
   build: {
     rolldownOptions: {
       output: {

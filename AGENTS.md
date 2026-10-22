@@ -33,7 +33,7 @@ Never write secrets/keys/tokens to files, logs, commits, prompts or test fixture
 
 ## Skills & design
 - Python work: `.agents/skills/python-conventions.md`.
-- UI work must follow [viewer/DESIGN.md](viewer/DESIGN.md) (binding), then `.agents/skills/no-slop-ui/`, with `.agents/skills/web-interface-review.md` as the final check. The viewer rules supersede older UI rules in root `DESIGN.md`. Vetting record: `.agents/skills/README.md`.
+- UI work must follow [viewer/DESIGN.md](viewer/DESIGN.md) (binding), then `.agents/skills/no-slop-ui/`, apply `.agents/skills/react-best-practices.md` to changed React code, with `.agents/skills/web-interface-review.md` as the final check. The viewer rules supersede older UI rules in root `DESIGN.md`. Vetting record: `.agents/skills/README.md`.
 - Demo golden path: `docs/DEMO-TASK.md`.
 
 ## UI pipeline (binding for all UI work)
@@ -41,7 +41,9 @@ Never write secrets/keys/tokens to files, logs, commits, prompts or test fixture
 2. **Components:** prefer shadcn via MCP `shadcn` and Magic UI via MCP `magicui`. Do not use Origin UI / coss code (AGPL).
 3. **Verify every UI change:** use headless Playwright MCP (`playwright`) or a Playwright script to capture desktop **1440×900** and mobile **390×844** screenshots. Run an axe-core accessibility check with `@axe-core/playwright`; fix serious and critical violations.
 4. **Publish evidence:** attach screenshots and the axe summary to the PR description, or commit them under `docs/screenshots/<branch>/`. Identify the tested commit and viewports; report findings honestly.
-5. **Operational limits:** no merge without Shu's OK. Do not restart services, delete files or print secrets.
+5. **Local rules and checks:** follow [docs/UI-PIPELINE.md](docs/UI-PIPELINE.md), the local React/interface checklists and the pinned source/license record. No mutable upstream skill fetches or automatic installers. `npm test` includes the preview-only toolbar build gate; run `npm run check:toolbar -- --browser` when changing the toolbar. Distinguish CI checks, full axe and manual review; report unresolved items.
+6. **Preview feedback:** Toolbar/Comments is preview-only; no production loader. Reuse platform injection. Preview provisioning stays in `p3/pr-previews`; do not duplicate it. Keep project Preview toolbar On and Production Off; report platform access limits instead of claiming an untested live comment flow.
+7. **Operational limits:** no merge without Shu's OK. Do not restart services, delete files or print secrets.
 
 ## Repo hygiene
 - No prompts, task files, run logs or interim reports in the repo. They stay in `/workspace/projects/truthlens-runs/` (outside the repo). Exceptions: deliberately published demo ledgers under `demo/runs/`, and published UI screenshots and axe summaries under `docs/screenshots/<branch>/`.

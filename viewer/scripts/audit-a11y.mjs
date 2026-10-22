@@ -7,7 +7,7 @@ import {preview} from 'vite'
 import AxeBuilder from '@axe-core/playwright'
 process.env.PLAYWRIGHT_BROWSERS_PATH??=fileURLToPath(new URL('../../.venv/playwright',import.meta.url))
 const {chromium}=await import('playwright')
-const output=process.env.A11Y_OUTPUT??'../docs/screenshots/w4/issue-124-axe-fixes'
+const output=process.env.A11Y_OUTPUT??'.screenshots/a11y'
 const results=[],errors=[],keyboard=[]
 let server,browser
 try{
