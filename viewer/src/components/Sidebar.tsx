@@ -5,10 +5,10 @@ import { LensToggle } from './LensToggle.tsx'
 import { Badge } from './ui/badge.tsx'
 
 const items = [
-  { key: 'overview', label: 'Overview', Icon: LayoutDashboard },
-  { key: 'claimed-vs-proven', label: 'Claimed vs Proven', Icon: ListChecks },
-  { key: 'timeline', label: 'Timeline', Icon: ListTree },
-  { key: 'agent-story', label: 'Agent Story', Icon: Route },
+  { key: 'overview', label: 'Übersicht', Icon: LayoutDashboard },
+  { key: 'claimed-vs-proven', label: 'Behauptet vs. belegt', Icon: ListChecks },
+  { key: 'timeline', label: 'Zeitachse', Icon: ListTree },
+  { key: 'agent-story', label: 'Agent-Verlauf', Icon: Route },
 ] as const
 
 export function Sidebar({ currentView, onViewChange, lens, onLensChange, reviewRequired }: {

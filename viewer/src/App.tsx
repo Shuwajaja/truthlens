@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import type { RunDoc } from './types.ts'
 import { validateRunDoc } from './validateRunDoc.ts'
 import { readLens, writeLens, type Lens } from './lens.ts'
-import { Navigator } from './components/Navigator.tsx'
+import { EvidenceRail } from './components/EvidenceRail.tsx'
 import { Header } from './components/Header.tsx'
 import { Sidebar } from './components/Sidebar.tsx'
 import { Overview } from './components/Overview.tsx'
@@ -83,7 +83,7 @@ export default function App() {
         {view === 'timeline' && <RenderView input={{ kind: 'events', events: doc.events }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
         {view === 'agent-story' && <RenderView input={{ kind: 'run', doc }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
       </main>
-      <Navigator />
+      <EvidenceRail doc={doc} onOpenDrawer={setDrawerTarget} />
       </div>
       {drawerTarget && (
         <Drawer
