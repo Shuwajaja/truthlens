@@ -1,5 +1,6 @@
 import {useMobile} from './lib/use-mobile.ts'
 import {LensToggle} from './components/LensToggle.tsx'
+import {useView} from './lib/use-view.ts'
 import { useState, useEffect, useLayoutEffect } from 'react'
 import type { RunDoc } from './types.ts'
 import { validateRunDoc } from './validateRunDoc.ts'
@@ -13,7 +14,8 @@ import { RenderView } from './renderkit/RenderView.tsx'
 import { Drawer, type DrawerTarget } from './components/Drawer.tsx'
 import { IntegrityNotice } from './components/IntegrityNotice.tsx'
 
-export type View = 'overview' | 'claimed-vs-proven' | 'timeline' | 'agent-story'
+export type {View} from './lib/use-view.ts'
+import type {View} from './lib/use-view.ts'
 
 function focusView(){
   const heading=document.querySelector<HTMLElement>('main h1')
@@ -28,7 +30,7 @@ export default function App() {
   const [doc, setDoc] = useState<RunDoc | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [invalidExport, setInvalidExport] = useState(false)
-  const [view, setView] = useState<View>('overview')
+  const [view, setView] = useView()
   const [drawerTarget, setDrawerTarget] = useState<DrawerTarget | null>(null)
   const [lens, setLens] = useState<Lens>(() => readLens())
 
