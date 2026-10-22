@@ -24,11 +24,10 @@ exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented
     </p>
     <ol
       aria-label="Recorded story"
-      class="space-y-4"
+      class="divide-y divide-border"
     >
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-open"
@@ -104,11 +103,10 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
     </p>
     <ol
       aria-label="Recorded story"
-      class="space-y-4"
+      class="divide-y divide-border"
     >
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -131,8 +129,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -155,8 +152,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -179,8 +175,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -203,8 +198,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-open"
@@ -252,8 +246,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-open"
@@ -301,8 +294,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-open"
@@ -350,8 +342,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -374,8 +365,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -398,8 +388,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -435,8 +424,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -472,8 +460,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -524,11 +511,10 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
     </p>
     <ol
       aria-label="Recorded story"
-      class="space-y-4"
+      class="divide-y divide-border"
     >
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -556,8 +542,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -585,8 +570,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -614,8 +598,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -643,8 +626,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-open"
@@ -697,8 +679,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-open"
@@ -751,8 +732,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-open"
@@ -805,8 +785,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -834,8 +813,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -863,8 +841,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -905,8 +882,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"
@@ -947,8 +923,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </button>
       </li>
       <li
-        class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground"
-        data-slot="card"
+        class="py-4"
       >
         <h2
           class="text-base font-medium text-foreground"

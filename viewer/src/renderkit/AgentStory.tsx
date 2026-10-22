@@ -1,5 +1,4 @@
 import {PageHeading} from '../components/PageHeading.tsx'
-import {Card} from '../components/ui/card.tsx'
 import {Button} from '../components/ui/button.tsx'
 import {Empty,EmptyDescription} from '../components/ui/empty.tsx'
 import type { RunDoc } from '../types.ts'
@@ -17,9 +16,9 @@ export function AgentStory({ doc, context }: { doc: RunDoc; context?: RenderCont
         Review required — technical checks do not replace human acceptance.
       </p>
       {steps.length === 0 ? <Empty><EmptyDescription>No recorded story events.</EmptyDescription></Empty> : (
-        <ol aria-label="Recorded story" className="space-y-4">
+        <ol aria-label="Recorded story" className="divide-y divide-border">
           {steps.map(step => (
-            <Card key={step.event.id} asChild><li>
+            <li key={step.event.id} className="py-4">
               <h2 className={`text-base font-medium ${step.kind === 'claim' ? 'text-open' : 'text-foreground'}`}>{step.title}</h2>
               <p className="text-sm mt-2 break-words">{step.text}</p>
               {step.kind === 'claim' && (
@@ -47,7 +46,7 @@ export function AgentStory({ doc, context }: { doc: RunDoc; context?: RenderCont
                 onClick={() => context?.onOpenDrawer?.({ kind: 'event', event: step.event })}>
                 {developer ? `View event #${step.event.seq}` : 'View recorded event'}
               </Button>
-            </li></Card>
+            </li>
           ))}
         </ol>
       )}

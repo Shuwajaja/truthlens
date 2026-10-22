@@ -105,7 +105,7 @@ Evidence is resolved only from `criterion.evidence` event IDs; never guess by pr
 
 Inventory and consolidation (all four views):
 - Actions: shadcn Button for primary/outline/ghost actions; icon-free text for record navigation. Header tabs/lens controls and timeline rows remain native semantic buttons with the same token focus treatment.
-- Cards: one shadcn Card base (surface, border,12px radius,16px padding/gap). Overview panels, Claims articles and Story records reuse it. No separate card-wrap styling for Claims.
+- Cards: one shadcn Card base (surface, border,12px radius,16px padding/gap). Overview panels and Claims articles reuse it; chronological Story records use a divided list. No separate card-wrap styling for Claims.
 - Badges: StatusBadge remains the sole exported-status mapping; claim finding, recorded criterion result, approval and integrity remain separate. No decorative success.
 - Tabs: shared shadcn Tabs for selected evidence; one Header/Sidebar navigation across all views. No extra permanent desktop evidence rail or inactive Navigator in the shell.
 - Tables/properties: existing node-properties definition lists for metadata and existing recorded-payload/diff renderers for raw evidence; shared borders, mono IDs and focusable scrolling. No alternative table theme.
@@ -126,3 +126,17 @@ UX proposals, individually justified (review points3–8):
 These are design decisions, not measured user-study results. URL persistence (point9) and authenticated comments remain separate work.
 
 Drawer focus return must not override a newer deliberate focus target during a view change; restore the trigger only while focus remains in the closing dialog or has fallen back to the body.
+
+## Anti-AI-slop rules (binding)
+
+- No gradients, glow effects or glassmorphism; no blurred/translucent decorative surfaces. Opaque zinc surfaces and plain separators remain the baseline. Focus rings are functional accessibility indicators.
+- No decorative icons without a function, no emoji in UI copy. Icons may identify navigation, an action, event type or an actual status; always retain accessible text. Do not display a disabled future feature as a working tool.
+- Emerald/green only for recorded success, rose/red for recorded failure, amber for an open human-review state. Unknown/unverified/hash-only remain neutral. Colour never substitutes for a label or evidence.
+- Exactly one primary purpose per view: Overview evaluates criteria; Claims compares statements with recorded outcomes; Timeline reads chronology; Story reads recorded actions and claims. Secondary technical detail stays subordinate/on demand.
+- Prefer fewer cards and more whitespace. Group meaningful tasks, not every sentence or event into another card. Keep the three functional Overview outcome groups; use simple lists for chronological records.
+- Consistent8px spacing and existing type scale. UI digits use JetBrains Mono through a digit-only font-face fallback; numeric-only fields/time use --mono directly. Prose stays Plus Jakarta Sans; no raw export text is rewritten.
+- Factual, honest English only. No marketing language, invented metrics, decorative verification seals or fabricated results.
+
+The style guard rejects gradients, backdrop blur/filter, glow/drop-shadow utilities and emoji; manual review verifies icon purpose, semantic colour meaning and primary-task hierarchy. The inactive Navigator is not part of the visible review interface. Its standalone legacy controls keep text/function labels, without decorative Compass/Send graphics.
+
+Code additions/removals use neutral styling and retain their literal +/- markers: a source change is not a recorded pass/fail result.

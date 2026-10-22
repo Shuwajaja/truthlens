@@ -157,8 +157,7 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 .diff-number { text-align: right; padding: 0 8px; color: var(--text-3); user-select: none; }
 .diff-mark { text-align: center; }
 .diff-source { padding-right: 12px; }
-.diff-ok { color: var(--ok); background: color-mix(in srgb,var(--ok) 10%,transparent); }
-.diff-fail { color: var(--fail); background: color-mix(in srgb,var(--fail) 10%,transparent); }
+.diff-ok, .diff-fail { color: var(--text); background: var(--surface-2); }
 .diff-open { color: var(--text-2); }
 .diff-preview pre { padding: 8px 0; }
 .drawer-body .diff-code { width: auto; min-width: 100%; }
@@ -357,3 +356,6 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 
 .status-description { font-size:var(--size-label); color:var(--text-2); }
 .status-review:disabled { opacity:1; }
+
+/* Numeric content uses the same mono face as digit-only prose fallback. */
+.status-value, time, .run-summary { font-family:var(--mono); font-variant-numeric:tabular-nums; }
