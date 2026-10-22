@@ -39,6 +39,7 @@
   --muted: var(--text-2);
 }
 @theme inline {
+  --color-backdrop: var(--backdrop);
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);

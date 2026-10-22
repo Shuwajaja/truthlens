@@ -13,7 +13,8 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "screenshots": "node scripts/screenshots.mjs",
-    "review:screenshots": "node scripts/review-screenshots.mjs"
+    "review:screenshots": "node scripts/review-screenshots.mjs",
+    "check:styles": "node scripts/check-styles.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.3.1",

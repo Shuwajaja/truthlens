@@ -52,20 +52,20 @@ describe('Agent Story', () => {
     expect(screen.getByText('Agent claimed')).toBeTruthy()
     expect(screen.getByText('claimed', { exact: true })).toBeTruthy()
     expect(screen.getByText('claim_unwitnessed')).toBeTruthy()
-    expect(container.querySelector('[class*="3fb950"]')).toBeNull()
+    expect(container.querySelector('.text-ok')).toBeNull()
     expect(screen.queryByText('Agent started')).toBeNull()
     expect(screen.queryByText('Agent finished')).toBeNull()
     expect(screen.getByText(/Review required/)).toBeTruthy()
     expect(asFragment()).toMatchSnapshot()
   })
 
-  it('keeps even a supported claim yellow and limits green to met criteria', () => {
+  it('keeps even a supported claim neutral and limits green to met criteria', () => {
     const { container } = render(<RenderView input={{ kind: 'run', doc }} />)
     const claim = screen.getByText('supported').closest('li')!
-    expect(claim.querySelector('[class*="d29922"]')).toBeTruthy()
-    expect(claim.querySelector('[class*="3fb950"]')).toBeNull()
-    for (const green of container.querySelectorAll('[class*="3fb950"]')) expect(green.textContent).toBe('met')
-    expect(container.querySelectorAll('[class*="3fb950"]').length).toBeGreaterThan(0)
+    expect(claim.querySelector('.text-open')).toBeTruthy()
+    expect(claim.querySelector('.text-ok')).toBeNull()
+    for (const green of container.querySelectorAll('.text-ok')) expect(green.textContent).toBe('met')
+    expect(container.querySelectorAll('.text-ok').length).toBeGreaterThan(0)
   })
 
   it('shows Review required and an empty state without inventing a linked step', () => {

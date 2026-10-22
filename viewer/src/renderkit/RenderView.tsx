@@ -21,7 +21,7 @@ class RendererBoundary extends Component<BoundaryProps, BoundaryState> {
   render() {
     if (this.state.failed) return (
       <>
-        <p role="status" className="text-sm text-[#8b949e] mb-2">Could not render; showing raw data</p>
+        <p role="status" className="text-sm text-2 mb-2">Could not render; showing raw data</p>
         <RawFallback input={this.props.input} />
       </>
     )

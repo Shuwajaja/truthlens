@@ -8,11 +8,11 @@ import { cn } from '../../lib/utils.ts'
 const badgeVariants = cva('inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium', {
   variants: { variant: {
     outline: 'border-border text-foreground',
-    belegt: 'border-success/40 bg-success/10 text-success',
-    fehlgeschlagen: 'border-destructive/40 bg-destructive/10 text-destructive',
-    offen: 'border-warning/40 bg-warning/10 text-warning',
-    'nur-hash': 'border-warning/40 bg-warning/10 text-warning',
-    'hmac-geprüft': 'border-success/40 bg-success/10 text-success',
+    belegt: 'border-ok/40 bg-ok/10 text-ok',
+    fehlgeschlagen: 'border-fail/40 bg-fail/10 text-fail',
+    offen: 'border-open/40 bg-open/10 text-open',
+    'nur-hash': 'border-open/40 bg-open/10 text-open',
+    'hmac-geprüft': 'border-ok/40 bg-ok/10 text-ok',
   } },
   defaultVariants: { variant: 'outline' },
 })

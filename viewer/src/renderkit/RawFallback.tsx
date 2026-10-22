@@ -97,8 +97,8 @@ export function RawFallback({ input }: { input: unknown }) {
   const output = format(input)
   return (
     <div>
-      {output.truncated && <p className="text-sm text-[#8b949e] mb-2">Truncated raw preview (maximum 200 KiB).</p>}
-      <pre className="text-xs font-mono bg-[#0d1117] p-3 rounded-lg overflow-x-auto border border-[#30363d] whitespace-pre-wrap">
+      {output.truncated && <p className="text-sm text-2 mb-2">Truncated raw preview (maximum 200 KiB).</p>}
+      <pre className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap">
         {output.text}
       </pre>
     </div>
