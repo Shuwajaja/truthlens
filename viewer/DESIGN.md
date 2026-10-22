@@ -3,9 +3,9 @@ Binding viewer reference. Use the supplied TruthLens desktop/mobile reference im
 Purpose: a calm, readable view of recorded evidence. Every colour has a meaning; other content is grey or white.
 
 ## 1. Theme profiles (sole colour/font source: src/theme.css)
-Shu corrected the Overview direction after the WERK addition: use the approved Stitch colours and fonts provisionally. The final palette is pending Shu. This instruction supersedes WERK-only statements for Overview below and in earlier evidence. `:root[data-viewer-theme=stitch]` overrides semantic tokens centrally; navigation to another existing view restores the WERK base. Root scope includes portalled drawers and is cleaned up on unmount. Do not change export/verification data with theme changes.
+Shu corrected the Overview direction after the WERK addition: use the approved Stitch colours and fonts. Shu confirmed this palette and typography as final on 2026-10-22. This instruction supersedes WERK-only statements for Overview below and in earlier evidence. `:root[data-viewer-theme=stitch]` overrides semantic tokens centrally; navigation to another existing view restores the WERK base. Root scope includes portalled drawers and is cleaned up on unmount. Do not change export/verification data with theme changes.
 
-### Provisional Stitch Overview
+### Final Stitch Overview
 | Token | Value | Use |
 |---|---|---|
 | `--bg` | #09090B | Page background |
@@ -51,7 +51,7 @@ Shu approved the shared WERK dark theme on 2026-10-22, replacing the earlier sin
 | `--error-text` | #FF9292 | Small error text and error badges |
 | `--neutral-text` | #A7B0BF | Open/pending/unsupported, hash-only seal and system events |
 
-Earlier WERK direction (superseded on Overview by the provisional profile above): Proven=success, Failed=error, Not checked=neutral, Approval OPEN=warning, active navigation=primary. This earlier exclusion of Stitch rose and Plus Jakarta Sans no longer applies to Overview.
+Earlier WERK direction (superseded on Overview by the final profile above): Proven=success, Failed=error, Not checked=neutral, Approval OPEN=warning, active navigation=primary. This earlier exclusion of Stitch rose and Plus Jakarta Sans no longer applies to Overview.
 
 The six base colours remain exact. Text variants provide AA contrast on dark surfaces and tinted badges. Filled primary/secondary buttons use dark foregrounds. Compatibility aliases: ok → success, fail → error-text, info → primary-text. No colour literals outside theme.css or raw Tailwind palette classes. Always pair colour with words or shapes. Not checked/open criteria, unsupported and hash-only stay neutral grey. Approval OPEN uses warning; a missing approval statement stays neutral. `npm run check:theme` checks the palette, spacing/radius and text/control contrast pairs; browser axe checks actual rendered combinations.
 
@@ -76,7 +76,7 @@ Weights: 400 body, 500 labels/active navigation, 600 headings/numbers. Line heig
 - Never use green for exit 0, agent completion or “Healthy”. Unsupported is grey, never red.
 
 ## 5. Stitch Overview layout and shared navigation
-Shu approved `stitch/shu-landing-run1.html` and `.png` on 2026-10-22. Adopt their layout and the provisional token profile above; never copy invented data or remote scripts. The local approved files take precedence over other Stitch project variants. The provisional Stitch profile above applies to Overview; WERK remains the base for other views (dependency PR #133 / issue #132).
+Shu approved `stitch/shu-landing-run1.html` and `.png` on 2026-10-22. Adopt their layout and the final token profile above; never copy invented data or remote scripts. The local approved files take precedence over other Stitch project variants. The final Stitch profile above applies to Overview; WERK remains the base for other views (dependency PR #133 / issue #132).
 
 - Compact solid header (64px desktop, 56px mobile): existing shield, neutral Truth/Lens on Stitch (blue Truth/white Lens on WERK), and tabs for the four existing views. Desktop lens controls stay in the header; mobile navigation remains four bottom tabs. No mountain/hero or additional inactive tabs/actions.
 - Overview title is the actual RunDoc project; show actual run ID, agent, start and duration. A real-record button opens full run details. Approval is separate: warning-coloured `Open` when review_required, otherwise neutral `Not stated`; never infer approval from a false review flag, exit code or integrity.

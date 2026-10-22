@@ -1,6 +1,6 @@
-# Provisional Stitch colours and fonts — 2026-10-22
+# Final Stitch colours and fonts — 2026-10-22
 
-Shu revoked the previous WERK-only Overview direction. This evidence supersedes `../werk-colours/` for Overview. Final palette is pending Shu. Other existing views retain WERK.
+Shu revoked the previous WERK-only Overview direction. This evidence supersedes `../werk-colours/` for Overview. Shu confirmed these colours and fonts as final on 2026-10-22. This documentation update changes no UI code or tested assets. Other existing views retain WERK.
 
 Tested source: `dcbf8a4e850b4e0117feeabd44d8dcd5624a9a97`, tree `02efc1d154e75462a04a7514ac3ca7834ea8acd0`. The scan started with HEAD `93f5f7f` and staged source changes; those exact changes were committed afterward. Raw metadata preserves this distinction. Evidence-only publication follows the tested source.
 
