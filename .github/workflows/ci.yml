@@ -17,14 +17,13 @@ jobs:
       - run: npm test
       - run: npm run lint
       - run: npm run build
-      - name: Install review browser
-        run: npx playwright install --with-deps chromium
-        env:
-          PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/viewer/.playwright
       - name: Review all views at desktop and mobile widths
-        run: npm run review:screenshots
+        working-directory: viewer
+        run: |
+          google-chrome --version
+          npm run review:screenshots
         env:
-          PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/viewer/.playwright
+          REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
       - uses: actions/upload-artifact@v4
         with:
           name: viewer-screenshots-${{ github.sha }}

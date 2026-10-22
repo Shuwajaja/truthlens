@@ -10,7 +10,7 @@ try{
  const {chromium}=await import('playwright');
  const {default:AxeBuilder}=await import('@axe-core/playwright');
  server=await preview({preview:{host:'127.0.0.1',port:0,strictPort:true}});
- browser=await chromium.launch();
+ browser=await chromium.launch({executablePath:process.env.REVIEW_BROWSER_EXECUTABLE});
  const origin='http://127.0.0.1:'+server.httpServer.address().port;
  for(const width of [1440,420]){
   const context=await browser.newContext({viewport:{width,height:1000},timezoneId:'Europe/Berlin',reducedMotion:'reduce'});
