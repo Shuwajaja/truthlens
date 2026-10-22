@@ -14,9 +14,22 @@ jobs:
           cache: npm
           cache-dependency-path: viewer/package-lock.json
       - run: npm ci
-      - name: Viewer tests (available after bug-3 is integrated)
-        run: npm test --if-present
+      - run: npm test
+      - run: npm run lint
       - run: npm run build
+      - name: Review all views at desktop and mobile widths
+        working-directory: viewer
+        run: |
+          google-chrome --version
+          npm run review:screenshots
+        env:
+          REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
+      - uses: actions/upload-artifact@v4
+        with:
+          name: viewer-screenshots-${{ github.sha }}
+          path: viewer/.screenshots/review/
+          if-no-files-found: error
+          retention-days: 30
   docs:
     runs-on: ubuntu-latest
     steps:

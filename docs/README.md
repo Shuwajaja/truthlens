@@ -11,5 +11,6 @@
 | [DEMO-RUNS.md](DEMO-RUNS.md) | Real recorded demo runs (ledgers in `demo/runs/`) |
 | [UI-CONCEPT.md](UI-CONCEPT.md) | Viewer views and post-v1 ideas |
 | [INVENTORY.md](INVENTORY.md) | Reused code and sources |
-| [../DESIGN.md](../DESIGN.md) | Visual direction v2 (binding) |
+| [../viewer/DESIGN.md](../viewer/DESIGN.md) | Binding P3 viewer design: tokens, type scale, desktop/mobile layout and honest evidence |
+| [../DESIGN.md](../DESIGN.md) | Earlier P2 reference; superseded for viewer work |
 | [../AGENTS.md](../AGENTS.md) | Rules for agents working in this repo |

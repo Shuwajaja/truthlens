@@ -33,7 +33,7 @@ Never write secrets/keys/tokens to files, logs, commits, prompts or test fixture
 
 ## Skills & design
 - Python work: `.agents/skills/python-conventions.md`.
-- UI work (viewer, mockups, page): `DESIGN.md` first, then `.agents/skills/no-slop-ui/`, final check `.agents/skills/web-interface-review.md`. Vetting record: `.agents/skills/README.md`.
+- UI-Änderungen müssen [viewer/DESIGN.md](viewer/DESIGN.md) folgen (verbindlich); danach `.agents/skills/no-slop-ui/`, abschließend `.agents/skills/web-interface-review.md`. Das Viewer-Regelwerk ersetzt ältere UI-Vorgaben in der Root-`DESIGN.md`. Vetting record: `.agents/skills/README.md`.
 - Demo golden path: `docs/DEMO-TASK.md`.
 
 ## Repo hygiene
