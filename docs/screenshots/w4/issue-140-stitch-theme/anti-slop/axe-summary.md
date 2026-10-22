@@ -1,8 +1,8 @@
 # Anti-AI-slop follow-up — PR141
 
-Source `d0b5cf1f08436a67b01f89199b154e1328dbd614`, tree `5f9ba84a0ce6cf56f1b20e015c0e97cc28506f7f`. Raw report preserves scan-start HEAD and adds exact staged-source attribution. This is the latest rendered theme evidence; earlier after-images remain historical.
+Source `36a0f27c0650b30f3b71d76818092cd8afa4135d`, tree `6bebab62e34361bb2c1416a628e576aa4f44456f`. Raw report records the tested source HEAD. This is the latest rendered theme evidence; earlier after-images remain historical.
 
-Own binding DESIGN.md section: no gradients/glow/glassmorphism, decorative icons or emoji; semantic success/failure/open colours only; one primary job/view, fewer cards/whitespace,8px scale, JetBrains numeric glyphs and factual English. Existing neutral palette/AA/focus rules unchanged. Removed inactive Navigator from visible EvidenceRail and its decorative Compass/Send graphics from the legacy standalone component. Functional navigation/event/status/close icons retained. Raw exported artifact content is not restyled.
+Own binding DESIGN.md section: no gradients/glow/glassmorphism, decorative icons or emoji; semantic success/failure/open colours only; one primary job/view, fewer cards/whitespace,8px scale, JetBrains numeric glyphs and factual English. Existing neutral palette/AA/focus rules unchanged. Removed inactive Navigator from visible EvidenceRail and its decorative Compass/Send graphics from the legacy standalone component. Functional navigation/event/status/close icons retained. Code additions/removals now use neutral styling with literal +/- markers: they are not pass/fail outcomes. Raw exported artifact content is not restyled.
 
 Numerals use a digit-only JetBrains font-face before Jakarta, so original text/numbers remain unchanged; numeric fields/time use --mono directly. Actual Chromium CSS.getPlatformFontsForNode confirms JetBrains glyphs in KPI numbers and mixed prose containing digits, with Jakarta for prose letters, at both exact widths. This is glyph evidence, not just a computed font-family string.
 

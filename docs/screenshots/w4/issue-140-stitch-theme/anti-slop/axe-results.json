@@ -1,6 +1,6 @@
 {
   "browserVersion": "156.0.8078.4",
-  "commit": "ced8516b0e12b85f88ec6d54501bcf815b9e8cf6",
+  "commit": "36a0f27c0650b30f3b71d76818092cd8afa4135d",
   "previewScriptBlocks": [
     {
       "viewport": {
@@ -3718,6 +3718,56 @@
               "all": [],
               "none": [],
               "impact": "serious",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 supported</span>",
+              "target": [
+                "div[data-id=\"claim:0\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"graph-label\">Created index.html with a page that has a heading and a contact form</span>",
+              "target": [
+                "div[data-id=\"claim:0\"] > .graph-claim.graph-result-open.graph-record > .graph-label"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
               "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
@@ -3780,6 +3830,31 @@
                   "id": "color-contrast",
                   "data": {
                     "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-ok\" aria-hidden=\"true\"></span>Criterion \u00b7 met</span>",
+              "target": [
+                ".graph-result-ok > .graph-kind"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
                     "fontSize": "10.5pt (14px)",
                     "fontWeight": "normal",
                     "messageKey": "bgOverlap",
@@ -3793,9 +3868,9 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-label\">The page uses a fluid max-width container so it works on mobile</span>",
+              "html": "<span class=\"graph-label\">Page exists (index.html with a heading and a form)</span>",
               "target": [
-                "div[data-id=\"claim:2\"] > .graph-claim.graph-result-open.graph-record > .graph-label"
+                ".graph-result-ok > .graph-label"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             },
@@ -3880,6 +3955,31 @@
                   "id": "color-contrast",
                   "data": {
                     "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"graph-kind\">Event</span>",
+              "target": [
+                "button[title=\"evidence.attached\"] > .graph-kind"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
                     "fontSize": "10.5pt (14px)",
                     "fontWeight": "normal",
                     "messageKey": "bgOverlap",
@@ -3893,9 +3993,9 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-label\">Mobile layout works</span>",
+              "html": "<span class=\"graph-label\">evidence.attached</span>",
               "target": [
-                "button[title=\"Mobile layout works\"] > .graph-label"
+                "button[title=\"evidence.attached\"] > .graph-label"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             },
@@ -4018,9 +4118,9 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Event</span>",
+              "html": "<summary>All records and links as a list</summary>",
               "target": [
-                "button[title=\"File recorded: index.html\"] > .graph-kind"
+                ".graph-list > summary"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             },
@@ -4030,7 +4130,7 @@
                   "id": "color-contrast",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "10.5pt (14px)",
+                    "fontSize": "12.0pt (16px)",
                     "fontWeight": "normal",
                     "messageKey": "bgOverlap",
                     "expectedContrastRatio": "4.5:1"
@@ -4043,9 +4143,9 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-label\">File recorded: index.html</span>",
+              "html": "<h2>Code diff</h2>",
               "target": [
-                "button[title=\"File recorded: index.html\"] > .graph-label"
+                ".diff-panel > .panel-heading > h2"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             }
@@ -10711,9 +10811,9 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p>This browser checks the file's internal consistency only; it does not verify signatures.</p>",
+              "html": "<span class=\"font-mono text-xs break-all\">8a54a9b60a356362e7ee4f3295f549b65d95f83897036311c4b22e38307d7593</span>",
               "target": [
-                ".pt-4 > aside > p"
+                ".break-all.font-mono.text-xs:nth-child(8)"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
             }
@@ -12369,31 +12469,6 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p class=\"section-note\" data-aria-hidden=\"true\" aria-hidden=\"true\">Only recorded links. Claims without evidence stay unlinked.</p>",
-              "target": [
-                ".evidence-graph > .section-note"
-              ],
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
-            },
-            {
-              "any": [
-                {
-                  "id": "color-contrast",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "9.0pt (12px)",
-                    "fontWeight": "normal",
-                    "messageKey": "bgOverlap",
-                    "expectedContrastRatio": "4.5:1"
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "Element's background color could not be determined because it is overlapped by another element"
-                }
-              ],
-              "all": [],
-              "none": [],
-              "impact": "serious",
               "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
@@ -12724,31 +12799,6 @@
                 "button[title=\"File recorded: index.html\"] > .graph-label"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
-            },
-            {
-              "any": [
-                {
-                  "id": "color-contrast",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "9.0pt (12px)",
-                    "fontWeight": "normal",
-                    "messageKey": "elmPartiallyObscuring",
-                    "expectedContrastRatio": "4.5:1"
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "Element's background color could not be determined because it partially overlaps other elements"
-                }
-              ],
-              "all": [],
-              "none": [],
-              "impact": "serious",
-              "html": "<p>This browser checks the file's internal consistency only; it does not verify signatures.</p>",
-              "target": [
-                ".pt-4 > aside > p"
-              ],
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
             },
             {
               "any": [
@@ -14427,34 +14477,9 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p class=\"section-note\" data-aria-hidden=\"true\" aria-hidden=\"true\">Only recorded links. Claims without evidence stay unlinked.</p>",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-ok\" aria-hidden=\"true\"></span>Criterion \u00b7 met</span>",
               "target": [
-                ".evidence-graph > .section-note"
-              ],
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
-            },
-            {
-              "any": [
-                {
-                  "id": "color-contrast",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "9.0pt (12px)",
-                    "fontWeight": "normal",
-                    "messageKey": "bgOverlap",
-                    "expectedContrastRatio": "4.5:1"
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "Element's background color could not be determined because it is overlapped by another element"
-                }
-              ],
-              "all": [],
-              "none": [],
-              "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
-              "target": [
-                "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
+                ".graph-result-ok > .graph-kind"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             },
@@ -14477,59 +14502,9 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-label\">The form validates the e-mail address using a regex and shows an error</span>",
+              "html": "<span class=\"graph-label\">Page exists (index.html with a heading and a form)</span>",
               "target": [
-                "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-label"
-              ],
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
-            },
-            {
-              "any": [
-                {
-                  "id": "color-contrast",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "9.0pt (12px)",
-                    "fontWeight": "normal",
-                    "messageKey": "bgOverlap",
-                    "expectedContrastRatio": "4.5:1"
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "Element's background color could not be determined because it is overlapped by another element"
-                }
-              ],
-              "all": [],
-              "none": [],
-              "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
-              "target": [
-                "div[data-id=\"claim:2\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
-              ],
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
-            },
-            {
-              "any": [
-                {
-                  "id": "color-contrast",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "10.5pt (14px)",
-                    "fontWeight": "normal",
-                    "messageKey": "bgOverlap",
-                    "expectedContrastRatio": "4.5:1"
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "Element's background color could not be determined because it is overlapped by another element"
-                }
-              ],
-              "all": [],
-              "none": [],
-              "impact": "serious",
-              "html": "<span class=\"graph-label\">The page uses a fluid max-width container so it works on mobile</span>",
-              "target": [
-                "div[data-id=\"claim:2\"] > .graph-claim.graph-result-open.graph-record > .graph-label"
+                ".graph-result-ok > .graph-label"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             },
@@ -14614,6 +14589,31 @@
                   "id": "color-contrast",
                   "data": {
                     "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"graph-kind\">Event</span>",
+              "target": [
+                ".graph-evidence.graph-result-open[title=\"evidence.attached\"] > .graph-kind"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
                     "fontSize": "10.5pt (14px)",
                     "fontWeight": "normal",
                     "messageKey": "bgOverlap",
@@ -14627,9 +14627,9 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-label\">Mobile layout works</span>",
+              "html": "<span class=\"graph-label\">evidence.attached</span>",
               "target": [
-                "button[title=\"Mobile layout works\"] > .graph-label"
+                ".graph-evidence.graph-result-open[title=\"evidence.attached\"] > .graph-label"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             },
@@ -14752,9 +14752,9 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Event</span>",
+              "html": "<summary>All records and links as a list</summary>",
               "target": [
-                "button[title=\"File recorded: index.html\"] > .graph-kind"
+                ".graph-list > summary"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             },
@@ -14764,7 +14764,7 @@
                   "id": "color-contrast",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "10.5pt (14px)",
+                    "fontSize": "12.0pt (16px)",
                     "fontWeight": "normal",
                     "messageKey": "bgOverlap",
                     "expectedContrastRatio": "4.5:1"
@@ -14777,36 +14777,11 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-label\">File recorded: index.html</span>",
+              "html": "<h2>Code diff</h2>",
               "target": [
-                "button[title=\"File recorded: index.html\"] > .graph-label"
+                ".diff-panel > .panel-heading > h2"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
-            },
-            {
-              "any": [
-                {
-                  "id": "color-contrast",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "9.0pt (12px)",
-                    "fontWeight": "normal",
-                    "messageKey": "elmPartiallyObscuring",
-                    "expectedContrastRatio": "4.5:1"
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "Element's background color could not be determined because it partially overlaps other elements"
-                }
-              ],
-              "all": [],
-              "none": [],
-              "impact": "serious",
-              "html": "<p>This browser checks the file's internal consistency only; it does not verify signatures.</p>",
-              "target": [
-                ".pt-4 > aside > p"
-              ],
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
             },
             {
               "any": [
@@ -16645,31 +16620,6 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p class=\"section-note\" data-aria-hidden=\"true\" aria-hidden=\"true\">Only recorded links. Claims without evidence stay unlinked.</p>",
-              "target": [
-                ".evidence-graph > .section-note"
-              ],
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
-            },
-            {
-              "any": [
-                {
-                  "id": "color-contrast",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "9.0pt (12px)",
-                    "fontWeight": "normal",
-                    "messageKey": "bgOverlap",
-                    "expectedContrastRatio": "4.5:1"
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "Element's background color could not be determined because it is overlapped by another element"
-                }
-              ],
-              "all": [],
-              "none": [],
-              "impact": "serious",
               "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
@@ -17000,31 +16950,6 @@
                 "button[title=\"File recorded: index.html\"] > .graph-label"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
-            },
-            {
-              "any": [
-                {
-                  "id": "color-contrast",
-                  "data": {
-                    "contrastRatio": 0,
-                    "fontSize": "9.0pt (12px)",
-                    "fontWeight": "normal",
-                    "messageKey": "elmPartiallyObscuring",
-                    "expectedContrastRatio": "4.5:1"
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "Element's background color could not be determined because it partially overlaps other elements"
-                }
-              ],
-              "all": [],
-              "none": [],
-              "impact": "serious",
-              "html": "<p>This browser checks the file's internal consistency only; it does not verify signatures.</p>",
-              "target": [
-                ".pt-4 > aside > p"
-              ],
-              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
             },
             {
               "any": [
@@ -26159,7 +26084,5 @@
       ]
     }
   ],
-  "testedSourceCommit": "d0b5cf1f08436a67b01f89199b154e1328dbd614",
-  "testedTree": "5f9ba84a0ce6cf56f1b20e015c0e97cc28506f7f",
-  "commitNote": "commit is HEAD at scan start; exact staged UI was committed afterward as testedSourceCommit."
+  "testedSource": "36a0f27c0650b30f3b71d76818092cd8afa4135d"
 }
