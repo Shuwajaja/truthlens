@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Compass, PanelRightClose, PanelRightOpen, Send } from 'lucide-react'
+import { PanelRightClose, PanelRightOpen } from 'lucide-react'
 import { Button } from './ui/button.tsx'
 import { Separator } from './ui/separator.tsx'
 
@@ -10,7 +10,6 @@ export function Navigator() {
   const [open,setOpen]=useState(true)
   return <aside className="navigator-panel" data-open={open} aria-label="Navigator">
     <header className="navigator-header">
-      <Compass size={20} className="text-primary shrink-0" aria-hidden="true" />
       <h2 className="navigator-title">Navigator</h2>
       <Button variant="ghost" size="icon-sm" aria-label={open?'Collapse Navigator':'Expand Navigator'} aria-expanded={open} aria-controls="navigator-content" onClick={()=>setOpen(value=>!value)}>
         {open?<PanelRightClose aria-hidden="true" />:<PanelRightOpen aria-hidden="true" />}
@@ -25,7 +24,7 @@ export function Navigator() {
       <div className="navigator-composer">
         <label htmlFor="navigator-message">Message Navigator</label>
         <textarea id="navigator-message" aria-describedby="navigator-note" disabled rows={3} placeholder="Questions about the run …" />
-        <Button variant="secondary" disabled aria-label="Send message" size="icon" className="disabled:opacity-100"><Send aria-hidden="true" /></Button>
+        <Button variant="secondary" disabled aria-label="Send message" className="disabled:opacity-100">Send message</Button>
       </div>
     </div>
   </aside>

@@ -95,3 +95,15 @@ The neutral seal is exactly “Hash only · signature not checked”. The checke
 
 ## 13. Criteria confirmation is not a passed check
 For `criteria.confirmed`, Timeline and its embedded Overview show “Criteria confirmed by human” only when the recorded actor is human; otherwise “Criteria confirmation recorded”. Add “Confirmation is not a test result.” Use existing informational styling, never a passed-test icon/tone. These labels override a potentially misleading recorded summary in this navigation surface; the exact event/summary remains accessible in its unchanged raw-data drawer. Actual `test.reported` results retain their recorded passed/failed presentation. No schema, RunDoc data or approval-rule changes.
+
+## Anti-AI-slop rules (binding)
+
+- No gradients, glow effects or glassmorphism; no blurred/translucent decorative surfaces. Opaque zinc surfaces and plain separators remain the baseline. Focus rings are functional accessibility indicators.
+- No decorative icons without a function, no emoji in UI copy. Icons may identify navigation, an action, event type or an actual status; always retain accessible text. Do not display a disabled future feature as a working tool.
+- Emerald/green only for recorded success, rose/red for recorded failure, amber for an open human-review state. Unknown/unverified/hash-only remain neutral. Colour never substitutes for a label or evidence.
+- Exactly one primary purpose per view: Overview evaluates criteria; Claims compares statements with recorded outcomes; Timeline reads chronology; Story reads recorded actions and claims. Secondary technical detail stays subordinate/on demand.
+- Prefer fewer cards and more whitespace. Group meaningful tasks, not every sentence or event into another card. Keep the three functional Overview outcome groups; use simple lists for chronological records.
+- Consistent8px spacing and existing type scale. UI digits use JetBrains Mono through a digit-only font-face fallback; numeric-only fields/time use --mono directly. Prose stays Plus Jakarta Sans; no raw export text is rewritten.
+- Factual, honest English only. No marketing language, invented metrics, decorative verification seals or fabricated results.
+
+The style guard rejects gradients, backdrop blur/filter, glow/drop-shadow utilities and emoji; manual review verifies icon purpose, semantic colour meaning and primary-task hierarchy. The inactive Navigator is not part of the visible review interface. Its standalone legacy controls keep text/function labels, without decorative Compass/Send graphics.

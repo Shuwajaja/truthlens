@@ -11,6 +11,7 @@ export function styleViolations(source){
  const failures=[];
  if(/font-size:\s*(?!(?:12|14|16|20|28)px)[\d.]+px|font-weight:\s*(?!(?:400|500|600)\b)\d+|font-(?:bold|extrabold|black)|text-\[\d/i.test(source))failures.push('typography');
  if(/#[\da-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\s*\(/i.test(source)||utility.test(source)||namedDeclaration.test(source)||namedUtility.test(source))failures.push('literal colour');
+ if(/(?:linear|radial|conic)-gradient\s*\(|\bbg-(?:gradient|linear|radial|conic)(?:-|\b)|backdrop-(?:blur|filter)|backdrop-filter\s*:|\b(?:drop-shadow|shadow-glow)(?:-|\b)|\p{Extended_Pictographic}/u.test(source))failures.push('decorative effect or emoji');
  return failures;
 }
 async function scan(directory){

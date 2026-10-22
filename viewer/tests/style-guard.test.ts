@@ -12,3 +12,7 @@ it('allows only semantic colours and inherited/transparent styling while retaini
  expect(styleViolations('.x{color:var(--text);background:color-mix(in srgb,var(--surface) 80%,transparent);fill:currentColor} <div className="bg-surface text-2 ring-ring border-fail/40"/>')).toEqual([])
  expect(styleViolations('.x{font-size:13px}')).toContain('typography')
 })
+
+it.each(['.x{background:linear-gradient(var(--bg),var(--surface))}','<div className="backdrop-blur-md"/>','<div className="drop-shadow-lg"/>','<p>🚀</p>'])('rejects decorative effects or emoji: %s',source=>{
+ expect(styleViolations(source)).toContain('decorative effect or emoji')
+})
