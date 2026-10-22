@@ -51,3 +51,5 @@ The P3 screenshot check also inspects computed text sizes and weights in every v
 P3 shell uses the supplied mountain and shield SVG shapes inline so their paints share theme.css. The desktop navigation is 200px; the evidence rail is 300px with real export events, and the static Navigator sits below. No generated response or extra run is implied. Mobile-specific navigation follows in p3/mobile.
 
 Status cards count criteria by their exported result: met, unmet, or still proposed/unverified. They do not count failing runs or infer human acceptance from exit 0. This single-run format has no trend series, so no sparkline is drawn. Run duration comes from the recorded start/end timestamps; missing ends stay missing. Times use local time with a zone abbreviation.
+
+Unified diff line numbers come only from real, bounded hunk headers; metadata stays unnumbered and content remains escaped. Addition/deletion colours describe edits, not signature verification. The diff is labelled "nicht signiert". Evidence rail tabs filter the recorded tests and manifest artifacts; the time tab uses recorded run timestamps.

@@ -1,4 +1,5 @@
 import type { RunEvent } from '../types.ts'
+import { recordedTime } from './overview-data.ts'
 import type { Lens } from '../lens.ts'
 import { EvidenceBlobContent } from './EvidenceBlobContent.tsx'
 
@@ -30,7 +31,7 @@ export function EventDetail({
         <span className="text-xs text-2">Actor</span>
         <span>{evt.actor.kind} / {evt.actor.id}</span>
         <span className="text-xs text-2">Timestamp</span>
-        <span>{evt.ts}</span>
+        <time dateTime={evt.ts}>{recordedTime(evt.ts)}</time>
         <span className="text-xs text-2">Hash</span>
         <span className="font-mono text-xs break-all">{evt.hash}</span>
         <span className="text-xs text-2">ID</span>

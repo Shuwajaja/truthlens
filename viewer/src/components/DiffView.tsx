@@ -1,23 +1,19 @@
-function diffLineClass(line: string): string {
-  if (line.startsWith('@@')) return 'text-2'
-  if (line.startsWith('+++') || line.startsWith('---')) return 'font-semibold text-foreground'
-  if (line.startsWith('diff --git')) return 'font-semibold text-foreground'
-  if (line.startsWith('+')) return 'bg-ok/15 text-ok'
-  if (line.startsWith('-')) return 'bg-fail/15 text-fail'
-  return 'text-foreground'
+interface DiffLine {text:string;old?:number;next?:number;mark:string;tone:'open'|'ok'|'fail'}
+/** Numbers exist only inside recorded unified hunks, bounded by their declared lengths. */
+function diffLines(text:string):DiffLine[]{
+ let old=0,next=0,oldLeft=0,nextLeft=0
+ return text.split(/\r?\n/).map(text=>{
+  const hunk=/^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@/.exec(text)
+  if(hunk){old=Number(hunk[1]);next=Number(hunk[3]);oldLeft=Number(hunk[2]??1);nextLeft=Number(hunk[4]??1);return {text,mark:'',tone:'open'}}
+  if(text.startsWith('diff --git')){oldLeft=0;nextLeft=0}
+  if(text.startsWith('+')&&nextLeft>0){nextLeft--;return {text:text.slice(1),next:next++,mark:'+',tone:'ok'}}
+  if(text.startsWith('-')&&oldLeft>0){oldLeft--;return {text:text.slice(1),old:old++,mark:'−',tone:'fail'}}
+  if(text.startsWith(' ')&&oldLeft>0&&nextLeft>0){oldLeft--;nextLeft--;return {text:text.slice(1),old:old++,next:next++,mark:' ',tone:'open'}}
+  return {text,mark:'',tone:'open'}
+ })
 }
-
-export function DiffView({ text }: { text: string }) {
-  const lines = text.split(/\r?\n/)
-  return (
-    <pre className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border">
-      <code>
-        {lines.map((line, i) => (
-          <div key={i} className={diffLineClass(line)}>
-            {line || '\u00a0'}
-          </div>
-        ))}
-      </code>
-    </pre>
-  )
+export function DiffView({text}:{text:string}){
+ return <pre className="diff-code"><code>{diffLines(text).map((line,i)=><span key={i} className={`diff-line diff-${line.tone}`} data-testid="diff-line">
+  <span className="diff-number" data-testid="old-line" aria-hidden="true">{line.old}</span><span className="diff-number" data-testid="new-line" aria-hidden="true">{line.next}</span><span className="diff-mark" aria-hidden="true">{line.mark}</span><span className="diff-source">{line.text||'\u00a0'}</span>
+ </span>)}</code></pre>
 }

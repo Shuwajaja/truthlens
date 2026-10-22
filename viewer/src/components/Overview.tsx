@@ -41,7 +41,7 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
         <dl className="run-times"><div><dt>Start</dt><dd>{recordedTime(doc.run.started)}</dd></div><div><dt>Ende</dt><dd>{doc.run.finished ? recordedTime(doc.run.finished) : 'Nicht exportiert'}</dd></div><div><dt>Dauer</dt><dd>{recordedDuration(doc.run.started,doc.run.finished)}</dd></div></dl>
       </Card>
       <Card className="panel diff-panel">
-        <div className="panel-heading"><h2><FileDiff size={17} aria-hidden="true" /> Code-Diff</h2><Badge>Exportierter Inhalt</Badge></div>
+        <div className="panel-heading"><h2><FileDiff size={17} aria-hidden="true" /> Code-Diff</h2><Badge>nicht signiert</Badge></div>
         {diff ? <><ScrollArea className="diff-preview" viewportLabel="Exportierter Code-Diff">
           <RenderView input={{ kind: 'blob', mediaType: 'text/x-diff', text: diff.text }} /><ScrollBar orientation="horizontal" /></ScrollArea>
           <Button variant="outline" size="sm" onClick={() => onOpenDrawer({ kind: 'event', event: diff.event })}>Diff ansehen<ArrowUpRight aria-hidden="true" /></Button></>
