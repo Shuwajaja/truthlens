@@ -1,0 +1,148 @@
+{
+  "actualExport": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "geometry": {
+        "criteria-panel": {
+          "x": 24,
+          "y": 446,
+          "right": 457.546875
+        },
+        "project-preview": {
+          "x": 481.546875,
+          "y": 446,
+          "right": 958.4375
+        },
+        "criterion-detail": {
+          "x": 982.4375,
+          "y": 446,
+          "right": 1416
+        },
+        "timeline-panel": {
+          "x": 24,
+          "y": 796,
+          "right": 457.546875
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "geometry": {
+        "criteria-panel": {
+          "x": 24,
+          "y": 446,
+          "right": 457.546875
+        },
+        "project-preview": {
+          "x": 481.546875,
+          "y": 446,
+          "right": 958.4375
+        },
+        "criterion-detail": {
+          "x": 982.4375,
+          "y": 446,
+          "right": 1416
+        },
+        "timeline-panel": {
+          "x": 24,
+          "y": 796,
+          "right": 457.546875
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "geometry": {
+        "criteria-panel": {
+          "x": 16,
+          "y": 661,
+          "right": 374
+        },
+        "project-preview": {
+          "x": 16,
+          "y": 1089,
+          "right": 374
+        },
+        "criterion-detail": {
+          "x": 16,
+          "y": 1691,
+          "right": 374
+        },
+        "timeline-panel": {
+          "x": 16,
+          "y": 2241,
+          "right": 374
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "geometry": {
+        "criteria-panel": {
+          "x": 16,
+          "y": 661,
+          "right": 374
+        },
+        "project-preview": {
+          "x": 16,
+          "y": 1089,
+          "right": 374
+        },
+        "criterion-detail": {
+          "x": 16,
+          "y": 1691,
+          "right": 374
+        },
+        "timeline-panel": {
+          "x": 16,
+          "y": 2241,
+          "right": 374
+        }
+      },
+      "selectionChecks": 3,
+      "sandboxOpaqueOrigin": true,
+      "inert": true,
+      "paintedColours": 64
+    }
+  ],
+  "fixture": "Synthetic hostile/missing-body scenarios; never recorded evidence",
+  "externalRequests": [],
+  "unexpectedErrors": [],
+  "expectedScriptBlocks": 4,
+  "fixtureDenials": [
+    "Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.",
+    "Loading the image 'https://preview-probe.invalid/image' violates the following Content Security Policy directive: \"img-src data:\". The action has been blocked.",
+    "Blocked form submission to 'https://preview-probe.invalid/form' because the form's frame is sandboxed and the 'allow-forms' permission is not set."
+  ],
+  "testedSourceCommit": "a4010db2b37758610ebc2b0afd4ae553e75448ea",
+  "testedSourceTree": "58d532ea439f928235abeed5a402d3181095cb95",
+  "sourceNote": "Layout/preview checks executed against this staged tree; git diff --cached --exit-code FETCH_HEAD then confirmed exact agreement with the published source commit before advancing the local branch."
+}
