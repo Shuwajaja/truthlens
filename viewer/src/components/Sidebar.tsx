@@ -16,6 +16,7 @@ export function Sidebar({ currentView, onViewChange, lens, onLensChange, reviewR
   lens: Lens; onLensChange: (l: Lens) => void; reviewRequired: boolean
 }) {
   return <nav className="sidebar" aria-label="Viewer navigation">
+    <div className="sidebar-content">
     <ul className="nav-list">
       {items.map(({ key, label, Icon }) => <li key={key}>
         <button type="button" className={`nav-item ${currentView === key ? 'nav-item-active' : ''}`}
@@ -28,6 +29,7 @@ export function Sidebar({ currentView, onViewChange, lens, onLensChange, reviewR
       <LensToggle lens={lens} onChange={onLensChange} />
       {reviewRequired && <Badge>Review required</Badge>}
       <p>Lokaler RunDoc-Export.<br />Keine fachliche Freigabe im Browser.</p>
+    </div>
     </div>
   </nav>
 }

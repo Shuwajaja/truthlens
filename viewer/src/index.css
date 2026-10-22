@@ -114,3 +114,57 @@ main { padding: 20px 24px 32px; min-width: 0; }
 .drawer-pane > [data-slot=sheet-header], .drawer-pane > .px-4 { flex-shrink: 0; }
 .drawer-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
 @media (max-width: 1100px) { .graph-evidence-row { grid-template-columns: minmax(0,1fr); } }
+.navigator-panel { min-width: 0; padding: 16px; border-left: 1px solid var(--border); background: var(--surface); align-self: stretch; }
+.navigator-header { display: flex; gap: 8px; align-items: center; }
+.navigator-title { flex: 1; font-size: 15px; font-weight: 650; }
+.navigator-content { display: flex; flex-direction: column; gap: 20px; margin-top: 20px; }
+.navigator-content[hidden] { display: none; }
+.navigator-note { padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); }
+.navigator-note p { font-size: 14px; font-weight: 500; }
+.navigator-note span { display: block; margin-top: 8px; font-size: 12px; color: var(--muted); line-height: 1.6; }
+.navigator-content h3 { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+.navigator-suggestions { display: grid; gap: 8px; }
+.navigator-suggestions button { height: auto; min-height: 40px; padding: 10px 12px; justify-content: flex-start; text-align: left; font-size: 12px; white-space: normal; color: var(--muted); }
+.navigator-composer { position: relative; display: flex; flex-direction: column; gap: 8px; }
+.navigator-composer label { font-size: 12px; color: var(--muted); }
+.navigator-composer textarea { resize: none; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 48px 12px 12px; min-height: 100px; background: var(--bg); color: var(--muted); font-size: 13px; }
+.navigator-composer textarea::placeholder { color: var(--muted); opacity: 1; }
+.navigator-composer > button { position: absolute; bottom: 8px; right: 8px; color: var(--muted); }
+@media (min-width: 701px) {
+  .workspace { grid-template-columns: 220px minmax(0,1fr) 300px; }
+  .workspace:has(.navigator-panel[data-open=false]) { grid-template-columns: 220px minmax(0,1fr) 64px; }
+  .navigator-panel[data-open=false] { padding: 16px 8px; }
+  .navigator-panel[data-open=false] .navigator-header { flex-direction: column; gap: 12px; }
+  .navigator-panel[data-open=false] .navigator-title { display: none; }
+  .workspace:has(.navigator-panel[data-open=true]) .status-value { font-size: 22px; }
+}
+@media (min-width: 701px) and (max-width: 1320px) {
+  .workspace:has(.navigator-panel[data-open=true]) .status-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .workspace:has(.navigator-panel[data-open=true]) .overview-columns,
+  .workspace:has(.navigator-panel[data-open=true]) .graph-evidence-row { grid-template-columns: minmax(0,1fr); }
+}
+@media (max-width: 700px) {
+  .navigator-panel { border-left: 0; border-top: 1px solid var(--border); }
+}
+/* Both rails retain a continuous surface beside the longer recorded content. */
+.sidebar { position: relative; align-self: stretch; }
+.sidebar-meta { margin-top: 12px; }
+.navigator-composer textarea { width: 100%; min-width: 0; }
+.criteria-panel { container-type: inline-size; }
+@container (max-width: 520px) {
+  .criterion-button { flex-wrap: wrap; gap: 8px; }
+  .criterion-content { flex-basis: 100%; }
+  .criterion-labels { flex-direction: row; flex-wrap: wrap; align-items: center; flex: 1; }
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .workspace, .workspace:has(.navigator-panel[data-open=false]) { grid-template-columns: 220px minmax(0,1fr); }
+  .navigator-panel { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--border); }
+  .navigator-panel[data-open=false] { padding: 16px; }
+  .navigator-panel[data-open=false] .navigator-header { flex-direction: row; gap: 8px; }
+  .navigator-panel[data-open=false] .navigator-title { display: block; }
+  .navigator-content { max-width: 700px; }
+}
+.sidebar-content { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 24px; height: calc(100dvh - 190px); min-height: 380px; }
+.sidebar-meta { margin-top: auto; }
+@media (max-width: 700px) { .sidebar-content { position: static; height: auto; min-height: 0; gap: 12px; } }
+main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }

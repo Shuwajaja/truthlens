@@ -29,3 +29,11 @@ React Flow displays that model without editing or connecting nodes. Keyboard-acc
 The existing drawer now uses the source Sheet component. It traps focus, supports Escape and restores the actual trigger. Close and the trust notice stay outside the scrolling content. Step 3 intentionally updates two Overview snapshots for Graph and three drawer-shell snapshots for Sheet; the snapshots clone the portal into a fragment so diff/Markdown text stays covered. Plain text and the three Agent Story baselines remain unchanged. jsdom lacks layout/ResizeObserver, so unit tests shim only that API; screenshots verify actual nodes/edges and keyboard activation in Chromium.
 
 The screenshot check exercises desktop mouse clicks, mobile touch taps, all four node kinds by keyboard, focus containment and restoration. Drawer captures use the viewport rather than a full-page image so fixed overlays appear in their real viewport position. React Flow/D3 are bundled separately with their dependencies to keep both JavaScript chunks below the build warning threshold; browser startup is also checked.
+
+## Static Navigator (P2)
+
+The right Navigator can collapse to a rail. Its suggestions, composer and Send button are disabled, with the visible note “Navigator kommt später”. It has no transport, model or generated replies. Collapse state stays in memory. At tablet widths up to 1100px it moves below the content; at phone widths the navigation and content also stack. Narrow criterion cards place badges below their text. The left rail keeps sticky navigation controls on long runs.
+
+Step 4 deliberately changes the six full-App snapshots for the Navigator and the sticky navigation wrapper. All isolated renderer/Sheet and Agent Story snapshots are retained. Screenshots check both Navigator states at 1280, 1024, 900, 768, 701 and 360px, plus scrolled navigation visibility. Other views and drawer interaction remain covered in both lenses.
+
+The main trust notice stays visible while scrolling recorded content; the optional browser check asserts this as well as sticky navigation. The Sheet keeps its own pinned notice above the evidence body.

@@ -47,210 +47,214 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
         aria-label="Viewer navigation"
         class="sidebar"
       >
-        <ul
-          class="nav-list"
-        >
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-layout-dashboard"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="3"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="3"
-                />
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="12"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="16"
-                />
-              </svg>
-              <span>
-                Overview
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              aria-current="page"
-              class="nav-item nav-item-active"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-checks"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M13 5h8"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="m3 17 2 2 4-4"
-                />
-                <path
-                  d="m3 7 2 2 4-4"
-                />
-              </svg>
-              <span>
-                Claimed vs Proven
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-tree"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8 5h13"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="M3 10a2 2 0 0 0 2 2h3"
-                />
-                <path
-                  d="M3 5v12a2 2 0 0 0 2 2h3"
-                />
-              </svg>
-              <span>
-                Timeline
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-route"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="6"
-                  cy="19"
-                  r="3"
-                />
-                <path
-                  d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
-                />
-                <circle
-                  cx="18"
-                  cy="5"
-                  r="3"
-                />
-              </svg>
-              <span>
-                Agent Story
-              </span>
-            </button>
-          </li>
-        </ul>
         <div
-          class="sidebar-meta"
+          class="sidebar-content"
         >
+          <ul
+            class="nav-list"
+          >
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-layout-dashboard"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="3"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="3"
+                  />
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="12"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="16"
+                  />
+                </svg>
+                <span>
+                  Overview
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                aria-current="page"
+                class="nav-item nav-item-active"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-checks"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13 5h8"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="m3 17 2 2 4-4"
+                  />
+                  <path
+                    d="m3 7 2 2 4-4"
+                  />
+                </svg>
+                <span>
+                  Claimed vs Proven
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-tree"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 5h13"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="M3 10a2 2 0 0 0 2 2h3"
+                  />
+                  <path
+                    d="M3 5v12a2 2 0 0 0 2 2h3"
+                  />
+                </svg>
+                <span>
+                  Timeline
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-route"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="6"
+                    cy="19"
+                    r="3"
+                  />
+                  <path
+                    d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
+                  />
+                  <circle
+                    cx="18"
+                    cy="5"
+                    r="3"
+                  />
+                </svg>
+                <span>
+                  Agent Story
+                </span>
+              </button>
+            </li>
+          </ul>
           <div
-            aria-label="View lens"
-            class="lens-toggle"
-            role="group"
+            class="sidebar-meta"
           >
-            <button
-              aria-pressed="true"
-              type="button"
+            <div
+              aria-label="View lens"
+              class="lens-toggle"
+              role="group"
             >
-              Client
-            </button>
-            <button
-              aria-pressed="false"
-              type="button"
+              <button
+                aria-pressed="true"
+                type="button"
+              >
+                Client
+              </button>
+              <button
+                aria-pressed="false"
+                type="button"
+              >
+                Developer
+              </button>
+            </div>
+            <span
+              class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
+              data-slot="badge"
             >
-              Developer
-            </button>
+              Review required
+            </span>
+            <p>
+              Lokaler RunDoc-Export.
+              <br />
+              Keine fachliche Freigabe im Browser.
+            </p>
           </div>
-          <span
-            class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
-            data-slot="badge"
-          >
-            Review required
-          </span>
-          <p>
-            Lokaler RunDoc-Export.
-            <br />
-            Keine fachliche Freigabe im Browser.
-          </p>
         </div>
       </nav>
       <main
@@ -366,6 +370,190 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
           </div>
         </section>
       </main>
+      <aside
+        aria-label="Navigator"
+        class="navigator-panel"
+        data-open="true"
+      >
+        <header
+          class="navigator-header"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-compass text-primary shrink-0"
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+            />
+            <path
+              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+            />
+          </svg>
+          <h2
+            class="navigator-title"
+          >
+            Navigator
+          </h2>
+          <button
+            aria-controls="navigator-content"
+            aria-expanded="true"
+            aria-label="Navigator einklappen"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-8"
+            data-size="icon-sm"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-right-close"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M15 3v18"
+              />
+              <path
+                d="m8 9 3 3-3 3"
+              />
+            </svg>
+          </button>
+        </header>
+        <div
+          class="navigator-content"
+          id="navigator-content"
+        >
+          <div
+            class="navigator-note"
+            id="navigator-note"
+          >
+            <p>
+              Navigator kommt später
+            </p>
+            <span>
+              Fragen zum Lauf stellen und Belege gemeinsam durchgehen.
+            </span>
+          </div>
+          <div
+            class="shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+            data-orientation="horizontal"
+            data-slot="separator"
+            role="none"
+          />
+          <section
+            aria-label="Statische Vorschläge"
+          >
+            <h3>
+              Fragen zum Lauf
+            </h3>
+            <div
+              class="navigator-suggestions"
+            >
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Welche Aussagen sind ohne Beleg?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was wurde geändert?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was braucht ein Review?
+              </button>
+            </div>
+          </section>
+          <div
+            class="navigator-composer"
+          >
+            <label
+              for="navigator-message"
+            >
+              Nachricht an Navigator
+            </label>
+            <textarea
+              aria-describedby="navigator-note"
+              disabled=""
+              id="navigator-message"
+              placeholder="Fragen zum Lauf …"
+              rows="3"
+            />
+            <button
+              aria-label="Nachricht senden"
+              class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 size-9 disabled:opacity-100"
+              data-size="icon"
+              data-slot="button"
+              data-variant="secondary"
+              disabled=""
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-send"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"
+                />
+                <path
+                  d="m21.854 2.147-10.94 10.939"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </DocumentFragment>
@@ -418,210 +606,214 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
         aria-label="Viewer navigation"
         class="sidebar"
       >
-        <ul
-          class="nav-list"
-        >
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-layout-dashboard"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="3"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="3"
-                />
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="12"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="16"
-                />
-              </svg>
-              <span>
-                Overview
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              aria-current="page"
-              class="nav-item nav-item-active"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-checks"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M13 5h8"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="m3 17 2 2 4-4"
-                />
-                <path
-                  d="m3 7 2 2 4-4"
-                />
-              </svg>
-              <span>
-                Claimed vs Proven
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-tree"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8 5h13"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="M3 10a2 2 0 0 0 2 2h3"
-                />
-                <path
-                  d="M3 5v12a2 2 0 0 0 2 2h3"
-                />
-              </svg>
-              <span>
-                Timeline
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-route"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="6"
-                  cy="19"
-                  r="3"
-                />
-                <path
-                  d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
-                />
-                <circle
-                  cx="18"
-                  cy="5"
-                  r="3"
-                />
-              </svg>
-              <span>
-                Agent Story
-              </span>
-            </button>
-          </li>
-        </ul>
         <div
-          class="sidebar-meta"
+          class="sidebar-content"
         >
+          <ul
+            class="nav-list"
+          >
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-layout-dashboard"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="3"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="3"
+                  />
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="12"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="16"
+                  />
+                </svg>
+                <span>
+                  Overview
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                aria-current="page"
+                class="nav-item nav-item-active"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-checks"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13 5h8"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="m3 17 2 2 4-4"
+                  />
+                  <path
+                    d="m3 7 2 2 4-4"
+                  />
+                </svg>
+                <span>
+                  Claimed vs Proven
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-tree"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 5h13"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="M3 10a2 2 0 0 0 2 2h3"
+                  />
+                  <path
+                    d="M3 5v12a2 2 0 0 0 2 2h3"
+                  />
+                </svg>
+                <span>
+                  Timeline
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-route"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="6"
+                    cy="19"
+                    r="3"
+                  />
+                  <path
+                    d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
+                  />
+                  <circle
+                    cx="18"
+                    cy="5"
+                    r="3"
+                  />
+                </svg>
+                <span>
+                  Agent Story
+                </span>
+              </button>
+            </li>
+          </ul>
           <div
-            aria-label="View lens"
-            class="lens-toggle"
-            role="group"
+            class="sidebar-meta"
           >
-            <button
-              aria-pressed="false"
-              type="button"
+            <div
+              aria-label="View lens"
+              class="lens-toggle"
+              role="group"
             >
-              Client
-            </button>
-            <button
-              aria-pressed="true"
-              type="button"
+              <button
+                aria-pressed="false"
+                type="button"
+              >
+                Client
+              </button>
+              <button
+                aria-pressed="true"
+                type="button"
+              >
+                Developer
+              </button>
+            </div>
+            <span
+              class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
+              data-slot="badge"
             >
-              Developer
-            </button>
+              Review required
+            </span>
+            <p>
+              Lokaler RunDoc-Export.
+              <br />
+              Keine fachliche Freigabe im Browser.
+            </p>
           </div>
-          <span
-            class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
-            data-slot="badge"
-          >
-            Review required
-          </span>
-          <p>
-            Lokaler RunDoc-Export.
-            <br />
-            Keine fachliche Freigabe im Browser.
-          </p>
         </div>
       </nav>
       <main
@@ -845,6 +1037,190 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
           </div>
         </section>
       </main>
+      <aside
+        aria-label="Navigator"
+        class="navigator-panel"
+        data-open="true"
+      >
+        <header
+          class="navigator-header"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-compass text-primary shrink-0"
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+            />
+            <path
+              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+            />
+          </svg>
+          <h2
+            class="navigator-title"
+          >
+            Navigator
+          </h2>
+          <button
+            aria-controls="navigator-content"
+            aria-expanded="true"
+            aria-label="Navigator einklappen"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-8"
+            data-size="icon-sm"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-right-close"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M15 3v18"
+              />
+              <path
+                d="m8 9 3 3-3 3"
+              />
+            </svg>
+          </button>
+        </header>
+        <div
+          class="navigator-content"
+          id="navigator-content"
+        >
+          <div
+            class="navigator-note"
+            id="navigator-note"
+          >
+            <p>
+              Navigator kommt später
+            </p>
+            <span>
+              Fragen zum Lauf stellen und Belege gemeinsam durchgehen.
+            </span>
+          </div>
+          <div
+            class="shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+            data-orientation="horizontal"
+            data-slot="separator"
+            role="none"
+          />
+          <section
+            aria-label="Statische Vorschläge"
+          >
+            <h3>
+              Fragen zum Lauf
+            </h3>
+            <div
+              class="navigator-suggestions"
+            >
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Welche Aussagen sind ohne Beleg?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was wurde geändert?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was braucht ein Review?
+              </button>
+            </div>
+          </section>
+          <div
+            class="navigator-composer"
+          >
+            <label
+              for="navigator-message"
+            >
+              Nachricht an Navigator
+            </label>
+            <textarea
+              aria-describedby="navigator-note"
+              disabled=""
+              id="navigator-message"
+              placeholder="Fragen zum Lauf …"
+              rows="3"
+            />
+            <button
+              aria-label="Nachricht senden"
+              class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 size-9 disabled:opacity-100"
+              data-size="icon"
+              data-slot="button"
+              data-variant="secondary"
+              disabled=""
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-send"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"
+                />
+                <path
+                  d="m21.854 2.147-10.94 10.939"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </DocumentFragment>
@@ -897,210 +1273,214 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
         aria-label="Viewer navigation"
         class="sidebar"
       >
-        <ul
-          class="nav-list"
-        >
-          <li>
-            <button
-              aria-current="page"
-              class="nav-item nav-item-active"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-layout-dashboard"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="3"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="3"
-                />
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="12"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="16"
-                />
-              </svg>
-              <span>
-                Overview
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-checks"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M13 5h8"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="m3 17 2 2 4-4"
-                />
-                <path
-                  d="m3 7 2 2 4-4"
-                />
-              </svg>
-              <span>
-                Claimed vs Proven
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-tree"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8 5h13"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="M3 10a2 2 0 0 0 2 2h3"
-                />
-                <path
-                  d="M3 5v12a2 2 0 0 0 2 2h3"
-                />
-              </svg>
-              <span>
-                Timeline
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-route"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="6"
-                  cy="19"
-                  r="3"
-                />
-                <path
-                  d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
-                />
-                <circle
-                  cx="18"
-                  cy="5"
-                  r="3"
-                />
-              </svg>
-              <span>
-                Agent Story
-              </span>
-            </button>
-          </li>
-        </ul>
         <div
-          class="sidebar-meta"
+          class="sidebar-content"
         >
+          <ul
+            class="nav-list"
+          >
+            <li>
+              <button
+                aria-current="page"
+                class="nav-item nav-item-active"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-layout-dashboard"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="3"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="3"
+                  />
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="12"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="16"
+                  />
+                </svg>
+                <span>
+                  Overview
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-checks"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13 5h8"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="m3 17 2 2 4-4"
+                  />
+                  <path
+                    d="m3 7 2 2 4-4"
+                  />
+                </svg>
+                <span>
+                  Claimed vs Proven
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-tree"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 5h13"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="M3 10a2 2 0 0 0 2 2h3"
+                  />
+                  <path
+                    d="M3 5v12a2 2 0 0 0 2 2h3"
+                  />
+                </svg>
+                <span>
+                  Timeline
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-route"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="6"
+                    cy="19"
+                    r="3"
+                  />
+                  <path
+                    d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
+                  />
+                  <circle
+                    cx="18"
+                    cy="5"
+                    r="3"
+                  />
+                </svg>
+                <span>
+                  Agent Story
+                </span>
+              </button>
+            </li>
+          </ul>
           <div
-            aria-label="View lens"
-            class="lens-toggle"
-            role="group"
+            class="sidebar-meta"
           >
-            <button
-              aria-pressed="true"
-              type="button"
+            <div
+              aria-label="View lens"
+              class="lens-toggle"
+              role="group"
             >
-              Client
-            </button>
-            <button
-              aria-pressed="false"
-              type="button"
+              <button
+                aria-pressed="true"
+                type="button"
+              >
+                Client
+              </button>
+              <button
+                aria-pressed="false"
+                type="button"
+              >
+                Developer
+              </button>
+            </div>
+            <span
+              class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
+              data-slot="badge"
             >
-              Developer
-            </button>
+              Review required
+            </span>
+            <p>
+              Lokaler RunDoc-Export.
+              <br />
+              Keine fachliche Freigabe im Browser.
+            </p>
           </div>
-          <span
-            class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
-            data-slot="badge"
-          >
-            Review required
-          </span>
-          <p>
-            Lokaler RunDoc-Export.
-            <br />
-            Keine fachliche Freigabe im Browser.
-          </p>
         </div>
       </nav>
       <main
@@ -3527,6 +3907,190 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
           </div>
         </div>
       </main>
+      <aside
+        aria-label="Navigator"
+        class="navigator-panel"
+        data-open="true"
+      >
+        <header
+          class="navigator-header"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-compass text-primary shrink-0"
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+            />
+            <path
+              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+            />
+          </svg>
+          <h2
+            class="navigator-title"
+          >
+            Navigator
+          </h2>
+          <button
+            aria-controls="navigator-content"
+            aria-expanded="true"
+            aria-label="Navigator einklappen"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-8"
+            data-size="icon-sm"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-right-close"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M15 3v18"
+              />
+              <path
+                d="m8 9 3 3-3 3"
+              />
+            </svg>
+          </button>
+        </header>
+        <div
+          class="navigator-content"
+          id="navigator-content"
+        >
+          <div
+            class="navigator-note"
+            id="navigator-note"
+          >
+            <p>
+              Navigator kommt später
+            </p>
+            <span>
+              Fragen zum Lauf stellen und Belege gemeinsam durchgehen.
+            </span>
+          </div>
+          <div
+            class="shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+            data-orientation="horizontal"
+            data-slot="separator"
+            role="none"
+          />
+          <section
+            aria-label="Statische Vorschläge"
+          >
+            <h3>
+              Fragen zum Lauf
+            </h3>
+            <div
+              class="navigator-suggestions"
+            >
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Welche Aussagen sind ohne Beleg?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was wurde geändert?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was braucht ein Review?
+              </button>
+            </div>
+          </section>
+          <div
+            class="navigator-composer"
+          >
+            <label
+              for="navigator-message"
+            >
+              Nachricht an Navigator
+            </label>
+            <textarea
+              aria-describedby="navigator-note"
+              disabled=""
+              id="navigator-message"
+              placeholder="Fragen zum Lauf …"
+              rows="3"
+            />
+            <button
+              aria-label="Nachricht senden"
+              class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 size-9 disabled:opacity-100"
+              data-size="icon"
+              data-slot="button"
+              data-variant="secondary"
+              disabled=""
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-send"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"
+                />
+                <path
+                  d="m21.854 2.147-10.94 10.939"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </DocumentFragment>
@@ -3579,210 +4143,214 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
         aria-label="Viewer navigation"
         class="sidebar"
       >
-        <ul
-          class="nav-list"
-        >
-          <li>
-            <button
-              aria-current="page"
-              class="nav-item nav-item-active"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-layout-dashboard"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="3"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="3"
-                />
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="12"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="16"
-                />
-              </svg>
-              <span>
-                Overview
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-checks"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M13 5h8"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="m3 17 2 2 4-4"
-                />
-                <path
-                  d="m3 7 2 2 4-4"
-                />
-              </svg>
-              <span>
-                Claimed vs Proven
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-tree"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8 5h13"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="M3 10a2 2 0 0 0 2 2h3"
-                />
-                <path
-                  d="M3 5v12a2 2 0 0 0 2 2h3"
-                />
-              </svg>
-              <span>
-                Timeline
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-route"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="6"
-                  cy="19"
-                  r="3"
-                />
-                <path
-                  d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
-                />
-                <circle
-                  cx="18"
-                  cy="5"
-                  r="3"
-                />
-              </svg>
-              <span>
-                Agent Story
-              </span>
-            </button>
-          </li>
-        </ul>
         <div
-          class="sidebar-meta"
+          class="sidebar-content"
         >
+          <ul
+            class="nav-list"
+          >
+            <li>
+              <button
+                aria-current="page"
+                class="nav-item nav-item-active"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-layout-dashboard"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="3"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="3"
+                  />
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="12"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="16"
+                  />
+                </svg>
+                <span>
+                  Overview
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-checks"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13 5h8"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="m3 17 2 2 4-4"
+                  />
+                  <path
+                    d="m3 7 2 2 4-4"
+                  />
+                </svg>
+                <span>
+                  Claimed vs Proven
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-tree"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 5h13"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="M3 10a2 2 0 0 0 2 2h3"
+                  />
+                  <path
+                    d="M3 5v12a2 2 0 0 0 2 2h3"
+                  />
+                </svg>
+                <span>
+                  Timeline
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-route"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="6"
+                    cy="19"
+                    r="3"
+                  />
+                  <path
+                    d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
+                  />
+                  <circle
+                    cx="18"
+                    cy="5"
+                    r="3"
+                  />
+                </svg>
+                <span>
+                  Agent Story
+                </span>
+              </button>
+            </li>
+          </ul>
           <div
-            aria-label="View lens"
-            class="lens-toggle"
-            role="group"
+            class="sidebar-meta"
           >
-            <button
-              aria-pressed="false"
-              type="button"
+            <div
+              aria-label="View lens"
+              class="lens-toggle"
+              role="group"
             >
-              Client
-            </button>
-            <button
-              aria-pressed="true"
-              type="button"
+              <button
+                aria-pressed="false"
+                type="button"
+              >
+                Client
+              </button>
+              <button
+                aria-pressed="true"
+                type="button"
+              >
+                Developer
+              </button>
+            </div>
+            <span
+              class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
+              data-slot="badge"
             >
-              Developer
-            </button>
+              Review required
+            </span>
+            <p>
+              Lokaler RunDoc-Export.
+              <br />
+              Keine fachliche Freigabe im Browser.
+            </p>
           </div>
-          <span
-            class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
-            data-slot="badge"
-          >
-            Review required
-          </span>
-          <p>
-            Lokaler RunDoc-Export.
-            <br />
-            Keine fachliche Freigabe im Browser.
-          </p>
         </div>
       </nav>
       <main
@@ -6224,6 +6792,190 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
           </div>
         </div>
       </main>
+      <aside
+        aria-label="Navigator"
+        class="navigator-panel"
+        data-open="true"
+      >
+        <header
+          class="navigator-header"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-compass text-primary shrink-0"
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+            />
+            <path
+              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+            />
+          </svg>
+          <h2
+            class="navigator-title"
+          >
+            Navigator
+          </h2>
+          <button
+            aria-controls="navigator-content"
+            aria-expanded="true"
+            aria-label="Navigator einklappen"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-8"
+            data-size="icon-sm"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-right-close"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M15 3v18"
+              />
+              <path
+                d="m8 9 3 3-3 3"
+              />
+            </svg>
+          </button>
+        </header>
+        <div
+          class="navigator-content"
+          id="navigator-content"
+        >
+          <div
+            class="navigator-note"
+            id="navigator-note"
+          >
+            <p>
+              Navigator kommt später
+            </p>
+            <span>
+              Fragen zum Lauf stellen und Belege gemeinsam durchgehen.
+            </span>
+          </div>
+          <div
+            class="shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+            data-orientation="horizontal"
+            data-slot="separator"
+            role="none"
+          />
+          <section
+            aria-label="Statische Vorschläge"
+          >
+            <h3>
+              Fragen zum Lauf
+            </h3>
+            <div
+              class="navigator-suggestions"
+            >
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Welche Aussagen sind ohne Beleg?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was wurde geändert?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was braucht ein Review?
+              </button>
+            </div>
+          </section>
+          <div
+            class="navigator-composer"
+          >
+            <label
+              for="navigator-message"
+            >
+              Nachricht an Navigator
+            </label>
+            <textarea
+              aria-describedby="navigator-note"
+              disabled=""
+              id="navigator-message"
+              placeholder="Fragen zum Lauf …"
+              rows="3"
+            />
+            <button
+              aria-label="Nachricht senden"
+              class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 size-9 disabled:opacity-100"
+              data-size="icon"
+              data-slot="button"
+              data-variant="secondary"
+              disabled=""
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-send"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"
+                />
+                <path
+                  d="m21.854 2.147-10.94 10.939"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </DocumentFragment>
@@ -6276,210 +7028,214 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
         aria-label="Viewer navigation"
         class="sidebar"
       >
-        <ul
-          class="nav-list"
-        >
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-layout-dashboard"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="3"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="3"
-                />
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="12"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="16"
-                />
-              </svg>
-              <span>
-                Overview
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-checks"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M13 5h8"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="m3 17 2 2 4-4"
-                />
-                <path
-                  d="m3 7 2 2 4-4"
-                />
-              </svg>
-              <span>
-                Claimed vs Proven
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              aria-current="page"
-              class="nav-item nav-item-active"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-tree"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8 5h13"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="M3 10a2 2 0 0 0 2 2h3"
-                />
-                <path
-                  d="M3 5v12a2 2 0 0 0 2 2h3"
-                />
-              </svg>
-              <span>
-                Timeline
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-route"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="6"
-                  cy="19"
-                  r="3"
-                />
-                <path
-                  d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
-                />
-                <circle
-                  cx="18"
-                  cy="5"
-                  r="3"
-                />
-              </svg>
-              <span>
-                Agent Story
-              </span>
-            </button>
-          </li>
-        </ul>
         <div
-          class="sidebar-meta"
+          class="sidebar-content"
         >
+          <ul
+            class="nav-list"
+          >
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-layout-dashboard"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="3"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="3"
+                  />
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="12"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="16"
+                  />
+                </svg>
+                <span>
+                  Overview
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-checks"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13 5h8"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="m3 17 2 2 4-4"
+                  />
+                  <path
+                    d="m3 7 2 2 4-4"
+                  />
+                </svg>
+                <span>
+                  Claimed vs Proven
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                aria-current="page"
+                class="nav-item nav-item-active"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-tree"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 5h13"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="M3 10a2 2 0 0 0 2 2h3"
+                  />
+                  <path
+                    d="M3 5v12a2 2 0 0 0 2 2h3"
+                  />
+                </svg>
+                <span>
+                  Timeline
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-route"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="6"
+                    cy="19"
+                    r="3"
+                  />
+                  <path
+                    d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
+                  />
+                  <circle
+                    cx="18"
+                    cy="5"
+                    r="3"
+                  />
+                </svg>
+                <span>
+                  Agent Story
+                </span>
+              </button>
+            </li>
+          </ul>
           <div
-            aria-label="View lens"
-            class="lens-toggle"
-            role="group"
+            class="sidebar-meta"
           >
-            <button
-              aria-pressed="true"
-              type="button"
+            <div
+              aria-label="View lens"
+              class="lens-toggle"
+              role="group"
             >
-              Client
-            </button>
-            <button
-              aria-pressed="false"
-              type="button"
+              <button
+                aria-pressed="true"
+                type="button"
+              >
+                Client
+              </button>
+              <button
+                aria-pressed="false"
+                type="button"
+              >
+                Developer
+              </button>
+            </div>
+            <span
+              class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
+              data-slot="badge"
             >
-              Developer
-            </button>
+              Review required
+            </span>
+            <p>
+              Lokaler RunDoc-Export.
+              <br />
+              Keine fachliche Freigabe im Browser.
+            </p>
           </div>
-          <span
-            class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
-            data-slot="badge"
-          >
-            Review required
-          </span>
-          <p>
-            Lokaler RunDoc-Export.
-            <br />
-            Keine fachliche Freigabe im Browser.
-          </p>
         </div>
       </nav>
       <main
@@ -6852,6 +7608,190 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
           </div>
         </div>
       </main>
+      <aside
+        aria-label="Navigator"
+        class="navigator-panel"
+        data-open="true"
+      >
+        <header
+          class="navigator-header"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-compass text-primary shrink-0"
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+            />
+            <path
+              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+            />
+          </svg>
+          <h2
+            class="navigator-title"
+          >
+            Navigator
+          </h2>
+          <button
+            aria-controls="navigator-content"
+            aria-expanded="true"
+            aria-label="Navigator einklappen"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-8"
+            data-size="icon-sm"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-right-close"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M15 3v18"
+              />
+              <path
+                d="m8 9 3 3-3 3"
+              />
+            </svg>
+          </button>
+        </header>
+        <div
+          class="navigator-content"
+          id="navigator-content"
+        >
+          <div
+            class="navigator-note"
+            id="navigator-note"
+          >
+            <p>
+              Navigator kommt später
+            </p>
+            <span>
+              Fragen zum Lauf stellen und Belege gemeinsam durchgehen.
+            </span>
+          </div>
+          <div
+            class="shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+            data-orientation="horizontal"
+            data-slot="separator"
+            role="none"
+          />
+          <section
+            aria-label="Statische Vorschläge"
+          >
+            <h3>
+              Fragen zum Lauf
+            </h3>
+            <div
+              class="navigator-suggestions"
+            >
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Welche Aussagen sind ohne Beleg?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was wurde geändert?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was braucht ein Review?
+              </button>
+            </div>
+          </section>
+          <div
+            class="navigator-composer"
+          >
+            <label
+              for="navigator-message"
+            >
+              Nachricht an Navigator
+            </label>
+            <textarea
+              aria-describedby="navigator-note"
+              disabled=""
+              id="navigator-message"
+              placeholder="Fragen zum Lauf …"
+              rows="3"
+            />
+            <button
+              aria-label="Nachricht senden"
+              class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 size-9 disabled:opacity-100"
+              data-size="icon"
+              data-slot="button"
+              data-variant="secondary"
+              disabled=""
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-send"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"
+                />
+                <path
+                  d="m21.854 2.147-10.94 10.939"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </DocumentFragment>
@@ -6904,210 +7844,214 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
         aria-label="Viewer navigation"
         class="sidebar"
       >
-        <ul
-          class="nav-list"
-        >
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-layout-dashboard"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="3"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="3"
-                />
-                <rect
-                  height="9"
-                  rx="1"
-                  width="7"
-                  x="14"
-                  y="12"
-                />
-                <rect
-                  height="5"
-                  rx="1"
-                  width="7"
-                  x="3"
-                  y="16"
-                />
-              </svg>
-              <span>
-                Overview
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-checks"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M13 5h8"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="m3 17 2 2 4-4"
-                />
-                <path
-                  d="m3 7 2 2 4-4"
-                />
-              </svg>
-              <span>
-                Claimed vs Proven
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              aria-current="page"
-              class="nav-item nav-item-active"
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-list-tree"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M8 5h13"
-                />
-                <path
-                  d="M13 12h8"
-                />
-                <path
-                  d="M13 19h8"
-                />
-                <path
-                  d="M3 10a2 2 0 0 0 2 2h3"
-                />
-                <path
-                  d="M3 5v12a2 2 0 0 0 2 2h3"
-                />
-              </svg>
-              <span>
-                Timeline
-              </span>
-            </button>
-          </li>
-          <li>
-            <button
-              class="nav-item "
-              type="button"
-            >
-              <svg
-                aria-hidden="true"
-                class="lucide lucide-route"
-                fill="none"
-                height="18"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                viewBox="0 0 24 24"
-                width="18"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  cx="6"
-                  cy="19"
-                  r="3"
-                />
-                <path
-                  d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
-                />
-                <circle
-                  cx="18"
-                  cy="5"
-                  r="3"
-                />
-              </svg>
-              <span>
-                Agent Story
-              </span>
-            </button>
-          </li>
-        </ul>
         <div
-          class="sidebar-meta"
+          class="sidebar-content"
         >
+          <ul
+            class="nav-list"
+          >
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-layout-dashboard"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="3"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="3"
+                  />
+                  <rect
+                    height="9"
+                    rx="1"
+                    width="7"
+                    x="14"
+                    y="12"
+                  />
+                  <rect
+                    height="5"
+                    rx="1"
+                    width="7"
+                    x="3"
+                    y="16"
+                  />
+                </svg>
+                <span>
+                  Overview
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-checks"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13 5h8"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="m3 17 2 2 4-4"
+                  />
+                  <path
+                    d="m3 7 2 2 4-4"
+                  />
+                </svg>
+                <span>
+                  Claimed vs Proven
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                aria-current="page"
+                class="nav-item nav-item-active"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-list-tree"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8 5h13"
+                  />
+                  <path
+                    d="M13 12h8"
+                  />
+                  <path
+                    d="M13 19h8"
+                  />
+                  <path
+                    d="M3 10a2 2 0 0 0 2 2h3"
+                  />
+                  <path
+                    d="M3 5v12a2 2 0 0 0 2 2h3"
+                  />
+                </svg>
+                <span>
+                  Timeline
+                </span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="nav-item "
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-route"
+                  fill="none"
+                  height="18"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  width="18"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="6"
+                    cy="19"
+                    r="3"
+                  />
+                  <path
+                    d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"
+                  />
+                  <circle
+                    cx="18"
+                    cy="5"
+                    r="3"
+                  />
+                </svg>
+                <span>
+                  Agent Story
+                </span>
+              </button>
+            </li>
+          </ul>
           <div
-            aria-label="View lens"
-            class="lens-toggle"
-            role="group"
+            class="sidebar-meta"
           >
-            <button
-              aria-pressed="false"
-              type="button"
+            <div
+              aria-label="View lens"
+              class="lens-toggle"
+              role="group"
             >
-              Client
-            </button>
-            <button
-              aria-pressed="true"
-              type="button"
+              <button
+                aria-pressed="false"
+                type="button"
+              >
+                Client
+              </button>
+              <button
+                aria-pressed="true"
+                type="button"
+              >
+                Developer
+              </button>
+            </div>
+            <span
+              class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
+              data-slot="badge"
             >
-              Developer
-            </button>
+              Review required
+            </span>
+            <p>
+              Lokaler RunDoc-Export.
+              <br />
+              Keine fachliche Freigabe im Browser.
+            </p>
           </div>
-          <span
-            class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
-            data-slot="badge"
-          >
-            Review required
-          </span>
-          <p>
-            Lokaler RunDoc-Export.
-            <br />
-            Keine fachliche Freigabe im Browser.
-          </p>
         </div>
       </nav>
       <main
@@ -7714,6 +8658,190 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
           </div>
         </div>
       </main>
+      <aside
+        aria-label="Navigator"
+        class="navigator-panel"
+        data-open="true"
+      >
+        <header
+          class="navigator-header"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-compass text-primary shrink-0"
+            fill="none"
+            height="20"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            width="20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+            />
+            <path
+              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+            />
+          </svg>
+          <h2
+            class="navigator-title"
+          >
+            Navigator
+          </h2>
+          <button
+            aria-controls="navigator-content"
+            aria-expanded="true"
+            aria-label="Navigator einklappen"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-8"
+            data-size="icon-sm"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-panel-right-close"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                height="18"
+                rx="2"
+                width="18"
+                x="3"
+                y="3"
+              />
+              <path
+                d="M15 3v18"
+              />
+              <path
+                d="m8 9 3 3-3 3"
+              />
+            </svg>
+          </button>
+        </header>
+        <div
+          class="navigator-content"
+          id="navigator-content"
+        >
+          <div
+            class="navigator-note"
+            id="navigator-note"
+          >
+            <p>
+              Navigator kommt später
+            </p>
+            <span>
+              Fragen zum Lauf stellen und Belege gemeinsam durchgehen.
+            </span>
+          </div>
+          <div
+            class="shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+            data-orientation="horizontal"
+            data-slot="separator"
+            role="none"
+          />
+          <section
+            aria-label="Statische Vorschläge"
+          >
+            <h3>
+              Fragen zum Lauf
+            </h3>
+            <div
+              class="navigator-suggestions"
+            >
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Welche Aussagen sind ohne Beleg?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was wurde geändert?
+              </button>
+              <button
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 disabled:opacity-100"
+                data-size="default"
+                data-slot="button"
+                data-variant="outline"
+                disabled=""
+                type="button"
+              >
+                Was braucht ein Review?
+              </button>
+            </div>
+          </section>
+          <div
+            class="navigator-composer"
+          >
+            <label
+              for="navigator-message"
+            >
+              Nachricht an Navigator
+            </label>
+            <textarea
+              aria-describedby="navigator-note"
+              disabled=""
+              id="navigator-message"
+              placeholder="Fragen zum Lauf …"
+              rows="3"
+            />
+            <button
+              aria-label="Nachricht senden"
+              class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 size-9 disabled:opacity-100"
+              data-size="icon"
+              data-slot="button"
+              data-variant="secondary"
+              disabled=""
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                class="lucide lucide-send"
+                fill="none"
+                height="24"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"
+                />
+                <path
+                  d="m21.854 2.147-10.94 10.939"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </DocumentFragment>
