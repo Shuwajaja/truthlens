@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "test": "npm run check:language && npm run check:theme && vitest run",
+    "test": "npm run check:language && npm run check:theme && npm run check:toolbar && vitest run",
     "build": "node scripts/build-brand.mjs --check && tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
@@ -17,7 +17,8 @@
     "check:styles": "node scripts/check-styles.mjs",
     "brand:build": "node scripts/build-brand.mjs",
     "check:language": "node scripts/check-language.mjs",
-    "check:theme": "node scripts/check-werk-theme.mjs"
+    "check:theme": "node scripts/check-werk-theme.mjs",
+    "check:toolbar": "node scripts/check-toolbar.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.3.1",

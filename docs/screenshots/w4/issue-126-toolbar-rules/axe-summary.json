@@ -1,0 +1,700 @@
+{
+  "commit": "3cdd4af13417d8d7d311eed0ef44017a77175371",
+  "browserVersion": "156.0.8078.4",
+  "axeVersion": "4.14.0",
+  "errors": [],
+  "keyboard": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "state": "evidence-drawer",
+      "index": 0,
+      "reachable": true,
+      "reached": true,
+      "focusVisible": true,
+      "scrolled": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "claim-drawer",
+      "index": 0,
+      "reachable": true,
+      "reached": true,
+      "focusVisible": true,
+      "scrolled": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "criterion-drawer",
+      "index": 0,
+      "reachable": true,
+      "reached": true,
+      "focusVisible": true,
+      "scrolled": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "evidence-drawer",
+      "index": 0,
+      "reachable": true,
+      "reached": true,
+      "focusVisible": true,
+      "scrolled": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "evidence-drawer",
+      "index": 1,
+      "reachable": true,
+      "reached": true,
+      "focusVisible": true,
+      "scrolled": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "file-drawer",
+      "index": 2,
+      "reachable": true,
+      "reached": true,
+      "focusVisible": true,
+      "scrolled": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "state": "criterion-sheet",
+      "index": 0,
+      "reachable": true,
+      "reached": true,
+      "focusVisible": true,
+      "scrolled": true
+    }
+  ],
+  "scope": "Local production-mode Viewer; authenticated hosted Vercel overlay not exercised.",
+  "states": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "state": "overview",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 9
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "state": "claim-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 13
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "state": "criterion-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 13
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 7
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "state": "evidence-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 13
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 21
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "state": "file-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 13
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "state": "claims",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "state": "timeline",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "client",
+      "state": "agent-story",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "overview",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 2
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 9
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "claim-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 13
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 13
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "criterion-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 13
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 9
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "evidence-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 13
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 18
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "file-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 13
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "claims",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "timeline",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "lens": "developer",
+      "state": "agent-story",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "state": "overview",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "state": "overview-trust-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "state": "run-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "state": "criterion-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "state": "claims",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "state": "claims-trust-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "state": "timeline",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "state": "timeline-trust-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 7
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "state": "agent-story",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "client",
+      "state": "agent-story-trust-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 8
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "state": "overview",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "nodes": 1
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "state": "overview-trust-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "state": "run-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 12
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "state": "criterion-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "state": "claims",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "state": "claims-trust-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 6
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "state": "timeline",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "state": "timeline-trust-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 7
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "state": "agent-story",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lens": "developer",
+      "state": "agent-story-trust-sheet",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": 3
+        },
+        {
+          "id": "color-contrast",
+          "nodes": 7
+        }
+      ]
+    }
+  ]
+}

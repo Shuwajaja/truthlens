@@ -13,4 +13,9 @@
 | [INVENTORY.md](INVENTORY.md) | Reused code and sources |
 | [../viewer/DESIGN.md](../viewer/DESIGN.md) | Binding P3 viewer design: tokens, type scale, desktop/mobile layout and honest evidence |
 | [../DESIGN.md](../DESIGN.md) | Earlier P2 reference; superseded for viewer work |
+| [UI-PIPELINE.md](UI-PIPELINE.md) | Binding viewer verification, local React/UI review checks, licenses and preview comments boundary |
 | [../AGENTS.md](../AGENTS.md) | Rules for agents working in this repo |
+
+## Reviews
+
+- [Viewer UX review, 2026-10-22](ux/review-2026-10-22.md): Live-Screenshots, priorisierte Verständlichkeits- und Navigationsbefunde; keine Codeänderung.
