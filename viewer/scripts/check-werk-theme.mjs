@@ -51,6 +51,21 @@ for(const [text,fill] of [['warning','warning'],['error-text','error'],['neutral
  check(rgb(text),background,4.5,`${text}/semantic ${fill} fill`);
 }
 for(const fill of ['primary','secondary','success','warning','error'])check(rgb('bg'),rgb(fill),4.5,`dark text/${fill}`);
+// Actual 10% status surfaces: all prose plus semantic rails and selection indicators.
+for(const [tint,accent,name] of [['success','success','success'],['error','error-text','error'],['warning','warning','warning'],['neutral','neutral-text','neutral']]){
+ assert.equal(values[`status-${name}-bg`],`color-mix(in srgb, var(--${tint}) 10%, var(--surface))`);
+ const fill=rgb('surface').map((v,i)=>v*.9+rgb(tint)[i]*.1);
+ for(const text of ['text','text-2',accent])check(rgb(text),fill,4.5,`${text}/${name} status surface`);
+ check(rgb(accent),fill,3,`${name} rail/inside tint`);
+ check(rgb(tint),fill,3,`${name} status indicator/inside tint`);
+ const badgeFill=fill.map((v,i)=>v*.9+rgb(accent)[i]*.1);
+ check(rgb(accent),badgeFill,4.5,`${name} badge/nested status tint`);
+ for(const parent of ['bg','surface','surface-2'])check(rgb(accent),rgb(parent),3,`${name} rail/outside ${parent}`);
+ check(rgb('focus'),fill,3,`focus/${name} status surface`);
+ check(rgb('neutral'),fill,3,`control boundary/${name} status surface`);
+}
+assert.equal(values['navigation-accent'],'var(--success)');
+assert.equal(values['navigation-bg'],'var(--status-success-bg)');
 console.log(`${profile}: exact profile tokens, 8px grid, 12px radius; ${pairs} AA text/control pairs, minimum ${minimum.toFixed(2)}:1 (control threshold 3:1).`);
 
 }

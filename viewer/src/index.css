@@ -359,3 +359,28 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 
 /* Numeric content uses the same mono face as digit-only prose fallback. */
 .status-value, time, .run-summary { font-family:var(--mono); font-variant-numeric:tabular-nums; }
+
+/* Status rails describe recorded outcomes, never inferred progress. */
+.status-card, .criterion-button, .recorded-result {
+ --result-accent: var(--neutral-text);
+ --result-bg: var(--status-neutral-bg);
+ border-left: 4px solid var(--result-accent);
+ background: var(--result-bg);
+}
+[data-status=met] { --result-accent: var(--success); --result-bg: var(--status-success-bg); }
+[data-status=unmet] { --result-accent: var(--error-text); --result-bg: var(--status-error-bg); }
+.status-card .status-value { color: var(--result-accent); }
+.criterion-button:hover, .criterion-button[aria-pressed=true] { background: var(--result-bg); }
+.criterion-button[aria-pressed=true] { border-color: var(--text); border-left-color: var(--result-accent); }
+.recorded-result { padding: var(--space-2); border-radius: var(--radius); }
+.approval-boundary strong[data-state=open] { background: var(--status-warning-bg); }
+.compact-header .nav-item-active, .nav-item-active {
+ color: var(--navigation-accent); background: var(--navigation-bg);
+ border-bottom-color: var(--navigation-accent);
+}
+@media(max-width:760px) { .compact-header .nav-item-active, .nav-item-active { border-top-color: var(--navigation-accent); } }
+[data-slot=tabs-trigger][data-state=active], .rail-tabs [data-slot=tabs-trigger][data-state=active] {
+ color: var(--navigation-accent); background: var(--navigation-bg);
+ border-bottom: 2px solid var(--navigation-accent);
+}
+[data-slot=tabs-trigger][data-state=active]::after { background: var(--navigation-accent); }

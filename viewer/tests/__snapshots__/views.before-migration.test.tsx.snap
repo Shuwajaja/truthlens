@@ -384,7 +384,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                   Page exists (index.html with a heading and a form)
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="met"
                 >
                   <h3
                     class="text-sm"
@@ -500,7 +501,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                   Form validates the e-mail address (invalid input rejected)
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="unmet"
                 >
                   <h3
                     class="text-sm"
@@ -616,7 +618,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                   Mobile layout works
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="unverified"
                 >
                   <h3
                     class="text-sm"
@@ -1056,7 +1059,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                   Page exists (index.html with a heading and a form)
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="met"
                 >
                   <h3
                     class="text-sm"
@@ -1172,7 +1176,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                   Form validates the e-mail address (invalid input rejected)
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="unmet"
                 >
                   <h3
                     class="text-sm"
@@ -1288,7 +1293,8 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                   Mobile layout works
                 </h2>
                 <div
-                  class="space-y-4"
+                  class="recorded-result space-y-4"
+                  data-status="unverified"
                 >
                   <h3
                     class="text-sm"
@@ -1723,6 +1729,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
             <div
               class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
               data-slot="card"
+              data-status="met"
             >
               <button
                 class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
@@ -1761,6 +1768,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
             <div
               class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
               data-slot="card"
+              data-status="unmet"
             >
               <button
                 class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
@@ -1794,6 +1802,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
             <div
               class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
               data-slot="card"
+              data-status="unverified"
             >
               <button
                 class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
@@ -1853,6 +1862,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                   <button
                     aria-pressed="false"
                     class="criterion-button"
+                    data-status="met"
                     type="button"
                   >
                     <span
@@ -1890,6 +1900,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                   <button
                     aria-pressed="true"
                     class="criterion-button"
+                    data-status="unmet"
                     type="button"
                   >
                     <span
@@ -1927,6 +1938,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                   <button
                     aria-pressed="false"
                     class="criterion-button"
+                    data-status="unverified"
                     type="button"
                   >
                     <span
@@ -2206,7 +2218,8 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                 </div>
               </dl>
               <div
-                class="space-y-4"
+                class="recorded-result space-y-4"
+                data-status="unmet"
               >
                 <h3
                   class="text-sm"
@@ -7886,6 +7899,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
             <div
               class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
               data-slot="card"
+              data-status="met"
             >
               <button
                 class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
@@ -7924,6 +7938,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
             <div
               class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
               data-slot="card"
+              data-status="unmet"
             >
               <button
                 class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
@@ -7957,6 +7972,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
             <div
               class="flex min-w-0 flex-col gap-4 rounded-xl border border-border bg-card p-4 text-card-foreground status-card"
               data-slot="card"
+              data-status="unverified"
             >
               <button
                 class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4 status-review"
@@ -8016,6 +8032,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                   <button
                     aria-pressed="false"
                     class="criterion-button"
+                    data-status="met"
                     type="button"
                   >
                     <span
@@ -8053,6 +8070,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                   <button
                     aria-pressed="true"
                     class="criterion-button"
+                    data-status="unmet"
                     type="button"
                   >
                     <span
@@ -8090,6 +8108,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                   <button
                     aria-pressed="false"
                     class="criterion-button"
+                    data-status="unverified"
                     type="button"
                   >
                     <span
@@ -8369,7 +8388,8 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                 </div>
               </dl>
               <div
-                class="space-y-4"
+                class="recorded-result space-y-4"
+                data-status="unmet"
               >
                 <h3
                   class="text-sm"

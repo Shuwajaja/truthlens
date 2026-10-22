@@ -7,6 +7,17 @@ import {Overview} from '../src/components/Overview.tsx'
 import type {RunDoc} from '../src/types.ts'
 import publicRun from '../public/run.json'
 const doc=publicRun as RunDoc
+it('maps KPI and criterion status accents only to exported outcomes',()=>{
+ render(<Overview doc={doc} lens="client" onOpenDrawer={()=>{}}/> )
+ for(const [id,status] of [['met-count','met'],['failed-count','unmet'],['unwitnessed-count','unverified']]){
+  expect(screen.getByTestId(id).closest('.status-card')?.getAttribute('data-status')).toBe(status)
+ }
+ for(const criterion of doc.criteria){
+  const row=screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(criterion.text)})
+  expect(row.getAttribute('data-status')).toBe(criterion.status)
+ }
+ expect(screen.getByRole('region',{name:'Criterion detail'}).querySelector('.recorded-result')?.getAttribute('data-status')).toBe('unmet')
+})
 afterEach(()=>{cleanup();localStorage.clear();vi.unstubAllGlobals()})
 it.each([['met-count','met'],['failed-count','unmet'],['unwitnessed-count','unverified']] as const)('routes actual %s results to their criterion and referenced evidence', (testid,status)=>{
  const open=vi.fn();render(<Overview doc={doc} lens="client" onOpenDrawer={open}/> )

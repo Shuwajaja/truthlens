@@ -25,6 +25,12 @@
   --ok: var(--success);
   --fail: var(--error-text);
   --info: var(--primary-text);
+  --status-success-bg: color-mix(in srgb, var(--success) 10%, var(--surface));
+  --status-error-bg: color-mix(in srgb, var(--error) 10%, var(--surface));
+  --status-warning-bg: color-mix(in srgb, var(--warning) 10%, var(--surface));
+  --status-neutral-bg: color-mix(in srgb, var(--neutral) 10%, var(--surface));
+  --navigation-accent: var(--success);
+  --navigation-bg: var(--status-success-bg);
   --font: 'Viewer numerals', 'Plus Jakarta Sans Variable', system-ui, sans-serif;
   --mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --size-label: 12px;
