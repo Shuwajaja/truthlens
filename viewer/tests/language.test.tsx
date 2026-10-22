@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import './browser-env.ts'
-import {mkdtempSync,writeFileSync,rmSync,readFileSync} from 'node:fs'
+import {mkdirSync,mkdtempSync,writeFileSync,rmSync,readFileSync} from 'node:fs'
 import {resolve} from 'node:path'
 import {spawnSync} from 'node:child_process'
 import {afterEach,expect,it,vi} from 'vitest'
@@ -20,14 +20,16 @@ function expectEnglish(root:ParentNode=document.body){
 }
 
 it('the source check rejects German copy and attributes but allows English and export identifiers',()=>{
+ mkdirSync(resolve('../.venv'),{recursive:true})
  const directory=mkdtempSync(resolve('../.venv/language-check-'))
  const script=resolve('scripts/check-language.mjs')
  try{
+  mkdirSync(directory+'/components')
   for(const text of ['<p>Belege</p>','<button aria-label="Öffnen"/>','<p>Auftrag</p>','<p>Claim · ohne belegte Verbindung</p>']){
-   writeFileSync(directory+'/copy.tsx',text)
+   writeFileSync(directory+'/components/copy.tsx',text)
    expect(spawnSync(process.execPath,[script,directory]).status).toBe(1)
   }
-  writeFileSync(directory+'/copy.tsx','<p title="Open record">Hash only · signature not checked; claim_unwitnessed</p>')
+  writeFileSync(directory+'/components/copy.tsx','<p title="Open record">Hash only · signature not checked; claim_unwitnessed</p>')
   expect(spawnSync(process.execPath,[script,directory]).status).toBe(0)
  }finally{rmSync(directory,{recursive:true,force:true})}
 })
