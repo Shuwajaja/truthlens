@@ -1,3 +1,4 @@
+import {blockedPreviewScript} from './preview-console.mjs';
 import {preview} from 'vite';
 import {mkdir,readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
@@ -88,10 +89,10 @@ try{
  for(const lens of lenses)for(const width of [1440,390]){
   lensSuffix=lenses.length>1?'-'+lens:'';
   const context=await browser.newContext({viewport:{width,height:width===1440?900:844},timezoneId:'Europe/Berlin',reducedMotion:'reduce'});
-  await context.addInitScript(value=>localStorage.setItem('tl-lens',value),lens);
+  await context.addInitScript(value=>{if(window===window.top)localStorage.setItem('tl-lens',value)},lens);
   await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
   const page=await context.newPage();
-  page.on('pageerror',()=>{failure=true});page.on('console',message=>{if(message.type()==='error')failure=true});
+  page.on('pageerror',()=>{failure=true});page.on('console',message=>{if(message.type()==='error'&&!blockedPreviewScript(message))failure=true});
   await page.goto(origin);await page.locator('main h1').waitFor();await page.evaluate(()=>document.fonts.ready);
   for(const [i,name] of ['overview','claimed','timeline','story'].entries()){
    stage=name+'-'+width+'-'+lens;
@@ -105,12 +106,13 @@ try{
     const layout=await page.evaluate(()=>{const head=document.querySelector('.mountain-header').getBoundingClientRect(),nav=document.querySelector('.sidebar').getBoundingClientRect();return {head:head.height,nav:nav.height,bottom:nav.bottom,viewport:innerHeight,canvas:!!document.querySelector('.graph-canvas')};});
     check(layout.head===56&&layout.nav===64&&Math.abs(layout.bottom-layout.viewport)<1&&!layout.canvas,'mobile shell');
     if(i===0){
-     const order=await page.evaluate(()=>['.status-grid','.runs-panel','.criteria-panel','.evidence-graph','.timeline-panel','.diff-panel','.node-detail'].map(selector=>document.querySelector(selector)?.getBoundingClientRect().top));
+     const order=await page.evaluate(()=>['.status-grid','.criteria-panel','.project-preview','.criterion-detail','.timeline-panel'].map(selector=>document.querySelector(selector)?.getBoundingClientRect().top));
      check(order.every((top,index)=>Number.isFinite(top)&&(index===0||top>order[index-1])),'mobile reading order');
     }
    }
    await capture(page,name+'-'+width,false);
    if(width===1440&&i===0){
+    await page.getByText('Recorded links and code diff',{exact:true}).click();
     for(const kind of ['claim','criterion','evidence','file']){
      const node=page.locator(`.react-flow__node[data-id^="${kind}:"] button`).first();
      await page.keyboard.press('Tab');await node.focus();await page.keyboard.press('Enter');
@@ -127,13 +129,14 @@ try{
      await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});
      await page.waitForFunction(element=>document.activeElement===element,await node.elementHandle());
     }
+    await page.getByText('Recorded links and code diff',{exact:true}).click();
    }
    if(width===390){
-    if(i===0)await capture(page,'overview-390-full',true);
     await sheet(page,page.locator('.compact-trust'),name+'-sheet-390');
     if(i===0){
      await sheet(page,page.getByRole('button',{name:/^Open run:/}),'run-sheet-390');
-     await sheet(page,page.getByRole('button',{name:/^Evidence:/}).first(),'criterion-sheet-390');
+     await page.locator('.criterion-button').first().click();
+     await sheet(page,page.getByRole('button',{name:'Open criterion record',exact:true}),'criterion-sheet-390');
     }
     await page.evaluate(()=>window.scrollTo(0,Math.min(1200,document.documentElement.scrollHeight-innerHeight)));
    }
@@ -143,7 +146,7 @@ try{
    await page.getByRole('navigation',{name:'Viewer navigation',exact:true}).getByRole('button').first().click();
    for(const probe of [360,760,1024]){
     stage='responsive-'+probe;await page.setViewportSize({width:probe,height:1000});
-    await page.waitForFunction(width=>width<=760?!document.querySelector('.graph-canvas'):!!document.querySelector('.graph-canvas'),probe);
+    await page.waitForFunction(width=>document.querySelector('.mountain-header').getBoundingClientRect().height===(width<=760?56:64),probe);
     await audit(page);
     const cardsFit=await page.locator('.status-card').evaluateAll(cards=>cards.every(card=>card.scrollWidth<=card.clientWidth));
     check(cardsFit,'card content overflow');

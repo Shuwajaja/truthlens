@@ -8,6 +8,7 @@ afterEach(()=>{cleanup();localStorage.clear();vi.unstubAllGlobals()})
 it('opens a real test event from the evidence rail and preserves trust boundaries',async()=>{
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(publicRun)})))
  render(<App/>);await screen.findByRole('main');
+ fireEvent.click(within(screen.getByRole('navigation',{name:'Viewer navigation'})).getByRole('button',{name:'Timeline'}));
  const rail=within(screen.getByRole('complementary',{name:'Evidence drawer'}));
  const event=publicRun.events[13];
  fireEvent.click(rail.getByRole('button',{name:name=>name.includes(event.summary)&&name.includes(`#${event.seq} · ${event.type}`)}));
@@ -20,6 +21,7 @@ it('opens a real test event from the evidence rail and preserves trust boundarie
 it('filters real test and artifact records without inventing entries',async()=>{
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(publicRun)})))
  render(<App/>);await screen.findByRole('main');
+ fireEvent.click(within(screen.getByRole('navigation',{name:'Viewer navigation'})).getByRole('button',{name:'Timeline'}));
  const rail=within(screen.getByRole('complementary',{name:'Evidence drawer'}));
  fireEvent.mouseDown(rail.getByRole('tab',{name:'Tests'}),{button:0,ctrlKey:false});
  expect(rail.getAllByRole('button',{name:/#\d+ · test\.reported$/})).toHaveLength(2);

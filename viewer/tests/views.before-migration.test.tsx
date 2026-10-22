@@ -73,9 +73,10 @@ function stableFragment(fragment: DocumentFragment) {
 // claim badges and keyboard-accessible Timeline). P2 Step 3 adds Graph to the two
 // Overview snapshots and replaces the outer drawer shell with a portalled Sheet.
 // Snapshot the actual dialog; diff/Markdown/plain content remains unchanged.
-// P3 intentionally updates layout snapshots; the P1 behavior-only migration is complete.
+// Shu's approved Stitch Overview intentionally updates the App shell/Overview snapshots;
+// the recorded drawer content and renderer behavior remain independently checked.
 // P2 Step 4 adds the static Navigator and a sticky-control wrapper to six App snapshots.
-describe('pre-migration viewer snapshots (must remain unchanged)', () => {
+describe('recorded viewer layouts and renderer snapshots', () => {
   for (const lens of lenses) {
     for (const view of ['Overview', 'Claimed vs Proven', 'Timeline']) {
       it(`${view}, ${lens} lens, real public/run.json`, async () => {

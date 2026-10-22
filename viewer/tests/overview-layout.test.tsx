@@ -14,13 +14,13 @@ afterEach(cleanup)
 describe('recorded overview', () => {
   it('shows only the exported run and measured counts, with no fabricated history', () => {
     render(<Overview doc={doc} lens="client" onOpenDrawer={() => {}} />)
-    const runs = within(screen.getByRole('region', { name: 'Exported runs' }))
-    expect(runs.getAllByRole('row')).toHaveLength(2)
+    const runs = within(screen.getByRole('region', { name: 'Exported run' }))
+    expect(runs.getByText(doc.run.run_id)).toBeTruthy()
     expect(runs.getByText(doc.run.project)).toBeTruthy()
     expect(screen.getByTestId('failed-count').textContent).toBe('1')
     expect(screen.getByTestId('unwitnessed-count').textContent).toBe('1')
     expect(screen.getByTestId('met-count').textContent).toBe('1 / 3')
-    expect(screen.getByTestId('overall-status').textContent).toBe('Open')
+    expect(screen.getByTestId('approval-status').textContent).toBe('Open')
     expect(document.querySelector('polyline')).toBeNull()
     expect(screen.queryByText('Signature checked')).toBeNull()
     expect(document.body.textContent).not.toContain('Healthy')
@@ -40,6 +40,7 @@ describe('recorded overview', () => {
     const open = vi.fn()
     render(<Overview doc={doc} lens="developer" onOpenDrawer={open} />)
     fireEvent.click(screen.getByText(doc.criteria[0].text, {selector: '.criterion-content strong'}).closest('button')!)
+    fireEvent.click(screen.getByRole('button',{name:'Open criterion record'}))
     expect(open.mock.calls.at(-1)?.[0]).toEqual({ kind: 'criterion', criterion: doc.criteria[0], matched: doc.events.filter(e => doc.criteria[0].evidence.includes(e.id)) })
     const last = [...doc.events].sort((a,b) => a.seq-b.seq).at(-1)!
     fireEvent.click(screen.getByRole('button',{name:name=>name.includes('#16 · run.finished')}))
@@ -61,6 +62,7 @@ describe('recorded overview', () => {
 
 it('updates the node detail from the selected real claim without turning it into proof',()=>{
  render(<Overview doc={doc} lens="developer" onOpenDrawer={()=>{}}/>);
+ fireEvent.click(screen.getByText('Recorded links and code diff'));
  fireEvent.click(screen.getByText('All records and links as a list'));
  const list=within(screen.getByRole('list',{name:'Graph records'}));
  fireEvent.click(list.getByRole('button',{name:`Claim: ${doc.claims[1].text}`}));

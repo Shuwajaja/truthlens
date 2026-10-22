@@ -47,22 +47,21 @@ Weights: 400 body, 500 labels/active navigation, 600 headings/numbers. Line heig
 - “Signature checked” is green only when `verified === true` AND `integrity === 'hmac'`.
 - Never use green for exit 0, agent completion or “Healthy”. Unsupported is grey, never red.
 
-## 5. Desktop layout and branding (at least 1024px)
-1. Mountain header, 152px: shield and TruthLens (28/600, Truth blue, Lens white), Inter uppercase tagline; right-side evidence statement.
-2. Left sidebar, 200px: Overview, Claimed vs proven, Timeline, Agent story; export notice. Active item has a blue inner edge.
-3. Four status cards: Overall status, Criteria proven X/Y, Failed, Unproven. Dot plus Inter label; value 28/600. Sparklines require at least two actual runs; otherwise omit them.
-4. Exported runs: status pill; with one run, show Start/End/Duration/Exit code and an honest missing-history state.
-5. Code diff: mono 12, line numbers and green addition markers; neutral “Not signed” pill.
-6. Right evidence drawer, 300px and sticky: Overview/Tests/Files/Time tabs; icon, title and short evidence text.
-7. Record details: selected criterion/record properties as key/value rows and a status pill.
+## 5. Stitch Overview layout and shared navigation
+Shu approved `stitch/shu-landing-run1.html` and `.png` on 2026-10-22. Adopt their layout, not invented data, styling literals, fonts or remote scripts. The local approved files take precedence over other Stitch project variants. WERK tokens above remain binding (dependency: PR #133 / issue #132).
 
-## Responsive (760px or below; a separate arrangement)
-- Compact header, 56px: small logo and Hash only seal; no mountain.
-- Actual reading order: status cards (2×2), runs, criteria and graph list, timeline, diff, details.
-- Graph is a criterion/claim/test list, not a canvas.
-- Fixed bottom navigation, 64px and four tabs; content has 88px bottom clearance.
-- Evidence drawer becomes a bottom sheet with a top handle and top radius 12; run/criterion taps open real records.
-- Values use 20 rather than 28. No text below 12.
+- Compact solid header (64px desktop, 56px mobile): existing shield, blue Truth/white Lens, and tabs for the four existing views. Desktop lens controls stay in the header; mobile navigation remains four bottom tabs. No mountain/hero or additional inactive tabs/actions.
+- Overview title is the actual RunDoc project; show actual run ID, agent, start and duration. A real-record button opens full run details. Approval is separate and neutral: `Open` when review_required, otherwise `Not stated`; never infer approval from a false review flag, exit code or integrity.
+- Three KPI cards: Proven X/Y, Failed and Not checked, computed from criteria. No fabricated percentages, timeout explanations, version/browser/company/hardware metadata or “Run verified”. Keep the full neutral integrity/approval notice visible above the workspace.
+- Desktop three-column workspace: criteria and recorded timeline on the left; exported project preview in the centre; selected criterion and its referenced evidence on the right. Criterion buttons update the detail selection with a visible selected state; an explicit action opens the real record. Timeline remains recorded events, not invented phases or durations.
+- Graph and code diff remain available in a secondary disclosure. Other views keep their real evidence rail. No fake Share/Export/Re-run actions.
+- Preview requires a real HTML artifact entry and its nonempty body in RunDoc.blobs at the referenced hash. Display the exact body as a static, inert sandboxed document with opaque origin, scripts/forms/network blocked, and no external URL. Retain the artifact's own styling as historical content; do not repaint it with Viewer tokens. Expose an accessible real-file record action. Missing artifact/body or unsupported format shows “No project preview available.”; metadata alone never becomes a synthetic preview.
+
+## Responsive (760px or below)
+- Compact 56px header and neutral Hash only button; full integrity notice and lens controls in the page.
+- Three KPI cards remain readable without horizontal overflow; body text at least12px. Stack criteria, preview, selected detail and timeline in DOM reading order, with bounded timeline scrolling and keyboard access.
+- Fixed bottom navigation64px, four existing views;88px bottom clearance.
+- Drawers become bottom sheets,12px top corners. Escape/focus restoration and real-record targets remain intact.
 
 ## 6. Timeline
 Vertical 1px line and 32px event icon circles: start, task, passed/failed test, file, claim and end. Run events are neutral; requirement/criterion and evidence/file events use info; claims are neutral; test results use green/red from actual counts. Only nonempty Task/Result phases, with start time and duration. Relative times use milliseconds. Gaps over one second show the recorded time gap; consecutive claims can expand. Developer view adds sequence/type/actor metadata. Every event opens its real record.

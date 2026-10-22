@@ -20,3 +20,12 @@ export function recordedDuration(start: string, end: string | null) {
   const ms=end===null?NaN:Date.parse(end)-Date.parse(start)
   return !Number.isFinite(ms)||ms<0?'Not exported':`${new Intl.NumberFormat('en-GB',{maximumFractionDigits:3}).format(ms/1000)} s`
 }
+
+/** Artifact metadata alone, or an unrelated diff body, cannot create a preview. */
+export function exportedHtmlArtifact(doc: RunDoc) {
+  for (const artifact of doc.artifacts) {
+    const text = doc.blobs?.[artifact.sha256]
+    if (/\.html?$/i.test(artifact.path) && typeof text === 'string' && text.trim()) return {artifact, text}
+  }
+  return undefined
+}

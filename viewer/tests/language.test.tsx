@@ -54,11 +54,13 @@ for(const mobile of [false,true])for(const lens of ['client','developer']){
   }
   for(const button of within(navigation).getAllByRole('button')){
    fireEvent.click(button);expectEnglish()
-   await inspectSheet(mobile?document.querySelector<HTMLElement>('.compact-trust')!:within(screen.getByRole('complementary',{name:'Evidence drawer'})).getAllByRole('button')[0])
+   await inspectSheet(mobile?document.querySelector<HTMLElement>('.compact-trust')!:screen.queryByRole('button',{name:/^Open run:/})??within(screen.getByRole('complementary',{name:'Evidence drawer'})).getAllByRole('button')[0])
   }
   fireEvent.click(within(navigation).getAllByRole('button')[0])
-  await inspectSheet(screen.getByRole('button',{name:`Open run: ${publicRun.run.project}`}))
-  await inspectSheet(screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(publicRun.criteria[0].text)}))
+  await inspectSheet(screen.getByRole('button',{name:/^Open run:/}))
+  fireEvent.click(screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(publicRun.criteria[0].text)}));
+  await inspectSheet(screen.getByRole('button',{name:'Open criterion record'}))
+  fireEvent.click(screen.getByText('Recorded links and code diff'))
   fireEvent.click(screen.getByText('All records and links as a list'))
   const records=within(screen.getByRole('list',{name:'Graph records'}))
   await inspectSheet(records.getByRole('button',{name:`Claim: ${publicRun.claims[1].text}`}))
