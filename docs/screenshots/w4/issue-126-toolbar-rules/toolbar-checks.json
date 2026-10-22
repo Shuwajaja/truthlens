@@ -1,0 +1,87 @@
+{
+  "browserVersion": "156.0.8078.4",
+  "checks": [
+    {
+      "environment": "unset",
+      "toolbarInBuild": false
+    },
+    {
+      "environment": "production",
+      "toolbarInBuild": false
+    },
+    {
+      "environment": "production",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "loaderRequests": 0,
+      "pageErrors": [],
+      "simulatedHttp503": false,
+      "warnings": [],
+      "viewerNavigation": "passed"
+    },
+    {
+      "environment": "production",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "loaderRequests": 0,
+      "pageErrors": [],
+      "simulatedHttp503": false,
+      "warnings": [],
+      "viewerNavigation": "passed"
+    },
+    {
+      "environment": "development",
+      "toolbarInBuild": false
+    },
+    {
+      "environment": "staging",
+      "toolbarInBuild": false
+    },
+    {
+      "environment": "preview",
+      "toolbarInBuild": true
+    },
+    {
+      "environment": "preview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "loaderRequests": 1,
+      "pageErrors": [],
+      "simulatedHttp503": true,
+      "warnings": [
+        "Preview comments unavailable."
+      ],
+      "viewerNavigation": "passed"
+    },
+    {
+      "environment": "preview",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "loaderRequests": 1,
+      "pageErrors": [],
+      "simulatedHttp503": true,
+      "warnings": [
+        "Preview comments unavailable."
+      ],
+      "viewerNavigation": "passed"
+    },
+    {
+      "environment": "preview",
+      "simulatedPlatformElement": "script",
+      "duplicateLoader": false
+    },
+    {
+      "environment": "preview",
+      "simulatedPlatformElement": "vercel-live-feedback",
+      "duplicateLoader": false
+    }
+  ]
+}
