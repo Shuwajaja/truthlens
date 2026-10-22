@@ -8,7 +8,7 @@ export function AgentStory({ doc, context }: { doc: RunDoc; context?: RenderCont
   const developer = context?.lens === 'developer'
   return (
     <section>
-      <h1 className="text-2xl font-bold mb-6">Agent Story</h1>
+      <h1 className="text-2xl font-semibold mb-6">Agent Story</h1>
       <p className="text-sm text-2 border border-border rounded-lg p-3 mb-4">
         Review required — technical checks do not replace human acceptance.
       </p>

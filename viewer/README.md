@@ -45,3 +45,5 @@ The main trust notice stays visible while scrolling recorded content; the option
 P3 fonts are bundled locally with the build (Inter and JetBrains Mono, SIL OFL via the fontsource packages); viewing a run makes no font request to an external host. The theme defines the five text sizes and uses the information token for general focus and links. Component typography is normalized in the dedicated type-scale branch.
 
 `contracts/` preserves the unchanged RunDoc export vocabulary and fail-closed validator. Its legacy wire card names are data fields, not presentation colours. UI colours are semantic tokens only. `npm run check:styles` rejects colour literals outside theme.css and legacy palette classes in src; CI runs it too.
+
+The P3 screenshot check also inspects computed text sizes and weights in every view. Graph zoom never shrinks text below its declared 12px minimum; pan or the equivalent record list exposes the rest of a large graph.

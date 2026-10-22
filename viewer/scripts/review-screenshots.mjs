@@ -29,6 +29,17 @@ try{
    await page.evaluate(()=>window.scrollTo(0,0));
    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth);
    if(overflow)throw new Error('Page overflow');
+   const invalidType=await page.evaluate(()=>{
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;
+    while((node=walker.nextNode())){
+     const element=node.parentElement;
+     if(!node.textContent.trim()||!element||element.closest('svg')||!element.getClientRects().length||getComputedStyle(element).visibility==='hidden')continue;
+     const style=getComputedStyle(element);
+     if(![12,14,16,20,28].includes(parseFloat(style.fontSize))||![400,500,600].includes(Number(style.fontWeight)))return {tag:element.tagName,size:style.fontSize,weight:style.fontWeight};
+    }
+    return false;
+   });
+   if(invalidType){console.error(invalidType);throw new Error('Type scale violation');}
    const axe=await new AxeBuilder({page}).withRules(['color-contrast']).analyze();
    if(axe.violations.length)throw new Error('Contrast violations');
    await page.screenshot({path:output+'/'+name+'-'+width+'.png',fullPage:true,animations:'disabled'});

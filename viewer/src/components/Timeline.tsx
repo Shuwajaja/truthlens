@@ -14,7 +14,7 @@ export function Timeline({ events, lens, onOpenDrawer }: {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Timeline</h1>
+      <h1 className="text-2xl font-semibold mb-6">Timeline</h1>
 
       <div className="w-full overflow-x-auto">
         <table className="w-full">

@@ -37,7 +37,7 @@ export function EvidenceGraph({ doc, onOpenDrawer }: {doc: RunDoc; onOpenDrawer:
     <p className="section-note">Nur aufgezeichnete Verknüpfungen. Claims ohne Beleg bleiben allein.</p>
     {nodes.length===0 ? <Empty><EmptyDescription>Keine Graph-Datensätze exportiert.</EmptyDescription></Empty> : <>
       <div className="graph-canvas">
-        <ReactFlow id="evidence-flow" nodes={nodes} edges={edges} nodeTypes={nodeTypes} colorMode="dark" fitView fitViewOptions={{padding:.12}} minZoom={.2} maxZoom={1.5}
+        <ReactFlow id="evidence-flow" nodes={nodes} edges={edges} nodeTypes={nodeTypes} colorMode="dark" fitView fitViewOptions={{padding:.12,minZoom:1,maxZoom:1}} minZoom={1} maxZoom={1.5}
           onNodeClick={(_,node)=>onOpenDrawer(node.data.record.target)}
           nodesDraggable={false} nodesConnectable={false} nodesFocusable={false} edgesFocusable={false} edgesReconnectable={false} elementsSelectable={false}
           deleteKeyCode={null} zoomOnScroll={false} preventScrolling={false} aria-label="Interaktiver Beleg-Graph">

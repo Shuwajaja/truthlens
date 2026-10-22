@@ -291,7 +291,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
         </aside>
         <section>
           <h1
-            class="text-2xl font-bold mb-6"
+            class="text-2xl font-semibold mb-6"
           >
             What your agent said
           </h1>
@@ -850,7 +850,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
         </aside>
         <section>
           <h1
-            class="text-2xl font-bold mb-6"
+            class="text-2xl font-semibold mb-6"
           >
             What your agent said vs. what we saw.
           </h1>
@@ -1784,7 +1784,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                         </p>
                       </td>
                       <td
-                        class="p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
+                        class="p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] run-exit"
                         data-slot="table-cell"
                       >
                         0
@@ -3120,6 +3120,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     <button
                       aria-label="Zoom Out"
                       class="react-flow__controls-button react-flow__controls-zoomout"
+                      disabled=""
                       title="Zoom Out"
                       type="button"
                     >
@@ -4654,7 +4655,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                         </p>
                       </td>
                       <td
-                        class="p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]"
+                        class="p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px] run-exit"
                         data-slot="table-cell"
                       >
                         0
@@ -5990,6 +5991,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     <button
                       aria-label="Zoom Out"
                       class="react-flow__controls-button react-flow__controls-zoomout"
+                      disabled=""
                       title="Zoom Out"
                       type="button"
                     >
@@ -7272,7 +7274,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
         </aside>
         <div>
           <h1
-            class="text-2xl font-bold mb-6"
+            class="text-2xl font-semibold mb-6"
           >
             Timeline
           </h1>
@@ -8088,7 +8090,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
         </aside>
         <div>
           <h1
-            class="text-2xl font-bold mb-6"
+            class="text-2xl font-semibold mb-6"
           >
             Timeline
           </h1>

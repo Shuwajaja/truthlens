@@ -37,7 +37,7 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
         <p className="section-note">Dieser Export enthält einen Lauf; keine weitere Laufhistorie.</p>
         <Table><TableHeader><TableRow><TableHead>Projekt / Agent</TableHead><TableHead>Exit-Code</TableHead></TableRow></TableHeader>
           <TableBody><TableRow><TableCell className="whitespace-normal"><strong>{doc.run.project}</strong><p className="text-muted-foreground mt-1">{doc.run.agent}</p></TableCell>
-            <TableCell>{doc.run.exit_code ?? 'Nicht exportiert'}</TableCell></TableRow></TableBody></Table>
+            <TableCell className="run-exit">{doc.run.exit_code ?? 'Nicht exportiert'}</TableCell></TableRow></TableBody></Table>
         <dl className="run-times"><div><dt>Start</dt><dd>{recordedTime(doc.run.started)}</dd></div><div><dt>Ende</dt><dd>{doc.run.finished ? recordedTime(doc.run.finished) : 'Nicht exportiert'}</dd></div></dl>
       </Card>
       <Card className="panel diff-panel">

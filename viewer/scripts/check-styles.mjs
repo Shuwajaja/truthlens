@@ -6,6 +6,7 @@ async function check(dir){
   if(item.isDirectory()){await check(path);continue;}
   if(path==='src/theme.css')continue;
   const source=await readFile(path,'utf8');
+  if(/font-size:\s*(?!(?:12|14|16|20|28)px)[\d.]+px|font-weight:\s*(?!(?:400|500|600)\b)\d+|font-(?:bold|extrabold|black)|text-\[\d/i.test(source))violations.push(path);
   if(/#[\da-f]{3,8}\b|\b(?:orange|amber|yellow)\b|(?:text|bg|border|fill|stroke|divide|ring)-(?:red|green|blue|gray|slate|zinc|white|black|purple|emerald|rose|lime|cyan|teal|indigo|violet|pink|fuchsia|sky|stone|neutral)(?:-|\/|\b)/i.test(source))violations.push(path);
  }
 }
