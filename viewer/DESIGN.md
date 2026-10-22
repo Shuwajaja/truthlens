@@ -122,3 +122,6 @@ The neutral seal is exactly “Hash only · signature not checked”. The checke
 - Vercel Comments is optional review tooling only in builds with `VERCEL_ENV=preview`. Production, local development, unset and unknown environments do not include its loader or bundle.
 - Load the official toolbar after the viewer mounts; an unavailable toolbar must not block the recorded evidence. Reuse an existing Vercel-injected toolbar/loader rather than adding another one.
 - The toolbar is a third-party overlay, not a TruthLens status or approval control. It must not alter RunDoc data, trust wording, tokens or the type scale. Inspect keyboard focus, mobile navigation and trust-text overlap when checking a real authenticated preview.
+
+## 13. Criteria confirmation is not a passed check
+For `criteria.confirmed`, Timeline and its embedded Overview show “Criteria confirmed by human” only when the recorded actor is human; otherwise “Criteria confirmation recorded”. Add “Confirmation is not a test result.” Use existing informational styling, never a passed-test icon/tone. These labels override a potentially misleading recorded summary in this navigation surface; the exact event/summary remains accessible in its unchanged raw-data drawer. Actual `test.reported` results retain their recorded passed/failed presentation. No schema, RunDoc data or approval-rule changes.

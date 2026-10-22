@@ -14,8 +14,9 @@ function relative(ts:string,base:string){
  return Number.isFinite(ms)?`${ms<0?'−':'+'}${number.format(Math.abs(ms))} ms`:'Unreadable time'
 }
 function label(event:RunEvent){
+ if(event.type==='criteria.confirmed')return event.actor.kind==='human'?'Criteria confirmed by human':'Criteria confirmation recorded'
  if(event.summary!==event.type)return event.summary
- const known:Record<string,string>={'run.started':'Run started','run.finished':'Run ended','requirement.recorded':'Task recorded','criterion.recorded':'Criterion recorded','criteria.confirmed':'Criteria met','evidence.attached':'Evidence attached','artifact.recorded':'File recorded','agent.claim':'Agent claim','test.reported':'Test result recorded'}
+ const known:Record<string,string>={'run.started':'Run started','run.finished':'Run ended','requirement.recorded':'Task recorded','criterion.recorded':'Criterion recorded','evidence.attached':'Evidence attached','artifact.recorded':'File recorded','agent.claim':'Agent claim','test.reported':'Test result recorded'}
  return known[event.type]??event.summary
 }
 function TimelineEvent({entry,base,lens,onOpenDrawer}:{entry:Entry;base:string;lens:Lens;onOpenDrawer:(target:DrawerTarget)=>void}){
@@ -29,7 +30,7 @@ function TimelineEvent({entry,base,lens,onOpenDrawer}:{entry:Entry;base:string;l
   {gap>1000&&<li className="timeline-gap">··· Agent working {new Intl.NumberFormat('en-GB',{maximumFractionDigits:1}).format(gap/1000)} s ···</li>}
   <li className="timeline-event" data-tone={tone}><button type="button" onClick={()=>onOpenDrawer({kind:'event',event})}>
    <span className={`timeline-icon tone-${tone}`}><Icon size={14} aria-hidden="true"/></span>
-   <span className="timeline-copy"><span>{summary}</span>{lens==='developer'&&<code>#{event.seq} · {event.type} · {event.actor.kind} / {event.actor.id}</code>}</span>
+   <span className="timeline-copy"><span>{summary}</span>{event.type==='criteria.confirmed'&&<span className="block section-note">Confirmation is not a test result.</span>}{lens==='developer'&&<code>#{event.seq} · {event.type} · {event.actor.kind} / {event.actor.id}</code>}</span>
    <time dateTime={event.ts} title={recordedTime(event.ts)}>{relative(event.ts,base)}</time>
   </button></li>
  </Fragment>

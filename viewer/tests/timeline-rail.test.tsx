@@ -26,3 +26,25 @@ it('keeps a claim-only timeline neutral and does not invent run events or an ord
  expect(container.querySelector('.tone-ok')).toBeNull();
  expect(screen.getByText('+0 ms')).toBeTruthy();
 })
+
+it.each(['client','developer'] as const)('distinguishes human criteria confirmation from real test outcomes in %s',lens=>{
+ const open=vi.fn(),confirmation=doc.events.find(event=>event.type==='criteria.confirmed')!;
+ const event={...confirmation,summary:'Criteria met'};
+ const before=JSON.stringify(event);
+ render(<Timeline events={[event,...doc.events.filter(event=>event.type==='test.reported')]} lens={lens} onOpenDrawer={open}/>);
+ const button=screen.getByRole('button',{name:/Criteria confirmed by human.*Confirmation is not a test result/});
+ expect(button.closest('li')?.getAttribute('data-tone')).toBe('info');
+ expect(screen.queryByText('Criteria met')).toBeNull();
+ expect(document.querySelector('[data-tone="ok"]')).toBeTruthy();
+ expect(document.querySelector('[data-tone="fail"]')).toBeTruthy();
+ fireEvent.click(button);expect(open).toHaveBeenCalledWith({kind:'event',event});
+ expect(open.mock.calls[0][0].event).toBe(event);
+ expect(JSON.stringify(event)).toBe(before);
+})
+it('does not call a nonhuman criteria confirmation a human confirmation or passed test',()=>{
+ const confirmation=doc.events.find(event=>event.type==='criteria.confirmed')!;
+ render(<Timeline events={[{...confirmation,actor:{kind:'agent',id:'test-agent'}}]} lens="client" onOpenDrawer={()=>{}}/>);
+ expect(screen.getByRole('button',{name:/Criteria confirmation recorded.*Confirmation is not a test result/})).toBeTruthy();
+ expect(screen.queryByText('Criteria confirmed by human')).toBeNull();
+ expect(document.querySelector('[data-tone="ok"]')).toBeNull();
+})

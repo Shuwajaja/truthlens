@@ -3312,7 +3312,12 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                             class="timeline-copy"
                           >
                             <span>
-                              Criteria met
+                              Criteria confirmed by human
+                            </span>
+                            <span
+                              class="block section-note"
+                            >
+                              Confirmation is not a test result.
                             </span>
                           </span>
                           <time
@@ -9406,7 +9411,12 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                             class="timeline-copy"
                           >
                             <span>
-                              Criteria met
+                              Criteria confirmed by human
+                            </span>
+                            <span
+                              class="block section-note"
+                            >
+                              Confirmation is not a test result.
                             </span>
                             <code>
                               #6 · criteria.confirmed · human / box
@@ -14944,7 +14954,12 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, client lens,
                     class="timeline-copy"
                   >
                     <span>
-                      Criteria met
+                      Criteria confirmed by human
+                    </span>
+                    <span
+                      class="block section-note"
+                    >
+                      Confirmation is not a test result.
                     </span>
                   </span>
                   <time
@@ -16752,7 +16767,12 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, developer le
                     class="timeline-copy"
                   >
                     <span>
-                      Criteria met
+                      Criteria confirmed by human
+                    </span>
+                    <span
+                      class="block section-note"
+                    >
+                      Confirmation is not a test result.
                     </span>
                     <code>
                       #6 · criteria.confirmed · human / box
