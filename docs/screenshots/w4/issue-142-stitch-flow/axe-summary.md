@@ -1,3 +1,5 @@
+Latest owner follow-up: [Semantic status accents,32 comparisons and full axe/contrast evidence](status-accents/axe-summary.md), source52ed097. Earlier reports below remain historical.
+
 Latest owner follow-up: [Anti-AI-slop evidence](anti-slop/axe-summary.md), source2becee2,262 tests and36 full axe scans without violations. Earlier report below is historical.
 
 # Unified Stitch components and review flow — issue142 / PR143
