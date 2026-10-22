@@ -45,4 +45,4 @@ jobs:
       - run: pip install -e '.[dev]'
       - run: ruff check src tests
       - name: Fast deterministic unit tests
-        run: pytest -q tests/test_canonical.py tests/test_redaction.py tests/test_ledger.py tests/test_manifest.py
+        run: pytest -q tests/test_canonical.py tests/test_redaction.py tests/test_ledger.py tests/test_manifest.py tests/test_audit.py tests/test_audit_inputs.py

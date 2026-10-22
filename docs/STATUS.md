@@ -1,3 +1,17 @@
+## Prüf-Agent: SPECC v1.2 abgeglichen — 22.10.2026
+
+[PR #153](https://github.com/Shuwajaja/truthlens/pull/153) wird nach Eingang von `/home/codex/specs/truthlens-pruef-agent-specc-v1.2.md` ergänzt: verbindliche TL-AUD-001–012-Zuordnung, `not_applicable`, `ledger_last_hash`, `limitations` einschließlich XML-/Semantik-/Capture-Grenzen und Abbildung aller 18 Core-Abnahmefälle auf tatsächlich ausgeführte Tests. Die frühere Annahme einer fehlenden SPECC ist damit überholt. Keine Änderung der eingefrorenen Ereignisse, Rohdaten oder Freigaberegeln.
+
+116 gezielte Tests lokal bestanden (1,87s), Ruff `src tests` grün. Neue JSON-Vertragstest-Anforderung vor Anpassung fehlgeschlagen und danach bestanden; unveränderte Ledger-Freigaberegeln zusätzlich unter TL-AUD-012 geprüft. Aktualisierter CI-Head und Ergebnis im PR; bisherige 113/CI-Grün beziehen sich auf den vorherigen Stand. Plan/SPECC nennen volle Suite in CI, abweichend von Shus neueren Fast-CI-Regeln; Abweichung gemeldet, Trigger nicht geändert. Tasks 7–9 warten weiterhin auf den vertrauenswürdigen Capture-/Snapshot-/Principal-Pfad, den der Nutzer gerade erfragt. Frischer SPECC-Abgleich fand zusätzlich den echten Wrapper-Typ `test_files_changed` statt des synthetischen Test-Typs; korrigiert und mit Fundstelle/geschützter Konfiguration getestet. Echte demo-2-Kopie und zwei beschädigte Kopien extern geprüft, jeweils Eingaben unverändert; intakte Kopie zeigt den realen widersprüchlichen Abschlussclaim, keine Authentifizierung. Kein Merge, kein Force-Push.
+
+## Prüf-Agent: Tasks 1–6 zur Prüfung — 22.10.2026
+
+[Issue #152](https://github.com/Shuwajaja/truthlens/issues/152), Branch `w5/issue-152-audit-verifier`, Basis main `a47ab739`. Deterministischer read-only Audit und CLI nach Plan v1.2: begrenzte sichere Dateizugriffe, wiederverwendete Chain-/Manifest-Verifikation, sämtliche Belegreferenzen, Testmetadaten und exakter Wrapper-Header, getrennte Behauptungsbefunde. Hash-only bleibt nicht prüfbar; Integrität ist keine Freigabe. Keine Änderung von Ledger, Manifest, Wrapper, Gate, Viewer, Rohdaten oder bestehenden Freigaberegeln. Additiver Entscheid D33 dokumentiert die Grenze.
+
+Lokal 113 gezielte Audit-/Reader-/Ledger-/Tamper-/Manifest-/CLI-/Export-/MCP-Tests bestanden (1,85s), Ruff `src tests` bestanden. Frischer Whole-Branch-Review fand zwei fehlerhafte Eingabeformen mit Ausnahme statt JSON; beide mit beobachtetem Rot/Grün-Regressionstest behoben. Historisches demo-2 nur kopiert, Original unverändert und ohne vorhandenen Originalschlüssel nicht authentifiziert. Fast-PR-CI um die neuen Units ergänzt; kein voller Release-/Browser-/axe-Lauf. Der endgültige CI-Head wird im PR ausgewiesen. Sicherheitspfad: `needs-codex-review`, unabhängige CodexChat-Abnahme und Shus Merge-OK bleiben erforderlich.
+
+SPECC v1.0 fehlt: Report-/Outcome-Vertrag und Zuordnung zu den 18 SPECC-Kriterien können nicht bestätigt werden. [Abgeleiteter Vertrag und Grenzen](spec/audit-verifier-v1.md). Tasks 7–9 sind nicht live angebunden: im geprüften ACP-Wrapper fehlt der belegte vertrauenswürdige Capture-/Snapshot-/Principal-Pfad. Rückfrage läuft; keine Live-Erfolge, Host-/Routing-Änderungen oder Widget-Abnahme behauptet. Nichts gemergt, kein Force-Push, PR95 unberührt.
+
 # TruthLens — Status
 
 ## Viewer: Story/Timeline und schnelle PR-CI — 22.10.2026

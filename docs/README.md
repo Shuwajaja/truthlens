@@ -4,6 +4,7 @@
 |---|---|
 | [STATUS.md](STATUS.md) | Current P0 branches, measured checks, known limits and next tasks |
 | [spec/](spec/) | Frozen specs: event schema v1, artifact manifest v1; all decisions as D-numbers |
+| [spec/audit-verifier-v1.md](spec/audit-verifier-v1.md) | Read-only audit contract, scope and missing SPECC/integration boundaries |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Components and data flow |
 | [TRUST-LEVELS.md](TRUST-LEVELS.md) | Trust labels for artifacts |
 | [WRAPPER-DESIGN.md](WRAPPER-DESIGN.md) | `truthlens run` witness design |
