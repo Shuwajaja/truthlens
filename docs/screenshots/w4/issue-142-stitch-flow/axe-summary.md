@@ -1,3 +1,5 @@
+Latest owner follow-up: [Anti-AI-slop evidence](anti-slop/axe-summary.md), source2becee2,262 tests and36 full axe scans without violations. Earlier report below is historical.
+
 # Unified Stitch components and review flow — issue142 / PR143
 
 Source `740d3af2f79ecb45471e7bbc83dd0824bba7343f`, tree `d50de87e71712947f77db3e458c7958ff25d85f7`. Before: local integration commit `edb3d07d0f914d99dd8568a729300e77697ba239`, tree `27d46e0071cf1fd1725fa38f08be1c1fdf99afa1`, combining exact PR141 head ced8516 and PR139 head3cb51cc. This before commit was local, not a main or hosted deployment; parents are published. Their snapshot overlap retained Client-results markup with the opaque Stitch focus-ring classes. Final source has those dependency heads as parents.

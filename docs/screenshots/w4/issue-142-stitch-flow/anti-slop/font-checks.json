@@ -1,0 +1,60 @@
+{
+  "browserVersion": "156.0.8078.4",
+  "checks": [
+    {
+      "width": 1440,
+      "kpi": [
+        {
+          "familyName": "JetBrains Mono",
+          "postScriptName": "JetBrainsMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 5
+        }
+      ],
+      "proseDigits": [
+        {
+          "familyName": "Plus Jakarta Sans",
+          "postScriptName": "PlusJakartaSans-Regular",
+          "isCustomFont": true,
+          "glyphCount": 63
+        },
+        {
+          "familyName": "JetBrains Mono",
+          "postScriptName": "JetBrainsMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 1
+        }
+      ],
+      "navigatorAbsent": true,
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "kpi": [
+        {
+          "familyName": "JetBrains Mono",
+          "postScriptName": "JetBrainsMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 5
+        }
+      ],
+      "proseDigits": [
+        {
+          "familyName": "Plus Jakarta Sans",
+          "postScriptName": "PlusJakartaSans-Regular",
+          "isCustomFont": true,
+          "glyphCount": 62
+        },
+        {
+          "familyName": "JetBrains Mono",
+          "postScriptName": "JetBrainsMono-Regular",
+          "isCustomFont": true,
+          "glyphCount": 1
+        }
+      ],
+      "navigatorAbsent": true,
+      "noOverflow": true
+    }
+  ],
+  "testedSource": "2becee26d921a3604987f1b6dc063055d44fc03b"
+}
