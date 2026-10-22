@@ -527,9 +527,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           The agent started this run.
         </p>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #1 · run.started · evt_01M4NPV2THH34J9C2CESGZ6Q7G
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #1 · run.started · evt_01M4NPV2THH34J9C2CESGZ6Q7G
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
@@ -555,9 +560,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Build a small landing page with a contact form.
         </p>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #2 · requirement.recorded · evt_01M4NPV2TSPARXKQ958TKPDE0W
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #2 · requirement.recorded · evt_01M4NPV2TSPARXKQ958TKPDE0W
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
@@ -583,9 +593,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Recorded result: info.
         </p>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #7 · evidence.attached · evt_01M4NPV2V7QVDACAFBAEVQYN1H
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #7 · evidence.attached · evt_01M4NPV2V7QVDACAFBAEVQYN1H
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
@@ -611,9 +626,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Exit code 0.
         </p>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #8 · evidence.attached · evt_01M4NPVPHT05GPAH27CGK65CE3
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #8 · evidence.attached · evt_01M4NPVPHT05GPAH27CGK65CE3
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
@@ -664,9 +684,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           </li>
         </ul>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #9 · agent.claim · evt_01M4NPVPHWHNGGZ1X5EMANZ97B
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #9 · agent.claim · evt_01M4NPVPHWHNGGZ1X5EMANZ97B
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
@@ -717,9 +742,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           </li>
         </ul>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #10 · agent.claim · evt_01M4NPVPHXB6QT6QRX9GAHVJ27
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #10 · agent.claim · evt_01M4NPVPHXB6QT6QRX9GAHVJ27
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
@@ -770,9 +800,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           </li>
         </ul>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #11 · agent.claim · evt_01M4NPVPHZVR60R2A57PDX3A7P
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #11 · agent.claim · evt_01M4NPVPHZVR60R2A57PDX3A7P
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
@@ -798,9 +833,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           File changes were recorded.
         </p>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #12 · evidence.attached · evt_01M4NPVPJ71QG0VYEDQK4FRVCR
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #12 · evidence.attached · evt_01M4NPVPJ71QG0VYEDQK4FRVCR
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
@@ -826,9 +866,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           An artifact was recorded for this run.
         </p>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #13 · artifact.recorded · evt_01M4NPVPJCQDXQ7S0H25AS1178
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #13 · artifact.recorded · evt_01M4NPVPJCQDXQ7S0H25AS1178
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
@@ -867,9 +912,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           </li>
         </ul>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #14 · test.reported · evt_01M4NPVPSNGNVVK6R10MZ0XV01
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #14 · test.reported · evt_01M4NPVPSNGNVVK6R10MZ0XV01
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
@@ -908,9 +958,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           </li>
         </ul>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #15 · test.reported · evt_01M4NPVQ5W413BNVPF8E9VKTSF
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #15 · test.reported · evt_01M4NPVQ5W413BNVPF8E9VKTSF
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"
@@ -936,9 +991,14 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           The run finished with exit code 0.
         </p>
         <p
-          class="font-mono text-xs text-2 mt-2 break-all"
+          class="developer-only font-mono text-xs text-2 mt-2 break-all"
         >
-          #16 · run.finished · evt_01M4NPVQ5ZKWK38BJV9D9RYHSN
+          <span
+            class="developer-label"
+          >
+            Developer
+          </span>
+           · #16 · run.finished · evt_01M4NPVQ5ZKWK38BJV9D9RYHSN
         </p>
         <button
           class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4 mt-2"

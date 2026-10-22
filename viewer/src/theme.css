@@ -29,6 +29,11 @@
   --status-error-bg: color-mix(in srgb, var(--error) 10%, var(--surface));
   --status-warning-bg: color-mix(in srgb, var(--warning) 10%, var(--surface));
   --status-neutral-bg: color-mix(in srgb, var(--neutral) 10%, var(--surface));
+  /* Viewing identity only: muted grey-green / cool slate, never recorded status. */
+  --mode-client: #9CAFA8;
+  --mode-developer: #9EADC2;
+  --mode-client-bg: color-mix(in srgb, var(--mode-client) 10%, var(--surface));
+  --mode-developer-bg: color-mix(in srgb, var(--mode-developer) 10%, var(--surface));
   --navigation-accent: var(--success);
   --navigation-bg: var(--status-success-bg);
   --font: 'Viewer numerals', 'Plus Jakarta Sans Variable', system-ui, sans-serif;

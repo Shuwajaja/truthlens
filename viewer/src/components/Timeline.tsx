@@ -32,7 +32,7 @@ function TimelineEvent({entry,base,lens,onOpenDrawer}:{entry:Entry;base:string;l
   {gap>1000&&<li className="timeline-gap">··· Agent working {new Intl.NumberFormat('en-GB',{maximumFractionDigits:1}).format(gap/1000)} s ···</li>}
   <li className="timeline-event" data-tone={tone}><button type="button" onClick={()=>onOpenDrawer({kind:'event',event})}>
    <span className={`timeline-icon tone-${tone}`}><Icon size={14} aria-hidden="true"/></span>
-   <span className="timeline-copy"><span>{summary}</span>{event.type==='criteria.confirmed'&&<span className="block section-note">Confirmation is not a test result.</span>}{lens==='developer'&&<code>#{event.seq} · {event.type} · {event.actor.kind} / {event.actor.id}</code>}</span>
+   <span className="timeline-copy"><span>{summary}</span>{event.type==='criteria.confirmed'&&<span className="block section-note">Confirmation is not a test result.</span>}{lens==='developer'&&<code className="developer-only"><span>Developer</span> · <span>#{event.seq} · {event.type} · {event.actor.kind} / {event.actor.id}</span></code>}</span>
    <time dateTime={event.ts} title={recordedTime(event.ts)}>{relative(event.ts,base)}</time>
   </button></li>
  </Fragment>
