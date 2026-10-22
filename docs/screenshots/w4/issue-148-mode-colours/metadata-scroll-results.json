@@ -1,0 +1,1061 @@
+{
+  "checks": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 0,
+      "text": "Developer · #1 · run.started · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 460.28125,
+      "bottom": 496.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 1,
+      "text": "Developer · #2 · requirement.recorded · human / box",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 2,
+      "text": "Developer · #3 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 3,
+      "text": "Developer · #4 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 4,
+      "text": "Developer · #5 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 5,
+      "text": "Developer · #6 · criteria.confirmed · human / box",
+      "hitInside": true,
+      "top": 492.28125,
+      "bottom": 510.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 6,
+      "text": "Developer · #7 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 7,
+      "text": "Developer · #8 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 8,
+      "text": "Developer · #9 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 9,
+      "text": "Developer · #10 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 10,
+      "text": "Developer · #11 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 11,
+      "text": "Developer · #12 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 12,
+      "text": "Developer · #13 · artifact.recorded · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 13,
+      "text": "Developer · #14 · test.reported · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 483.28125,
+      "bottom": 519.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 14,
+      "text": "Developer · #15 · test.reported · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 580.28125,
+      "bottom": 616.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "overview",
+      "index": 15,
+      "text": "Developer · #16 · run.finished · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 703.28125,
+      "bottom": 739.28125
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 0,
+      "text": "Developer · #1 · run.started · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 441,
+      "bottom": 459
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 1,
+      "text": "Developer · #2 · requirement.recorded · human / box",
+      "hitInside": true,
+      "top": 441,
+      "bottom": 459
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 2,
+      "text": "Developer · #3 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 441,
+      "bottom": 459
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 3,
+      "text": "Developer · #4 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 441,
+      "bottom": 459
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 4,
+      "text": "Developer · #5 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 441,
+      "bottom": 459
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 5,
+      "text": "Developer · #6 · criteria.confirmed · human / box",
+      "hitInside": true,
+      "top": 441,
+      "bottom": 459
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 6,
+      "text": "Developer · #7 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 441,
+      "bottom": 459
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 7,
+      "text": "Developer · #8 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 441,
+      "bottom": 459
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 8,
+      "text": "Developer · #9 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 441,
+      "bottom": 459
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 9,
+      "text": "Developer · #10 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 441,
+      "bottom": 459
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 10,
+      "text": "Developer · #11 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 441,
+      "bottom": 459
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 11,
+      "text": "Developer · #12 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 510,
+      "bottom": 528
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 12,
+      "text": "Developer · #13 · artifact.recorded · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 593,
+      "bottom": 611
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 13,
+      "text": "Developer · #14 · test.reported · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 676,
+      "bottom": 694
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 14,
+      "text": "Developer · #15 · test.reported · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 759,
+      "bottom": 777
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "timeline",
+      "index": 15,
+      "text": "Developer · #16 · run.finished · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 842,
+      "bottom": 860
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 0,
+      "text": "Developer · #1 · run.started · evt_01M4NPV2THH34J9C2CESGZ6Q7G",
+      "hitInside": true,
+      "top": 441.5,
+      "bottom": 457.5
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 1,
+      "text": "Developer · #2 · requirement.recorded · evt_01M4NPV2TSPARXKQ958TKPDE0W",
+      "hitInside": true,
+      "top": 442,
+      "bottom": 458
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 2,
+      "text": "Developer · #7 · evidence.attached · evt_01M4NPV2V7QVDACAFBAEVQYN1H",
+      "hitInside": true,
+      "top": 441.5,
+      "bottom": 457.5
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 3,
+      "text": "Developer · #8 · evidence.attached · evt_01M4NPVPHT05GPAH27CGK65CE3",
+      "hitInside": true,
+      "top": 442,
+      "bottom": 458
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 4,
+      "text": "Developer · #9 · agent.claim · evt_01M4NPVPHWHNGGZ1X5EMANZ97B",
+      "hitInside": true,
+      "top": 441.5,
+      "bottom": 457.5
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 5,
+      "text": "Developer · #10 · agent.claim · evt_01M4NPVPHXB6QT6QRX9GAHVJ27",
+      "hitInside": true,
+      "top": 442,
+      "bottom": 458
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 6,
+      "text": "Developer · #11 · agent.claim · evt_01M4NPVPHZVR60R2A57PDX3A7P",
+      "hitInside": true,
+      "top": 441.5,
+      "bottom": 457.5
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 7,
+      "text": "Developer · #12 · evidence.attached · evt_01M4NPVPJ71QG0VYEDQK4FRVCR",
+      "hitInside": true,
+      "top": 442,
+      "bottom": 458
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 8,
+      "text": "Developer · #13 · artifact.recorded · evt_01M4NPVPJCQDXQ7S0H25AS1178",
+      "hitInside": true,
+      "top": 441.5,
+      "bottom": 457.5
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 9,
+      "text": "Developer · #14 · test.reported · evt_01M4NPVPSNGNVVK6R10MZ0XV01",
+      "hitInside": true,
+      "top": 491,
+      "bottom": 507
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 10,
+      "text": "Developer · #15 · test.reported · evt_01M4NPVQ5W413BNVPF8E9VKTSF",
+      "hitInside": true,
+      "top": 661.5,
+      "bottom": 677.5
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "state": "agent-story",
+      "index": 11,
+      "text": "Developer · #16 · run.finished · evt_01M4NPVQ5ZKWK38BJV9D9RYHSN",
+      "hitInside": true,
+      "top": 804,
+      "bottom": 820
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 0,
+      "text": "Developer · #1 · run.started · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 450.5625,
+      "bottom": 486.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 1,
+      "text": "Developer · #2 · requirement.recorded · human / box",
+      "hitInside": true,
+      "top": 450.5625,
+      "bottom": 486.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 2,
+      "text": "Developer · #3 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 450.5625,
+      "bottom": 486.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 3,
+      "text": "Developer · #4 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 450.5625,
+      "bottom": 486.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 4,
+      "text": "Developer · #5 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 450.5625,
+      "bottom": 486.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 5,
+      "text": "Developer · #6 · criteria.confirmed · human / box",
+      "hitInside": true,
+      "top": 450.5625,
+      "bottom": 486.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 6,
+      "text": "Developer · #7 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 450.5625,
+      "bottom": 486.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 7,
+      "text": "Developer · #8 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 450.5625,
+      "bottom": 486.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 8,
+      "text": "Developer · #9 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 441.5625,
+      "bottom": 495.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 9,
+      "text": "Developer · #10 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 441.5625,
+      "bottom": 495.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 10,
+      "text": "Developer · #11 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 441.5625,
+      "bottom": 495.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 11,
+      "text": "Developer · #12 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 450.5625,
+      "bottom": 486.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 12,
+      "text": "Developer · #13 · artifact.recorded · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 450.5625,
+      "bottom": 486.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 13,
+      "text": "Developer · #14 · test.reported · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 450.5625,
+      "bottom": 486.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 14,
+      "text": "Developer · #15 · test.reported · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 483.5625,
+      "bottom": 519.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "overview",
+      "index": 15,
+      "text": "Developer · #16 · run.finished · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 598.5625,
+      "bottom": 634.5625
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 0,
+      "text": "Developer · #1 · run.started · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 1,
+      "text": "Developer · #2 · requirement.recorded · human / box",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 2,
+      "text": "Developer · #3 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 3,
+      "text": "Developer · #4 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 4,
+      "text": "Developer · #5 · criterion.recorded · agent / admin-supervisor",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 5,
+      "text": "Developer · #6 · criteria.confirmed · human / box",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 6,
+      "text": "Developer · #7 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 7,
+      "text": "Developer · #8 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 8,
+      "text": "Developer · #9 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 9,
+      "text": "Developer · #10 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 10,
+      "text": "Developer · #11 · agent.claim · agent / opencode/deepseek-v4-flash",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 11,
+      "text": "Developer · #12 · evidence.attached · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 12,
+      "text": "Developer · #13 · artifact.recorded · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 404,
+      "bottom": 440
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 13,
+      "text": "Developer · #14 · test.reported · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 427,
+      "bottom": 463
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 14,
+      "text": "Developer · #15 · test.reported · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 567,
+      "bottom": 603
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "timeline",
+      "index": 15,
+      "text": "Developer · #16 · run.finished · wrapper / truthlens-run",
+      "hitInside": true,
+      "top": 686,
+      "bottom": 722
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 0,
+      "text": "Developer · #1 · run.started · evt_01M4NPV2THH34J9C2CESGZ6Q7G",
+      "hitInside": true,
+      "top": 405.5,
+      "bottom": 437.5
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 1,
+      "text": "Developer · #2 · requirement.recorded · evt_01M4NPV2TSPARXKQ958TKPDE0W",
+      "hitInside": true,
+      "top": 406,
+      "bottom": 438
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 2,
+      "text": "Developer · #7 · evidence.attached · evt_01M4NPV2V7QVDACAFBAEVQYN1H",
+      "hitInside": true,
+      "top": 405.5,
+      "bottom": 437.5
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 3,
+      "text": "Developer · #8 · evidence.attached · evt_01M4NPVPHT05GPAH27CGK65CE3",
+      "hitInside": true,
+      "top": 406,
+      "bottom": 438
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 4,
+      "text": "Developer · #9 · agent.claim · evt_01M4NPVPHWHNGGZ1X5EMANZ97B",
+      "hitInside": true,
+      "top": 405.5,
+      "bottom": 437.5
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 5,
+      "text": "Developer · #10 · agent.claim · evt_01M4NPVPHXB6QT6QRX9GAHVJ27",
+      "hitInside": true,
+      "top": 406,
+      "bottom": 438
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 6,
+      "text": "Developer · #11 · agent.claim · evt_01M4NPVPHZVR60R2A57PDX3A7P",
+      "hitInside": true,
+      "top": 405.5,
+      "bottom": 437.5
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 7,
+      "text": "Developer · #12 · evidence.attached · evt_01M4NPVPJ71QG0VYEDQK4FRVCR",
+      "hitInside": true,
+      "top": 406,
+      "bottom": 438
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 8,
+      "text": "Developer · #13 · artifact.recorded · evt_01M4NPVPJCQDXQ7S0H25AS1178",
+      "hitInside": true,
+      "top": 405.5,
+      "bottom": 437.5
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 9,
+      "text": "Developer · #14 · test.reported · evt_01M4NPVPSNGNVVK6R10MZ0XV01",
+      "hitInside": true,
+      "top": 406,
+      "bottom": 438
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 10,
+      "text": "Developer · #15 · test.reported · evt_01M4NPVQ5W413BNVPF8E9VKTSF",
+      "hitInside": true,
+      "top": 509.5,
+      "bottom": 541.5
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "agent-story",
+      "index": 11,
+      "text": "Developer · #16 · run.finished · evt_01M4NPVQ5ZKWK38BJV9D9RYHSN",
+      "hitInside": true,
+      "top": 668,
+      "bottom": 700
+    }
+  ],
+  "limitation": "Targeted scroll/hit-test of changed metadata, not spoken screenreader output or resolution of every axe incomplete node."
+}

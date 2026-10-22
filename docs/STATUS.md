@@ -1,5 +1,11 @@
 # TruthLens — Status
 
+## Viewer: Modusfarben zur Prüfung — 22.10.2026
+
+[Issue #148](https://github.com/Shuwajaja/truthlens/issues/148), eigener Branch `w4/issue-148-mode-colours`, Basis main776212c nach den Owner-Merges von PR143/145. Client in entsättigtem Graugrün, Developer in kühlem Slate; eigene zentrale Tokens für gewählten Umschalter, schmalen Header-Streifen und beschriftete technische Zusatzbereiche. Keine Aussage über Prüfergebnis, Signatur oder menschliche Freigabe; tatsächliche Rollen und Daten unverändert.
+
+Quellstand `a3ac178a0d5eda5f45c15d50db79364bab9c995d`:272 Tests/25 Dateien, Lint, Hard-Color-/Sprach-/134 Kontrastprüfungen und Build bestanden.16 Browser-Modusfälle,32 Vorher-/Nachher-Bilder aller vier Ansichten/beider Modi bei1440×900/390×844, je36 vollständige axe-Scans vorher/nachher ohne Verstöße, je7 Tastatur-Scrollprüfungen. Neue Text-/UI-Kennfarben mindestens6,46:1;88 gezielte Scroll-/Hit-Test-Prüfungen bestehen. [Nachweise und offene incomplete-Grenzen](screenshots/w4/issue-148-mode-colours/axe-summary.md). CI zum endgültigen Head im PR. Kein Merge/Force-Push; echter Screenreader-Sprachlauf bleibt offen, PR95 unberührt. Der vollständige48-Zustands-CI-Ausbau liegt separat in PR147.
+
 ## Viewer: Hauptansicht per URL zur Prüfung — 22.10.2026
 
 [Issue #144](https://github.com/Shuwajaja/truthlens/issues/144) / [PR #145](https://github.com/Shuwajaja/truthlens/pull/145), Branch `w4/issue-144-view-urls` auf main6c66473, nach den PR141-/PR143-Squashes. Die vier bestehenden Ansichten sind über `?view=overview`, `claimed-vs-proven`, `timeline` und `agent-story` direkt teilbar; Neuladen und Zurück/Vorwärts stellen sie wieder her. Unbekannte/fehlende Werte führen zu Overview; sonstige URL-Teile und gespeicherte Linse bleiben unabhängig. Keine neuen Share- oder Layout-Elemente, keine Stil-/Rohdaten-/Schema-/Freigabeänderung.
