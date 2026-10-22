@@ -17,6 +17,7 @@ export function Sidebar({ currentView, onViewChange, lens, onLensChange, reviewR
 }) {
   return <nav className="sidebar" aria-label="Viewer navigation">
     <div className="sidebar-content">
+    <div className="sidebar-brand"><img src="/logo-icon.svg" alt="" width="24" height="30"/><span>Truth<span className="brand-lens">Lens</span></span></div>
     <ul className="nav-list">
       {items.map(({ key, label, Icon }) => <li key={key}>
         <button type="button" className={`nav-item ${currentView === key ? 'nav-item-active' : ''}`}

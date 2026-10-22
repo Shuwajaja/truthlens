@@ -65,41 +65,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
       <div
         class="brand"
       >
-        <svg
-          aria-hidden="true"
-          class="brand-mark"
-          height="56"
-          viewBox="0 0 64 64"
-          width="56"
-        >
-          <path
-            d="M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14Z"
-            fill="none"
-            stroke="var(--text)"
-            stroke-width="3"
-          />
-          <ellipse
-            cx="32"
-            cy="32"
-            fill="none"
-            rx="16"
-            ry="10"
-            stroke="var(--brand)"
-            stroke-width="3"
-          />
-          <circle
-            cx="32"
-            cy="32"
-            fill="var(--brand)"
-            r="4.5"
-          />
-        </svg>
         <div>
-          <span
-            class="brand-name"
-          >
-            TruthLens
-          </span>
+          <img
+            alt="TruthLens"
+            class="brand-wordmark"
+            height="64"
+            src="/logo-wordmark.svg"
+            width="224"
+          />
           <p>
             Sieh, was dein Agent wirklich getan hat.
           </p>
@@ -126,6 +99,24 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
         <div
           class="sidebar-content"
         >
+          <div
+            class="sidebar-brand"
+          >
+            <img
+              alt=""
+              height="30"
+              src="/logo-icon.svg"
+              width="24"
+            />
+            <span>
+              Truth
+              <span
+                class="brand-lens"
+              >
+                Lens
+              </span>
+            </span>
+          </div>
           <ul
             class="nav-list"
           >
@@ -1124,41 +1115,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
       <div
         class="brand"
       >
-        <svg
-          aria-hidden="true"
-          class="brand-mark"
-          height="56"
-          viewBox="0 0 64 64"
-          width="56"
-        >
-          <path
-            d="M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14Z"
-            fill="none"
-            stroke="var(--text)"
-            stroke-width="3"
-          />
-          <ellipse
-            cx="32"
-            cy="32"
-            fill="none"
-            rx="16"
-            ry="10"
-            stroke="var(--brand)"
-            stroke-width="3"
-          />
-          <circle
-            cx="32"
-            cy="32"
-            fill="var(--brand)"
-            r="4.5"
-          />
-        </svg>
         <div>
-          <span
-            class="brand-name"
-          >
-            TruthLens
-          </span>
+          <img
+            alt="TruthLens"
+            class="brand-wordmark"
+            height="64"
+            src="/logo-wordmark.svg"
+            width="224"
+          />
           <p>
             Sieh, was dein Agent wirklich getan hat.
           </p>
@@ -1185,6 +1149,24 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
         <div
           class="sidebar-content"
         >
+          <div
+            class="sidebar-brand"
+          >
+            <img
+              alt=""
+              height="30"
+              src="/logo-icon.svg"
+              width="24"
+            />
+            <span>
+              Truth
+              <span
+                class="brand-lens"
+              >
+                Lens
+              </span>
+            </span>
+          </div>
           <ul
             class="nav-list"
           >
@@ -2291,41 +2273,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
       <div
         class="brand"
       >
-        <svg
-          aria-hidden="true"
-          class="brand-mark"
-          height="56"
-          viewBox="0 0 64 64"
-          width="56"
-        >
-          <path
-            d="M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14Z"
-            fill="none"
-            stroke="var(--text)"
-            stroke-width="3"
-          />
-          <ellipse
-            cx="32"
-            cy="32"
-            fill="none"
-            rx="16"
-            ry="10"
-            stroke="var(--brand)"
-            stroke-width="3"
-          />
-          <circle
-            cx="32"
-            cy="32"
-            fill="var(--brand)"
-            r="4.5"
-          />
-        </svg>
         <div>
-          <span
-            class="brand-name"
-          >
-            TruthLens
-          </span>
+          <img
+            alt="TruthLens"
+            class="brand-wordmark"
+            height="64"
+            src="/logo-wordmark.svg"
+            width="224"
+          />
           <p>
             Sieh, was dein Agent wirklich getan hat.
           </p>
@@ -2352,6 +2307,24 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
         <div
           class="sidebar-content"
         >
+          <div
+            class="sidebar-brand"
+          >
+            <img
+              alt=""
+              height="30"
+              src="/logo-icon.svg"
+              width="24"
+            />
+            <span>
+              Truth
+              <span
+                class="brand-lens"
+              >
+                Lens
+              </span>
+            </span>
+          </div>
           <ul
             class="nav-list"
           >
@@ -9093,41 +9066,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
       <div
         class="brand"
       >
-        <svg
-          aria-hidden="true"
-          class="brand-mark"
-          height="56"
-          viewBox="0 0 64 64"
-          width="56"
-        >
-          <path
-            d="M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14Z"
-            fill="none"
-            stroke="var(--text)"
-            stroke-width="3"
-          />
-          <ellipse
-            cx="32"
-            cy="32"
-            fill="none"
-            rx="16"
-            ry="10"
-            stroke="var(--brand)"
-            stroke-width="3"
-          />
-          <circle
-            cx="32"
-            cy="32"
-            fill="var(--brand)"
-            r="4.5"
-          />
-        </svg>
         <div>
-          <span
-            class="brand-name"
-          >
-            TruthLens
-          </span>
+          <img
+            alt="TruthLens"
+            class="brand-wordmark"
+            height="64"
+            src="/logo-wordmark.svg"
+            width="224"
+          />
           <p>
             Sieh, was dein Agent wirklich getan hat.
           </p>
@@ -9154,6 +9100,24 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
         <div
           class="sidebar-content"
         >
+          <div
+            class="sidebar-brand"
+          >
+            <img
+              alt=""
+              height="30"
+              src="/logo-icon.svg"
+              width="24"
+            />
+            <span>
+              Truth
+              <span
+                class="brand-lens"
+              >
+                Lens
+              </span>
+            </span>
+          </div>
           <ul
             class="nav-list"
           >
@@ -15943,41 +15907,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
       <div
         class="brand"
       >
-        <svg
-          aria-hidden="true"
-          class="brand-mark"
-          height="56"
-          viewBox="0 0 64 64"
-          width="56"
-        >
-          <path
-            d="M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14Z"
-            fill="none"
-            stroke="var(--text)"
-            stroke-width="3"
-          />
-          <ellipse
-            cx="32"
-            cy="32"
-            fill="none"
-            rx="16"
-            ry="10"
-            stroke="var(--brand)"
-            stroke-width="3"
-          />
-          <circle
-            cx="32"
-            cy="32"
-            fill="var(--brand)"
-            r="4.5"
-          />
-        </svg>
         <div>
-          <span
-            class="brand-name"
-          >
-            TruthLens
-          </span>
+          <img
+            alt="TruthLens"
+            class="brand-wordmark"
+            height="64"
+            src="/logo-wordmark.svg"
+            width="224"
+          />
           <p>
             Sieh, was dein Agent wirklich getan hat.
           </p>
@@ -16004,6 +15941,24 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
         <div
           class="sidebar-content"
         >
+          <div
+            class="sidebar-brand"
+          >
+            <img
+              alt=""
+              height="30"
+              src="/logo-icon.svg"
+              width="24"
+            />
+            <span>
+              Truth
+              <span
+                class="brand-lens"
+              >
+                Lens
+              </span>
+            </span>
+          </div>
           <ul
             class="nav-list"
           >
@@ -17816,41 +17771,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
       <div
         class="brand"
       >
-        <svg
-          aria-hidden="true"
-          class="brand-mark"
-          height="56"
-          viewBox="0 0 64 64"
-          width="56"
-        >
-          <path
-            d="M32 4 L58 14 V32 C58 48 46 58 32 62 C18 58 6 48 6 32 V14Z"
-            fill="none"
-            stroke="var(--text)"
-            stroke-width="3"
-          />
-          <ellipse
-            cx="32"
-            cy="32"
-            fill="none"
-            rx="16"
-            ry="10"
-            stroke="var(--brand)"
-            stroke-width="3"
-          />
-          <circle
-            cx="32"
-            cy="32"
-            fill="var(--brand)"
-            r="4.5"
-          />
-        </svg>
         <div>
-          <span
-            class="brand-name"
-          >
-            TruthLens
-          </span>
+          <img
+            alt="TruthLens"
+            class="brand-wordmark"
+            height="64"
+            src="/logo-wordmark.svg"
+            width="224"
+          />
           <p>
             Sieh, was dein Agent wirklich getan hat.
           </p>
@@ -17877,6 +17805,24 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
         <div
           class="sidebar-content"
         >
+          <div
+            class="sidebar-brand"
+          >
+            <img
+              alt=""
+              height="30"
+              src="/logo-icon.svg"
+              width="24"
+            />
+            <span>
+              Truth
+              <span
+                class="brand-lens"
+              >
+                Lens
+              </span>
+            </span>
+          </div>
           <ul
             class="nav-list"
           >
