@@ -49,3 +49,5 @@ P3 fonts are bundled locally with the build (Inter and JetBrains Mono, SIL OFL v
 The P3 screenshot check also inspects computed text sizes and weights in every view. Graph zoom never shrinks text below its declared 12px minimum; pan or the equivalent record list exposes the rest of a large graph.
 
 P3 shell uses the supplied mountain and shield SVG shapes inline so their paints share theme.css. The desktop navigation is 200px; the evidence rail is 300px with real export events, and the static Navigator sits below. No generated response or extra run is implied. Mobile-specific navigation follows in p3/mobile.
+
+Status cards count criteria by their exported result: met, unmet, or still proposed/unverified. They do not count failing runs or infer human acceptance from exit 0. This single-run format has no trend series, so no sparkline is drawn. Run duration comes from the recorded start/end timestamps; missing ends stay missing. Times use local time with a zone abbreviation.
