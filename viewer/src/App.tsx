@@ -96,7 +96,7 @@ export default function App() {
       <main id="main-content" tabIndex={-1}>
         <IntegrityNotice verified={doc.verified} integrity={doc.integrity} controls={mobile?<LensToggle lens={lens} onChange={handleLensChange}/>:undefined} />
         {view === 'overview' && <Overview doc={doc} lens={lens} onOpenDrawer={setDrawerTarget} />}
-        {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} lens={lens} />}
+        {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} lens={lens} onOpenDrawer={setDrawerTarget} />}
         {view === 'timeline' && <RenderView input={{ kind: 'events', events: doc.events }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
         {view === 'agent-story' && <RenderView input={{ kind: 'run', doc }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
       </main>

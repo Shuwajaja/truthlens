@@ -311,7 +311,7 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
           <h1
             class="text-2xl font-semibold mb-6"
           >
-            What your agent said
+            Claims and recorded results
           </h1>
           <div
             class="space-y-4"
@@ -327,7 +327,9 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                 >
                   Agent said
                 </span>
-                “Created index.html with a page that has a heading and a contact form”
+                <span>
+                  “Created index.html with a page that has a heading and a contact form”
+                </span>
               </p>
               <span
                 class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-open/40 bg-open/10 text-open"
@@ -338,6 +340,96 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                   Claim · supported
                 </span>
               </span>
+              <section
+                class="mt-4 pt-4 border-t border-border"
+              >
+                <h2
+                  class="text-base mb-4"
+                >
+                  Page exists (index.html with a heading and a form)
+                </h2>
+                <div
+                  class="space-y-4"
+                >
+                  <h3
+                    class="text-sm"
+                  >
+                    Recorded result
+                  </h3>
+                  <span
+                    class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
+                    data-slot="status-badge"
+                    data-variant="proven"
+                  >
+                    <span>
+                      Proven
+                    </span>
+                    <code
+                      class="font-mono"
+                    >
+                      · met
+                    </code>
+                  </span>
+                  <p
+                    class="text-2"
+                  >
+                    Proven – witnessed evidence passed.
+                  </p>
+                  <ul
+                    class="criterion-evidence"
+                  >
+                    <li>
+                      <h3>
+                        Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
+                      </h3>
+                      <time
+                        datetime="2026-10-11T14:46:22.261Z"
+                      >
+                        11/10/2026, 14:46:22.261 UTC
+                      </time>
+                      <details>
+                        <summary>
+                          Recorded payload
+                        </summary>
+                        <pre
+                          class="criterion-payload"
+                          tabindex="0"
+                        >
+                          {
+  "criterion_ids": [
+    "c1"
+  ],
+  "exit_code": 0,
+  "failed": 0,
+  "passed": 1,
+  "report_artifact_id": "ecd5762dd0beebeed876d7b2404dfd8816689a1ceb38d43e73ef77fdaae10085",
+  "skipped": 0,
+  "suite": "/workspace/projects/truthlens/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_page_exists.py"
+}
+                        </pre>
+                      </details>
+                      <button
+                        class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                        data-size="sm"
+                        data-slot="button"
+                        data-variant="outline"
+                        type="button"
+                      >
+                        Open event record
+                      </button>
+                    </li>
+                  </ul>
+                  <button
+                    class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                    data-size="sm"
+                    data-slot="button"
+                    data-variant="outline"
+                    type="button"
+                  >
+                    Open criterion record
+                  </button>
+                </div>
+              </section>
             </article>
             <article
               class="card-wrap border-border p-4"
@@ -350,7 +442,9 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                 >
                   Agent said
                 </span>
-                “The form validates the e-mail address using a regex and shows an error”
+                <span>
+                  “The form validates the e-mail address using a regex and shows an error”
+                </span>
               </p>
               <span
                 class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-open/40 bg-open/10 text-open"
@@ -361,6 +455,96 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                   Claim · claim_unwitnessed
                 </span>
               </span>
+              <section
+                class="mt-4 pt-4 border-t border-border"
+              >
+                <h2
+                  class="text-base mb-4"
+                >
+                  Form validates the e-mail address (invalid input rejected)
+                </h2>
+                <div
+                  class="space-y-4"
+                >
+                  <h3
+                    class="text-sm"
+                  >
+                    Recorded result
+                  </h3>
+                  <span
+                    class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
+                    data-slot="status-badge"
+                    data-variant="failed"
+                  >
+                    <span>
+                      Failed
+                    </span>
+                    <code
+                      class="font-mono"
+                    >
+                      · unmet
+                    </code>
+                  </span>
+                  <p
+                    class="text-2"
+                  >
+                    Failed – the witnessed check did not pass.
+                  </p>
+                  <ul
+                    class="criterion-evidence"
+                  >
+                    <li>
+                      <h3>
+                        Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                      </h3>
+                      <time
+                        datetime="2026-10-11T14:46:22.652Z"
+                      >
+                        11/10/2026, 14:46:22.652 UTC
+                      </time>
+                      <details>
+                        <summary>
+                          Recorded payload
+                        </summary>
+                        <pre
+                          class="criterion-payload"
+                          tabindex="0"
+                        >
+                          {
+  "criterion_ids": [
+    "c2"
+  ],
+  "exit_code": 1,
+  "failed": 1,
+  "passed": 0,
+  "report_artifact_id": "dedecd82fa4273c2f24733822c79ef4796927bed2f8a9fd33122210b1156afab",
+  "skipped": 0,
+  "suite": "/workspace/projects/truthlens/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_email_validation.py"
+}
+                        </pre>
+                      </details>
+                      <button
+                        class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                        data-size="sm"
+                        data-slot="button"
+                        data-variant="outline"
+                        type="button"
+                      >
+                        Open event record
+                      </button>
+                    </li>
+                  </ul>
+                  <button
+                    class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                    data-size="sm"
+                    data-slot="button"
+                    data-variant="outline"
+                    type="button"
+                  >
+                    Open criterion record
+                  </button>
+                </div>
+              </section>
             </article>
             <article
               class="card-wrap border-border p-4"
@@ -373,7 +557,9 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                 >
                   Agent said
                 </span>
-                “The page uses a fluid max-width container so it works on mobile”
+                <span>
+                  “The page uses a fluid max-width container so it works on mobile”
+                </span>
               </p>
               <span
                 class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-open/40 bg-open/10 text-open"
@@ -384,6 +570,62 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
                   Claim · claim_unwitnessed
                 </span>
               </span>
+              <section
+                class="mt-4 pt-4 border-t border-border"
+              >
+                <h2
+                  class="text-base mb-4"
+                >
+                  Mobile layout works
+                </h2>
+                <div
+                  class="space-y-4"
+                >
+                  <h3
+                    class="text-sm"
+                  >
+                    Recorded result
+                  </h3>
+                  <span
+                    class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-open/40 bg-open/10 text-open"
+                    data-slot="status-badge"
+                    data-variant="open"
+                  >
+                    <span>
+                      Open
+                    </span>
+                    <code
+                      class="font-mono"
+                    >
+                      · unverified
+                    </code>
+                  </span>
+                  <p
+                    class="text-2"
+                  >
+                    Claimed only – nothing checked this yet.
+                  </p>
+                  <p
+                    class="section-note"
+                  >
+                    Not checked — no confirmed result exported.
+                  </p>
+                  <p
+                    class="section-note"
+                  >
+                    No evidence events exported for this criterion.
+                  </p>
+                  <button
+                    class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                    data-size="sm"
+                    data-slot="button"
+                    data-variant="outline"
+                    type="button"
+                  >
+                    Open criterion record
+                  </button>
+                </div>
+              </section>
             </article>
           </div>
         </section>
@@ -1138,7 +1380,9 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                 >
                   Agent said
                 </span>
-                “Created index.html with a page that has a heading and a contact form”
+                <span>
+                  “Created index.html with a page that has a heading and a contact form”
+                </span>
               </p>
               <span
                 class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-open/40 bg-open/10 text-open"
@@ -1149,42 +1393,96 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                   Claim · supported
                 </span>
               </span>
-              <div
+              <section
                 class="mt-4 pt-4 border-t border-border"
               >
                 <h2
-                  class="text-sm text-muted-foreground mb-4"
+                  class="text-base mb-4"
                 >
-                  Recorded criterion status
+                  Page exists (index.html with a heading and a form)
                 </h2>
-                <ul
+                <div
                   class="space-y-4"
                 >
-                  <li
-                    class="flex flex-wrap items-center gap-4"
+                  <h3
+                    class="text-sm"
                   >
-                    <span
-                      class="text-sm"
-                    >
-                      Page exists (index.html with a heading and a form)
+                    Recorded result
+                  </h3>
+                  <span
+                    class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
+                    data-slot="status-badge"
+                    data-variant="proven"
+                  >
+                    <span>
+                      Proven
                     </span>
-                    <span
-                      class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
-                      data-slot="status-badge"
-                      data-variant="proven"
+                    <code
+                      class="font-mono"
                     >
-                      <span>
-                        Proven
-                      </span>
-                      <code
-                        class="font-mono"
+                      · met
+                    </code>
+                  </span>
+                  <p
+                    class="text-2"
+                  >
+                    Proven – witnessed evidence passed.
+                  </p>
+                  <ul
+                    class="criterion-evidence"
+                  >
+                    <li>
+                      <h3>
+                        Tests run by TruthLens: 1 passed, 0 failed, 0 skipped
+                      </h3>
+                      <time
+                        datetime="2026-10-11T14:46:22.261Z"
                       >
-                        · met
-                      </code>
-                    </span>
-                  </li>
-                </ul>
-              </div>
+                        11/10/2026, 14:46:22.261 UTC
+                      </time>
+                      <details>
+                        <summary>
+                          Recorded payload
+                        </summary>
+                        <pre
+                          class="criterion-payload"
+                          tabindex="0"
+                        >
+                          {
+  "criterion_ids": [
+    "c1"
+  ],
+  "exit_code": 0,
+  "failed": 0,
+  "passed": 1,
+  "report_artifact_id": "ecd5762dd0beebeed876d7b2404dfd8816689a1ceb38d43e73ef77fdaae10085",
+  "skipped": 0,
+  "suite": "/workspace/projects/truthlens/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_page_exists.py"
+}
+                        </pre>
+                      </details>
+                      <button
+                        class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                        data-size="sm"
+                        data-slot="button"
+                        data-variant="outline"
+                        type="button"
+                      >
+                        Open event record
+                      </button>
+                    </li>
+                  </ul>
+                  <button
+                    class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                    data-size="sm"
+                    data-slot="button"
+                    data-variant="outline"
+                    type="button"
+                  >
+                    Open criterion record
+                  </button>
+                </div>
+              </section>
             </article>
             <article
               class="card-wrap border-border p-4"
@@ -1197,7 +1495,9 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                 >
                   Agent said
                 </span>
-                “The form validates the e-mail address using a regex and shows an error”
+                <span>
+                  “The form validates the e-mail address using a regex and shows an error”
+                </span>
               </p>
               <span
                 class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-open/40 bg-open/10 text-open"
@@ -1208,42 +1508,96 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                   Claim · claim_unwitnessed
                 </span>
               </span>
-              <div
+              <section
                 class="mt-4 pt-4 border-t border-border"
               >
                 <h2
-                  class="text-sm text-muted-foreground mb-4"
+                  class="text-base mb-4"
                 >
-                  Recorded criterion status
+                  Form validates the e-mail address (invalid input rejected)
                 </h2>
-                <ul
+                <div
                   class="space-y-4"
                 >
-                  <li
-                    class="flex flex-wrap items-center gap-4"
+                  <h3
+                    class="text-sm"
                   >
-                    <span
-                      class="text-sm"
-                    >
-                      Form validates the e-mail address (invalid input rejected)
+                    Recorded result
+                  </h3>
+                  <span
+                    class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
+                    data-slot="status-badge"
+                    data-variant="failed"
+                  >
+                    <span>
+                      Failed
                     </span>
-                    <span
-                      class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
-                      data-slot="status-badge"
-                      data-variant="failed"
+                    <code
+                      class="font-mono"
                     >
-                      <span>
-                        Failed
-                      </span>
-                      <code
-                        class="font-mono"
+                      · unmet
+                    </code>
+                  </span>
+                  <p
+                    class="text-2"
+                  >
+                    Failed – the witnessed check did not pass.
+                  </p>
+                  <ul
+                    class="criterion-evidence"
+                  >
+                    <li>
+                      <h3>
+                        Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                      </h3>
+                      <time
+                        datetime="2026-10-11T14:46:22.652Z"
                       >
-                        · unmet
-                      </code>
-                    </span>
-                  </li>
-                </ul>
-              </div>
+                        11/10/2026, 14:46:22.652 UTC
+                      </time>
+                      <details>
+                        <summary>
+                          Recorded payload
+                        </summary>
+                        <pre
+                          class="criterion-payload"
+                          tabindex="0"
+                        >
+                          {
+  "criterion_ids": [
+    "c2"
+  ],
+  "exit_code": 1,
+  "failed": 1,
+  "passed": 0,
+  "report_artifact_id": "dedecd82fa4273c2f24733822c79ef4796927bed2f8a9fd33122210b1156afab",
+  "skipped": 0,
+  "suite": "/workspace/projects/truthlens/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_email_validation.py"
+}
+                        </pre>
+                      </details>
+                      <button
+                        class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                        data-size="sm"
+                        data-slot="button"
+                        data-variant="outline"
+                        type="button"
+                      >
+                        Open event record
+                      </button>
+                    </li>
+                  </ul>
+                  <button
+                    class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                    data-size="sm"
+                    data-slot="button"
+                    data-variant="outline"
+                    type="button"
+                  >
+                    Open criterion record
+                  </button>
+                </div>
+              </section>
             </article>
             <article
               class="card-wrap border-border p-4"
@@ -1256,7 +1610,9 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                 >
                   Agent said
                 </span>
-                “The page uses a fluid max-width container so it works on mobile”
+                <span>
+                  “The page uses a fluid max-width container so it works on mobile”
+                </span>
               </p>
               <span
                 class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-open/40 bg-open/10 text-open"
@@ -1267,42 +1623,62 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
                   Claim · claim_unwitnessed
                 </span>
               </span>
-              <div
+              <section
                 class="mt-4 pt-4 border-t border-border"
               >
                 <h2
-                  class="text-sm text-muted-foreground mb-4"
+                  class="text-base mb-4"
                 >
-                  Recorded criterion status
+                  Mobile layout works
                 </h2>
-                <ul
+                <div
                   class="space-y-4"
                 >
-                  <li
-                    class="flex flex-wrap items-center gap-4"
+                  <h3
+                    class="text-sm"
                   >
-                    <span
-                      class="text-sm"
-                    >
-                      Mobile layout works
+                    Recorded result
+                  </h3>
+                  <span
+                    class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-open/40 bg-open/10 text-open"
+                    data-slot="status-badge"
+                    data-variant="open"
+                  >
+                    <span>
+                      Open
                     </span>
-                    <span
-                      class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-open/40 bg-open/10 text-open"
-                      data-slot="status-badge"
-                      data-variant="open"
+                    <code
+                      class="font-mono"
                     >
-                      <span>
-                        Open
-                      </span>
-                      <code
-                        class="font-mono"
-                      >
-                        · unverified
-                      </code>
-                    </span>
-                  </li>
-                </ul>
-              </div>
+                      · unverified
+                    </code>
+                  </span>
+                  <p
+                    class="text-2"
+                  >
+                    Claimed only – nothing checked this yet.
+                  </p>
+                  <p
+                    class="section-note"
+                  >
+                    Not checked — no confirmed result exported.
+                  </p>
+                  <p
+                    class="section-note"
+                  >
+                    No evidence events exported for this criterion.
+                  </p>
+                  <button
+                    class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                    data-size="sm"
+                    data-slot="button"
+                    data-variant="outline"
+                    type="button"
+                  >
+                    Open criterion record
+                  </button>
+                </div>
+              </section>
             </article>
           </div>
         </section>
@@ -2494,31 +2870,37 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                 <h2>
                   Criterion detail
                 </h2>
-                <span
-                  class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
-                  data-slot="status-badge"
-                  data-variant="failed"
-                >
-                  <span>
-                    Failed
-                  </span>
-                  <code
-                    class="font-mono"
-                  >
-                    · unmet
-                  </code>
-                </span>
               </div>
               <h3
                 class="node-title"
               >
                 Form validates the e-mail address (invalid input rejected)
               </h3>
-              <p
-                class="text-2"
+              <div
+                class="space-y-4"
               >
-                Failed – the witnessed check did not pass.
-              </p>
+                <h3
+                  class="text-sm"
+                >
+                  Agent said
+                </h3>
+                <div>
+                  <p
+                    class="mb-4 break-words"
+                  >
+                    “The form validates the e-mail address using a regex and shows an error”
+                  </p>
+                  <span
+                    class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-open/40 bg-open/10 text-open"
+                    data-slot="status-badge"
+                    data-variant="open"
+                  >
+                    <span>
+                      Claim · claim_unwitnessed
+                    </span>
+                  </span>
+                </div>
+              </div>
               <dl
                 class="node-properties"
               >
@@ -2547,27 +2929,54 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                   </dd>
                 </div>
               </dl>
-              <ul
-                class="criterion-evidence"
+              <div
+                class="space-y-4"
               >
-                <li>
-                  <h3>
-                    Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
-                  </h3>
-                  <time
-                    datetime="2026-10-11T14:46:22.652Z"
+                <h3
+                  class="text-sm"
+                >
+                  Recorded result
+                </h3>
+                <span
+                  class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
+                  data-slot="status-badge"
+                  data-variant="failed"
+                >
+                  <span>
+                    Failed
+                  </span>
+                  <code
+                    class="font-mono"
                   >
-                    11/10/2026, 14:46:22.652 UTC
-                  </time>
-                  <details>
-                    <summary>
-                      Recorded payload
-                    </summary>
-                    <pre
-                      class="criterion-payload"
-                      tabindex="0"
+                    · unmet
+                  </code>
+                </span>
+                <p
+                  class="text-2"
+                >
+                  Failed – the witnessed check did not pass.
+                </p>
+                <ul
+                  class="criterion-evidence"
+                >
+                  <li>
+                    <h3>
+                      Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                    </h3>
+                    <time
+                      datetime="2026-10-11T14:46:22.652Z"
                     >
-                      {
+                      11/10/2026, 14:46:22.652 UTC
+                    </time>
+                    <details>
+                      <summary>
+                        Recorded payload
+                      </summary>
+                      <pre
+                        class="criterion-payload"
+                        tabindex="0"
+                      >
+                        {
   "criterion_ids": [
     "c2"
   ],
@@ -2578,28 +2987,29 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
   "skipped": 0,
   "suite": "/workspace/projects/truthlens/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_email_validation.py"
 }
-                    </pre>
-                  </details>
-                  <button
-                    class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
-                    data-size="sm"
-                    data-slot="button"
-                    data-variant="outline"
-                    type="button"
-                  >
-                    Open event record
-                  </button>
-                </li>
-              </ul>
-              <button
-                class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
-                data-size="sm"
-                data-slot="button"
-                data-variant="outline"
-                type="button"
-              >
-                Open criterion record
-              </button>
+                      </pre>
+                    </details>
+                    <button
+                      class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                      data-size="sm"
+                      data-slot="button"
+                      data-variant="outline"
+                      type="button"
+                    >
+                      Open event record
+                    </button>
+                  </li>
+                </ul>
+                <button
+                  class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                  data-size="sm"
+                  data-slot="button"
+                  data-variant="outline"
+                  type="button"
+                >
+                  Open criterion record
+                </button>
+              </div>
             </div>
             <div
               class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel"
@@ -8578,31 +8988,37 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                 <h2>
                   Criterion detail
                 </h2>
-                <span
-                  class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
-                  data-slot="status-badge"
-                  data-variant="failed"
-                >
-                  <span>
-                    Failed
-                  </span>
-                  <code
-                    class="font-mono"
-                  >
-                    · unmet
-                  </code>
-                </span>
               </div>
               <h3
                 class="node-title"
               >
                 Form validates the e-mail address (invalid input rejected)
               </h3>
-              <p
-                class="text-2"
+              <div
+                class="space-y-4"
               >
-                Failed – the witnessed check did not pass.
-              </p>
+                <h3
+                  class="text-sm"
+                >
+                  Agent said
+                </h3>
+                <div>
+                  <p
+                    class="mb-4 break-words"
+                  >
+                    “The form validates the e-mail address using a regex and shows an error”
+                  </p>
+                  <span
+                    class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-open/40 bg-open/10 text-open"
+                    data-slot="status-badge"
+                    data-variant="open"
+                  >
+                    <span>
+                      Claim · claim_unwitnessed
+                    </span>
+                  </span>
+                </div>
+              </div>
               <dl
                 class="node-properties"
               >
@@ -8631,27 +9047,54 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                   </dd>
                 </div>
               </dl>
-              <ul
-                class="criterion-evidence"
+              <div
+                class="space-y-4"
               >
-                <li>
-                  <h3>
-                    Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
-                  </h3>
-                  <time
-                    datetime="2026-10-11T14:46:22.652Z"
+                <h3
+                  class="text-sm"
+                >
+                  Recorded result
+                </h3>
+                <span
+                  class="inline-flex w-fit items-center gap-2 rounded-md border px-2 py-2 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
+                  data-slot="status-badge"
+                  data-variant="failed"
+                >
+                  <span>
+                    Failed
+                  </span>
+                  <code
+                    class="font-mono"
                   >
-                    11/10/2026, 14:46:22.652 UTC
-                  </time>
-                  <details>
-                    <summary>
-                      Recorded payload
-                    </summary>
-                    <pre
-                      class="criterion-payload"
-                      tabindex="0"
+                    · unmet
+                  </code>
+                </span>
+                <p
+                  class="text-2"
+                >
+                  Failed – the witnessed check did not pass.
+                </p>
+                <ul
+                  class="criterion-evidence"
+                >
+                  <li>
+                    <h3>
+                      Tests run by TruthLens: 0 passed, 1 failed, 0 skipped
+                    </h3>
+                    <time
+                      datetime="2026-10-11T14:46:22.652Z"
                     >
-                      {
+                      11/10/2026, 14:46:22.652 UTC
+                    </time>
+                    <details>
+                      <summary>
+                        Recorded payload
+                      </summary>
+                      <pre
+                        class="criterion-payload"
+                        tabindex="0"
+                      >
+                        {
   "criterion_ids": [
     "c2"
   ],
@@ -8662,28 +9105,29 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
   "skipped": 0,
   "suite": "/workspace/projects/truthlens/.venv/bin/python -m pytest -q -p no:cacheprovider tests/test_email_validation.py"
 }
-                    </pre>
-                  </details>
-                  <button
-                    class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
-                    data-size="sm"
-                    data-slot="button"
-                    data-variant="outline"
-                    type="button"
-                  >
-                    Open event record
-                  </button>
-                </li>
-              </ul>
-              <button
-                class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
-                data-size="sm"
-                data-slot="button"
-                data-variant="outline"
-                type="button"
-              >
-                Open criterion record
-              </button>
+                      </pre>
+                    </details>
+                    <button
+                      class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                      data-size="sm"
+                      data-slot="button"
+                      data-variant="outline"
+                      type="button"
+                    >
+                      Open event record
+                    </button>
+                  </li>
+                </ul>
+                <button
+                  class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-2 rounded-md px-4 has-[>svg]:px-4"
+                  data-size="sm"
+                  data-slot="button"
+                  data-variant="outline"
+                  type="button"
+                >
+                  Open criterion record
+                </button>
+              </div>
             </div>
             <div
               class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel"

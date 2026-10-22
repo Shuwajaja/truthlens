@@ -49,7 +49,7 @@ export function Overview({doc,lens,onOpenDrawer}:{doc:RunDoc;lens:Lens;onOpenDra
     <a className="criterion-detail-link" href="#criterion-detail">View selected criterion</a>
    </Card>
    <ProjectPreview doc={doc} onOpenDrawer={onOpenDrawer}/>
-   <CriterionDetail criterion={selectedCriterion} matched={matched} onOpenDrawer={onOpenDrawer}/>
+   <CriterionDetail criterion={selectedCriterion} claims={doc.claims.filter(claim=>claim.criterion_ids.includes(selectedCriterion?.criterion_id??''))} matched={matched} onOpenDrawer={onOpenDrawer}/>
    <Card className="panel timeline-panel"><div className="overview-timeline" role="region" aria-label="Recorded timeline" tabIndex={0}>
     <RenderView input={{kind:'events',events:doc.events}} context={{lens,onOpenDrawer,headingLevel:2}}/>
    </div></Card>
