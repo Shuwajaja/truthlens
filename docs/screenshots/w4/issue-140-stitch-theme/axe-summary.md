@@ -1,3 +1,5 @@
+> Latest owner anti-AI-slop/numeral update: [current rendered evidence](anti-slop/axe-summary.md). Earlier after images below are historical.
+
 # One final Stitch theme — issue140
 
 Before main: `29e930bd318dd8305e1dc6bb00e7cb6d11257669`. After source: `ce9f36f82448a42701108b8b94f9b89049b8763c`, tree `5bcbf4814149787e704921a68bf422072499940f`. Raw after axe preserves scan-start HEAD separately and attributes the staged rendered changes to the source commit. Subsequent publication is evidence only. Final pre-publish cleanup changed comments only.
