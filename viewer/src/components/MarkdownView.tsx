@@ -110,6 +110,7 @@ function RenderedMarkdown({ source }: { source: string }) {
         }
         return (
           <pre
+            tabIndex={0}
             key={i}
             className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
           >
@@ -144,7 +145,7 @@ export function MarkdownView({ text }: { text: string }) {
       {mode === 'rendered' ? (
         <RenderedMarkdown source={text} />
       ) : (
-        <pre className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap">
+        <pre tabIndex={0} className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap">
           {text}
         </pre>
       )}

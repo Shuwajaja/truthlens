@@ -19,7 +19,7 @@ function RecordNodeView({ data }: NodeProps<RecordNode>) {
   const detail=record.target.kind==='claim'?record.target.claim.finding:record.target.kind==='criterion'?record.target.criterion.status:''
   return <>
     <Handle type="target" position={Position.Left} isConnectable={false} />
-    <button type="button" className={`graph-record nodrag nopan graph-${record.kind} graph-result-${record.tone}`} aria-label={`${kinds[record.kind]}: ${record.label}${detail?` · ${detail}`:''}`}
+    <button type="button" className={`graph-record nodrag nopan graph-${record.kind} graph-result-${record.tone}`}
       title={record.label} onClick={event=>{event.stopPropagation();onOpen(record.target)}} onFocus={event=>{
         if(event.currentTarget.matches(':focus-visible')) void flow.fitView({nodes:[{id:record.id}],minZoom:1,maxZoom:1,duration:0})
       }}>
@@ -38,7 +38,7 @@ function MobileGraph({graph,onOpen}:{graph:ReturnType<typeof buildEvidenceGraph>
    const other=graph.nodes.find(candidate=>candidate.id===(edge.source===node.id?edge.target:edge.source))
    return other?[other]:[]
   })
-  return <li key={node.id}><button type="button" className="mobile-graph-record" aria-label={`Graph criterion: ${node.label}`} onClick={()=>onOpen(node)}><strong>{node.label}</strong>{node.target.kind==='criterion'&&(node.tone==='open'?<Badge>{node.target.criterion.status} · open</Badge>:<StatusBadge source="criterion" status={node.target.criterion.status}/>)}</button>
+  return <li key={node.id}><button type="button" className="mobile-graph-record" onClick={()=>onOpen(node)}><strong>{node.label}</strong>{node.target.kind==='criterion'&&(node.tone==='open'?<Badge>{node.target.criterion.status} · open</Badge>:<StatusBadge source="criterion" status={node.target.criterion.status}/>)}</button>
    {related.length===0?<p className="text-2 text-xs">No recorded proof.</p>:<ul>{related.map(other=><li key={other.id}><button type="button" className="graph-relation" onClick={()=>onOpen(other)}>← {kinds[other.kind]}: {other.label}</button></li>)}</ul>}
   </li>
  })}</ul>{isolated.length>0&&<section><h3>Unlinked claims</h3><ul>{isolated.map(node=><li key={node.id}><button type="button" className="graph-relation text-open" onClick={()=>onOpen(node)}>{node.label}</button><p className="text-2 text-xs">Claim · without a proven link</p></li>)}</ul></section>}</div>

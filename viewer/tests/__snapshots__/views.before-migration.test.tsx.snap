@@ -556,7 +556,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                 >
                   <li>
                     <button
-                      aria-label="Evidence #7: evidence.attached"
                       type="button"
                     >
                       <span
@@ -597,7 +596,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #8: Agent process finished (exit 0)"
                       type="button"
                     >
                       <span
@@ -638,7 +636,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #12: Files changed: index.html"
                       type="button"
                     >
                       <span
@@ -679,7 +676,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #13: File recorded: index.html"
                       type="button"
                     >
                       <span
@@ -727,7 +723,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #14: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -775,7 +770,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #15: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -1718,7 +1712,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                 >
                   <li>
                     <button
-                      aria-label="Evidence #7: evidence.attached"
                       type="button"
                     >
                       <span
@@ -1759,7 +1752,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #8: Agent process finished (exit 0)"
                       type="button"
                     >
                       <span
@@ -1800,7 +1792,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #12: Files changed: index.html"
                       type="button"
                     >
                       <span
@@ -1841,7 +1832,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #13: File recorded: index.html"
                       type="button"
                     >
                       <span
@@ -1889,7 +1879,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #14: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -1937,7 +1926,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Claimed vs Pro
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #15: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -2882,6 +2870,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                   >
                     <pre
                       class="diff-code"
+                      tabindex="0"
                     >
                       <code>
                         <span
@@ -6461,7 +6450,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="claim:0"
                             />
                             <button
-                              aria-label="Claim: Created index.html with a page that has a heading and a contact form · supported"
                               class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="Created index.html with a page that has a heading and a contact form"
                               type="button"
@@ -6499,7 +6487,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="claim:1"
                             />
                             <button
-                              aria-label="Claim: The form validates the e-mail address using a regex and shows an error · claim_unwitnessed"
                               class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="The form validates the e-mail address using a regex and shows an error"
                               type="button"
@@ -6537,7 +6524,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="claim:2"
                             />
                             <button
-                              aria-label="Claim: The page uses a fluid max-width container so it works on mobile · claim_unwitnessed"
                               class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="The page uses a fluid max-width container so it works on mobile"
                               type="button"
@@ -6575,7 +6561,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="criterion:0"
                             />
                             <button
-                              aria-label="Criterion: Page exists (index.html with a heading and a form) · met"
                               class="graph-record nodrag nopan graph-criterion graph-result-ok"
                               title="Page exists (index.html with a heading and a form)"
                               type="button"
@@ -6617,7 +6602,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="criterion:1"
                             />
                             <button
-                              aria-label="Criterion: Form validates the e-mail address (invalid input rejected) · unmet"
                               class="graph-record nodrag nopan graph-criterion graph-result-fail"
                               title="Form validates the e-mail address (invalid input rejected)"
                               type="button"
@@ -6659,7 +6643,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="criterion:2"
                             />
                             <button
-                              aria-label="Criterion: Mobile layout works · unverified"
                               class="graph-record nodrag nopan graph-criterion graph-result-open"
                               title="Mobile layout works"
                               type="button"
@@ -6701,7 +6684,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="evidence:0"
                             />
                             <button
-                              aria-label="Event: evidence.attached"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="evidence.attached"
                               type="button"
@@ -6739,7 +6721,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="evidence:1"
                             />
                             <button
-                              aria-label="Event: Agent process finished (exit 0)"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Agent process finished (exit 0)"
                               type="button"
@@ -6777,7 +6758,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="evidence:2"
                             />
                             <button
-                              aria-label="Event: Files changed: index.html"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Files changed: index.html"
                               type="button"
@@ -6815,7 +6795,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="evidence:3"
                             />
                             <button
-                              aria-label="Event: File recorded: index.html"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="File recorded: index.html"
                               type="button"
@@ -6853,7 +6832,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="evidence:4"
                             />
                             <button
-                              aria-label="Event: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                               type="button"
@@ -6891,7 +6869,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="evidence:5"
                             />
                             <button
-                              aria-label="Event: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                               type="button"
@@ -6929,7 +6906,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                               data-nodeid="file:0"
                             />
                             <button
-                              aria-label="File: index.html"
                               class="graph-record nodrag nopan graph-file graph-result-open"
                               title="index.html"
                               type="button"
@@ -7302,10 +7278,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
               <li>
                 <button
                   aria-describedby="criterion-description-0 criterion-status-0"
-                  aria-label="Evidence: Page exists (index.html with a heading and a form)"
                   class="criterion-button"
                   type="button"
                 >
+                  <span
+                    class="sr-only"
+                  >
+                    Evidence: 
+                  </span>
                   <span
                     class="criterion-content"
                   >
@@ -7367,10 +7347,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
               <li>
                 <button
                   aria-describedby="criterion-description-1 criterion-status-1"
-                  aria-label="Evidence: Form validates the e-mail address (invalid input rejected)"
                   class="criterion-button"
                   type="button"
                 >
+                  <span
+                    class="sr-only"
+                  >
+                    Evidence: 
+                  </span>
                   <span
                     class="criterion-content"
                   >
@@ -7432,10 +7416,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
               <li>
                 <button
                   aria-describedby="criterion-description-2 criterion-status-2"
-                  aria-label="Evidence: Mobile layout works"
                   class="criterion-button"
                   type="button"
                 >
+                  <span
+                    class="sr-only"
+                  >
+                    Evidence: 
+                  </span>
                   <span
                     class="criterion-content"
                   >
@@ -7555,7 +7543,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="open"
                   >
                     <button
-                      aria-label="Event #1: run.started · Run started"
                       type="button"
                     >
                       <span
@@ -7599,7 +7586,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #2: requirement.recorded · Task recorded"
                       type="button"
                     >
                       <span
@@ -7652,7 +7638,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #3: Criterion c1: Page exists (index.html with a heading and a form)"
                       type="button"
                     >
                       <span
@@ -7705,7 +7690,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #4: Criterion c2: Form validates the e-mail address (invalid input rejected)"
                       type="button"
                     >
                       <span
@@ -7758,7 +7742,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #5: Criterion c3: Mobile layout works"
                       type="button"
                     >
                       <span
@@ -7811,7 +7794,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #6: criteria.confirmed · Criteria met"
                       type="button"
                     >
                       <span
@@ -7887,7 +7869,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #7: evidence.attached · Evidence attached"
                       type="button"
                     >
                       <span
@@ -7948,7 +7929,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #8: Agent process finished (exit 0)"
                       type="button"
                     >
                       <span
@@ -8012,7 +7992,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                           data-tone="open"
                         >
                           <button
-                            aria-label="Event #9: Agent said: Created index.html with a page that has a heading and a contact form"
                             type="button"
                           >
                             <span
@@ -8059,7 +8038,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                           data-tone="open"
                         >
                           <button
-                            aria-label="Event #10: Agent said: The form validates the e-mail address using a regex and shows an error"
                             type="button"
                           >
                             <span
@@ -8106,7 +8084,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                           data-tone="open"
                         >
                           <button
-                            aria-label="Event #11: Agent said: The page uses a fluid max-width container so it works on mobile"
                             type="button"
                           >
                             <span
@@ -8156,7 +8133,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #12: Files changed: index.html"
                       type="button"
                     >
                       <span
@@ -8212,7 +8188,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #13: File recorded: index.html"
                       type="button"
                     >
                       <span
@@ -8268,7 +8243,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="ok"
                   >
                     <button
-                      aria-label="Event #14: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -8312,7 +8286,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="fail"
                   >
                     <button
-                      aria-label="Event #15: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -8359,7 +8332,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     data-tone="open"
                   >
                     <button
-                      aria-label="Event #16: Run closed (exit 0)"
                       type="button"
                     >
                       <span
@@ -8521,7 +8493,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                 >
                   <li>
                     <button
-                      aria-label="Evidence #7: evidence.attached"
                       type="button"
                     >
                       <span
@@ -8562,7 +8533,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #8: Agent process finished (exit 0)"
                       type="button"
                     >
                       <span
@@ -8603,7 +8573,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #12: Files changed: index.html"
                       type="button"
                     >
                       <span
@@ -8644,7 +8613,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #13: File recorded: index.html"
                       type="button"
                     >
                       <span
@@ -8692,7 +8660,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #14: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -8740,7 +8707,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #15: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -9685,6 +9651,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                   >
                     <pre
                       class="diff-code"
+                      tabindex="0"
                     >
                       <code>
                         <span
@@ -13264,7 +13231,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="claim:0"
                             />
                             <button
-                              aria-label="Claim: Created index.html with a page that has a heading and a contact form · supported"
                               class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="Created index.html with a page that has a heading and a contact form"
                               type="button"
@@ -13302,7 +13268,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="claim:1"
                             />
                             <button
-                              aria-label="Claim: The form validates the e-mail address using a regex and shows an error · claim_unwitnessed"
                               class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="The form validates the e-mail address using a regex and shows an error"
                               type="button"
@@ -13340,7 +13305,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="claim:2"
                             />
                             <button
-                              aria-label="Claim: The page uses a fluid max-width container so it works on mobile · claim_unwitnessed"
                               class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="The page uses a fluid max-width container so it works on mobile"
                               type="button"
@@ -13378,7 +13342,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="criterion:0"
                             />
                             <button
-                              aria-label="Criterion: Page exists (index.html with a heading and a form) · met"
                               class="graph-record nodrag nopan graph-criterion graph-result-ok"
                               title="Page exists (index.html with a heading and a form)"
                               type="button"
@@ -13420,7 +13383,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="criterion:1"
                             />
                             <button
-                              aria-label="Criterion: Form validates the e-mail address (invalid input rejected) · unmet"
                               class="graph-record nodrag nopan graph-criterion graph-result-fail"
                               title="Form validates the e-mail address (invalid input rejected)"
                               type="button"
@@ -13462,7 +13424,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="criterion:2"
                             />
                             <button
-                              aria-label="Criterion: Mobile layout works · unverified"
                               class="graph-record nodrag nopan graph-criterion graph-result-open"
                               title="Mobile layout works"
                               type="button"
@@ -13504,7 +13465,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="evidence:0"
                             />
                             <button
-                              aria-label="Event: evidence.attached"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="evidence.attached"
                               type="button"
@@ -13542,7 +13502,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="evidence:1"
                             />
                             <button
-                              aria-label="Event: Agent process finished (exit 0)"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Agent process finished (exit 0)"
                               type="button"
@@ -13580,7 +13539,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="evidence:2"
                             />
                             <button
-                              aria-label="Event: Files changed: index.html"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Files changed: index.html"
                               type="button"
@@ -13618,7 +13576,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="evidence:3"
                             />
                             <button
-                              aria-label="Event: File recorded: index.html"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="File recorded: index.html"
                               type="button"
@@ -13656,7 +13613,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="evidence:4"
                             />
                             <button
-                              aria-label="Event: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                               type="button"
@@ -13694,7 +13650,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="evidence:5"
                             />
                             <button
-                              aria-label="Event: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                               class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                               type="button"
@@ -13732,7 +13687,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                               data-nodeid="file:0"
                             />
                             <button
-                              aria-label="File: index.html"
                               class="graph-record nodrag nopan graph-file graph-result-open"
                               title="index.html"
                               type="button"
@@ -14105,10 +14059,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
               <li>
                 <button
                   aria-describedby="criterion-description-0 criterion-status-0"
-                  aria-label="Evidence: Page exists (index.html with a heading and a form)"
                   class="criterion-button"
                   type="button"
                 >
+                  <span
+                    class="sr-only"
+                  >
+                    Evidence: 
+                  </span>
                   <span
                     class="criterion-content"
                   >
@@ -14170,10 +14128,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
               <li>
                 <button
                   aria-describedby="criterion-description-1 criterion-status-1"
-                  aria-label="Evidence: Form validates the e-mail address (invalid input rejected)"
                   class="criterion-button"
                   type="button"
                 >
+                  <span
+                    class="sr-only"
+                  >
+                    Evidence: 
+                  </span>
                   <span
                     class="criterion-content"
                   >
@@ -14235,10 +14197,14 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
               <li>
                 <button
                   aria-describedby="criterion-description-2 criterion-status-2"
-                  aria-label="Evidence: Mobile layout works"
                   class="criterion-button"
                   type="button"
                 >
+                  <span
+                    class="sr-only"
+                  >
+                    Evidence: 
+                  </span>
                   <span
                     class="criterion-content"
                   >
@@ -14358,7 +14324,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="open"
                   >
                     <button
-                      aria-label="Event #1: run.started · Run started"
                       type="button"
                     >
                       <span
@@ -14405,7 +14370,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #2: requirement.recorded · Task recorded"
                       type="button"
                     >
                       <span
@@ -14461,7 +14425,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #3: Criterion c1: Page exists (index.html with a heading and a form)"
                       type="button"
                     >
                       <span
@@ -14517,7 +14480,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #4: Criterion c2: Form validates the e-mail address (invalid input rejected)"
                       type="button"
                     >
                       <span
@@ -14573,7 +14535,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #5: Criterion c3: Mobile layout works"
                       type="button"
                     >
                       <span
@@ -14629,7 +14590,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #6: criteria.confirmed · Criteria met"
                       type="button"
                     >
                       <span
@@ -14708,7 +14668,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #7: evidence.attached · Evidence attached"
                       type="button"
                     >
                       <span
@@ -14772,7 +14731,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #8: Agent process finished (exit 0)"
                       type="button"
                     >
                       <span
@@ -14839,7 +14797,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                           data-tone="open"
                         >
                           <button
-                            aria-label="Event #9: Agent said: Created index.html with a page that has a heading and a contact form"
                             type="button"
                           >
                             <span
@@ -14889,7 +14846,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                           data-tone="open"
                         >
                           <button
-                            aria-label="Event #10: Agent said: The form validates the e-mail address using a regex and shows an error"
                             type="button"
                           >
                             <span
@@ -14939,7 +14895,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                           data-tone="open"
                         >
                           <button
-                            aria-label="Event #11: Agent said: The page uses a fluid max-width container so it works on mobile"
                             type="button"
                           >
                             <span
@@ -14992,7 +14947,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #12: Files changed: index.html"
                       type="button"
                     >
                       <span
@@ -15051,7 +15005,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="info"
                   >
                     <button
-                      aria-label="Event #13: File recorded: index.html"
                       type="button"
                     >
                       <span
@@ -15110,7 +15063,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="ok"
                   >
                     <button
-                      aria-label="Event #14: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -15157,7 +15109,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="fail"
                   >
                     <button
-                      aria-label="Event #15: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -15207,7 +15158,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     data-tone="open"
                   >
                     <button
-                      aria-label="Event #16: Run closed (exit 0)"
                       type="button"
                     >
                       <span
@@ -15372,7 +15322,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                 >
                   <li>
                     <button
-                      aria-label="Evidence #7: evidence.attached"
                       type="button"
                     >
                       <span
@@ -15413,7 +15362,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #8: Agent process finished (exit 0)"
                       type="button"
                     >
                       <span
@@ -15454,7 +15402,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #12: Files changed: index.html"
                       type="button"
                     >
                       <span
@@ -15495,7 +15442,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #13: File recorded: index.html"
                       type="button"
                     >
                       <span
@@ -15543,7 +15489,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #14: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -15591,7 +15536,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #15: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -16276,7 +16220,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="open"
               >
                 <button
-                  aria-label="Event #1: run.started · Run started"
                   type="button"
                 >
                   <span
@@ -16320,7 +16263,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #2: requirement.recorded · Task recorded"
                   type="button"
                 >
                   <span
@@ -16373,7 +16315,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #3: Criterion c1: Page exists (index.html with a heading and a form)"
                   type="button"
                 >
                   <span
@@ -16426,7 +16367,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #4: Criterion c2: Form validates the e-mail address (invalid input rejected)"
                   type="button"
                 >
                   <span
@@ -16479,7 +16419,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #5: Criterion c3: Mobile layout works"
                   type="button"
                 >
                   <span
@@ -16532,7 +16471,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #6: criteria.confirmed · Criteria met"
                   type="button"
                 >
                   <span
@@ -16608,7 +16546,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #7: evidence.attached · Evidence attached"
                   type="button"
                 >
                   <span
@@ -16669,7 +16606,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #8: Agent process finished (exit 0)"
                   type="button"
                 >
                   <span
@@ -16733,7 +16669,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                       data-tone="open"
                     >
                       <button
-                        aria-label="Event #9: Agent said: Created index.html with a page that has a heading and a contact form"
                         type="button"
                       >
                         <span
@@ -16780,7 +16715,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                       data-tone="open"
                     >
                       <button
-                        aria-label="Event #10: Agent said: The form validates the e-mail address using a regex and shows an error"
                         type="button"
                       >
                         <span
@@ -16827,7 +16761,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                       data-tone="open"
                     >
                       <button
-                        aria-label="Event #11: Agent said: The page uses a fluid max-width container so it works on mobile"
                         type="button"
                       >
                         <span
@@ -16877,7 +16810,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #12: Files changed: index.html"
                   type="button"
                 >
                   <span
@@ -16933,7 +16865,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #13: File recorded: index.html"
                   type="button"
                 >
                   <span
@@ -16989,7 +16920,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="ok"
               >
                 <button
-                  aria-label="Event #14: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                   type="button"
                 >
                   <span
@@ -17033,7 +16963,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="fail"
               >
                 <button
-                  aria-label="Event #15: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                   type="button"
                 >
                   <span
@@ -17080,7 +17009,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 data-tone="open"
               >
                 <button
-                  aria-label="Event #16: Run closed (exit 0)"
                   type="button"
                 >
                   <span
@@ -17240,7 +17168,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                 >
                   <li>
                     <button
-                      aria-label="Evidence #7: evidence.attached"
                       type="button"
                     >
                       <span
@@ -17281,7 +17208,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #8: Agent process finished (exit 0)"
                       type="button"
                     >
                       <span
@@ -17322,7 +17248,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #12: Files changed: index.html"
                       type="button"
                     >
                       <span
@@ -17363,7 +17288,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #13: File recorded: index.html"
                       type="button"
                     >
                       <span
@@ -17411,7 +17335,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #14: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -17459,7 +17382,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #15: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -18144,7 +18066,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="open"
               >
                 <button
-                  aria-label="Event #1: run.started · Run started"
                   type="button"
                 >
                   <span
@@ -18191,7 +18112,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #2: requirement.recorded · Task recorded"
                   type="button"
                 >
                   <span
@@ -18247,7 +18167,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #3: Criterion c1: Page exists (index.html with a heading and a form)"
                   type="button"
                 >
                   <span
@@ -18303,7 +18222,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #4: Criterion c2: Form validates the e-mail address (invalid input rejected)"
                   type="button"
                 >
                   <span
@@ -18359,7 +18277,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #5: Criterion c3: Mobile layout works"
                   type="button"
                 >
                   <span
@@ -18415,7 +18332,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #6: criteria.confirmed · Criteria met"
                   type="button"
                 >
                   <span
@@ -18494,7 +18410,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #7: evidence.attached · Evidence attached"
                   type="button"
                 >
                   <span
@@ -18558,7 +18473,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #8: Agent process finished (exit 0)"
                   type="button"
                 >
                   <span
@@ -18625,7 +18539,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                       data-tone="open"
                     >
                       <button
-                        aria-label="Event #9: Agent said: Created index.html with a page that has a heading and a contact form"
                         type="button"
                       >
                         <span
@@ -18675,7 +18588,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                       data-tone="open"
                     >
                       <button
-                        aria-label="Event #10: Agent said: The form validates the e-mail address using a regex and shows an error"
                         type="button"
                       >
                         <span
@@ -18725,7 +18637,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                       data-tone="open"
                     >
                       <button
-                        aria-label="Event #11: Agent said: The page uses a fluid max-width container so it works on mobile"
                         type="button"
                       >
                         <span
@@ -18778,7 +18689,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #12: Files changed: index.html"
                   type="button"
                 >
                   <span
@@ -18837,7 +18747,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="info"
               >
                 <button
-                  aria-label="Event #13: File recorded: index.html"
                   type="button"
                 >
                   <span
@@ -18896,7 +18805,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="ok"
               >
                 <button
-                  aria-label="Event #14: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                   type="button"
                 >
                   <span
@@ -18943,7 +18851,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="fail"
               >
                 <button
-                  aria-label="Event #15: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                   type="button"
                 >
                   <span
@@ -18993,7 +18900,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 data-tone="open"
               >
                 <button
-                  aria-label="Event #16: Run closed (exit 0)"
                   type="button"
                 >
                   <span
@@ -19156,7 +19062,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                 >
                   <li>
                     <button
-                      aria-label="Evidence #7: evidence.attached"
                       type="button"
                     >
                       <span
@@ -19197,7 +19102,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #8: Agent process finished (exit 0)"
                       type="button"
                     >
                       <span
@@ -19238,7 +19142,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #12: Files changed: index.html"
                       type="button"
                     >
                       <span
@@ -19279,7 +19182,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #13: File recorded: index.html"
                       type="button"
                     >
                       <span
@@ -19327,7 +19229,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #14: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -19375,7 +19276,6 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   </li>
                   <li>
                     <button
-                      aria-label="Evidence #15: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                       type="button"
                     >
                       <span
@@ -19830,6 +19730,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                 </div>
                 <pre
                   class="diff-code"
+                  tabindex="0"
                 >
                   <code>
                     <span
@@ -23345,6 +23246,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                     </ul>
                     <pre
                       class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
+                      tabindex="0"
                     >
                       &lt;script&gt;escaped&lt;/script&gt;
                     </pre>
@@ -23645,6 +23547,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                   </div>
                   <pre
                     class="diff-code"
+                    tabindex="0"
                   >
                     <code>
                       <span
@@ -27101,6 +27004,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                 </div>
                 <pre
                   class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
+                  tabindex="0"
                 >
                   {
   "changed": [
@@ -27226,6 +27130,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                       </ul>
                       <pre
                         class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
+                        tabindex="0"
                       >
                         &lt;script&gt;escaped&lt;/script&gt;
                       </pre>
@@ -27239,6 +27144,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > criterion draw
                 </div>
                 <pre
                   class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
+                  tabindex="0"
                 >
                   {
   "path": "fixture-report.md",
@@ -27330,6 +27236,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > preserves plai
     </div>
     <pre
       class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap"
+      tabindex="0"
     >
       {"status":"unverified","verified":false}
 &lt;script&gt;escaped&lt;/script&gt;
@@ -27514,6 +27421,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > preserves the 
                 </div>
                 <pre
                   class="diff-code"
+                  tabindex="0"
                 >
                   <code>
                     <span
@@ -30999,6 +30907,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > preserves the 
                   </div>
                   <pre
                     class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap"
+                    tabindex="0"
                   >
                     # Synthetic snapshot fixture
 

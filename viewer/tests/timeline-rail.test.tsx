@@ -13,8 +13,8 @@ it('groups real phases, measured gaps and consecutive claims while opening the e
  expect(screen.getByRole('heading',{name:'02 Result'})).toBeTruthy();
  expect(screen.getByText(/Agent working 20.2 s/)).toBeTruthy();
  fireEvent.click(screen.getByText('3 claims'));
- expect(screen.getAllByRole('button',{name:/^Event #/})).toHaveLength(16);
- const button=screen.getByRole('button',{name:`Event #14: ${doc.events[13].summary}`});
+ expect(screen.getAllByRole('button')).toHaveLength(16);
+ const button=screen.getByRole('button',{name:name=>name.includes(doc.events[13].summary)&&name.includes('#14 · test.reported')&&name.includes('+20,452 ms')});
  expect(button.closest('li')?.getAttribute('data-tone')).toBe('ok');
  fireEvent.click(button);expect(open).toHaveBeenLastCalledWith({kind:'event',event:doc.events[13]});
  expect(screen.getByText('+20,452 ms')).toBeTruthy();
@@ -22,7 +22,7 @@ it('groups real phases, measured gaps and consecutive claims while opening the e
 it('keeps a claim-only timeline neutral and does not invent run events or an order phase',()=>{
  const {container}=render(<Timeline events={claimOnlyRun().events} lens="client" onOpenDrawer={()=>{}}/>);
  expect(screen.queryByRole('heading',{name:'01 Task'})).toBeNull();
- expect(screen.getAllByRole('button',{name:/^Event #/})).toHaveLength(1);
+ expect(screen.getAllByRole('button')).toHaveLength(1);
  expect(container.querySelector('.tone-ok')).toBeNull();
  expect(screen.getByText('+0 ms')).toBeTruthy();
 })

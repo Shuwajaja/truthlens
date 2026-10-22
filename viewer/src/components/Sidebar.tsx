@@ -21,7 +21,7 @@ export function Sidebar({ currentView, onViewChange, lens, onLensChange, reviewR
     <ul className="nav-list">
       {items.map(({ key, label, short, Icon }) => <li key={key}>
         <button type="button" className={`nav-item ${currentView === key ? 'nav-item-active' : ''}`}
-          aria-label={label} aria-current={currentView === key ? 'page' : undefined} onClick={() => onViewChange(key)}>
+          aria-label={mobile?short:label} aria-current={currentView === key ? 'page' : undefined} onClick={() => onViewChange(key)}>
           <Icon size={18} aria-hidden="true" /><span>{mobile?short:label}</span>
         </button>
       </li>)}

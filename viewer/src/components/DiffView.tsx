@@ -13,7 +13,7 @@ function diffLines(text:string):DiffLine[]{
  })
 }
 export function DiffView({text}:{text:string}){
- return <pre className="diff-code"><code>{diffLines(text).map((line,i)=><span key={i} className={`diff-line diff-${line.tone}`} data-testid="diff-line">
+ return <pre tabIndex={0} className="diff-code"><code>{diffLines(text).map((line,i)=><span key={i} className={`diff-line diff-${line.tone}`} data-testid="diff-line">
   <span className="diff-number" data-testid="old-line" aria-hidden="true">{line.old}</span><span className="diff-number" data-testid="new-line" aria-hidden="true">{line.next}</span><span className="diff-mark" aria-hidden="true">{line.mark}</span><span className="diff-source">{line.text||'\u00a0'}</span>
  </span>)}</code></pre>
 }

@@ -27,7 +27,7 @@ function TimelineEvent({entry,base,lens,onOpenDrawer}:{entry:Entry;base:string;l
  const summary=label(event)
  return <Fragment>
   {gap>1000&&<li className="timeline-gap">··· Agent working {new Intl.NumberFormat('en-GB',{maximumFractionDigits:1}).format(gap/1000)} s ···</li>}
-  <li className="timeline-event" data-tone={tone}><button type="button" aria-label={`Event #${event.seq}: ${event.summary}${summary!==event.summary?` · ${summary}`:''}`} onClick={()=>onOpenDrawer({kind:'event',event})}>
+  <li className="timeline-event" data-tone={tone}><button type="button" onClick={()=>onOpenDrawer({kind:'event',event})}>
    <span className={`timeline-icon tone-${tone}`}><Icon size={14} aria-hidden="true"/></span>
    <span className="timeline-copy"><span>{summary}</span>{lens==='developer'&&<code>#{event.seq} · {event.type} · {event.actor.kind} / {event.actor.id}</code>}</span>
    <time dateTime={event.ts} title={recordedTime(event.ts)}>{relative(event.ts,base)}</time>

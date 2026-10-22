@@ -22,7 +22,7 @@ it('opens real run metadata in the mobile sheet and restores the run trigger on 
  fireEvent.keyDown(document.activeElement!,{key:'Escape'});
  await waitFor(()=>expect(screen.queryByRole('dialog')).toBeNull());
  expect(document.activeElement).toBe(trigger);
- const criterion=screen.getByRole('button',{name:`Evidence: ${publicRun.criteria[0].text}`});
+ const criterion=screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(publicRun.criteria[0].text)});
  fireEvent.click(criterion);
  const evidence=within(screen.getByRole('dialog',{name:'Evidence detail'}));
  fireEvent.mouseDown(evidence.getByRole('tab',{name:'Tests'}),{button:0,ctrlKey:false});

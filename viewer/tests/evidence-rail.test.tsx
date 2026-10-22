@@ -10,7 +10,7 @@ it('opens a real test event from the evidence rail and preserves trust boundarie
  render(<App/>);await screen.findByRole('main');
  const rail=within(screen.getByRole('complementary',{name:'Evidence drawer'}));
  const event=publicRun.events[13];
- fireEvent.click(rail.getByRole('button',{name:`Evidence #${event.seq}: ${event.summary}`}));
+ fireEvent.click(rail.getByRole('button',{name:name=>name.includes(event.summary)&&name.includes(`#${event.seq} · ${event.type}`)}));
  const dialog=within(screen.getByRole('dialog',{name:'Event detail'}));
  expect(dialog.getByText(event.summary)).toBeTruthy();
  expect(dialog.getByText('Hash only · signature not checked')).toBeTruthy();
@@ -22,9 +22,9 @@ it('filters real test and artifact records without inventing entries',async()=>{
  render(<App/>);await screen.findByRole('main');
  const rail=within(screen.getByRole('complementary',{name:'Evidence drawer'}));
  fireEvent.mouseDown(rail.getByRole('tab',{name:'Tests'}),{button:0,ctrlKey:false});
- expect(rail.getAllByRole('button',{name:/^Evidence #/})).toHaveLength(2);
+ expect(rail.getAllByRole('button',{name:/#\d+ · test\.reported$/})).toHaveLength(2);
  fireEvent.mouseDown(rail.getByRole('tab',{name:'Files'}),{button:0,ctrlKey:false});
- fireEvent.click(rail.getByRole('button',{name:`File: ${publicRun.artifacts[0].path}`}));
+ fireEvent.click(rail.getByRole('button',{name:name=>name.includes(publicRun.artifacts[0].path)&&name.includes(publicRun.artifacts[0].sha256)}));
  const dialog=within(screen.getByRole('dialog',{name:'File detail'}));
  expect(dialog.getByText(publicRun.artifacts[0].sha256)).toBeTruthy();
  fireEvent.mouseDown(dialog.getByRole('tab',{name:'Files'}),{button:0,ctrlKey:false});

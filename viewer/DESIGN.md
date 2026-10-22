@@ -77,3 +77,7 @@ Rebuild the supplied shield/eye/check logo as clean wordmark and icon SVGs. Trut
 Use Overview, Project overview, Run/Runs, Exported runs, Evidence, Proven, No proof, Not checked, Open, Criteria/Criterion, Claim, Task/Result, Timeline, Event/Events, Start/End/Duration, File/Files and Close. Use Open run, Open record, Open file, Filter selected evidence, All records and links as a list, Recorded links, Criterion links and Graph records. Navigator says “Navigator coming later”; its suggestions are “Example questions (static)”.
 
 The neutral seal is exactly “Hash only · signature not checked”. The checked label is “Signature checked”, subject to the integrity guard above. The approval boundary is “Integrity is not approval”. `npm run check:language`, rendered-DOM tests and browser review protect the English-only UI. Export data remains unchanged.
+
+## 11. Accessible labels and scrollable records
+- Button names must include their visible text in reading order, including status, sequence/type metadata and times. Prefer names derived from content; keep explicit action labels only when they include the visible label. Mobile navigation uses its visible short name.
+- Scrollable code, diff and raw-data blocks are in the Tab order (`tabIndex={0}`), use the existing `--info` focus outline, and retain native arrow-key scrolling. No changes to colour or type tokens are needed.

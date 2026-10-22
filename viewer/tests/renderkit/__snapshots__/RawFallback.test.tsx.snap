@@ -5,6 +5,7 @@ exports[`safe raw fallback > escapes markup and pretty-prints JSON text 1`] = `
   <div>
     <pre
       class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap"
+      tabindex="0"
     >
       {
   "status": "unverified",
@@ -20,6 +21,7 @@ exports[`safe raw fallback > renders plain text as text, including HTML-looking 
   <div>
     <pre
       class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap"
+      tabindex="0"
     >
       &lt;img src=x onerror=alert(1)&gt; & text
     </pre>
@@ -32,6 +34,7 @@ exports[`safe raw fallback > shows the whole unknown object without inventing a 
   <div>
     <pre
       class="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap"
+      tabindex="0"
     >
       {
   "kind": "unknown",
