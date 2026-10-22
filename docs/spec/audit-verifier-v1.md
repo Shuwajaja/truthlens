@@ -1,11 +1,10 @@
 # Read-only audit verifier — plan v1.2 contract
 
-This implementation follows `truthlens-pruef-agent-plan-v1.2.md`, revision 1.2,
-tasks 1–6. The referenced `TruthLens-Pruef-Agent-SPECC-v1.0.md` was unavailable.
-The outcome enum, report shape and rule grouping below are explicit provisional
-choices derived from that plan, not a claim of conformance with the missing
-SPECC's 18 acceptance criteria. D33 adds this independent boundary; existing
-ledger, manifest, approval and D26/D27 projection contracts remain unchanged.
+This implementation follows `truthlens-pruef-agent-specc-v1.2.md` (22 October
+2026), sections 4–8, and implementation-plan revision 1.2 tasks 1–6. SPECC v1.2
+was supplied after the initial PR; it replaces the provisional missing-SPECC
+assumptions. D33 adds this independent boundary; existing ledger, manifest,
+approval and D26/D27 projection contracts remain unchanged.
 
 ## Inputs and command
 
@@ -37,25 +36,29 @@ permission and unsupported-platform gaps fail closed.
 
 Each check carries `rule_id`, `outcome`, `required`, fixed `message`, safe
 `event_ids`/`criterion_ids`, and optional integer/digest `expected`/`actual`.
-Outcomes: `supported`, `contradictory`, `not_checkable`. Findings omit source text,
+Outcomes: `supported`, `contradictory`, `not_checkable`, `not_applicable`. Findings omit source text,
 stdout, paths, commands, actor names and exception details. Recognized output IDs
 are prefixed ULIDs or short letter-plus-number fixture IDs; other source IDs are
 omitted, without changing internal evidence correlation.
 
 | Rule | Checked scope |
 |---|---|
-| TL-AUD-001 | Strict ledger structure, chain, bounded and stable inputs |
-| TL-AUD-002 | Every referenced blob exists and matches its content digest |
-| TL-AUD-003 | Supplied-key HMAC authentication; hash-only remains a gap |
-| TL-AUD-004 | Complete run close and recomputed manifest |
-| TL-AUD-005 | Optional external anchor; verifier provenance/configuration |
-| TL-AUD-006 | Exact integer, nonnegative test counters; integer exit code |
-| TL-AUD-007 | Recorded pass/fail counts versus exit code contradictions |
-| TL-AUD-008 | Skipped-only, empty or no-tests execution is not passing |
-| TL-AUD-009 | Exact first wrapper command/exit header versus recorded exit |
-| TL-AUD-010 | XML totals without a bound parsed XML source remain optional/unverified |
-| TL-AUD-011 | Changed test files are informational, not proof of forgery |
-| TL-AUD-012 | Completion claim versus latest confirmed criterion evidence |
+| TL-AUD-001 | Canonical ledger, chain/HMAC/anchor and recomputed manifest; input gaps separate |
+| TL-AUD-002 | Every required referenced blob exists and matches its digest |
+| TL-AUD-003 | Independent supplied-key HMAC authentication; hash-only remains a gap |
+| TL-AUD-004 | Missing/empty claim coverage or unconfirmed derived criteria |
+| TL-AUD-005 | Completion claim contradicts latest decisive failure |
+| TL-AUD-006 | Positive test result versus nonzero exit; inconsistent counts/exit |
+| TL-AUD-007 | Invalid, negative or noninteger counters (including booleans) |
+| TL-AUD-008 | Exact wrapper command/exit header contradicts recorded exit |
+| TL-AUD-009 | Unknown report, missing essential fields or optional missing bound XML |
+| TL-AUD-010 | Skipped-only/empty execution provides no positive test evidence |
+| TL-AUD-011 | Recorded `test_files_changed` is informational, including protected configuration files, not proof of forgery |
+| TL-AUD-012 | Reused existing ledger approval-rule checks; no execution = not applicable |
+
+The current wrapper restores protected tests/configuration in its separate witnessed
+test copy; an edit notification alone does not establish which inputs were executed
+or prove forgery. TL-AUD-011 preserves that distinction and its source event.
 
 Exact command matching includes multiline suites; later stdout resembling exit
 headers is inert. No arbitrary test stdout is interpreted as a verified result.
@@ -75,7 +78,8 @@ success. Integrity is not approval.
 
 Sorted compact JSON includes `audit_version` (1), `ruleset_version` (1.0.0),
 installed `verifier_version`, `conclusion`, `integrity`, `authentication`,
-`run_id`, `criteria`, `claims`, sorted `checks`, `input_digests` and fixed `limits`
+`run_id`, `ledger_last_hash`, `criteria`, `claims`, sorted `checks`,
+`input_digests` and fixed `limitations`
 statements. Integrity is `hmac`, `hash-only`, `failed` or `not_checkable`.
 Authentication uses the check outcome enum. Criteria preserve projected status
 and safe evidence IDs; claims expose projected and audit findings separately.
@@ -98,10 +102,11 @@ before production bridging. Model text, heartbeat and completion messages cannot
 substitute for witnessed events. No routing, deployment or host configuration is
 changed. Widget and bridge mocks must never be described as working live capture.
 
-Still unavailable: companion SPECC's exact report contract/outcomes, twelve-rule
-mapping, full 18-criterion inventory, and HTTP requirements 9/10. These must be
-reconciled when that source is provided. No live ACP/Mausbot/widget or independent
-CodexChat security acceptance is claimed by this core implementation.
+The supplied SPECC now provides the report/outcome contract, all twelve rule
+meanings, the 18 core acceptance cases, and integration/widget sections 9/10.
+Live integration remains unverified for the source/authentication reasons above;
+receipt of a spec is not operational evidence. Independent CodexChat security
+acceptance is still required.
 
 ## Verification scope
 
@@ -111,3 +116,41 @@ The new units are included in fast Python PR CI; browser/axe/full release suites
 remain in the existing manual release-review workflow. No test files are removed.
 Historical `demo-2` is copied and audited without its unavailable original key;
 it stays unauthenticated and cannot produce a positive scoped conclusion.
+
+### SPECC v1.2 core acceptance coverage
+
+These are local test mappings, not a claim of live integration acceptance.
+
+| Case | Test in `tests/test_audit.py` unless noted |
+|---|---|
+| 1 Consistent closed run | `test_signed_and_hash_only_authentication`, `test_specc_v12_report_contract` |
+| 2 Hash-only | `test_signed_and_hash_only_authentication`, CLI private-key test |
+| 3 Bad key/tamper | `test_bad_key_or_tamper_blocks_content_verdicts` |
+| 4 Missing evidence/test blob | `test_all_referenced_blobs_must_exist` |
+| 5 Positive count/bad exit | `test_positive_count_and_bad_exit_are_contradictory` |
+| 6 Exit 5/skips/no tests | `test_only_skips_or_exit5_never_pass` |
+| 7 Original header/later forged exit | `test_report_header_cannot_be_overridden_by_stdout`, multiline-suite test |
+| 8 Missing original XML | `test_missing_xml_is_optional_limit`, report contract test |
+| 9 Honest failure | `test_honest_failure_is_unmet_not_forgery` |
+| 10 False completion | `test_false_completion_points_to_latest_failure` |
+| 11 Unconfirmed derived scope | `test_unconfirmed_or_empty_claim_is_not_supported` |
+| 12 Later valid pass | `test_later_pass_supersedes_failure_by_seq` |
+| 13 Unbound foreign report | Wrong-command case in `test_report_header_cannot_be_overridden_by_stdout`; missing references fail closed |
+| 14 Unsafe/oversized/changing inputs | `tests/test_audit_inputs.py`: traversal/symlink/FIFO, limits, rewrite/replacement/root swap |
+| 15 Determinism/exit agreement | `test_exit_codes`, `test_conclusion_precedence_and_optional_limits`, deterministic report and CLI tests |
+| 16 Empty coverage | `test_empty_coverage_is_not_work_acceptance` |
+| 17 No input writes/network/execute | `test_audit_never_writes_executes_or_connects`, historical demo copy digest comparison |
+| 18 Inert instructions/HTML | `test_evidence_instructions_and_html_are_inert` |
+
+The plan and SPECC mention a full automatic CI suite. Shu's later binding rule
+limits PR CI to build/lint/fast units and puts full suites in release review.
+The existing CI triggers are left unchanged; this discrepancy is reported to
+Shu. The checks above are scoped local evidence, not a production isolation,
+Mausbot, bridge, widget, browser or release acceptance.
+
+A separate local review copied real `demo-2` into an external workspace and
+checked the original copy, appended-invalid-JSON copy and missing-report copy.
+All returned exit 1 with authentication not checkable; the intact copy's genuine
+completion claim contradicts the recorded failure (TL-AUD-005), rather than
+being evidence of tampering. Before/after file digests matched for each audited
+copy and the repository source. No original key was available or fabricated.

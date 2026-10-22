@@ -1,4 +1,4 @@
-"""Read-only audit; plan-v1.2-derived contract (the companion SPECC is unavailable)."""
+"""Read-only audit; SPECC v1.2 contract with plan v1.2 implementation interfaces."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from truthlens.ledger import verify_bytes
 from truthlens.manifest import acceptance, check_manifest
 from truthlens.manifest import claims as projected_claims
 
-Outcome = Literal["supported", "contradictory", "not_checkable"]
+Outcome = Literal["supported", "contradictory", "not_checkable", "not_applicable"]
 HEX = re.compile(r"[0-9a-f]{64}\Z")
 SAFE_ID = re.compile(r"(?:(?:run|evt|clm|art|evd)_[0-9A-HJKMNP-TV-Z]{26}|[a-z][0-9]{1,8})\Z")
 
@@ -108,6 +108,15 @@ def _verified_events(
         verified = verify_bytes(raw, hmac_key if signed else None)
         if not verified.ok:
             checks.append(Check("TL-AUD-001", "contradictory", True, "Ledger verification failed."))
+            if any("approval" in message or "action_hash" in message for _, message in verified.errors):
+                checks.append(
+                    Check(
+                        "TL-AUD-012",
+                        "contradictory",
+                        True,
+                        "Recorded action violates existing approval rules.",
+                    )
+                )
             auth: Outcome = (
                 "contradictory"
                 if hmac_key is not None and any("hmac" in message for _, message in verified.errors)
@@ -116,6 +125,17 @@ def _verified_events(
             checks.append(Check("TL-AUD-003", auth, True, "Authentication could not be established."))
             return [], {}, checks
         checks.append(Check("TL-AUD-001", "supported", True, "Ledger structure and chain checked."))
+        has_actions = any(e["type"] == "action.executed" for e in events)
+        checks.append(
+            Check(
+                "TL-AUD-012",
+                "supported" if has_actions else "not_applicable",
+                has_actions,
+                "Existing ledger approval checks applied."
+                if has_actions
+                else "No recorded action execution requires approval checks.",
+            )
+        )
         auth = "supported" if signed and hmac_key is not None else "not_checkable"
         checks.append(
             Check(
@@ -123,10 +143,10 @@ def _verified_events(
             )
         )
         if not verified.anchored:
-            checks.append(Check("TL-AUD-004", "not_checkable", True, "Run is not completely closed."))
+            checks.append(Check("TL-AUD-001", "not_checkable", True, "Run is not completely closed."))
             return [], {}, checks
         if expected_last_hash is not None and verified.last_hash != expected_last_hash:
-            checks.append(Check("TL-AUD-005", "contradictory", True, "External anchor mismatch."))
+            checks.append(Check("TL-AUD-001", "contradictory", True, "External anchor mismatch."))
             return [], {}, checks
         manifest = _json(reader.read("manifest.json", limit=reader.limits.manifest_bytes))
         if (
@@ -139,9 +159,9 @@ def _verified_events(
         if bad_counts:
             return [], {}, checks + bad_counts
         if check_manifest(manifest, events):
-            checks.append(Check("TL-AUD-004", "contradictory", True, "Manifest differs from ledger."))
+            checks.append(Check("TL-AUD-001", "contradictory", True, "Manifest differs from ledger."))
             return [], {}, checks
-        checks.append(Check("TL-AUD-004", "supported", True, "Manifest recomputed from ledger."))
+        checks.append(Check("TL-AUD-001", "supported", True, "Manifest recomputed from ledger."))
         refs = _references(events)
         if len(refs) > reader.limits.blob_count:
             raise AuditInputError("resource_limit")
@@ -204,7 +224,7 @@ def _counter_checks(events: list[dict]) -> list[Check]:
         outcome: Outcome = "contradictory" if invalid else "not_checkable" if missing else "supported"
         checks.append(
             Check(
-                "TL-AUD-006",
+                "TL-AUD-009" if missing and not invalid else "TL-AUD-007",
                 outcome,
                 True,
                 "Recorded counter and exit types checked.",
@@ -223,20 +243,16 @@ def check_test_evidence(events: list[dict], blobs: dict[str, bytes]) -> list[Che
         changed = p.get("changed")
         if (
             event["type"] == "evidence.attached"
-            and p.get("kind") == "file_changed"
+            and p.get("kind") == "test_files_changed"
             and isinstance(changed, list)
-            and any(
-                isinstance(name, str)
-                and ("tests/" in name or "/test_" in name or name.startswith("test_") or ".spec." in name)
-                for name in changed
-            )
+            and bool(changed)
         ):
             checks.append(
                 Check(
                     "TL-AUD-011",
                     "supported",
                     False,
-                    "Test-file changes recorded; this is not evidence of forgery.",
+                    "Protected test-input changes recorded; this alone proves neither forgery nor which test version ran.",
                     ids,
                 )
             )
@@ -244,7 +260,7 @@ def check_test_evidence(events: list[dict], blobs: dict[str, bytes]) -> list[Che
             continue
         checks.append(
             Check(
-                "TL-AUD-010",
+                "TL-AUD-009",
                 "not_checkable",
                 False,
                 "Raw XML recount is not bound by the export contract.",
@@ -252,13 +268,19 @@ def check_test_evidence(events: list[dict], blobs: dict[str, bytes]) -> list[Che
                 criteria,
             )
         )
-        if any(c.rule_id == "TL-AUD-006" and c.event_ids == ids and c.outcome != "supported" for c in checks):
+        if any(
+            c.rule_id in ("TL-AUD-007", "TL-AUD-009")
+            and c.required
+            and c.event_ids == ids
+            and c.outcome != "supported"
+            for c in checks
+        ):
             continue
         passed, failed, code = p["passed"], p["failed"], p["exit_code"]
         conflict = (passed > 0 and failed == 0 and code != 0) or (failed > 0 and code == 0)
         checks.append(
             Check(
-                "TL-AUD-007",
+                "TL-AUD-006",
                 "contradictory" if conflict else "supported",
                 True,
                 "Recorded counts and exit consistency checked.",
@@ -268,7 +290,7 @@ def check_test_evidence(events: list[dict], blobs: dict[str, bytes]) -> list[Che
         )
         checks.append(
             Check(
-                "TL-AUD-008",
+                "TL-AUD-010",
                 "not_checkable" if passed == failed == 0 else "supported",
                 True,
                 "Zero-pass or skipped-only output is not a passing check.",
@@ -289,7 +311,7 @@ def check_test_evidence(events: list[dict], blobs: dict[str, bytes]) -> list[Che
                     outcome = "supported" if header_exit == code else "contradictory"
         checks.append(
             Check(
-                "TL-AUD-009",
+                "TL-AUD-009" if outcome == "not_checkable" else "TL-AUD-008",
                 outcome,
                 True,
                 "Original command report header checked; later stdout is inert.",
@@ -333,7 +355,16 @@ def _claim_analysis(
             outcome, message = "supported", "Completion claim supported within recorded scope."
         else:
             outcome, message = "not_checkable", "Completion claim lacks confirmed passing coverage."
-        checks.append(Check("TL-AUD-012", outcome, True, message, _ids(sources), _ids(refs)))
+        checks.append(
+            Check(
+                "TL-AUD-005" if outcome == "contradictory" else "TL-AUD-004",
+                outcome,
+                True,
+                message,
+                _ids(sources),
+                _ids(refs),
+            )
+        )
         rows.append(
             {
                 "claim_id": _safe_id(p.get("claim_id")),
@@ -346,7 +377,7 @@ def _claim_analysis(
         covered = any(c["status"] == "met" and c["criterion_id"] not in blocked for c in criteria)
         checks.append(
             Check(
-                "TL-AUD-012",
+                "TL-AUD-004",
                 "supported" if covered else "not_checkable",
                 True,
                 "Passing criterion coverage checked; no completion claim exported."
@@ -405,7 +436,7 @@ def audit_run(
     if expected_last_hash is not None and (
         not isinstance(expected_last_hash, str) or not HEX.fullmatch(expected_last_hash)
     ):
-        checks.append(Check("TL-AUD-005", "not_checkable", True, "Invalid external anchor configuration."))
+        checks.append(Check("TL-AUD-001", "not_checkable", True, "Invalid external anchor configuration."))
     elif hmac_key is not None and (not isinstance(hmac_key, bytes) or not hmac_key):
         checks.append(Check("TL-AUD-003", "not_checkable", True, "Invalid authentication configuration."))
     else:
@@ -456,7 +487,7 @@ def audit_run(
         verifier_digests = _verifier_digests()
     except OSError:
         verifier_digests = {}
-        checks.append(Check("TL-AUD-005", "not_checkable", True, "Verifier code provenance unavailable."))
+        checks.append(Check("TL-AUD-001", "not_checkable", True, "Verifier code provenance unavailable."))
     auth = next((c.outcome for c in checks if c.rule_id == "TL-AUD-003"), "not_checkable")
     contradictory = any(c.outcome == "contradictory" for c in checks)
     gap = any(c.required and c.outcome == "not_checkable" for c in checks)
@@ -474,12 +505,15 @@ def audit_run(
         "integrity": integrity,
         "authentication": auth,
         "run_id": _safe_id(events[0]["run_id"]) if events else None,
+        "ledger_last_hash": events[-1]["hash"] if events else None,
         "criteria": criteria,
         "claims": claims,
         "checks": sorted((asdict(c) for c in checks), key=lambda c: serialize_report(c)),
         "input_digests": {"run": digests, "verifier": verifier_digests},
-        "limits": [
+        "limitations": [
             "Integrity is not approval.",
+            "Original JUnit XML is not archived and bound; no independent XML recount is claimed.",
+            "Semantic test suitability, uncaptured effects and completeness without an independent repository snapshot are not established.",
             "A coherent fabricated report cannot be detected by metadata alone.",
             "Protected installation and read-only snapshot outside worker rights are required.",
         ],
