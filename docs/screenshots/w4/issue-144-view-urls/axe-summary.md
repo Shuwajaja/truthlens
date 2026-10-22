@@ -1,3 +1,5 @@
+Latest current-main integration: [Shared Stitch/URL screenshots and full axe](flow-integration/axe-summary.md), source78681d8. Earlier reports below remain historical.
+
 Latest main integration: [Updated Stitch/URL screenshots and full axe](main-integration/axe-summary.md), source69063da. Earlier original-main reports below remain historical.
 
 # Main-view URL persistence — issue144 / PR145
