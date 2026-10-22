@@ -1,14 +1,16 @@
+import {testTone,type ResultTone} from '../lib/event-result.ts'
 import type { RunDoc, RunEvent } from '../types.ts'
 import type { DrawerTarget } from '../components/Drawer.tsx'
 
 export interface EvidenceNode {
   id: string
   kind: 'claim' | 'criterion' | 'evidence' | 'file'
+  tone: ResultTone
   label: string
   target: DrawerTarget
   position: { x: number; y: number }
 }
-export interface EvidenceEdge { id: string; source: string; target: string; recordedBy: string[] }
+export interface EvidenceEdge { id: string; source: string; target: string; recordedBy: string[]; tone: ResultTone }
 
 /** Ambiguous references must not silently select one of several records. */
 function uniqueIndex<T>(items: readonly T[], key: (item: T) => string) {
@@ -27,7 +29,8 @@ export function buildEvidenceGraph(doc: RunDoc): { nodes: EvidenceNode[]; edges:
   const criterionEvidence=new Set(doc.criteria.flatMap(criterion=>criterion.evidence))
   const evidence=doc.events.filter(event=>['evidence.attached','test.reported','artifact.recorded'].includes(event.type) || criterionEvidence.has(event.id)).sort((a,b)=>a.seq-b.seq)
   const addNode=(kind: EvidenceNode['kind'], index: number, column: number, label: string, target: DrawerTarget) => {
-    const node={ id: `${kind}:${index}`, kind, label, target, position: { x: column*240, y: index*100 } }
+    const tone:ResultTone=target.kind==='criterion'&&target.criterion.status==='met'&&target.matched.some(event=>testTone(event)==='ok')&&!target.matched.some(event=>testTone(event)==='fail')?'ok':target.kind==='criterion'&&target.criterion.status==='unmet'&&target.matched.some(event=>testTone(event)==='fail')?'fail':'open'
+    const node={ tone, id: `${kind}:${index}`, kind, label, target, position: { x: column*240, y: index*100 } }
     nodes.push(node); return node
   }
   const claimNodes=doc.claims.map((claim,index)=>addNode('claim',index,0,claim.text,{kind:'claim',claim,event:claims.get(claim.claim_id)}))
@@ -43,7 +46,7 @@ export function buildEvidenceGraph(doc: RunDoc): { nodes: EvidenceNode[]; edges:
     const id=`${source.id}->${target.id}`
     const existing=edges.find(edge=>edge.id===id)
     if(existing) { if(!existing.recordedBy.includes(recordedBy)) existing.recordedBy.push(recordedBy) }
-    else edges.push({id,source:source.id,target:target.id,recordedBy:[recordedBy]})
+    else edges.push({id,source:source.id,target:target.id,recordedBy:[recordedBy],tone:'open'})
   }
   for(const node of claimNodes) {
     if(node.target.kind!=='claim' || node.target.claim.finding!=='supported') continue
@@ -69,6 +72,10 @@ export function buildEvidenceGraph(doc: RunDoc): { nodes: EvidenceNode[]; edges:
       if(typeof id==='string') addEdge(node,filesById.get(id),`event.${event.id}.payload.${key}`)
     }
     if(typeof event.payload.sha256==='string') addEdge(node,filesByHash.get(event.payload.sha256),`event.${event.id}.payload.sha256`)
+  }
+  for(const edge of edges){
+    const target=nodes.find(node=>node.id===edge.target)
+    edge.tone=target?.target.kind==='event'?testTone(target.target.event):target?.kind==='criterion'?target.tone:'open'
   }
   return {nodes,edges}
 }

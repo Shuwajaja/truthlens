@@ -58,3 +58,14 @@ describe('recorded overview', () => {
     expect(recordedDiff(empty)).toBeUndefined()
   })
 })
+
+it('updates the node detail from the selected real claim without turning it into proof',()=>{
+ render(<Overview doc={doc} lens="developer" onOpenDrawer={()=>{}}/>);
+ fireEvent.click(screen.getByText('Alle Datensätze und Verknüpfungen als Liste'));
+ const list=within(screen.getByRole('list',{name:'Graph-Datensätze'}));
+ fireEvent.click(list.getByRole('button',{name:`Claim: ${doc.claims[1].text}`}));
+ const detail=screen.getByRole('region',{name:'Datensatz-Detail'});
+ expect(within(detail).getByText(doc.claims[1].claim_id)).toBeTruthy();
+ expect(within(detail).getByText(doc.claims[1].text)).toBeTruthy();
+ expect(detail.querySelector('[data-variant=belegt]')).toBeNull();
+})

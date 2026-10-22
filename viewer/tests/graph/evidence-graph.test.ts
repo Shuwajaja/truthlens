@@ -64,3 +64,17 @@ describe('recorded evidence graph', () => {
     expect(graph.edges.filter(e=>e.source===criterion.id||e.target===criterion.id)).toEqual([])
   })
 })
+
+it('colours only actual linked test outcomes and keeps reference edges neutral',()=>{
+ const graph=buildEvidenceGraph(doc)
+ expect(graph.edges.find(edge=>edge.source==='criterion:0')?.tone).toBe('ok')
+ expect(graph.edges.find(edge=>edge.source==='criterion:1')?.tone).toBe('fail')
+ expect(graph.edges.find(edge=>edge.target==='file:0')?.tone).toBe('open')
+ const missing=claimOnlyRun();missing.criteria[0].status='met'
+ expect(buildEvidenceGraph(missing).nodes.every(node=>node.tone==='open')).toBe(true)
+ const unwitnessed=structuredClone(doc);unwitnessed.events[13].actor.kind='agent'
+ expect(buildEvidenceGraph(unwitnessed).nodes.find(node=>node.id==='criterion:0')?.tone).toBe('open')
+ expect(buildEvidenceGraph(unwitnessed).edges.find(edge=>edge.source==='criterion:0')?.tone).toBe('open')
+ const conflicting=structuredClone(doc);conflicting.criteria[0].evidence.push(doc.events[14].id)
+ expect(buildEvidenceGraph(conflicting).nodes.find(node=>node.id==='criterion:0')?.tone).toBe('open')
+})
