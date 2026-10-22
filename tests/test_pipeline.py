@@ -93,3 +93,20 @@ def test_multiple_wrapper_copy_phases_are_refused_before_launch(monkeypatch):
     monkeypatch.setattr(pipeline, "agent_account", lambda: 1234)
     with pytest.raises(registry.RegistryError):
         pipeline.run_profile("agent-zero")
+
+
+def test_module_cli_status_returns_fixed_json_without_host_setup():
+    import json
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    result = subprocess.run(
+        [sys.executable, "-m", "truthlens.cli", "status", "run_external"],
+        env={"PYTHONPATH": str(Path(__file__).parents[1] / "src"), "LANG": "C.UTF-8"},
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.returncode == 2 and not result.stderr
+    assert json.loads(result.stdout)["connection"] == "not connected"

@@ -309,8 +309,6 @@ def _w2(a) -> int:
         return 1
 
 
-if __name__ == "__main__":
-    sys.exit(main())
 
 
 def _pipeline_command(args: argparse.Namespace) -> int:
@@ -342,3 +340,7 @@ def _pipeline_command(args: argparse.Namespace) -> int:
         print(json.dumps({"state": "unavailable", "connection": "not connected",
                           "message": "Pipeline unavailable or access denied."}, sort_keys=True))
         return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())
