@@ -1,59 +1,82 @@
-/* Approved P2 palette: base tokens and TruthLens overrides only. System fonts, no remote imports. */
+@font-face { font-family: 'Inter Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2'); }
+@font-face { font-family: 'JetBrains Mono Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2'); }
+/* P3: the sole palette. Status meaning is defined in viewer/DESIGN.md. */
 :root {
-  --primary: #3B82F6;
-  --secondary: #8B5CF6;
-  --success: #10B981;
-  --warning: #F59E0B;
-  --error: #EF4444;
-  --neutral: #6B7280;
+  --bg: #070A0D;
+  --surface: #0F151B;
+  --surface-2: #161E26;
+  --border: #22303A;
+  --text: #E6EDF3;
+  --text-2: #A9B4C2;
+  --text-3: #8592A3;
+  --ok: #3FCF8E;
+  --fail: #FF7B72;
+  --info: #79B8FF;
+  --neutral: #97A3B3;
+  --brand: #3FCF8E;
+  --backdrop: #00000080;
+  --font: 'Inter Variable', system-ui, sans-serif;
+  --mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+  --size-label: 12px;
+  --size-body: 14px;
+  --size-section: 16px;
+  --size-mobile: 20px;
+  --size-title: 28px;
   --space-1: 8px;
   --space-2: 16px;
   --space-3: 24px;
   --space-4: 32px;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --font: Inter, system-ui, sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, monospace;
-  --bg: #0a0d12;
-  --surface: #11161d;
-  --surface-2: #161c25;
-  --border: #232b36;
-  --text: #e8edf3;
-  --muted: #8b96a5;
-  --accent: var(--primary);
-  --accent-soft: #3b82f622;
-}
-[data-theme="truthlens"] {
-  --accent: #22c55e;
-  --accent-soft: #22c55e1f;
-  --bg: #070a09;
-  --surface: #0d1210;
-  --surface-2: #121a16;
-  --border: #1f2a24;
+  --radius: 8px;
+  --radius-sm: 4px;
+  --accent: var(--info);
+  --accent-soft: color-mix(in srgb, var(--info) 10%, transparent);
+  /* Compatibility names during the ordered P3 component migration. */
+  --primary: var(--info);
+  --secondary: var(--info);
+  --success: var(--ok);
+  --warning: var(--neutral);
+  --error: var(--fail);
+  --muted: var(--text-2);
 }
 @theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-2: var(--text-2);
+  --color-3: var(--text-3);
+  --color-ok: var(--ok);
+  --color-fail: var(--fail);
+  --color-info: var(--info);
+  --color-open: var(--neutral);
+  --color-brand: var(--brand);
   --color-background: var(--bg);
   --color-foreground: var(--text);
   --color-card: var(--surface);
   --color-card-foreground: var(--text);
   --color-popover: var(--surface-2);
   --color-popover-foreground: var(--text);
-  --color-primary: var(--accent);
+  --color-primary: var(--info);
   --color-primary-foreground: var(--bg);
   --color-secondary: var(--surface-2);
   --color-secondary-foreground: var(--text);
   --color-muted: var(--surface-2);
-  --color-muted-foreground: var(--muted);
+  --color-muted-foreground: var(--text-2);
   --color-accent: var(--accent-soft);
   --color-accent-foreground: var(--text);
-  --color-destructive: var(--error);
+  --color-destructive: var(--fail);
   --color-border: var(--border);
   --color-input: var(--neutral);
-  --color-ring: var(--accent);
-  --color-success: var(--success);
-  --color-warning: var(--warning);
+  --color-ring: var(--info);
+  --color-success: var(--ok);
+  --color-warning: var(--neutral);
   --font-sans: var(--font);
   --font-mono: var(--mono);
+  --text-xs: var(--size-label);
+  --text-sm: var(--size-body);
+  --text-base: var(--size-body);
+  --text-lg: var(--size-section);
+  --text-xl: var(--size-mobile);
+  --text-2xl: var(--size-title);
   --radius-lg: var(--radius);
   --radius-md: var(--radius-sm);
 }
