@@ -5,10 +5,10 @@ import { LensToggle } from './LensToggle.tsx'
 import { Badge } from './ui/badge.tsx'
 
 const items = [
-  { key: 'overview', label: 'Übersicht', short: 'Übersicht', Icon: LayoutDashboard },
-  { key: 'claimed-vs-proven', label: 'Behauptet vs. belegt', short: 'Behauptet', Icon: ListChecks },
-  { key: 'timeline', label: 'Zeitachse', short: 'Zeitachse', Icon: ListTree },
-  { key: 'agent-story', label: 'Agent-Verlauf', short: 'Verlauf', Icon: Route },
+  { key: 'overview', label: 'Overview', short: 'Overview', Icon: LayoutDashboard },
+  { key: 'claimed-vs-proven', label: 'Claimed vs proven', short: 'Claims', Icon: ListChecks },
+  { key: 'timeline', label: 'Timeline', short: 'Timeline', Icon: ListTree },
+  { key: 'agent-story', label: 'Agent story', short: 'Story', Icon: Route },
 ] as const
 
 export function Sidebar({ currentView, onViewChange, lens, onLensChange, reviewRequired, mobile=false }: {
@@ -29,7 +29,7 @@ export function Sidebar({ currentView, onViewChange, lens, onLensChange, reviewR
     {!mobile&&<div className="sidebar-meta">
       <LensToggle lens={lens} onChange={onLensChange} />
       {reviewRequired && <Badge>Review required</Badge>}
-      <p>Lokaler RunDoc-Export.<br />Keine fachliche Freigabe im Browser.</p>
+      <p>Local run export.<br />No approval in the browser.</p>
     </div>}
     </div>
   </nav>

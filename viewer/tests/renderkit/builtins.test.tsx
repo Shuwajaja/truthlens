@@ -29,7 +29,7 @@ describe('registered existing views', () => {
     const events = [...doc.events].reverse()
     const before = structuredClone(events)
     render(<RenderView input={{ kind: 'events', events }} context={{ lens, onOpenDrawer }} />)
-    const first=screen.getAllByRole('button',{name:/^Ereignis #/})[0]
+    const first=screen.getAllByRole('button',{name:/^Event #/})[0]
     expect(first.getAttribute('aria-label')).toContain(doc.events[0].summary)
     expect(screen.queryByText(`#${doc.events[0].seq} · ${doc.events[0].type} · ${doc.events[0].actor.kind} / ${doc.events[0].actor.id}`)!==null).toBe(lens==='developer')
     fireEvent.click(first)

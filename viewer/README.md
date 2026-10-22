@@ -18,11 +18,11 @@ The browser loads local `/run.json`, validates the complete export and checks in
 
 `src/components/ui/` contains source components adapted from [shadcn/ui](https://github.com/shadcn-ui/ui/tree/main/apps/v4/registry/new-york-v4/ui), under the adjacent MIT license. Radix supplies keyboard and focus behaviour for Sheet, Tabs, Tooltip, ScrollArea and Separator. Motion respects reduced-motion preferences.
 
-Use `StatusBadge` with exported criterion status, claim finding, or both integrity fields. Its semantic variants are private. HMAC checked requires `verified === true` **and** `integrity === 'hmac'`; hash-only stays neutral and says “Nur Hash · HMAC nicht geprüft”. Claims never receive proof styling. Technical integrity never implies human acceptance. The unchanged wire types and fail-closed validator live in `contracts/`; legacy card field names there are data, not UI colours.
+Use `StatusBadge` with exported criterion status, claim finding, or both integrity fields. Its semantic variants are private. HMAC checked requires `verified === true` **and** `integrity === 'hmac'`; hash-only stays neutral and says “Hash only · signature not checked”. Claims never receive proof styling. Technical integrity never implies human acceptance. The unchanged wire types and fail-closed validator live in `contracts/`; legacy card field names there are data, not UI colours.
 
 ## Recorded views
 
-The supplied mountain and shield SVG shapes use theme paints. Desktop navigation is 200px; a 300px sticky evidence rail contains real export events and the disabled static Navigator below it. “Navigator kommt später” is explicit: there is no transport, model or generated reply.
+The supplied mountain and shield SVG shapes use theme paints. Desktop navigation is 200px; a 300px sticky evidence rail contains real export events and the disabled static Navigator below it. “Navigator coming later” is explicit: there is no transport, model or generated reply.
 
 Status cards count criteria with met, unmet and still proposed/unverified results. They do not count failing runs or infer acceptance from exit 0. This format contains one run, with an explicit missing-history note and no trend or sparkline. Duration comes from recorded start/end timestamps; missing ends remain missing. Times use local time with a zone abbreviation.
 
@@ -30,7 +30,7 @@ The diff panel uses the first actual exported unified diff through RenderKit. JS
 
 The read-only graph cites recorded criterion evidence IDs, event criterion IDs, exact artifact IDs or content hashes. Unknown and ambiguous endpoints are omitted. Unwitnessed claims stay isolated; a supported claim has no edge without an exported witness. Green/red result colours require decisive linked wrapper/system tests, per D25/D27. Reference-only edges remain neutral. Selecting a record updates the property detail and opens that same record. Zoom never shrinks node text below 12px; panning and the complete record list expose larger graphs.
 
-The timeline sorts sequence numbers, groups initial setup events as Auftrag and the remainder as Ergebnis, and shows only nonempty phases. Durations are recorded timestamp spans. Gaps over one second come from adjacent timestamps, not live telemetry. Consecutive claims expand. Every event opens its original record; the Developer lens adds seq/type/actor metadata.
+The timeline sorts sequence numbers, groups initial setup events as Task and the remainder as Result, and shows only nonempty phases. Durations are recorded timestamp spans. Gaps over one second come from adjacent timestamps, not live telemetry. Consecutive claims expand. Every event opens its original record; the Developer lens adds seq/type/actor metadata.
 
 ## Mobile and evidence sheets
 
@@ -55,3 +55,7 @@ Shu's logo and recorded results share the single --ok green token. Truth, eye an
 `npm run brand:build` generates the public SVG wordmark/icon, favicon SVG/ICO 32 and touch PNG 180. SVG templates use theme variables; generated public assets resolve those values from theme.css for standalone image/favicon rendering. There is no second hand-maintained palette. Build checks SVG regeneration and icon dimensions; rasterization uses the clone-local Playwright browser only when deliberately rebuilding assets.
 
 The browser review checks the shared logo/result green, white Lens text and neutral hash seal, rejects the superseded green shades and inspects all five generated assets, including ICO/PNG pixels and dimensions.
+
+## UI language
+
+All viewer labels and accessible names use plain English, following DESIGN.md. `npm run check:language` scans src for German copy; npm test and CI run it too. Rendered-DOM tests and browser review cover all four views and evidence sheets in both lenses using the unchanged English public export. These are development checks, not runtime export validation or translation. Local dates use en-GB, 24-hour time and a zone abbreviation. Recorded content, RunDoc fields and wire values are preserved.

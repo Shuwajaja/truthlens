@@ -83,7 +83,7 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      <a className="skip-link" href="#main-content">Zum Inhalt</a>
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <Header mobile={mobile} trust={doc} onOpenRun={()=>setDrawerTarget({kind:'run',doc})} />
       <div className="workspace">
       <Sidebar

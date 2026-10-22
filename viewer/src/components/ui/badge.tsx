@@ -8,11 +8,11 @@ import { cn } from '../../lib/utils.ts'
 const badgeVariants = cva('inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium', {
   variants: { variant: {
     outline: 'border-border text-foreground',
-    belegt: 'border-ok/40 bg-ok/10 text-ok',
-    fehlgeschlagen: 'border-fail/40 bg-fail/10 text-fail',
-    offen: 'border-open/40 bg-open/10 text-open',
-    'nur-hash': 'border-open/40 bg-open/10 text-open',
-    'hmac-geprüft': 'border-ok/40 bg-ok/10 text-ok',
+    proven: 'border-ok/40 bg-ok/10 text-ok',
+    failed: 'border-fail/40 bg-fail/10 text-fail',
+    open: 'border-open/40 bg-open/10 text-open',
+    'hash-only': 'border-open/40 bg-open/10 text-open',
+    'signature-checked': 'border-ok/40 bg-ok/10 text-ok',
   } },
   defaultVariants: { variant: 'outline' },
 })
@@ -30,16 +30,16 @@ type StatusProps =
 
 function statusBadge(data: StatusProps): { variant: VariantProps<typeof badgeVariants>['variant']; label: string } {
   if (data.source === 'integrity') return integrityBadge(data)
-  if (data.source === 'claim') return { variant: 'offen', label: data.finding === 'supported' ? 'Claim · supported' : 'Claim · claim_unwitnessed' }
-  if (data.status === 'met') return { variant: 'belegt', label: 'Belegt' }
-  if (data.status === 'unmet') return { variant: 'fehlgeschlagen', label: 'Fehlgeschlagen' }
-  return { variant: 'offen', label: 'Offen' }
+  if (data.source === 'claim') return { variant: 'open', label: data.finding === 'supported' ? 'Claim · supported' : 'Claim · claim_unwitnessed' }
+  if (data.status === 'met') return { variant: 'proven', label: 'Proven' }
+  if (data.status === 'unmet') return { variant: 'failed', label: 'Failed' }
+  return { variant: 'open', label: 'Open' }
 }
 
 export function StatusBadge(props: StatusProps & {compact?:boolean}) {
   const { variant, label } = statusBadge(props)
   return <span data-slot="status-badge" data-variant={variant} aria-label={props.compact?label:undefined} className={badgeVariants({ variant })}>
-    <span>{props.compact&&props.source==='integrity'?(variant==='nur-hash'?'Nur Hash':variant==='hmac-geprüft'?'HMAC geprüft':variant==='fehlgeschlagen'?'Fehlgeschlagen':'Ungeprüft'):label}</span>
+    <span>{props.compact&&props.source==='integrity'?(variant==='hash-only'?'Hash only':variant==='signature-checked'?'Signature checked':variant==='failed'?'Failed':'Not checked'):label}</span>
     {props.source === 'criterion' && <code className="font-mono">· {props.status}</code>}
   </span>
 }
