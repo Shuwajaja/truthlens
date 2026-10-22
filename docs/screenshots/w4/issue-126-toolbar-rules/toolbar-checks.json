@@ -82,6 +82,78 @@
       "environment": "preview",
       "simulatedPlatformElement": "vercel-live-feedback",
       "duplicateLoader": false
+    },
+    {
+      "environment": "preview",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "simulatedPlatformScriptAfterHtml": true,
+      "async": true,
+      "loaderRequests": 1,
+      "scriptCount": 1,
+      "domParent": "BODY",
+      "pageErrors": []
+    },
+    {
+      "environment": "preview",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "simulatedPlatformScriptAfterHtml": true,
+      "async": true,
+      "loaderRequests": 1,
+      "scriptCount": 1,
+      "domParent": "BODY",
+      "pageErrors": []
     }
-  ]
+  ],
+  "hostedReadOnly": {
+    "testedHead": "f50485a02c1c3bb39b850ff672cffa61d3420e0b",
+    "preview": "https://truthlens-viewer-idz5uhkum-shuwas-projects-42265d9f.vercel.app",
+    "deployment": "dpl_7br96g1iaNiWRbeLqpBnBzq8Wbv2",
+    "httpStatus": 200,
+    "requestHeaders": {
+      "Accept": "text/html",
+      "User-Agent": "Mozilla/5.0"
+    },
+    "platformScriptAfterHtml": true,
+    "browserViewports": [
+      {
+        "width": 1440,
+        "height": 900,
+        "scriptCount": 1,
+        "loaderRequests": 1,
+        "async": true,
+        "domParent": "BODY",
+        "deploymentAttributeRetained": true
+      },
+      {
+        "width": 390,
+        "height": 844,
+        "scriptCount": 1,
+        "loaderRequests": 1,
+        "async": true,
+        "domParent": "BODY",
+        "deploymentAttributeRetained": true
+      }
+    ],
+    "defaultHeadlessUserAgent": {
+      "platformScriptNotInjected": true,
+      "fallbackLoaderRequests": 1,
+      "scriptCount": 1,
+      "domParent": "HEAD"
+    },
+    "production": {
+      "url": "https://truthlens-viewer.vercel.app",
+      "httpStatus": 200,
+      "bundle": "index-4429mvGn.js",
+      "htmlToolbarScripts": 0,
+      "previewLoaderReference": false
+    },
+    "commentsPosted": false,
+    "settingsChanged": false
+  }
 }

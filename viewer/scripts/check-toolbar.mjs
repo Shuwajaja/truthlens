@@ -48,6 +48,32 @@ async function inspect(environment,outDir){
    checks.push({environment,simulatedPlatformElement:tag,duplicateLoader:false})
    await context.close()
   }
+  if(environment==='preview')for(const viewport of [{width:1440,height:900},{width:390,height:844}]){
+   const context=await browser.newContext({viewport})
+   let requests=0
+   // Reproduce Vercel's raw response: an async platform script after </html>.
+   await context.route(origin+'/',async route=>{
+    const response=await route.fetch()
+    const html=await response.text()
+    assert(html.includes('</html>'),'fixture contains the real document end')
+    await route.fulfill({response,body:html+'<script async data-explicit-opt-in="true" data-deployment-id="dpl_test_preview" src="https://vercel.live/_next-live/feedback/feedback.js"></script>'})
+   })
+   await context.route('https://vercel.live/**',route=>{
+    requests++;return route.fulfill({status:503,contentType:'text/javascript',body:''})
+   })
+   const page=await context.newPage(),errors=[]
+   page.on('pageerror',error=>errors.push(error.message))
+   await page.goto(origin);await page.locator('main h1').waitFor();await page.waitForLoadState('networkidle')
+   const scripts=page.locator('script[src^="https://vercel.live/_next-live/feedback/feedback.js"]')
+   assert.equal(await scripts.count(),1,'trailing async platform script is reused')
+   assert.equal(requests,1,'no second platform loader request')
+   assert.equal(await scripts.getAttribute('data-deployment-id'),'dpl_test_preview','original platform script retained')
+   assert.equal(await scripts.getAttribute('data-explicit-opt-in'),'true')
+   assert(await scripts.evaluate(el=>el.async),'platform async attribute retained')
+   assert.equal(errors.length,0,'trailing-script fixture page errors')
+   checks.push({environment,viewport,simulatedPlatformScriptAfterHtml:true,async:true,loaderRequests:requests,scriptCount:1,domParent:await scripts.evaluate(el=>el.parentElement.tagName),pageErrors:errors})
+   await context.close()
+  }
  }finally{await server.close()}
 }
 try{
