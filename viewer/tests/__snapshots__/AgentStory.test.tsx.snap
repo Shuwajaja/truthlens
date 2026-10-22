@@ -9,7 +9,7 @@ exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented
       Agent Story
     </h1>
     <p
-      class="text-sm text-2 border border-border rounded-lg p-3 mb-4"
+      class="text-sm text-2 border border-border rounded-lg p-4 mb-4"
     >
       Review required — technical checks do not replace human acceptance.
     </p>
@@ -26,7 +26,7 @@ exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented
           Agent claimed
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           Created index.html with a page that has a heading and a contact form
         </p>
@@ -44,12 +44,12 @@ exports[`Agent Story > keeps a claim-only run claimed, with no proof or invented
         </div>
         <ul
           aria-label="Related criteria"
-          class="text-sm mt-2 space-y-1"
+          class="text-sm mt-2 space-y-2"
         >
           <li>
             Page exists (index.html with a heading and a form) —
             <span
-              class="ml-1 text-2"
+              class="ml-2 text-2"
             >
               unverified
             </span>
@@ -76,7 +76,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
       Agent Story
     </h1>
     <p
-      class="text-sm text-2 border border-border rounded-lg p-3 mb-4"
+      class="text-sm text-2 border border-border rounded-lg p-4 mb-4"
     >
       Review required — technical checks do not replace human acceptance.
     </p>
@@ -93,7 +93,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Agent started
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           The agent started this run.
         </p>
@@ -113,7 +113,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Task received
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           Build a small landing page with a contact form.
         </p>
@@ -133,7 +133,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Evidence recorded
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           Recorded result: info.
         </p>
@@ -153,7 +153,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Command recorded
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           Exit code 0.
         </p>
@@ -173,7 +173,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Agent claimed
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           Created index.html with a page that has a heading and a contact form
         </p>
@@ -191,12 +191,12 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </div>
         <ul
           aria-label="Related criteria"
-          class="text-sm mt-2 space-y-1"
+          class="text-sm mt-2 space-y-2"
         >
           <li>
             Page exists (index.html with a heading and a form) —
             <span
-              class="ml-1 text-2"
+              class="ml-2 text-2"
             >
               met
             </span>
@@ -218,7 +218,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Agent claimed
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           The form validates the e-mail address using a regex and shows an error
         </p>
@@ -236,12 +236,12 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </div>
         <ul
           aria-label="Related criteria"
-          class="text-sm mt-2 space-y-1"
+          class="text-sm mt-2 space-y-2"
         >
           <li>
             Form validates the e-mail address (invalid input rejected) —
             <span
-              class="ml-1 text-2"
+              class="ml-2 text-2"
             >
               unmet
             </span>
@@ -263,7 +263,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Agent claimed
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           The page uses a fluid max-width container so it works on mobile
         </p>
@@ -281,12 +281,12 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
         </div>
         <ul
           aria-label="Related criteria"
-          class="text-sm mt-2 space-y-1"
+          class="text-sm mt-2 space-y-2"
         >
           <li>
             Mobile layout works —
             <span
-              class="ml-1 text-2"
+              class="ml-2 text-2"
             >
               unverified
             </span>
@@ -308,7 +308,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Files changed
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           File changes were recorded.
         </p>
@@ -328,7 +328,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Artifact recorded
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           An artifact was recorded for this run.
         </p>
@@ -348,18 +348,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Checks reported
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           1 passed, 0 failed, 0 skipped. Exit code 0.
         </p>
         <ul
           aria-label="Related criteria"
-          class="text-sm mt-2 space-y-1"
+          class="text-sm mt-2 space-y-2"
         >
           <li>
             Page exists (index.html with a heading and a form) —
             <span
-              class="ml-1 text-ok"
+              class="ml-2 text-ok"
             >
               met
             </span>
@@ -381,18 +381,18 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Checks reported
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           0 passed, 1 failed, 0 skipped. Exit code 1.
         </p>
         <ul
           aria-label="Related criteria"
-          class="text-sm mt-2 space-y-1"
+          class="text-sm mt-2 space-y-2"
         >
           <li>
             Form validates the e-mail address (invalid input rejected) —
             <span
-              class="ml-1 text-fail"
+              class="ml-2 text-fail"
             >
               unmet
             </span>
@@ -414,7 +414,7 @@ exports[`Agent Story > shows the real demo story and real event links in the cli
           Agent finished
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           The run finished with exit code 0.
         </p>
@@ -439,7 +439,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
       Agent Story
     </h1>
     <p
-      class="text-sm text-2 border border-border rounded-lg p-3 mb-4"
+      class="text-sm text-2 border border-border rounded-lg p-4 mb-4"
     >
       Review required — technical checks do not replace human acceptance.
     </p>
@@ -456,7 +456,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Agent started
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           The agent started this run.
         </p>
@@ -481,7 +481,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Task received
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           Build a small landing page with a contact form.
         </p>
@@ -506,7 +506,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Evidence recorded
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           Recorded result: info.
         </p>
@@ -531,7 +531,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Command recorded
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           Exit code 0.
         </p>
@@ -556,7 +556,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Agent claimed
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           Created index.html with a page that has a heading and a contact form
         </p>
@@ -574,12 +574,12 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </div>
         <ul
           aria-label="Related criteria"
-          class="text-sm mt-2 space-y-1"
+          class="text-sm mt-2 space-y-2"
         >
           <li>
             Page exists (index.html with a heading and a form) —
             <span
-              class="ml-1 text-2"
+              class="ml-2 text-2"
             >
               met
             </span>
@@ -606,7 +606,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Agent claimed
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           The form validates the e-mail address using a regex and shows an error
         </p>
@@ -624,12 +624,12 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </div>
         <ul
           aria-label="Related criteria"
-          class="text-sm mt-2 space-y-1"
+          class="text-sm mt-2 space-y-2"
         >
           <li>
             Form validates the e-mail address (invalid input rejected) —
             <span
-              class="ml-1 text-2"
+              class="ml-2 text-2"
             >
               unmet
             </span>
@@ -656,7 +656,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Agent claimed
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           The page uses a fluid max-width container so it works on mobile
         </p>
@@ -674,12 +674,12 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
         </div>
         <ul
           aria-label="Related criteria"
-          class="text-sm mt-2 space-y-1"
+          class="text-sm mt-2 space-y-2"
         >
           <li>
             Mobile layout works —
             <span
-              class="ml-1 text-2"
+              class="ml-2 text-2"
             >
               unverified
             </span>
@@ -706,7 +706,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Files changed
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           File changes were recorded.
         </p>
@@ -731,7 +731,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Artifact recorded
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           An artifact was recorded for this run.
         </p>
@@ -756,18 +756,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Checks reported
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           1 passed, 0 failed, 0 skipped. Exit code 0.
         </p>
         <ul
           aria-label="Related criteria"
-          class="text-sm mt-2 space-y-1"
+          class="text-sm mt-2 space-y-2"
         >
           <li>
             Page exists (index.html with a heading and a form) —
             <span
-              class="ml-1 text-ok"
+              class="ml-2 text-ok"
             >
               met
             </span>
@@ -794,18 +794,18 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Checks reported
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           0 passed, 1 failed, 0 skipped. Exit code 1.
         </p>
         <ul
           aria-label="Related criteria"
-          class="text-sm mt-2 space-y-1"
+          class="text-sm mt-2 space-y-2"
         >
           <li>
             Form validates the e-mail address (invalid input rejected) —
             <span
-              class="ml-1 text-fail"
+              class="ml-2 text-fail"
             >
               unmet
             </span>
@@ -832,7 +832,7 @@ exports[`Agent Story > shows the real demo story and real event links in the dev
           Agent finished
         </h2>
         <p
-          class="text-sm mt-1 break-words"
+          class="text-sm mt-2 break-words"
         >
           The run finished with exit code 0.
         </p>

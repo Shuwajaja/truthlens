@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 160" role="img" aria-label="TruthLens">
 <path d="M64 8 106 34V48L114 54C114 98 96 129 64 148 32 129 14 98 14 54L22 48V34Z" fill="none" stroke="var(--text)" stroke-width="6"/>
-<path d="M30 76C45 50 85 50 100 76M30 82C47 111 83 111 100 82" fill="none" stroke="var(--ok)" stroke-width="6"/>
-<path d="m52 78 11 11 22-23" fill="none" stroke="var(--ok)" stroke-width="8"/>
+<path d="M30 76C45 50 85 50 100 76M30 82C47 111 83 111 100 82" fill="none" stroke="var(--primary)" stroke-width="6"/>
+<path d="m52 78 11 11 22-23" fill="none" stroke="var(--primary)" stroke-width="8"/>
 </svg>

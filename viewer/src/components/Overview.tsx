@@ -39,7 +39,7 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
         <div className="panel-heading"><h2>Exported runs</h2><Badge>1 run · needs review</Badge></div>
         <p className="section-note">This export has one run. No earlier runs.</p>
         <Table><TableHeader><TableRow><TableHead>Project / agent</TableHead><TableHead>Exit code</TableHead></TableRow></TableHeader>
-          <TableBody><TableRow><TableCell className="whitespace-normal"><button type="button" className="run-open" aria-label={`Open run: ${doc.run.project}`} onClick={()=>onOpenDrawer({kind:'run',doc})}><strong>{doc.run.project}</strong></button><p className="text-muted-foreground mt-1">{doc.run.agent}</p></TableCell>
+          <TableBody><TableRow><TableCell className="whitespace-normal"><button type="button" className="run-open" aria-label={`Open run: ${doc.run.project}`} onClick={()=>onOpenDrawer({kind:'run',doc})}><strong>{doc.run.project}</strong></button><p className="text-muted-foreground mt-2">{doc.run.agent}</p></TableCell>
             <TableCell className="run-exit">{doc.run.exit_code ?? 'Not exported'}</TableCell></TableRow></TableBody></Table>
         <dl className="run-times"><div><dt>Start</dt><dd>{recordedTime(doc.run.started)}</dd></div><div><dt>End</dt><dd>{doc.run.finished ? recordedTime(doc.run.finished) : 'Not exported'}</dd></div><div><dt>Duration</dt><dd>{recordedDuration(doc.run.started,doc.run.finished)}</dd></div></dl>
       </Card>)

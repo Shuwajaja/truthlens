@@ -31,9 +31,9 @@ try{
   const obsoleteGreen=await page.evaluate(()=>[...document.querySelectorAll('body *')].some(element=>{
    if(!element.checkVisibility())return false;
    const style=getComputedStyle(element);
-   return ['color','backgroundColor','borderTopColor','borderRightColor','borderBottomColor','borderLeftColor','outlineColor','fill','stroke'].some(key=>['rgb(34, 197, 94)','rgb(63, 207, 142)'].includes(style[key]));
+   return ['color','backgroundColor','borderTopColor','borderRightColor','borderBottomColor','borderLeftColor','outlineColor','fill','stroke'].some(key=>['rgb(28, 220, 68)','rgb(34, 197, 94)','rgb(63, 207, 142)'].includes(style[key]));
   }));
-  check(!obsoleteGreen,'only the approved green in the UI');
+  check(!obsoleteGreen,'no retired green in the UI');
   const invalidType=await page.evaluate(()=>{
    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;
    while((node=walker.nextNode())){
@@ -54,8 +54,8 @@ try{
    const colour=selector=>getComputedStyle(document.querySelector(selector)).color;
    return {truth:colour(document.querySelector('.brand-name')?'.brand-name':'.sidebar-brand > span'),lens:colour('.brand-lens'),met:colour('[data-testid=met-count] .text-ok'),hash:colour('.integrity-badge [data-slot=status-badge]')};
   });
-  check(colours.truth==='rgb(28, 220, 68)'&&colours.lens==='rgb(230, 237, 243)','Truth green and Lens white');
-  check(colours.met==='rgb(28, 220, 68)'&&colours.hash==='rgb(151, 163, 179)','shared result green and neutral hash seal');
+  check(colours.truth==='rgb(59, 130, 246)'&&colours.lens==='rgb(230, 237, 243)','Truth blue and Lens white');
+  check(colours.met==='rgb(16, 185, 129)'&&colours.hash==='rgb(167, 176, 191)','WERK success and neutral hash seal');
   // Inspect the built ICO's embedded PNG along with the directly served images.
   const ico=await readFile(new URL('../dist/favicon.ico',import.meta.url));
   const icoPng=ico.subarray(ico.readUInt32LE(18),ico.readUInt32LE(18)+ico.readUInt32LE(14)).toString('base64');
@@ -66,12 +66,12 @@ try{
    const pixels=context.getImageData(0,0,canvas.width,canvas.height).data;
    let green=0,obsolete=0;
    for(let i=0;i<pixels.length;i+=4){
-    if(pixels[i]===28&&pixels[i+1]===220&&pixels[i+2]===68&&pixels[i+3]===255)green++;
+    if(pixels[i]===59&&pixels[i+1]===130&&pixels[i+2]===246&&pixels[i+3]===255)green++;
     if(pixels[i+3]===255&&((pixels[i]===34&&pixels[i+1]===197&&pixels[i+2]===94)||(pixels[i]===63&&pixels[i+1]===207&&pixels[i+2]===142)))obsolete++;
    }
    return {green,obsolete,width:image.naturalWidth,height:image.naturalHeight};
   })),icoPng);
-  check(assets.every(asset=>asset.green>0&&asset.obsolete===0),'all logo/icon assets use the approved green');
+  check(assets.every(asset=>asset.green>0&&asset.obsolete===0),'all logo/icon assets use primary blue');
   check(assets[3].width===32&&assets[3].height===32&&assets[4].width===180&&assets[4].height===180,'favicon and touch icon sizes');
  }
  async function capture(page,name,fullPage){await page.screenshot({path:output+'/'+name+lensSuffix+'.png',fullPage,animations:'disabled'});shots++;}
@@ -80,14 +80,14 @@ try{
   check(await dialog.getByText('Hash only · signature not checked',{exact:true}).isVisible(),'sheet hash warning');
   check(await dialog.getByText('Integrity is not approval',{exact:true}).isVisible(),'sheet acceptance warning');
   const geometry=await dialog.evaluate(element=>{const box=element.getBoundingClientRect();return {bottom:box.bottom,top:box.top,radius:getComputedStyle(element).borderTopLeftRadius,viewport:innerHeight};});
-  check(Math.abs(geometry.bottom-geometry.viewport)<1&&geometry.top>0&&geometry.radius==='16px','bottom sheet geometry');
+  check(Math.abs(geometry.bottom-geometry.viewport)<1&&geometry.top>0&&geometry.radius==='12px','bottom sheet geometry');
   await audit(page);await capture(page,name,false);
   await page.keyboard.press('Escape');await dialog.waitFor({state:'hidden'});
   await page.waitForFunction(element=>document.activeElement===element,await trigger.elementHandle());
  }
- for(const lens of lenses)for(const width of [1440,420]){
+ for(const lens of lenses)for(const width of [1440,390]){
   lensSuffix=lenses.length>1?'-'+lens:'';
-  const context=await browser.newContext({viewport:{width,height:1000},timezoneId:'Europe/Berlin',reducedMotion:'reduce'});
+  const context=await browser.newContext({viewport:{width,height:width===1440?900:844},timezoneId:'Europe/Berlin',reducedMotion:'reduce'});
   await context.addInitScript(value=>localStorage.setItem('tl-lens',value),lens);
   await context.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort());
   const page=await context.newPage();
@@ -97,19 +97,19 @@ try{
    stage=name+'-'+width+'-'+lens;
    await page.getByRole('navigation',{name:'Viewer navigation',exact:true}).getByRole('button').nth(i).click();
    await page.locator('main h1').waitFor();
-   if(width===420)await page.waitForFunction(()=>scrollY===0&&document.activeElement===document.querySelector('main h1'));
+   if(width===390)await page.waitForFunction(()=>scrollY===0&&document.activeElement===document.querySelector('main h1'));
    else await page.evaluate(()=>window.scrollTo(0,0));
    await audit(page);
    if(i===0)await branding(page);
-   if(width===420){
+   if(width===390){
     const layout=await page.evaluate(()=>{const head=document.querySelector('.mountain-header').getBoundingClientRect(),nav=document.querySelector('.sidebar').getBoundingClientRect();return {head:head.height,nav:nav.height,bottom:nav.bottom,viewport:innerHeight,canvas:!!document.querySelector('.graph-canvas')};});
-    check(layout.head===52&&layout.nav===64&&Math.abs(layout.bottom-layout.viewport)<1&&!layout.canvas,'mobile shell');
+    check(layout.head===56&&layout.nav===64&&Math.abs(layout.bottom-layout.viewport)<1&&!layout.canvas,'mobile shell');
     if(i===0){
      const order=await page.evaluate(()=>['.status-grid','.runs-panel','.criteria-panel','.evidence-graph','.timeline-panel','.diff-panel','.node-detail'].map(selector=>document.querySelector(selector)?.getBoundingClientRect().top));
      check(order.every((top,index)=>Number.isFinite(top)&&(index===0||top>order[index-1])),'mobile reading order');
     }
    }
-   await capture(page,name+'-'+width,width===1440);
+   await capture(page,name+'-'+width,false);
    if(width===1440&&i===0){
     for(const kind of ['claim','criterion','evidence','file']){
      const node=page.locator(`.react-flow__node[data-id^="${kind}:"] button`).first();
@@ -128,18 +128,18 @@ try{
      await page.waitForFunction(element=>document.activeElement===element,await node.elementHandle());
     }
    }
-   if(width===420){
-    if(i===0)await capture(page,'overview-420-full',true);
-    await sheet(page,page.locator('.compact-trust'),name+'-sheet-420');
+   if(width===390){
+    if(i===0)await capture(page,'overview-390-full',true);
+    await sheet(page,page.locator('.compact-trust'),name+'-sheet-390');
     if(i===0){
-     await sheet(page,page.getByRole('button',{name:/^Open run:/}),'run-sheet-420');
-     await sheet(page,page.getByRole('button',{name:/^Evidence:/}).first(),'criterion-sheet-420');
+     await sheet(page,page.getByRole('button',{name:/^Open run:/}),'run-sheet-390');
+     await sheet(page,page.getByRole('button',{name:/^Evidence:/}).first(),'criterion-sheet-390');
     }
     await page.evaluate(()=>window.scrollTo(0,Math.min(1200,document.documentElement.scrollHeight-innerHeight)));
    }
   }
   // Exercise intermediate widths without publishing additional review images.
-  if(width===420){
+  if(width===390){
    await page.getByRole('navigation',{name:'Viewer navigation',exact:true}).getByRole('button').first().click();
    for(const probe of [360,760,1024]){
     stage='responsive-'+probe;await page.setViewportSize({width:probe,height:1000});
@@ -151,6 +151,6 @@ try{
   }
   await context.close();
  }
- console.log(shots+' screenshots: all4 views at1440+420, mobile sheets and overview reading order; no contrast/type/overflow/browser errors. '+output);
+ console.log(shots+' screenshots: all4 views at1440+390, mobile sheets and overview reading order; no contrast/type/overflow/browser errors. '+output);
 }catch(error){console.error('P3 review failed at '+stage+' ('+(error.message.startsWith('P3 check:')?error.message:error.name)+')');process.exitCode=1;}
 finally{await browser?.close();await server?.close();}

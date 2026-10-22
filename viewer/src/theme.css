@@ -1,18 +1,22 @@
 @font-face { font-family: 'Inter Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2'); }
 @font-face { font-family: 'JetBrains Mono Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2'); }
-/* P3: the sole palette. Status meaning is defined in viewer/DESIGN.md. */
+/* WERK dark: the sole palette. Status meaning is defined in viewer/DESIGN.md. */
 :root {
-  --bg: #070A0D;
-  --surface: #0F151B;
-  --surface-2: #161E26;
-  --border: #22303A;
+  --bg: #090F17;
+  --surface: #111C29;
+  --surface-2: #192638;
+  --border: #344459;
   --text: #E6EDF3;
-  --text-2: #A9B4C2;
-  --text-3: #8592A3;
-  --ok: #1CDC44;
-  --fail: #FF7B72;
-  --info: #79B8FF;
-  --neutral: #97A3B3;
+  --text-2: #B4BFCE;
+  --text-3: #A7B0BF;
+  --ok: var(--success);
+  --fail: var(--error-text);
+  --info: var(--primary-text);
+  --neutral: #6B7280;
+  --primary-text: #60A5FA;
+  --secondary-text: #B79CFF;
+  --error-text: #FF9292;
+  --neutral-text: #A7B0BF;
   --backdrop: #00000080;
   --font: 'Inter Variable', system-ui, sans-serif;
   --mono: 'JetBrains Mono Variable', ui-monospace, monospace;
@@ -25,16 +29,16 @@
   --space-2: 16px;
   --space-3: 24px;
   --space-4: 32px;
-  --radius: 8px;
-  --radius-sm: 4px;
+  --radius: 12px;
+  --radius-sm: 12px;
   --accent: var(--info);
   --accent-soft: color-mix(in srgb, var(--info) 10%, transparent);
-  /* Compatibility names during the ordered P3 component migration. */
-  --primary: var(--info);
-  --secondary: var(--info);
-  --success: var(--ok);
-  --warning: var(--neutral);
-  --error: var(--fail);
+  /* Shared WERK base tokens; aliases above preserve component semantics. */
+  --primary: #3B82F6;
+  --secondary: #8B5CF6;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
   --muted: var(--text-2);
 }
 @theme inline {
@@ -47,17 +51,17 @@
   --color-ok: var(--ok);
   --color-fail: var(--fail);
   --color-info: var(--info);
-  --color-open: var(--neutral);
+  --color-open: var(--neutral-text);
   --color-background: var(--bg);
   --color-foreground: var(--text);
   --color-card: var(--surface);
   --color-card-foreground: var(--text);
   --color-popover: var(--surface-2);
   --color-popover-foreground: var(--text);
-  --color-primary: var(--info);
+  --color-primary: var(--primary);
   --color-primary-foreground: var(--bg);
-  --color-secondary: var(--surface-2);
-  --color-secondary-foreground: var(--text);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--bg);
   --color-muted: var(--surface-2);
   --color-muted-foreground: var(--text-2);
   --color-accent: var(--accent-soft);
@@ -67,7 +71,7 @@
   --color-input: var(--neutral);
   --color-ring: var(--info);
   --color-success: var(--ok);
-  --color-warning: var(--neutral);
+  --color-warning: var(--warning);
   --font-sans: var(--font);
   --font-mono: var(--mono);
   --text-xs: var(--size-label);
@@ -76,6 +80,8 @@
   --text-lg: var(--size-section);
   --text-xl: var(--size-mobile);
   --text-2xl: var(--size-title);
+  --radius-sm: var(--radius);
+  --radius-xl: var(--radius);
   --radius-lg: var(--radius);
   --radius-md: var(--radius-sm);
 }

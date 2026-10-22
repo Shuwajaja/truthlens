@@ -98,7 +98,7 @@ export function RawFallback({ input }: { input: unknown }) {
   return (
     <div>
       {output.truncated && <p className="text-sm text-2 mb-2">Truncated raw preview (maximum 200 KiB).</p>}
-      <pre tabIndex={0} className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap">
+      <pre tabIndex={0} className="text-xs font-mono bg-bg p-4 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap">
         {output.text}
       </pre>
     </div>

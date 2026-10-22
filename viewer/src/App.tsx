@@ -67,7 +67,7 @@ export default function App() {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-background text-foreground font-sans px-6 text-center">
         <h1 className="text-xl font-semibold text-destructive">Invalid or inconsistent export</h1>
-        <p className="mt-3 max-w-md text-muted-foreground leading-relaxed">
+        <p className="mt-4 max-w-md text-muted-foreground leading-relaxed">
           Restore a valid export and reload to view run data.
         </p>
       </div>

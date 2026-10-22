@@ -65,7 +65,7 @@ function renderInline(text: string): ReactNode[] {
     if (m.index > last) parts.push(text.slice(last, m.index))
     if (m[1] !== undefined) {
       parts.push(
-        <code key={key++} className="font-mono text-xs bg-surface-2 px-1 rounded border border-border">
+        <code key={key++} className="font-mono text-xs bg-surface-2 px-2 rounded border border-border">
           {m[1]}
         </code>,
       )
@@ -85,7 +85,7 @@ function renderInline(text: string): ReactNode[] {
 function RenderedMarkdown({ source }: { source: string }) {
   const blocks = parseBlocks(source)
   return (
-    <div className="text-sm space-y-3 text-foreground">
+    <div className="text-sm space-y-4 text-foreground">
       {blocks.map((b, i) => {
         if (b.kind === 'heading') {
           const sizes = ['text-xl', 'text-lg', 'text-base', 'text-sm', 'text-sm', 'text-xs']
@@ -101,7 +101,7 @@ function RenderedMarkdown({ source }: { source: string }) {
         }
         if (b.kind === 'ul') {
           return (
-            <ul key={i} className="list-disc pl-5 space-y-1">
+            <ul key={i} className="list-disc pl-6 space-y-2">
               {b.items.map((item, j) => (
                 <li key={j}>{renderInline(item)}</li>
               ))}
@@ -112,7 +112,7 @@ function RenderedMarkdown({ source }: { source: string }) {
           <pre
             tabIndex={0}
             key={i}
-            className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border"
+            className="text-xs font-mono bg-bg p-4 rounded-lg overflow-x-auto border border-border"
           >
             {b.text}
           </pre>
@@ -129,14 +129,14 @@ export function MarkdownView({ text }: { text: string }) {
       <div className="flex gap-2 mb-2">
         <button
           type="button"
-          className={`text-xs px-2 py-1 rounded border ${mode === 'rendered' ? 'border-2 text-foreground' : 'border-border text-2'}`}
+          className={`text-xs px-2 py-2 rounded border ${mode === 'rendered' ? 'border-2 text-foreground' : 'border-border text-2'}`}
           onClick={() => setMode('rendered')}
         >
           Rendered
         </button>
         <button
           type="button"
-          className={`text-xs px-2 py-1 rounded border ${mode === 'source' ? 'border-2 text-foreground' : 'border-border text-2'}`}
+          className={`text-xs px-2 py-2 rounded border ${mode === 'source' ? 'border-2 text-foreground' : 'border-border text-2'}`}
           onClick={() => setMode('source')}
         >
           Source
@@ -145,7 +145,7 @@ export function MarkdownView({ text }: { text: string }) {
       {mode === 'rendered' ? (
         <RenderedMarkdown source={text} />
       ) : (
-        <pre tabIndex={0} className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap">
+        <pre tabIndex={0} className="text-xs font-mono bg-bg p-4 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap">
           {text}
         </pre>
       )}
