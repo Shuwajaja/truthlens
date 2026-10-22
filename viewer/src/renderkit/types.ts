@@ -13,6 +13,7 @@ export type RenderInput =
 
 /** Presentation options and evidence lookup, kept separate from recorded RenderInput data. */
 export interface RenderContext {
+  readonly headingLevel?: 1 | 2
   readonly lens?: Lens
   readonly blobs?: Record<string, string>
   readonly onOpenDrawer?: (target: DrawerTarget) => void
