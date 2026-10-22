@@ -1,7 +1,7 @@
 import {useMemo,useState} from 'react'
 import {buildEvidenceGraph} from '../graph/evidence-graph.ts'
 import {NodeDetail} from './NodeDetail.tsx'
-import { ArrowUpRight, CircleDot, FileDiff } from 'lucide-react'
+import { ArrowUpRight, FileDiff } from 'lucide-react'
 import type { RunDoc } from '../types.ts'
 import type { Lens } from '../lens.ts'
 import type { DrawerTarget } from './Drawer.tsx'
@@ -12,7 +12,6 @@ import { Button } from './ui/button.tsx'
 import { Card } from './ui/card.tsx'
 import { Empty, EmptyDescription } from './ui/empty.tsx'
 import { ScrollArea, ScrollBar } from './ui/scroll-area.tsx'
-import { Separator } from './ui/separator.tsx'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table.tsx'
 import { recordedDiff, recordedTime, recordedDuration } from './overview-data.ts'
 
@@ -22,7 +21,6 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
   const selectedNode=graph.nodes.find(node=>node.id===selected)??graph.nodes.find(node=>node.kind==='criterion')??graph.nodes[0]
   const diff = recordedDiff(doc)
   const events = new Map(doc.events.map(event => [event.id, event]))
-  const recent = [...doc.events].sort((a,b) => a.seq-b.seq).slice(-5)
   const firstUnwitnessed = doc.claims.find(claim => claim.finding === 'claim_unwitnessed')
   return <div className="overview">
     <div className="page-heading"><div><h1>Projektübersicht</h1><p>Läufe, Aussagen und was davon wirklich belegt ist.</p></div><Badge>{doc.run.agent}</Badge></div>
@@ -76,13 +74,6 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
       {firstUnwitnessed && <p className="claim-callout"><strong>Claim · claim_unwitnessed</strong><br />{firstUnwitnessed.text}</p>}
     </Card>
 
-    <Card className="panel timeline-panel">
-      <div className="panel-heading"><h2>Zeitachse</h2><span className="section-note">{doc.events.length} Ereignisse · letzte {recent.length}</span></div>
-      {recent.length === 0 ? <Empty><EmptyDescription>Keine Ereignisse exportiert.</EmptyDescription></Empty> : <ol className="recent-events">
-        {recent.map((event, index) => <li key={event.id}>{index > 0 && <Separator />}<button type="button" aria-label={`Ereignis #${event.seq}: ${event.summary}`} onClick={() => onOpenDrawer({ kind: 'event', event })}>
-          <CircleDot size={14} aria-hidden="true" /><span><span className="event-summary">{event.summary}</span>{lens === 'developer' && <code>#{event.seq} · {event.type}</code>}<time dateTime={event.ts}>{recordedTime(event.ts)}</time></span><ArrowUpRight size={14} aria-hidden="true" />
-        </button></li>)}
-      </ol>}
-    </Card>
+    <Card className="panel timeline-panel"><RenderView input={{kind:'events',events:doc.events}} context={{lens,onOpenDrawer,headingLevel:2}}/></Card>
   </div>
 }

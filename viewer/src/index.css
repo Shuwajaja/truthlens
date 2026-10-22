@@ -176,3 +176,23 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 .node-properties > div+div { border-top: 1px solid var(--border); }
 .node-properties dt { color: var(--text-3); } .node-properties dd { overflow-wrap: anywhere; }
 .node-detail > button { align-self: flex-start; white-space: normal; height: auto; min-height: 32px; }
+
+.tone-info { color: var(--info); }
+.timeline-view { display: grid; gap: 12px; min-width: 0; }
+.timeline-view h1 { font-size: 28px; font-weight: 600; } .timeline-view h2 { font-size: 16px; font-weight: 600; }
+.phase-heading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; margin: 12px 0; }
+.phase-heading h2, .phase-heading h3 { font: 500 12px/1.5 var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+.phase-heading p { font: 400 12px/1.5 var(--mono); color: var(--text-3); }
+.timeline-rail { border-left: 1px solid var(--border); margin-left: 14px; }
+.timeline-event { margin-left: -14px; }
+.timeline-event button { display: grid; grid-template-columns: 28px minmax(0,1fr) auto; gap: 12px; align-items: start; text-align: left; width: 100%; padding: 12px 0; border-radius: 4px; }
+.timeline-event button:hover { background: var(--surface-2); }
+.timeline-icon { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 1px solid currentColor; background: var(--surface); }
+.timeline-copy { min-width: 0; padding-top: 4px; overflow-wrap: anywhere; font-size: 14px; }
+.timeline-copy code { display: block; font-size: 12px; color: var(--text-3); margin-top: 4px; overflow-wrap: anywhere; }
+.timeline-event time { color: var(--text-3); font-size: 12px; padding-top: 4px; white-space: nowrap; }
+.timeline-gap { padding: 12px 0 12px 28px; color: var(--neutral); font: 400 12px/1.5 var(--mono); }
+.timeline-claims { padding: 8px 0 8px 28px; color: var(--neutral); font-size: 14px; }
+.timeline-claims summary { cursor: pointer; padding: 8px 0; }
+.timeline-claims .timeline-event { margin-left: 0; }
+@media(max-width:760px) { .timeline-view h1 { font-size: 20px; } .timeline-event button { grid-template-columns: 28px minmax(0,1fr); gap: 8px; } .timeline-event time { grid-column: 2; padding-top: 0; margin-top: -4px; } }
