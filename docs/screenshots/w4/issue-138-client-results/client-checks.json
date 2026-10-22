@@ -1,0 +1,3165 @@
+{
+  "browserVersion": "156.0.8078.4",
+  "checks": [
+    {
+      "width": 1440,
+      "view": "overview",
+      "criterion": "c1",
+      "claim": "clm_01M4NPVPHV57DCCK79YPB8D4VV",
+      "result": "met",
+      "evidence": [
+        "evt_01M4NPVPSNGNVVK6R10MZ0XV01"
+      ],
+      "client": true,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "view": "overview",
+      "criterion": "c2",
+      "claim": "clm_01M4NPVPHXB6QT6QRX9GAHVJ26",
+      "result": "unmet",
+      "evidence": [
+        "evt_01M4NPVQ5W413BNVPF8E9VKTSF"
+      ],
+      "client": true,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "view": "overview",
+      "criterion": "c3",
+      "claim": "clm_01M4NPVPHYVYQSBR7027ER82SR",
+      "result": "unverified",
+      "evidence": [],
+      "client": true,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "view": "claims",
+      "criterion": "c1",
+      "claim": "clm_01M4NPVPHV57DCCK79YPB8D4VV",
+      "result": "met",
+      "evidence": [
+        "evt_01M4NPVPSNGNVVK6R10MZ0XV01"
+      ],
+      "client": true,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "view": "claims",
+      "criterion": "c2",
+      "claim": "clm_01M4NPVPHXB6QT6QRX9GAHVJ26",
+      "result": "unmet",
+      "evidence": [
+        "evt_01M4NPVQ5W413BNVPF8E9VKTSF"
+      ],
+      "client": true,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "view": "claims",
+      "criterion": "c3",
+      "claim": "clm_01M4NPVPHYVYQSBR7027ER82SR",
+      "result": "unverified",
+      "evidence": [],
+      "client": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "view": "overview",
+      "criterion": "c1",
+      "claim": "clm_01M4NPVPHV57DCCK79YPB8D4VV",
+      "result": "met",
+      "evidence": [
+        "evt_01M4NPVPSNGNVVK6R10MZ0XV01"
+      ],
+      "client": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "view": "overview",
+      "criterion": "c2",
+      "claim": "clm_01M4NPVPHXB6QT6QRX9GAHVJ26",
+      "result": "unmet",
+      "evidence": [
+        "evt_01M4NPVQ5W413BNVPF8E9VKTSF"
+      ],
+      "client": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "view": "overview",
+      "criterion": "c3",
+      "claim": "clm_01M4NPVPHYVYQSBR7027ER82SR",
+      "result": "unverified",
+      "evidence": [],
+      "client": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "view": "claims",
+      "criterion": "c1",
+      "claim": "clm_01M4NPVPHV57DCCK79YPB8D4VV",
+      "result": "met",
+      "evidence": [
+        "evt_01M4NPVPSNGNVVK6R10MZ0XV01"
+      ],
+      "client": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "view": "claims",
+      "criterion": "c2",
+      "claim": "clm_01M4NPVPHXB6QT6QRX9GAHVJ26",
+      "result": "unmet",
+      "evidence": [
+        "evt_01M4NPVQ5W413BNVPF8E9VKTSF"
+      ],
+      "client": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "view": "claims",
+      "criterion": "c3",
+      "claim": "clm_01M4NPVPHYVYQSBR7027ER82SR",
+      "result": "unverified",
+      "evidence": [],
+      "client": true,
+      "overflow": false
+    }
+  ],
+  "scans": [
+    {
+      "width": 1440,
+      "view": "overview",
+      "criterion": "c1",
+      "state": "event-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "description": "Ensure aria-hidden elements are not focusable nor contain focusable elements",
+          "help": "ARIA hidden element must not be focusable or contain focusable elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=playwright",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<a class=\"skip-link\" href=\"#main-content\" data-aria-hidden=\"true\" aria-hidden=\"true\">Skip to content</a>",
+                      "target": [
+                        ".skip-link"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<a class=\"skip-link\" href=\"#main-content\" data-aria-hidden=\"true\" aria-hidden=\"true\">Skip to content</a>",
+              "target": [
+                ".skip-link"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item nav-item-active\" aria-label=\"Overview\" aria-current=\"page\">",
+                      "target": [
+                        ".nav-item-active"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Claimed vs proven\">",
+                      "target": [
+                        "button[aria-label=\"Claimed vs proven\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Timeline\">",
+                      "target": [
+                        "button[aria-label=\"Timeline\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Agent story\">",
+                      "target": [
+                        "button[aria-label=\"Agent story\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"true\">Client</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"false\">Developer</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(2)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<header class=\"mountain-header compact-header\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                "header"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\" aria-label=\"Open run: Build a sm...\">",
+                      "target": [
+                        ".page-heading > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<section class=\"overview-run\" aria-label=\"Exported run\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                ".overview-run"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"true\">",
+                      "target": [
+                        "li:nth-child(1) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"false\">",
+                      "target": [
+                        "li:nth-child(2) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"false\">",
+                      "target": [
+                        "li:nth-child(3) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        ".project-preview > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        ".criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "li > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        ".space-y-4:nth-child(5) > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<div class=\"overview-timeline\" role=\"region\" aria-label=\"Recorded timeline\" tabindex=\"0\">",
+                      "target": [
+                        ".overview-timeline"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(2) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(4) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(1) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button"
+                      ]
+                    },
+                    {
+                      "html": "<summary>3 claims</summary>",
+                      "target": [
+                        ".timeline-claims > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li[data-tone=\"ok\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li[data-tone=\"fail\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"overview-workspace\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                ".overview-workspace"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<summary data-aria-hidden=\"true\" aria-hidden=\"true\">Recorded links and code diff</summary>",
+                      "target": [
+                        ".recorded-supplement > summary"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<summary data-aria-hidden=\"true\" aria-hidden=\"true\">Recorded links and code diff</summary>",
+              "target": [
+                ".recorded-supplement > summary"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>Criteria confirmed by human</span>",
+              "target": [
+                ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > span:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block section-note\">Confirmation is not a test result.</span>",
+              "target": [
+                ".block"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<time datetime=\"2026-10-11T14:46:01.822Z\" title=\"11/10/2026, 16:46:01.822 CEST\">+13 ms</time>",
+              "target": [
+                "time[datetime=\"2026-10-11T14:46:01.822Z\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "view": "overview",
+      "criterion": "c2",
+      "state": "event-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "description": "Ensure aria-hidden elements are not focusable nor contain focusable elements",
+          "help": "ARIA hidden element must not be focusable or contain focusable elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=playwright",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<a class=\"skip-link\" href=\"#main-content\" data-aria-hidden=\"true\" aria-hidden=\"true\">Skip to content</a>",
+                      "target": [
+                        ".skip-link"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<a class=\"skip-link\" href=\"#main-content\" data-aria-hidden=\"true\" aria-hidden=\"true\">Skip to content</a>",
+              "target": [
+                ".skip-link"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item nav-item-active\" aria-label=\"Overview\" aria-current=\"page\">",
+                      "target": [
+                        ".nav-item-active"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Claimed vs proven\">",
+                      "target": [
+                        "button[aria-label=\"Claimed vs proven\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Timeline\">",
+                      "target": [
+                        "button[aria-label=\"Timeline\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Agent story\">",
+                      "target": [
+                        "button[aria-label=\"Agent story\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"true\">Client</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"false\">Developer</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(2)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<header class=\"mountain-header compact-header\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                "header"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\" aria-label=\"Open run: Build a sm...\">",
+                      "target": [
+                        ".page-heading > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<section class=\"overview-run\" aria-label=\"Exported run\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                ".overview-run"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"false\">",
+                      "target": [
+                        "li:nth-child(1) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"true\">",
+                      "target": [
+                        "li:nth-child(2) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"false\">",
+                      "target": [
+                        "li:nth-child(3) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        ".project-preview > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        ".criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "li > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        ".space-y-4:nth-child(5) > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<div class=\"overview-timeline\" role=\"region\" aria-label=\"Recorded timeline\" tabindex=\"0\">",
+                      "target": [
+                        ".overview-timeline"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(2) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(4) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(1) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button"
+                      ]
+                    },
+                    {
+                      "html": "<summary>3 claims</summary>",
+                      "target": [
+                        ".timeline-claims > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li[data-tone=\"ok\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li[data-tone=\"fail\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"overview-workspace\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                ".overview-workspace"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<summary data-aria-hidden=\"true\" aria-hidden=\"true\">Recorded links and code diff</summary>",
+                      "target": [
+                        ".recorded-supplement > summary"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<summary data-aria-hidden=\"true\" aria-hidden=\"true\">Recorded links and code diff</summary>",
+              "target": [
+                ".recorded-supplement > summary"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>Criteria confirmed by human</span>",
+              "target": [
+                ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > span:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block section-note\">Confirmation is not a test result.</span>",
+              "target": [
+                ".block"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<time datetime=\"2026-10-11T14:46:01.822Z\" title=\"11/10/2026, 16:46:01.822 CEST\">+13 ms</time>",
+              "target": [
+                "time[datetime=\"2026-10-11T14:46:01.822Z\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "view": "claims",
+      "criterion": "c1",
+      "state": "event-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "description": "Ensure aria-hidden elements are not focusable nor contain focusable elements",
+          "help": "ARIA hidden element must not be focusable or contain focusable elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=playwright",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<a class=\"skip-link\" href=\"#main-content\">Skip to content</a>",
+                      "target": [
+                        "a"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Overview\">",
+                      "target": [
+                        "button[aria-label=\"Overview\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item nav-item-active\" aria-label=\"Claimed vs proven\" aria-current=\"page\">",
+                      "target": [
+                        ".nav-item-active"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Timeline\">",
+                      "target": [
+                        "button[aria-label=\"Timeline\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Agent story\">",
+                      "target": [
+                        "button[aria-label=\"Agent story\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"true\">Client</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"false\">Developer</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t.pt-4 > .space-y-4 > .criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t.pt-4 > .space-y-4 > .criterion-evidence > li > .h-8.dark\\:border-input[data-size=\"sm\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t.pt-4 > .space-y-4 > .h-8.dark\\:border-input[data-size=\"sm\"]"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t.pt-4 > .space-y-4 > .criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t.pt-4 > .space-y-4 > .criterion-evidence > li > .h-8.dark\\:border-input[data-size=\"sm\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t.pt-4 > .space-y-4 > .h-8.dark\\:border-input[data-size=\"sm\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(3) > .mt-4.border-t.pt-4 > .space-y-4 > .h-8.dark\\:border-input[data-size=\"sm\"]"
+                      ]
+                    },
+                    {
+                      "html": "<div role=\"tablist\" aria-orientation=\"horizontal\" data-slot=\"tabs-list\" data-variant=\"default\" class=\"group/tabs-list inli...\" aria-label=\"Filter evidence\" tabindex=\"0\" data-orientation=\"horizontal\" style=\"outline: none;\">",
+                      "target": [
+                        "div[aria-label=\"Filter evidence\"]"
+                      ]
+                    },
+                    {
+                      "html": "<div data-state=\"active\" data-orientation=\"horizontal\" role=\"tabpanel\" aria-labelledby=\"radix-_r_g_-trigger-overview\" id=\"radix-_r_g_-content-overview\" tabindex=\"0\" data-slot=\"tabs-content\" class=\"flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring\" style=\"\">",
+                      "target": [
+                        "#radix-_r_g_-content-overview"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".rail-list > li:nth-child(1) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".rail-list > li:nth-child(2) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".rail-list > li:nth-child(3) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".rail-list > li:nth-child(4) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li:nth-child(5) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li:nth-child(6) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"ghost\" data-size=\"icon-sm\" class=\"inline-flex shrink-0...\" aria-label=\"Collapse Navigator\" aria-expanded=\"true\" aria-controls=\"navigator-content\">",
+                      "target": [
+                        ".dark\\:hover\\:bg-accent\\/50"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<div id=\"root\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                "#root"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>This browser checks the file's internal consistency only; it does not verify signatures.</p>",
+              "target": [
+                ".pt-4.px-4 > .integrity-notice[aria-label=\"Trust boundaries\"] > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "view": "claims",
+      "criterion": "c2",
+      "state": "event-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "description": "Ensure aria-hidden elements are not focusable nor contain focusable elements",
+          "help": "ARIA hidden element must not be focusable or contain focusable elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=playwright",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<a class=\"skip-link\" href=\"#main-content\">Skip to content</a>",
+                      "target": [
+                        "a"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Overview\">",
+                      "target": [
+                        "button[aria-label=\"Overview\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item nav-item-active\" aria-label=\"Claimed vs proven\" aria-current=\"page\">",
+                      "target": [
+                        ".nav-item-active"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Timeline\">",
+                      "target": [
+                        "button[aria-label=\"Timeline\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Agent story\">",
+                      "target": [
+                        "button[aria-label=\"Agent story\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"true\">Client</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"false\">Developer</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t.pt-4 > .space-y-4 > .criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t.pt-4 > .space-y-4 > .criterion-evidence > li > .h-8.dark\\:border-input[data-size=\"sm\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t.pt-4 > .space-y-4 > .h-8.dark\\:border-input[data-size=\"sm\"]"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t.pt-4 > .space-y-4 > .criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t.pt-4 > .space-y-4 > .criterion-evidence > li > .h-8.dark\\:border-input[data-size=\"sm\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t.pt-4 > .space-y-4 > .h-8.dark\\:border-input[data-size=\"sm\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(3) > .mt-4.border-t.pt-4 > .space-y-4 > .h-8.dark\\:border-input[data-size=\"sm\"]"
+                      ]
+                    },
+                    {
+                      "html": "<div role=\"tablist\" aria-orientation=\"horizontal\" data-slot=\"tabs-list\" data-variant=\"default\" class=\"group/tabs-list inli...\" aria-label=\"Filter evidence\" tabindex=\"0\" data-orientation=\"horizontal\" style=\"outline: none;\">",
+                      "target": [
+                        "div[aria-label=\"Filter evidence\"]"
+                      ]
+                    },
+                    {
+                      "html": "<div data-state=\"active\" data-orientation=\"horizontal\" role=\"tabpanel\" aria-labelledby=\"radix-_r_g_-trigger-overview\" id=\"radix-_r_g_-content-overview\" tabindex=\"0\" data-slot=\"tabs-content\" class=\"flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring\" style=\"\">",
+                      "target": [
+                        "#radix-_r_g_-content-overview"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".rail-list > li:nth-child(1) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".rail-list > li:nth-child(2) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".rail-list > li:nth-child(3) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".rail-list > li:nth-child(4) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li:nth-child(5) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li:nth-child(6) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"ghost\" data-size=\"icon-sm\" class=\"inline-flex shrink-0...\" aria-label=\"Collapse Navigator\" aria-expanded=\"true\" aria-controls=\"navigator-content\">",
+                      "target": [
+                        ".dark\\:hover\\:bg-accent\\/50"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<div id=\"root\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                "#root"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>This browser checks the file's internal consistency only; it does not verify signatures.</p>",
+              "target": [
+                ".pt-4.px-4 > .integrity-notice[aria-label=\"Trust boundaries\"] > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "view": "overview",
+      "criterion": "c1",
+      "state": "event-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "description": "Ensure aria-hidden elements are not focusable nor contain focusable elements",
+          "help": "ARIA hidden element must not be focusable or contain focusable elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=playwright",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<a class=\"skip-link\" href=\"#main-content\">Skip to content</a>",
+                      "target": [
+                        ".skip-link"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item nav-item-active\" aria-label=\"Overview\" aria-current=\"page\">",
+                      "target": [
+                        ".nav-item-active"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Claims\">",
+                      "target": [
+                        "button[aria-label=\"Claims\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Timeline\">",
+                      "target": [
+                        "button[aria-label=\"Timeline\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Story\">",
+                      "target": [
+                        "button[aria-label=\"Story\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"compact-trust\" title=\"Open export details\">",
+                      "target": [
+                        ".compact-trust"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"true\">Client</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"false\">Developer</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\" aria-label=\"Open run: Build a sm...\">",
+                      "target": [
+                        ".page-heading > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"true\">",
+                      "target": [
+                        "li:nth-child(1) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"false\">",
+                      "target": [
+                        "li:nth-child(2) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"false\">",
+                      "target": [
+                        "li:nth-child(3) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<a class=\"criterion-detail-link\" href=\"#criterion-detail\">View selected criterion</a>",
+                      "target": [
+                        ".criterion-detail-link"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        ".project-preview > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        ".criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "li > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        ".space-y-4:nth-child(5) > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<div class=\"overview-timeline\" role=\"region\" aria-label=\"Recorded timeline\" tabindex=\"0\">",
+                      "target": [
+                        ".overview-timeline"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(2) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(4) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(1) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button"
+                      ]
+                    },
+                    {
+                      "html": "<summary>3 claims</summary>",
+                      "target": [
+                        ".timeline-claims > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li[data-tone=\"ok\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li[data-tone=\"fail\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded links and code diff</summary>",
+                      "target": [
+                        ".recorded-supplement > summary"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<div id=\"root\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                "#root"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>Criterion c2: Form validates the e-mail address (invalid input rejected)</span>",
+              "target": [
+                ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<time datetime=\"2026-10-11T14:46:01.820Z\" title=\"11/10/2026, 16:46:01.820 CEST\">+11 ms</time>",
+              "target": [
+                "time[datetime=\"2026-10-11T14:46:01.820Z\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>Criterion c3: Mobile layout works</span>",
+              "target": [
+                ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<time datetime=\"2026-10-11T14:46:01.821Z\" title=\"11/10/2026, 16:46:01.821 CEST\">+12 ms</time>",
+              "target": [
+                "time[datetime=\"2026-10-11T14:46:01.821Z\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>Criteria confirmed by human</span>",
+              "target": [
+                ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > span:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>This browser checks the file's internal consistency only; it does not verify signatures.</p>",
+              "target": [
+                ".pt-4 > aside > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "view": "overview",
+      "criterion": "c2",
+      "state": "event-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "description": "Ensure aria-hidden elements are not focusable nor contain focusable elements",
+          "help": "ARIA hidden element must not be focusable or contain focusable elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=playwright",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<a class=\"skip-link\" href=\"#main-content\">Skip to content</a>",
+                      "target": [
+                        ".skip-link"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item nav-item-active\" aria-label=\"Overview\" aria-current=\"page\">",
+                      "target": [
+                        ".nav-item-active"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Claims\">",
+                      "target": [
+                        "button[aria-label=\"Claims\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Timeline\">",
+                      "target": [
+                        "button[aria-label=\"Timeline\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Story\">",
+                      "target": [
+                        "button[aria-label=\"Story\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"compact-trust\" title=\"Open export details\">",
+                      "target": [
+                        ".compact-trust"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"true\">Client</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"false\">Developer</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\" aria-label=\"Open run: Build a sm...\">",
+                      "target": [
+                        ".page-heading > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"false\">",
+                      "target": [
+                        "li:nth-child(1) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"true\">",
+                      "target": [
+                        "li:nth-child(2) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"criterion-button\" aria-pressed=\"false\">",
+                      "target": [
+                        "li:nth-child(3) > .criterion-button"
+                      ]
+                    },
+                    {
+                      "html": "<a class=\"criterion-detail-link\" href=\"#criterion-detail\">View selected criterion</a>",
+                      "target": [
+                        ".criterion-detail-link"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        ".project-preview > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        ".criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "li > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        ".space-y-4:nth-child(5) > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<div class=\"overview-timeline\" role=\"region\" aria-label=\"Recorded timeline\" tabindex=\"0\">",
+                      "target": [
+                        ".overview-timeline"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(2) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(4) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-event[data-tone=\"info\"]:nth-child(1) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button"
+                      ]
+                    },
+                    {
+                      "html": "<summary>3 claims</summary>",
+                      "target": [
+                        ".timeline-claims > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li[data-tone=\"ok\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        "li[data-tone=\"fail\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\">",
+                      "target": [
+                        ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded links and code diff</summary>",
+                      "target": [
+                        ".recorded-supplement > summary"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<div id=\"root\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                "#root"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>Criterion c2: Form validates the e-mail address (invalid input rejected)</span>",
+              "target": [
+                ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<time datetime=\"2026-10-11T14:46:01.820Z\" title=\"11/10/2026, 16:46:01.820 CEST\">+11 ms</time>",
+              "target": [
+                "time[datetime=\"2026-10-11T14:46:01.820Z\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>Criterion c3: Mobile layout works</span>",
+              "target": [
+                ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<time datetime=\"2026-10-11T14:46:01.821Z\" title=\"11/10/2026, 16:46:01.821 CEST\">+12 ms</time>",
+              "target": [
+                "time[datetime=\"2026-10-11T14:46:01.821Z\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div data-slot=\"card\" class=\"flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel\">",
+                      "target": [
+                        ".timeline-panel"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>Criteria confirmed by human</span>",
+              "target": [
+                ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > span:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>This browser checks the file's internal consistency only; it does not verify signatures.</p>",
+              "target": [
+                ".pt-4 > aside > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "view": "claims",
+      "criterion": "c1",
+      "state": "event-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "description": "Ensure aria-hidden elements are not focusable nor contain focusable elements",
+          "help": "ARIA hidden element must not be focusable or contain focusable elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=playwright",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<a class=\"skip-link\" href=\"#main-content\">Skip to content</a>",
+                      "target": [
+                        "a"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Overview\">",
+                      "target": [
+                        "button[aria-label=\"Overview\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item nav-item-active\" aria-label=\"Claims\" aria-current=\"page\">",
+                      "target": [
+                        ".nav-item-active"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Timeline\">",
+                      "target": [
+                        "button[aria-label=\"Timeline\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Story\">",
+                      "target": [
+                        "button[aria-label=\"Story\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"compact-trust\" title=\"Open export details\">",
+                      "target": [
+                        ".compact-trust"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"true\">Client</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"false\">Developer</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t > .space-y-4 > .criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t > .space-y-4 > .criterion-evidence > li > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t > .space-y-4 > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t > .space-y-4 > .criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t > .space-y-4 > .criterion-evidence > li > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t > .space-y-4 > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(3) > .mt-4.border-t > .space-y-4 > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<div id=\"root\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                "#root"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>This browser checks the file's internal consistency only; it does not verify signatures.</p>",
+              "target": [
+                ".pt-4.px-4 > aside > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "view": "claims",
+      "criterion": "c2",
+      "state": "event-drawer",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "description": "Ensure aria-hidden elements are not focusable nor contain focusable elements",
+          "help": "ARIA hidden element must not be focusable or contain focusable elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=playwright",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<a class=\"skip-link\" href=\"#main-content\">Skip to content</a>",
+                      "target": [
+                        "a"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Overview\">",
+                      "target": [
+                        "button[aria-label=\"Overview\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item nav-item-active\" aria-label=\"Claims\" aria-current=\"page\">",
+                      "target": [
+                        ".nav-item-active"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Timeline\">",
+                      "target": [
+                        "button[aria-label=\"Timeline\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"nav-item \" aria-label=\"Story\">",
+                      "target": [
+                        "button[aria-label=\"Story\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" class=\"compact-trust\" title=\"Open export details\">",
+                      "target": [
+                        ".compact-trust"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"true\">Client</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" aria-pressed=\"false\">Developer</button>",
+                      "target": [
+                        ".lens-toggle > button:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t > .space-y-4 > .criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t > .space-y-4 > .criterion-evidence > li > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(1) > .mt-4.border-t > .space-y-4 > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<summary>Recorded payload</summary>",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t > .space-y-4 > .criterion-evidence > li > details > summary"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t > .space-y-4 > .criterion-evidence > li > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(2) > .mt-4.border-t > .space-y-4 > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    },
+                    {
+                      "html": "<button type=\"button\" data-slot=\"button\" data-variant=\"outline\" data-size=\"sm\" class=\"inline-flex shrink-0...\">",
+                      "target": [
+                        "article:nth-child(3) > .mt-4.border-t > .space-y-4 > .shrink-0.outline-none.aria-invalid\\:border-destructive"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<div id=\"root\" data-aria-hidden=\"true\" aria-hidden=\"true\">",
+              "target": [
+                "#root"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+                      "target": [
+                        "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-radix-focus-guard=\"\" tabindex=\"0\" data-aria-hidden=\"true\" aria-hidden=\"true\" style=\"outline: none; opacity: 0; position: fixed; pointer-events: none;\"></span>",
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=playwright",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p>This browser checks the file's internal consistency only; it does not verify signatures.</p>",
+              "target": [
+                ".pt-4.px-4 > aside > p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
