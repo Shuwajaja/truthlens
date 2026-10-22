@@ -1,6 +1,6 @@
 # Full axe CI and accessibility review — issue146
 
-Tested source `c71cd28743e514d1b2bdae23fdad5118965bfa39`, tree `73618565c78d09c0b04f9a2ba08f2c6014e9e94f`, based on main6c66473. Later publication changes only STATUS/evidence. JSON preserves its recorded HEAD and adds the exact tested source/tree. Original recorded run data, layout, colours, trust labels and frozen contracts are unchanged.
+Tested source `abd38f13a7dffd725c4efe2cc520151e158a90d5`, tree `b7b625bab01f4467c7ec28741d901a9275d6595e`, based on main776212c after the owner merged PR145. Later publication changes only STATUS/evidence. JSON preserves its recorded HEAD and adds the exact tested source/tree. Original recorded run data, layout, colours, trust labels and frozen contracts are unchanged.
 
 ## Confirmed defect fixed
 
@@ -10,7 +10,7 @@ Focus return after Escape is asynchronous: the audit now waits for the actual tr
 
 ## Executed checks
 
-- 268 tests/25 files, lint, hard-colour/language checks,116 existing text/control/focus contrast pairs and build pass.5 new policy tests cover complete48-state coverage, a duplicate/missing mobile state, even a minor violation, browser/keyboard failures, and retention of incomplete evidence.3 negative regression cases first failed before validator implementation. Workflow YAML parses; full audit and always-upload steps present.
+- 277 tests/26 files, lint, hard-colour/language checks,116 existing text/control/focus contrast pairs and build pass.5 new policy tests cover complete48-state coverage, a duplicate/missing mobile state, even a minor violation, browser/keyboard failures, and retention of incomplete evidence.3 negative regression cases first failed before validator implementation. Workflow YAML parses; full audit and always-upload steps present.
 - 48 unrestricted axe4.14.0 scans in Chromium156.0.8078.4:zero violations. Both lenses at1440×900/390×844, all4views, all existing baseline dialogs plus Tests/Files/Time on each criterion drawer/sheet. No withTags/withRules/exclude/disableRules filters. aria-prohibited-attr passes all48 scans.9 overflowing-record keyboard reachability/focus-visible/arrow-scroll checks pass.
 - 32 modal states: dialog name/role/modal flag, selected tab and matching named panel, and exclusion of the background skip link are checked via actual Chromium AX nodes.530 Tab/Shift+Tab events stay in their dialogs;12 ArrowRight transitions select the intended tabs. Escape returns to the real opening trigger.32 selected screenshots below include every view and all criterion tabs at both sizes/lenses.
 - Technical incomplete triage retains every original rule/node.205 active text-node occurrences pass composited CSS contrast (minimum6.9128:1 in this subset, not the whole app minimum).892 occurrences are inactive aria-hidden modal background:656 color-contrast and236 aria-hidden-focus. Each modal state separately verifies background AX exclusion and focus containment.16 clipped-text scroll samples become hit-test reachable and original scroll positions are restored. No unresolved/unsupported category occurred in this run; future ones remain explicit in JSON.

@@ -1,5 +1,5 @@
 {
-  "testedSource": "c71cd28743e514d1b2bdae23fdad5118965bfa39",
+  "testedSource": "abd38f13a7dffd725c4efe2cc520151e158a90d5",
   "scans": 48,
   "violations": 0,
   "ariaProhibitedAttrPasses": 48,
@@ -14,5 +14,7 @@
   "scrollSamples": 16,
   "allSampleHitTestsPass": true,
   "spokenScreenReaderOutput": "not performed; remains owner/human validation",
-  "fullWCAGCertification": false
+  "fullWCAGCertification": false,
+  "tests": 277,
+  "testFiles": 26
 }

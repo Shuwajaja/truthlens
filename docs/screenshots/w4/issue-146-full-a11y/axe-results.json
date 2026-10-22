@@ -5,7 +5,7 @@
     "CSS compositing is separate from occlusion/scroll samples; unresolved cases remain review items"
   ],
   "browserVersion": "156.0.8078.4",
-  "commit": "6c66473d8ab626dbcf2d72a15be0f7bc2c395917",
+  "commit": "abd38f13a7dffd725c4efe2cc520151e158a90d5",
   "previewScriptBlocks": [
     {
       "viewport": {
@@ -61430,6 +61430,6 @@
       }
     }
   ],
-  "testedSource": "c71cd28743e514d1b2bdae23fdad5118965bfa39",
-  "testedTree": "73618565c78d09c0b04f9a2ba08f2c6014e9e94f"
+  "testedSource": "abd38f13a7dffd725c4efe2cc520151e158a90d5",
+  "testedTree": "b7b625bab01f4467c7ec28741d901a9275d6595e"
 }
