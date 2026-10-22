@@ -11,7 +11,7 @@ it('groups real phases, measured gaps and consecutive claims while opening the e
  const open=vi.fn();render(<Timeline events={[...doc.events].reverse()} lens="developer" onOpenDrawer={open}/>);
  expect(screen.getByRole('heading',{name:'01 Task'})).toBeTruthy();
  expect(screen.getByRole('heading',{name:'02 Result'})).toBeTruthy();
- expect(screen.getByText(/Agent working 20.2 s/)).toBeTruthy();
+ expect(screen.getByText(/Gap between records 20.2 s/)).toBeTruthy();
  fireEvent.click(screen.getByText('3 claims'));
  expect(screen.getAllByRole('button')).toHaveLength(16);
  const button=screen.getByRole('button',{name:name=>name.includes(doc.events[13].summary)&&name.includes('#14 · test.reported')&&name.includes('+20,452 ms')});

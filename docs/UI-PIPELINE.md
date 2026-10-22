@@ -20,7 +20,7 @@ Binding implementation of the UI pipeline for this repository. `viewer/DESIGN.md
 | `npm run build` | TypeScript and production bundling | Production deployment settings or performance claims |
 | `npm run check:toolbar` | Emitted toolbar loader only for exact `VERCEL_ENV=preview`; unset/production/development/unknown excluded | Vercel's independent platform injection settings |
 | `npm run check:toolbar -- --browser` | Chromium checks of built preview/production, real loader insertion, reuse and failed-network behavior; exact viewport screenshots | Authenticated hosted Comments, login/permissions and third-party overlay accessibility |
-| `node scripts/audit-a11y.mjs` | 48 unrestricted axe scans, both lenses, all four views/baseline dialogs/all criterion tabs at1440×900/390×844; keyboard scrolling/trapping/return, dialog/tab AX semantics and incomplete-node CSS contrast review | Unknown incomplete cases, real spoken screen-reader output, other exports and every tab of every possible record |
+| `node scripts/audit-a11y.mjs` | 36 full axe scans, both lenses, all four views and baseline dialogs at exact required sizes; keyboard scroll/focus checks | Axe incomplete items, screen-reader review, other exports, every dialog tab |
 
 Shu's2026-10-22 policy: automatic PR CI (and pushes to main) contains only build, lint/static colour/language/theme checks and fast unit tests. Viewer uses npx vitest run, bypassing npm test's retained multi-build toolbar gate. Python3.12/3.13 run canonical/redaction/ledger/manifest unit files; the docs-existence check remains a fast lint check. Feature-branch pushes do not duplicate PR runs.
 

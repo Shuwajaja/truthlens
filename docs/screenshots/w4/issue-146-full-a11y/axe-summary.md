@@ -2,7 +2,8 @@
 
 ## Scheduling correction after Shu's policy update
 
-Current integration includes mainf1f6074 (mode colours). The full48-state axe/AX script and aria-modal fix are byte-identical to the previous PR head. Trigger routing is checked: release-review has only workflow_dispatch; automatic PR/main CI contains build/lint/fast units and no audit, screenshot/browser, toolbar matrix, UID setup or demo invocation. Workflow files are identical to the independently green Story PR151 configuration.277 quick units, lint/styles/language/theme/build pass locally on this integration. No full audit or manual workflow dispatch was rerun for this scheduling correction; all original screenshots/AX/full-axe results below remain tied to their original tested source. The independent review found no remaining issue. Updated fast-CI status is in PR147.
+Current integration includes main68cd134 (merged Story/Timeline PR151). The only viewer/src difference from main is aria-modal=true; retained audit scripts are byte-identical to the previous PR head. Workflows, AGENTS.md, DESIGN.md, STATUS.md and UI-PIPELINE.md match main exactly. release-review still has only workflow_dispatch, so the full48-state axe/AX audit is never an automatic PR requirement.282 quick unit tests/27 files, lint and build pass on this integration. Only3 snapshot aria-modal attributes differ from main. No full audit or manual workflow dispatch was rerun for the merge; original screenshots/AX/full-axe results below remain tied to their historical tested source. Updated fast-CI status is in PR147.
+
 
 Tested source `abd38f13a7dffd725c4efe2cc520151e158a90d5`, tree `b7b625bab01f4467c7ec28741d901a9275d6595e`, based on main776212c after the owner merged PR145. Later publication changes only STATUS/evidence. JSON preserves its recorded HEAD and adds the exact tested source/tree. Original recorded run data, layout, colours, trust labels and frozen contracts are unchanged.
 
