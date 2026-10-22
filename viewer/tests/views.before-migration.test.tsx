@@ -63,6 +63,7 @@ function dialogFragment() {
 // claim badges and keyboard-accessible Timeline). P2 Step 3 adds Graph to the two
 // Overview snapshots and replaces the outer drawer shell with a portalled Sheet.
 // Snapshot the actual dialog; diff/Markdown/plain content remains unchanged.
+// P3 intentionally updates layout snapshots; the P1 behavior-only migration is complete.
 // P2 Step 4 adds the static Navigator and a sticky-control wrapper to six App snapshots.
 describe('pre-migration viewer snapshots (must remain unchanged)', () => {
   for (const lens of lenses) {
@@ -71,7 +72,7 @@ describe('pre-migration viewer snapshots (must remain unchanged)', () => {
         localStorage.setItem('tl-lens', lens)
         const { asFragment } = render(<App />)
         await screen.findByRole('heading', { level: 1 })
-        fireEvent.click(screen.getByRole('button', { name: view, exact: true }))
+        fireEvent.click(screen.getByRole('button', { name: ({Overview:'Übersicht','Claimed vs Proven':'Behauptet vs. belegt',Timeline:'Zeitachse'} as const)[view], exact: true }))
         expect(screen.getByText("This browser checks the file's internal consistency only; it does not verify signatures.")).toBeTruthy()
         expect(asFragment()).toMatchSnapshot()
       })
