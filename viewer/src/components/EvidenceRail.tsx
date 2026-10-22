@@ -1,7 +1,6 @@
 import {FileText, ListChecks, Clock} from 'lucide-react'
 import type {RunDoc, RunEvent} from '../types.ts'
 import type {DrawerTarget} from './Drawer.tsx'
-import {Navigator} from './Navigator.tsx'
 import {Tabs,TabsList,TabsTrigger,TabsContent} from './ui/tabs.tsx'
 import {recordedTime,recordedDuration} from './overview-data.ts'
 
@@ -34,6 +33,5 @@ export function EvidenceRail({doc,onOpenDrawer}:{doc:RunDoc;onOpenDrawer:(target
    <EvidenceTabs doc={doc} onOpenDrawer={onOpenDrawer}/>
    <p className="trust-seal">Integrity is not approval</p>
   </section>
-  <Navigator/>
  </div></aside>
 }

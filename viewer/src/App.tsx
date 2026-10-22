@@ -1,7 +1,7 @@
 import {useMobile} from './lib/use-mobile.ts'
 import {LensToggle} from './components/LensToggle.tsx'
 import {useView} from './lib/use-view.ts'
-import { useState, useEffect, useLayoutEffect } from 'react'
+import { useState, useEffect } from 'react'
 import type { RunDoc } from './types.ts'
 import { validateRunDoc } from './validateRunDoc.ts'
 import { readLens, writeLens, type Lens } from './lens.ts'
@@ -33,11 +33,6 @@ export default function App() {
   const [view, setView] = useView()
   const [drawerTarget, setDrawerTarget] = useState<DrawerTarget | null>(null)
   const [lens, setLens] = useState<Lens>(() => readLens())
-
-  useLayoutEffect(()=>{
-    document.documentElement.dataset.viewerTheme=view==='overview'?'stitch':'werk'
-    return ()=>{delete document.documentElement.dataset.viewerTheme}
-  },[view])
 
   useEffect(() => {
     fetch('/run.json')

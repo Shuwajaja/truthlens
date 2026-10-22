@@ -1,25 +1,31 @@
+@font-face { font-family: 'Viewer numerals'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2'); unicode-range: U+0030-0039; }
 @font-face { font-family: 'Plus Jakarta Sans Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2'); }
-@font-face { font-family: 'Inter Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2'); }
 @font-face { font-family: 'JetBrains Mono Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2'); }
-/* WERK dark: the sole palette. Status meaning is defined in viewer/DESIGN.md. */
+/* Final Stitch palette: all views/lenses/portals. Literal colours only here. */
 :root {
-  --bg: #090F17;
-  --surface: #111C29;
-  --surface-2: #192638;
-  --border: #344459;
-  --text: #E6EDF3;
-  --text-2: #B4BFCE;
-  --text-3: #A7B0BF;
+  --bg: #09090B;
+  --surface: #18181B;
+  --surface-2: #27272A;
+  --border: #3F3F46;
+  --text: #F4F4F5;
+  --text-2: #A1A1AA;
+  --text-3: #A1A1AA;
+  --primary: #F4F4F5;
+  --primary-text: #F4F4F5;
+  --secondary: #A1A1AA;
+  --secondary-text: #D4D4D8;
+  --success: #10B981;
+  --error: #F43F5E;
+  --error-text: #FB7185;
+  --warning: #F59E0B;
+  --neutral: #71717A;
+  --neutral-text: #A1A1AA;
+  --focus: #F4F4F5;
+  --backdrop: #09090B80;
   --ok: var(--success);
   --fail: var(--error-text);
   --info: var(--primary-text);
-  --neutral: #6B7280;
-  --primary-text: #60A5FA;
-  --secondary-text: #B79CFF;
-  --error-text: #FF9292;
-  --neutral-text: #A7B0BF;
-  --backdrop: #00000080;
-  --font: 'Inter Variable', system-ui, sans-serif;
+  --font: 'Viewer numerals', 'Plus Jakarta Sans Variable', system-ui, sans-serif;
   --mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --size-label: 12px;
   --size-body: 14px;
@@ -34,34 +40,7 @@
   --radius-sm: 12px;
   --accent: var(--info);
   --accent-soft: color-mix(in srgb, var(--info) 10%, transparent);
-  /* Shared WERK base tokens; aliases above preserve component semantics. */
-  --primary: #3B82F6;
-  --secondary: #8B5CF6;
-  --success: #10B981;
-  --warning: #F59E0B;
-  --error: #EF4444;
   --muted: var(--text-2);
-}
-/* Provisional owner-approved Stitch profile; swap this token block when Shu decides. */
-:root[data-viewer-theme=stitch] {
-  --bg: #09090B;
-  --surface: #0D0E12;
-  --surface-2: #14151B;
-  --border: #27272F;
-  --text: #F4F4F5;
-  --text-2: #A1A1AA;
-  --text-3: #A1A1AA;
-  --primary: #F4F4F5;
-  --primary-text: #F4F4F5;
-  --secondary: #A1A1AA;
-  --secondary-text: #D4D4D8;
-  --success: #10B981;
-  --error: #F43F5E;
-  --error-text: #FB7185;
-  --warning: #F59E0B;
-  --neutral: #71717A;
-  --neutral-text: #A1A1AA;
-  --font: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
 }
 @theme inline {
   --color-backdrop: var(--backdrop);
@@ -91,7 +70,7 @@
   --color-destructive: var(--fail);
   --color-border: var(--border);
   --color-input: var(--neutral);
-  --color-ring: var(--info);
+  --color-ring: var(--focus);
   --color-success: var(--ok);
   --color-warning: var(--warning);
   --font-sans: var(--font);

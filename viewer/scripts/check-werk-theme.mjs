@@ -1,14 +1,13 @@
-// Acceptance checks for the shared WERK palette and readable dark-theme pairs.
+// Final single Stitch palette, text AA and focus contrast. Legacy filename retained for command compatibility.
 import assert from 'node:assert/strict';
-import {readFile,readdir} from 'node:fs/promises';
+import {readFile,readdir,writeFile} from 'node:fs/promises';
 const css=await readFile(new URL('../src/theme.css',import.meta.url),'utf8');
 const parse=block=>Object.fromEntries([...block.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(m=>[m[1],m[2].trim()]));
 const base=parse(css.match(/:root\s*\{([\s\S]*?)\}/)[1]);
-const stitch={...base,...parse(css.match(/:root\[data-viewer-theme=stitch\]\s*\{([\s\S]*?)\}/)[1])};
-const profiles=[
- ['WERK base',base,{primary:'#3B82F6',secondary:'#8B5CF6',success:'#10B981',warning:'#F59E0B',error:'#EF4444',neutral:'#6B7280'},'Inter Variable'],
- ['provisional Stitch',stitch,{bg:'#09090B',primary:'#F4F4F5',secondary:'#A1A1AA',success:'#10B981',warning:'#F59E0B',error:'#F43F5E',neutral:'#71717A'},'Plus Jakarta Sans Variable'],
-];
+assert.equal([...css.matchAll(/:root\b/g)].length,1,'one unconditional root');
+assert.doesNotMatch(css,/data-viewer-theme|Inter Variable|#(?:090F17|111C29|192638|344459|E6EDF3|B4BFCE|A7B0BF|3B82F6|60A5FA|8B5CF6|B79CFF|EF4444|FF9292|1CDC44|79B8FF)\b/i);
+const profiles=[['Final Stitch',base,{bg:'#09090B',primary:'#F4F4F5',secondary:'#A1A1AA',success:'#10B981',warning:'#F59E0B',error:'#F43F5E',neutral:'#71717A'},'Plus Jakarta Sans Variable']];
+const measurements=[];
 for(const [profile,values,expected,font] of profiles){
  for(const [key,value] of Object.entries(expected))assert.equal(values[key],value,`${profile}: ${key}`);
  assert(values.font.includes(font),`${profile}: font`);
@@ -29,14 +28,18 @@ const rgb=key=>{
 const luminance=rgb=>rgb.map(x=>x<=0.04045?x/12.92:((x+0.055)/1.055)**2.4).reduce((s,x,i)=>s+x*[.2126,.7152,.0722][i],0);
 const contrast=(a,b)=>{const [lo,hi]=[luminance(a),luminance(b)].sort((a,b)=>a-b);return (hi+.05)/(lo+.05)};
 let minimum=Infinity,pairs=0;
-function check(fg,bg,threshold,label){const ratio=contrast(fg,bg);assert.ok(ratio>=threshold,`${label}: ${ratio.toFixed(2)} < ${threshold}`);minimum=Math.min(minimum,ratio);pairs++;}
+function check(fg,bg,threshold,label){const ratio=contrast(fg,bg);assert.ok(ratio>=threshold,`${label}: ${ratio.toFixed(2)} < ${threshold}`);minimum=Math.min(minimum,ratio);pairs++;measurements.push({label,ratio,threshold});}
 for(const surface of ['bg','surface','surface-2']){
  for(const text of ['text','text-2','text-3','primary-text','secondary-text','success','warning','error-text','neutral-text'])check(rgb(text),rgb(surface),4.5,`${text}/${surface}`);
  for(const text of ['success','error-text','neutral-text']){
   const fill=rgb(surface).map((v,i)=>v*.9+rgb(text)[i]*.1);
   check(rgb(text),fill,4.5,`${text}/10% badge on ${surface}`);
  }
- check(rgb('info'),rgb(surface),3,`focus/${surface}`);
+ check(rgb('focus'),rgb(surface),3,`focus/${surface}`);
+ for(const tint of ['primary','secondary','success','error','warning','neutral']){
+ const fill=rgb(surface).map((v,i)=>v*.9+rgb(tint)[i]*.1);
+ check(rgb('focus'),fill,3,`focus/10% ${tint} on ${surface}`);
+ }
  check(rgb('neutral'),rgb(surface),3,`control/${surface}`);
 }
 check(rgb('primary'),rgb('bg'),4.5,'brand/page');
@@ -51,3 +54,5 @@ for(const fill of ['primary','secondary','success','warning','error'])check(rgb(
 console.log(`${profile}: exact profile tokens, 8px grid, 12px radius; ${pairs} AA text/control pairs, minimum ${minimum.toFixed(2)}:1 (control threshold 3:1).`);
 
 }
+
+if(process.env.THEME_REPORT)await writeFile(process.env.THEME_REPORT,JSON.stringify({measurements},null,2)+'\n');
