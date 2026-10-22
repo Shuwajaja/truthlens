@@ -74,14 +74,14 @@ it('handles an empty export without inventing counts or selected evidence',()=>{
  expect(screen.getByText('No project preview available.')).toBeTruthy()
 })
 
-it('applies the provisional Stitch profile only to Overview and restores it on navigation',async()=>{
+it('uses the same global theme without per-view overrides',async()=>{
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(doc)})))
  render(<App/>);await screen.findByRole('main')
- expect(document.documentElement.dataset.viewerTheme).toBe('stitch')
+ expect(document.documentElement.hasAttribute('data-viewer-theme')).toBe(false)
  const navigation=within(screen.getByRole('navigation',{name:'Viewer navigation'}))
  fireEvent.click(navigation.getByRole('button',{name:'Timeline',exact:true}))
- expect(document.documentElement.dataset.viewerTheme).toBe('werk')
+ expect(document.documentElement.hasAttribute('data-viewer-theme')).toBe(false)
  fireEvent.click(navigation.getByRole('button',{name:'Overview',exact:true}))
- expect(document.documentElement.dataset.viewerTheme).toBe('stitch')
+ expect(document.documentElement.hasAttribute('data-viewer-theme')).toBe(false)
  cleanup();expect(document.documentElement.dataset.viewerTheme).toBeUndefined()
 })

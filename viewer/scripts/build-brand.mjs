@@ -12,7 +12,7 @@ const resolve=text=>text.replace(/var\(--(bg|text|primary)\)/g,(_,token)=>palett
 const body=text=>text.replace(/^<svg[^>]*>\s*/,'').replace(/\s*<\/svg>\s*$/,'');
 const iconSource=await readFile(new URL('brand/logo-icon.svg',root),'utf8');
 const mark=body(await readFile(new URL('brand/wordmark-mark.svg',root),'utf8'));
-const font=openSync(fileURLToPath(new URL('node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2',root)));
+const font=openSync(fileURLToPath(new URL('node_modules/@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2',root)));
 const run=font.layout('TruthLens');
 if(run.glyphs.length!==9)throw new Error('Unexpected wordmark shaping');
 const scale=86/font.unitsPerEm;
