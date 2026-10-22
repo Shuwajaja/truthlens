@@ -80,8 +80,8 @@ export default function App() {
         {view!=='overview'&&<div className="review-return"><Button variant="outline" size="sm" onClick={()=>handleViewChange('overview')}>Review criteria</Button></div>}
         {view === 'overview' && <Overview doc={doc} lens={lens} showRunAction={mobile} onOpenDrawer={setDrawerTarget} />}
         {view === 'claimed-vs-proven' && <ClaimedVsProven doc={doc} lens={lens} onOpenDrawer={setDrawerTarget} />}
-        {view === 'timeline' && <RenderView input={{ kind: 'events', events: doc.events }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
-        {view === 'agent-story' && <RenderView input={{ kind: 'run', doc }} context={{ lens, onOpenDrawer: setDrawerTarget }} />}
+        {view === 'timeline' && <RenderView input={{ kind: 'events', events: doc.events }} context={{ lens, blobs:doc.blobs, onOpenDrawer: setDrawerTarget }} />}
+        {view === 'agent-story' && <RenderView input={{ kind: 'run', doc }} context={{ lens, blobs:doc.blobs, onOpenDrawer: setDrawerTarget }} />}
       </main>
       </div>
       {drawerTarget && (

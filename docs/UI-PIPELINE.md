@@ -22,7 +22,11 @@ Binding implementation of the UI pipeline for this repository. `viewer/DESIGN.md
 | `npm run check:toolbar -- --browser` | Chromium checks of built preview/production, real loader insertion, reuse and failed-network behavior; exact viewport screenshots | Authenticated hosted Comments, login/permissions and third-party overlay accessibility |
 | `node scripts/audit-a11y.mjs` | 36 full axe scans, both lenses, all four views and baseline dialogs at exact required sizes; keyboard scroll/focus checks | Axe incomplete items, screen-reader review, other exports, every dialog tab |
 
-Existing CI runs tests/lint/styles/language/build and its older screenshot check. That screenshot check covers contrast at different viewport sizes; it does **not** imply a full axe pass. The full audit above is required separately for UI PRs. Do not repeat successful checks unless the code, environment or an unresolved concern changed.
+Shu's2026-10-22 policy: automatic PR CI (and pushes to main) contains only build, lint/static colour/language/theme checks and fast unit tests. Viewer uses npx vitest run, bypassing npm test's retained multi-build toolbar gate. Python3.12/3.13 run canonical/redaction/ledger/manifest unit files; the docs-existence check remains a fast lint check. Feature-branch pushes do not duplicate PR runs.
+
+Run release-review.yml manually with workflow_dispatch for full Python suites (including separate UID user), offline demo, npm test's toolbar matrix, existing all-view Playwright review, unrestricted axe at1440×900/390×844, mode-colour/sticky-label review and toolbar browser gate. No test file or script removed. Partial screenshots/reports upload with always() for30days. Manual workflow execution is separate from merge readiness; do not dispatch long suites automatically or wait for them after PR CI is green. First workflow_dispatch availability requires the workflow to exist on the default branch; then select the intended ref in Actions. No automatic merge.
+
+Previous configuration (also documented in the PR): every push and pull_request ran npm test (toolbar build matrix plus all Vitest tests), lint/styles/language/build, Playwright screenshot review/upload, both full Python suites with UID setup, and demo/run-demo.sh --offline. Those full/review commands remain available in the manual workflow. Green fast CI does not imply release/browser/full axe passed. Keep actually performed targeted UI evidence and incomplete/manual limits separate.
 
 ## Preview comments boundary
 

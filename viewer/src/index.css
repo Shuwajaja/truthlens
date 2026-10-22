@@ -390,3 +390,24 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
  border-bottom: 2px solid var(--navigation-accent);
 }
 [data-slot=tabs-trigger][data-state=active]::after { background: var(--navigation-accent); }
+
+/* Shared recorded chronologies: quiet hierarchy, real times and native disclosures. */
+.phase-heading h2, .phase-heading h3 { font: 500 var(--size-section)/1.5 var(--font); text-transform: none; letter-spacing: normal; }
+.phase-heading p { font-family: var(--mono); }
+.step-title { font-size: var(--size-body); font-weight: 500; color: var(--text); }
+.step-facts { display: grid; gap: var(--space-1); margin-top: var(--space-1); overflow-wrap: anywhere; font-size: var(--size-body); }
+.step-facts > span { display: block; }
+.step-field { color: var(--text-2); font-size: var(--size-label); }
+.step-actor { color: var(--text-2); font-size: var(--size-label); }
+.timeline-event time.step-time, time.step-time { display: grid; gap: var(--space-1); font: 400 var(--size-label)/1.5 var(--mono); color: var(--text-2); white-space: normal; }
+.step-relative { font-size: var(--size-label); }
+.step-description, .recorded-full-text { font-size: var(--size-body); overflow-wrap: anywhere; white-space: pre-wrap; margin-top: var(--space-1); }
+.recorded-text summary, .recorded-content summary { cursor: pointer; color: var(--text-2); font-size: var(--size-label); padding-block: var(--space-1); overflow-wrap: anywhere; }
+.recorded-content pre { font: 400 var(--size-label)/1.5 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; overflow: auto; max-height: 320px; padding: var(--space-2); border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
+.story-step { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: var(--space-1) var(--space-2); padding-block: var(--space-2); border-bottom: 1px solid var(--border); min-width: 0; }
+.story-step > .step-time { grid-column: 2; grid-row: 1 / span 2; }
+.story-step > :not(.step-time) { grid-column: 1; min-width: 0; }
+.story-step > button { justify-self: start; }
+.story-step > .recorded-content, .story-step > .recorded-text { grid-column: 1 / -1; }
+.timeline-event > .recorded-text, .timeline-event > .recorded-content, .timeline-event > .section-note { margin-inline-start: calc(var(--space-4) + var(--space-2)); }
+@media(max-width:760px) { .story-step { grid-template-columns: minmax(0,1fr); } .story-step > .step-time { grid-column: 1; grid-row: auto; } }

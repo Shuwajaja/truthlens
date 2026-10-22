@@ -78,8 +78,17 @@ Shu approved `stitch/shu-landing-run1.html` and `.png` on 2026-10-22. Adopt thei
 - Fixed bottom navigation64px, four existing views;88px bottom clearance.
 - Drawers become bottom sheets,12px top corners. Escape/focus restoration and real-record targets remain intact.
 
-## 6. Timeline
-Vertical 1px line and 32px event icon circles: start, task, passed/failed test, file, claim and end. Run events are neutral; requirement/criterion and evidence/file events use info; claims are neutral; test results use green/red from actual counts. Only nonempty Task/Result phases, with start time and duration. Relative times use milliseconds. Gaps over one second show the recorded time gap; consecutive claims can expand. Developer view adds sequence/type/actor metadata. Every event opens its real record.
+## 6. Story and Timeline readability (Shu, issue150)
+Both chronologies show actual local time with zone in JetBrains Mono, explicit actor kind/id and a separately labelled recorded result per entry. Story retains its existing selected events and exact event links; Timeline retains all events. Full dates are in phase headers/time titles; relative milliseconds may accompany the clock. No invented completion times or working-state claims: a timestamp gap is labelled Gap between records.
+
+Group consecutive events into nonempty Task/Result phases by actual event type, keeping sequence order even if a later task record appears. These are presentation categories, not exported workflow phases. Show the first recorded time and observed span of each group. Story uses the same grouping. Phase headings16px/500, entry titles14px/500, actor/time metadata12px/400, result/body14px;8/16/24px spacing and divided lists, no cards per event.
+
+Only wrapper/system test.reported counts use success/error tones through the existing testTone guard. Agent claims, criteria confirmation, command/run exit0 and generic evidence stay neutral; human confirmation is never a passed check. Every entry says who acted, what was recorded and either the actual test counts/exit code or that the record contains no test result. Existing criterion statuses remain separate from claim findings. Developer mode keeps its slate-labelled technical metadata; visible role strings remain exact.
+
+Long text (>240 characters or more than3 lines) has a short literal excerpt plus a native details/summary disclosure of its complete exact text. Actual attached content is shown only via the event's explicit sha256 lookup into exported blobs, in a closed Recorded content disclosure with a focusable bounded pre. No guessed output, execution, HTML rendering or synthetic filler. Evidence/record actions stay separate from disclosure controls; no nested buttons. Missing blob content is stated honestly. Keyboard Enter/Space and native focus rings remain; no motion or decoration.
+
+## Review scheduling (Shu, issue150)
+PR CI is build, lint and fast unit tests only. Screenshot/Playwright/full axe, toolbar build matrix, full Python integration/UID/demo checks are retained in a manual workflow_dispatch release review. A green PR CI is merge-ready under this scope, not proof that the release/browser checks ran. Publish the targeted desktop1440×900/mobile390×844 UI review actually performed; do not wait for repeated long suites. No tests deleted and no automatic merge.
 
 ## 7. Evidence graph
 Node text is at least 12px. Border uses border token; unsupported claims/criteria have grey dashed borders. Links: green proven, red contradicts, grey dashed no proof. Legend at top right; criterion result dot. Never use green for a node without a linked test.

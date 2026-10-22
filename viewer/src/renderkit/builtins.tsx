@@ -38,7 +38,7 @@ export const builtinRenderers: readonly Renderer[] = [
     id: 'timeline', label: 'Timeline',
     match: input => input.kind === 'events' ? 10 : 0,
     Component: ({ input, context }) => input.kind === 'events' ? (
-      <Timeline headingLevel={context?.headingLevel} events={input.events} lens={context?.lens ?? 'client'} onOpenDrawer={context?.onOpenDrawer ?? ignoreDrawer} />
+      <Timeline blobs={context?.blobs} headingLevel={context?.headingLevel} events={input.events} lens={context?.lens ?? 'client'} onOpenDrawer={context?.onOpenDrawer ?? ignoreDrawer} />
     ) : null,
   },
   {
