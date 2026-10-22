@@ -41,3 +41,5 @@ The main trust notice stays visible while scrolling recorded content; the option
 ## P3 review contract
 
 [DESIGN.md](DESIGN.md) is the binding viewer reference. `npm run review:screenshots` captures Overview, Claimed vs Proven, Timeline and Agent Story at 1440px and 420px and checks axe contrast, browser errors and page overflow. Images stay in ignored `.screenshots/review/`. CI publishes them as a `viewer-screenshots-<commit>` artifact for each PR; the PR description links the run and archive. The docs-first PR records the existing UI as a baseline; the following P3 branches apply the design in order. No screenshots or temporary reports are added to source history.
+
+P3 fonts are bundled locally with the build (Inter and JetBrains Mono, SIL OFL via the fontsource packages); viewing a run makes no font request to an external host. The theme defines the five text sizes and uses the information token for general focus and links. Component typography is normalized in the dedicated type-scale branch.
