@@ -2386,44 +2386,19 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
               <div
                 class="card-label"
               >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-list-checks"
-                  fill="none"
-                  height="16"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13 5h8"
-                  />
-                  <path
-                    d="M13 12h8"
-                  />
-                  <path
-                    d="M13 19h8"
-                  />
-                  <path
-                    d="m3 17 2 2 4-4"
-                  />
-                  <path
-                    d="m3 7 2 2 4-4"
-                  />
-                </svg>
-                 Fachliche Prüfung
+                <span
+                  class="status-dot tone-open"
+                />
+                Gesamtstatus
               </div>
               <div
                 class="status-value text-open"
+                data-testid="overall-status"
               >
-                Prüfung offen
+                Offen
               </div>
               <p>
-                Integrität ist keine Abnahme.
+                Review nötig · keine fachliche Freigabe
               </p>
             </div>
             <div
@@ -2433,40 +2408,46 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
               <div
                 class="card-label"
               >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-circle-dot"
-                  fill="none"
-                  height="16"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="1"
-                  />
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                  />
-                </svg>
-                 Kriterien fehlgeschlagen
+                <span
+                  class="status-dot tone-ok"
+                />
+                Kriterien belegt
               </div>
               <div
-                class="status-value text-destructive"
+                class="status-value"
+                data-testid="met-count"
+              >
+                <span
+                  class="text-ok"
+                >
+                  1
+                </span>
+                 / 3
+              </div>
+              <p>
+                Aufgezeichnetes Ergebnis: met
+              </p>
+            </div>
+            <div
+              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm status-card"
+              data-slot="card"
+            >
+              <div
+                class="card-label"
+              >
+                <span
+                  class="status-dot tone-fail"
+                />
+                Fehlgeschlagen
+              </div>
+              <div
+                class="status-value text-fail"
                 data-testid="failed-count"
               >
                 1
               </div>
               <p>
-                1 von 3 Kriterien: met
+                Kriterien mit Ergebnis unmet
               </p>
             </div>
             <div
@@ -2476,72 +2457,19 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
               <div
                 class="card-label"
               >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-message-square"
-                  fill="none"
-                  height="16"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"
-                  />
-                </svg>
-                 Aussagen ohne Beleg
+                <span
+                  class="status-dot tone-open"
+                />
+                Unbelegt
               </div>
               <div
-                class="status-value"
+                class="status-value text-open"
                 data-testid="unwitnessed-count"
               >
-                2
+                1
               </div>
               <p>
-                Finding: claim_unwitnessed
-              </p>
-            </div>
-            <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm status-card"
-              data-slot="card"
-            >
-              <div
-                class="card-label"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-shield"
-                  fill="none"
-                  height="16"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
-                  />
-                </svg>
-                 Integrität
-              </div>
-              <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
-                data-slot="status-badge"
-                data-variant="nur-hash"
-              >
-                <span>
-                  Nur Hash · HMAC nicht geprüft
-                </span>
-              </span>
-              <p>
-                Prüfstand des Exports
+                Kriterien ohne bestätigtes Ergebnis
               </p>
             </div>
           </div>
@@ -2564,7 +2492,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                   class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
                   data-slot="badge"
                 >
-                  1 Lauf
+                  1 Lauf · Review nötig
                 </span>
               </div>
               <p
@@ -2641,7 +2569,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     Start
                   </dt>
                   <dd>
-                    2026-10-11 14:46:01.809 UTC
+                    11.10.2026, 14:46:01,809 UTC
                   </dd>
                 </div>
                 <div>
@@ -2649,7 +2577,15 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     Ende
                   </dt>
                   <dd>
-                    2026-10-11 14:46:22.655 UTC
+                    11.10.2026, 14:46:22,655 UTC
+                  </dd>
+                </div>
+                <div>
+                  <dt>
+                    Dauer
+                  </dt>
+                  <dd>
+                    20,846 s
                   </dd>
                 </div>
               </dl>
@@ -4443,7 +4379,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     <time
                       datetime="2026-10-11T14:46:22.023Z"
                     >
-                      2026-10-11 14:46:22.023 UTC
+                      11.10.2026, 14:46:22,023 UTC
                     </time>
                   </span>
                   <svg
@@ -4512,7 +4448,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     <time
                       datetime="2026-10-11T14:46:22.028Z"
                     >
-                      2026-10-11 14:46:22.028 UTC
+                      11.10.2026, 14:46:22,028 UTC
                     </time>
                   </span>
                   <svg
@@ -4581,7 +4517,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     <time
                       datetime="2026-10-11T14:46:22.261Z"
                     >
-                      2026-10-11 14:46:22.261 UTC
+                      11.10.2026, 14:46:22,261 UTC
                     </time>
                   </span>
                   <svg
@@ -4650,7 +4586,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     <time
                       datetime="2026-10-11T14:46:22.652Z"
                     >
-                      2026-10-11 14:46:22.652 UTC
+                      11.10.2026, 14:46:22,652 UTC
                     </time>
                   </span>
                   <svg
@@ -4719,7 +4655,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                     <time
                       datetime="2026-10-11T14:46:22.655Z"
                     >
-                      2026-10-11 14:46:22.655 UTC
+                      11.10.2026, 14:46:22,655 UTC
                     </time>
                   </span>
                   <svg
@@ -5639,44 +5575,19 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
               <div
                 class="card-label"
               >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-list-checks"
-                  fill="none"
-                  height="16"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13 5h8"
-                  />
-                  <path
-                    d="M13 12h8"
-                  />
-                  <path
-                    d="M13 19h8"
-                  />
-                  <path
-                    d="m3 17 2 2 4-4"
-                  />
-                  <path
-                    d="m3 7 2 2 4-4"
-                  />
-                </svg>
-                 Fachliche Prüfung
+                <span
+                  class="status-dot tone-open"
+                />
+                Gesamtstatus
               </div>
               <div
                 class="status-value text-open"
+                data-testid="overall-status"
               >
-                Prüfung offen
+                Offen
               </div>
               <p>
-                Integrität ist keine Abnahme.
+                Review nötig · keine fachliche Freigabe
               </p>
             </div>
             <div
@@ -5686,40 +5597,46 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
               <div
                 class="card-label"
               >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-circle-dot"
-                  fill="none"
-                  height="16"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="1"
-                  />
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="10"
-                  />
-                </svg>
-                 Kriterien fehlgeschlagen
+                <span
+                  class="status-dot tone-ok"
+                />
+                Kriterien belegt
               </div>
               <div
-                class="status-value text-destructive"
+                class="status-value"
+                data-testid="met-count"
+              >
+                <span
+                  class="text-ok"
+                >
+                  1
+                </span>
+                 / 3
+              </div>
+              <p>
+                Aufgezeichnetes Ergebnis: met
+              </p>
+            </div>
+            <div
+              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm status-card"
+              data-slot="card"
+            >
+              <div
+                class="card-label"
+              >
+                <span
+                  class="status-dot tone-fail"
+                />
+                Fehlgeschlagen
+              </div>
+              <div
+                class="status-value text-fail"
                 data-testid="failed-count"
               >
                 1
               </div>
               <p>
-                1 von 3 Kriterien: met
+                Kriterien mit Ergebnis unmet
               </p>
             </div>
             <div
@@ -5729,72 +5646,19 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
               <div
                 class="card-label"
               >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-message-square"
-                  fill="none"
-                  height="16"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"
-                  />
-                </svg>
-                 Aussagen ohne Beleg
+                <span
+                  class="status-dot tone-open"
+                />
+                Unbelegt
               </div>
               <div
-                class="status-value"
+                class="status-value text-open"
                 data-testid="unwitnessed-count"
               >
-                2
+                1
               </div>
               <p>
-                Finding: claim_unwitnessed
-              </p>
-            </div>
-            <div
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm status-card"
-              data-slot="card"
-            >
-              <div
-                class="card-label"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="lucide lucide-shield"
-                  fill="none"
-                  height="16"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
-                  />
-                </svg>
-                 Integrität
-              </div>
-              <span
-                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
-                data-slot="status-badge"
-                data-variant="nur-hash"
-              >
-                <span>
-                  Nur Hash · HMAC nicht geprüft
-                </span>
-              </span>
-              <p>
-                Prüfstand des Exports
+                Kriterien ohne bestätigtes Ergebnis
               </p>
             </div>
           </div>
@@ -5817,7 +5681,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                   class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
                   data-slot="badge"
                 >
-                  1 Lauf
+                  1 Lauf · Review nötig
                 </span>
               </div>
               <p
@@ -5894,7 +5758,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     Start
                   </dt>
                   <dd>
-                    2026-10-11 14:46:01.809 UTC
+                    11.10.2026, 14:46:01,809 UTC
                   </dd>
                 </div>
                 <div>
@@ -5902,7 +5766,15 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     Ende
                   </dt>
                   <dd>
-                    2026-10-11 14:46:22.655 UTC
+                    11.10.2026, 14:46:22,655 UTC
+                  </dd>
+                </div>
+                <div>
+                  <dt>
+                    Dauer
+                  </dt>
+                  <dd>
+                    20,846 s
                   </dd>
                 </div>
               </dl>
@@ -7699,7 +7571,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     <time
                       datetime="2026-10-11T14:46:22.023Z"
                     >
-                      2026-10-11 14:46:22.023 UTC
+                      11.10.2026, 14:46:22,023 UTC
                     </time>
                   </span>
                   <svg
@@ -7771,7 +7643,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     <time
                       datetime="2026-10-11T14:46:22.028Z"
                     >
-                      2026-10-11 14:46:22.028 UTC
+                      11.10.2026, 14:46:22,028 UTC
                     </time>
                   </span>
                   <svg
@@ -7843,7 +7715,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     <time
                       datetime="2026-10-11T14:46:22.261Z"
                     >
-                      2026-10-11 14:46:22.261 UTC
+                      11.10.2026, 14:46:22,261 UTC
                     </time>
                   </span>
                   <svg
@@ -7915,7 +7787,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     <time
                       datetime="2026-10-11T14:46:22.652Z"
                     >
-                      2026-10-11 14:46:22.652 UTC
+                      11.10.2026, 14:46:22,652 UTC
                     </time>
                   </span>
                   <svg
@@ -7987,7 +7859,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                     <time
                       datetime="2026-10-11T14:46:22.655Z"
                     >
-                      2026-10-11 14:46:22.655 UTC
+                      11.10.2026, 14:46:22,655 UTC
                     </time>
                   </span>
                   <svg
@@ -8911,7 +8783,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.809 UTC
+                    11.10.2026, 14:46:01,809 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -8930,7 +8802,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.817 UTC
+                    11.10.2026, 14:46:01,817 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -8949,7 +8821,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.818 UTC
+                    11.10.2026, 14:46:01,818 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -8968,7 +8840,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.820 UTC
+                    11.10.2026, 14:46:01,820 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -8987,7 +8859,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.821 UTC
+                    11.10.2026, 14:46:01,821 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -9006,7 +8878,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.822 UTC
+                    11.10.2026, 14:46:01,822 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -9025,7 +8897,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.831 UTC
+                    11.10.2026, 14:46:01,831 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -9044,7 +8916,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.010 UTC
+                    11.10.2026, 14:46:22,010 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -9063,7 +8935,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.012 UTC
+                    11.10.2026, 14:46:22,012 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -9082,7 +8954,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.013 UTC
+                    11.10.2026, 14:46:22,013 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -9101,7 +8973,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.015 UTC
+                    11.10.2026, 14:46:22,015 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -9120,7 +8992,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.023 UTC
+                    11.10.2026, 14:46:22,023 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -9139,7 +9011,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.028 UTC
+                    11.10.2026, 14:46:22,028 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -9158,7 +9030,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.261 UTC
+                    11.10.2026, 14:46:22,261 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -9177,7 +9049,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.652 UTC
+                    11.10.2026, 14:46:22,652 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -9196,7 +9068,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, clie
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.655 UTC
+                    11.10.2026, 14:46:22,655 UTC
                   </td>
                   <td
                     class="py-2 px-3 text-sm"
@@ -10124,7 +9996,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.809 UTC
+                    11.10.2026, 14:46:01,809 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10157,7 +10029,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.817 UTC
+                    11.10.2026, 14:46:01,817 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10190,7 +10062,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.818 UTC
+                    11.10.2026, 14:46:01,818 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10223,7 +10095,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.820 UTC
+                    11.10.2026, 14:46:01,820 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10256,7 +10128,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.821 UTC
+                    11.10.2026, 14:46:01,821 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10289,7 +10161,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.822 UTC
+                    11.10.2026, 14:46:01,822 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10322,7 +10194,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:01.831 UTC
+                    11.10.2026, 14:46:01,831 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10355,7 +10227,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.010 UTC
+                    11.10.2026, 14:46:22,010 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10388,7 +10260,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.012 UTC
+                    11.10.2026, 14:46:22,012 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10421,7 +10293,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.013 UTC
+                    11.10.2026, 14:46:22,013 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10454,7 +10326,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.015 UTC
+                    11.10.2026, 14:46:22,015 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10487,7 +10359,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.023 UTC
+                    11.10.2026, 14:46:22,023 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10520,7 +10392,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.028 UTC
+                    11.10.2026, 14:46:22,028 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10553,7 +10425,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.261 UTC
+                    11.10.2026, 14:46:22,261 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10586,7 +10458,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.652 UTC
+                    11.10.2026, 14:46:22,652 UTC
                   </td>
                   <td
                     class="py-2 px-3"
@@ -10619,7 +10491,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Timeline, deve
                   <td
                     class="py-2 px-3 text-xs text-muted-foreground"
                   >
-                    2026-10-11 14:46:22.655 UTC
+                    11.10.2026, 14:46:22,655 UTC
                   </td>
                   <td
                     class="py-2 px-3"

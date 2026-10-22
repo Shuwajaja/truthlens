@@ -1,4 +1,4 @@
-import { ArrowUpRight, CircleDot, FileDiff, ListChecks, MessageSquare, Shield } from 'lucide-react'
+import { ArrowUpRight, CircleDot, FileDiff } from 'lucide-react'
 import type { RunDoc } from '../types.ts'
 import type { Lens } from '../lens.ts'
 import type { DrawerTarget } from './Drawer.tsx'
@@ -11,7 +11,7 @@ import { Empty, EmptyDescription } from './ui/empty.tsx'
 import { ScrollArea, ScrollBar } from './ui/scroll-area.tsx'
 import { Separator } from './ui/separator.tsx'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table.tsx'
-import { recordedDiff, recordedTime } from './overview-data.ts'
+import { recordedDiff, recordedTime, recordedDuration } from './overview-data.ts'
 
 export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens; onOpenDrawer: (target: DrawerTarget) => void }) {
   const diff = recordedDiff(doc)
@@ -21,24 +21,24 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
   return <div className="overview">
     <div className="page-heading"><div><h1>Projektübersicht</h1><p>Läufe, Aussagen und was davon wirklich belegt ist.</p></div><Badge>{doc.run.agent}</Badge></div>
     <div className="status-grid">
-      <Card className="status-card"><div className="card-label"><ListChecks size={16} aria-hidden="true" /> Fachliche Prüfung</div>
-        <div className="status-value text-open">{doc.review_required ? 'Prüfung offen' : 'Nicht ausgewiesen'}</div><p>Integrität ist keine Abnahme.</p></Card>
-      <Card className="status-card"><div className="card-label"><CircleDot size={16} aria-hidden="true" /> Kriterien fehlgeschlagen</div>
-        <div className="status-value text-destructive" data-testid="failed-count">{doc.counts.red}</div><p>{doc.counts.green} von {doc.criteria.length} Kriterien: met</p></Card>
-      <Card className="status-card"><div className="card-label"><MessageSquare size={16} aria-hidden="true" /> Aussagen ohne Beleg</div>
-        <div className="status-value" data-testid="unwitnessed-count">{doc.claims.filter(claim => claim.finding === 'claim_unwitnessed').length}</div><p>Finding: claim_unwitnessed</p></Card>
-      <Card className="status-card"><div className="card-label"><Shield size={16} aria-hidden="true" /> Integrität</div>
-        <StatusBadge source="integrity" verified={doc.verified} integrity={doc.integrity} /><p>Prüfstand des Exports</p></Card>
+      <Card className="status-card"><div className="card-label"><span className="status-dot tone-open"/>Gesamtstatus</div>
+        <div className="status-value text-open" data-testid="overall-status">{doc.review_required ? 'Offen' : 'Nicht ausgewiesen'}</div><p>{doc.review_required ? 'Review nötig · keine fachliche Freigabe' : 'Keine fachliche Freigabe ausgewiesen'}</p></Card>
+      <Card className="status-card"><div className="card-label"><span className="status-dot tone-ok"/>Kriterien belegt</div>
+        <div className="status-value" data-testid="met-count"><span className="text-ok">{doc.criteria.filter(criterion=>criterion.status==='met').length}</span> / {doc.criteria.length}</div><p>Aufgezeichnetes Ergebnis: met</p></Card>
+      <Card className="status-card"><div className="card-label"><span className="status-dot tone-fail"/>Fehlgeschlagen</div>
+        <div className="status-value text-fail" data-testid="failed-count">{doc.criteria.filter(criterion=>criterion.status==='unmet').length}</div><p>Kriterien mit Ergebnis unmet</p></Card>
+      <Card className="status-card"><div className="card-label"><span className="status-dot tone-open"/>Unbelegt</div>
+        <div className="status-value text-open" data-testid="unwitnessed-count">{doc.criteria.filter(criterion=>criterion.status==='unverified'||criterion.status==='proposed').length}</div><p>Kriterien ohne bestätigtes Ergebnis</p></Card>
     </div>
 
     <div className="overview-columns">
       <Card className="panel" role="region" aria-label="Exportierte Läufe">
-        <div className="panel-heading"><h2>Exportierte Läufe</h2><Badge>1 Lauf</Badge></div>
+        <div className="panel-heading"><h2>Exportierte Läufe</h2><Badge>1 Lauf · Review nötig</Badge></div>
         <p className="section-note">Dieser Export enthält einen Lauf; keine weitere Laufhistorie.</p>
         <Table><TableHeader><TableRow><TableHead>Projekt / Agent</TableHead><TableHead>Exit-Code</TableHead></TableRow></TableHeader>
           <TableBody><TableRow><TableCell className="whitespace-normal"><strong>{doc.run.project}</strong><p className="text-muted-foreground mt-1">{doc.run.agent}</p></TableCell>
             <TableCell className="run-exit">{doc.run.exit_code ?? 'Nicht exportiert'}</TableCell></TableRow></TableBody></Table>
-        <dl className="run-times"><div><dt>Start</dt><dd>{recordedTime(doc.run.started)}</dd></div><div><dt>Ende</dt><dd>{doc.run.finished ? recordedTime(doc.run.finished) : 'Nicht exportiert'}</dd></div></dl>
+        <dl className="run-times"><div><dt>Start</dt><dd>{recordedTime(doc.run.started)}</dd></div><div><dt>Ende</dt><dd>{doc.run.finished ? recordedTime(doc.run.finished) : 'Nicht exportiert'}</dd></div><div><dt>Dauer</dt><dd>{recordedDuration(doc.run.started,doc.run.finished)}</dd></div></dl>
       </Card>
       <Card className="panel diff-panel">
         <div className="panel-heading"><h2><FileDiff size={17} aria-hidden="true" /> Code-Diff</h2><Badge>Exportierter Inhalt</Badge></div>
