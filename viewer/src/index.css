@@ -164,3 +164,15 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 .rail-tabs [data-slot=tabs-list] { width: 100%; padding: 4px; border-radius: 4px; gap: 0; }
 .rail-tabs [data-slot=tabs-trigger] { color: var(--text-2); font-size: 12px; padding: 8px 4px; border-radius: 4px; }
 .rail-tabs [data-slot=tabs-trigger][data-state=active] { background: var(--surface-2); color: var(--text); }
+
+.graph-legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--text-2); }
+.graph-legend li { display: flex; align-items: center; gap: 4px; }
+.legend-line { width: 20px; border-top: 1px solid currentColor; } .legend-line.dashed { border-top-style: dashed; }
+.graph-kind { display: flex; align-items: center; gap: 4px; }
+.graph-criterion.graph-result-open { border-style: dashed; border-color: var(--neutral); }
+.node-title { font-size: 16px; font-weight: 600; overflow-wrap: anywhere; }
+.node-properties { border: 1px solid var(--border); border-radius: 4px; font: 400 12px/1.5 var(--mono); }
+.node-properties > div { display: grid; grid-template-columns: 100px minmax(0,1fr); padding: 8px; gap: 8px; }
+.node-properties > div+div { border-top: 1px solid var(--border); }
+.node-properties dt { color: var(--text-3); } .node-properties dd { overflow-wrap: anywhere; }
+.node-detail > button { align-self: flex-start; white-space: normal; height: auto; min-height: 32px; }

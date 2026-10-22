@@ -1,3 +1,6 @@
+import {useMemo,useState} from 'react'
+import {buildEvidenceGraph} from '../graph/evidence-graph.ts'
+import {NodeDetail} from './NodeDetail.tsx'
 import { ArrowUpRight, CircleDot, FileDiff } from 'lucide-react'
 import type { RunDoc } from '../types.ts'
 import type { Lens } from '../lens.ts'
@@ -14,6 +17,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '.
 import { recordedDiff, recordedTime, recordedDuration } from './overview-data.ts'
 
 export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens; onOpenDrawer: (target: DrawerTarget) => void }) {
+  const [selected,setSelected]=useState<string>()
+  const graph=useMemo(()=>buildEvidenceGraph(doc),[doc])
+  const selectedNode=graph.nodes.find(node=>node.id===selected)??graph.nodes.find(node=>node.kind==='criterion')??graph.nodes[0]
   const diff = recordedDiff(doc)
   const events = new Map(doc.events.map(event => [event.id, event]))
   const recent = [...doc.events].sort((a,b) => a.seq-b.seq).slice(-5)
@@ -50,7 +56,9 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
     </div>
 
     <div className="graph-evidence-row">
-    <EvidenceGraph doc={doc} onOpenDrawer={onOpenDrawer} />
+    <EvidenceGraph doc={doc} onOpenDrawer={onOpenDrawer} onSelectNode={setSelected} />
+    <NodeDetail node={selectedNode} onOpenDrawer={onOpenDrawer}/>
+    </div>
     <Card className="panel criteria-panel" role="region" aria-label="Kriterien und Belege">
       <div className="panel-heading"><h2>Kriterien &amp; Belege</h2><span className="section-note">Status aus dem Export</span></div>
       <p className="recorded-headline">{doc.headline.join(' ')}</p>
@@ -68,8 +76,7 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
       {firstUnwitnessed && <p className="claim-callout"><strong>Claim · claim_unwitnessed</strong><br />{firstUnwitnessed.text}</p>}
     </Card>
 
-    </div>
-    <Card className="panel">
+    <Card className="panel timeline-panel">
       <div className="panel-heading"><h2>Zeitachse</h2><span className="section-note">{doc.events.length} Ereignisse · letzte {recent.length}</span></div>
       {recent.length === 0 ? <Empty><EmptyDescription>Keine Ereignisse exportiert.</EmptyDescription></Empty> : <ol className="recent-events">
         {recent.map((event, index) => <li key={event.id}>{index > 0 && <Separator />}<button type="button" aria-label={`Ereignis #${event.seq}: ${event.summary}`} onClick={() => onOpenDrawer({ kind: 'event', event })}>

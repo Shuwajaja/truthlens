@@ -6394,6 +6394,29 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                   13 Datensätze · 4 Verbindungen
                 </span>
               </div>
+              <ul
+                aria-label="Graph-Legende"
+                class="graph-legend"
+              >
+                <li>
+                  <span
+                    class="legend-line tone-ok"
+                  />
+                  Belegt
+                </li>
+                <li>
+                  <span
+                    class="legend-line tone-fail"
+                  />
+                  Widerspricht
+                </li>
+                <li>
+                  <span
+                    class="legend-line tone-open dashed"
+                  />
+                  Ohne Prüfnachweis
+                </li>
+              </ul>
               <p
                 class="section-note"
               >
@@ -6448,7 +6471,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Claim: Created index.html with a page that has a heading and a contact form · supported"
-                              class="graph-record nodrag nopan graph-claim"
+                              class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="Created index.html with a page that has a heading and a contact form"
                               type="button"
                             >
@@ -6486,7 +6509,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Claim: The form validates the e-mail address using a regex and shows an error · claim_unwitnessed"
-                              class="graph-record nodrag nopan graph-claim"
+                              class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="The form validates the e-mail address using a regex and shows an error"
                               type="button"
                             >
@@ -6524,7 +6547,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Claim: The page uses a fluid max-width container so it works on mobile · claim_unwitnessed"
-                              class="graph-record nodrag nopan graph-claim"
+                              class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="The page uses a fluid max-width container so it works on mobile"
                               type="button"
                             >
@@ -6562,13 +6585,17 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Kriterium: Page exists (index.html with a heading and a form) · met"
-                              class="graph-record nodrag nopan graph-criterion"
+                              class="graph-record nodrag nopan graph-criterion graph-result-ok"
                               title="Page exists (index.html with a heading and a form)"
                               type="button"
                             >
                               <span
                                 class="graph-kind"
                               >
+                                <span
+                                  aria-hidden="true"
+                                  class="status-dot tone-ok"
+                                />
                                 Kriterium · met
                               </span>
                               <span
@@ -6600,13 +6627,17 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Kriterium: Form validates the e-mail address (invalid input rejected) · unmet"
-                              class="graph-record nodrag nopan graph-criterion"
+                              class="graph-record nodrag nopan graph-criterion graph-result-fail"
                               title="Form validates the e-mail address (invalid input rejected)"
                               type="button"
                             >
                               <span
                                 class="graph-kind"
                               >
+                                <span
+                                  aria-hidden="true"
+                                  class="status-dot tone-fail"
+                                />
                                 Kriterium · unmet
                               </span>
                               <span
@@ -6638,13 +6669,17 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Kriterium: Mobile layout works · unverified"
-                              class="graph-record nodrag nopan graph-criterion"
+                              class="graph-record nodrag nopan graph-criterion graph-result-open"
                               title="Mobile layout works"
                               type="button"
                             >
                               <span
                                 class="graph-kind"
                               >
+                                <span
+                                  aria-hidden="true"
+                                  class="status-dot tone-open"
+                                />
                                 Kriterium · unverified
                               </span>
                               <span
@@ -6676,7 +6711,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Ereignis: evidence.attached"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="evidence.attached"
                               type="button"
                             >
@@ -6714,7 +6749,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Ereignis: Agent process finished (exit 0)"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Agent process finished (exit 0)"
                               type="button"
                             >
@@ -6752,7 +6787,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Ereignis: Files changed: index.html"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Files changed: index.html"
                               type="button"
                             >
@@ -6790,7 +6825,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Ereignis: File recorded: index.html"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="File recorded: index.html"
                               type="button"
                             >
@@ -6828,7 +6863,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Ereignis: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                               type="button"
                             >
@@ -6866,7 +6901,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Ereignis: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                               type="button"
                             >
@@ -6904,7 +6939,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                             />
                             <button
                               aria-label="Datei: index.html"
-                              class="graph-record nodrag nopan graph-file"
+                              class="graph-record nodrag nopan graph-file graph-result-open"
                               title="index.html"
                               type="button"
                             >
@@ -7150,8 +7185,8 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
               </details>
             </div>
             <div
-              aria-label="Kriterien und Belege"
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criteria-panel"
+              aria-label="Datensatz-Detail"
+              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel node-detail"
               data-slot="card"
               role="region"
             >
@@ -7159,231 +7194,328 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, clie
                 class="panel-heading"
               >
                 <h2>
-                  Kriterien & Belege
+                  Datensatz-Detail
                 </h2>
                 <span
-                  class="section-note"
+                  class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
+                  data-slot="badge"
                 >
-                  Status aus dem Export
+                  criterion
                 </span>
               </div>
               <p
-                class="recorded-headline"
+                class="node-title"
               >
-                Your agent said: Done. Here's what's actually proven.
+                Page exists (index.html with a heading and a form)
               </p>
-              <ul
-                class="criterion-list"
+              <span
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
+                data-slot="status-badge"
+                data-variant="belegt"
               >
-                <li>
-                  <button
-                    aria-describedby="criterion-description-0 criterion-status-0"
-                    aria-label="Belege: Page exists (index.html with a heading and a form)"
-                    class="criterion-button"
-                    type="button"
+                <span>
+                  Belegt
+                </span>
+                <code
+                  class="font-mono"
+                >
+                  · met
+                </code>
+              </span>
+              <dl
+                class="node-properties"
+              >
+                <div>
+                  <dt>
+                    Kriterium
+                  </dt>
+                  <dd
+                    title="c1"
                   >
-                    <span
-                      class="criterion-content"
-                    >
-                      <strong>
-                        Page exists (index.html with a heading and a form)
-                      </strong>
-                      <span
-                        id="criterion-description-0"
-                      >
-                        Proven – witnessed evidence passed.
-                      </span>
-                    </span>
-                    <span
-                      class="criterion-labels"
-                      id="criterion-status-0"
-                    >
-                      <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
-                        data-slot="status-badge"
-                        data-variant="belegt"
-                      >
-                        <span>
-                          Belegt
-                        </span>
-                        <code
-                          class="font-mono"
-                        >
-                          · met
-                        </code>
-                      </span>
-                      <span
-                        class="text-open text-xs"
-                      >
-                        claimed
-                      </span>
-                    </span>
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-arrow-up-right"
-                      fill="none"
-                      height="16"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="16"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M7 7h10v10"
-                      />
-                      <path
-                        d="M7 17 17 7"
-                      />
-                    </svg>
-                  </button>
-                </li>
-                <li>
-                  <button
-                    aria-describedby="criterion-description-1 criterion-status-1"
-                    aria-label="Belege: Form validates the e-mail address (invalid input rejected)"
-                    class="criterion-button"
-                    type="button"
+                    c1
+                  </dd>
+                </div>
+                <div>
+                  <dt>
+                    Status
+                  </dt>
+                  <dd
+                    title="met"
                   >
-                    <span
-                      class="criterion-content"
-                    >
-                      <strong>
-                        Form validates the e-mail address (invalid input rejected)
-                      </strong>
-                      <span
-                        id="criterion-description-1"
-                      >
-                        Failed – the witnessed check did not pass.
-                      </span>
-                    </span>
-                    <span
-                      class="criterion-labels"
-                      id="criterion-status-1"
-                    >
-                      <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
-                        data-slot="status-badge"
-                        data-variant="fehlgeschlagen"
-                      >
-                        <span>
-                          Fehlgeschlagen
-                        </span>
-                        <code
-                          class="font-mono"
-                        >
-                          · unmet
-                        </code>
-                      </span>
-                      <span
-                        class="text-open text-xs"
-                      >
-                        claimed
-                      </span>
-                    </span>
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-arrow-up-right"
-                      fill="none"
-                      height="16"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="16"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M7 7h10v10"
-                      />
-                      <path
-                        d="M7 17 17 7"
-                      />
-                    </svg>
-                  </button>
-                </li>
-                <li>
-                  <button
-                    aria-describedby="criterion-description-2 criterion-status-2"
-                    aria-label="Belege: Mobile layout works"
-                    class="criterion-button"
-                    type="button"
+                    met
+                  </dd>
+                </div>
+                <div>
+                  <dt>
+                    Beleg-Ereignisse
+                  </dt>
+                  <dd
+                    title="1"
                   >
-                    <span
-                      class="criterion-content"
-                    >
-                      <strong>
-                        Mobile layout works
-                      </strong>
-                      <span
-                        id="criterion-description-2"
-                      >
-                        Claimed only – nothing checked this yet.
-                      </span>
-                    </span>
-                    <span
-                      class="criterion-labels"
-                      id="criterion-status-2"
-                    >
-                      <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
-                        data-slot="status-badge"
-                        data-variant="offen"
-                      >
-                        <span>
-                          Offen
-                        </span>
-                        <code
-                          class="font-mono"
-                        >
-                          · unverified
-                        </code>
-                      </span>
-                      <span
-                        class="text-open text-xs"
-                      >
-                        claimed
-                      </span>
-                    </span>
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-arrow-up-right"
-                      fill="none"
-                      height="16"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="16"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M7 7h10v10"
-                      />
-                      <path
-                        d="M7 17 17 7"
-                      />
-                    </svg>
-                  </button>
-                </li>
-              </ul>
+                    1
+                  </dd>
+                </div>
+                <div>
+                  <dt>
+                    Claimed
+                  </dt>
+                  <dd
+                    title="true"
+                  >
+                    true
+                  </dd>
+                </div>
+              </dl>
               <p
-                class="claim-callout"
+                class="text-2"
               >
-                <strong>
-                  Claim · claim_unwitnessed
-                </strong>
-                <br />
-                The form validates the e-mail address using a regex and shows an error
+                Proven – witnessed evidence passed.
               </p>
+              <button
+                class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-1.5 rounded-md px-3 has-[>svg]:px-2.5"
+                data-size="sm"
+                data-slot="button"
+                data-variant="outline"
+                type="button"
+              >
+                Aufgezeichneten Datensatz öffnen
+              </button>
             </div>
           </div>
           <div
-            class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel"
+            aria-label="Kriterien und Belege"
+            class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criteria-panel"
+            data-slot="card"
+            role="region"
+          >
+            <div
+              class="panel-heading"
+            >
+              <h2>
+                Kriterien & Belege
+              </h2>
+              <span
+                class="section-note"
+              >
+                Status aus dem Export
+              </span>
+            </div>
+            <p
+              class="recorded-headline"
+            >
+              Your agent said: Done. Here's what's actually proven.
+            </p>
+            <ul
+              class="criterion-list"
+            >
+              <li>
+                <button
+                  aria-describedby="criterion-description-0 criterion-status-0"
+                  aria-label="Belege: Page exists (index.html with a heading and a form)"
+                  class="criterion-button"
+                  type="button"
+                >
+                  <span
+                    class="criterion-content"
+                  >
+                    <strong>
+                      Page exists (index.html with a heading and a form)
+                    </strong>
+                    <span
+                      id="criterion-description-0"
+                    >
+                      Proven – witnessed evidence passed.
+                    </span>
+                  </span>
+                  <span
+                    class="criterion-labels"
+                    id="criterion-status-0"
+                  >
+                    <span
+                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
+                      data-slot="status-badge"
+                      data-variant="belegt"
+                    >
+                      <span>
+                        Belegt
+                      </span>
+                      <code
+                        class="font-mono"
+                      >
+                        · met
+                      </code>
+                    </span>
+                    <span
+                      class="text-open text-xs"
+                    >
+                      claimed
+                    </span>
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-up-right"
+                    fill="none"
+                    height="16"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 7h10v10"
+                    />
+                    <path
+                      d="M7 17 17 7"
+                    />
+                  </svg>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-describedby="criterion-description-1 criterion-status-1"
+                  aria-label="Belege: Form validates the e-mail address (invalid input rejected)"
+                  class="criterion-button"
+                  type="button"
+                >
+                  <span
+                    class="criterion-content"
+                  >
+                    <strong>
+                      Form validates the e-mail address (invalid input rejected)
+                    </strong>
+                    <span
+                      id="criterion-description-1"
+                    >
+                      Failed – the witnessed check did not pass.
+                    </span>
+                  </span>
+                  <span
+                    class="criterion-labels"
+                    id="criterion-status-1"
+                  >
+                    <span
+                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
+                      data-slot="status-badge"
+                      data-variant="fehlgeschlagen"
+                    >
+                      <span>
+                        Fehlgeschlagen
+                      </span>
+                      <code
+                        class="font-mono"
+                      >
+                        · unmet
+                      </code>
+                    </span>
+                    <span
+                      class="text-open text-xs"
+                    >
+                      claimed
+                    </span>
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-up-right"
+                    fill="none"
+                    height="16"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 7h10v10"
+                    />
+                    <path
+                      d="M7 17 17 7"
+                    />
+                  </svg>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-describedby="criterion-description-2 criterion-status-2"
+                  aria-label="Belege: Mobile layout works"
+                  class="criterion-button"
+                  type="button"
+                >
+                  <span
+                    class="criterion-content"
+                  >
+                    <strong>
+                      Mobile layout works
+                    </strong>
+                    <span
+                      id="criterion-description-2"
+                    >
+                      Claimed only – nothing checked this yet.
+                    </span>
+                  </span>
+                  <span
+                    class="criterion-labels"
+                    id="criterion-status-2"
+                  >
+                    <span
+                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
+                      data-slot="status-badge"
+                      data-variant="offen"
+                    >
+                      <span>
+                        Offen
+                      </span>
+                      <code
+                        class="font-mono"
+                      >
+                        · unverified
+                      </code>
+                    </span>
+                    <span
+                      class="text-open text-xs"
+                    >
+                      claimed
+                    </span>
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-up-right"
+                    fill="none"
+                    height="16"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 7h10v10"
+                    />
+                    <path
+                      d="M7 17 17 7"
+                    />
+                  </svg>
+                </button>
+              </li>
+            </ul>
+            <p
+              class="claim-callout"
+            >
+              <strong>
+                Claim · claim_unwitnessed
+              </strong>
+              <br />
+              The form validates the e-mail address using a regex and shows an error
+            </p>
+          </div>
+          <div
+            class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel"
             data-slot="card"
           >
             <div
@@ -12525,6 +12657,29 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                   13 Datensätze · 4 Verbindungen
                 </span>
               </div>
+              <ul
+                aria-label="Graph-Legende"
+                class="graph-legend"
+              >
+                <li>
+                  <span
+                    class="legend-line tone-ok"
+                  />
+                  Belegt
+                </li>
+                <li>
+                  <span
+                    class="legend-line tone-fail"
+                  />
+                  Widerspricht
+                </li>
+                <li>
+                  <span
+                    class="legend-line tone-open dashed"
+                  />
+                  Ohne Prüfnachweis
+                </li>
+              </ul>
               <p
                 class="section-note"
               >
@@ -12579,7 +12734,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Claim: Created index.html with a page that has a heading and a contact form · supported"
-                              class="graph-record nodrag nopan graph-claim"
+                              class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="Created index.html with a page that has a heading and a contact form"
                               type="button"
                             >
@@ -12617,7 +12772,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Claim: The form validates the e-mail address using a regex and shows an error · claim_unwitnessed"
-                              class="graph-record nodrag nopan graph-claim"
+                              class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="The form validates the e-mail address using a regex and shows an error"
                               type="button"
                             >
@@ -12655,7 +12810,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Claim: The page uses a fluid max-width container so it works on mobile · claim_unwitnessed"
-                              class="graph-record nodrag nopan graph-claim"
+                              class="graph-record nodrag nopan graph-claim graph-result-open"
                               title="The page uses a fluid max-width container so it works on mobile"
                               type="button"
                             >
@@ -12693,13 +12848,17 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Kriterium: Page exists (index.html with a heading and a form) · met"
-                              class="graph-record nodrag nopan graph-criterion"
+                              class="graph-record nodrag nopan graph-criterion graph-result-ok"
                               title="Page exists (index.html with a heading and a form)"
                               type="button"
                             >
                               <span
                                 class="graph-kind"
                               >
+                                <span
+                                  aria-hidden="true"
+                                  class="status-dot tone-ok"
+                                />
                                 Kriterium · met
                               </span>
                               <span
@@ -12731,13 +12890,17 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Kriterium: Form validates the e-mail address (invalid input rejected) · unmet"
-                              class="graph-record nodrag nopan graph-criterion"
+                              class="graph-record nodrag nopan graph-criterion graph-result-fail"
                               title="Form validates the e-mail address (invalid input rejected)"
                               type="button"
                             >
                               <span
                                 class="graph-kind"
                               >
+                                <span
+                                  aria-hidden="true"
+                                  class="status-dot tone-fail"
+                                />
                                 Kriterium · unmet
                               </span>
                               <span
@@ -12769,13 +12932,17 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Kriterium: Mobile layout works · unverified"
-                              class="graph-record nodrag nopan graph-criterion"
+                              class="graph-record nodrag nopan graph-criterion graph-result-open"
                               title="Mobile layout works"
                               type="button"
                             >
                               <span
                                 class="graph-kind"
                               >
+                                <span
+                                  aria-hidden="true"
+                                  class="status-dot tone-open"
+                                />
                                 Kriterium · unverified
                               </span>
                               <span
@@ -12807,7 +12974,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Ereignis: evidence.attached"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="evidence.attached"
                               type="button"
                             >
@@ -12845,7 +13012,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Ereignis: Agent process finished (exit 0)"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Agent process finished (exit 0)"
                               type="button"
                             >
@@ -12883,7 +13050,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Ereignis: Files changed: index.html"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Files changed: index.html"
                               type="button"
                             >
@@ -12921,7 +13088,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Ereignis: File recorded: index.html"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="File recorded: index.html"
                               type="button"
                             >
@@ -12959,7 +13126,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Ereignis: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Tests run by TruthLens: 1 passed, 0 failed, 0 skipped"
                               type="button"
                             >
@@ -12997,7 +13164,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Ereignis: Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
-                              class="graph-record nodrag nopan graph-evidence"
+                              class="graph-record nodrag nopan graph-evidence graph-result-open"
                               title="Tests run by TruthLens: 0 passed, 1 failed, 0 skipped"
                               type="button"
                             >
@@ -13035,7 +13202,7 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                             />
                             <button
                               aria-label="Datei: index.html"
-                              class="graph-record nodrag nopan graph-file"
+                              class="graph-record nodrag nopan graph-file graph-result-open"
                               title="index.html"
                               type="button"
                             >
@@ -13281,8 +13448,8 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
               </details>
             </div>
             <div
-              aria-label="Kriterien und Belege"
-              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criteria-panel"
+              aria-label="Datensatz-Detail"
+              class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel node-detail"
               data-slot="card"
               role="region"
             >
@@ -13290,231 +13457,328 @@ exports[`pre-migration viewer snapshots (must remain unchanged) > Overview, deve
                 class="panel-heading"
               >
                 <h2>
-                  Kriterien & Belege
+                  Datensatz-Detail
                 </h2>
                 <span
-                  class="section-note"
+                  class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-border text-foreground"
+                  data-slot="badge"
                 >
-                  Status aus dem Export
+                  criterion
                 </span>
               </div>
               <p
-                class="recorded-headline"
+                class="node-title"
               >
-                Your agent said: Done. Here's what's actually proven.
+                Page exists (index.html with a heading and a form)
               </p>
-              <ul
-                class="criterion-list"
+              <span
+                class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
+                data-slot="status-badge"
+                data-variant="belegt"
               >
-                <li>
-                  <button
-                    aria-describedby="criterion-description-0 criterion-status-0"
-                    aria-label="Belege: Page exists (index.html with a heading and a form)"
-                    class="criterion-button"
-                    type="button"
+                <span>
+                  Belegt
+                </span>
+                <code
+                  class="font-mono"
+                >
+                  · met
+                </code>
+              </span>
+              <dl
+                class="node-properties"
+              >
+                <div>
+                  <dt>
+                    Kriterium
+                  </dt>
+                  <dd
+                    title="c1"
                   >
-                    <span
-                      class="criterion-content"
-                    >
-                      <strong>
-                        Page exists (index.html with a heading and a form)
-                      </strong>
-                      <span
-                        id="criterion-description-0"
-                      >
-                        Proven – witnessed evidence passed.
-                      </span>
-                    </span>
-                    <span
-                      class="criterion-labels"
-                      id="criterion-status-0"
-                    >
-                      <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
-                        data-slot="status-badge"
-                        data-variant="belegt"
-                      >
-                        <span>
-                          Belegt
-                        </span>
-                        <code
-                          class="font-mono"
-                        >
-                          · met
-                        </code>
-                      </span>
-                      <span
-                        class="text-open text-xs"
-                      >
-                        claimed
-                      </span>
-                    </span>
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-arrow-up-right"
-                      fill="none"
-                      height="16"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="16"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M7 7h10v10"
-                      />
-                      <path
-                        d="M7 17 17 7"
-                      />
-                    </svg>
-                  </button>
-                </li>
-                <li>
-                  <button
-                    aria-describedby="criterion-description-1 criterion-status-1"
-                    aria-label="Belege: Form validates the e-mail address (invalid input rejected)"
-                    class="criterion-button"
-                    type="button"
+                    c1
+                  </dd>
+                </div>
+                <div>
+                  <dt>
+                    Status
+                  </dt>
+                  <dd
+                    title="met"
                   >
-                    <span
-                      class="criterion-content"
-                    >
-                      <strong>
-                        Form validates the e-mail address (invalid input rejected)
-                      </strong>
-                      <span
-                        id="criterion-description-1"
-                      >
-                        Failed – the witnessed check did not pass.
-                      </span>
-                    </span>
-                    <span
-                      class="criterion-labels"
-                      id="criterion-status-1"
-                    >
-                      <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
-                        data-slot="status-badge"
-                        data-variant="fehlgeschlagen"
-                      >
-                        <span>
-                          Fehlgeschlagen
-                        </span>
-                        <code
-                          class="font-mono"
-                        >
-                          · unmet
-                        </code>
-                      </span>
-                      <span
-                        class="text-open text-xs"
-                      >
-                        claimed
-                      </span>
-                    </span>
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-arrow-up-right"
-                      fill="none"
-                      height="16"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="16"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M7 7h10v10"
-                      />
-                      <path
-                        d="M7 17 17 7"
-                      />
-                    </svg>
-                  </button>
-                </li>
-                <li>
-                  <button
-                    aria-describedby="criterion-description-2 criterion-status-2"
-                    aria-label="Belege: Mobile layout works"
-                    class="criterion-button"
-                    type="button"
+                    met
+                  </dd>
+                </div>
+                <div>
+                  <dt>
+                    Beleg-Ereignisse
+                  </dt>
+                  <dd
+                    title="1"
                   >
-                    <span
-                      class="criterion-content"
-                    >
-                      <strong>
-                        Mobile layout works
-                      </strong>
-                      <span
-                        id="criterion-description-2"
-                      >
-                        Claimed only – nothing checked this yet.
-                      </span>
-                    </span>
-                    <span
-                      class="criterion-labels"
-                      id="criterion-status-2"
-                    >
-                      <span
-                        class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
-                        data-slot="status-badge"
-                        data-variant="offen"
-                      >
-                        <span>
-                          Offen
-                        </span>
-                        <code
-                          class="font-mono"
-                        >
-                          · unverified
-                        </code>
-                      </span>
-                      <span
-                        class="text-open text-xs"
-                      >
-                        claimed
-                      </span>
-                    </span>
-                    <svg
-                      aria-hidden="true"
-                      class="lucide lucide-arrow-up-right"
-                      fill="none"
-                      height="16"
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      viewBox="0 0 24 24"
-                      width="16"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M7 7h10v10"
-                      />
-                      <path
-                        d="M7 17 17 7"
-                      />
-                    </svg>
-                  </button>
-                </li>
-              </ul>
+                    1
+                  </dd>
+                </div>
+                <div>
+                  <dt>
+                    Claimed
+                  </dt>
+                  <dd
+                    title="true"
+                  >
+                    true
+                  </dd>
+                </div>
+              </dl>
               <p
-                class="claim-callout"
+                class="text-2"
               >
-                <strong>
-                  Claim · claim_unwitnessed
-                </strong>
-                <br />
-                The form validates the e-mail address using a regex and shows an error
+                Proven – witnessed evidence passed.
               </p>
+              <button
+                class="inline-flex shrink-0 items-center justify-center text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-1.5 rounded-md px-3 has-[>svg]:px-2.5"
+                data-size="sm"
+                data-slot="button"
+                data-variant="outline"
+                type="button"
+              >
+                Aufgezeichneten Datensatz öffnen
+              </button>
             </div>
           </div>
           <div
-            class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel"
+            aria-label="Kriterien und Belege"
+            class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel criteria-panel"
+            data-slot="card"
+            role="region"
+          >
+            <div
+              class="panel-heading"
+            >
+              <h2>
+                Kriterien & Belege
+              </h2>
+              <span
+                class="section-note"
+              >
+                Status aus dem Export
+              </span>
+            </div>
+            <p
+              class="recorded-headline"
+            >
+              Your agent said: Done. Here's what's actually proven.
+            </p>
+            <ul
+              class="criterion-list"
+            >
+              <li>
+                <button
+                  aria-describedby="criterion-description-0 criterion-status-0"
+                  aria-label="Belege: Page exists (index.html with a heading and a form)"
+                  class="criterion-button"
+                  type="button"
+                >
+                  <span
+                    class="criterion-content"
+                  >
+                    <strong>
+                      Page exists (index.html with a heading and a form)
+                    </strong>
+                    <span
+                      id="criterion-description-0"
+                    >
+                      Proven – witnessed evidence passed.
+                    </span>
+                  </span>
+                  <span
+                    class="criterion-labels"
+                    id="criterion-status-0"
+                  >
+                    <span
+                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-ok/40 bg-ok/10 text-ok"
+                      data-slot="status-badge"
+                      data-variant="belegt"
+                    >
+                      <span>
+                        Belegt
+                      </span>
+                      <code
+                        class="font-mono"
+                      >
+                        · met
+                      </code>
+                    </span>
+                    <span
+                      class="text-open text-xs"
+                    >
+                      claimed
+                    </span>
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-up-right"
+                    fill="none"
+                    height="16"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 7h10v10"
+                    />
+                    <path
+                      d="M7 17 17 7"
+                    />
+                  </svg>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-describedby="criterion-description-1 criterion-status-1"
+                  aria-label="Belege: Form validates the e-mail address (invalid input rejected)"
+                  class="criterion-button"
+                  type="button"
+                >
+                  <span
+                    class="criterion-content"
+                  >
+                    <strong>
+                      Form validates the e-mail address (invalid input rejected)
+                    </strong>
+                    <span
+                      id="criterion-description-1"
+                    >
+                      Failed – the witnessed check did not pass.
+                    </span>
+                  </span>
+                  <span
+                    class="criterion-labels"
+                    id="criterion-status-1"
+                  >
+                    <span
+                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-fail/40 bg-fail/10 text-fail"
+                      data-slot="status-badge"
+                      data-variant="fehlgeschlagen"
+                    >
+                      <span>
+                        Fehlgeschlagen
+                      </span>
+                      <code
+                        class="font-mono"
+                      >
+                        · unmet
+                      </code>
+                    </span>
+                    <span
+                      class="text-open text-xs"
+                    >
+                      claimed
+                    </span>
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-up-right"
+                    fill="none"
+                    height="16"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 7h10v10"
+                    />
+                    <path
+                      d="M7 17 17 7"
+                    />
+                  </svg>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-describedby="criterion-description-2 criterion-status-2"
+                  aria-label="Belege: Mobile layout works"
+                  class="criterion-button"
+                  type="button"
+                >
+                  <span
+                    class="criterion-content"
+                  >
+                    <strong>
+                      Mobile layout works
+                    </strong>
+                    <span
+                      id="criterion-description-2"
+                    >
+                      Claimed only – nothing checked this yet.
+                    </span>
+                  </span>
+                  <span
+                    class="criterion-labels"
+                    id="criterion-status-2"
+                  >
+                    <span
+                      class="inline-flex w-fit items-center gap-1 rounded-md border px-2 py-1 text-xs font-medium border-open/40 bg-open/10 text-open"
+                      data-slot="status-badge"
+                      data-variant="offen"
+                    >
+                      <span>
+                        Offen
+                      </span>
+                      <code
+                        class="font-mono"
+                      >
+                        · unverified
+                      </code>
+                    </span>
+                    <span
+                      class="text-open text-xs"
+                    >
+                      claimed
+                    </span>
+                  </span>
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-arrow-up-right"
+                    fill="none"
+                    height="16"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 7h10v10"
+                    />
+                    <path
+                      d="M7 17 17 7"
+                    />
+                  </svg>
+                </button>
+              </li>
+            </ul>
+            <p
+              class="claim-callout"
+            >
+              <strong>
+                Claim · claim_unwitnessed
+              </strong>
+              <br />
+              The form validates the e-mail address using a regex and shows an error
+            </p>
+          </div>
+          <div
+            class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm panel timeline-panel"
             data-slot="card"
           >
             <div
