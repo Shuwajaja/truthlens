@@ -53,11 +53,11 @@ export function Drawer({ target, blobs, lens, trust, onClose, onOpenDrawer, doc 
         </>}
         {target.kind==='event' && <RenderView input={{kind:'event',event:target.event}} context={{blobs,lens}} />}
         {target.kind==='claim' && <>
-          <p className="text-sm mb-3 break-words">{target.claim.text}</p><StatusBadge source="claim" finding={target.claim.finding} />
+          <p className="text-sm mb-4 break-words">{target.claim.text}</p><StatusBadge source="claim" finding={target.claim.finding} />
           {target.event ? <div className="mt-4"><RenderView input={{kind:'event',event:target.event}} context={{blobs,lens}} /></div> : <p className="text-muted-foreground text-sm mt-4">No matching event exported.</p>}
         </>}
         {target.kind==='artifact' && <>
-          <p className="font-mono text-sm mb-3 break-all">{target.artifact.path}</p>
+          <p className="font-mono text-sm mb-4 break-all">{target.artifact.path}</p>
           <dl className="text-xs text-muted-foreground space-y-2 break-all mb-4"><dt>File</dt><dd>{target.artifact.artifact_id}</dd><dt>SHA-256 (exported)</dt><dd>{target.artifact.sha256}</dd><dt>Source</dt><dd>{target.artifact.provenance}</dd></dl>
           {blobs?.[target.artifact.sha256] !== undefined ? <RenderView input={{kind:'blob',mediaType:'text/plain',path:target.artifact.path,text:blobs[target.artifact.sha256]}} /> : <p className="text-sm text-muted-foreground">Content not exported</p>}
           {target.event && <div className="mt-4"><RenderView input={{kind:'event',event:target.event}} context={{blobs,lens}} /></div>}

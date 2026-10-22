@@ -14,7 +14,7 @@ export function EventDetail({
 }) {
   if (lens === 'client') {
     return (
-      <div className="space-y-3">
+      <div className="space-y-4">
         <p className="text-sm">{evt.summary}</p>
         {evt.payload && Object.keys(evt.payload).length > 0 && (
           <EvidenceBlobContent payload={evt.payload} blobs={blobs} />
@@ -24,8 +24,8 @@ export function EventDetail({
   }
 
   return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-[100px_1fr] gap-1 text-sm">
+    <div className="space-y-4">
+      <div className="grid grid-cols-[100px_1fr] gap-2 text-sm">
         <span className="text-xs text-2">Type</span>
         <span>{evt.type}</span>
         <span className="text-xs text-2">Actor</span>
@@ -40,8 +40,8 @@ export function EventDetail({
       {evt.payload && Object.keys(evt.payload).length > 0 && (
         <div>
           <EvidenceBlobContent payload={evt.payload} blobs={blobs} />
-          <div className="text-xs text-2 uppercase tracking-wider mb-1 mt-3">Event data</div>
-          <pre tabIndex={0} className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border">
+          <div className="text-xs text-2 uppercase tracking-wider mb-2 mt-4">Event data</div>
+          <pre tabIndex={0} className="text-xs font-mono bg-bg p-4 rounded-lg overflow-x-auto border border-border">
             {JSON.stringify(evt.payload, null, 2)}
           </pre>
         </div>

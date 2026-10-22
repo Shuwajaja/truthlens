@@ -17,8 +17,8 @@ export function EvidenceBlobContent({
   }
 
   return (
-    <div className="mb-3">
-      <div className="text-xs text-2 uppercase tracking-wider mb-1">Content</div>
+    <div className="mb-4">
+      <div className="text-xs text-2 uppercase tracking-wider mb-2">Content</div>
       <RenderView input={{ kind: 'blob', mediaType: 'text/plain', path: payloadPath(payload), text: blob }} />
     </div>
   )

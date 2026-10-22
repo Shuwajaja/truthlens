@@ -12,11 +12,11 @@ export function ClaimedVsProven({ doc, lens }: { doc: RunDoc; lens: Lens }) {
       {doc.claims.map(claim => {
         const related = claim.criterion_ids.flatMap(id => { const criterion=criteriaById.get(id); return criterion ? [criterion] : [] })
         return <article key={claim.claim_id} className="card-wrap border-border p-4">
-          <p className="text-base mb-3 break-words"><span className="text-muted-foreground mr-1">Agent said</span>“{claim.text}”</p>
+          <p className="text-base mb-4 break-words"><span className="text-muted-foreground mr-2">Agent said</span>“{claim.text}”</p>
           <StatusBadge source="claim" finding={claim.finding} />
-          {!client && related.length > 0 && <div className="mt-4 pt-3 border-t border-border">
-            <h2 className="text-sm text-muted-foreground mb-3">Recorded criterion status</h2>
-            <ul className="space-y-3">{related.map(criterion => <li key={criterion.criterion_id} className="flex flex-wrap items-center gap-3">
+          {!client && related.length > 0 && <div className="mt-4 pt-4 border-t border-border">
+            <h2 className="text-sm text-muted-foreground mb-4">Recorded criterion status</h2>
+            <ul className="space-y-4">{related.map(criterion => <li key={criterion.criterion_id} className="flex flex-wrap items-center gap-4">
               <span className="text-sm">{criterion.text}</span><StatusBadge source="criterion" status={criterion.status} />
             </li>)}</ul>
           </div>}
