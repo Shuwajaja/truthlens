@@ -108,3 +108,17 @@ Not in v1: comments fed back to agents, hosted storage or sync, multiple agent a
 TruthLens is licensed under the [MIT License](LICENSE). Source provenance is documented in [docs/INVENTORY.md](docs/INVENTORY.md).
 
 > **Security note:** Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user. With the same UID the agent can approve itself; protection only with a separate Unix user/sandbox. The approval gate is not a sandbox. See `docs/TRUST-LEVELS.md`.
+
+### Read-only audit (plan v1.2)
+
+```sh
+truthlens audit RUN_DIR --json
+truthlens audit RUN_DIR --json --hmac-key-file /private/audit-key --expect-last-hash LOWERCASE_SHA256
+```
+
+The optional key must be an owner-only regular file outside the run directory
+(1–4096 bytes; surrounding whitespace stripped). No environment-key fallback,
+repair, rerun, output file or network access is performed. Exit 0 means supported
+within recorded scope, 1 a contradiction, 2 a required check is unavailable.
+Hash-only audits cannot exit 0. Integrity is not approval. See the
+[audit contract and limitations](docs/spec/audit-verifier-v1.md).

@@ -22,9 +22,22 @@ def _key(env: str | None) -> bytes | None:
     return val.encode()
 
 
+def _audit_anchor(value: str) -> str:
+    import re
+
+    if re.fullmatch(r"[0-9a-f]{64}", value) is None:
+        raise argparse.ArgumentTypeError("expected a lowercase SHA-256 digest")
+    return value
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="truthlens")
     sub = ap.add_subparsers(dest="cmd", required=True)
+    p = sub.add_parser("audit", help="read-only audit of a completed run")
+    p.add_argument("dir")
+    p.add_argument("--json", action="store_true")
+    p.add_argument("--hmac-key-file", metavar="PATH")
+    p.add_argument("--expect-last-hash", metavar="HEX", type=_audit_anchor)
     p = sub.add_parser("init", help="create a ledger with run.started")
     p.add_argument("ledger")
     p.add_argument("--repo", default=os.getcwd())
@@ -84,6 +97,24 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--hmac-key-env", metavar="VAR")
     p.add_argument("--hmac-key-id", metavar="ID")
     a = ap.parse_args(argv)
+
+    if a.cmd == "audit":
+        from pathlib import Path
+
+        from truthlens.audit import audit_run, exit_code, serialize_report
+        from truthlens.audit_inputs import AuditInputError, read_audit_key
+
+        key = None
+        if a.hmac_key_file is not None:
+            try:
+                key = read_audit_key(Path(a.hmac_key_file), Path(a.dir))
+            except AuditInputError:
+                # An invalid authentication configuration produces a fixed report,
+                # without reading run data or reflecting key contents/paths.
+                key = b""
+        report = audit_run(Path(a.dir), hmac_key=key, expected_last_hash=a.expect_last_hash)
+        print(serialize_report(report) if a.json else report["conclusion"])
+        return exit_code(report)
 
     if a.cmd == "mcp":
         from truthlens.mcp import serve

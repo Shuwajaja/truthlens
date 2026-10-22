@@ -1,3 +1,11 @@
+## Prüf-Agent: Tasks 1–6 zur Prüfung — 22.10.2026
+
+[Issue #152](https://github.com/Shuwajaja/truthlens/issues/152), Branch `w5/issue-152-audit-verifier`, Basis main `a47ab739`. Deterministischer read-only Audit und CLI nach Plan v1.2: begrenzte sichere Dateizugriffe, wiederverwendete Chain-/Manifest-Verifikation, sämtliche Belegreferenzen, Testmetadaten und exakter Wrapper-Header, getrennte Behauptungsbefunde. Hash-only bleibt nicht prüfbar; Integrität ist keine Freigabe. Keine Änderung von Ledger, Manifest, Wrapper, Gate, Viewer, Rohdaten oder bestehenden Freigaberegeln. Additiver Entscheid D33 dokumentiert die Grenze.
+
+Lokal 113 gezielte Audit-/Reader-/Ledger-/Tamper-/Manifest-/CLI-/Export-/MCP-Tests bestanden (1,85s), Ruff `src tests` bestanden. Frischer Whole-Branch-Review fand zwei fehlerhafte Eingabeformen mit Ausnahme statt JSON; beide mit beobachtetem Rot/Grün-Regressionstest behoben. Historisches demo-2 nur kopiert, Original unverändert und ohne vorhandenen Originalschlüssel nicht authentifiziert. Fast-PR-CI um die neuen Units ergänzt; kein voller Release-/Browser-/axe-Lauf. Der endgültige CI-Head wird im PR ausgewiesen. Sicherheitspfad: `needs-codex-review`, unabhängige CodexChat-Abnahme und Shus Merge-OK bleiben erforderlich.
+
+SPECC v1.0 fehlt: Report-/Outcome-Vertrag und Zuordnung zu den 18 SPECC-Kriterien können nicht bestätigt werden. [Abgeleiteter Vertrag und Grenzen](spec/audit-verifier-v1.md). Tasks 7–9 sind nicht live angebunden: im geprüften ACP-Wrapper fehlt der belegte vertrauenswürdige Capture-/Snapshot-/Principal-Pfad. Rückfrage läuft; keine Live-Erfolge, Host-/Routing-Änderungen oder Widget-Abnahme behauptet. Nichts gemergt, kein Force-Push, PR95 unberührt.
+
 # TruthLens — Status
 
 ## Viewer: Story/Timeline und schnelle PR-CI — 22.10.2026

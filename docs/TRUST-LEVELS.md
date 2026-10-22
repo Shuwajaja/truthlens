@@ -59,3 +59,14 @@ This changes the meaning of the existing export `verified` field from an uncondi
 - **Accepted v1 limit (Shu, 2026-10-11):** "met" means the restored test command reported success; app code running in the test process can forge it.
 
 - **Known limit (gate snapshot execution):** an approved action runs a private copy of the bound program bytes inside the snapshot directory. Interpreters that locate their stdlib relative to the binary (uv-managed / relocatable Python builds) cannot start from such a copy, so approved actions using them fail. Use a system interpreter (e.g. `/usr/bin/python3`) for gated actions.
+
+## Read-only audit boundary (D33)
+
+`truthlens audit` reports separately from existing integrity, claim and approval
+projections. `supported_within_scope` means its required checks found support in
+the supplied closed record with HMAC checked; it does not establish that the
+recorded work is correct or complete. `contradictory` identifies an observed
+inconsistency; `not_checkable` identifies a required gap. Missing authentication
+never becomes success. A coherent forged report cannot be disproved from its
+metadata alone. Protect the verifier installation and provide an immutable
+snapshot outside worker write permissions. See the [audit contract](spec/audit-verifier-v1.md).
