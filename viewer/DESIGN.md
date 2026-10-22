@@ -125,3 +125,8 @@ The neutral seal is exactly “Hash only · signature not checked”. The checke
 
 ## 13. Criteria confirmation is not a passed check
 For `criteria.confirmed`, Timeline and its embedded Overview show “Criteria confirmed by human” only when the recorded actor is human; otherwise “Criteria confirmation recorded”. Add “Confirmation is not a test result.” Use existing informational styling, never a passed-test icon/tone. These labels override a potentially misleading recorded summary in this navigation surface; the exact event/summary remains accessible in its unchanged raw-data drawer. Actual `test.reported` results retain their recorded passed/failed presentation. No schema, RunDoc data or approval-rule changes.
+
+## 14. Client claims, results and evidence together
+Both lenses show the exported agent claim separately from the recorded criterion result. In Claimed vs proven, each claim includes only criteria linked by its `criterion_ids`, with its recorded status and referenced evidence summaries/actions. Overview criterion detail includes all claims explicitly linked to that selected criterion. Claim finding is never a test result. Use existing cards, status badges, buttons, spacing, typography and tokens; retain the Stitch Overview layout.
+
+Evidence is resolved only from `criterion.evidence` event IDs; never guess by prose, actor timing or matching claim finding. Unverified is labelled “Not checked — no confirmed result exported.” Missing events and missing criterion/claim links are stated explicitly; missing evidence does not erase an independently exported criterion status or fabricate a test. Event buttons open the exact referenced record. No changes to exports, event schema, approval rules or signature guards.
