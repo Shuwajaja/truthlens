@@ -107,3 +107,5 @@ For `criteria.confirmed`, Timeline and its embedded Overview show “Criteria co
 - Factual, honest English only. No marketing language, invented metrics, decorative verification seals or fabricated results.
 
 The style guard rejects gradients, backdrop blur/filter, glow/drop-shadow utilities and emoji; manual review verifies icon purpose, semantic colour meaning and primary-task hierarchy. The inactive Navigator is not part of the visible review interface. Its standalone legacy controls keep text/function labels, without decorative Compass/Send graphics.
+
+Code additions/removals use neutral styling and retain their literal +/- markers: a source change is not a recorded pass/fail result.
