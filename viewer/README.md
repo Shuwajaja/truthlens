@@ -37,3 +37,7 @@ The right Navigator can collapse to a rail. Its suggestions, composer and Send b
 Step 4 deliberately changes the six full-App snapshots for the Navigator and the sticky navigation wrapper. All isolated renderer/Sheet and Agent Story snapshots are retained. Screenshots check both Navigator states at 1280, 1024, 900, 768, 701 and 360px, plus scrolled navigation visibility. Other views and drawer interaction remain covered in both lenses.
 
 The main trust notice stays visible while scrolling recorded content; the optional browser check asserts this as well as sticky navigation. The Sheet keeps its own pinned notice above the evidence body.
+
+## P3 review contract
+
+[DESIGN.md](DESIGN.md) is the binding viewer reference. `npm run review:screenshots` captures Overview, Claimed vs Proven, Timeline and Agent Story at 1440px and 420px and checks axe contrast, browser errors and page overflow. Images stay in ignored `.screenshots/review/`. CI publishes them as a `viewer-screenshots-<commit>` artifact for each PR; the PR description links the run and archive. The docs-first PR records the existing UI as a baseline; the following P3 branches apply the design in order. No screenshots or temporary reports are added to source history.
