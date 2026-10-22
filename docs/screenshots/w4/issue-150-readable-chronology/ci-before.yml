@@ -1,0 +1,64 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  viewer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: viewer
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: viewer/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+      - run: npm run check:styles --if-present
+      - run: npm run check:language
+      - run: npm run build
+      - name: Review all views at desktop and mobile widths
+        working-directory: viewer
+        run: |
+          google-chrome --version
+          npm run review:screenshots
+        env:
+          REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
+      - uses: actions/upload-artifact@v4
+        with:
+          name: viewer-screenshots-${{ github.sha }}
+          path: viewer/.screenshots/review/
+          if-no-files-found: error
+          retention-days: 30
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Required docs exist (placeholder until W1)
+        run: |
+          for f in README.md docs/INVENTORY.md docs/ARCHITECTURE.md docs/TRUST-LEVELS.md docs/spec/event-schema-v1.md docs/spec/artifact-manifest-v1.md; do
+            test -s "$f" || { echo "missing $f"; exit 1; }
+          done
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e '.[dev]'
+      - run: ruff check src tests
+      - name: Separate test user (tl-agent) for the UID-isolation tests
+        run: |
+          sudo useradd --system --create-home --home-dir /srv/tl-agent --shell /usr/sbin/nologin tl-agent
+          sudo chmod 755 /srv/tl-agent
+          sudo install -d -o "$USER" -g tl-agent -m 2770 /srv/tl-agent/wt
+          sudo -u tl-agent /usr/bin/python3 -m venv /srv/tl-agent/venv
+          sudo -u tl-agent /srv/tl-agent/venv/bin/pip install -q pytest
+      - run: pytest -q -rs
+      - run: demo/run-demo.sh /tmp/tl-demo --offline
