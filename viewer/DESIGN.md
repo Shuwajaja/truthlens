@@ -2,6 +2,9 @@
 Binding viewer reference. Use the supplied TruthLens desktop/mobile reference images and Shu's logo.
 Purpose: a calm, readable view of recorded evidence. Every colour has a meaning; other content is grey or white.
 
+## Accessibility verification boundary
+The full CI audit uses both lenses, all four views and baseline dialogs at1440×900/390×844, plus all criterion evidence tabs. No rule/tag filters or suppressions. Review modal Tab/Shift+Tab containment and focus return, selected tabs/panel names and background exclusion in Chromium's accessibility tree. The existing modal Drawer explicitly declares aria-modal=true: its focus trap and accessibility-tree modality must agree. Retain axe incomplete nodes and classify occlusion/clipping separately from composited CSS text contrast; unknown cases stay explicit. An AX-tree/keyboard inspection is not a spoken NVDA/VoiceOver test or blanket WCAG certification. Keep the actual UI, data and trust labels unchanged unless a confirmed defect requires a targeted fix.
+
 ## Semantic accents (Shu follow-up, 22 October 2026)
 KPI cards use a 4px left status rail, a 10% status tint over the surface, and status-coloured numerals. Proven uses emerald; failed uses rose with rose400 AA text; Not checked stays neutral. Criterion rows and their recorded-result blocks use the same status rails/tints, never a fabricated progress percentage. Approval OPEN alone uses the amber tint; unknown integrity/claims remain neutral.
 

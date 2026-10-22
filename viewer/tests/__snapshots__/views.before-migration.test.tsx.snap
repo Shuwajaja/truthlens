@@ -16247,6 +16247,7 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
   <div
     aria-describedby="evidence-description radix-_r_2_"
     aria-label="Evidence detail"
+    aria-modal="true"
     class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
     data-slot="sheet-content"
     data-state="open"
@@ -20018,6 +20019,7 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
   <div
     aria-describedby="evidence-description radix-_r_a_"
     aria-label="Evidence detail"
+    aria-modal="true"
     class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
     data-slot="sheet-content"
     data-state="open"
@@ -23938,6 +23940,7 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
   <div
     aria-describedby="evidence-description radix-_r_i_"
     aria-label="Evidence detail"
+    aria-modal="true"
     class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
     data-slot="sheet-content"
     data-state="open"

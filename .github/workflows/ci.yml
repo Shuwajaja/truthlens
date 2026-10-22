@@ -19,7 +19,15 @@ jobs:
       - run: npm run check:styles --if-present
       - run: npm run check:language
       - run: npm run build
+        id: viewer-build
+      - name: Full axe and keyboard audit at 1440x900 and 390x844
+        if: ${{ !cancelled() && steps.viewer-build.outcome == 'success' }}
+        run: node scripts/audit-a11y.mjs
+        env:
+          REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
+          A11Y_OUTPUT: .screenshots/a11y
       - name: Review all views at desktop and mobile widths
+        if: ${{ !cancelled() && steps.viewer-build.outcome == 'success' }}
         working-directory: viewer
         run: |
           google-chrome --version
@@ -27,9 +35,12 @@ jobs:
         env:
           REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: viewer-screenshots-${{ github.sha }}
-          path: viewer/.screenshots/review/
+          path: |
+            viewer/.screenshots/review/
+            viewer/.screenshots/a11y/
           if-no-files-found: error
           retention-days: 30
   docs:

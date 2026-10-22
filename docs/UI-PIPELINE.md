@@ -20,9 +20,9 @@ Binding implementation of the UI pipeline for this repository. `viewer/DESIGN.md
 | `npm run build` | TypeScript and production bundling | Production deployment settings or performance claims |
 | `npm run check:toolbar` | Emitted toolbar loader only for exact `VERCEL_ENV=preview`; unset/production/development/unknown excluded | Vercel's independent platform injection settings |
 | `npm run check:toolbar -- --browser` | Chromium checks of built preview/production, real loader insertion, reuse and failed-network behavior; exact viewport screenshots | Authenticated hosted Comments, login/permissions and third-party overlay accessibility |
-| `node scripts/audit-a11y.mjs` | 36 full axe scans, both lenses, all four views and baseline dialogs at exact required sizes; keyboard scroll/focus checks | Axe incomplete items, screen-reader review, other exports, every dialog tab |
+| `node scripts/audit-a11y.mjs` | 48 unrestricted axe scans, both lenses, all four views/baseline dialogs/all criterion tabs at1440×900/390×844; keyboard scrolling/trapping/return, dialog/tab AX semantics and incomplete-node CSS contrast review | Unknown incomplete cases, real spoken screen-reader output, other exports and every tab of every possible record |
 
-Existing CI runs tests/lint/styles/language/build and its older screenshot check. That screenshot check covers contrast at different viewport sizes; it does **not** imply a full axe pass. The full audit above is required separately for UI PRs. Do not repeat successful checks unless the code, environment or an unresolved concern changed.
+CI runs the full audit above as a required viewer-job step after a successful build, in addition to tests/lint/styles/language and screenshot review. Coverage gaps, any axe violation, browser errors and failed keyboard checks fail the job. No rules/tags are filtered. Screenshots/raw JSON (including incomplete nodes and partial failure evidence) upload with `always()` for30 days. CI green certifies these executed checks, not a blanket WCAG pass or spoken screen-reader review. Do not repeat successful checks unless code, environment or an unresolved concern changed.
 
 ## Preview comments boundary
 
