@@ -39,10 +39,10 @@ describe('recorded overview', () => {
   it('opens recorded criterion and timeline evidence through real buttons', () => {
     const open = vi.fn()
     render(<Overview doc={doc} lens="developer" onOpenDrawer={open} />)
-    fireEvent.click(screen.getByRole('button', { name: `Evidence: ${doc.criteria[0].text}` }))
+    fireEvent.click(screen.getByText(doc.criteria[0].text, {selector: '.criterion-content strong'}).closest('button')!)
     expect(open.mock.calls.at(-1)?.[0]).toEqual({ kind: 'criterion', criterion: doc.criteria[0], matched: doc.events.filter(e => doc.criteria[0].evidence.includes(e.id)) })
     const last = [...doc.events].sort((a,b) => a.seq-b.seq).at(-1)!
-    fireEvent.click(screen.getByRole('button', { name: `Event #${last.seq}: ${last.summary}` }))
+    fireEvent.click(screen.getByRole('button',{name:name=>name.includes('#16 · run.finished')}))
     expect(open.mock.calls.at(-1)?.[0]).toEqual({ kind: 'event', event: last })
   })
   it('shows neutral empty states when no diff, claims, criteria or events were exported', () => {

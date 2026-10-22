@@ -41,7 +41,7 @@ export function EventDetail({
         <div>
           <EvidenceBlobContent payload={evt.payload} blobs={blobs} />
           <div className="text-xs text-2 uppercase tracking-wider mb-1 mt-3">Event data</div>
-          <pre className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border">
+          <pre tabIndex={0} className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border">
             {JSON.stringify(evt.payload, null, 2)}
           </pre>
         </div>

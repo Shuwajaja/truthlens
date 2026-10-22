@@ -8,7 +8,7 @@ import {recordedTime,recordedDuration} from './overview-data.ts'
 function EvidenceEvents({events,onOpenDrawer}:{events:RunEvent[];onOpenDrawer:(target:DrawerTarget)=>void}){
  return events.length===0?<p className="text-2">No evidence exported.</p>:<ul className="rail-list">{events.map(event=>{
   const Icon=event.type==='test.reported'?ListChecks:event.type==='artifact.recorded'?FileText:Clock
-  return <li key={event.id}><button type="button" aria-label={`Evidence #${event.seq}: ${event.summary}`} onClick={()=>onOpenDrawer({kind:'event',event})}><span className="rail-icon"><Icon size={14} aria-hidden="true"/></span><span><strong>{event.summary}</strong><code>#{event.seq} · {event.type}</code></span></button></li>
+  return <li key={event.id}><button type="button" onClick={()=>onOpenDrawer({kind:'event',event})}><span className="rail-icon"><Icon size={14} aria-hidden="true"/></span><span><strong>{event.summary}</strong><code>#{event.seq} · {event.type}</code></span></button></li>
  })}</ul>
 }
 
@@ -19,7 +19,7 @@ export function EvidenceTabs({doc,onOpenDrawer}:{doc:RunDoc;onOpenDrawer:(target
    </TabsList>
     <TabsContent value="overview"><EvidenceEvents events={evidence} onOpenDrawer={onOpenDrawer}/></TabsContent>
     <TabsContent value="tests"><EvidenceEvents events={evidence.filter(event=>event.type==='test.reported')} onOpenDrawer={onOpenDrawer}/></TabsContent>
-    <TabsContent value="artifacts">{doc.artifacts.length===0?<p className="text-2">No files exported.</p>:<ul className="rail-list">{doc.artifacts.map(artifact=><li key={artifact.artifact_id}><button type="button" aria-label={`File: ${artifact.path}`} onClick={()=>{
+    <TabsContent value="artifacts">{doc.artifacts.length===0?<p className="text-2">No files exported.</p>:<ul className="rail-list">{doc.artifacts.map(artifact=><li key={artifact.artifact_id}><button type="button" onClick={()=>{
      const matches=doc.events.filter(event=>event.type==='artifact.recorded'&&event.payload.artifact_id===artifact.artifact_id)
      onOpenDrawer({kind:'artifact',artifact,event:matches.length===1?matches[0]:undefined})
     }}><span className="rail-icon"><FileText size={14} aria-hidden="true"/></span><span><strong>{artifact.path}</strong><code className="break-all">{artifact.sha256}</code></span></button></li>)}</ul>}</TabsContent>

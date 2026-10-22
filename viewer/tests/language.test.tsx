@@ -58,7 +58,7 @@ for(const mobile of [false,true])for(const lens of ['client','developer']){
   }
   fireEvent.click(within(navigation).getAllByRole('button')[0])
   await inspectSheet(screen.getByRole('button',{name:`Open run: ${publicRun.run.project}`}))
-  await inspectSheet(screen.getByRole('button',{name:`Evidence: ${publicRun.criteria[0].text}`}))
+  await inspectSheet(screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(publicRun.criteria[0].text)}))
   fireEvent.click(screen.getByText('All records and links as a list'))
   const records=within(screen.getByRole('list',{name:'Graph records'}))
   await inspectSheet(records.getByRole('button',{name:`Claim: ${publicRun.claims[1].text}`}))

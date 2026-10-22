@@ -29,7 +29,7 @@ export const builtinRenderers: readonly Renderer[] = [
     id: 'plain-text', label: 'Plain text',
     match: input => input.kind === 'blob' && input.mediaType === 'text/plain' ? 10 : 0,
     Component: ({ input }) => input.kind === 'blob' ? (
-      <pre className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap">
+      <pre tabIndex={0} className="text-xs font-mono bg-bg p-3 rounded-lg overflow-x-auto border border-border whitespace-pre-wrap">
         {input.text}
       </pre>
     ) : null,

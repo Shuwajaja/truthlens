@@ -57,10 +57,10 @@ export function Overview({ doc, lens, onOpenDrawer }: { doc: RunDoc; lens: Lens;
       <p className="recorded-headline">{doc.headline.join(' ')}</p>
       {doc.criteria.length === 0 ? <Empty><EmptyDescription>No criteria exported.</EmptyDescription></Empty> : <ul className="criterion-list">
         {doc.criteria.map((criterion, index) => <li key={criterion.criterion_id}>
-          <button type="button" className="criterion-button" aria-label={`Evidence: ${criterion.text}`} aria-describedby={`criterion-description-${index} criterion-status-${index}`} onClick={() => onOpenDrawer({
+          <button type="button" className="criterion-button" aria-describedby={`criterion-description-${index} criterion-status-${index}`} onClick={() => onOpenDrawer({
             kind: 'criterion', criterion, matched: criterion.evidence.flatMap(id => { const event=events.get(id); return event ? [event] : [] }),
           })}>
-            <span className="criterion-content"><strong>{criterion.text}</strong><span id={`criterion-description-${index}`}>{criterion.plain}</span></span>
+            <span className="sr-only">Evidence: </span><span className="criterion-content"><strong>{criterion.text}</strong><span id={`criterion-description-${index}`}>{criterion.plain}</span></span>
             <span className="criterion-labels" id={`criterion-status-${index}`}><StatusBadge source="criterion" status={criterion.status} />{criterion.claimed && <span className="text-open text-xs">claimed</span>}</span>
             <ArrowUpRight size={16} aria-hidden="true" />
           </button>
