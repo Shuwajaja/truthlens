@@ -35,7 +35,7 @@ export function Drawer({ target, blobs, lens, trust, onClose, onOpenDrawer, doc 
   const selectedEvents=(target.kind==='criterion'?target.matched:target.kind==='event'?[target.event]:target.kind==='run'?target.doc.events:target.event?[target.event]:[]).toSorted((a,b)=>a.seq-b.seq)
   const selectedArtifacts=target.kind==='artifact'?[target.artifact]:(doc?.artifacts.filter(artifact=>selectedEvents.some(event=>event.payload.artifact_id===artifact.artifact_id||event.payload.report_artifact_id===artifact.artifact_id||event.payload.sha256===artifact.sha256))??[])
   return <Sheet open onOpenChange={open=>{if(!open)onClose()}}>
-    <SheetContent id="evidence-drawer" className="drawer-pane" aria-label={label} aria-labelledby={undefined} aria-describedby="evidence-description"
+    <SheetContent id="evidence-drawer" className="drawer-pane" aria-modal="true" aria-label={label} aria-labelledby={undefined} aria-describedby="evidence-description"
       onCloseAutoFocus={event=>{event.preventDefault();const active=document.activeElement;if(active===document.body||active?.closest('[role=dialog]'))returnFocus?.focus()}}>
       <div className="sheet-handle" aria-hidden="true"/>
       <SheetHeader className="border-b border-border pr-12">
