@@ -31,7 +31,7 @@ export function Overview({doc,lens,onOpenDrawer}:{doc:RunDoc;lens:Lens;onOpenDra
     <Button variant="outline" size="sm" aria-label={`Open run: ${doc.run.project} · Run details`} onClick={()=>onOpenDrawer({kind:'run',doc})}>Run details</Button>
    </div>
    <div className="run-summary"><code>{doc.run.run_id}</code><span>{recordedTime(doc.run.started)}</span><span>Duration {recordedDuration(doc.run.started,doc.run.finished)}</span></div>
-   <div className="approval-boundary"><span>Approval</span><strong data-testid="approval-status">{doc.review_required?'Open':'Not stated'}</strong><span>{doc.review_required?'Needs human review':'No human approval stated'}</span></div>
+   <div className="approval-boundary"><span>Approval</span><strong data-testid="approval-status" data-state={doc.review_required?'open':'not-stated'}>{doc.review_required?'Open':'Not stated'}</strong><span>{doc.review_required?'Needs human review':'No human approval stated'}</span></div>
   </section>
   <div className="status-grid">
    <Card className="status-card"><h2 className="card-label"><span className="status-dot tone-ok" aria-hidden="true"/>Proven</h2><div className="status-value" data-testid="met-count"><span className="text-ok">{proven}</span> / {doc.criteria.length}</div><p>Criteria with recorded result met</p></Card>

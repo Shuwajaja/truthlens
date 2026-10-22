@@ -29,6 +29,19 @@ try{
   assert.equal(await page.locator('.status-card').count(),3)
   assert.equal((await page.getByTestId('met-count').innerText()).replace(/\s+/g,' '),'1 / 3')
   assert.equal(await page.getByTestId('approval-status').innerText(),'OPEN')
+  const semantics=await page.evaluate(()=>{
+   const status=document.querySelector('[data-testid=approval-status]')
+   const nav=document.querySelector('.nav-item-active'),navStyle=getComputedStyle(nav)
+   return {approval:getComputedStyle(status).color,approvalState:status.dataset.state,font:getComputedStyle(document.body).fontFamily,
+    dots:[...document.querySelectorAll('.status-card .status-dot')].map(el=>getComputedStyle(el).backgroundColor),
+    activeBorder:innerWidth<=760?navStyle.borderTopColor:navStyle.borderBottomColor,
+    forbidden:[...document.querySelectorAll('body *')].some(el=>{if(!el.checkVisibility())return false;const style=getComputedStyle(el);return /Plus Jakarta/i.test(style.fontFamily)||['color','backgroundColor','borderColor'].some(key=>style[key]==='rgb(244, 63, 94)')})}
+  })
+  assert.equal(semantics.approval,'rgb(245, 158, 11)')
+  assert.equal(semantics.approvalState,'open')
+  assert.deepEqual(semantics.dots,['rgb(16, 185, 129)','rgb(239, 68, 68)','rgb(107, 114, 128)'])
+  assert.equal(semantics.activeBorder,'rgb(59, 130, 246)')
+  assert(semantics.font.includes('Inter')&&!semantics.forbidden,'WERK fonts/colours only in Viewer UI')
   assert.equal(await page.locator('.sidebar .nav-list button').count(),4)
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true)
   const geometry=await page.locator('.overview-workspace').evaluate(el=>Object.fromEntries(['criteria-panel','project-preview','criterion-detail','timeline-panel'].map(name=>{const b=el.querySelector('.'+name).getBoundingClientRect();return [name,{x:b.x,y:b.y,right:b.right}]})))
@@ -67,7 +80,7 @@ try{
    assert(await detail.getByText(criterion.text,{exact:true}).isVisible())
    if(criterion.evidence.length===0)assert(await detail.getByText('No evidence events exported for this criterion.').isVisible())
   }
-  report.actualExport.push({viewport,lens,geometry,selectionChecks:doc.criteria.length,sandboxOpaqueOrigin:true,inert:true,paintedColours})
+  report.actualExport.push({viewport,lens,geometry,selectionChecks:doc.criteria.length,sandboxOpaqueOrigin:true,inert:true,paintedColours,semantics})
   await context.close()
  }
  // Fixtures exercise denied behavior independently from the real-export screenshots.

@@ -35,5 +35,9 @@ check(rgb('primary'),rgb('bg'),4.5,'brand/page');
 check(rgb('primary'),rgb('surface'),4.5,'brand/sidebar');
 const lensFill=rgb('surface').map((v,i)=>v*.9+rgb('secondary')[i]*.1);
 check(rgb('secondary-text'),lensFill,4.5,'developer lens');
+for(const [text,fill] of [['warning','warning'],['error-text','error'],['neutral-text','neutral'],['primary-text','primary']]){
+ const background=rgb('surface').map((v,i)=>v*.9+rgb(fill)[i]*.1);
+ check(rgb(text),background,4.5,`${text}/semantic ${fill} fill`);
+}
 for(const fill of ['primary','secondary','success','warning','error'])check(rgb('bg'),rgb(fill),4.5,`dark text/${fill}`);
 console.log(`WERK: six exact base tokens, 8px grid, 12px radius; ${pairs} AA text/control pairs, minimum ${minimum.toFixed(2)}:1 (control threshold 3:1).`);

@@ -2454,6 +2454,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                 Approval
               </span>
               <strong
+                data-state="open"
                 data-testid="approval-status"
               >
                 Open
@@ -8532,6 +8533,7 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                 Approval
               </span>
               <strong
+                data-state="open"
                 data-testid="approval-status"
               >
                 Open

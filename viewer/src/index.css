@@ -332,3 +332,12 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 .criterion-detail { scroll-margin-top: 80px; }
 .criterion-detail-link { display: none; }
 @media(max-width:760px) { .criterion-detail-link { display: block; text-decoration: underline; color: var(--info); font-size: 14px; padding: var(--space-1) 0; } }
+
+/* WERK semantic base fills/indicators; lighter text variants retain AA. */
+.approval-boundary strong[data-state=open] { color: var(--warning); border-color: var(--warning); background: color-mix(in srgb,var(--warning) 10%,var(--surface)); }
+.stitch-overview .status-dot.tone-fail { color: var(--error); }
+.stitch-overview .status-dot.tone-open { color: var(--neutral); }
+.stitch-overview [data-slot=status-badge][data-variant=failed] { color: var(--error-text); border-color: var(--error); background: color-mix(in srgb,var(--error) 10%,var(--surface)); }
+.stitch-overview [data-slot=status-badge][data-variant=open] { color: var(--neutral-text); border-color: var(--neutral); background: color-mix(in srgb,var(--neutral) 10%,var(--surface)); }
+.compact-header .nav-item-active { color: var(--primary-text); background: color-mix(in srgb,var(--primary) 10%,var(--surface)); }
+@media(max-width:760px) { .compact-header .nav-item-active { border-top-color: var(--primary); } }

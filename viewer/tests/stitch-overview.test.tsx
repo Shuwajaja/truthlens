@@ -8,13 +8,14 @@ import publicRun from '../public/run.json'
 const doc=publicRun as RunDoc
 afterEach(cleanup)
 const show=(value=doc,open=vi.fn())=>render(<Overview doc={value} lens="client" onOpenDrawer={open}/> )
-it('uses exactly three measured KPI cards and a separate neutral approval boundary',()=>{
+it('uses exactly three measured KPI cards and a separate warning approval boundary',()=>{
  show()
  expect(document.querySelectorAll('.status-card')).toHaveLength(3)
  expect(screen.getByTestId('met-count').textContent).toBe('1 / 3')
  expect(screen.getByTestId('failed-count').textContent).toBe('1')
  expect(screen.getByTestId('unwitnessed-count').textContent).toBe('1')
  expect(screen.getByTestId('approval-status').textContent).toBe('Open')
+ expect(screen.getByTestId('approval-status').getAttribute('data-state')).toBe('open')
  expect(screen.getByRole('heading',{level:1}).textContent).toBe(doc.run.project)
  expect(screen.getByText(doc.run.run_id)).toBeTruthy()
  for(const invented of ['Run verified','Hardware Sealed','Enclave','Chromium','Acme Corp','v1.4.0','Timeout'])expect(document.body.textContent).not.toContain(invented)
@@ -61,6 +62,7 @@ it('a diff body alone cannot manufacture a project preview',()=>{
 it('does not turn absence of a review flag into human approval',()=>{
  show({...doc,review_required:false})
  expect(screen.getByTestId('approval-status').textContent).toBe('Not stated')
+ expect(screen.getByTestId('approval-status').getAttribute('data-state')).toBe('not-stated')
  expect(document.body.textContent).not.toContain('Approved')
 })
 it('handles an empty export without inventing counts or selected evidence',()=>{
