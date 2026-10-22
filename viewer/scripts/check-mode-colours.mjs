@@ -32,6 +32,12 @@ try{
     assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no page overflow')
     if(!before){
      assert.equal(await page.locator('.app-shell').getAttribute('data-lens'),lens)
+     if(viewport.width===390){
+      const label=page.locator('.compact-header .mode-label');assert.equal(await label.textContent(),lens==='client'?'Client':'Developer')
+      await page.evaluate(()=>window.scrollTo(0,document.body.scrollHeight));await page.evaluate(()=>new Promise(requestAnimationFrame))
+      assert(await label.evaluate(el=>{const r=el.getBoundingClientRect(),hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return r.top>=0&&r.bottom<=56&&el.contains(hit)}),'mobile mode label stays visible while scrolled')
+      await page.evaluate(()=>window.scrollTo(0,0))
+     }
      const proof=await page.evaluate(lens=>{
       const rgb=value=>{const canvas=document.createElement('canvas'),ctx=canvas.getContext('2d');canvas.width=canvas.height=1;ctx.fillStyle=value;ctx.fillRect(0,0,1,1);return [...ctx.getImageData(0,0,1,1).data].slice(0,3).map(v=>v/255)}
       const lum=c=>c.map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0)

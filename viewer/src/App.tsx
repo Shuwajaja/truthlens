@@ -66,7 +66,7 @@ export default function App() {
   return (
     <div className="app-shell" data-lens={lens}>
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <Header mobile={mobile} trust={doc} runTitle={doc.run.project} onOpenRun={()=>setDrawerTarget({kind:'run',doc})} navigation={<Sidebar
+      <Header lens={lens} mobile={mobile} trust={doc} runTitle={doc.run.project} onOpenRun={()=>setDrawerTarget({kind:'run',doc})} navigation={<Sidebar
         mobile={mobile}
         currentView={view}
         onViewChange={handleViewChange}

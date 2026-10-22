@@ -38,6 +38,7 @@ body { font-variant-numeric: tabular-nums; }
 .lens-toggle button[data-mode=client][aria-pressed=true] { color: var(--mode-client); background: var(--mode-client-bg); border-bottom-color: var(--mode-client); border-radius: var(--radius); }
 .lens-toggle button[data-mode=developer][aria-pressed=true] { color: var(--mode-developer); background: var(--mode-developer-bg); border-bottom-color: var(--mode-developer); border-radius: var(--radius); }
 .app-shell .compact-header { border-top: 2px solid var(--mode-accent); }
+.mode-label { color: var(--mode-accent); font-size: var(--size-label); flex-shrink: 0; }
 .developer-only { border-inline-start: 2px solid var(--mode-developer); padding-inline-start: var(--space-1); }
 .developer-label, .timeline-copy code.developer-only { color: var(--mode-developer); }
 main { padding: 16px 16px 32px; min-width: 0; }
