@@ -1,0 +1,88 @@
+{
+  "dom": {
+    "modal": null,
+    "label": "Run detail"
+  },
+  "ax": [
+    {
+      "nodeId": "21",
+      "ignored": false,
+      "role": {
+        "type": "role",
+        "value": "dialog"
+      },
+      "chromeRole": {
+        "type": "internalRole",
+        "value": 35
+      },
+      "name": {
+        "type": "computedString",
+        "value": "Run detail",
+        "sources": [
+          {
+            "type": "relatedElement",
+            "attribute": "aria-labelledby"
+          },
+          {
+            "type": "attribute",
+            "value": {
+              "type": "computedString",
+              "value": "Run detail"
+            },
+            "attribute": "aria-label",
+            "attributeValue": {
+              "type": "string",
+              "value": "Run detail"
+            }
+          },
+          {
+            "type": "attribute",
+            "attribute": "title",
+            "superseded": true
+          }
+        ]
+      },
+      "description": {
+        "type": "computedString",
+        "value": "Recorded export data. Technical integrity does not establish human acceptance."
+      },
+      "properties": [
+        {
+          "name": "focusable",
+          "value": {
+            "type": "booleanOrUndefined",
+            "value": true
+          }
+        },
+        {
+          "name": "modal",
+          "value": {
+            "type": "boolean",
+            "value": false
+          }
+        },
+        {
+          "name": "describedby",
+          "value": {
+            "type": "idrefList",
+            "value": "evidence-description radix-_r_2_",
+            "relatedNodes": [
+              {
+                "backendDOMNodeId": 1206,
+                "idref": "evidence-description"
+              }
+            ]
+          }
+        }
+      ],
+      "parentId": "17",
+      "childIds": [
+        "1204",
+        "1207",
+        "1215",
+        "1313"
+      ],
+      "backendDOMNodeId": 21
+    }
+  ]
+}
