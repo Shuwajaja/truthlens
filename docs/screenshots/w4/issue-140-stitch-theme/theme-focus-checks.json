@@ -1,0 +1,325 @@
+{
+  "browserVersion": "156.0.8078.4",
+  "checks": [
+    {
+      "width": 1440,
+      "lens": "client",
+      "view": "overview",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ],
+      "graph": {
+        "background": "rgb(113, 113, 122)",
+        "border": "rgb(39, 39, 42)"
+      },
+      "drawer": {
+        "background": "rgb(24, 24, 27)",
+        "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif"
+      }
+    },
+    {
+      "width": 1440,
+      "lens": "client",
+      "view": "claims",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 1440,
+      "lens": "client",
+      "view": "timeline",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 1440,
+      "lens": "client",
+      "view": "story",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 1440,
+      "lens": "developer",
+      "view": "overview",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ],
+      "graph": {
+        "background": "rgb(113, 113, 122)",
+        "border": "rgb(39, 39, 42)"
+      },
+      "drawer": {
+        "background": "rgb(24, 24, 27)",
+        "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif"
+      }
+    },
+    {
+      "width": 1440,
+      "lens": "developer",
+      "view": "claims",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 1440,
+      "lens": "developer",
+      "view": "timeline",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 1440,
+      "lens": "developer",
+      "view": "story",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 390,
+      "lens": "client",
+      "view": "overview",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 390,
+      "lens": "client",
+      "view": "claims",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 390,
+      "lens": "client",
+      "view": "timeline",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 390,
+      "lens": "client",
+      "view": "story",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 390,
+      "lens": "developer",
+      "view": "overview",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 390,
+      "lens": "developer",
+      "view": "claims",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 390,
+      "lens": "developer",
+      "view": "timeline",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    },
+    {
+      "width": 390,
+      "lens": "developer",
+      "view": "story",
+      "bg": "rgb(9, 9, 11)",
+      "font": "\"Plus Jakarta Sans Variable\", system-ui, sans-serif",
+      "invalid": [],
+      "focus": {
+        "visible": true,
+        "color": "rgb(244, 244, 245)",
+        "width": "2px",
+        "offset": "3px"
+      },
+      "surfaces": [
+        "#09090b",
+        "#18181b",
+        "#27272a"
+      ]
+    }
+  ]
+}

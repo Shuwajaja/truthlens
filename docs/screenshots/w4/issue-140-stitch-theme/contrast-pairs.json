@@ -1,0 +1,364 @@
+{
+  "measurements": [
+    {
+      "label": "text/bg",
+      "ratio": 18.10042426312613,
+      "threshold": 4.5
+    },
+    {
+      "label": "text-2/bg",
+      "ratio": 7.762805693682826,
+      "threshold": 4.5
+    },
+    {
+      "label": "text-3/bg",
+      "ratio": 7.762805693682826,
+      "threshold": 4.5
+    },
+    {
+      "label": "primary-text/bg",
+      "ratio": 18.10042426312613,
+      "threshold": 4.5
+    },
+    {
+      "label": "secondary-text/bg",
+      "ratio": 13.460987437168084,
+      "threshold": 4.5
+    },
+    {
+      "label": "success/bg",
+      "ratio": 7.843140680061418,
+      "threshold": 4.5
+    },
+    {
+      "label": "warning/bg",
+      "ratio": 9.263725506380636,
+      "threshold": 4.5
+    },
+    {
+      "label": "error-text/bg",
+      "ratio": 7.392156021816817,
+      "threshold": 4.5
+    },
+    {
+      "label": "neutral-text/bg",
+      "ratio": 7.762805693682826,
+      "threshold": 4.5
+    },
+    {
+      "label": "success/10% badge on bg",
+      "ratio": 7.0285138166307,
+      "threshold": 4.5
+    },
+    {
+      "label": "error-text/10% badge on bg",
+      "ratio": 6.647619219120757,
+      "threshold": 4.5
+    },
+    {
+      "label": "neutral-text/10% badge on bg",
+      "ratio": 6.9007946490647285,
+      "threshold": 4.5
+    },
+    {
+      "label": "focus/bg",
+      "ratio": 18.10042426312613,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% primary on bg",
+      "ratio": 14.712036015304152,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% secondary on bg",
+      "ratio": 16.090485299977118,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% success on bg",
+      "ratio": 16.220425873996096,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% error on bg",
+      "ratio": 16.79408842080915,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% warning on bg",
+      "ratio": 15.947523824201697,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% neutral on bg",
+      "ratio": 16.817493994631096,
+      "threshold": 3
+    },
+    {
+      "label": "control/bg",
+      "ratio": 4.116653754467922,
+      "threshold": 3
+    },
+    {
+      "label": "text/surface",
+      "ratio": 16.118381484528566,
+      "threshold": 4.5
+    },
+    {
+      "label": "text-2/surface",
+      "ratio": 6.912758604004126,
+      "threshold": 4.5
+    },
+    {
+      "label": "text-3/surface",
+      "ratio": 6.912758604004126,
+      "threshold": 4.5
+    },
+    {
+      "label": "primary-text/surface",
+      "ratio": 16.118381484528566,
+      "threshold": 4.5
+    },
+    {
+      "label": "secondary-text/surface",
+      "ratio": 11.986974864049339,
+      "threshold": 4.5
+    },
+    {
+      "label": "success/surface",
+      "ratio": 6.984296703784607,
+      "threshold": 4.5
+    },
+    {
+      "label": "warning/surface",
+      "ratio": 8.249323856125582,
+      "threshold": 4.5
+    },
+    {
+      "label": "error-text/surface",
+      "ratio": 6.582696019757283,
+      "threshold": 4.5
+    },
+    {
+      "label": "neutral-text/surface",
+      "ratio": 6.912758604004126,
+      "threshold": 4.5
+    },
+    {
+      "label": "success/10% badge on surface",
+      "ratio": 6.048350380831668,
+      "threshold": 4.5
+    },
+    {
+      "label": "error-text/10% badge on surface",
+      "ratio": 5.723079464519984,
+      "threshold": 4.5
+    },
+    {
+      "label": "neutral-text/10% badge on surface",
+      "ratio": 5.906980677365759,
+      "threshold": 4.5
+    },
+    {
+      "label": "focus/surface",
+      "ratio": 16.118381484528566,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% primary on surface",
+      "ratio": 12.318283567169212,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% secondary on surface",
+      "ratio": 13.773223315561825,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% success on surface",
+      "ratio": 13.958401672356128,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% error on surface",
+      "ratio": 14.650522591203574,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% warning on surface",
+      "ratio": 13.640367286259167,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% neutral on surface",
+      "ratio": 14.619306466539228,
+      "threshold": 3
+    },
+    {
+      "label": "control/surface",
+      "ratio": 3.665869633200011,
+      "threshold": 3
+    },
+    {
+      "label": "text/surface-2",
+      "ratio": 13.550818000872297,
+      "threshold": 4.5
+    },
+    {
+      "label": "text-2/surface-2",
+      "ratio": 5.811596767128121,
+      "threshold": 4.5
+    },
+    {
+      "label": "text-3/surface-2",
+      "ratio": 5.811596767128121,
+      "threshold": 4.5
+    },
+    {
+      "label": "primary-text/surface-2",
+      "ratio": 13.550818000872297,
+      "threshold": 4.5
+    },
+    {
+      "label": "secondary-text/surface-2",
+      "ratio": 10.077520185241752,
+      "threshold": 4.5
+    },
+    {
+      "label": "success/surface-2",
+      "ratio": 5.871739267861462,
+      "threshold": 4.5
+    },
+    {
+      "label": "warning/surface-2",
+      "ratio": 6.935255026189208,
+      "threshold": 4.5
+    },
+    {
+      "label": "error-text/surface-2",
+      "ratio": 5.534111213611494,
+      "threshold": 4.5
+    },
+    {
+      "label": "neutral-text/surface-2",
+      "ratio": 5.811596767128121,
+      "threshold": 4.5
+    },
+    {
+      "label": "success/10% badge on surface-2",
+      "ratio": 5.032334626804418,
+      "threshold": 4.5
+    },
+    {
+      "label": "error-text/10% badge on surface-2",
+      "ratio": 4.76221349989682,
+      "threshold": 4.5
+    },
+    {
+      "label": "neutral-text/10% badge on surface-2",
+      "ratio": 4.89586277349284,
+      "threshold": 4.5
+    },
+    {
+      "label": "focus/surface-2",
+      "ratio": 13.550818000872297,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% primary on surface-2",
+      "ratio": 10.08111628993318,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% secondary on surface-2",
+      "ratio": 11.415613997189212,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% success on surface-2",
+      "ratio": 11.61363738007912,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% error on surface-2",
+      "ratio": 12.301151565071379,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% warning on surface-2",
+      "ratio": 11.300972842465315,
+      "threshold": 3
+    },
+    {
+      "label": "focus/10% neutral on surface-2",
+      "ratio": 12.237875316322501,
+      "threshold": 3
+    },
+    {
+      "label": "control/surface-2",
+      "ratio": 3.0819181356452896,
+      "threshold": 3
+    },
+    {
+      "label": "brand/page",
+      "ratio": 18.10042426312613,
+      "threshold": 4.5
+    },
+    {
+      "label": "brand/sidebar",
+      "ratio": 16.118381484528566,
+      "threshold": 4.5
+    },
+    {
+      "label": "developer lens",
+      "ratio": 10.242919355088508,
+      "threshold": 4.5
+    },
+    {
+      "label": "warning/semantic warning fill",
+      "ratio": 6.981085996063569,
+      "threshold": 4.5
+    },
+    {
+      "label": "error-text/semantic error fill",
+      "ratio": 5.983227090204375,
+      "threshold": 4.5
+    },
+    {
+      "label": "neutral-text/semantic neutral fill",
+      "ratio": 6.269843945444875,
+      "threshold": 4.5
+    },
+    {
+      "label": "primary-text/semantic primary fill",
+      "ratio": 12.318283567169212,
+      "threshold": 4.5
+    },
+    {
+      "label": "dark text/primary",
+      "ratio": 18.10042426312613,
+      "threshold": 4.5
+    },
+    {
+      "label": "dark text/secondary",
+      "ratio": 7.762805693682826,
+      "threshold": 4.5
+    },
+    {
+      "label": "dark text/success",
+      "ratio": 7.843140680061418,
+      "threshold": 4.5
+    },
+    {
+      "label": "dark text/warning",
+      "ratio": 9.263725506380636,
+      "threshold": 4.5
+    },
+    {
+      "label": "dark text/error",
+      "ratio": 5.41840824781339,
+      "threshold": 4.5
+    }
+  ]
+}

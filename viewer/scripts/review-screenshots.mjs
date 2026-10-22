@@ -55,7 +55,7 @@ try{
    const colour=selector=>getComputedStyle(document.querySelector(selector)).color;
    return {truth:colour(document.querySelector('.brand-name')?'.brand-name':'.sidebar-brand > span'),lens:colour('.brand-lens'),met:colour('[data-testid=met-count] .text-ok'),hash:colour('.integrity-badge [data-slot=status-badge]')};
   });
-  check(colours.truth==='rgb(244, 244, 245)'&&colours.lens==='rgb(244, 244, 245)','provisional Stitch neutral brand');
+  check(colours.truth==='rgb(244, 244, 245)'&&colours.lens==='rgb(244, 244, 245)','final Stitch neutral brand');
   check(colours.met==='rgb(16, 185, 129)'&&colours.hash==='rgb(161, 161, 170)','Stitch success and neutral hash seal');
   // Inspect the built ICO's embedded PNG along with the directly served images.
   const ico=await readFile(new URL('../dist/favicon.ico',import.meta.url));
@@ -67,12 +67,12 @@ try{
    const pixels=context.getImageData(0,0,canvas.width,canvas.height).data;
    let green=0,obsolete=0;
    for(let i=0;i<pixels.length;i+=4){
-    if(pixels[i]===59&&pixels[i+1]===130&&pixels[i+2]===246&&pixels[i+3]===255)green++;
+    if(pixels[i]===244&&pixels[i+1]===244&&pixels[i+2]===245&&pixels[i+3]===255)green++;
     if(pixels[i+3]===255&&((pixels[i]===34&&pixels[i+1]===197&&pixels[i+2]===94)||(pixels[i]===63&&pixels[i+1]===207&&pixels[i+2]===142)))obsolete++;
    }
    return {green,obsolete,width:image.naturalWidth,height:image.naturalHeight};
   })),icoPng);
-  check(assets.every(asset=>asset.green>0&&asset.obsolete===0),'all logo/icon assets use primary blue');
+  check(assets.every(asset=>asset.green>0&&asset.obsolete===0),'all logo/icon assets use neutral Stitch text');
   check(assets[3].width===32&&assets[3].height===32&&assets[4].width===180&&assets[4].height===180,'favicon and touch icon sizes');
  }
  async function capture(page,name,fullPage){await page.screenshot({path:output+'/'+name+lensSuffix+'.png',fullPage,animations:'disabled'});shots++;}

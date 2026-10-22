@@ -4,7 +4,7 @@
 html, body, #root { background: var(--bg); color: var(--text); min-height: 100%; }
 body { margin: 0; font-family: var(--font); font-size: 14px; line-height: 1.5; }
 button, a, input, [tabindex] { -webkit-tap-highlight-color: transparent; }
-:focus-visible { outline: 2px solid var(--info); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 button { cursor: pointer; } button:disabled { cursor: default; }
 b, strong, th, h1 { font-weight: 600; } small { font-size: 12px; }
 h1, h2, h3, .brand-name { line-height: 1.25; }
@@ -88,7 +88,7 @@ main { padding: 16px 16px 32px; min-width: 0; }
 .timeline-row:hover { background: var(--surface-2); }
 .graph-evidence-row { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; align-items: start; }
 .graph-canvas { height: 400px; min-width: 0; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); overflow: hidden; }
-.evidence-graph .react-flow { --xy-background-color: var(--bg); --xy-edge-stroke: var(--neutral); --xy-controls-button-background-color: var(--surface-2); --xy-controls-button-background-color-hover: var(--accent-soft); --xy-controls-button-color: var(--text); --xy-controls-button-border-color: var(--neutral-text); --xy-attribution-background-color: var(--surface-2); }
+.evidence-graph .react-flow { --xy-background-color: var(--bg); --xy-handle-background-color: var(--neutral); --xy-handle-border-color: var(--surface-2); --xy-edge-stroke: var(--neutral); --xy-controls-button-background-color: var(--surface-2); --xy-controls-button-background-color-hover: var(--accent-soft); --xy-controls-button-color: var(--text); --xy-controls-button-border-color: var(--neutral-text); --xy-attribution-background-color: var(--surface-2); }
 .graph-record { width: 196px; height: 82px; display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 8px 16px; border: 1px solid var(--neutral); border-radius: var(--radius); background: var(--surface-2); text-align: left; }
 .graph-record:hover { border-color: var(--info); }
 .graph-claim { border-color: var(--neutral-text); border-style: dashed; }
@@ -158,8 +158,7 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 .diff-number { text-align: right; padding: 0 8px; color: var(--text-3); user-select: none; }
 .diff-mark { text-align: center; }
 .diff-source { padding-right: 12px; }
-.diff-ok { color: var(--ok); background: color-mix(in srgb,var(--ok) 10%,transparent); }
-.diff-fail { color: var(--fail); background: color-mix(in srgb,var(--fail) 10%,transparent); }
+.diff-ok, .diff-fail { color: var(--text); background: var(--surface-2); }
 .diff-open { color: var(--text-2); }
 .diff-preview pre { padding: 8px 0; }
 .drawer-body .diff-code { width: auto; min-width: 100%; }
@@ -235,7 +234,7 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 
 @media(max-width:760px) { main h1 { font-size: 20px; } }
 
-/* Shu's approved Stitch layout, painted with the shared WERK tokens. */
+/* Shu's approved Stitch layout and central palette. */
 .compact-header { height: 64px; position: sticky; top: 0; z-index: 30; padding: 0 var(--space-3); gap: var(--space-3); }
 .compact-header .brand { flex-shrink: 0; gap: var(--space-1); }
 .compact-header .brand-name { font-size: 16px; }
@@ -333,7 +332,7 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 .criterion-detail-link { display: none; }
 @media(max-width:760px) { .criterion-detail-link { display: block; text-decoration: underline; color: var(--info); font-size: 14px; padding: var(--space-1) 0; } }
 
-/* WERK semantic base fills/indicators; lighter text variants retain AA. */
+/* Stitch semantic fills/indicators; lighter text variants retain AA. */
 .approval-boundary strong[data-state=open] { color: var(--warning); border-color: var(--warning); background: color-mix(in srgb,var(--warning) 10%,var(--surface)); }
 .stitch-overview .status-dot.tone-fail { color: var(--error); }
 .stitch-overview .status-dot.tone-open { color: var(--neutral); }
@@ -342,5 +341,5 @@ main > .integrity-notice { position: sticky; top: 8px; z-index: 20; }
 .compact-header .nav-item-active { color: var(--primary-text); background: color-mix(in srgb,var(--primary) 10%,var(--surface)); }
 @media(max-width:760px) { .compact-header .nav-item-active { border-top-color: var(--primary); } }
 
-/* Keep the existing shield geometry neutral in the provisional Stitch profile. */
-:root[data-viewer-theme=stitch] .compact-header .brand-icon { filter: grayscale(1) brightness(2); }
+/* Numeric content uses the same mono face as digit-only prose fallback. */
+.status-value, time, .run-summary { font-family:var(--mono); font-variant-numeric:tabular-nums; }
