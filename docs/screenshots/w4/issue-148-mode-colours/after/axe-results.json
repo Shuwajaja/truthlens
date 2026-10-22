@@ -1,6 +1,6 @@
 {
   "browserVersion": "156.0.8078.4",
-  "commit": "a3ac178a0d5eda5f45c15d50db79364bab9c995d",
+  "commit": "42ec8996b339a6b9816e21896760f57310eb1cc3",
   "previewScriptBlocks": [
     {
       "viewport": {
@@ -377,7 +377,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -505,7 +505,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -1371,7 +1371,7 @@
                       ]
                     },
                     {
-                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
+                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
                       "target": [
                         "button[title=\"Mobile layout works\"]"
                       ]
@@ -1844,7 +1844,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -1972,7 +1972,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -2929,7 +2929,7 @@
                       ]
                     },
                     {
-                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
+                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
                       "target": [
                         "button[title=\"Mobile layout works\"]"
                       ]
@@ -3402,7 +3402,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -3530,7 +3530,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -3971,7 +3971,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim · claim_unwitnessed</span>",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
               ],
@@ -4021,7 +4021,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim · claim_unwitnessed</span>",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:2\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
               ],
@@ -4071,7 +4071,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-fail\" aria-hidden=\"true\"></span>Criterion · unmet</span>",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-fail\" aria-hidden=\"true\"></span>Criterion \u00b7 unmet</span>",
               "target": [
                 ".graph-result-fail > .graph-kind"
               ],
@@ -4121,7 +4121,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span>",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span>",
               "target": [
                 "button[title=\"Mobile layout works\"] > .graph-kind"
               ],
@@ -4737,7 +4737,7 @@
                       ]
                     },
                     {
-                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
+                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
                       "target": [
                         "button[title=\"Mobile layout works\"]"
                       ]
@@ -5210,7 +5210,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -5338,7 +5338,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -5779,7 +5779,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim · claim_unwitnessed</span>",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
               ],
@@ -5829,7 +5829,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim · claim_unwitnessed</span>",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:2\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
               ],
@@ -5879,7 +5879,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-fail\" aria-hidden=\"true\"></span>Criterion · unmet</span>",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-fail\" aria-hidden=\"true\"></span>Criterion \u00b7 unmet</span>",
               "target": [
                 ".graph-result-fail > .graph-kind"
               ],
@@ -5929,7 +5929,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span>",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span>",
               "target": [
                 "button[title=\"Mobile layout works\"] > .graph-kind"
               ],
@@ -6706,7 +6706,7 @@
                       ]
                     },
                     {
-                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
+                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
                       "target": [
                         "button[title=\"Mobile layout works\"]"
                       ]
@@ -7179,7 +7179,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -7307,7 +7307,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -7748,7 +7748,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim · claim_unwitnessed</span>",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
               ],
@@ -7798,7 +7798,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim · claim_unwitnessed</span>",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:2\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
               ],
@@ -7848,7 +7848,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-fail\" aria-hidden=\"true\"></span>Criterion · unmet</span>",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-fail\" aria-hidden=\"true\"></span>Criterion \u00b7 unmet</span>",
               "target": [
                 ".graph-result-fail > .graph-kind"
               ],
@@ -7898,7 +7898,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span>",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span>",
               "target": [
                 "button[title=\"Mobile layout works\"] > .graph-kind"
               ],
@@ -8412,7 +8412,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#4 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only"
               ],
@@ -8476,7 +8476,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#4 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -8572,7 +8572,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#5 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -8636,7 +8636,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#5 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -8764,7 +8764,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#6 · criteria.confirmed · human / box</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -8828,7 +8828,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#6 · criteria.confirmed · human / box</span>",
+              "html": "<span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -8924,7 +8924,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -9020,7 +9020,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#7 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only"
               ],
@@ -9084,7 +9084,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#7 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -9148,7 +9148,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -9212,7 +9212,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#8 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only"
               ],
@@ -9276,7 +9276,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#8 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -9404,7 +9404,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#12 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -9468,7 +9468,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#12 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -9564,7 +9564,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#13 · artifact.recorded · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -9628,7 +9628,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#13 · artifact.recorded · wrapper / truthlens-run</span>",
+              "html": "<span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -9724,7 +9724,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#14 · test.reported · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#14 \u00b7 test.reported \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 "li[data-tone=\"ok\"] > button > .timeline-copy > .developer-only"
               ],
@@ -9788,7 +9788,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#14 · test.reported · wrapper / truthlens-run</span>",
+              "html": "<span>#14 \u00b7 test.reported \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 "li[data-tone=\"ok\"] > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -9884,7 +9884,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#15 · test.reported · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#15 \u00b7 test.reported \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 "li[data-tone=\"fail\"] > button > .timeline-copy > .developer-only"
               ],
@@ -9948,7 +9948,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#15 · test.reported · wrapper / truthlens-run</span>",
+              "html": "<span>#15 \u00b7 test.reported \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 "li[data-tone=\"fail\"] > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -10044,7 +10044,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#16 · run.finished · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#16 \u00b7 run.finished \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button > .timeline-copy > .developer-only"
               ],
@@ -10108,7 +10108,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#16 · run.finished · wrapper / truthlens-run</span>",
+              "html": "<span>#16 \u00b7 run.finished \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -10590,7 +10590,7 @@
                       ]
                     },
                     {
-                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
+                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
                       "target": [
                         "button[title=\"Mobile layout works\"]"
                       ]
@@ -10903,7 +10903,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#4 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only"
               ],
@@ -10967,7 +10967,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#4 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -11063,7 +11063,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#5 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -11127,7 +11127,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#5 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -11255,7 +11255,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#6 · criteria.confirmed · human / box</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -11319,7 +11319,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#6 · criteria.confirmed · human / box</span>",
+              "html": "<span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -11415,7 +11415,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -11511,7 +11511,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#7 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only"
               ],
@@ -11575,7 +11575,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#7 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -11639,7 +11639,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -11703,7 +11703,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#8 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only"
               ],
@@ -11767,7 +11767,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#8 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -11895,7 +11895,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#12 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -11959,7 +11959,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#12 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -12055,7 +12055,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#13 · artifact.recorded · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -12119,7 +12119,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#13 · artifact.recorded · wrapper / truthlens-run</span>",
+              "html": "<span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -12718,7 +12718,7 @@
                       ]
                     },
                     {
-                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
+                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
                       "target": [
                         "button[title=\"Mobile layout works\"]"
                       ]
@@ -13031,7 +13031,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#4 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only"
               ],
@@ -13095,7 +13095,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#4 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -13191,7 +13191,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#5 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -13255,7 +13255,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#5 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -13383,7 +13383,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#6 · criteria.confirmed · human / box</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -13447,7 +13447,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#6 · criteria.confirmed · human / box</span>",
+              "html": "<span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -13543,7 +13543,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -13639,7 +13639,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#7 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only"
               ],
@@ -13703,7 +13703,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#7 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -13767,7 +13767,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -13831,7 +13831,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#8 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only"
               ],
@@ -13895,7 +13895,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#8 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -14023,7 +14023,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#12 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -14087,7 +14087,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#12 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -14183,7 +14183,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#13 · artifact.recorded · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -14247,7 +14247,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#13 · artifact.recorded · wrapper / truthlens-run</span>",
+              "html": "<span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -14329,7 +14329,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim · claim_unwitnessed</span>",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
               ],
@@ -14379,7 +14379,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim · claim_unwitnessed</span>",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:2\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
               ],
@@ -14429,7 +14429,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-fail\" aria-hidden=\"true\"></span>Criterion · unmet</span>",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-fail\" aria-hidden=\"true\"></span>Criterion \u00b7 unmet</span>",
               "target": [
                 ".graph-result-fail > .graph-kind"
               ],
@@ -14479,7 +14479,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span>",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span>",
               "target": [
                 "button[title=\"Mobile layout works\"] > .graph-kind"
               ],
@@ -15121,7 +15121,7 @@
                       ]
                     },
                     {
-                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
+                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
                       "target": [
                         "button[title=\"Mobile layout works\"]"
                       ]
@@ -15434,7 +15434,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#4 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only"
               ],
@@ -15498,7 +15498,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#4 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -15594,7 +15594,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#5 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -15658,7 +15658,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#5 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -15786,7 +15786,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#6 · criteria.confirmed · human / box</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -15850,7 +15850,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#6 · criteria.confirmed · human / box</span>",
+              "html": "<span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -15946,7 +15946,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -16042,7 +16042,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#7 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only"
               ],
@@ -16106,7 +16106,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#7 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -16170,7 +16170,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -16234,7 +16234,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#8 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only"
               ],
@@ -16298,7 +16298,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#8 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -16426,7 +16426,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#12 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -16490,7 +16490,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#12 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -16586,7 +16586,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#13 · artifact.recorded · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -16650,7 +16650,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#13 · artifact.recorded · wrapper / truthlens-run</span>",
+              "html": "<span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -16732,7 +16732,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim · claim_unwitnessed</span>",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
               ],
@@ -16782,7 +16782,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Claim · claim_unwitnessed</span>",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
               "target": [
                 "div[data-id=\"claim:2\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
               ],
@@ -16832,7 +16832,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-fail\" aria-hidden=\"true\"></span>Criterion · unmet</span>",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-fail\" aria-hidden=\"true\"></span>Criterion \u00b7 unmet</span>",
               "target": [
                 ".graph-result-fail > .graph-kind"
               ],
@@ -16882,7 +16882,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span>",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span>",
               "target": [
                 "button[title=\"Mobile layout works\"] > .graph-kind"
               ],
@@ -17709,7 +17709,7 @@
                       ]
                     },
                     {
-                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion · unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
+                      "html": "<button type=\"button\" class=\"graph-record nodrag nopan graph-criterion graph-result-open\" title=\"Mobile layout works\"><span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span><span class=\"graph-label\">Mobile layout works</span></button>",
                       "target": [
                         "button[title=\"Mobile layout works\"]"
                       ]
@@ -18022,7 +18022,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#4 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only"
               ],
@@ -18086,7 +18086,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#4 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -18182,7 +18182,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#5 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -18246,7 +18246,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#5 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -18374,7 +18374,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#6 · criteria.confirmed · human / box</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -18438,7 +18438,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#6 · criteria.confirmed · human / box</span>",
+              "html": "<span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -18534,7 +18534,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -18630,7 +18630,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#7 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only"
               ],
@@ -18694,7 +18694,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#7 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -18758,7 +18758,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -18822,7 +18822,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#8 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only"
               ],
@@ -18886,7 +18886,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#8 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -19014,7 +19014,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#12 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -19078,7 +19078,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#12 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -19174,7 +19174,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#13 · artifact.recorded · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -19238,7 +19238,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#13 · artifact.recorded · wrapper / truthlens-run</span>",
+              "html": "<span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -19295,9 +19295,34 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-kind\">Event</span>",
+              "html": "<p class=\"section-note\" data-aria-hidden=\"true\" aria-hidden=\"true\">Only recorded links. Claims without evidence stay unlinked.</p>",
               "target": [
-                "button[title=\"evidence.attached\"] > .graph-kind"
+                ".evidence-graph > .section-note"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
+              "target": [
+                "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             },
@@ -19320,9 +19345,159 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span class=\"graph-label\">evidence.attached</span>",
+              "html": "<span class=\"graph-label\">The form validates the e-mail address using a regex and shows an error</span>",
               "target": [
-                "button[title=\"evidence.attached\"] > .graph-label"
+                "div[data-id=\"claim:1\"] > .graph-claim.graph-result-open.graph-record > .graph-label"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"graph-kind\">Claim \u00b7 claim_unwitnessed</span>",
+              "target": [
+                "div[data-id=\"claim:2\"] > .graph-claim.graph-result-open.graph-record > .graph-kind"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"graph-label\">The page uses a fluid max-width container so it works on mobile</span>",
+              "target": [
+                "div[data-id=\"claim:2\"] > .graph-claim.graph-result-open.graph-record > .graph-label"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-fail\" aria-hidden=\"true\"></span>Criterion \u00b7 unmet</span>",
+              "target": [
+                ".graph-result-fail > .graph-kind"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"graph-label\">Form validates the e-mail address (invalid input rejected)</span>",
+              "target": [
+                ".graph-result-fail > .graph-label"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"graph-kind\"><span class=\"status-dot tone-open\" aria-hidden=\"true\"></span>Criterion \u00b7 unverified</span>",
+              "target": [
+                "button[title=\"Mobile layout works\"] > .graph-kind"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"graph-label\">Mobile layout works</span>",
+              "target": [
+                "button[title=\"Mobile layout works\"] > .graph-label"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             },
@@ -19445,9 +19620,9 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<summary>All records and links as a list</summary>",
+              "html": "<span class=\"graph-kind\">Event</span>",
               "target": [
-                ".graph-list > summary"
+                "button[title=\"File recorded: index.html\"] > .graph-kind"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             },
@@ -19457,7 +19632,7 @@
                   "id": "color-contrast",
                   "data": {
                     "contrastRatio": 0,
-                    "fontSize": "12.0pt (16px)",
+                    "fontSize": "10.5pt (14px)",
                     "fontWeight": "normal",
                     "messageKey": "bgOverlap",
                     "expectedContrastRatio": "4.5:1"
@@ -19470,9 +19645,9 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<h2>Code diff</h2>",
+              "html": "<span class=\"graph-label\">File recorded: index.html</span>",
               "target": [
-                ".diff-panel > .panel-heading > h2"
+                "button[title=\"File recorded: index.html\"] > .graph-label"
               ],
               "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
             },
@@ -20123,7 +20298,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -20251,7 +20426,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -21101,7 +21276,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>Failed – the witnessed check did not pass.</span>",
+              "html": "<span>Failed \u2013 the witnessed check did not pass.</span>",
               "target": [
                 ".criterion-button[data-status=\"unmet\"] > .criterion-content > span"
               ],
@@ -21151,7 +21326,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"font-mono\">· unmet</code>",
+              "html": "<code class=\"font-mono\">\u00b7 unmet</code>",
               "target": [
                 ".criterion-button[data-status=\"unmet\"] > .border-fail\\/40.bg-fail\\/10[data-variant=\"failed\"] > .font-mono"
               ],
@@ -21404,7 +21579,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code>#7 · evidence.attached</code>",
+              "html": "<code>#7 \u00b7 evidence.attached</code>",
               "target": [
                 ".rail-list > li:nth-child(1) > button > span:nth-child(2) > code"
               ],
@@ -21832,7 +22007,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>Failed – the witnessed check did not pass.</span>",
+              "html": "<span>Failed \u2013 the witnessed check did not pass.</span>",
               "target": [
                 ".criterion-button[data-status=\"unmet\"] > .criterion-content > span"
               ],
@@ -21882,7 +22057,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"font-mono\">· unmet</code>",
+              "html": "<code class=\"font-mono\">\u00b7 unmet</code>",
               "target": [
                 ".criterion-button[data-status=\"unmet\"] > .border-fail\\/40.bg-fail\\/10[data-variant=\"failed\"] > .font-mono"
               ],
@@ -22135,7 +22310,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code>#7 · evidence.attached</code>",
+              "html": "<code>#7 \u00b7 evidence.attached</code>",
               "target": [
                 ".rail-list > li:nth-child(1) > button > span:nth-child(2) > code"
               ],
@@ -23172,7 +23347,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code>#7 · evidence.attached</code>",
+              "html": "<code>#7 \u00b7 evidence.attached</code>",
               "target": [
                 "li:nth-child(1) > button > span:nth-child(2) > code"
               ],
@@ -23724,7 +23899,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code>#7 · evidence.attached</code>",
+              "html": "<code>#7 \u00b7 evidence.attached</code>",
               "target": [
                 "li:nth-child(1) > button > span:nth-child(2) > code"
               ],
@@ -24213,7 +24388,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code>#7 · evidence.attached</code>",
+              "html": "<code>#7 \u00b7 evidence.attached</code>",
               "target": [
                 "li:nth-child(1) > button > span:nth-child(2) > code"
               ],
@@ -24315,7 +24490,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#2 · requirement.recorded · human / box</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#2 \u00b7 requirement.recorded \u00b7 human / box</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(2) > button > .timeline-copy > .developer-only"
               ],
@@ -24379,7 +24554,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#2 · requirement.recorded · human / box</span>",
+              "html": "<span>#2 \u00b7 requirement.recorded \u00b7 human / box</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(2) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -24475,7 +24650,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#3 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#3 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only"
               ],
@@ -24539,7 +24714,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#3 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#3 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -24635,7 +24810,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#4 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only"
               ],
@@ -24699,7 +24874,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#4 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#4 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(4) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -24795,7 +24970,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#5 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -24859,7 +25034,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#5 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#5 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -24987,7 +25162,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#6 · criteria.confirmed · human / box</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -25051,7 +25226,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#6 · criteria.confirmed · human / box</span>",
+              "html": "<span>#6 \u00b7 criteria.confirmed \u00b7 human / box</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -25147,7 +25322,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> · Span 20.824 s</p>",
+              "html": "<p><time datetime=\"2026-10-11T14:46:01.831Z\">11/10/2026, 16:46:01.831 CEST</time> \u00b7 Span 20.824 s</p>",
               "target": [
                 ".timeline-phase:nth-child(4) > .phase-heading > p"
               ],
@@ -25243,7 +25418,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#7 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only"
               ],
@@ -25307,7 +25482,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#7 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#7 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(1) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -25371,7 +25546,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<li class=\"timeline-gap\">··· Agent working 20.2 s ···</li>",
+              "html": "<li class=\"timeline-gap\">\u00b7\u00b7\u00b7 Agent working 20.2 s \u00b7\u00b7\u00b7</li>",
               "target": [
                 ".timeline-gap"
               ],
@@ -25435,7 +25610,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#8 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only"
               ],
@@ -25499,7 +25674,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#8 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#8 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -25627,7 +25802,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#12 · evidence.attached · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only"
               ],
@@ -25691,7 +25866,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#12 · evidence.attached · wrapper / truthlens-run</span>",
+              "html": "<span>#12 \u00b7 evidence.attached \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(5) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -25787,7 +25962,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#13 · artifact.recorded · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only"
               ],
@@ -25851,7 +26026,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#13 · artifact.recorded · wrapper / truthlens-run</span>",
+              "html": "<span>#13 \u00b7 artifact.recorded \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(6) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -25947,7 +26122,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#14 · test.reported · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#14 \u00b7 test.reported \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 "li[data-tone=\"ok\"] > button > .timeline-copy > .developer-only"
               ],
@@ -26011,7 +26186,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#14 · test.reported · wrapper / truthlens-run</span>",
+              "html": "<span>#14 \u00b7 test.reported \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 "li[data-tone=\"ok\"] > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -26107,7 +26282,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#15 · test.reported · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#15 \u00b7 test.reported \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 "li[data-tone=\"fail\"] > button > .timeline-copy > .developer-only"
               ],
@@ -26171,7 +26346,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#15 · test.reported · wrapper / truthlens-run</span>",
+              "html": "<span>#15 \u00b7 test.reported \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 "li[data-tone=\"fail\"] > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -26267,7 +26442,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#16 · run.finished · wrapper / truthlens-run</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#16 \u00b7 run.finished \u00b7 wrapper / truthlens-run</span></code>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button > .timeline-copy > .developer-only"
               ],
@@ -26331,7 +26506,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#16 · run.finished · wrapper / truthlens-run</span>",
+              "html": "<span>#16 \u00b7 run.finished \u00b7 wrapper / truthlens-run</span>",
               "target": [
                 ".timeline-phase:nth-child(4) > .timeline-rail > .timeline-event[data-tone=\"open\"] > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -26797,7 +26972,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>Failed – the witnessed check did not pass.</span>",
+              "html": "<span>Failed \u2013 the witnessed check did not pass.</span>",
               "target": [
                 ".criterion-button[data-status=\"unmet\"] > .criterion-content > span"
               ],
@@ -26847,7 +27022,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"font-mono\">· unmet</code>",
+              "html": "<code class=\"font-mono\">\u00b7 unmet</code>",
               "target": [
                 ".criterion-button[data-status=\"unmet\"] > .border-fail\\/40.bg-fail\\/10[data-variant=\"failed\"] > .font-mono"
               ],
@@ -26904,7 +27079,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#2 · requirement.recorded · human / box</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#2 \u00b7 requirement.recorded \u00b7 human / box</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(2) > button > .timeline-copy > .developer-only"
               ],
@@ -26968,7 +27143,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#2 · requirement.recorded · human / box</span>",
+              "html": "<span>#2 \u00b7 requirement.recorded \u00b7 human / box</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(2) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -27064,7 +27239,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#3 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#3 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only"
               ],
@@ -27128,7 +27303,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#3 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#3 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -27228,7 +27403,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code>#7 · evidence.attached</code>",
+              "html": "<code>#7 \u00b7 evidence.attached</code>",
               "target": [
                 ".rail-list > li:nth-child(1) > button > span:nth-child(2) > code"
               ],
@@ -27656,7 +27831,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>Failed – the witnessed check did not pass.</span>",
+              "html": "<span>Failed \u2013 the witnessed check did not pass.</span>",
               "target": [
                 ".criterion-button[data-status=\"unmet\"] > .criterion-content > span"
               ],
@@ -27706,7 +27881,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"font-mono\">· unmet</code>",
+              "html": "<code class=\"font-mono\">\u00b7 unmet</code>",
               "target": [
                 ".criterion-button[data-status=\"unmet\"] > .border-fail\\/40.bg-fail\\/10[data-variant=\"failed\"] > .font-mono"
               ],
@@ -27763,7 +27938,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#2 · requirement.recorded · human / box</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#2 \u00b7 requirement.recorded \u00b7 human / box</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(2) > button > .timeline-copy > .developer-only"
               ],
@@ -27827,7 +28002,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#2 · requirement.recorded · human / box</span>",
+              "html": "<span>#2 \u00b7 requirement.recorded \u00b7 human / box</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(2) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -27923,7 +28098,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#3 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#3 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only"
               ],
@@ -27987,7 +28162,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#3 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#3 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -28087,7 +28262,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code>#7 · evidence.attached</code>",
+              "html": "<code>#7 \u00b7 evidence.attached</code>",
               "target": [
                 ".rail-list > li:nth-child(1) > button > span:nth-child(2) > code"
               ],
@@ -28497,7 +28672,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#2 · requirement.recorded · human / box</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#2 \u00b7 requirement.recorded \u00b7 human / box</span></code>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(2) > button > .timeline-copy > .developer-only"
               ],
@@ -28561,7 +28736,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#2 · requirement.recorded · human / box</span>",
+              "html": "<span>#2 \u00b7 requirement.recorded \u00b7 human / box</span>",
               "target": [
                 ".timeline-event[data-tone=\"info\"]:nth-child(2) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -28657,7 +28832,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#3 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#3 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only"
               ],
@@ -28721,7 +28896,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#3 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#3 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -29253,7 +29428,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code>#7 · evidence.attached</code>",
+              "html": "<code>#7 \u00b7 evidence.attached</code>",
               "target": [
                 "li:nth-child(1) > button > span:nth-child(2) > code"
               ],
@@ -29630,7 +29805,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code class=\"developer-only\"><span>Developer</span> · <span>#3 · criterion.recorded · agent / admin-supervisor</span></code>",
+              "html": "<code class=\"developer-only\"><span>Developer</span> \u00b7 <span>#3 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span></code>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only"
               ],
@@ -29680,7 +29855,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>#3 · criterion.recorded · agent / admin-supervisor</span>",
+              "html": "<span>#3 \u00b7 criterion.recorded \u00b7 agent / admin-supervisor</span>",
               "target": [
                 ".timeline-phase:nth-child(3) > .timeline-rail > .timeline-event[data-tone=\"info\"]:nth-child(3) > button > .timeline-copy > .developer-only > span:nth-child(2)"
               ],
@@ -29830,7 +30005,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code>#7 · evidence.attached</code>",
+              "html": "<code>#7 \u00b7 evidence.attached</code>",
               "target": [
                 ".rail-list > li:nth-child(1) > button > span:nth-child(2) > code"
               ],
@@ -30244,7 +30419,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<p class=\"developer-only font-mono text-xs text-2 mt-2 break-all\"><span class=\"developer-label\">Developer</span> · #7 · evidence.attached · evt_01M4NPV2V7QVDACAFBAEVQYN1H</p>",
+              "html": "<p class=\"developer-only font-mono text-xs text-2 mt-2 break-all\"><span class=\"developer-label\">Developer</span> \u00b7 #7 \u00b7 evidence.attached \u00b7 evt_01M4NPV2V7QVDACAFBAEVQYN1H</p>",
               "target": [
                 ".py-4:nth-child(3) > .developer-only.font-mono.break-all"
               ],
@@ -30369,7 +30544,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<code>#7 · evidence.attached</code>",
+              "html": "<code>#7 \u00b7 evidence.attached</code>",
               "target": [
                 "li:nth-child(1) > button > span:nth-child(2) > code"
               ],
@@ -30417,5 +30592,7 @@
         "tabindex"
       ]
     }
-  ]
+  ],
+  "testedSource": "69767fa0a0fbabb5517b554e0a11b360ce22ec2d",
+  "testedTree": "24d3ef533d57f54a3e3d61d4dd6d6302a835c8d9"
 }

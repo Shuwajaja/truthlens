@@ -1,10 +1,10 @@
 # Client / Developer mode colours — issue148
 
-Before: main `776212ceb95e1c4147e17ca72f0f7a93b109d210`. After tested source `a3ac178a0d5eda5f45c15d50db79364bab9c995d`, tree `5a1799442122156e60086c4f2a822565d89e01f1`. Later publication changes only this evidence and STATUS.md. Actual demo export unchanged.
+Before: main `776212ceb95e1c4147e17ca72f0f7a93b109d210`. After tested source `69767fa0a0fbabb5517b554e0a11b360ce22ec2d`, tree `24d3ef533d57f54a3e3d61d4dd6d6302a835c8d9`. Later publication changes only this evidence and STATUS.md. Raw reports retain their recorded pre-commit HEAD and add the exact tested source/tree. Actual demo export unchanged.
 
 ## Change and meaning
 
-Client uses desaturated grey-green `--mode-client` (#9CAFA8, saturation about11%); Developer uses cool slate `--mode-developer` (#9EADC2, about23%). Status emerald remains #10B981 (about84% saturation); rose and amber unchanged. Each mode gets an opaque10% selected fill over surface, a2px selected-button edge and a2px top header strip. Developer-only sequence/type/actor metadata and event data retain visible Developer labels and a slate rail. These are mode identifiers, never proof or approval. Client/Developer button text and aria-pressed remain; actual human/agent actor strings are not rewritten. Hash-only and the approval boundary remain visible and neutral.
+Client uses desaturated grey-green `--mode-client` (#9CAFA8, saturation about11%); Developer uses cool slate `--mode-developer` (#9EADC2, about23%). Status emerald remains #10B981 (about84% saturation); rose and amber unchanged. Each mode gets an opaque10% selected fill over surface, a2px selected-button edge and a2px top header strip. The mobile sticky header also keeps the explicit mode word visible while scrolled, verified by geometry/hit test. Developer-only sequence/type/actor metadata and event data retain visible Developer labels and a slate rail. These are mode identifiers, never proof or approval. Client/Developer button text and aria-pressed remain; actual human/agent actor strings are not rewritten. Hash-only and the approval boundary remain visible and neutral.
 
 ## Executed verification
 
@@ -20,7 +20,7 @@ Client uses desaturated grey-green `--mode-client` (#9CAFA8, saturation about11%
 
 ## Incomplete / limits
 
-Raw incomplete node occurrences: before color-contrast571 and aria-hidden-focus140; after color-contrast661 and aria-hidden-focus140. Added metadata spans produce additional short-text/clipped/overlapped text candidates, including inactive modal background and scrollable/collapsed chronology. These are retained as incomplete, never rewritten as passes. New mode text has separate computed CSS contrast proof and targeted scroll reachability above; that does not resolve every historical incomplete node. PR147 documents the separate broader modal/AX triage. Actual NVDA/VoiceOver spoken output, other exports and hosted third-party comments were not tested. No blanket WCAG or human usability certification.
+Raw incomplete node occurrences: before color-contrast571 and aria-hidden-focus140; after color-contrast668 and aria-hidden-focus140. Added metadata spans produce additional short-text/clipped/overlapped text candidates, including inactive modal background and scrollable/collapsed chronology. These are retained as incomplete, never rewritten as passes. New mode text has separate computed CSS contrast proof and targeted scroll reachability above; that does not resolve every historical incomplete node. PR147 documents the separate broader modal/AX triage. Actual NVDA/VoiceOver spoken output, other exports and hosted third-party comments were not tested. No blanket WCAG or human usability certification.
 
 Commands: `cd viewer && npm test && npm run lint && npm run check:styles && npm run build`; `THEME_REPORT=/tmp/mode148-contrasts.json npm run check:theme`; `MODE_OUTPUT=/tmp/mode148-final node scripts/check-mode-colours.mjs`; `A11Y_OUTPUT=/tmp/mode148-final-axe node scripts/audit-a11y.mjs`. Baseline captures used MODE_PHASE=before. Normal local Playwright library path applies. CI status for the final head is reported in the PR. No merge or force-push; PR95 untouched.
 
