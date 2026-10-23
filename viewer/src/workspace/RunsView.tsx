@@ -1,0 +1,5 @@
+import type {WorkspaceSource,RunReference} from './navigation-types.ts'
+import {Button} from '../components/ui/button.tsx'
+export function RunsView({sources,onOpenRun}:{sources:readonly WorkspaceSource[];onOpenRun:(ref:RunReference)=>void}){
+ return <section className="runs-view"><h1>Runs</h1><p>Supplied local development records. Integrity is not approval.</p>{sources.flatMap(source=>[...source.runs.values()].map(doc=><article key={JSON.stringify([source.sourceId,doc.run.run_id])}><h2>{doc.run.project}</h2><dl><dt>Source</dt><dd>{source.label} · {source.sourceId}</dd><dt>Run</dt><dd>{doc.run.run_id}</dd><dt>Agent</dt><dd>{doc.run.agent}</dd><dt>Recorded review state</dt><dd>{doc.review_required?'Review required':'No review required in export'}</dd></dl><Button variant="outline" onClick={()=>onOpenRun({kind:'run',sourceId:source.sourceId,runId:doc.run.run_id})} aria-label={`Open run: ${doc.run.project}`}>Open run</Button></article>))}{!sources.length&&<p>No local run source is connected.</p>}</section>
+}
