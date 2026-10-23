@@ -1,4 +1,10 @@
-// Real export + isolated hostile fixture: layout, selection and static preview boundary.
+// Phase A supersedes the former Stitch geometry/colour assertions.
+const {readFile:readShellSource}=await import('node:fs/promises');
+if((await readShellSource(new URL('../src/App.tsx',import.meta.url),'utf8')).includes('<WorkspaceShell')){
+ process.env.WORKSPACE_OUTPUT??=process.env.P3_SHOTS??'.screenshots/review';
+ await (await import('./review-workspace.mjs')).reviewWorkspace({mode:'modes'});
+ process.exit(0);
+}
 import assert from 'node:assert/strict'
 import {readFile,mkdir,writeFile} from 'node:fs/promises'
 import {fileURLToPath} from 'node:url'
@@ -6,7 +12,7 @@ import {preview} from 'vite'
 import {blockedPreviewScript} from './preview-console.mjs'
 process.env.PLAYWRIGHT_BROWSERS_PATH??=fileURLToPath(new URL('../../.venv/playwright',import.meta.url))
 const {chromium}=await import('playwright')
-const doc=JSON.parse(await readFile(new URL('../public/run.json',import.meta.url),'utf8'))
+const doc=JSON.parse(await readFile(new URL('../fixtures/demo-run.json',import.meta.url),'utf8'))
 const output=process.env.STITCH_OUTPUT??'.screenshots/review/stitch'
 await mkdir(output,{recursive:true})
 let server,browser

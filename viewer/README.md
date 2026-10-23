@@ -1,3 +1,11 @@
+# Local workspace — Phase A
+
+Petrol & Porcelain is the default; Cool Graphite is the dark alternative. The single production build contains no demo source and shows **Not connected** without fetching run data. The read-only local source and SSH boundary await Phase B/D34 approval.
+
+`npm run dev` binds to 127.0.0.1 and serves `fixtures/demo-run.json` through development-only middleware. It is a historical test fixture, not a live run. `npm run review:screenshots` uses that local development path for both themes/lenses at 1440x900 and 390x844; fast PR CI remains build/lint/unit. No public demo build or preview-link deliverable. Existing Vercel project/settings have not been changed.
+
+The [design contract](DESIGN.md) and [approved plan](../PLAN-redesign-2026-10-23.md) supersede the older layout descriptions below.
+
 # TruthLens viewer
 
 React/TypeScript viewer for a local exported RunDoc. Node >=22.19 is required; CI uses Node 24. From this directory:

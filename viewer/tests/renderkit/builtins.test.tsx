@@ -5,7 +5,7 @@ import { RenderView } from '../../src/renderkit/RenderView.tsx'
 import { createRegistry, defaultRegistry } from '../../src/renderkit/registry.ts'
 import type { Renderer } from '../../src/renderkit/types.ts'
 import type { RunDoc } from '../../src/types.ts'
-import publicRun from '../../public/run.json'
+import publicRun from '../../fixtures/demo-run.json'
 
 const doc = publicRun as RunDoc
 afterEach(() => { cleanup(); vi.restoreAllMocks() })

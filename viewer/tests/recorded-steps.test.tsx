@@ -4,7 +4,7 @@ import {afterEach,it,expect} from 'vitest'
 import {groupRecordedPhases,recordedResult} from '../src/lib/recorded-steps.ts'
 import {RecordedText} from '../src/components/RecordedText.tsx'
 import {RecordedOutput,StepFacts,StepTime} from '../src/components/RecordedStep.tsx'
-import publicRun from '../public/run.json'
+import publicRun from '../fixtures/demo-run.json'
 import type {RunDoc} from '../src/types.ts'
 const doc=publicRun as RunDoc
 afterEach(cleanup)

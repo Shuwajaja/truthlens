@@ -1,3 +1,10 @@
+// Phase A supersedes the former Stitch geometry/colour assertions.
+const {readFile:readShellSource}=await import('node:fs/promises');
+if((await readShellSource(new URL('../src/App.tsx',import.meta.url),'utf8')).includes('<WorkspaceShell')){
+ process.env.WORKSPACE_OUTPUT??=process.env.A11Y_OUTPUT??'.screenshots/a11y';
+ await (await import('./review-workspace.mjs')).reviewWorkspace({mode:'a11y'});
+ process.exit(0);
+}
 import {blockedPreviewScript} from './preview-console.mjs'
 import {validateAudit} from './a11y-policy.mjs'
 import {reviewDialog,reviewIncomplete,reviewScrollSample} from './a11y-review.mjs'

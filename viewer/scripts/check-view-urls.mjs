@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict'
 import {mkdir,writeFile} from 'node:fs/promises'
 import {fileURLToPath} from 'node:url'
-import {preview} from 'vite'
+import {createServer} from 'vite'
 import {blockedPreviewScript} from './preview-console.mjs'
 process.env.PLAYWRIGHT_BROWSERS_PATH??=fileURLToPath(new URL('../../.venv/playwright',import.meta.url))
 const {chromium}=await import('playwright')
@@ -11,7 +11,7 @@ const views=['overview','claimed-vs-proven','timeline','agent-story'],checks=[],
 let server,browser
 try{
  await mkdir(output,{recursive:true})
- server=await preview({preview:{host:'127.0.0.1',port:0,strictPort:true}})
+ server=await createServer({mode:'development',server:{host:'127.0.0.1',port:0,strictPort:true}});await server.listen()
  const origin='http://127.0.0.1:'+server.httpServer.address().port
  browser=await chromium.launch({executablePath:process.env.REVIEW_BROWSER_EXECUTABLE})
  for(const viewport of [{width:1440,height:900},{width:390,height:844}])for(const lens of ['client','developer']){
@@ -21,9 +21,11 @@ try{
   const page=await context.newPage()
   page.on('pageerror',e=>errors.push(e.message))
   page.on('console',m=>{if(blockedPreviewScript(m))previewScriptBlocks.push(m.text());else if(m.type()==='error')errors.push(m.text())})
+  const ensureNavigation=async(target=page)=>{if(!(await target.getByRole('navigation',{name:'Viewer navigation',exact:true}).isVisible()))await target.getByRole('button',{name:'Navigation',exact:true}).click()}
   const selected=()=>page.getByRole('navigation',{name:'Viewer navigation',exact:true}).locator('[aria-current=page]')
   async function expectView(index){
    await page.locator('main h1').waitFor()
+   await ensureNavigation();
    await page.waitForFunction(index=>Array.from(document.querySelectorAll('.nav-item')).findIndex(el=>el.getAttribute('aria-current')==='page')===index,index)
    assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth))
    assert.equal(await page.evaluate(()=>localStorage.getItem('tl-lens')),lens)
@@ -33,16 +35,18 @@ try{
    await page.goto(`${origin}/?source=review&view=${view}#main-content`);await expectView(index)
    await page.reload();await expectView(index)
    const copied=await context.newPage();await copied.goto(page.url());await copied.locator('main h1').waitFor()
+   await ensureNavigation(copied);
    assert.equal(await copied.getByRole('navigation',{name:'Viewer navigation',exact:true}).locator('[aria-current=page]').innerText(),await selected().innerText());await copied.close()
    checks.push({viewport,lens,view,direct:true,reload:true,copiedUrl:true})
   }
   await page.goto(`${origin}/?source=review#main-content`);await expectView(0)
   const buttons=page.getByRole('navigation',{name:'Viewer navigation',exact:true}).getByRole('button')
   for(const index of [2,3]){
+   await ensureNavigation();
    await buttons.nth(index).focus();await page.keyboard.press('Enter');await expectView(index)
    const url=new URL(page.url());assert.equal(url.searchParams.get('view'),views[index]);assert.equal(url.searchParams.get('source'),'review');assert.equal(url.hash,'#main-content')
   }
-  const length=await page.evaluate(()=>history.length);await buttons.nth(3).click();assert.equal(await page.evaluate(()=>history.length),length)
+  await ensureNavigation();const length=await page.evaluate(()=>history.length);await buttons.nth(3).click();assert.equal(await page.evaluate(()=>history.length),length)
   await page.goBack();await expectView(2);await page.goBack();await expectView(0)
   await page.goForward();await expectView(2);await page.goForward();await expectView(3)
   assert.equal(await page.evaluate(()=>history.length),length)

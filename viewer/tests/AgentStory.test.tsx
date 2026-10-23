@@ -7,7 +7,7 @@ import { RenderView } from '../src/renderkit/RenderView.tsx'
 import type { DrawerTarget } from '../src/components/Drawer.tsx'
 import type { RunDoc } from '../src/types.ts'
 import { claimOnlyRun } from './fixtures/claimOnlyRun.ts'
-import publicRun from '../public/run.json'
+import publicRun from '../fixtures/demo-run.json'
 
 const doc = publicRun as RunDoc
 afterEach(() => { cleanup(); localStorage.clear(); vi.unstubAllGlobals() })
@@ -24,8 +24,8 @@ describe('Agent Story', () => {
     expect(main.getByText("This browser checks the file's internal consistency only; it does not verify signatures.")).toBeTruthy()
     expect(main.getByText(/Review required/)).toBeTruthy()
     fireEvent.click(main.getByRole('button', { name: 'View event #1', exact: true }))
-    expect(within(screen.getByRole('dialog', { name: 'Event detail' })).getByText(doc.events[0].id)).toBeTruthy()
-    fireEvent.click(screen.getByRole('button', { name: 'Close', exact: true }))
+    expect(within(screen.getByRole('region', { name: 'Event detail' })).getByText(doc.events[0].id)).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: 'Back to criterion', exact: true }))
     expect(screen.queryByRole('dialog')).toBeNull()
   })
 

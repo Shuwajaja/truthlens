@@ -29,10 +29,15 @@ async function inspect(environment,outDir){
    assert.equal(await scripts.count(),environment==='preview'?1:0)
    if(environment==='preview')assert.equal(await scripts.getAttribute('data-explicit-opt-in'),'true')
    await page.screenshot({path:`${output}/${environment}-${viewport.width}x${viewport.height}.png`,animations:'disabled'})
-   await page.getByRole('navigation',{name:'Viewer navigation',exact:true}).getByRole('button').nth(2).click()
-   assert(await page.getByRole('heading',{name:'Timeline',exact:true}).isVisible(),'viewer works after toolbar failure')
+   const navigation=page.getByRole('navigation',{name:'Viewer navigation',exact:true})
+   if(await navigation.count()){
+    await navigation.getByRole('button').nth(2).click()
+    assert(await page.getByRole('heading',{name:'Timeline',exact:true}).isVisible(),'fixture navigation works after toolbar failure')
+   }else{
+    assert(await page.getByRole('heading',{name:'Not connected',exact:true}).isVisible(),'single local production build stays disconnected; no fixture navigation')
+   }
    assert.equal(errors.length,0,'page errors')
-   checks.push({environment,viewport,loaderRequests:requests,pageErrors:errors,simulatedHttp503:environment==='preview',warnings,viewerNavigation:'passed'})
+   checks.push({environment,viewport,loaderRequests:requests,pageErrors:errors,simulatedHttp503:environment==='preview',warnings,viewerNavigation:await navigation.count()?'passed':'local production disconnected; no fixture'})
    await context.close()
   }
   if(environment==='preview')for(const tag of ['script','vercel-live-feedback']){

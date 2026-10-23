@@ -1,4 +1,10 @@
-// Real-browser acceptance proof: mode semantics, actual computed contrast and both-size captures.
+// Phase A supersedes the former Stitch geometry/colour assertions.
+const {readFile:readShellSource}=await import('node:fs/promises');
+if((await readShellSource(new URL('../src/App.tsx',import.meta.url),'utf8')).includes('<WorkspaceShell')){
+ process.env.WORKSPACE_OUTPUT??=process.env.MODE_OUTPUT??'.screenshots/modes';
+ await (await import('./review-workspace.mjs')).reviewWorkspace({mode:'modes'});
+ process.exit(0);
+}
 import assert from 'node:assert/strict'
 import {mkdir,writeFile} from 'node:fs/promises'
 import {execFileSync} from 'node:child_process'

@@ -8,7 +8,7 @@ import { Drawer, type DrawerTarget } from '../src/components/Drawer.tsx'
 import { EvidenceBlobContent } from '../src/components/EvidenceBlobContent.tsx'
 import type { Lens } from '../src/lens.ts'
 import type { RunDoc, RunEvent } from '../src/types.ts'
-import publicRun from '../public/run.json'
+import publicRun from '../fixtures/demo-run.json'
 
 const doc = publicRun as RunDoc
 const lenses: Lens[] = ['client', 'developer']
@@ -27,7 +27,7 @@ afterEach(() => {
 })
 
 // The real export has a diff but no Markdown. Supplement only this isolated drawer fixture;
-// never change public/run.json or present this synthetic event as a recorded witness.
+// never change fixtures/demo-run.json or present this synthetic event as a recorded witness.
 const markdown = '# Synthetic snapshot fixture\n\n**Claimed**, not witnessed. See `fixture.ts`.\n\n- one\n- two\n\n```text\n<script>escaped</script>\n```'
 const markdownSha = createHash('sha256').update(markdown).digest('hex')
 const diffEvent = doc.events.find(event => {
@@ -80,7 +80,7 @@ function stableFragment(fragment: DocumentFragment) {
 describe('recorded viewer layouts and renderer snapshots', () => {
   for (const lens of lenses) {
     for (const view of ['Overview', 'Claimed vs Proven', 'Timeline']) {
-      it(`${view}, ${lens} lens, real public/run.json`, async () => {
+      it(`${view}, ${lens} lens, real fixtures/demo-run.json`, async () => {
         localStorage.setItem('tl-lens', lens)
         const { asFragment } = render(<App />)
         await screen.findByRole('heading', { level: 1 })

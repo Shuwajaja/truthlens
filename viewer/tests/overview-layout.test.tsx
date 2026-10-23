@@ -6,7 +6,7 @@ import { ClaimedVsProven } from '../src/components/ClaimedVsProven.tsx'
 import { Overview } from '../src/components/Overview.tsx'
 import { recordedDiff } from '../src/components/overview-data.ts'
 import type { RunDoc } from '../src/types.ts'
-import publicRun from '../public/run.json'
+import publicRun from '../fixtures/demo-run.json'
 
 const doc = publicRun as RunDoc
 afterEach(cleanup)

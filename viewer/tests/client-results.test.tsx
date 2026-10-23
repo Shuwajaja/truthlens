@@ -5,7 +5,7 @@ import {cleanup,render,screen,within,fireEvent} from '@testing-library/react'
 import {ClaimedVsProven} from '../src/components/ClaimedVsProven.tsx'
 import {Overview} from '../src/components/Overview.tsx'
 import type {RunDoc} from '../src/types.ts'
-import publicRun from '../public/run.json'
+import publicRun from '../fixtures/demo-run.json'
 const doc=publicRun as RunDoc
 afterEach(cleanup)
 it.each(['client','developer'] as const)('shows each actual claim beside criterion outcome and only its referenced evidence in %s',lens=>{

@@ -3,7 +3,7 @@ import './browser-env.ts'
 import {afterEach,beforeEach,expect,it,vi} from 'vitest'
 import {cleanup,fireEvent,render,screen,within} from '@testing-library/react'
 import App from '../src/App.tsx'
-import publicRun from '../public/run.json'
+import publicRun from '../fixtures/demo-run.json'
 
 beforeEach(()=>{
  history.replaceState(null,'','/')
