@@ -53,3 +53,7 @@ The stored Event Schema v1 and Artifact Manifest v1 contracts and their hashes a
 - Older exports without an explicit `integrity` level must be regenerated. The bundled `viewer/public/run.json` was regenerated without a key from `demo/runs/demo-2`; it therefore says `verified: false`, `integrity: "hash-only"`.
 
 See [Trust levels](../TRUST-LEVELS.md) for the browser trust boundary. Human review and acceptance remain separate from all integrity levels.
+
+## Changelog — 2026-10-23: complete-run identity (D35)
+
+For completed manifest construction and verification, the ledger must contain exactly one `run.started` event, and it must be the first event. The manifest's `agent.name` must equal the `agent` declared by that initial event, including when either name is empty. This is an agent implementation decision for the remaining acceptance criteria in issue #48; it does not claim human, security, or merge approval. The event and manifest wire formats, hashes, schema version, generic ledger verification, and partial acceptance and claims projections are unchanged. Existing well-formed complete runs are unaffected; malformed complete-run manifests are rejected.

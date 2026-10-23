@@ -18,9 +18,13 @@ def _decision(ev: dict) -> str | None:
         return None
     p = ev["payload"]
     if ev["type"] == "test.reported":
-        if p.get("failed", 0) > 0:
+        failed = p.get("failed")
+        if type(failed) is int and failed > 0:
             return "fail"
-        return "pass" if p.get("passed", 0) > 0 else None
+        passed = p.get("passed")
+        if type(failed) is int and failed == 0 and type(passed) is int and passed > 0:
+            return "pass"
+        return None
     if ev["type"] == "evidence.attached" and p.get("result") in ("pass", "fail"):
         return p["result"]
     return None
@@ -82,6 +86,9 @@ def build_manifest(events: list[dict], agent: dict[str, Any]) -> dict:
     fin = next((e for e in reversed(events) if e["type"] == "run.finished"), None)
     if fin is None:  # #27.5: repaired ledger without run.finished
         raise ValueError("manifest requires run.finished")
+    starts = [e for e in events if e["type"] == "run.started"]
+    if len(starts) != 1 or events[0]["type"] != "run.started":
+        raise ValueError("manifest requires exactly one initial run.started")
     arts = [
         {
             "artifact_id": e["payload"]["artifact_id"], "path": e["payload"]["path"], "sha256": e["payload"]["sha256"],
@@ -106,11 +113,11 @@ def check_manifest(manifest: dict, events: list[dict], blob_exists=None) -> list
     for key in ("run_id", "artifacts", "acceptance"):
         if manifest.get(key) != expected[key]:
             errs.append(f"{key} differs from ledger")
-    started = next((e for e in events if e["type"] == "run.started"), None)
+    started = events[0]
     mag = manifest.get("agent")
     if not isinstance(mag, dict):
         errs.append("manifest agent must be an object")
-    elif started is not None and mag.get("name", "") != started["payload"].get("agent", ""):
+    elif mag.get("name", "") != started["payload"].get("agent", ""):
         errs.append("agent differs from run.started")  # #27.5, empty names compared too
     if blob_exists is not None:
         errs += [f"blob missing: {a['sha256'][:12]}" for a in expected["artifacts"] if not blob_exists(a["sha256"])]
