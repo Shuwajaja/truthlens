@@ -91,6 +91,8 @@ def snapshot(cwd: str, exclude: set[str] = frozenset()) -> dict[str, tuple[str, 
             f = os.path.join(dp, d)
             if not os.path.islink(f):
                 out[os.path.relpath(f, root)] = ("dir", b"", os.stat(f).st_mode & 0o7777)
+                if len(out) > MAX_SNAPSHOT_FILES:
+                    raise LedgerError("working tree too large for a gated snapshot; run the action from a smaller dir")
         for n in sorted(n for n in fns if n != ".git") + [d for d in dns if os.path.islink(os.path.join(dp, d))]:
             f = os.path.join(dp, n)
             rel = os.path.relpath(f, root)
@@ -134,6 +136,10 @@ def _materialize(snap: dict, td: str) -> None:
             with os.fdopen(fd, "wb") as fh:
                 fh.write(data)
             os.chmod(dst, mode)
+    # Keep owner access during population, then restore children before restrictive parents.
+    for rel, (kind, _, mode) in sorted(snap.items(), key=lambda item: item[0].count(os.sep), reverse=True):
+        if kind == "dir":
+            os.chmod(os.path.join(td, rel), mode)
 
 
 def _in_tree(arg: str, root: str) -> str | None:
@@ -401,8 +407,54 @@ def _usable_approval(events: list[dict], ah: str) -> dict | None:
     return None
 
 
+def _scrub_output(data: bytes, env: dict[str, str] | None, hmac_key: bytes | None) -> bytes:
+    """Conservatively scrub all effective env values and the HMAC key before generic D5 patterns.
+
+    Replacement is a single longest-first pass so overlapping values and short secrets cannot
+    cascade into replacements of newly inserted plain markers. Non-UTF8 bytes round-trip intact.
+    """
+    import os
+
+    from truthlens.redaction import redact_str
+
+    values = {v.encode("utf-8", "surrogateescape") for v in (env if env is not None else os.environ).values() if v}
+    if hmac_key:
+        values.add(hmac_key)
+    if values:
+        pattern = re.compile(b"|".join(re.escape(v) for v in sorted(values, key=lambda v: (-len(v), v))))
+        data = pattern.sub(lambda _: b"[REDACTED]", data)
+    return redact_str(data.decode("utf-8", "surrogateescape")).encode("utf-8", "surrogateescape")
+
+
 def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
-        env: dict[str, str] | None = None, state: dict | None = None) -> tuple[int, dict]:
+        env: dict[str, str] | None = None, state: dict | None = None,
+        request_id: str | None = None) -> tuple[int, dict]:
+    """Serialize request reservation through outcome using a separate per-ledger lock."""
+    import fcntl
+    import os
+    import stat
+
+    if request_id is None:
+        return _act(led, actor, argv, cwd, env, state)
+    vr = verify(led.path, led.hmac_key)
+    if not vr.ok:
+        raise LedgerError("ledger does not verify, refusing to act")
+    # No ledger-controlled run ID enters this filename.
+    identity = hashlib.sha256(os.fsencode(os.path.realpath(led.path))).hexdigest()
+    lock_path = _anchor_path("gate-lock").with_name(f"gate-{identity}.lock")
+    fd = os.open(lock_path, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600)
+    try:
+        if not stat.S_ISREG(os.fstat(fd).st_mode):
+            raise LedgerError("gate request lock is not a regular file")
+        fcntl.flock(fd, fcntl.LOCK_EX)
+        return _act(led, actor, argv, cwd, env, state, request_id)
+    finally:
+        os.close(fd)
+
+
+def _act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
+         env: dict[str, str] | None = None, state: dict | None = None,
+         request_id: str | None = None) -> tuple[int, dict]:
     """Rollback: last ledger head + consumed approvals are kept in memory (`state`) AND in an external anchor
     file outside the run dir (all callers incl. CLI `truthlens act`). Execution: from an immutable snapshot."""
     import os
@@ -413,8 +465,6 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
     events = led.read()
     if not events:
         raise LedgerError("act needs an open run ledger")
-    if events[-1]["type"] == "run.finished":
-        raise LedgerError("run is closed")
     state = state if state is not None else {}
     state.setdefault("consumed", set())
     _load_anchor(events[0]["run_id"], state)
@@ -422,6 +472,27 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
         seq, h = state["head"]
         if not any(e["seq"] == seq and e["hash"] == h for e in events):
             raise LedgerError("ledger rollback detected: remembered head is missing")
+    if request_id is not None:
+        for reserved in events:
+            if reserved.get("request_id") != request_id:
+                continue
+            system = {"kind": "system", "id": "truthlens-gate"}
+            if (reserved["type"] != "action.executed" or reserved["actor"] != system
+                    or led.hmac_key is None or "hmac" not in reserved):
+                raise LedgerError("request identity is not a verified gate reservation")
+            info = {"action_hash": reserved["payload"]["action_hash"], "event": reserved["id"]}
+            for outcome in events:
+                payload = outcome["payload"]
+                if (outcome["seq"] > reserved["seq"] and outcome["type"] == "evidence.attached"
+                        and outcome["actor"] == system and "hmac" in outcome
+                        and payload.get("kind") == "command_run"
+                        and payload.get("refers_to") == reserved["id"]
+                        and type(payload.get("exit_code")) is int):
+                    rc = payload["exit_code"]
+                    return rc, {**info, "status": "executed", "exit_code": rc}
+            return 2, {**info, "status": "indeterminate"}
+    if events[-1]["type"] == "run.finished":
+        raise LedgerError("run is closed")
     root = os.path.realpath(cwd or os.getcwd())
     snap = snapshot(root, {os.path.realpath(led.path)})
     prog = resolve_program(argv[0], root, env, snap)
@@ -441,12 +512,13 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
         return BLOCKED, {"action_hash": ah, "status": "blocked"}
     # reserve first (consumes the approval in the ledger), then execute, then record the outcome
     ev = led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "action.executed",
-                    {"action_hash": ah, "approval_event_id": appr["id"], "result": "started"})
+                    {"action_hash": ah, "approval_event_id": appr["id"], "result": "started"},
+                    request_id=request_id)
     state["consumed"].add(appr["id"])
     state["head"] = (ev["seq"], ev["hash"])
     _save_anchor(run_id, state)
-    with tempfile.TemporaryDirectory(prefix="tl-act-") as td:  # run from the approved bytes, not the live tree
-        try:  # preparation errors after the approval was consumed are recorded as the result, too
+    try:  # preparation errors after the approval was consumed are recorded as the result, too
+        with tempfile.TemporaryDirectory(prefix="tl-act-") as td:  # run from the approved bytes, not the live tree
             _materialize(snap, td)
             if pbytes is None:
                 exe = os.path.join(td, prog[len("tree:"):])
@@ -481,11 +553,12 @@ def act(led: Ledger, actor: dict, argv: list[str], cwd: str | None = None,
                             if _real == root or _real.startswith(root + os.sep):
                                 raise LedgerError("live repo path via symlink in gated action env")
             proc = subprocess.run(run_argv, cwd=td, env=env, stdin=subprocess.DEVNULL, capture_output=True, check=False)
-        except (OSError, LedgerError) as e:  # #29.3: never kills the gate, never leaves only "started"
-            proc = subprocess.CompletedProcess(argv, 127, b"", f"[truthlens gate: {type(e).__name__}]".encode())
+    except (OSError, LedgerError) as e:  # #29.3: never kills the gate, never leaves only "started"
+        proc = subprocess.CompletedProcess(argv, 127, b"", f"[truthlens gate: {type(e).__name__}]".encode())
     led.append(run_id, {"kind": "system", "id": "truthlens-gate"}, "evidence.attached",
                {"evidence_id": ev["id"].replace("evt_", "evd_"), "kind": "command_run", "refers_to": ev["id"],
-                "sha256": hashlib.sha256(proc.stdout + proc.stderr).hexdigest(), "exit_code": proc.returncode,
+                "sha256": hashlib.sha256(_scrub_output(proc.stdout + proc.stderr, env, led.hmac_key)).hexdigest(),
+                "exit_code": proc.returncode,
                 "result": "info"})
     return proc.returncode, {"action_hash": ah, "status": "executed", "event": ev["id"],
                              "exit_code": proc.returncode}
@@ -500,16 +573,55 @@ def approve(led: Ledger, approver: str, ah: str) -> dict:
                        "expires_at": _iso(datetime.now(UTC) + APPROVAL_TTL)})
 
 
+def _sync_directory(path) -> None:
+    import os
+
+    fd = os.open(path, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
 def _write_response(res, data: bytes) -> None:
     """#29.4: never follow a pre-planted symlink / existing file: O_CREAT|O_EXCL|O_NOFOLLOW, then rename."""
     import os
 
     from truthlens.ids import new_id
     tmp = res.with_name(f".{new_id('res')}.tmp")
+    # Open outside the cleanup guard: a collision is not our file to remove.
     fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
-    with os.fdopen(fd, "wb") as fh:
-        fh.write(data)
-    os.replace(tmp, res)
+    try:
+        with os.fdopen(fd, "wb") as fh:
+            fh.write(data)
+            fh.flush()
+            os.fsync(fh.fileno())
+        if res.is_dir() and not res.is_symlink():
+            res.rename(res.with_name(f".{new_id('quarantine')}.bad"))
+        os.replace(tmp, res)
+        _sync_directory(res.parent)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
+def _read_request(req) -> list[str]:
+    """Read at most 64 KiB + 1 from a regular file without following symlinks or blocking on FIFOs."""
+    import json
+    import os
+    import stat
+
+    limit = 64 * 1024
+    fd = os.open(req, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    with os.fdopen(fd, "rb") as fh:
+        if not stat.S_ISREG(os.fstat(fh.fileno()).st_mode):
+            raise ValueError("not a regular request file")
+        data = fh.read(limit + 1)
+    if len(data) > limit:
+        raise ValueError("request too large")
+    argv = json.loads(data.decode("utf-8"))["argv"]
+    if not (isinstance(argv, list) and argv and all(isinstance(a, str) for a in argv)):
+        raise ValueError("argv must be a non-empty list of strings")
+    return argv
 
 
 class GateServer:
@@ -540,18 +652,24 @@ class GateServer:
         for req in sorted(self.inbox.glob("*.req")):
             res = req.with_suffix(".res")
             try:
-                argv = json.loads(req.read_text())["argv"]
-                if not (isinstance(argv, list) and argv and all(isinstance(a, str) for a in argv)):
-                    raise ValueError("argv must be a non-empty list of strings")
-                rc, info = act(self.led, self.requester, argv, self.cwd, self.env, self.state)
-            except Exception as e:  # noqa: BLE001  #29.3: one bad request must not stop the gate thread
-                rc, info = 2, {"status": "error", "error": f"{type(e).__name__}: {e}"}
+                argv = _read_request(req)
+                request_id = "gate:" + hashlib.sha256(req.name.encode("utf-8", "surrogateescape")).hexdigest()
+                rc, info = act(self.led, self.requester, argv, self.cwd, self.env, self.state,
+                               request_id=request_id)
+            except FileNotFoundError:
+                # Another poll (including stop's final poll) may have completed this request.
+                if not req.exists() and not req.is_symlink():
+                    continue
+                rc, info = 2, {"status": "error", "error": "invalid gate request"}
+            except Exception:  # noqa: BLE001  #29.3: one bad request must not stop the gate thread
+                rc, info = 2, {"status": "error", "error": "invalid gate request"}
             try:  # cleanup + answer are guarded too (directory x.req / x.res, planted temp names)
+                _write_response(res, json.dumps({"rc": rc, **info}).encode())
                 if req.is_dir() and not req.is_symlink():
                     req.rename(req.with_suffix(".bad"))
                 else:
                     req.unlink(missing_ok=True)
-                _write_response(res, json.dumps({"rc": rc, **info}).encode())
+                _sync_directory(self.inbox)
             except OSError:
                 continue
 
