@@ -18,14 +18,15 @@ def test_27_5_no_run_finished_and_agent_mismatch():
     e = demo_events()[:-1] + [ev(30, W, "ledger.repaired", {})]
     with pytest.raises(ValueError):
         build_manifest(e, {"name": "a"})
-    e = [ev(0, W, "run.started", {"agent": "opencode"}), *demo_events()]
+    e = demo_events()
     assert "agent differs from run.started" in check_manifest(build_manifest(e, {"name": "evil"}), e)
 
 
 def test_27_review_kindless_claim_empty_agent_and_bad_agent_type():
     e = demo_events()[:-2] + [ev(40, AG, "agent.claim", {"claim_id": "k5", "text": "c1", "criterion_ids": ["c1"]})]
     assert {c["claim_id"]: c["finding"] for c in claims(e)}["k5"] == "claim_unwitnessed"
-    e = [ev(0, W, "run.started", {"agent": ""}), *demo_events()]
+    e = demo_events()
+    e[0]["payload"]["agent"] = ""
     assert "agent differs from run.started" in check_manifest(build_manifest(e, {"name": "evil"}), e)
     m = build_manifest(e, {"name": ""})
     m["agent"] = "evil"

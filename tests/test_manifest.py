@@ -11,6 +11,7 @@ def ev(i, actor, t, p):
 
 def demo_events():
     return [
+        ev(0, W, "run.started", {"agent": "opencode"}),
         ev(1, H, "criterion.recorded", {"criterion_id": "c1", "text": "page exists", "source": "user"}),
         ev(2, AG, "criterion.recorded", {"criterion_id": "c2", "text": "email validated", "text_sha256": "t2",
                                          "source": "derived", "derived_by": AG}),
@@ -48,6 +49,54 @@ def test_manifest_bound_to_ledger():
     assert check_manifest(build_manifest(evs, {}), evs[:-1])  # truncated ledger
 
 
+@pytest.mark.parametrize(
+    ("layout", "start_agents"),
+    [
+        ("missing", []),
+        ("duplicate", ["opencode", "opencode"]),
+        ("duplicate", ["opencode", "cursor"]),
+        ("noninitial", ["opencode"]),
+    ],
+)
+def test_signed_closed_ledger_without_one_initial_start_cannot_have_manifest(tmp_path, layout, start_agents):
+    from truthlens.ledger import Ledger, verify
+
+    key = b"sk-test-manifest-identity"
+    ledger = Ledger(tmp_path / f"{layout}-{len(start_agents)}.jsonl", key, "test-key")
+    run_id = "run_manifest_identity"
+    if layout == "noninitial":
+        ledger.append(run_id, H, "criterion.recorded", {"criterion_id": "c1", "text": "x", "source": "user"})
+    for agent in start_agents:
+        ledger.append(run_id, W, "run.started", {"agent": agent})
+    previous = ledger.read()[-1]["hash"] if ledger.read() else "0" * 64
+    ledger.append(run_id, W, "run.finished", {"last_hash": previous, "exit_code": 0})
+    events = ledger.read()
+
+    assert verify(ledger.path, key).ok
+    with pytest.raises(ValueError, match="exactly one initial run.started"):
+        build_manifest(events, {"name": start_agents[0] if start_agents else "opencode"})
+    assert "exactly one initial run.started" in check_manifest(
+        {"agent": {"name": "opencode"}}, events
+    )[0]
+
+
+def test_valid_signed_initial_start_matches_manifest_agent_including_empty_name(tmp_path):
+    from truthlens.ledger import Ledger, verify
+
+    key = b"sk-test-manifest-identity"
+    ledger = Ledger(tmp_path / "valid.jsonl", key, "test-key")
+    run_id = "run_manifest_identity"
+    start = ledger.append(run_id, W, "run.started", {"agent": ""})
+    ledger.append(run_id, W, "run.finished", {"last_hash": start["hash"], "exit_code": 0})
+    events = ledger.read()
+    manifest = build_manifest(events, {"name": ""})
+
+    assert verify(ledger.path, key).ok
+    assert check_manifest(manifest, events) == []
+    manifest["agent"]["name"] = "opencode"
+    assert "agent differs from run.started" in check_manifest(manifest, events)
+
+
 def test_claim_judged_by_witness_after_it():
     evs = [ev(1, H, "criterion.recorded", {"criterion_id": "c1", "text": "x", "source": "user"}),
            ev(2, AG, "agent.claim", {"kind": "completion", "claim_id": "k1", "text": "done", "criterion_ids": ["c1"]}),
@@ -76,6 +125,7 @@ def test_claim_judged_by_witness_after_it():
 )
 def test_malformed_or_skipped_test_counters_do_not_support_claim_or_manifest(counters):
     events = [
+        ev(0, W, "run.started", {"agent": "opencode"}),
         ev(1, H, "criterion.recorded", {"criterion_id": "c1", "text": "x", "source": "user"}),
         ev(2, AG, "agent.claim", {"kind": "completion", "claim_id": "k1", "text": "done",
                                    "criterion_ids": ["c1"]}),
