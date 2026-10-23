@@ -48,6 +48,35 @@ def test_51_short_known_secret_redacted(tmp_path, monkeypatch):
     assert secret.encode() not in all_stored
 
 
+def test_51_test_report_command_and_header_redacted(tmp_path, monkeypatch):
+    from tests.test_wrapper import _keyfile, _repo
+
+    repo, criteria = _repo(tmp_path)
+    monkeypatch.setenv("SHORT_FAKE_SECRET", "qZ7")
+    command = "/bin/echo safe-report qZ7 --token fake-token-report-51 tail-safe"
+    out = tmp_path / "run"
+    assert main(["run", "--out", str(out), "--repo", str(repo), "--criteria", str(criteria),
+                 "--pass-env", "SHORT_FAKE_SECRET", "--test", f"c1={command}",
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1",
+                 "--", sys.executable, "-c", "print('agent done')"]) == 0
+
+    ledger_path = out / "ledger.jsonl"
+    assert verify(ledger_path, b"hmac-key-outside-agent").anchored
+    report = next(e for e in Ledger(ledger_path).read() if e["type"] == "test.reported")
+    assert report["actor"]["kind"] == "wrapper"
+    payload = report["payload"]
+    assert payload["exit_code"] == 0
+    assert payload["suite"] == "/bin/echo safe-report [REDACTED] --token [REDACTED] tail-safe"
+    report_sha = payload["report_artifact_id"]
+    report_blob = BlobStore(out / "blobs").get(report_sha)
+    assert report_blob.startswith(
+        b"$ /bin/echo safe-report [REDACTED] --token [REDACTED] tail-safe\nexit 0\n")
+    assert b"safe-report [REDACTED] --token [REDACTED] tail-safe" in report_blob.split(b"\n", 2)[2]
+    for secret in (b"qZ7", b"fake-token-report-51"):
+        assert secret not in payload["suite"].encode() + report_blob
+    assert hashlib.sha256(report_blob).hexdigest() == report_sha
+
+
 def test_51_unicode_escaped_claim_secret_redacted(tmp_path, monkeypatch):
     from tests.test_wrapper import _keyfile, _repo
 
