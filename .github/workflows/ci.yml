@@ -3,8 +3,30 @@ on:
   pull_request:
   push:
     branches: [main]
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
+  scope:
+    runs-on: ubuntu-latest
+    outputs:
+      viewer: ${{ steps.detect.outputs.viewer }}
+      python: ${{ steps.detect.outputs.python }}
+      extra_tests: ${{ steps.detect.outputs.extra_tests }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check CI scope and aggregate behavior
+        run: python3 -m unittest tests.test_ci_scope -q
+      - name: Detect changed components
+        id: detect
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: python3 .github/ci_scope.py detect
   viewer:
+    needs: scope
+    if: ${{ always() && (needs.scope.result != 'success' || needs.scope.outputs.viewer == 'true') }}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -35,6 +57,8 @@ jobs:
             test -s "$f" || { echo "missing $f"; exit 1; }
           done
   test:
+    needs: scope
+    if: ${{ always() && (needs.scope.result != 'success' || needs.scope.outputs.python == 'true') }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -47,4 +71,24 @@ jobs:
       - run: pip install -e '.[dev]'
       - run: ruff check src tests
       - name: Fast deterministic unit tests
-        run: pytest -q tests/test_canonical.py tests/test_redaction.py tests/test_ledger.py tests/test_manifest.py tests/test_audit.py tests/test_audit_inputs.py tests/test_registry.py tests/test_pipeline.py tests/test_pipeline_agent.py tests/test_pipeline_jobs.py tests/test_registry_view.py
+        run: python3 .github/ci_scope.py baseline-tests
+      - name: Changed and related regression tests
+        env:
+          EXTRA_TESTS: ${{ needs.scope.outputs.extra_tests || '[]' }}
+        run: python3 .github/ci_scope.py extra-tests
+  required:
+    name: CI required checks
+    needs: [scope, viewer, docs, test]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require successful evidence for every needed job
+        env:
+          SCOPE_RESULT: ${{ needs.scope.result }}
+          DOCS_RESULT: ${{ needs.docs.result }}
+          VIEWER_NEEDED: ${{ needs.scope.outputs.viewer }}
+          PYTHON_NEEDED: ${{ needs.scope.outputs.python }}
+          VIEWER_RESULT: ${{ needs.viewer.result }}
+          PYTHON_RESULT: ${{ needs.test.result }}
+        run: python3 .github/ci_scope.py check
