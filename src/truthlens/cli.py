@@ -331,7 +331,7 @@ def _pipeline_command(args: argparse.Namespace) -> int:
             store = registry.Registry()
             if args.cmd == "admit":
                 job = store.queue(args.run_id, uid, args.session)
-                result = {"audit_id": job["audit_id"], "run_id": args.run_id, "state": "queued"}
+                result = pipeline_jobs.status(store, args.run_id, uid, args.session, audit_id=job["audit_id"])
             else:
                 result = pipeline_jobs.status(store, args.run_id, uid, args.session)
         print(json.dumps(result, sort_keys=True))

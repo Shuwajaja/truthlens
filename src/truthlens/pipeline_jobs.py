@@ -12,11 +12,11 @@ from pathlib import Path
 
 from truthlens.audit import _json, exit_code, serialize_report
 from truthlens.pipeline import KEY_FILE, check_snapshot
-from truthlens.registry import Registry, RegistryError, deny, trusted
+from truthlens.registry import MAX_AUDIT_REPORT, Registry, RegistryError, deny, trusted
 
 AUDIT_EXECUTABLE = Path("/opt/truthlens/venv/bin/truthlens")
 TIMEOUT = 300
-MAX_REPORT = 8 * 1024 * 1024
+MAX_REPORT = MAX_AUDIT_REPORT
 
 
 class JobError(RuntimeError):
@@ -66,6 +66,19 @@ def _execute(argv: list[str]) -> tuple[int, dict]:
             process.stdout.close()
 
 
+JOB_EVENTS = {"queued", "running", "completed", "failed", "interrupted"}
+
+
+def _job_states(rows: list[dict]) -> dict[str, tuple[str, dict]]:
+    states = {}
+    for row in rows:
+        job = row["data"]
+        if row["event"] in JOB_EVENTS and job.get("audit_id"):
+            previous = states.get(job["audit_id"], (None, {}))[1]
+            states[job["audit_id"]] = (row["event"], {**previous, **job})
+    return states
+
+
 def drain(store: Registry) -> None:
     fd = os.open(store.root / "worker.lock", os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o600)
     try:
@@ -78,47 +91,36 @@ def drain(store: Registry) -> None:
 
         recover_captures(store)
         rows = store.records()
-        terminal = {
-            r["data"].get("audit_id") for r in rows if r["event"] in ("completed", "failed", "interrupted")
-        }
+        for event, job in _job_states(rows).values():
+            if event in ("running", "interrupted"):
+                if event == "running":
+                    store.append("interrupted", job)
+                attempt = job.get("attempt", 0)
+                if type(attempt) is int and 0 <= attempt < 1:
+                    store.append("queued", {**job, "attempt": attempt + 1})
+        # Only missing jobs require admission. Never rehash queued or terminal runs.
+        known_runs = {r["data"].get("run_id") for r in rows if r["event"] in JOB_EVENTS}
+        dispatches, captures = {}, {}
         for row in rows:
-            if row["event"] == "running" and row["data"]["audit_id"] not in terminal:
-                store.append("interrupted", row["data"])
-        # Close->queue is recoverable if the launcher stopped after registration.
-        for row in rows:
-            if row["event"] == "captured":
-                dispatch = next(
-                    (
-                        r["data"]
-                        for r in rows
-                        if r["event"] == "dispatch" and r["data"]["dispatch_id"] == row["data"]["dispatch_id"]
-                    ),
-                    None,
-                )
-                if dispatch:
-                    try:
-                        store.queue(row["data"]["run_id"], dispatch["initiator_uid"])
-                    except (RegistryError, OSError, ValueError):
-                        pass  # stays pending; never fabricate a completed audit
-        rows = store.records()
-        begun = {r["data"].get("audit_id") for r in rows if r["event"] != "queued"}
-        for row in rows:
-            job = row["data"]
-            if row["event"] != "queued" or job["audit_id"] in begun:
+            if row["event"] == "dispatch":
+                dispatches.setdefault(row["data"]["dispatch_id"], row["data"])
+            elif row["event"] == "captured":
+                captures.setdefault(row["data"]["run_id"], row["data"])
+        for run_id, capture in captures.items():
+            if run_id in known_runs:
+                continue
+            dispatch = dispatches.get(capture["dispatch_id"])
+            if dispatch:
+                try:
+                    store.queue(run_id, dispatch["initiator_uid"])
+                except (RegistryError, OSError, ValueError):
+                    pass  # remains pending; never fabricate a completed audit
+        for event, job in _job_states(store.records()).values():
+            if event != "queued":
                 continue
             store.append("running", job)
             try:
-                dispatch = next(
-                    r["data"]
-                    for r in rows
-                    if r["event"] == "dispatch"
-                    and any(
-                        c["event"] == "captured"
-                        and c["data"].get("run_id") == job["run_id"]
-                        and c["data"]["dispatch_id"] == r["data"]["dispatch_id"]
-                        for c in rows
-                    )
-                )
+                dispatch = dispatches[captures[job["run_id"]]["dispatch_id"]]
                 registration = store.run(job["run_id"], dispatch["initiator_uid"])
                 expected = check_snapshot(store, registration)
                 snapshot = store.root / "snapshots" / registration["dispatch_id"]
@@ -137,21 +139,35 @@ def drain(store: Registry) -> None:
                 if serialize_report(report) != serialize_report(expected):
                     raise JobError()
                 check_snapshot(store, registration)  # stable after the child finished
-                store.append("completed", {**job, "report": report})
-            except (JobError, RegistryError, OSError, ValueError, StopIteration):
+                reference = store.save_report(job["audit_id"], report)
+                store.append("completed", {**job, **reference})
+            except (JobError, RegistryError, OSError, ValueError, KeyError):
                 store.append("failed", {**job, "reason": "audit unavailable"})
     finally:
         os.close(fd)
 
 
-def status(store: Registry, run_id: str, uid: int, session_id: str | None = None) -> dict:
+def status(
+    store: Registry, run_id: str, uid: int, session_id: str | None = None, *, audit_id: str | None = None
+) -> dict:
     registration = store.run(run_id, uid, session_id)
     rows = store.records()
     related = [r for r in rows if r["data"].get("run_id") == run_id]
-    jobs = [r for r in related if r["event"] in ("queued", "running", "completed", "failed", "interrupted")]
+    jobs = [
+        r
+        for r in related
+        if r["event"] in JOB_EVENTS and (audit_id is None or r["data"].get("audit_id") == audit_id)
+    ]
     latest = jobs[-1] if jobs else None
     event = latest["event"] if latest else "pending"
-    report = latest["data"].get("report") if latest and event == "completed" else None
+    report = None
+    if latest and event == "completed":
+        if "report_path" in latest["data"]:
+            report = store.read_report(latest["data"]["audit_id"], latest["data"])
+        else:
+            report = latest["data"].get("report")  # old append-only journals remain readable
+        if report is None:
+            deny()
     if report is not None and not isinstance(report, dict):
         deny()
     return {

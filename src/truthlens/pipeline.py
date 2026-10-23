@@ -127,13 +127,20 @@ def agent_account() -> int:
     result = subprocess.run(
         ["/usr/bin/sudo", "-n", "-l", "-U", "tl-agent"],
         stdin=subprocess.DEVNULL,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        env={"PATH": "/usr/bin:/bin", "LANG": "C"},
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        env={"PATH": "/usr/bin:/bin", "LANG": "C", "LC_ALL": "C"},
         timeout=10,
         check=False,
     )
-    if result.returncode != 1:  # success includes any sudo entitlement; other errors are not proof of denial
+    # sudo versions differ on the exit status for an empty policy. Only its
+    # explicit C-locale denial is proof; empty/unknown/mixed output fails closed.
+    output = (result.stdout + result.stderr).strip()
+    if result.returncode not in (0, 1) or not re.fullmatch(
+        r"User tl-agent is not allowed to run sudo on [A-Za-z0-9_.-]+\.", output
+    ):
         deny()
     return account.pw_gid
 

@@ -3,7 +3,7 @@
 Description=Recover TruthLens queued audits
 [Timer]
 OnBootSec=15s
-OnUnitInactiveSec=5s
+OnUnitInactiveSec=1min
 Unit=truthlens-worker.service
 [Install]
 WantedBy=timers.target

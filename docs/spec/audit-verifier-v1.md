@@ -277,3 +277,26 @@ that read-route contract, credentials on the same origin and no imports/uploads;
 it remains disconnected until the host and genuine gateway exist. Final audit,
 transport connection and human approval remain separate. Unit fixtures and
 manual browser route simulations are explicitly not deployment evidence.
+
+
+### PR155 review followup: bounded worker and separate report storage
+
+The tl-agent sudo-policy check accepts only the explicit C-locale no-permission
+message, whether sudo returns0 or1; empty, mixed, granting or unknown output is
+refused. This covers sudo1.9.16's zero exit for an empty policy without weakening
+the privileged-group/subordinate-ID checks.
+
+The worker inspects journal metadata before admission: an existing queued,
+running or terminal audit prevents historical snapshot revalidation on a timer
+tick. Only new pending captures and pending jobs are processed. The inactive
+timer template uses one minute. Interrupted attempts remain recorded and permit
+at most one retry; exhausted/failed attempts cannot loop indefinitely. Explicit
+`admit` reports the requested audit's real state.
+
+Complete reports (bounded at8MiB) are atomically published to root-only
+`/var/lib/truthlens/audits`, with mode0400 and fsynced file/directory metadata.
+The32MiB append-only registry records just the relative report path and SHA-256,
+not a multi-megabyte report body. Reads bind the path to the audit ID, reject
+symlinks/traversal, bound input bytes and check the digest before exposing a
+finding. Existing inline completion records remain readable; no journal rewrite,
+automatic deletion, host activation or gateway-identity change is introduced.

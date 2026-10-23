@@ -12,11 +12,13 @@ from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 
-from truthlens.audit import _json
+from truthlens.audit import _json, serialize_report
+from truthlens.audit_inputs import AuditInputError, SafeRunReader
 from truthlens.canonical import canonical_bytes
 
 STATE_ROOT = Path("/var/lib/truthlens")
 MAX_JOURNAL = 32 * 1024 * 1024
+MAX_AUDIT_REPORT = 8 * 1024 * 1024
 ID = re.compile(r"[A-Za-z0-9_-]{1,80}\Z")
 EVENTS = {"dispatch", "captured", "queued", "running", "completed", "failed", "interrupted"}
 
@@ -175,6 +177,71 @@ class Registry:
             os.fsync(parent)
         finally:
             os.close(parent)
+
+    def save_report(self, audit_id: str, report: dict) -> dict:
+        require_root()
+        if not isinstance(audit_id, str) or not re.fullmatch(r"[a-f0-9]{32}", audit_id):
+            deny()
+        raw = serialize_report(report).encode()
+        if len(raw) > MAX_AUDIT_REPORT:
+            deny()
+        digest = hashlib.sha256(raw).hexdigest()
+        reference = {"report_path": f"audits/{audit_id}-{digest}.json", "report_sha256": digest}
+        directory = self.root / "audits"
+        directory.mkdir(mode=0o700, exist_ok=True)
+        trusted(directory, directory=True, private=True)
+        path = self.root / reference["report_path"]
+        if path.exists():
+            self.read_report(audit_id, reference)  # reuse a completed pre-crash write only after checking it
+            return reference
+        temporary = directory / ("." + uuid.uuid4().hex + ".pending")
+        fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC, 0o600)
+        try:
+            view = memoryview(raw)
+            while view:
+                count = os.write(fd, view)
+                if count <= 0:
+                    deny()
+                view = view[count:]
+            os.fchmod(fd, 0o400)
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        os.replace(temporary, path)
+        for parent in (directory, self.root):
+            parent_fd = os.open(parent, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+            try:
+                os.fsync(parent_fd)
+            finally:
+                os.close(parent_fd)
+        return reference
+
+    def read_report(self, audit_id: str, reference: dict) -> dict:
+        require_root()
+        path, digest = reference.get("report_path"), reference.get("report_sha256")
+        if (
+            not isinstance(audit_id, str)
+            or not re.fullmatch(r"[a-f0-9]{32}", audit_id)
+            or not isinstance(digest, str)
+            or not re.fullmatch(r"[a-f0-9]{64}", digest)
+            or path != f"audits/{audit_id}-{digest}.json"
+        ):
+            deny()
+        try:
+            trusted(self.root / "audits", directory=True, private=True)
+            trusted(self.root / path, private=True)
+            with SafeRunReader(self.root) as reader:
+                raw = reader.read(path, limit=MAX_AUDIT_REPORT)
+                reader.finish()
+            if hashlib.sha256(raw).hexdigest() != digest:
+                deny()
+            report = _json(raw)
+            if not isinstance(report, dict):
+                deny()
+            return report
+        except (AuditInputError, OSError, ValueError, TypeError):
+            deny()
+        return {}  # deny() always raises
 
     def dispatch(
         self,

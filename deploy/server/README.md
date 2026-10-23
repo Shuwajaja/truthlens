@@ -24,7 +24,11 @@ adapted. No key material is included and no host changes were performed.
   single link, outside all runs. Provision privately; never send it to a chat,
   profile, fixture, log or the agent. This PR does not create a key.
 - `/var/lib/truthlens` root:root mode0700. Pipeline-created sources, snapshots,
-  locks and the canonical append-only registry live below it. Snapshot files
+  locks and the canonical append-only metadata registry live below it. Complete
+  audit reports live separately under `audits/`, mode0400; registry completion
+  entries contain only their relative path and SHA-256 digest. Report files and
+  parent directories are fsynced before publication, and every read verifies the
+  digest and rejects unsafe paths/symlinks. Snapshot files
   mode0400, directories mode0500; registry mode0600 with lock/fsync/hash chain.
   No upload/import or HTTP registration endpoint exists. Root can still change
   root-owned data: this is isolation from workers, not protection from root.
@@ -84,9 +88,16 @@ queues the installed `truthlens audit --json --hmac-key-file ... --expect-last-h
 A trusted worker serializes the persistent queue. After launcher loss it may
 finish only an already dispatched, closed local capture. Partial snapshots are
 never deleted, overwritten or repaired: they remain for operator review. Jobs
-interrupted while running become failed/interrupted, never success; 300s audit
-timeout or invalid output is a technical failure. Duplicate final identity
+interrupted while running retain an interruption record and are retried at most
+once; only a real validated retry can produce completed. A second interruption,
+300s timeout or invalid output remains a technical failure. Duplicate final identity
 (run/anchor/ruleset/verifier digest) returns the existing job.
+
+The inactive timer template runs once per minute. Each tick checks journal
+metadata first and admits only captures with no existing audit. Queued jobs are
+executed once; completed/failed historical snapshots are not rehashed on every
+tick. `admit` returns the selected job's actual status, including completed,
+instead of always claiming queued. No deployed timer is changed by this PR.
 
 `truthlens admit RUN_ID [--session SERVER_SESSION]` only checks an existing local
 registration; it cannot import/register a path or enqueue an external run.

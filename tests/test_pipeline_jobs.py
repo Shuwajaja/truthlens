@@ -27,14 +27,22 @@ def test_queue_drains_once_and_restart_preserves_findings(captured, monkeypatch)
     assert pipeline_jobs.status(store, capture["run_id"], 1234)["state"] == "completed"
 
 
-def test_running_after_crash_becomes_interrupted_never_completed(captured, monkeypatch):
-    store, _, capture = captured
+@pytest.mark.parametrize("stage", ["running", "interrupted"])
+def test_running_after_crash_is_retried_once_with_recorded_interruption(captured, monkeypatch, stage):
+    from truthlens.pipeline import check_snapshot
+
+    store, dispatch, capture = captured
     job = store.queue(capture["run_id"], 1234)
-    store.append("running", {"audit_id": job["audit_id"], "run_id": capture["run_id"]})
+    store.append(stage, job)
     monkeypatch.setattr(pipeline_jobs, "trusted", lambda *args, **kwargs: None)
+    monkeypatch.setattr(
+        pipeline_jobs, "_execute", lambda argv: (0, check_snapshot(store, {**dispatch, **capture}))
+    )
     pipeline_jobs.drain(store)
     public = pipeline_jobs.status(store, capture["run_id"], 1234)
-    assert public["state"] == "failed" and public["reason"] == "interrupted" and public["conclusion"] is None
+    assert public["state"] == "completed"
+    assert any(r["event"] == "interrupted" for r in store.records())
+    assert [r["data"].get("attempt") for r in store.records() if r["event"] == "queued"] == [None, 1]
 
 
 def test_timeout_is_technical_failure_without_false_conclusion(captured, monkeypatch):
@@ -106,3 +114,89 @@ def test_close_before_enqueue_crash_is_recovered(store, tmp_path, monkeypatch):
     pipeline_jobs.drain(store)
     assert any(r["event"] == "captured" for r in store.records())
     assert any(r["event"] == "queued" for r in store.records())
+
+
+@pytest.mark.parametrize("completed", [False, True])
+def test_worker_does_not_readmit_existing_audits(captured, monkeypatch, completed):
+    from truthlens.pipeline import check_snapshot
+
+    store, dispatch, capture = captured
+    store.queue(capture["run_id"], 1234)
+    monkeypatch.setattr(pipeline_jobs, "trusted", lambda *args, **kwargs: None)
+    monkeypatch.setattr(
+        pipeline_jobs, "_execute", lambda argv: (0, check_snapshot(store, {**dispatch, **capture}))
+    )
+    if completed:
+        pipeline_jobs.drain(store)
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("existing audit was admitted again")
+
+    monkeypatch.setattr(store, "queue", forbidden)
+    if completed:
+        monkeypatch.setattr(pipeline_jobs, "check_snapshot", forbidden)
+    pipeline_jobs.drain(store)
+
+
+def test_full_report_is_separate_and_journal_only_binds_digest(captured, monkeypatch):
+    import hashlib
+
+    from truthlens.pipeline import check_snapshot
+
+    store, dispatch, capture = captured
+    store.queue(capture["run_id"], 1234)
+    report = check_snapshot(store, {**dispatch, **capture})
+    report["limitations"].append("x" * 1_000_000)
+    monkeypatch.setattr(pipeline_jobs, "trusted", lambda *args, **kwargs: None)
+    monkeypatch.setattr(pipeline_jobs, "check_snapshot", lambda *args: report)
+    monkeypatch.setattr(pipeline_jobs, "_execute", lambda argv: (0, report))
+    pipeline_jobs.drain(store)
+    completed = next(row["data"] for row in store.records() if row["event"] == "completed")
+    assert "report" not in completed
+    artifact = store.root / completed["report_path"]
+    assert artifact.parent.name == "audits"
+    assert artifact.stat().st_size > 1_000_000
+    assert hashlib.sha256(artifact.read_bytes()).hexdigest() == completed["report_sha256"]
+    assert (store.root / "registry.jsonl").stat().st_size < 16384
+    assert pipeline_jobs.status(store, capture["run_id"], 1234)["state"] == "completed"
+    artifact.chmod(0o600)
+    artifact.write_bytes(b"{}")
+    artifact.chmod(0o400)
+    with pytest.raises(registry.RegistryError):
+        pipeline_jobs.status(store, capture["run_id"], 1234)
+
+
+def test_repeated_crash_exhausts_retry_budget(captured, monkeypatch):
+    store, _, capture = captured
+    job = store.queue(capture["run_id"], 1234)
+    store.append("running", {**job, "attempt": 1})
+    monkeypatch.setattr(pipeline_jobs, "trusted", lambda *args, **kwargs: None)
+
+    def forbidden(argv):
+        raise AssertionError("retry budget exceeded")
+
+    monkeypatch.setattr(pipeline_jobs, "_execute", forbidden)
+    pipeline_jobs.drain(store)
+    pipeline_jobs.drain(store)
+    public = pipeline_jobs.status(store, capture["run_id"], 1234)
+    assert public["state"] == "failed" and public["reason"] == "interrupted"
+    assert public["conclusion"] is None
+
+
+def test_admit_cli_returns_actual_existing_job_state(captured, monkeypatch, capsys):
+    import json
+
+    from truthlens.cli import main
+    from truthlens.pipeline import check_snapshot
+
+    store, dispatch, capture = captured
+    store.queue(capture["run_id"], 1234)
+    monkeypatch.setattr(pipeline_jobs, "trusted", lambda *args, **kwargs: None)
+    monkeypatch.setattr(
+        pipeline_jobs, "_execute", lambda argv: (0, check_snapshot(store, {**dispatch, **capture}))
+    )
+    pipeline_jobs.drain(store)
+    monkeypatch.setattr(registry, "caller_uid", lambda: 1234)
+    monkeypatch.setattr(registry, "Registry", lambda: store)
+    assert main(["admit", capture["run_id"]]) == 0
+    assert json.loads(capsys.readouterr().out)["state"] == "completed"

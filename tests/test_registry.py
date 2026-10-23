@@ -142,3 +142,15 @@ def test_snapshot_directories_are_fsynced_before_registration(store, tmp_path, m
     assert order.index(target) < order.index("captured")
     assert order.index(str(store.root / "snapshots")) < order.index("captured")
     assert order.index(str(store.root)) < order.index("captured")
+
+
+def test_saved_report_reference_cannot_escape_or_follow_symlink(store, tmp_path):
+    reference = store.save_report("a" * 32, {"conclusion": "not_checkable"})
+    assert store.save_report("a" * 32, {"conclusion": "not_checkable"}) == reference
+    with pytest.raises(registry.RegistryError):
+        store.read_report("a" * 32, {**reference, "report_path": "../outside.json"})
+    artifact = store.root / reference["report_path"]
+    artifact.rename(tmp_path / "original-report.json")
+    artifact.symlink_to(tmp_path / "original-report.json")
+    with pytest.raises(registry.RegistryError):
+        store.read_report("a" * 32, reference)

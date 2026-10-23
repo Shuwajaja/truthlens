@@ -110,3 +110,33 @@ def test_module_cli_status_returns_fixed_json_without_host_setup():
     )
     assert result.returncode == 2 and not result.stderr
     assert json.loads(result.stdout)["connection"] == "not connected"
+
+
+@pytest.mark.parametrize(
+    "code,stdout,stderr,allowed",
+    [
+        (0, "User tl-agent is not allowed to run sudo on server.\n", "", True),
+        (1, "", "User tl-agent is not allowed to run sudo on server.\n", True),
+        (0, "User tl-agent may run the following commands on server:\n    (ALL) NOPASSWD: ALL\n", "", False),
+        (0, "User tl-agent is not allowed to run sudo on server.\n    (ALL) ALL\n", "", False),
+        (1, "", "", False),
+        (2, "User tl-agent is not allowed to run sudo on server.\n", "", False),
+    ],
+)
+def test_agent_account_requires_explicit_sudo_denial(monkeypatch, code, stdout, stderr, allowed):
+    import subprocess
+    from types import SimpleNamespace
+
+    monkeypatch.setattr("pwd.getpwnam", lambda name: SimpleNamespace(pw_uid=1234, pw_gid=1234))
+    monkeypatch.setattr("os.getgrouplist", lambda name, gid: [gid])
+    monkeypatch.setattr("grp.getgrgid", lambda gid: SimpleNamespace(gr_name="tl-agent"))
+    monkeypatch.setattr(pipeline, "trusted", lambda *args, **kwargs: None)
+    monkeypatch.setattr(pipeline.Path, "read_text", lambda self: "")
+    monkeypatch.setattr(
+        subprocess, "run", lambda *args, **kwargs: subprocess.CompletedProcess([], code, stdout, stderr)
+    )
+    if allowed:
+        assert pipeline.agent_account() == 1234
+    else:
+        with pytest.raises(registry.RegistryError):
+            pipeline.agent_account()
