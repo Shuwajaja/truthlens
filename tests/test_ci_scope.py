@@ -75,6 +75,18 @@ class ScopeTests(unittest.TestCase):
             self.assertIn("tests/test_new.py", selected)
             self.assertNotIn("tests/test_deleted.py", selected)
 
+    def test_private_reader_changes_select_both_boundary_suites(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "tests").mkdir()
+            expected = {"tests/test_read_projection.py", "tests/test_read_service.py"}
+            for name in expected:
+                (root / name).touch()
+            for source in ("read_projection", "read_service"):
+                self.assertEqual(
+                    set(self.scope.extra_tests([f"src/truthlens/{source}.py"], root)), expected
+                )
+
     def test_aggregate_rejects_missing_required_evidence(self):
         for result in ("failure", "cancelled", "skipped", ""):
             with self.subTest(result=result):

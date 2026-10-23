@@ -300,3 +300,27 @@ not a multi-megabyte report body. Reads bind the path to the audit ID, reject
 symlinks/traversal, bound input bytes and check the digest before exposing a
 finding. Existing inline completion records remain readable; no journal rewrite,
 automatic deletion, host activation or gateway-identity change is introduced.
+
+
+### D36 — Fixed private reader over Unix socket and SSH (23 October 2026)
+
+The owner authorizes repository preparation of one fixed Shu read view over a
+protected Unix socket and SSH. This resolves the proposed transport choice in
+D34 without relaxing registration, principal, snapshot or worker boundaries.
+The protected numeric forwarder UID also selects registry visibility; no HTTP
+field supplies a principal or a session. The Unix peer UID must match before
+HTTP parsing. Socket permissions and trusted ancestry remain required. A
+root-equivalent operator is outside this isolation guarantee.
+
+The reader has no registration, audit-start, approval or execution operation.
+Requests use stored registrations and snapshot hashes, without reading HMAC
+keys or running audits. Hash-only projections never claim fresh signature
+verification. Context, registration and anchor bind each displayed source.
+The viewer connects explicitly to same-origin fixed routes and stores no
+private documents persistently. Unknown, oversized or changed inputs fail
+closed. Frozen event, manifest and trust contracts are unchanged.
+
+This decision does not authorize VPS installation, service activation, changes
+to users/keys/permissions or public exposure. Actual SSH forwarding, denial to
+the worker UID and a real authorized private snapshot remain live acceptance
+requirements; synthetic tests cannot satisfy them.

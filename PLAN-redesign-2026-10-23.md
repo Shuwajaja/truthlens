@@ -130,15 +130,13 @@ Jeder spätere PR nennt Allowed paths, Akzeptanzfälle und tatsächlich ausgefü
 
 ## 5. Lokaler Lesedienst über SSH
 
-### Transport und Zugriff: vor Live-Betrieb zu klären
+### Transport und Zugriff: feste private Sicht (Owner-Entscheidung 23.10.2026)
 
-Server und clientseitige Tunnelöffnung binden ausschließlich an IPv4-`127.0.0.1`, vorgeschlagen Port8765. Kein `0.0.0.0`, IPv6-Wildcard, öffentlicher Proxy oder Vercel-Zugriff. Der Dienst liefert den lokalen statischen UI-Build und die Lese-API über denselben getunnelten Origin; deshalb keine freigegebene Cross-Origin-API erforderlich.
+Shu hat die Vorbereitung einer festen Lesesicht über einen geschützten Unix-Socket und SSH ausdrücklich freigegeben. Dies ersetzt den vorgeschlagenen serverseitigen Loopback-TCP-Port. Installation und Aktivierung auf dem VPS bleiben separat; Repository-Code und synthetische Tests sind kein Nachweis einer aktiven Verbindung oder Worker-Isolation.
 
-**Konflikt mit D34:** SSH authentifiziert den Tunnelzugang, aber ein gewöhnlicher Loopback-TCP-Dienst kennt weder den SSH-Nutzer noch seine Sitzung. Andere lokale Serverprozesse – insbesondere tl-agent – könnten denselben Port direkt erreichen. Auf der Clientseite müssen zusätzlich fremde Webseiten/DNS-Rebinding abgewehrt werden. „127.0.0.1“ allein erfüllt daher nicht die bestehende Nutzer-/Run-Grenze.
+Der Dienst bindet ausschließlich einen Unix-Socket. Eine geschützte, root-eigene Konfiguration bestimmt die numerische SSH-Forwarder-UID, die feste Sicht und Registry-/Build-Pfade. Linux-Peer-Credentials müssen diese UID bestätigen, bevor HTTP gelesen wird. Die UID bestimmt die berechtigten Registry-Registrierungen; HTTP-Header und Parameter verleihen keine Identität oder Rechte. Mehrbenutzerbetrieb ist nicht P0. Socket-Dateirechte und geschützte Elternverzeichnisse ergänzen diese Grenze; root-äquivalente Prozesse sind damit nicht isoliert.
 
-Empfohlener P0-Betrieb ist eine einzige, fest konfigurierte Shu-Lesesicht. Der berechtigte numerische Nutzer und die Sicht kommen aus geschützter Serverkonfiguration/SSH-Betriebszuordnung, niemals aus HTTP-Headern des Browsers, URL-Parametern oder `on_behalf_of`-Text. Jeder Run muss für diese Sicht tatsächlich berechtigt und serverregistriert sein. Mehrbenutzerbetrieb ist nicht P0.
-
-Vor Aktivierung muss eine OS-seitige Erreichbarkeitsgrenze zwischen autorisiertem SSH-Forwarder und Worker-Prozessen feststehen, beispielsweise eine geprüfte Netzwerk-Namespace-/UID-Regel. Das wäre Teil einer gesondert freigegebenen Hosteinrichtung, kein jetzt ausgeführter Schritt. Soll darauf verzichtet werden, braucht es eine ausdrückliche D34-Entscheidung; der Plan unterstellt diese Lockerung nicht. Es wird auch kein zusätzlicher Browser-Token gegen Shus Tunnelvorgabe eingeführt.
+Der SSH-Client leitet ausschließlich IPv4-`127.0.0.1:8765` an den entfernten Socket weiter. UI und Lese-API haben denselben Origin. Kein öffentlicher Proxy, keine freigegebene Cross-Origin-API und kein zusätzlicher Browser-Token. Der Browser stellt erst nach ausdrücklichem Connect eine Verbindung her. Fremde lokale Webseiten und DNS-Rebinding werden zusätzlich über Host-/Origin-/Fetch-Metadata-Prüfungen begrenzt.
 
 Zusätzlich: feste Host-Allowlist, kein permissives CORS, Ablehnung fremder Origins/Fetch-Metadaten, `no-store`, `nosniff`, `no-referrer` und restriktive CSP. Diese Header ersetzen weder SSH noch die OS-/Sichtgrenze. Lokale Auslieferung lädt keine Toolbar, Analytics, externen Fonts oder Skripte.
 
@@ -210,7 +208,7 @@ Planreferenz: Repo Shuwajaja/artifact-hub. „Hub-Schritt 7“ ist der von Shu b
 
 **Vitest:** Quellen-/Ankertrennung, Deduplizierung nach Quelle/Ziel/Renderer, Close/Pin/Restore/Tablimit, Back/Forward, Speicherfehler, verspätete Antworten, exakte Belegauflösung, Renderer-Fallback, Exportziel nach Tabwechsel, unveränderte Exportbytes, separate Audit-/Approval-Achsen. Kein Reload/Mount darf einen Domaincommand auslösen. Produktionsbuild enthält keine Fixtures und fragt ohne konfigurierte lokale Verbindung keine Quelle an.
 
-**Python-Lesedienst:** Nur 127.0.0.1 binden; fremde Methoden/Origins/Hostwerte ablehnen; feste Sicht durchsetzen; andere Runs/Session-Kontexte und unregistrierte Pakete verweigern; Traversal, Symlinks, Digestmismatch, übergroße Antworten und unterbrochene Reads. Vor/nach jedem Leseweg Registry-/Run-/Audit-Inhalte und relevante Metadaten vergleichen. Null Subprozess-, Enqueue-, HMAC-Key- oder Schreibzugriffe im Requestpfad nachweisen. Zugriff von tl-agent direkt auf den Dienst muss in der freigegebenen Betriebsumgebung scheitern.
+**Python-Lesedienst:** Nur geschützten Unix-Socket binden, Peer-UID vor HTTP prüfen; fremde Methoden/Origins/Hostwerte ablehnen; feste Sicht durchsetzen; andere Runs/Session-Kontexte und unregistrierte Pakete verweigern; Traversal, Symlinks, Digestmismatch, übergroße Antworten und unterbrochene Reads. Vor/nach jedem Leseweg Registry-/Run-/Audit-Inhalte und relevante Metadaten vergleichen. Null Subprozess-, Enqueue-, HMAC-Key- oder Schreibzugriffe im Requestpfad nachweisen. Zugriff von tl-agent direkt auf den Dienst muss in der freigegebenen Betriebsumgebung scheitern.
 
 **Playwright/axe – manuell beziehungsweise Release-Label:** 1440×900 und 390×844, beide Themes und Linsen; zusätzlich 320px und 200% Textvergrößerung. Referenzzustände: gemischte Overview, Fehlkriterium, Beleg/Diff, lange Timeline, Vergleich, fehlende/ungültige Quelle und Verbindungsausfall. Tastaturweg vollständig durchspielen, Desktop-Panels unabhängig, mobile Sheets/Fokusrückkehr, Splitter und Export prüfen. Vollständige axe-Scans; serious/critical beheben, incomplete einzeln bewerten.
 

@@ -7,7 +7,7 @@ export type TabReference = RunReference | RunsReference
 export type WorkspaceSource = {
   sourceId: string
   label: string
-  kind: 'development-fixture'
+  kind: 'development-fixture' | 'private-reader'
   runs: ReadonlyMap<string, RunDoc>
 }
 export type WorkspaceTab = { tabId: string; ref: TabReference; view: WorkspaceView; pinned: boolean }
