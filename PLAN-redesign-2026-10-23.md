@@ -8,6 +8,8 @@ Freigabe: Petrol & Porcelain als Standard, Cool Graphite als Alternative; Plus J
 
 **Planungsgrenze:** Shus Entscheidungen gehen dem Material vor. Nur Phase A wurde zur Umsetzung freigegeben. Die späteren Phasen sind kein Umsetzungs-, Merge- oder Deploymentauftrag. Die ursprünglich uncommittete Planfassung wird mit Phase A veröffentlicht.
 
+**Späterer Plan-Nachtrag von Shu:** Die folgenden zusätzlichen Ansichten, Datei-/Hub-Schritte und Architekturpunkte sind für spätere Phasen fachlich freigegeben. Das ist kein Auftrag zu ihrer jetzigen Implementierung. Phase A, ihr Code und ihre Nachweise bleiben unverändert.
+
 
 **Ziel:** Ein hochwertiger lesender Workspace, in dem Shu einen Lauf öffnet, ein Kriterium prüft, dessen Beleg findet, zwei Quellen vergleicht und den gewünschten Inhalt korrekt exportiert.
 
@@ -30,7 +32,7 @@ P0 umfasst:
 
 Nicht enthalten: Start/Stop/Re-run von Agenten, Audit-Enqueue/Registrierung über die Oberfläche, Approve/Reject, Reparatur, neue Signaturen, Chat/LLM, Honcho/Wissenssystem, Factory, Hermes, OpenCode, Cloud-Workspaces, öffentlicher Live-Zugriff oder Betriebseinrichtung. Historische Namen in Originaldaten werden dadurch nicht umgeschrieben und nicht als aktive Integration ausgegeben.
 
-Eine öffentliche Vercel-Auslieferung ist nicht mehr vorgesehen. Der einzige Produktionsbuild enthält keine Demo-Fixture und keinen automatischen Live-/Demo-Fallback. Er läuft lokal über den später freizugebenden SSH-Tunnel; Vercel war nur Testumgebung. Allgemeine Dateiimporte aus dem Material sind zunächst kein P0-Pflichtumfang.
+Eine öffentliche Vercel-Auslieferung ist nicht mehr vorgesehen. Der einzige Produktionsbuild enthält keine Demo-Fixture und keinen automatischen Live-/Demo-Fallback. Er läuft lokal über den später freizugebenden SSH-Tunnel; Vercel war nur Testumgebung. Allgemeine Dateiimporte aus dem Material sind zunächst kein P0-Pflichtumfang. Der gezielte lokale Ordnerimport eines TruthLens-Ledgers ist dagegen für Phase E geplant; er erzeugt keine D34-Serverregistrierung.
 
 Ereignisschema, Artifact Manifest und Trust-Levels bleiben unverändert. UI-Zustände, Quellenidentitäten und Transportprojektionen liegen außerhalb dieser Verträge. Keine neue Darstellung macht aus einem Claim, Exit 0, einer menschlichen Kriterienbestätigung oder einem technisch beendeten Audit einen bestandenen Test oder eine Freigabe.
 
@@ -47,6 +49,25 @@ Ereignisschema, Artifact Manifest und Trust-Levels bleiben unverändert. UI-Zust
 
 Overview, Claims, Timeline, Story, Graph und Raw bleiben erreichbar; die bisherige Vier-Tab-Headerstruktur wird ersetzt. Alte `?view=`-Links bleiben kompatibel. Der Graph ist eine ergänzende Ansicht mit zugänglicher Record-/Link-Liste.
 
+### Spätere Ansichten und Tabs (Shu freigegeben)
+
+Die deutschen Namen sind Planbegriffe; die Oberfläche bleibt Englisch. Bestehende Phase-A-Tabs werden jetzt nicht umbenannt oder erweitert.
+
+| Phase | Planbegriff / vorgesehener englischer Tab | Daten und Grenze |
+|---|---|---|
+| C/D | Kette / Chain | Ledger-Hash-Kette als Glieder in seq-Reihenfolge, ausschließlich aus dem tatsächlichen verify-Ergebnis. Gebrochenes oder ungeprüftes Glied rot, mit verschiedenen sichtbaren Labels Broken / Not checked; keine Unterscheidung nur durch Farbe. |
+| C/D | Abdeckung / Coverage | Pro Kriterium die ausdrücklich zugeordneten, bezeugten Belege samt Ergebnis/Quellreferenz zeigen. Fehlende, mehrdeutige oder nicht prüfbare Zuordnung bleibt Unknown; ein Beleg-Link allein beweist kein bestandenes Kriterium. |
+| C/D | Eingriffe / Gated actions | Requested / Blocked / Approved / Executed aus vorhandenen Ledger-Ereignissen; Verknüpfung über action_hash und approval_event_id, nicht durch vermutete zeitliche Nähe. Fehlende Schritte bleiben fehlend. |
+| D | Änderungen / Changes | Gespeicherter Vorher-/Nachher-Diff mit konkreter Quelle und vorhandenen Hunk-/Dateireferenzen. Kein nachträglich erfundener Ausgangsstand und keine Ausführung des Inhalts. |
+| C/D | Behauptet oder bewiesen / Claimed or proven | Bestehendes ClaimedVsProven in das Workspace-Tabmodell übernehmen. Vorhandene Claims, Kriterien und bezeugte Ergebnisse getrennt bewahren; keine neue binäre Erfolgsableitung. |
+| Später, nach B und genügend echten Läufen | Agenten-Zeugnis / Agent report card | Je verlässlich identifiziertem Agenten den Anteil unbelegter Behauptungen über berechtigte echte Läufe zeigen: Zähler, Nenner, Zeitraum und Auswahlgrundlage sichtbar. Keine Aussage aus Fixtures, keine Gleichsetzung von nicht prüfbaren Läufen mit belegtem Fehlverhalten; bei zu kleiner/fehlender Grundlage Unknown statt erfundener Quote. |
+
+Chain darf keine Einzelglied-Diagnose erfinden: liefert verify nur ein Gesamtergebnis oder stoppt am ersten Fehler, werden nur tatsächlich ausgewiesene Glieder als geprüft dargestellt; der übrige Bereich bleibt Not checked. Das rote ungeprüfte Kettenglied ist Shus begrenzte Ausnahme von der sonst neutralen Unbekannt-Darstellung. Es bedeutet fehlende technische Prüfung, nicht nachgewiesene Manipulation. Ein konsistenter Hash-Link ist weder HMAC-Authentifizierung noch fachlicher Erfolg oder menschliche Freigabe; der neutrale Hash-only-Hinweis bleibt unabhängig davon erhalten.
+
+Gated actions liest action.requested, action.blocked, approval.granted und action.executed sowie vorhandene Denied/Expired-Zustände unverändert. Approved bezeichnet nur den passenden aufgezeichneten Freigabeschritt; menschliche/simulierte Rolle, Ablauf und Verbrauch bleiben sichtbar, keine neue Approval-Schaltfläche. Eine erteilte Freigabe ist keine Ausführung und keine nachträgliche Genehmigung eines abweichenden action_hash.
+
+Alle neuen Tabs verwenden dieselbe Quellenidentität, Inspector-/Belegauflösung und englischen Leer-/Fehlerzustände. Desktop erhält zugängliche Listenalternativen zu Gliedern/Graphen; mobil ein Hauptinhalt mit vertikaler Ketten-/Kriterienliste und Details im Sheet, keine winzigen parallelen Spalten. Alte Ansichtslinks bleiben gültig.
+
 Vorgeschlagene Geometrie aus 01/03: ab 1200px beide Panels möglich, Startbreiten 248/320px; 768–1199px an tatsächlichem Platz orientiert; darunter Sheets und kompakte Tab-Auswahl. Ein Vergleich benötigt nach Abzug der Panels mindestens 360px pro Inhalt. Keine zweite feste mobile Leiste über der Kriterienliste.
 
 Quelle ist nicht nur die Run-ID: lokale Serverreferenzen binden Dienst-/Sichtkontext, Registrierung und Abschlussanker. Andere Bytes oder andere Quellen werden nicht stillschweigend zusammengeführt. Tab-Schließen löscht keine Daten; Pinning, Nachbarauswahl und Restore sind reine Darstellung. Vorschlag: 40 Tabs und 20 geschlossene Referenzen je Workspace, mit erklärter Grenze statt stillem Schließen.
@@ -55,7 +76,7 @@ Quelle ist nicht nur die Run-ID: lokale Serverreferenzen binden Dienst-/Sichtkon
 
 **Bestehend weiterverwenden:** RunDoc-Vertrag und `validateRunDoc`, Renderkit samt Fehlergrenze/Raw-Fallback, echte Kriterien-/Claim-/Belegzuordnung, Overview/Claims, Timeline/Story, sichere HTML-Vorschau, Graph, Lens, URL-Navigation und vorhandene Primitives. Drawer-Inhalt vom modalen Rahmen lösen und in Inspector, Sheet oder Tab einsetzen.
 
-**Geplant neu beziehungsweise adaptiert:** `viewer/src/workspace/` für Shell, Navigation, Tabs, einen zentralen Präsentations-Reducer, ComparePane und ContextInspector; `viewer/src/data/` für getrennte Demo-/lokale Quellen; zielgebundene Exportaktionen. Namen/Pfade sind Vorschläge, keine bereits implementierten Dateien.
+**Geplant neu beziehungsweise adaptiert:** `viewer/src/workspace/` für Shell, Navigation, Tabs, einen zentralen Präsentations-Reducer, ComparePane und ContextInspector; `viewer/src/data/` für lokale registrierte Quellen und ausdrücklich getrennte Entwicklungs-/Importquellen innerhalb desselben lokalen Builds; zielgebundene Exportaktionen. Namen/Pfade sind Vorschläge, keine bereits implementierten Dateien.
 
 Es gibt genau einen Besitzer des Tab-Lebenszyklus. Weder die komplette fremde Renderer-Registry noch ein zweiter globaler Host werden parallel zum TruthLens-Renderkit eingeführt. Mount, Restore und Navigation dürfen keine Domainbefehle auslösen.
 
@@ -86,10 +107,22 @@ Jede Zeile beschreibt einen späteren, in sich prüfbaren PR. Keine PRs werden j
 |---|---|---|
 | A – Design und erster Prüfweg | Neuer `viewer/DESIGN.md`, zentrale Tokens, Primitives, Shell/Inspector; vorhandenen Demo-Lauf→Kriterium→Beleg anbinden. | Zwei Themes, beide Linsen, Desktop/Mobil; die vier genannten UI-Fehler bereits als Regressionen abdecken. Keine Attrappen für spätere Aktionen. |
 | B – Lokale Lesegrenze | Geplant `src/truthlens/read_service.py` und `read_projection.py`, passende Python-Tests, lokaler Source-Adapter für den einzigen lokalen Build. Nur inaktive Betriebsbeispiele. | Erst nach Klärung des D34-Konflikts aus Abschnitt5. Echter registrierter Snapshot lesbar; unregistrierte/fremde Quelle und Schreibmethoden abgewiesen; keine Schlüssel-/Audit-/Prozessaufrufe und keine Serveränderung durch Lesen. Eigenes Security-Review. |
-| C – Katalog, Tabs und Navigation | Workspace-/Quellenidentitäten, Runs-Ansicht, Tab-Reducer, URL/Back/Forward, begrenzte Metadaten-Persistenz; RunsRenderer aus05 adaptieren. | Gleiche Run-ID in getrennten Quellen bleibt getrennt; Close/Pin/Restore/Tablimit und Reload bei fehlender Quelle funktionieren. Speicherfehler führen nicht zu falschem „Saved“. |
-| D – Belege, Diff und Vergleich | Evidence-/Diff-Bausteine aus05 an echte Referenzen anbinden; Inspector/Sheets und ComparePane fertigstellen. | Fehlendes Blob/alte Antwort/falsche Quelle/Rendererfehler; beide Vergleichsseiten behalten ihre Identität und Vertrauensgrenze. Vollständiger Weg ohne Developer-Lens. |
-| E – Zielgebundener Export | Exakter Download verfügbarer Quellen/Belege und ausdrücklich abgeleitete Datensätze; zunächst JSON und gespeicherte Belegbytes. | Bytevergleich, Hash/Quelle/Zielbindung, sichere Dateinamen, klare Ablehnung fehlender Inhalte. Neues Paket ist weder Originalmanifest noch neu signiert. ZIP nur bei bestätigtem P0-Bedarf. |
+| C – Katalog, Tabs und Navigation | Workspace-/Quellenidentitäten, Runs-Ansicht, Tab-Reducer, URL/Back/Forward, begrenzte Metadaten-Persistenz; bestehendes ClaimedVsProven übernehmen und Chain/Coverage/Gated actions im gemeinsamen Tabmodell vorsehen. Fremdbausteine nur nach Quellen-/Lizenzprüfung. | Gleiche Run-ID in getrennten Quellen bleibt getrennt; Close/Pin/Restore/Tablimit und Reload bei fehlender Quelle funktionieren. Speicherfehler führen nicht zu falschem „Saved“. Neue Tab-Zustände behaupten keine ungeprüften Ergebnisse. |
+| D – Belege, Diff und Vergleich | Chain/Coverage/Gated actions mit echten Prüfergebnissen/Referenzen fertigstellen, gespeicherten Changes-Diff und Claimed-or-proven-Tab anbinden; Inspector/Sheets und ComparePane. Sichere Vorschau aus dem Hub nur nach Sicherheits-/Lizenzabgleich wiederverwenden. | Fehlendes Blob/alte Antwort/falsche Quelle/Rendererfehler; keine erfundene Einzelglieddiagnose, Approval oder Vorher-Datei. Beide Vergleichsseiten behalten Identität und Vertrauensgrenze; vollständiger Weg ohne Developer-Lens. |
+| E – Datei öffnen und zielgebundener Export | Lokalen Ledger-Ordner lesend öffnen und mit TruthLens fail-closed prüfen; Einzeldownloads zuerst: Ledger, Manifest, vorhandene Belege. RunDoc/Ableitungen getrennt benennen. Portable Berichte und optionale lokale Hub-Ablage nach Adapter-/Zugriffsabnahme; ZIP später. | Ungültig oder ungeprüft erhält kein Grün. Keine D34-Registrierung durch Import, keine Änderung der Eingaben. Bytevergleich, Hash-/Zielbindung und sichere Namen; fehlende Inhalte ablehnen. Hub übernimmt niemals ein verified-Urteil. |
 | F – Lokaler Green Deck und Qualifikation | Bestehendes Widget/lesenden `/audit status`-Handler aus155 auf dieselbe lokale Projektion ausrichten; neues kompaktes Layout, keine zweite Statuslogik. | Quellen/Regeln/Belege korrelieren, Unterbrechung bleibt sichtbar, kein Modellaufruf/Enqueue. Voller manueller Release-Review und kurzer Nutzerweg mit Shu. Mausbot-Anbindung ohne belegten SSH-Kontext weiterhin „not connected“. |
+
+Nach Phase B, erst bei ausreichender echter Datenbasis: Agent report card als eigener, zusammenhängender Folgeschritt auf integriertem main. Mindestdatenbasis, eindeutige Agentenidentität und Nenner werden vorher festgelegt; dieser Plan verspricht noch keine belastbare agentenübergreifende Statistik.
+
+### Phase E: Datei öffnen und Einzelexporte
+
+„Datei öffnen“ wählt in der lokalen App einen Ledger-Ordner mit ledger.jsonl, manifest.json und blobs/. TruthLens liest die ausgewählten Bytes begrenzt und ohne Änderung der Quelle; kein Start von Agenten, Skripten, Reparatur oder stilles Nachladen beliebiger Hostpfade. Die konkrete browser-/hostseitige Importgrenze wird vor Umsetzung festgelegt, nicht als beliebiger Pfadparameter des Phase-B-Lesedienstes ergänzt.
+
+TruthLens prüft die tatsächlichen Inhalte fail-closed mit den bestehenden Verify-/Manifest-/Blob-Regeln. Hash-only ohne vertrauenswürdigen Schlüssel bleibt nicht authentifiziert; Formatgültigkeit, Dateiname, ein Hub-Digest oder ein importiertes verified-Feld ersetzt keine Prüfung. Ungültig, abgebrochen, übergroß oder nicht prüfbar: kein grünes Urteil. Eine abgelehnte Quelle darf allenfalls eindeutig als ungeprüfte lokale Diagnose erscheinen und nicht in den vertrauenswürdigen Laufkatalog gelangen.
+
+**D34-Grenze:** Ein selbst geöffneter externer/hochgeladener oder sogar extern signierter Ordner wird niemals dadurch ein zugelassener Serverlauf oder Audit-Queue-Job. Falls „Datei öffnen“ auch D34-Zulassung bedeuten soll, besteht ein Widerspruch, der einen gesonderten Owner-Entscheid erfordert. Dieser Plan sieht ausschließlich eine isolierte lokale Prüfung außerhalb der Serverregistrierung vor.
+
+Exportreihenfolge ist entschieden: zuerst exakte Einzeldownloads der vorhandenen Ledger-/Manifest-/Belegbytes, anschließend bei Bedarf ZIP als späterer Schritt. Neu erzeugte RunDoc-/Berichtsdokumente sind Ableitungen, keine Originale und keine neu signierten Pakete. „Original“ bezeichnet die tatsächlich gespeicherten, gegebenenfalls bereits redigierten Capture-Bytes.
 
 Vor A: Basiscommit, geänderte Abhängigkeiten, Quellen-/Lizenznachweise und Referenzzustände erfassen. Vor B: Hostfreigabe, SSH-Lesebetrieb und Sichtmodell beschließen. Vor Übernahme aus05: fehlende Typen/Styles/Testabdeckung vervollständigen. Kein Infrastruktur-Betrieb wird aus der Planfreigabe abgeleitet.
 
@@ -108,6 +141,14 @@ Empfohlener P0-Betrieb ist eine einzige, fest konfigurierte Shu-Lesesicht. Der b
 Vor Aktivierung muss eine OS-seitige Erreichbarkeitsgrenze zwischen autorisiertem SSH-Forwarder und Worker-Prozessen feststehen, beispielsweise eine geprüfte Netzwerk-Namespace-/UID-Regel. Das wäre Teil einer gesondert freigegebenen Hosteinrichtung, kein jetzt ausgeführter Schritt. Soll darauf verzichtet werden, braucht es eine ausdrückliche D34-Entscheidung; der Plan unterstellt diese Lockerung nicht. Es wird auch kein zusätzlicher Browser-Token gegen Shus Tunnelvorgabe eingeführt.
 
 Zusätzlich: feste Host-Allowlist, kein permissives CORS, Ablehnung fremder Origins/Fetch-Metadaten, `no-store`, `nosniff`, `no-referrer` und restriktive CSP. Diese Header ersetzen weder SSH noch die OS-/Sichtgrenze. Lokale Auslieferung lädt keine Toolbar, Analytics, externen Fonts oder Skripte.
+
+### Agent Zero als späteres lokales Werkzeug — Entscheidung in Phase B
+
+Shu plant Agent Zero perspektivisch als Ersatz für Codex im arbeitenden Agentenpfad. Das ändert weder Akteursrollen noch menschliche Freigaben. Prüf-Agent und arbeitender Agent erhalten getrennte OS-Identitäten, Credentials und Berechtigungsprofile: der Prüf-Agent übernimmt niemals die Tool-/Ausführungsrechte des arbeitenden Agenten; Agent Zero erhält keine Audit-Schreib-, Registry-, Schlüssel- oder Freigaberechte. Die heutige Root-Äquivalenz von codex ist weiterhin eine bekannte Grenze, keine fertige Isolation.
+
+Agent Zero läuft im Container, TruthLens auf dem Host. Daher lokales MCP über eine **geschützte interne Host-/Container-Schnittstelle statt stdio**. Kandidaten wie ein eng berechtigter durchgereichter Unix-Socket oder ein isolierter interner Transport werden erst in Phase B geprüft. Container erreichen Host-127.0.0.1 nicht automatisch; kein pauschales Host-Networking, keine öffentliche/0.0.0.0-Bindung und kein privilegierter Container als Abkürzung. Transport, authentifizierte Identität, zulässige Run-Sicht und D34-Prozessgrenze brauchen vor Freigabe eine konkrete Abnahme. Die menschliche Oberfläche bleibt über SSH-Tunnel erreichbar; keine Logins/Seiten für weitere Nutzer, kein öffentlicher Dienst.
+
+Das Agentenwerkzeug soll ausschließlich einen Ergebnisstatus bestanden/nicht bestanden liefern, keine Prüfdetails, Rohereignisse, Berichte, Schlüssel, Pfade oder Beleginhalte. Autorisierte Run-/Sitzungsbindung und Fail-closed-Verhalten bleiben erforderlich. Die Zuordnung des vorhandenen mehrwertigen Auditergebnisses (insbesondere not_checkable/not_applicable, laufender Job oder Verbindungsfehler) zum minimalen Werkzeugvertrag wird **in Phase B entschieden**. Unknown darf weder zu Passed noch zu der falschen Aussage „ein Test ist nachweislich fehlgeschlagen“ werden. Die vollständige menschliche Ansicht behält diese Unterschiede; kein Modell/Chat darf das Prüfurteil erzeugen oder überschreiben.
 
 ### Datenquelle und geplante Endpunkte
 
@@ -152,7 +193,20 @@ Statuspolling höchstens alle 2 s, nur eine laufende Anfrage je Anzeige, gemeins
 
 05 enthält hier 38 Dateien, aber keine eigenen Lizenz-/Provenance-Manifeste oder Tests, obwohl seine README auf ein umfangreicheres Archiv verweist. `SOURCE-LOCK.md` in 02 beschreibt eine historische, eng begrenzte Importfreigabe; daraus folgt keine pauschale heutige Lizenz für alle Dateien. Vor Codeübernahme Quellstand, Dateihash, Notices und Rechtezuordnung dokumentieren; fehlende Tests gezielt neu erstellen. Keine bestandene App-/Browserprüfung aus dem Paket behaupten und kein AGPL-Origin-/coss-Code übernehmen.
 
+### Artifact Hub als späterer Baustein
+
+Planreferenz: Repo Shuwajaja/artifact-hub. „Hub-Schritt 7“ ist der von Shu benannte Zielpunkt für einen TruthLens-Report-Adapter, keine hier bereits geprüfte oder angeschlossene API. Vor Übernahme: versionierten Quellstand, Lizenz, Schnittstelle und tatsächliche Sicherheitsprüfungen abgleichen. Jetzt keine Repo-/Schema-/Codeänderung und keine Installation/Integration.
+
+- **Portable Berichte:** Über den Report-Adapter lokale HTML-/PDF-Berichte erzeugen. TruthLens-Schemas bleiben unverändert. Herkunft, Datenumfang, vorhandene Prüfbefunde und Grenzen ausdrücklich angeben; der Hub erbt und behauptet niemals verified. HTML/PDF ist eine Ableitung, kein neuer Signatur- oder Freigabenachweis; keine externen Ressourcen oder aktive Berichtsinhalte.
+- **Eine sichere Vorschau:** Den passenden Hub-Viewer-Baustein für Belegvorschau wiederverwenden statt eine zweite Engine zu bauen, sofern Lizenz und Schutzumfang passen. HTML nur im opaque sandboxed iframe ohne Skripte, mit restriktiver CSP und blockierten Formularen/Netzverbindungen. TruthLens darf die bestehenden strengeren Schutzregeln nicht verlieren; Phase-A-Vorschau bleibt jetzt unverändert.
+- **Importschutz:** Geeignete Hub-Prüfungen gegen Pfadausbruch, Symlinks, Größenüberschreitung und Bild-Bomben für Phase E nutzen. Das bleibt eine zu belegende Wiederverwendung, keine angenommene Sicherheitsgarantie. Vor Dekodierung/Rendering: Mengen-/Byte-/Pixel-/Dekodierlimits und sichere Referenzauflösung; Hub-Checks ersetzen TruthLens-Verifikation und D34 nicht.
+- **Optionale lokale Ablage:** Exporte mit SHA-256 im lokalen Hub ablegen und für Agent Zero auffindbar machen; kein öffentlicher Speicher. Digest bedeutet Inhaltsidentität, nicht Signatur, Serverherkunft oder Freigabe. Auffindbarkeit und Leserecht getrennt behandeln: bis zur Phase-B-Entscheidung keine Prüfdetails oder vollständigen TruthLens-Berichte über diesen Umweg an Agent Zero herausgeben. Welche freigegebenen Export-Metadaten/Artefakte es später lesen darf, ist ausdrücklich offen.
+
 ## 7. Test- und Abnahmeplan
+
+**Zusätzliche spätere Abnahmen:** Chain mit intakter, gebrochener und nur teilweise geprüfter Kette; keine erfundene Diagnose aus globalem verify-Fehler. Coverage mit leerer/mehrdeutiger Zuordnung und fehlenden Blobs. Gated actions mit Requested/Blocked/Approved/Executed, denied/expired/simulated, fehlender oder verbrauchter Approval und falschem action_hash. Changes mit nur tatsächlich gespeichertem Diff. ClaimedVsProven-Befunde unverändert. Agent report card mit ausreichenden echten Läufen, kleinem/leerem Nenner und unsicherer Agentenidentität.
+
+**Phase E/Hub:** Gültigen und beschädigten Ordner, Hash-only/fehlenden Schlüssel, Traversal/Symlink, Größen-/Dateizahlgrenze, Bild-Bombe, abgebrochenes Lesen und manipuliertes verified testen. Quelle bleibt unverändert; Import erzeugt keine Registry-/Queue-Einträge. Einzeldownloads bytegenau; Bericht/Hub-Digest verleiht kein verified. Sandbox-Denials aus Phase A bei Hub-Wiederverwendung erneut tatsächlich ausführen. MCP-Status darf weder direkt noch über Logs, Fehlermeldungen oder Hub-Links Prüfdetails offenlegen; fremde Container-/Run-Sicht ablehnen. Das sind zukünftige Tests, keine ausgeführten Nachweise.
 
 **Vitest:** Quellen-/Ankertrennung, Deduplizierung nach Quelle/Ziel/Renderer, Close/Pin/Restore/Tablimit, Back/Forward, Speicherfehler, verspätete Antworten, exakte Belegauflösung, Renderer-Fallback, Exportziel nach Tabwechsel, unveränderte Exportbytes, separate Audit-/Approval-Achsen. Kein Reload/Mount darf einen Domaincommand auslösen. Produktionsbuild enthält keine Fixtures und fragt ohne konfigurierte lokale Verbindung keine Quelle an.
 
@@ -181,13 +235,19 @@ Zusätzlich: Ein tatsächlicher SSH-Nutzerweg mit autorisiertem registriertem Ru
 - **Mobile reale Nutzung:** Ein SSH-Forward am Desktop macht den Dienst nicht auf dem Handy verfügbar. Kein Ausweichen auf LAN-Bindung; echtes Handy benötigt einen eigenen geeigneten Tunnel.
 - **Ablösung des Designs:** Snapshot-/Theme-Tests und alte Links können brechen. Neue Referenzzustände zuerst festlegen; Rückschaltung betrifft UI/Präsentation, niemals Runs oder Auditberichte.
 - **Umfang:** Vergleich, Export und Widget teilen Quellen-/Zielauflösung. Keine drei unabhängigen Datenadapter und keine neue Runtime nur für das Aussehen.
+- **Import-/Vertrauensverwechslung:** Lokale Ordnerprüfung und SHA-256-Ablage verleihen keine D34-Herkunft, HMAC-Authentifizierung oder menschliche Freigabe. Hub-Bericht und echte Prüffeststellung müssen unterscheidbar bleiben.
+- **Agentenkanal:** Status-only MCP und für Agent Zero auffindbare Hub-Exporte können bei ungeklärten Leserechten widersprüchlich werden. Kein Details-Bypass; die Phase-B-Entscheidung bleibt Voraussetzung.
+- **Chain-Farbe und Statistik:** Rot bei ungeprüften Links muss sichtbar von bewiesener Manipulation unterschieden werden. Kleine oder verzerrte Laufmengen erlauben kein belastbares Agenten-Zeugnis.
 
 ## 9. Offene Fragen an Shu
 
 1. **D34-Betriebsentscheidung, blockierend für Live:** Ist eine einzige feste Shu-Lesesicht der P0-Standard? Welche geprüfte OS-Grenze soll direkte Workerzugriffe auf den Loopback-Dienst verhindern? Ohne diese Entscheidung keine Live-Aktivierung; Mehrbenutzerbetrieb würde einen eigenen Entwurf benötigen.
 2. **Design entschieden:** Petrol & Porcelain ist Standard, Cool Graphite Alternative; Plus Jakarta Sans/JetBrains Mono bleiben. Green Deck ist weiterhin Phase F und nicht Bestandteil der Phase-A-Freigabe.
 3. **`/audit status`, blockierend für die konkrete Anbindung:** Genügt P0 als lokaler Befehl/Commandbar beziehungsweise bestehende CLI über SSH, oder ist ausdrücklich eine ebenfalls lokal getunnelte Mausbot-Sitzung gemeint? Eine ungeprüfte ACP-Principal-Quelle wird nicht ergänzt.
-4. **Exportumfang:** Sind RunDoc/ausgewählter gespeicherter Beleg für P0 ausreichend, oder ist ein ZIP-Nachweispaket zwingend? Empfehlung: erst exakte Einzel-Downloads, dann ZIP bei Bedarf. „Original“ bezeichnet nur tatsächlich vorhandene Originalbytes; erfasste redigierte Blobs sind keine unredigierten Ursprungsdateien.
+4. **Exportreihenfolge entschieden:** Einzeldownloads von Ledger, Manifest und vorhandenen Belegen zuerst; ZIP später. „Datei öffnen“ in Phase E bedeutet isolierte lokale Ordnerprüfung, keine D34-Zulassung. „Original“ bezeichnet nur vorhandene Capture-Bytes, nicht unredigierte Ursprungsdateien.
 5. **Reuse und Betrieb:** Gibt es eine aktuelle Rechte-/Quellenzuordnung für die gelieferten05-Dateien? Welches RAM-Budget und welcher echte mobile Tunnelweg sollen vor der lokalen Betriebsabnahme gelten?
+
+6. **Phase B, Agent-Zero-Vertrag:** Welcher geschützte Host-/Container-Transport und welcher authentifizierte Run-Kontext gelten? Wie werden not_checkable/not_applicable, laufende Jobs und Verbindungsfehler ohne falsche Passed-/Failed-Behauptung in den Status-only-Vertrag abgebildet?
+7. **Hub-Leserechte und Zeugnis:** Darf Agent Zero nur Exportreferenzen/-Metadaten finden, oder auch bestimmte Inhaltsarten lesen? Prüfdetails bleiben bis zur Entscheidung gesperrt. Welche Mindestdatenbasis und autoritative Agentenidentität gelten später für das Agenten-Zeugnis? Hub-Adapter/Viewer/Schutzprüfungen müssen vorher konkret gegen Quellstand und Lizenz geprüft werden.
 
 Bis diese Fragen entschieden sind, ist dies ein prüfbarer Plan mit benannten Grenzen, keine fertige Implementierung oder vorweggenommene Betriebsfreigabe.
