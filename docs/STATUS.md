@@ -1,8 +1,10 @@
-## Wrapper #49/#50 scoped follow-ups — 23 October 2026
+## Wrapper #49/#50/#51 scoped follow-ups — 23 October 2026
 
 Configured pytest probes now use the configured entry point/interpreter and test environment/user, fixed probe arguments, a bounded timeout and static diagnostics. Valid JUnit failures survive a failed probe; a confirmed unavailable runner without valid XML stays unverified. Unsupported forms are not guessed. Post-agent capture failures attach informational evidence, skip artifacts/tests, close with failed status and a manifest, preserve the agent exit code, and return `capture_failed: true` with CLI exit 2. Gate shutdown and wrapper-owned temporary cleanup cover agent spawn errors too.
 
-Local verification: 39 focused wrapper/CLI/gate tests, 157 fast CI Python tests, and Ruff passed. Regressions were observed failing before implementation. Separate-UID probe boundaries were mocked; no real user/host/service changes or full release suite run. Independent security review remains pending. Issues #49 and #50 remain open: gate response conflicts and broader multicall/close paths are outside this batch. Frozen contracts unchanged; no push or merge.
+The #51 parent-symlink follow-up routes repository byte reads through descriptor-relative `O_NOFOLLOW` opens. Unsafe parents are refused before bytes are read or hashed; final symlink text and legitimate deleted/nonregular handling are preserved. Post-agent capture and test-copy source refusals close with a failed manifest. Multi-command pytest strings using `;`, `&&` or newline are regression-tested to retain a failed report rather than a later passing invocation overwriting it.
+
+Local verification for #51: 47 focused wrapper and adjacent textconv/non-UTF-8/FIFO/symlink tests passed; seven new refusal/closure regressions were observed red before the fix. Earlier #49/#50 verification: 39 focused wrapper/CLI/gate tests, 157 fast CI Python tests, and Ruff passed. Regressions were observed failing before implementation. Separate-UID probe boundaries were mocked; no real user/host/service changes or full release suite run. Independent security review remains pending. Issue #49 remains scoped: gate response conflicts are outside this batch; broader arbitrary script/close behavior is also outside scope. Frozen contracts unchanged; no push or merge.
 
 ## Viewer Phase A: local workspace redesign — 23 October 2026
 

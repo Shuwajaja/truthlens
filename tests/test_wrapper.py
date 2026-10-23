@@ -561,3 +561,131 @@ def test_agent_spawn_error_stops_gate_and_cleans_owned_dirs(tmp_path, monkeypatc
                     hmac_key=b"fake-wrapper-key", hmac_key_id="k1"))
     assert len(started) == 1 and not started[0]._t.is_alive()
     assert owned and all(not p.exists() for p in owned)
+
+
+def _parent_swap_repo(tmp_path):
+    repo, _ = _repo(tmp_path)
+    parent = repo / "sub"
+    parent.mkdir()
+    (parent / "file").write_bytes(b"inside")
+    subprocess.run(["git", "-C", str(repo), "add", "sub/file"], check=True)
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    (outside / "file").write_bytes(b"FAKE-OUTSIDE-SECRET")
+    return repo, parent, outside
+
+
+@pytest.mark.parametrize("operation", ["snapshot", "capture", "diff", "before"])
+def test_repository_reads_refuse_symlinked_parent_directory(tmp_path, operation):
+    from truthlens import wrapper
+
+    repo, parent, outside = _parent_swap_repo(tmp_path)
+    before = wrapper.snapshot(repo)
+    (parent / "file").unlink()
+    parent.rmdir()
+    parent.symlink_to(outside, target_is_directory=True)
+    with pytest.raises(RuntimeError, match="unsafe repository path"):
+        if operation == "snapshot":
+            wrapper.snapshot(repo)
+        elif operation == "capture":
+            wrapper._capture_before(repo, before, tmp_path / "capture")
+        elif operation == "diff":
+            wrapper._make_diff(repo, {}, {"sub/file": "changed"})
+        else:
+            wrapper._read_before(repo, "sub/file", before)
+
+
+def test_snapshot_and_capture_preserve_final_symlink_text(tmp_path):
+    import hashlib
+
+    from truthlens import wrapper
+
+    repo, _, outside = _parent_swap_repo(tmp_path)
+    (repo / "link").symlink_to(outside / "file")
+    expected = b"symlink:" + os.fsencode(outside / "file")
+    before = wrapper.snapshot(repo)
+    assert before["link"] == hashlib.sha256(expected).hexdigest()
+    capture = tmp_path / "capture"
+    wrapper._capture_before(repo, before, capture)
+    assert (capture / "link").read_bytes() == expected
+
+
+@pytest.mark.parametrize("stage", ["agent", "artifact", "test_copy"])
+def test_parent_symlink_capture_failure_closes_without_outside_bytes(tmp_path, monkeypatch, stage):
+    import hashlib
+
+    from truthlens import wrapper
+
+    repo, parent, outside = _parent_swap_repo(tmp_path)
+
+    def swap():
+        (parent / "file").unlink()
+        parent.rmdir()
+        parent.symlink_to(outside, target_is_directory=True)
+
+    command = [sys.executable, "-c", "pass"]
+    if stage == "agent":
+        command = [sys.executable, "-c",
+            ("from pathlib import Path; p=Path('sub'); (p/'file').unlink(); p.rmdir(); "
+             "p.symlink_to('../outside', target_is_directory=True)")]
+    elif stage == "artifact":
+        command = [sys.executable, "-c", "from pathlib import Path; Path('sub/file').write_text('changed')"]
+        real_diff = wrapper._make_diff
+
+        def diff(*args, **kwargs):
+            result = real_diff(*args, **kwargs)
+            if len(args) == 4:
+                swap()
+            return result
+
+        monkeypatch.setattr(wrapper, "_make_diff", diff)
+    else:
+        real_temp = wrapper.tempfile.TemporaryDirectory
+
+        def test_dir(*args, **kwargs):
+            if kwargs.get("prefix") == "tl-test-":
+                swap()
+            return real_temp(*args, **kwargs)
+
+        monkeypatch.setattr(wrapper.tempfile, "TemporaryDirectory", test_dir)
+    out = tmp_path / "run"
+    result = wrapper.run(wrapper.RunConfig(out, repo, command,
+        tests=[wrapper.TestSpec([], "/bin/true")], hmac_key=b"fake-wrapper-key", hmac_key_id="k1"))
+    assert result["capture_failed"] is True and result["exit_code"] == 0
+    events = Ledger(out / "ledger.jsonl").read()
+    assert events[-1]["type"] == "run.finished"
+    assert events[-1]["payload"]["status"] == "failed"
+    assert not any(e["type"] in ("artifact.recorded", "test.reported") for e in events)
+    assert any(e["payload"].get("kind") == "capture_error" for e in events)
+    assert verify(out / "ledger.jsonl", b"fake-wrapper-key").anchored
+    assert (out / "manifest.json").exists() and (out / "manifest.sha256").exists()
+    stored = b"".join(p.read_bytes() for p in out.rglob("*") if p.is_file())
+    marker = (outside / "file").read_bytes()
+    assert marker not in stored
+    assert hashlib.sha256(marker).hexdigest().encode() not in stored
+
+
+@pytest.mark.parametrize("replacement", ["deleted", "directory", "fifo", "parent_file"])
+def test_snapshot_omits_deleted_and_nonregular_entries(tmp_path, replacement):
+    from truthlens import wrapper
+
+    repo, parent, _ = _parent_swap_repo(tmp_path)
+    path = parent / "file"
+    path.unlink()
+    if replacement == "directory":
+        path.mkdir()
+    elif replacement == "fifo":
+        os.mkfifo(path)
+    elif replacement == "parent_file":
+        parent.rmdir()
+        parent.write_text("ordinary file")
+    assert "sub/file" not in wrapper.snapshot(repo)
+
+
+@pytest.mark.parametrize("delimiter", [";", "&&", "\n"])
+def test_multiple_pytest_commands_cannot_overwrite_failure(tmp_path, delimiter):
+    _, report, _ = _runner_run(tmp_path,
+        f"{sys.executable} -m pytest test_mail.py{delimiter} {sys.executable} -m pytest test_page.py")
+    assert report["passed"] == 0
+    assert report["failed"] == 1
+    assert report["exit_code"] == 4

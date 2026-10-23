@@ -7,12 +7,14 @@ executes itself are evidence. One ledger per run, closed with run.finished, mani
 from __future__ import annotations
 
 import difflib
+import errno
 import hashlib
 import json
 import os
 import re
 import shlex
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -216,9 +218,58 @@ def _is_shadow(rel: str) -> bool:
     return parts[-1] in SHADOW or parts[-1].endswith(".pth") or "_pytest" in parts or "pytest" in parts
 
 
-def _read(f: Path) -> bytes:
-    """File content; a symlink is recorded as its link text and never followed out of the repo."""
-    return b"symlink:" + os.readlink(f).encode() if f.is_symlink() else f.read_bytes()
+class UnsafeRepositoryPath(RuntimeError):
+    """A repository path cannot be read without traversing an unsafe component."""
+
+
+class _NonRegularFile(OSError):
+    """A working-tree entry is neither a regular file nor an allowed final symlink."""
+
+
+def _read(repo: Path, rel: str, *, symlinks: bool = True) -> bytes:
+    """Read relative to directory descriptors; parent symlinks are never traversed.
+
+    Pin each parent with O_NOFOLLOW before opening the next component. Replacing a
+    parent after it is opened cannot redirect the read. Final symlinks retain link
+    text, and nonblocking opens let fstat reject FIFOs/devices without reading them.
+    """
+    parts = rel.split("/")
+    if any(p in ("", ".", "..") for p in parts) or os.path.isabs(rel):
+        raise UnsafeRepositoryPath(f"unsafe repository path: {rel!r}")
+    directory = os.open(repo, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        for part in parts[:-1]:
+            try:
+                child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=directory)
+            except OSError as e:
+                if e.errno in (errno.ELOOP, errno.ENOTDIR):
+                    # ENOTDIR also describes an ordinary non-directory parent (a
+                    # legitimate deletion). This lstat classifies refusal only;
+                    # no later open relies on its result for containment.
+                    mode = os.stat(part, dir_fd=directory, follow_symlinks=False).st_mode
+                    if stat.S_ISLNK(mode):
+                        raise UnsafeRepositoryPath(f"unsafe repository path: {rel!r}") from e
+                    raise _NonRegularFile(rel) from e
+                raise
+            os.close(directory)
+            directory = child
+        try:
+            fd = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+        except OSError as e:
+            if e.errno != errno.ELOOP:
+                raise
+            if not symlinks:
+                raise _NonRegularFile(rel) from e
+            return b"symlink:" + os.fsencode(os.readlink(parts[-1], dir_fd=directory))
+        try:
+            if not stat.S_ISREG(os.fstat(fd).st_mode):
+                raise _NonRegularFile(rel)
+            with os.fdopen(fd, "rb", closefd=False) as stream:
+                return stream.read()
+        finally:
+            os.close(fd)
+    finally:
+        os.close(directory)
 
 
 def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
@@ -227,7 +278,7 @@ def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes
         return b""
     expected = before_snapshot[rel]
     try:
-        data = _read(repo / rel)
+        data = _read(repo, rel)
     except OSError:
         pass
     else:
@@ -251,14 +302,13 @@ def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
         sha_a = after.get(rel)
         if sha_b == sha_a:
             continue
-        path = repo / rel
         if rel not in before:
             lines.append(f"diff --git a/dev/null b/{rel}")
             lines.append("new file mode 100644")
             lines.append("--- /dev/null")
             lines.append(f"+++ b/{rel}")
             try:
-                data = _read(path)
+                data = _read(repo, rel)
             except OSError:
                 continue
         elif rel not in after:
@@ -272,7 +322,7 @@ def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
             lines.append(f"--- a/{rel}")
             lines.append(f"+++ b/{rel}")
             try:
-                data = _read(path)
+                data = _read(repo, rel)
             except OSError:
                 continue
         if b"\0" in data:
@@ -299,9 +349,13 @@ def snapshot(repo: Path) -> dict[str, str]:
     """path -> sha256 of every tracked or untracked (non-ignored) file in the working tree."""
     out = {}
     for rel in _git(repo, "ls-files", "-co", "--exclude-standard", "-z").decode().split("\0"):
-        f = repo / rel
-        if rel and (f.is_symlink() or f.is_file()):
-            out[rel] = hashlib.sha256(_read(f)).hexdigest()
+        if not rel:
+            continue
+        try:
+            data = _read(repo, rel)
+        except (FileNotFoundError, _NonRegularFile):
+            continue  # deleted paths and nonregular entries are absent from the snapshot
+        out[rel] = hashlib.sha256(data).hexdigest()
     return out
 
 
@@ -318,9 +372,8 @@ def _capture_before(repo: Path, before: dict[str, str], dest: Path) -> None:
     for rel, sha in before.items():
         if os.path.isabs(rel) or ".." in rel.split("/"):
             raise RuntimeError(f"refusing to capture non-relative path: {rel!r}")
-        path = repo / rel
         try:
-            data = _read(path)  # symlink -> b"symlink:<target>", exactly what snapshot() hashes
+            data = _read(repo, rel)  # symlink -> b"symlink:<target>", exactly what snapshot() hashes
         except OSError as e:
             raise RuntimeError(f"cannot read pre-run content for {rel!r}: {e}") from e
         if hashlib.sha256(data).hexdigest() != sha:
@@ -482,7 +535,7 @@ def run(cfg: RunConfig) -> dict:
     diffable_before = {rel: s for rel, s in before.items() if rel in head_files or rel not in unreadable}
     pre_diff = _make_diff(cfg.repo, head_files, diffable_before)
     sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
-    protected_before = {rel: _read(cfg.repo / rel) for rel in before if is_protected(rel)}
+    protected_before = {rel: _read(cfg.repo, rel) for rel in before if is_protected(rel)}
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "sha256": sha, "kind": "file_changed",
                                         "refers_to": "git_state_before", "result": "info"})
 
@@ -533,7 +586,7 @@ def run(cfg: RunConfig) -> dict:
             for i, rel in enumerate(changed):
                 if rel in after:
                     dest = captured_after / str(i)
-                    dest.write_bytes(_read(cfg.repo / rel))
+                    dest.write_bytes(_read(cfg.repo, rel))
                     captured.append((rel, dest))
         except (OSError, subprocess.CalledProcessError, RuntimeError):
             capture_failed = True
@@ -569,15 +622,27 @@ def run(cfg: RunConfig) -> dict:
             # round-5 finding c: copy only tracked + non-ignored files (git-ignored conftest.py never enters),
             # drop shadow modules (pytest.py, _pytest/, sitecustomize.py, *.pth), run with PYTHONSAFEPATH
             work.mkdir()
-            for rel in after:
-                if _is_shadow(rel) or (rel not in before and rel.split("/")[-1] in NEW_IMPORT_HOOKS):
-                    continue
-                src, dst = cfg.repo / rel, work / rel
-                # symlinks never enter the test copy (external pytest packages, tests/ -> foreign tests)
-                if src.is_symlink() or not src.resolve().is_relative_to(cfg.repo.resolve()):
-                    continue
-                dst.parent.mkdir(parents=True, exist_ok=True)
-                dst.write_bytes(src.read_bytes())
+            try:
+                for rel in after:
+                    if _is_shadow(rel) or (rel not in before and rel.split("/")[-1] in NEW_IMPORT_HOOKS):
+                        continue
+                    # Source reads use the same pinned parents as evidence capture.
+                    # Final symlinks never enter the fresh, wrapper-owned test copy.
+                    try:
+                        data = _read(cfg.repo, rel, symlinks=False)
+                    except _NonRegularFile:
+                        continue
+                    dst = work / rel
+                    if not dst.resolve().is_relative_to(work.resolve()):
+                        raise UnsafeRepositoryPath(f"unsafe test-copy path: {rel!r}")
+                    dst.parent.mkdir(parents=True, exist_ok=True)
+                    dst.write_bytes(data)
+            except (OSError, RuntimeError):
+                capture_failed = True
+                emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "capture_error",
+                    "sha256": blob(b"[truthlens: test-copy capture failed; remaining tests skipped]"),
+                    "refers_to": "post_agent_capture", "result": "info"})
+                break
             home.mkdir()
             for rel in after:
                 if is_protected(rel) and rel not in protected_before:
