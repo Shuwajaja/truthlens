@@ -1,0 +1,288 @@
+{
+  "testedHead": "723db5f542c11ed90518558271ae447289b02c5a",
+  "scope": "Production build through real temporary Unix HTTP reader + loopback byte bridge, synthetic registered unsigned test snapshot; ownership validators substituted for temporary unprivileged fixture. No SSH, live VPS, real private run or OS isolation evidence. Health503 mocked only for error state.",
+  "viewports": [
+    [
+      1440,
+      900
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "reports": [
+    {
+      "name": "petrol-porcelain-1440-disconnected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "petrol-porcelain-1440-catalog",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "petrol-porcelain-1440-document",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "petrol-porcelain-1440-error",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "petrol-porcelain-390-disconnected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "petrol-porcelain-390-catalog",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "petrol-porcelain-390-document",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "petrol-porcelain-390-error",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-1440-disconnected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-1440-catalog",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-1440-document",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-1440-error",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-390-disconnected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-390-catalog",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-390-document",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "cool-graphite-390-error",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    }
+  ],
+  "checks": [
+    {
+      "name": "petrol-porcelain-1440",
+      "zeroMountRequests": true,
+      "keyboardConnectOpen": true,
+      "realSyntheticUnixReads": true,
+      "reloadReconnect": true,
+      "noPersistedEventPayload": true,
+      "error": "503 health mocked only for error state"
+    },
+    {
+      "name": "petrol-porcelain-390",
+      "zeroMountRequests": true,
+      "keyboardConnectOpen": true,
+      "realSyntheticUnixReads": true,
+      "reloadReconnect": true,
+      "noPersistedEventPayload": true,
+      "error": "503 health mocked only for error state"
+    },
+    {
+      "name": "cool-graphite-1440",
+      "zeroMountRequests": true,
+      "keyboardConnectOpen": true,
+      "realSyntheticUnixReads": true,
+      "reloadReconnect": true,
+      "noPersistedEventPayload": true,
+      "error": "503 health mocked only for error state"
+    },
+    {
+      "name": "cool-graphite-390",
+      "zeroMountRequests": true,
+      "keyboardConnectOpen": true,
+      "realSyntheticUnixReads": true,
+      "reloadReconnect": true,
+      "noPersistedEventPayload": true,
+      "error": "503 health mocked only for error state"
+    }
+  ],
+  "errors": [],
+  "assetFailures": []
+}

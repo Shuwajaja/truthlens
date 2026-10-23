@@ -197,7 +197,10 @@ below the core journal limit. Documents accept at most 2MiB of ledger input and
 limit, with a 128KiB encoded line bound; they do not retain all decoded events.
 The frozen verifier still buffers/splits the ledger bytes. These are fail-closed
 reader limits, not changed domain contracts or a measured memory guarantee.
-One request is processed at a time. Large or concurrently changed inputs are
+At most two requests are processed concurrently, using a fixed worker pool and
+a bounded pending connection backlog. The 256MiB unit memory cap is a hard
+operational ceiling, not a demonstrated availability guarantee for two maximum
+size inputs; peak-memory acceptance is still required. Large or concurrently changed inputs are
 unavailable, never silently truncated into a complete document.
 
 Choose an installation-unique stable `view_id`, not a reused generic name across

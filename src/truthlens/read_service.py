@@ -10,11 +10,14 @@ import argparse
 import json
 import os
 import re
+import signal
 import socket
 import socketserver
 import stat
 import struct
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
@@ -346,9 +349,9 @@ class ReadHandler(socketserver.BaseRequestHandler):
 
 
 class ReadServer(socketserver.UnixStreamServer):
-    """Serial processing bounds active requests to one; credentials precede parsing."""
+    """Two reusable workers, bounded submissions; credentials precede dispatch."""
 
-    request_queue_size = 2
+    request_queue_size = 16
     allow_reuse_address = False
 
     def __init__(self, config: ReaderConfig, projection):
@@ -356,6 +359,8 @@ class ReadServer(socketserver.UnixStreamServer):
         self.config = config
         self.projection = projection
         self.socket_identity = None
+        self._slots = threading.BoundedSemaphore(2)
+        self._executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="truthlens-reader")
         self.dist_fd = os.open(
             config.viewer_dist, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
         )
@@ -389,12 +394,38 @@ class ReadServer(socketserver.UnixStreamServer):
         except (OSError, AttributeError, struct.error):
             return False
 
+    def process_request(self, request: socket.socket, client_address: str) -> None:
+        # BaseServer has already checked SO_PEERCRED. Acquire before submit so
+        # the executor's internal work queue cannot grow with incoming clients.
+        acquired = False
+        try:
+            self._slots.acquire()
+            acquired = True
+            self._executor.submit(self._process_request, request, client_address)
+        except BaseException:
+            if acquired:
+                self._slots.release()
+            self.shutdown_request(request)
+            raise
+
+    def _process_request(self, request: socket.socket, client_address: str) -> None:
+        try:
+            self.finish_request(request, client_address)
+        except Exception:  # noqa: BLE001 — fixed private error handling, no tracebacks
+            self.handle_error(request, client_address)
+        finally:
+            try:
+                self.shutdown_request(request)
+            finally:
+                self._slots.release()
+
     def handle_error(self, request, client_address) -> None:
         pass
 
     def server_close(self) -> None:
         if hasattr(self, "socket"):
             super().server_close()
+        self._executor.shutdown(wait=True)
         if self.socket_identity is not None:
             try:
                 info = self.config.socket_path.lstat()
@@ -419,8 +450,16 @@ def main(argv: list[str] | None = None) -> int:
         projection = ReadProjection(
             Registry(config.state_root), uid=config.forwarder_uid, view_id=config.view_id
         )
-        with ReadServer(config, projection) as server:
-            server.serve_forever()
+
+        def stop_on_sigterm(signum, frame):
+            raise KeyboardInterrupt
+
+        previous_handler = signal.signal(signal.SIGTERM, stop_on_sigterm)
+        try:
+            with ReadServer(config, projection) as server:
+                server.serve_forever()
+        finally:
+            signal.signal(signal.SIGTERM, previous_handler)
     except KeyboardInterrupt:
         return 0
     except (OSError, ValueError, RegistryError):

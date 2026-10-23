@@ -358,3 +358,126 @@ def test_real_registered_projection_crosses_http_without_mutating_state(server, 
     page = json.loads(request(server, f"/v1/runs/{RUN_ID}/events?after_seq=2&limit=1")[2])
     assert [event["seq"] for event in page["events"]] == [3]
     assert digest_tree(state) == before
+
+
+def test_request_workers_allow_two_active_reads_and_never_exceed_two(server):
+    from concurrent.futures import ThreadPoolExecutor
+
+    lock = threading.Lock()
+    entered = threading.Event()
+    release = threading.Event()
+    active = 0
+    peak = 0
+
+    def document(run_id):
+        nonlocal active, peak
+        with lock:
+            active += 1
+            peak = max(peak, active)
+            if active == 2:
+                entered.set()
+        try:
+            assert release.wait(2)
+            return {"document": run_id}
+        finally:
+            with lock:
+                active -= 1
+
+    server.projection.document = document
+    with ThreadPoolExecutor(max_workers=6) as clients:
+        futures = [clients.submit(request, server, "/v1/runs/allowed/document") for _ in range(6)]
+        try:
+            assert entered.wait(0.5), "two independent reads must progress concurrently"
+        finally:
+            release.set()
+        assert [future.result()[0] for future in futures] == [200] * 6
+    assert peak == 2
+
+
+def test_parallel_asset_connections_queue_while_two_workers_are_busy(server):
+    from concurrent.futures import ThreadPoolExecutor
+
+    entered = threading.Barrier(3)
+    release = threading.Event()
+
+    def document(run_id):
+        entered.wait(timeout=1)
+        assert release.wait(2)
+        return {"document": run_id}
+
+    server.projection.document = document
+    pending = []
+    with ThreadPoolExecutor(max_workers=2) as clients:
+        futures = [clients.submit(request, server, "/v1/runs/allowed/document") for _ in range(2)]
+        try:
+            entered.wait(timeout=0.5)
+            for _ in range(8):
+                client = socket.socket(socket.AF_UNIX)
+                pending.append(client)
+                client.settimeout(0.5)
+                client.connect(str(server.config.socket_path))
+                client.sendall(b"GET /assets/app.js HTTP/1.1\r\nHost: 127.0.0.1:8765\r\n\r\n")
+        finally:
+            release.set()
+        try:
+            assert [future.result()[0] for future in futures] == [200, 200]
+            for client in pending:
+                client.settimeout(2)
+                response = bytearray()
+                while block := client.recv(65536):
+                    response.extend(block)
+                assert bytes(response).startswith(b"HTTP/1.1 200 ")
+                assert bytes(response).endswith(b"console.log('local');")
+        finally:
+            for client in pending:
+                client.close()
+
+
+def test_cli_sigterm_closes_its_own_temporary_socket(config):
+    import subprocess
+    import sys
+    import time
+
+    config.state_root.mkdir()
+    script = """
+import os, sys
+from pathlib import Path
+from truthlens import registry, read_service
+registry.require_root = lambda: None
+registry.trusted = lambda *args, **kwargs: None
+read_service.validate_paths = lambda config: None
+read_service.ROOT_UID = os.getuid()
+config = read_service.ReaderConfig(
+    state_root=Path(sys.argv[1]), socket_path=Path(sys.argv[2]),
+    viewer_dist=Path(sys.argv[3]), origin='http://127.0.0.1:8765',
+    forwarder_uid=os.getuid(), view_id='synthetic-signal-test',
+)
+read_service.load_config = lambda path: config
+raise SystemExit(read_service.main(['--config', 'synthetic-only']))
+"""
+    process = subprocess.Popen(
+        [
+            sys.executable,
+            "-c",
+            script,
+            str(config.state_root),
+            str(config.socket_path),
+            str(config.viewer_dist),
+        ],
+        env={**os.environ, "PYTHONPATH": str(Path(__file__).resolve().parents[1] / "src")},
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    try:
+        deadline = time.monotonic() + 2
+        while not config.socket_path.exists() and process.poll() is None and time.monotonic() < deadline:
+            time.sleep(0.01)
+        assert config.socket_path.exists(), "synthetic child failed to create its temporary socket"
+        process.terminate()
+        _, stderr = process.communicate(timeout=5)
+        assert process.returncode == 0, stderr.decode()
+        assert not config.socket_path.exists()
+    finally:
+        if process.poll() is None:
+            process.kill()
+            process.communicate(timeout=2)

@@ -9,9 +9,11 @@ audit, approve or execute. Catalog, document and event routes are implemented;
 artifact/blob/audit-report/export routes remain later work. Hash-only projection
 is explicitly not fresh signature verification. See [operator preparation](../deploy/server/README.md).
 
-Witnessed local verification: 63 Python tests plus 15 subtests (reader boundaries
-and CI selector), 329 Viewer tests, Python/Viewer lint, static style/language/theme
-checks and production build. Tests use synthetic data and substitute root checks;
+Witnessed local verification: initial combined reader/CI selection: 63 tests plus
+15 subtests; after the bounded-worker and normal-stop fixes, the 46 transport
+tests passed. Viewer 329 tests passed, with the source-copy follow-up checked by
+one affected integration test. Python/Viewer lint, static style/language/theme
+checks and production build passed. Tests use synthetic data and substitute root checks;
 no live isolation or actual private run is established. Independent security
 review found no unresolved repository-preparation blocker. Targeted production
 browser evidence and its scope are [published here](screenshots/p4/private-reader/review-summary.md).
