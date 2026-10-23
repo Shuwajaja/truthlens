@@ -1,6 +1,9 @@
 import { createRoot } from 'react-dom/client'
 import './index.css'
+import './workspace/workspace.css'
 import App from './App.tsx'
+import {applyTheme,readTheme} from './workspace/theme.ts'
+applyTheme(readTheme())
 
 createRoot(document.getElementById('root')!).render(<App />)
 

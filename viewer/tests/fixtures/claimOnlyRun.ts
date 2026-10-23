@@ -1,4 +1,4 @@
-import publicRun from '../../public/run.json'
+import publicRun from '../../fixtures/demo-run.json'
 import type { RunDoc } from '../../src/types.ts'
 
 /** Synthetic projection of one real claim, with no witnessed checks or evidence. */

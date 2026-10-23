@@ -5,7 +5,7 @@ import {afterEach,expect,it,vi} from 'vitest'
 import App from '../src/App.tsx'
 import {Overview} from '../src/components/Overview.tsx'
 import type {RunDoc} from '../src/types.ts'
-import publicRun from '../public/run.json'
+import publicRun from '../fixtures/demo-run.json'
 const doc=publicRun as RunDoc
 afterEach(()=>{cleanup();vi.unstubAllGlobals();localStorage.clear()})
 const show=(value=doc,open=vi.fn())=>render(<Overview doc={value} lens="client" onOpenDrawer={open}/> )
@@ -77,11 +77,11 @@ it('handles an empty export without inventing counts or selected evidence',()=>{
 it('uses the same global theme without per-view overrides',async()=>{
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(doc)})))
  render(<App/>);await screen.findByRole('main')
- expect(document.documentElement.hasAttribute('data-viewer-theme')).toBe(false)
+ expect(document.documentElement.dataset.viewerTheme).toBe('petrol-porcelain')
  const navigation=within(screen.getByRole('navigation',{name:'Viewer navigation'}))
  fireEvent.click(navigation.getByRole('button',{name:'Timeline',exact:true}))
- expect(document.documentElement.hasAttribute('data-viewer-theme')).toBe(false)
+ expect(document.documentElement.dataset.viewerTheme).toBe('petrol-porcelain')
  fireEvent.click(navigation.getByRole('button',{name:'Overview',exact:true}))
- expect(document.documentElement.hasAttribute('data-viewer-theme')).toBe(false)
- cleanup();expect(document.documentElement.dataset.viewerTheme).toBeUndefined()
+ expect(document.documentElement.dataset.viewerTheme).toBe('petrol-porcelain')
+ cleanup();expect(document.documentElement.dataset.viewerTheme).toBe('petrol-porcelain')
 })

@@ -7,7 +7,7 @@ import {afterEach,expect,it,vi} from 'vitest'
 import {cleanup,fireEvent,render,screen,within,waitFor} from '@testing-library/react'
 import {germanUI} from '../scripts/check-language.mjs'
 import App from '../src/App.tsx'
-import publicRun from '../public/run.json'
+import publicRun from '../fixtures/demo-run.json'
 import {recordedTime,recordedDuration} from '../src/components/overview-data.ts'
 
 afterEach(()=>{cleanup();vi.unstubAllGlobals();vi.unstubAllEnvs();localStorage.clear()})
@@ -38,33 +38,35 @@ for(const mobile of [false,true])for(const lens of ['client','developer']){
  it(`all four ${mobile?'mobile':'desktop'} views and evidence sheets are English in the ${lens} lens`,async()=>{
   vi.stubEnv('TZ','UTC')
   vi.stubGlobal('scrollTo',()=>{})
-  vi.stubGlobal('matchMedia',()=>({matches:mobile,addEventListener(){},removeEventListener(){}}))
+  vi.stubGlobal('matchMedia',(query:string)=>({matches:query.includes('min-width')?!mobile:mobile,addEventListener(){},removeEventListener(){}}))
   vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(publicRun)})))
   localStorage.setItem('tl-lens',lens)
   render(<App/>);await screen.findByRole('main')
-  const navigation=screen.getByRole('navigation',{name:'Viewer navigation'})
-  const close=async()=>{fireEvent.keyDown(document.activeElement!,{key:'Escape'});await waitFor(()=>expect(screen.queryByRole('dialog')).toBeNull())}
-  const inspectSheet=async(trigger:HTMLElement)=>{
+  const navigate=(name:string)=>{
+   if(mobile)fireEvent.click(screen.getByRole('button',{name:'Navigation',exact:true}))
+   fireEvent.click(within(screen.getByRole('navigation',{name:'Viewer navigation'})).getByRole('button',{name,exact:true}))
+  }
+  const close=async()=>{if(mobile){fireEvent.keyDown(document.activeElement!,{key:'Escape'});await waitFor(()=>expect(screen.queryByRole('dialog')).toBeNull())}else fireEvent.click(screen.getByRole('button',{name:'Back to criterion'}))}
+  const inspectRecord=async(trigger:HTMLElement)=>{
    fireEvent.click(trigger)
-   const dialog=screen.getByRole('dialog');expectEnglish(dialog)
-   for(const tab of within(dialog).getAllByRole('tab')){
-    fireEvent.mouseDown(tab,{button:0,ctrlKey:false});expectEnglish(dialog)
-   }
+   const detail=mobile?screen.getByRole('dialog',{name:'Context inspector'}):screen.getByRole('complementary',{name:'Context inspector'})
+   expectEnglish(detail)
+   for(const tab of within(detail).queryAllByRole('tab')){fireEvent.mouseDown(tab,{button:0,ctrlKey:false});expectEnglish(detail)}
    await close()
   }
-  for(const button of within(navigation).getAllByRole('button')){
-   fireEvent.click(button);expectEnglish()
-   await inspectSheet(mobile?document.querySelector<HTMLElement>('.compact-trust')!:screen.queryByRole('button',{name:/^Open run:/})??within(screen.getByRole('complementary',{name:'Evidence drawer'})).getAllByRole('button')[0])
+  for(const name of ['Overview','Claimed vs proven','Timeline','Agent story']){
+   navigate(name);expectEnglish()
+   if(mobile)fireEvent.click(screen.getByRole('button',{name:'Navigation',exact:true}))
+   await inspectRecord(screen.getByRole('button',{name:'Run details',exact:true}))
   }
-  fireEvent.click(within(navigation).getAllByRole('button')[0])
-  await inspectSheet(screen.getByRole('button',{name:/^Open run:/}))
-  fireEvent.click(screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(publicRun.criteria[0].text)}));
-  await inspectSheet(screen.getByRole('button',{name:'Open criterion record'}))
+  navigate('Overview')
+  fireEvent.click(screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(publicRun.criteria[0].text)}))
+  await inspectRecord(screen.getByRole('button',{name:'Open criterion record'}))
   fireEvent.click(screen.getByText('Recorded links and code diff'))
   fireEvent.click(screen.getByText('All records and links as a list'))
   const records=within(screen.getByRole('list',{name:'Graph records'}))
-  await inspectSheet(records.getByRole('button',{name:`Claim: ${publicRun.claims[1].text}`}))
-  await inspectSheet(records.getByRole('button',{name:`File: ${publicRun.artifacts[0].path}`}))
+  await inspectRecord(records.getByRole('button',{name:`Claim: ${publicRun.claims[1].text}`}))
+  await inspectRecord(records.getByRole('button',{name:`File: ${publicRun.artifacts[0].path}`}))
  })
 }
 

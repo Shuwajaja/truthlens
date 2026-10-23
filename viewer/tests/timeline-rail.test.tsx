@@ -3,7 +3,7 @@ import {afterEach,it,expect,vi} from 'vitest'
 import {cleanup,render,screen,fireEvent} from '@testing-library/react'
 import {Timeline} from '../src/components/Timeline.tsx'
 import type {RunDoc} from '../src/types.ts'
-import publicRun from '../public/run.json'
+import publicRun from '../fixtures/demo-run.json'
 import {claimOnlyRun} from './fixtures/claimOnlyRun.ts'
 afterEach(cleanup)
 const doc=publicRun as RunDoc

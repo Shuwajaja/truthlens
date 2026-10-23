@@ -1,3 +1,10 @@
+// Phase A supersedes the former Stitch geometry/colour assertions.
+const {readFile:readShellSource}=await import('node:fs/promises');
+if((await readShellSource(new URL('../src/App.tsx',import.meta.url),'utf8')).includes('<WorkspaceShell')){
+ process.env.WORKSPACE_OUTPUT??=process.env.P3_SHOTS??'.screenshots/review';
+ await (await import('./review-workspace.mjs')).reviewWorkspace({mode:'full'});
+ process.exit(0);
+}
 import {blockedPreviewScript} from './preview-console.mjs';
 import {preview} from 'vite';
 import {mkdir,readFile} from 'node:fs/promises';

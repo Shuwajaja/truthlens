@@ -15,21 +15,21 @@ import {ProjectPreview} from './ProjectPreview.tsx'
 import {PageHeading} from './PageHeading.tsx'
 import {CriterionDetail} from './CriterionDetail.tsx'
 
-export function Overview({doc,lens,onOpenDrawer,showRunAction=true}:{doc:RunDoc;lens:Lens;showRunAction?:boolean;onOpenDrawer:(target:DrawerTarget)=>void}){
+export function Overview({doc,lens,onOpenDrawer,showRunAction=true,selection,onSelectCriterion}:{doc:RunDoc;lens:Lens;showRunAction?:boolean;selection?:string;onSelectCriterion?:(id:string)=>void;onOpenDrawer:(target:DrawerTarget)=>void}){
  const [selected,setSelected]=useState<string>()
  const [graphSelected,setGraphSelected]=useState<string>()
  const focusDetail=()=>{const detail=document.getElementById('criterion-detail');detail?.focus({preventScroll:true});detail?.scrollIntoView?.({block:'start'})}
  useEffect(()=>{if(selected!==undefined)focusDetail()},[selected])
- const selectCriterion=(id:string|undefined)=>{if(id===undefined)return;if(id===selected)focusDetail();else setSelected(id)}
+ const selectCriterion=(id:string|undefined)=>{if(id===undefined)return;if(onSelectCriterion){onSelectCriterion(id);return}if(id===selected)focusDetail();else setSelected(id)}
  const graph=useMemo(()=>buildEvidenceGraph(doc),[doc])
- const selectedCriterion=doc.criteria.find(c=>c.criterion_id===selected)??doc.criteria.find(c=>c.status==='unmet')??doc.criteria[0]
+ const selectedCriterion=doc.criteria.find(c=>c.criterion_id===(selection??selected))??doc.criteria.find(c=>c.status==='unmet')??doc.criteria[0]
  const events=new Map(doc.events.map(e=>[e.id,e]))
  const matched=selectedCriterion?.evidence.flatMap(id=>{const e=events.get(id);return e?[e]:[]})??[]
  const proven=doc.criteria.filter(c=>c.status==='met').length
  const failed=doc.criteria.filter(c=>c.status==='unmet').length
  const notChecked=doc.criteria.length-proven-failed
  const diff=recordedDiff(doc)
- return <div className="overview stitch-overview">
+ return <div className={`overview stitch-overview ${onSelectCriterion?'workspace-overview':''}`}>
   <section className="overview-run" aria-label="Exported run">
    <PageHeading title={doc.run.project} description={doc.run.agent} action={showRunAction&&<Button variant="outline" size="sm" aria-label={`Open run: ${doc.run.project} · Run details`} onClick={()=>onOpenDrawer({kind:'run',doc})}>Run details</Button>}/>
    <div className="run-summary"><code>{doc.run.run_id}</code><span>{recordedTime(doc.run.started)}</span><span>Duration {recordedDuration(doc.run.started,doc.run.finished)}</span></div>
@@ -51,11 +51,11 @@ export function Overview({doc,lens,onOpenDrawer,showRunAction=true}:{doc:RunDoc;
     </li>)}</ul>}
     <a className="criterion-detail-link" href="#criterion-detail">View selected criterion</a>
    </Card>
-   <ProjectPreview doc={doc} onOpenDrawer={onOpenDrawer}/>
-   <CriterionDetail criterion={selectedCriterion} claims={doc.claims.filter(claim=>claim.criterion_ids.includes(selectedCriterion?.criterion_id??''))} matched={matched} onOpenDrawer={onOpenDrawer}/>
-   <Card className="panel timeline-panel"><div className="overview-timeline" role="region" aria-label="Recorded timeline" tabIndex={0}>
+   <details className="project-disclosure" open><summary>Project preview · exported HTML</summary><ProjectPreview doc={doc} onOpenDrawer={onOpenDrawer}/></details>
+   {!onSelectCriterion&&<CriterionDetail criterion={selectedCriterion} claims={doc.claims.filter(claim=>claim.criterion_ids.includes(selectedCriterion?.criterion_id??''))} matched={matched} onOpenDrawer={onOpenDrawer}/>}
+   <details className="timeline-disclosure"><summary>Recorded timeline</summary><Card className="panel timeline-panel"><div className="overview-timeline" role="region" aria-label="Recorded timeline" tabIndex={0}>
     <RenderView input={{kind:'events',events:doc.events}} context={{lens,onOpenDrawer,headingLevel:2}}/>
-   </div></Card>
+   </div></Card></details>
   </div>
   <details className="recorded-supplement"><summary>Recorded links and code diff</summary>
    <div className="graph-evidence-row"><EvidenceGraph doc={doc} onOpenDrawer={onOpenDrawer} onSelectNode={setGraphSelected}/><NodeDetail node={graph.nodes.find(n=>n.id===graphSelected)} onOpenDrawer={onOpenDrawer}/></div>

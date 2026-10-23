@@ -1,41 +1,50 @@
 @font-face { font-family: 'Viewer numerals'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2'); unicode-range: U+0030-0039; }
 @font-face { font-family: 'Plus Jakarta Sans Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2'); }
 @font-face { font-family: 'JetBrains Mono Variable'; font-style: normal; font-weight: 400 600; font-display: swap; src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2'); }
-/* Final Stitch palette: all views/lenses/portals. Literal colours only here. */
+/* Owner-approved workspace themes. All literal UI colours live in this file. */
 :root {
-  --bg: #09090B;
-  --surface: #18181B;
-  --surface-2: #27272A;
-  --border: #3F3F46;
-  --text: #F4F4F5;
-  --text-2: #A1A1AA;
-  --text-3: #A1A1AA;
-  --primary: #F4F4F5;
-  --primary-text: #F4F4F5;
-  --secondary: #A1A1AA;
-  --secondary-text: #D4D4D8;
-  --success: #10B981;
-  --error: #F43F5E;
-  --error-text: #FB7185;
-  --warning: #F59E0B;
-  --neutral: #71717A;
-  --neutral-text: #A1A1AA;
-  --focus: #F4F4F5;
-  --backdrop: #09090B80;
+  color-scheme: light;
+  --bg: #F1F4EF;
+  --surface: #F1F4EF;
+  --surface-2: #E5EBE6;
+  --border: #BBCAC5;
+  --text: #183A42;
+  --text-2: #46656C;
+  --text-3: #46656C;
+  --primary: #183A42;
+  --primary-text: #183A42;
+  --secondary: #46656C;
+  --secondary-text: #183A42;
+  --success: #186347;
+  --error: #9C2940;
+  --error-text: #9C2940;
+  --warning: #81500F;
+  --neutral: #62716D;
+  --neutral-text: #46656C;
+  --focus: #183A42;
+  --backdrop: #102F3880;
+  --mode-client: #42645A;
+  --mode-developer: #4F6076;
+  --interaction: #215D65;
+  --frame: #102F38;
+  --frame-raised: #193F48;
+  --frame-border: #6B9297;
+  --frame-text: #F1F4EF;
+  --frame-muted: #B9CFCE;
+  --frame-accent: #97DCD2;
+  --frame-mode-client: #BCD0C6;
+  --frame-mode-developer: #C3CEDD;
   --ok: var(--success);
   --fail: var(--error-text);
-  --info: var(--primary-text);
-  --status-success-bg: color-mix(in srgb, var(--success) 10%, var(--surface));
-  --status-error-bg: color-mix(in srgb, var(--error) 10%, var(--surface));
-  --status-warning-bg: color-mix(in srgb, var(--warning) 10%, var(--surface));
-  --status-neutral-bg: color-mix(in srgb, var(--neutral) 10%, var(--surface));
-  /* Viewing identity only: muted grey-green / cool slate, never recorded status. */
-  --mode-client: #9CAFA8;
-  --mode-developer: #9EADC2;
-  --mode-client-bg: color-mix(in srgb, var(--mode-client) 10%, var(--surface));
-  --mode-developer-bg: color-mix(in srgb, var(--mode-developer) 10%, var(--surface));
-  --navigation-accent: var(--success);
-  --navigation-bg: var(--status-success-bg);
+  --info: var(--interaction);
+  --status-success-bg: color-mix(in srgb, var(--success) 8%, var(--surface));
+  --status-error-bg: color-mix(in srgb, var(--error) 8%, var(--surface));
+  --status-warning-bg: color-mix(in srgb, var(--warning) 8%, var(--surface));
+  --status-neutral-bg: color-mix(in srgb, var(--neutral) 8%, var(--surface));
+  --mode-client-bg: color-mix(in srgb, var(--mode-client) 8%, var(--surface));
+  --mode-developer-bg: color-mix(in srgb, var(--mode-developer) 8%, var(--surface));
+  --navigation-accent: var(--interaction);
+  --navigation-bg: color-mix(in srgb, var(--interaction) 8%, var(--surface));
   --font: 'Viewer numerals', 'Plus Jakarta Sans Variable', system-ui, sans-serif;
   --mono: 'JetBrains Mono Variable', ui-monospace, monospace;
   --size-label: 12px;
@@ -53,9 +62,43 @@
   --space-4: 32px;
   --radius: 12px;
   --radius-sm: 12px;
-  --accent: var(--info);
-  --accent-soft: color-mix(in srgb, var(--info) 10%, transparent);
+  --accent: var(--interaction);
+  --accent-soft: var(--navigation-bg);
   --muted: var(--text-2);
+  --control-radius: 8px;
+}
+:root[data-viewer-theme="cool-graphite"] {
+  color-scheme: dark;
+  --bg: #181B22;
+  --surface: #181B22;
+  --surface-2: #1F242E;
+  --border: #3D4758;
+  --text: #EDF1F7;
+  --text-2: #ABB5C5;
+  --text-3: #ABB5C5;
+  --primary: #EDF1F7;
+  --primary-text: #EDF1F7;
+  --secondary: #ABB5C5;
+  --secondary-text: #EDF1F7;
+  --success: #6EE7B7;
+  --error: #FCA5A5;
+  --error-text: #FCA5A5;
+  --warning: #FCD34D;
+  --neutral: #8895A8;
+  --neutral-text: #ABB5C5;
+  --focus: #A5B4FC;
+  --backdrop: #0D0F1380;
+  --mode-client: #9CAFA8;
+  --mode-developer: #A7B6CF;
+  --interaction: #A5B4FC;
+  --frame: #0D0F13;
+  --frame-raised: #14171E;
+  --frame-border: #758197;
+  --frame-text: #EDF1F7;
+  --frame-muted: #ABB5C5;
+  --frame-accent: #A5B4FC;
+  --frame-mode-client: #9CAFA8;
+  --frame-mode-developer: #A7B6CF;
 }
 @theme inline {
   --color-backdrop: var(--backdrop);

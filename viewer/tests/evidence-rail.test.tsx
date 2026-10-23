@@ -7,7 +7,7 @@ import {EvidenceTabs} from '../src/components/EvidenceRail.tsx'
 import {Drawer,type DrawerTarget} from '../src/components/Drawer.tsx'
 import {useState} from 'react'
 import type {RunDoc} from '../src/types.ts'
-import publicRun from '../public/run.json'
+import publicRun from '../fixtures/demo-run.json'
 afterEach(()=>{cleanup();localStorage.clear();vi.unstubAllGlobals()})
 it('opens a real test event from Timeline without a duplicate shell rail',async()=>{
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(publicRun)})))
@@ -17,7 +17,7 @@ it('opens a real test event from Timeline without a duplicate shell rail',async(
  const rail=within(screen.getByRole('main'));
  const event=publicRun.events[13];
  fireEvent.click(rail.getByRole('button',{name:name=>name.includes(event.summary)}));
- const dialog=within(screen.getByRole('dialog',{name:'Event detail'}));
+ const dialog=within(screen.getByRole('region',{name:'Event detail'}));
  expect(dialog.getByText(event.summary)).toBeTruthy();
  expect(dialog.getByText('Hash only · signature not checked')).toBeTruthy();
  expect(dialog.getByText('Integrity is not approval')).toBeTruthy();

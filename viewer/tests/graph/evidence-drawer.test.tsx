@@ -7,7 +7,7 @@ import { Drawer, type DrawerTarget } from '../../src/components/Drawer.tsx'
 import { EvidenceGraph } from '../../src/components/EvidenceGraph.tsx'
 import { buildEvidenceGraph } from '../../src/graph/evidence-graph.ts'
 import type { RunDoc } from '../../src/types.ts'
-import publicRun from '../../public/run.json'
+import publicRun from '../../fixtures/demo-run.json'
 
 const doc=publicRun as RunDoc
 afterEach(cleanup)

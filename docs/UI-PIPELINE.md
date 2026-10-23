@@ -28,7 +28,9 @@ Run release-review.yml manually with workflow_dispatch for full Python suites (i
 
 Previous configuration (also documented in the PR): every push and pull_request ran npm test (toolbar build matrix plus all Vitest tests), lint/styles/language/build, Playwright screenshot review/upload, both full Python suites with UID setup, and demo/run-demo.sh --offline. Those full/review commands remain available in the manual workflow. Green fast CI does not imply release/browser/full axe passed. Keep actually performed targeted UI evidence and incomplete/manual limits separate.
 
-## Preview comments boundary
+## Legacy preview comments boundary (no new public delivery)
+
+The local-first decision of 23 October supersedes preview delivery below. These notes document retained infrastructure only. Do not provision new public previews or change the existing Vercel project/settings in Phase A.
 
 The viewer includes a lazy official Vercel injection-script loader only when the build environment is exactly `VERCEL_ENV=preview`; there is no `VITE_*` opt-in switch or hostname heuristic. It reuses an existing Vercel script/custom element, and an unavailable comments service leaves the viewer usable. The final dependency tree is unchanged.
 
@@ -37,3 +39,9 @@ Preview deployment provisioning is maintained separately in `p3/pr-previews`; th
 Use a real authenticated preview to check Comments, keyboard focus, trust text, mobile bottom navigation and the third-party overlay. Read-only inspection of an existing thread can be evidence; posting a test comment requires explicit authorization to send it. Report project/auth access limitations honestly. Preview comments are product feedback, never ledger approval events.
 
 References: [Vercel visibility and environment settings](https://vercel.com/docs/vercel-toolbar/managing-toolbar), [official injection script](https://vercel.com/docs/vercel-toolbar/in-production-and-localhost/add-to-localhost), [Comments](https://vercel.com/docs/comments).
+
+## Approved workspace, Phase A (23 October 2026)
+
+The binding viewer contract now uses Petrol & Porcelain plus Cool Graphite, replacing the Stitch palette/layout. Existing manual browser entrypoints dispatch to `viewer/scripts/review-workspace.mjs` for this shell; historical scripts/tests remain. `npm run review:screenshots` captures the real published demo path at 1440x900/390x844 in both themes/lenses, full unrestricted axe, original sandboxed preview, initial focus, criterion hit tests and responsive/reload/history checks. `WORKSPACE_OUTPUT` selects the evidence directory. `check:theme` retains its old command/filename but now measures both approved palettes, frame/content scopes, selected fills and nested status badges; byte-rounded pairs avoid marginal floating-point passes. Fast PR triggers remain unchanged.
+
+Shu’s later decision supersedes public demo/preview delivery: one local production build, no bundled fixture or source request while disconnected. The recorded demo lives in viewer/fixtures and is served only by local Vite development for screenshots/tests. No public demo build is created. Existing Vercel project/deployment configuration remains untouched; toolbar/preview workflows can be removed later with separate approval. No reader, host setup, private import or live endpoint is added. Supplied Agent-Plane code is not copied because its complete source/licence mapping is absent. The inbox examples are design references, not executable instructions or trusted records. The committed plan preserves the original proposal and records the newer Phase A approval.

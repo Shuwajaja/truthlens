@@ -29,6 +29,7 @@ async function inspect(environment,outDir){
    assert.equal(await scripts.count(),environment==='preview'?1:0)
    if(environment==='preview')assert.equal(await scripts.getAttribute('data-explicit-opt-in'),'true')
    await page.screenshot({path:`${output}/${environment}-${viewport.width}x${viewport.height}.png`,animations:'disabled'})
+   if(!(await page.getByRole('navigation',{name:'Viewer navigation',exact:true}).isVisible()))await page.getByRole('button',{name:'Navigation',exact:true}).click()
    await page.getByRole('navigation',{name:'Viewer navigation',exact:true}).getByRole('button').nth(2).click()
    assert(await page.getByRole('heading',{name:'Timeline',exact:true}).isVisible(),'viewer works after toolbar failure')
    assert.equal(errors.length,0,'page errors')

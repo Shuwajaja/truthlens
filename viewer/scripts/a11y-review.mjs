@@ -18,11 +18,14 @@ export async function reviewDialog(page,cdp){
  assert(node.properties.some(p=>p.name==='modal'&&p.value.value===true),'modal semantics')
  const background=await axNode(cdp,'.skip-link')
  assert(background.ignored,'modal background excluded from accessibility tree')
- const tab=await axNode(cdp,'[role=dialog] [role=tab][data-state=active]')
- const panel=await axNode(cdp,'[role=dialog] [role=tabpanel][data-state=active]')
- assert(!tab.ignored&&tab.role.value==='tab'&&tab.name.value,'named tab exposed')
- assert(tab.properties.some(p=>p.name==='selected'&&p.value.value===true),'selected tab semantics')
- assert(!panel.ignored&&panel.role.value==='tabpanel'&&panel.name.value===tab.name.value,'panel named by its selected tab')
+ let tab,panel
+ if(await dialog.getByRole('tab').count()){
+  tab=await axNode(cdp,'[role=dialog] [role=tab][data-state=active]')
+  panel=await axNode(cdp,'[role=dialog] [role=tabpanel][data-state=active]')
+  assert(!tab.ignored&&tab.role.value==='tab'&&tab.name.value,'named tab exposed')
+  assert(tab.properties.some(p=>p.name==='selected'&&p.value.value===true),'selected tab semantics')
+  assert(!panel.ignored&&panel.role.value==='tabpanel'&&panel.name.value===tab.name.value,'panel named by its selected tab')
+ }
  const count=await dialog.evaluate(el=>[...el.querySelectorAll('*')].filter(node=>node.tabIndex>=0&&!node.disabled&&node.getClientRects().length).length)
  const sequence=[]
  for(const key of ['Tab','Shift+Tab'])for(let step=0;step<count+2;step++){
@@ -30,7 +33,7 @@ export async function reviewDialog(page,cdp){
   const focus=await dialog.evaluate(el=>({contained:el.contains(document.activeElement),tag:document.activeElement?.tagName,name:(document.activeElement?.getAttribute('aria-label')||document.activeElement?.textContent||'').trim().slice(0,120)}))
   assert(focus.contained,`${key}: focus escaped modal`);sequence.push({key,...focus})
  }
- return {dialogName:node.name.value,modal:true,backgroundIgnored:true,tab:tab.name.value,panel:panel.name.value,focusSequence:sequence}
+ return {dialogName:node.name.value,modal:true,backgroundIgnored:true,tab:tab?.name.value??null,panel:panel?.name.value??null,focusSequence:sequence}
 }
 
 export async function reviewIncomplete(page,result){

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { buildStory } from '../../src/renderkit/story.ts'
 import { claimOnlyRun } from '../fixtures/claimOnlyRun.ts'
 import type { RunDoc } from '../../src/types.ts'
-import publicRun from '../../public/run.json'
+import publicRun from '../../fixtures/demo-run.json'
 
 const doc = publicRun as RunDoc
 

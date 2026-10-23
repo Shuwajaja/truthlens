@@ -4,7 +4,7 @@ import { createRegistry } from '../../src/renderkit/registry.ts'
 import type { Renderer, RenderInput } from '../../src/renderkit/types.ts'
 import type { RunDoc } from '../../src/types.ts'
 
-const doc: RunDoc = JSON.parse(readFileSync(new URL('../../public/run.json', import.meta.url), 'utf8'))
+const doc: RunDoc = JSON.parse(readFileSync(new URL('../../fixtures/demo-run.json', import.meta.url), 'utf8'))
 const blob: RenderInput = { kind: 'blob', mediaType: 'text/plain', text: 'original text' }
 
 function renderer(id: string, score: number): Renderer {

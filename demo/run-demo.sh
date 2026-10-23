@@ -30,7 +30,7 @@ LAST="$(python -c "import json,sys;print(json.load(open(sys.argv[1]))['ledger_la
 $TL verify "$OUT/run/ledger.jsonl" --hmac-key-env TL_DEMO_KEY --expect-last-hash "$LAST"
 $TL report "$OUT/run" --hmac-key-env TL_DEMO_KEY
 $TL export "$OUT/run" --hmac-key-env TL_DEMO_KEY -o "$OUT/run.json"
-echo "viewer data: $OUT/run.json  (cp to viewer/public/run.json; cd viewer && npm i && npm run dev)"
+echo "viewer data: $OUT/run.json  (cp to viewer/fixtures/demo-run.json; cd viewer && npm i && npm run dev)"
 echo "--- tamper: flip one test result in a copy"
 cp -r "$OUT/run" "$OUT/tampered"; sed -i '0,/"failed":1/s//"failed":0/;0,/"passed":0/s//"passed":1/' "$OUT/tampered/ledger.jsonl"
 if $TL verify "$OUT/tampered/ledger.jsonl" --hmac-key-env TL_DEMO_KEY; then echo "UNEXPECTED: tamper not detected"; exit 1; fi

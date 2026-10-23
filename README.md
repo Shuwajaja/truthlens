@@ -17,11 +17,13 @@ For vibe coders and anyone handing work to AI agents — coding, research, writi
 pip install -e '.[dev]'
 demo/run-demo.sh /tmp/tl-demo --offline   # scripted agent, no API key, deterministic
 demo/run-demo.sh /tmp/tl-demo2            # real OpenCode run (OPENROUTER_API_KEY, opencode on PATH)
-cp /tmp/tl-demo/run.json viewer/public/run.json && cd viewer && npm i && npm run dev
+cp /tmp/tl-demo/run.json viewer/fixtures/demo-run.json && cd viewer && npm i && npm run dev
 ```
 Expected: c1 `met`, c2 `unmet`, c3 `unverified`, the agent's "all done" claim `claim_unwitnessed`, and the tampered copy fails `verify`. Recorded real runs: [docs/DEMO-RUNS.md](docs/DEMO-RUNS.md).
 
 ### Viewer development and screenshots
+
+The viewer is local-first. `npm run build` produces one local, disconnected build without demo data. Phase B (local reader/SSH access boundary) is not connected. Demo fixtures are available only to tests, screenshots and `npm run dev`. No public demo/preview delivery is planned; existing Vercel platform settings remain unchanged pending separate owner approval.
 
 Use Node 24 (as in CI); the viewer declares Node >=22.19 and its locked developer
 dependencies may require newer Node 22 patch releases. From `viewer/`:
@@ -30,10 +32,10 @@ dependencies may require newer Node 22 patch releases. From `viewer/`:
 npm ci
 npm test && npm run lint && npm run build
 PLAYWRIGHT_BROWSERS_PATH=../.venv/playwright npx playwright install chromium
-npm run screenshots
+npm run review:screenshots
 ```
 
-The optional screenshot script starts a temporary `vite preview` on loopback,
+The optional screenshot script starts a temporary Vite development server on loopback,
 captures Overview, Claimed vs Proven, Timeline and Agent Story in both lenses,
 and captures story/criterion/diff drawers when the selected export contains them. PNGs go to
 `viewer/.screenshots/` (ignored); browser binaries stay in the clone's `.venv/`.
@@ -42,7 +44,7 @@ required by CI and does not install system packages.
 
 The renderer registry changes presentation only; lens settings and drawer actions
 are separate from recorded inputs. Pre-migration Vitest snapshots cover the real
-`viewer/public/run.json` views; the combined diff/Markdown drawer uses a labelled
+`viewer/fixtures/demo-run.json` views; the combined diff/Markdown drawer uses a labelled
 synthetic Markdown fixture because that export contains no Markdown evidence.
 
 Agent Story orders supported event types by `seq`; each step opens its exact

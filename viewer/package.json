@@ -13,7 +13,7 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "screenshots": "node scripts/screenshots.mjs",
-    "review:screenshots": "node scripts/review-screenshots.mjs && node scripts/check-stitch-overview.mjs",
+    "review:screenshots": "node scripts/review-workspace.mjs",
     "check:styles": "node scripts/check-styles.mjs",
     "brand:build": "node scripts/build-brand.mjs",
     "check:language": "node scripts/check-language.mjs",

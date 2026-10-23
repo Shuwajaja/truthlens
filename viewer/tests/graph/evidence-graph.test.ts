@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { buildEvidenceGraph } from '../../src/graph/evidence-graph.ts'
 import type { RunDoc } from '../../src/types.ts'
-import publicRun from '../../public/run.json'
+import publicRun from '../../fixtures/demo-run.json'
 import { claimOnlyRun } from '../fixtures/claimOnlyRun.ts'
 
 const doc=publicRun as RunDoc

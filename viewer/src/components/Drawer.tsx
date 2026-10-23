@@ -1,7 +1,8 @@
 import {Tabs,TabsList,TabsTrigger,TabsContent} from './ui/tabs.tsx'
 import {EvidenceTabs} from './EvidenceRail.tsx'
 import {recordedTime,recordedDuration} from './overview-data.ts'
-import { useState } from 'react'
+import {useState,useRef,useEffect} from 'react'
+import {Button} from './ui/button.tsx'
 import type { Artifact, Claim, Criterion, RunDoc, RunEvent } from '../types.ts'
 import type { Lens } from '../lens.ts'
 import { RenderView } from '../renderkit/RenderView.tsx'
@@ -16,8 +17,9 @@ export type DrawerTarget =
   | { kind: 'claim'; claim: Claim; event?: RunEvent }
   | { kind: 'artifact'; artifact: Artifact; event?: RunEvent }
 
-export function Drawer({ target, blobs, lens, trust, onClose, onOpenDrawer, doc }: {
+export function Drawer({ target, blobs, lens, trust, onClose, onOpenDrawer, doc, inline=false }: {
   target: DrawerTarget
+  inline?:boolean
   doc?:RunDoc
   blobs?: Record<string, string>
   lens: Lens
@@ -27,6 +29,8 @@ export function Drawer({ target, blobs, lens, trust, onClose, onOpenDrawer, doc 
 }) {
   const [selectionVersion,setSelectionVersion]=useState(0)
   const selectionId=target.kind==='criterion'?target.criterion.criterion_id:target.kind==='event'?target.event.id:target.kind==='claim'?target.claim.claim_id:target.kind==='artifact'?target.artifact.artifact_id:target.doc.run.run_id
+  const recordHeading=useRef<HTMLHeadingElement>(null)
+  useEffect(()=>{if(inline)recordHeading.current?.focus({preventScroll:true})},[inline,selectionId,target.kind])
   const openRecord=(next:DrawerTarget)=>{setSelectionVersion(value=>value+1);onOpenDrawer?.(next)}
   // Graph and timeline triggers do not live inside SheetTrigger. Restore their real focus.
   const [returnFocus]=useState(() => typeof document !== 'undefined' && document.activeElement instanceof HTMLElement ? document.activeElement : null)
@@ -34,15 +38,9 @@ export function Drawer({ target, blobs, lens, trust, onClose, onOpenDrawer, doc 
   const title=target.kind==='criterion'?`Criterion: ${target.criterion.text}`:target.kind==='event'?`Event: ${target.event.summary}`:target.kind==='claim'?`Claim: ${target.claim.text}`:target.kind==='artifact'?`File: ${target.artifact.path}`:`Run: ${target.doc.run.project}`
   const selectedEvents=(target.kind==='criterion'?target.matched:target.kind==='event'?[target.event]:target.kind==='run'?target.doc.events:target.event?[target.event]:[]).toSorted((a,b)=>a.seq-b.seq)
   const selectedArtifacts=target.kind==='artifact'?[target.artifact]:(doc?.artifacts.filter(artifact=>selectedEvents.some(event=>event.payload.artifact_id===artifact.artifact_id||event.payload.report_artifact_id===artifact.artifact_id||event.payload.sha256===artifact.sha256))??[])
-  return <Sheet open onOpenChange={open=>{if(!open)onClose()}}>
-    <SheetContent id="evidence-drawer" className="drawer-pane" aria-modal="true" aria-label={label} aria-labelledby={undefined} aria-describedby="evidence-description"
-      onCloseAutoFocus={event=>{event.preventDefault();const active=document.activeElement;if(active===document.body||active?.closest('[role=dialog]'))returnFocus?.focus()}}>
-      <div className="sheet-handle" aria-hidden="true"/>
-      <SheetHeader className="border-b border-border pr-12">
-        <SheetTitle id="evidence-title">{title}</SheetTitle>
-        <SheetDescription id="evidence-description" className="sr-only">Recorded export data. Technical integrity does not establish human acceptance.</SheetDescription>
-      </SheetHeader>
-      {trust && <div className="px-4 pt-4"><IntegrityNotice verified={trust.verified} integrity={trust.integrity} /></div>}
+  const body=<>
+      {inline&&<h3 className="inline-record-title" tabIndex={-1} ref={recordHeading}>{title}</h3>}
+      {trust && <div className="px-4 pt-4"><IntegrityNotice verified={trust.verified} integrity={trust.integrity} label={inline?"Selected record trust boundaries":"Trust boundaries"} /></div>}
       <div className="drawer-body px-4 py-4 min-w-0">
         {target.kind==='run'&&<div className="space-y-4"><h3 className="text-lg font-semibold">{target.doc.run.project}</h3><Badge>Review required</Badge><dl className="node-properties">
           <div><dt>Run</dt><dd>{target.doc.run.run_id}</dd></div><div><dt>Agent</dt><dd>{target.doc.run.agent}</dd></div><div><dt>Start</dt><dd>{recordedTime(target.doc.run.started)}</dd></div><div><dt>End</dt><dd>{target.doc.run.finished?recordedTime(target.doc.run.finished):'Not exported'}</dd></div><div><dt>Duration</dt><dd>{recordedDuration(target.doc.run.started,target.doc.run.finished)}</dd></div><div><dt>Exit code</dt><dd>{target.doc.run.exit_code??'Not exported'}</dd></div>
@@ -72,6 +70,12 @@ export function Drawer({ target, blobs, lens, trust, onClose, onOpenDrawer, doc 
         </TabsContent></Tabs>}
 
       </div>
+  </>
+  if(inline)return <section className="inline-record" aria-label={label}><Button variant="outline" size="sm" onClick={onClose}>Back to criterion</Button>{body}</section>
+  return <Sheet open onOpenChange={open=>{if(!open)onClose()}}>
+    <SheetContent id="evidence-drawer" className="drawer-pane" aria-modal="true" aria-label={label} aria-labelledby={undefined} aria-describedby="evidence-description" onCloseAutoFocus={event=>{event.preventDefault();if(returnFocus?.isConnected)returnFocus.focus()}}>
+      <div className="sheet-handle" aria-hidden="true"/><SheetHeader className="border-b border-border pr-12"><SheetTitle id="evidence-title">{title}</SheetTitle><SheetDescription id="evidence-description" className="sr-only">Recorded export data. Technical integrity does not establish human acceptance.</SheetDescription></SheetHeader>
+      {body}
     </SheetContent>
   </Sheet>
 }

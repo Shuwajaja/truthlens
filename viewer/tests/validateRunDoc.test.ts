@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import type { RunDoc } from '../src/types.ts'
 import { validateRunDoc } from '../src/validateRunDoc.ts'
 
-const fixture: RunDoc = JSON.parse(readFileSync(new URL('../public/run.json', import.meta.url), 'utf8'))
+const fixture: RunDoc = JSON.parse(readFileSync(new URL('../fixtures/demo-run.json', import.meta.url), 'utf8'))
 
 function changeField(path: string, value: unknown, remove = false): unknown {
   const doc = structuredClone(fixture)
