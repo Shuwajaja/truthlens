@@ -1,3 +1,5 @@
+import pytest
+
 from truthlens.manifest import acceptance, build_manifest, check_manifest, claims
 
 W, H, AG = {"kind": "wrapper", "id": "w"}, {"kind": "human", "id": "u"}, {"kind": "agent", "id": "a"}
@@ -53,3 +55,54 @@ def test_claim_judged_by_witness_after_it():
     assert claims(evs)[0]["finding"] == "supported"
     evs.append(ev(4, W, "test.reported", {"suite": "s", "passed": 0, "failed": 1, "criterion_ids": ["c1"]}))
     assert claims(evs)[0]["finding"] == "claim_unwitnessed"
+
+
+@pytest.mark.parametrize(
+    "counters",
+    [
+        {"passed": 1},
+        {"passed": 1, "failed": -1},
+        {"passed": 1, "failed": False},
+        {"passed": 1, "failed": True},
+        {"passed": 1, "failed": None},
+        {"passed": 1, "failed": "0"},
+        {"passed": True, "failed": 0},
+        {"passed": -1, "failed": 0},
+        {"passed": None, "failed": 0},
+        {"passed": "1", "failed": 0},
+        {"failed": 0},
+        {"passed": 0, "failed": 0, "skipped": 2},
+    ],
+)
+def test_malformed_or_skipped_test_counters_do_not_support_claim_or_manifest(counters):
+    events = [
+        ev(1, H, "criterion.recorded", {"criterion_id": "c1", "text": "x", "source": "user"}),
+        ev(2, AG, "agent.claim", {"kind": "completion", "claim_id": "k1", "text": "done",
+                                   "criterion_ids": ["c1"]}),
+        ev(3, W, "test.reported", {"suite": "s", **counters, "criterion_ids": ["c1"]}),
+        ev(4, W, "run.finished", {"exit_code": 0, "status": "ok", "last_hash": "h3"}),
+    ]
+
+    manifest = build_manifest(events, {"name": "opencode"})
+    assert manifest["acceptance"][0]["status"] == "unverified"
+    assert claims(events)[0]["finding"] == "claim_unwitnessed"
+
+    forged = {**manifest, "acceptance": [{**manifest["acceptance"][0], "status": "met"}]}
+    assert "acceptance differs from ledger" in check_manifest(forged, events)
+
+
+@pytest.mark.parametrize(
+    ("counters", "expected_status"),
+    [
+        ({"passed": 1, "failed": 0}, "met"),
+        ({"passed": 1, "failed": 1}, "unmet"),
+        ({"failed": 1}, "unmet"),
+    ],
+)
+def test_explicit_pass_counters_and_positive_failures_remain_decisive(counters, expected_status):
+    events = [
+        ev(1, H, "criterion.recorded", {"criterion_id": "c1", "text": "x", "source": "user"}),
+        ev(2, W, "test.reported", {"suite": "s", **counters, "criterion_ids": ["c1"]}),
+    ]
+
+    assert acceptance(events)[0]["status"] == expected_status

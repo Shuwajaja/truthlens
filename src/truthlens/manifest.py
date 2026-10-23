@@ -18,9 +18,13 @@ def _decision(ev: dict) -> str | None:
         return None
     p = ev["payload"]
     if ev["type"] == "test.reported":
-        if p.get("failed", 0) > 0:
+        failed = p.get("failed")
+        if type(failed) is int and failed > 0:
             return "fail"
-        return "pass" if p.get("passed", 0) > 0 else None
+        passed = p.get("passed")
+        if type(failed) is int and failed == 0 and type(passed) is int and passed > 0:
+            return "pass"
+        return None
     if ev["type"] == "evidence.attached" and p.get("result") in ("pass", "fail"):
         return p["result"]
     return None
