@@ -22,4 +22,6 @@
 
 ## Reviews
 
+- [Phase A local workspace evidence](screenshots/w5/issue-156-workspace-phase-a/review-summary.md): both themes, desktop/mobile, unrestricted axe, fixture and disconnected local build.
+
 - [Viewer UX review, 2026-10-22](ux/review-2026-10-22.md): Live-Screenshots, priorisierte Verständlichkeits- und Navigationsbefunde; keine Codeänderung.

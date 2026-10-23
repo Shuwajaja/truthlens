@@ -6,7 +6,7 @@ Nachtrag von Shu: lokal-first. Es gibt **nur einen lokalen Produktionsbuild**, k
 
 Freigabe: Petrol & Porcelain als Standard, Cool Graphite als Alternative; Plus Jakarta Sans/JetBrains Mono bleiben. Ausschließlich Phase A, Demo-Daten, keine Server-/Host-Änderung. Phasen B–F bleiben Planung. Diese dokumentierte Planfassung wird auf Shus Wunsch mit Phase A committed.
 
-**Historischer Plantext:** Shus Auftrag und Entscheidungen gehen dem Material vor. Dieser Plan ist kein Umsetzungs-, Merge- oder Deploymentauftrag. Keine Produktdatei wurde dafür geändert; die Plan-Datei bleibt uncommittet.
+**Planungsgrenze:** Shus Entscheidungen gehen dem Material vor. Nur Phase A wurde zur Umsetzung freigegeben. Die späteren Phasen sind kein Umsetzungs-, Merge- oder Deploymentauftrag. Die ursprünglich uncommittete Planfassung wird mit Phase A veröffentlicht.
 
 
 **Ziel:** Ein hochwertiger lesender Workspace, in dem Shu einen Lauf öffnet, ein Kriterium prüft, dessen Beleg findet, zwei Quellen vergleicht und den gewünschten Inhalt korrekt exportiert.
@@ -17,7 +17,7 @@ Freigabe: Petrol & Porcelain als Standard, Cool Graphite als Alternative; Plus J
 
 **Referenzen:** Inbox-README; `01-redesign-plan/TruthLens-Workspace-UX-Umbau-SPECC-v1.0.md`; ausgewählte P0-Anforderungen aus `03-work-order/`; lokale Quellen aus 02/04/05. Materialwurzel: `/home/codex/truthlens-inbox/2026-10-23-redesign/`.
 
-**Voraussetzung #155:** Die drei Review-Fixes sind im selben PR auf Head `15c34b6`. Schnelle CI und manueller Release-Review sind erfolgreich; nichts wurde gemergt. Eine spätere Backend-Umsetzung beginnt erst auf dem dann aktuellen, durch Shu freigegebenen main einschließlich dieser Änderungen.
+**Basis:** #155 ist inzwischen auf main integriert (`f30320a`). Phase A startet unabhängig darauf. Eine spätere Backend-Umsetzung beginnt erst nach gesonderter Freigabe auf aktuellem main.
 
 ## 1. Umfang: P0 ist lesend
 
