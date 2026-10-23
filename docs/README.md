@@ -14,7 +14,7 @@
 | [DEMO-RUNS.md](DEMO-RUNS.md) | Real recorded demo runs (ledgers in `demo/runs/`) |
 | [UI-CONCEPT.md](UI-CONCEPT.md) | Viewer views and post-v1 ideas |
 | [INVENTORY.md](INVENTORY.md) | Reused code and sources |
-| [../PLAN-redesign-2026-10-23.md](../PLAN-redesign-2026-10-23.md) | Approved Phase A workspace plan; later phases remain deferred |
+| [../PLAN-redesign-2026-10-23.md](../PLAN-redesign-2026-10-23.md) | Workspace plan; fixed private reader preparation authorized, live activation separate |
 | [../viewer/DESIGN.md](../viewer/DESIGN.md) | Binding P3 viewer design: tokens, type scale, desktop/mobile layout and honest evidence |
 | [../DESIGN.md](../DESIGN.md) | Earlier P2 reference; superseded for viewer work |
 | [UI-PIPELINE.md](UI-PIPELINE.md) | Binding viewer verification, local React/UI review checks, licenses and preview comments boundary |

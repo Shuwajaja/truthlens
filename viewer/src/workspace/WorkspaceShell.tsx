@@ -6,7 +6,7 @@ import {readTheme,saveTheme,type ViewerTheme} from './theme.ts'
 import type {Lens} from '../lens.ts'
 
 export type WorkspaceHandle={inspect:()=>void}
-export function WorkspaceShell({children,tabs,navigation,inspector,lens,mobile,wide,onOpenRun,inspectorOpen,onInspectorOpenChange,inspectorAvailable=true,ref}:{children:ReactNode;tabs?:ReactNode;navigation:ReactNode;inspector:ReactNode;lens:Lens;mobile:boolean;wide:boolean;onOpenRun?:()=>void;inspectorOpen:boolean;onInspectorOpenChange:(open:boolean)=>void;inspectorAvailable?:boolean;ref:Ref<WorkspaceHandle>}) {
+export function WorkspaceShell({children,tabs,navigation,inspector,lens,mobile,wide,onOpenRun,inspectorOpen,onInspectorOpenChange,inspectorAvailable=true,sourceLabel,sourceDescription,ref}:{children:ReactNode;tabs?:ReactNode;navigation:ReactNode;inspector:ReactNode;lens:Lens;mobile:boolean;wide:boolean;onOpenRun?:()=>void;inspectorOpen:boolean;onInspectorOpenChange:(open:boolean)=>void;inspectorAvailable?:boolean;sourceLabel?:string;sourceDescription?:ReactNode;ref:Ref<WorkspaceHandle>}) {
  const [navigationOpen,setNavigationOpen]=useState(true)
  const [sheet,setSheet]=useState<'navigation'|'inspector'|null>(null)
  const [theme,setTheme]=useState<ViewerTheme>(readTheme)
@@ -26,7 +26,7 @@ export function WorkspaceShell({children,tabs,navigation,inspector,lens,mobile,w
   <a className="skip-link" href="#main-content">Skip to content</a>
   <header className="workspace-header workspace-frame">
    <div className="workspace-brand"><img src="/logo-icon.svg" alt="" width="24" height="30"/><span>TruthLens</span></div>
-   <span className="workspace-source">{import.meta.env.DEV?'Local development · fixture':'Local workspace'}</span>
+   <span className="workspace-source">{sourceLabel??(import.meta.env.DEV?'Local development · fixture':'Local workspace')}</span>
    <div className="workspace-controls">
     <Button variant="ghost" aria-expanded={mobile?sheet==='navigation':navigationOpen} onClick={()=>mobile?toggleSheet('navigation'):setNavigationOpen(value=>!value)}><PanelLeft aria-hidden="true"/><span>Navigation</span></Button>
     {inspectorAvailable&&<Button ref={inspectorToggle} variant="ghost" aria-expanded={wide?inspectorOpen:sheet==='inspector'} onClick={()=>wide?onInspectorOpenChange(!inspectorOpen):toggleSheet('inspector')}><PanelRight aria-hidden="true"/><span>Inspector</span></Button>}
@@ -35,7 +35,7 @@ export function WorkspaceShell({children,tabs,navigation,inspector,lens,mobile,w
   </header>
   {tabs}
   <div className="workspace-grid">
-   {!mobile&&navigationOpen&&<aside className="workspace-navigation workspace-frame" aria-label="Workspace navigation">{navigation}{onOpenRun&&<div className="workspace-run-link"><Button variant="outline" onClick={onOpenRun}>Run details</Button><p>Local test fixture.<br/>No live server connection.</p></div>}</aside>}
+   {!mobile&&navigationOpen&&<aside className="workspace-navigation workspace-frame" aria-label="Workspace navigation">{navigation}{onOpenRun&&<div className="workspace-run-link"><Button variant="outline" onClick={onOpenRun}>Run details</Button><p>{sourceDescription??<>Local test fixture.<br/>No live server connection.</>}</p></div>}</aside>}
    <main id="main-content" tabIndex={-1}>{children}</main>
    {wide&&inspectorOpen&&inspectorAvailable&&<aside className="workspace-inspector" aria-label="Context inspector"><div className="inspector-heading"><h2>Inspector</h2><Button variant="ghost" size="sm" onClick={()=>{onInspectorOpenChange(false);inspectorToggle.current?.focus()}}>Close inspector</Button></div>{inspector}</aside>}
   </div>

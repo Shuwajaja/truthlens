@@ -1,3 +1,25 @@
+## Fixed private reader preparation — 23 October 2026
+
+D36 authorizes one fixed Shu read view over a protected Unix socket and SSH.
+The repository now prepares a key-free registered-snapshot reader, exact Unix
+peer UID enforcement, a same-origin production Viewer with explicit Connect,
+and an inactive service template. Registry visibility comes from protected
+configuration and original dispatch authorizations; requests cannot register,
+audit, approve or execute. Catalog, document and event routes are implemented;
+artifact/blob/audit-report/export routes remain later work. Hash-only projection
+is explicitly not fresh signature verification. See [operator preparation](../deploy/server/README.md).
+
+Witnessed local verification: 63 Python tests plus 15 subtests (reader boundaries
+and CI selector), 329 Viewer tests, Python/Viewer lint, static style/language/theme
+checks and production build. Tests use synthetic data and substitute root checks;
+no live isolation or actual private run is established. Independent security
+review found no unresolved repository-preparation blocker. Targeted production
+browser evidence and its scope are [published here](screenshots/p4/private-reader/review-summary.md).
+
+No VPS service, user, permission, key or public deployment was activated.
+Actual SSH forwarding, worker-UID denial, eligible private run acceptance and
+large-input peak-memory measurement remain prerequisites for live operation.
+
 ## Viewer Phase C: source-aware local workspace navigation — 23 October 2026
 
 [Issue #158](https://github.com/Shuwajaja/truthlens/issues/158), branch `w6/issue-158-workspace-navigation`. One navigation hook owns browser history; source/run/view identities select existing tabs, and supplied in-memory records populate Runs. Accessible in-flow Select/Pin/Close controls and the latest 20 closed references preserve explicit close/restore focus. Forty open tabs reject additional opens/restores visibly without eviction. Metadata-only storage failure stays usable and reports Unsaved on this device. Valid unavailable references remain inert; malformed routes cannot reveal stored content through a pin change. Initial restored identities are bound to their history entry with replaceState, preserving Back/Forward, unrelated query/hash and history.state. Four legacy view links remain supported.

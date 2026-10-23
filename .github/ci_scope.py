@@ -73,6 +73,8 @@ def changed_paths(base: str, cwd: Path = Path(".")) -> list[str]:
 def extra_tests(paths: list[str], root: Path = Path(".")) -> list[str]:
     selected = {p for p in paths if p.startswith("tests/test_") and p.endswith(".py")}
     related = {
+        "read_projection": ["test_read_projection.py", "test_read_service.py"],
+        "read_service": ["test_read_service.py", "test_read_projection.py"],
         "wrapper": [
             "test_wrapper.py",
             "test_cli.py",

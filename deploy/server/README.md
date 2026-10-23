@@ -129,8 +129,80 @@ is not such a gateway. Real Mausbot session correlation is still unverified.
 
 ## Review before merge/deployment
 
-Fast PR CI is build/lint/unit. `release-review` is manually dispatched for the
-branch before the owner merges; it retains full Python/browser/axe checks and
-adds the widget's desktop/mobile/320px evidence. Local privileged tests simulate
-root checks; they are not evidence of a prepared VPS or deployed isolation.
-Independent CodexChat security review and Shu's explicit approval remain required.
+Fast PR CI is build/lint/affected tests. Follow the standing merge authorization
+in `AGENTS.md`: independent security review, current-head green checks and no
+blocking findings. A separate Codex subagent can supply that review. Targeted
+browser/axe checks cover changed UI; broader release checks run when warranted.
+Local privileged tests simulate root checks and do not establish VPS isolation.
+Host installation and activation still require separate explicit authorization.
+
+
+## Private reader preparation (D36; not installed)
+
+The owner selected a fixed Shu read view over a protected Unix socket and SSH.
+`truthlens-reader.service` is an **inactive example**, not a verified host unit.
+The implementation is started explicitly with `python -m truthlens.read_service
+--config /etc/truthlens/reader.json` only after separate host authorization and
+an operator's review. Do not run it from an agent checkout or relax registry
+permissions. The root-only registry remains private. The reader service needs
+read-only access to its registry/snapshots and the immutable production Viewer
+build; the example hides the existing audit key and makes the filesystem
+read-only except for the socket directory. Any additional local key paths must
+also be hidden when preparing the actual service profile.
+
+The protected JSON configuration binds `view_id`, `forwarder_uid`, `state_root`,
+`socket_path`, `viewer_dist` and `origin`. There is no request-supplied principal,
+path, upstream URL or registration action. `forwarder_uid` is the numeric UID
+of the dedicated authorized SSH account, not a worker account. It also selects
+that UID's existing registry authorizations. The service confirms Linux Unix
+peer credentials before reading HTTP; root is not an automatic peer exception.
+A root-equivalent administrator can still change the configuration or impersonate
+a UID and is outside this boundary.
+
+The configured browser origin is a fixed loopback HTTP origin, for example
+`http://127.0.0.1:8765`. The intended client command, **after** approved setup,
+is `ssh -N -o ExitOnForwardFailure=yes -L
+127.0.0.1:8765:/run/truthlens-reader/reader.sock SSH_ACCOUNT@HOST` (join the
+line break into one command). Open the exact configured origin and choose
+Connect. The server has no TCP listener. Host/Origin/Fetch-Metadata checks
+complement SSH and socket permissions; they do not authenticate a human.
+
+The service fails on an existing socket rather than unlinking an unknown
+endpoint. An operator must investigate stale state before a later restart.
+Runtime directory ownership/mode, socket ownership/mode, SSH forwarding policy,
+service sandboxing and account separation must be reviewed on the actual host.
+No commands here create accounts, change keys, install units or enable services.
+
+Live acceptance is still outstanding: run the actual permitted SSH path,
+observe denial from the worker UID, read a real eligible registered private
+snapshot, verify private filesystem contents/permissions remain unchanged, and
+measure peak memory with a large permitted journal. Local temporary sockets,
+synthetic registries and mocked browser responses do not establish any of those
+facts. No real private run or deployment result is asserted here.
+
+
+### Implemented preparation scope and bounds
+
+The current reader provides health, a catalog (at most 50 entries per page),
+RunDoc projections and event pages (at most 100 events). The planned artifact,
+blob, audit-report and export endpoints are not implemented by this slice.
+Documents omit blob bodies; a missing preview is not evidence of a missing
+original artifact. RunDoc projections remain `verified: false`,
+`integrity: hash-only`, even when the protected registration originated from a
+signed admission. This is not a fresh HMAC verification.
+
+The journal reader deliberately accepts at most 4MiB/10,000 rows (2MiB per row),
+below the core journal limit. Documents accept at most 2MiB of ledger input and
+10MiB of encoded response. Event pages retain the core 64MiB/100,000-event ledger
+limit, with a 128KiB encoded line bound; they do not retain all decoded events.
+The frozen verifier still buffers/splits the ledger bytes. These are fail-closed
+reader limits, not changed domain contracts or a measured memory guarantee.
+One request is processed at a time. Large or concurrently changed inputs are
+unavailable, never silently truncated into a complete document.
+
+Choose an installation-unique stable `view_id`, not a reused generic name across
+hosts. Source IDs combine that configured view/UID with the original dispatch,
+session, registration and captured ledger anchor. Paths and SSH usernames never
+come from browser requests. The socket parent must be root-owned mode0711;
+the socket is mode0600 owned by the configured nonroot forwarder UID. Protected
+config and registry files retain their existing root-only requirements.
