@@ -6,7 +6,7 @@ import {readTheme,saveTheme,type ViewerTheme} from './theme.ts'
 import type {Lens} from '../lens.ts'
 
 export type WorkspaceHandle={inspect:()=>void}
-export function WorkspaceShell({children,navigation,inspector,lens,mobile,wide,onOpenRun,inspectorOpen,onInspectorOpenChange,inspectorAvailable=true,ref}:{children:ReactNode;navigation:ReactNode;inspector:ReactNode;lens:Lens;mobile:boolean;wide:boolean;onOpenRun?:()=>void;inspectorOpen:boolean;onInspectorOpenChange:(open:boolean)=>void;inspectorAvailable?:boolean;ref:Ref<WorkspaceHandle>}) {
+export function WorkspaceShell({children,tabs,navigation,inspector,lens,mobile,wide,onOpenRun,inspectorOpen,onInspectorOpenChange,inspectorAvailable=true,ref}:{children:ReactNode;tabs?:ReactNode;navigation:ReactNode;inspector:ReactNode;lens:Lens;mobile:boolean;wide:boolean;onOpenRun?:()=>void;inspectorOpen:boolean;onInspectorOpenChange:(open:boolean)=>void;inspectorAvailable?:boolean;ref:Ref<WorkspaceHandle>}) {
  const [navigationOpen,setNavigationOpen]=useState(true)
  const [sheet,setSheet]=useState<'navigation'|'inspector'|null>(null)
  const [theme,setTheme]=useState<ViewerTheme>(readTheme)
@@ -22,7 +22,7 @@ export function WorkspaceShell({children,navigation,inspector,lens,mobile,wide,o
   setSheet('inspector')
  }}),[wide,sheet])
  const toggleSheet=(next:'navigation'|'inspector')=>{returnFocus.current=document.activeElement instanceof HTMLElement?document.activeElement:null;setSheet(current=>current===next?null:next)}
- return <div className="app-shell workspace-app" data-lens={lens} data-navigation-open={!mobile&&navigationOpen} data-inspector-open={wide&&inspectorOpen}>
+ return <div className="app-shell workspace-app" data-lens={lens} data-navigation-open={!mobile&&navigationOpen} data-inspector-open={wide&&inspectorOpen&&inspectorAvailable}>
   <a className="skip-link" href="#main-content">Skip to content</a>
   <header className="workspace-header workspace-frame">
    <div className="workspace-brand"><img src="/logo-icon.svg" alt="" width="24" height="30"/><span>TruthLens</span></div>
@@ -33,10 +33,11 @@ export function WorkspaceShell({children,navigation,inspector,lens,mobile,wide,o
     <label className="theme-select"><span className="sr-only">Theme</span><select value={theme} onChange={event=>{const next=event.target.value as ViewerTheme;setTheme(next);saveTheme(next)}}><option value="petrol-porcelain">Petrol &amp; Porcelain</option><option value="cool-graphite">Cool Graphite</option></select></label>
    </div>
   </header>
+  {tabs}
   <div className="workspace-grid">
    {!mobile&&navigationOpen&&<aside className="workspace-navigation workspace-frame" aria-label="Workspace navigation">{navigation}{onOpenRun&&<div className="workspace-run-link"><Button variant="outline" onClick={onOpenRun}>Run details</Button><p>Local test fixture.<br/>No live server connection.</p></div>}</aside>}
    <main id="main-content" tabIndex={-1}>{children}</main>
-   {wide&&inspectorOpen&&<aside className="workspace-inspector" aria-label="Context inspector"><div className="inspector-heading"><h2>Inspector</h2><Button variant="ghost" size="sm" onClick={()=>{onInspectorOpenChange(false);inspectorToggle.current?.focus()}}>Close inspector</Button></div>{inspector}</aside>}
+   {wide&&inspectorOpen&&inspectorAvailable&&<aside className="workspace-inspector" aria-label="Context inspector"><div className="inspector-heading"><h2>Inspector</h2><Button variant="ghost" size="sm" onClick={()=>{onInspectorOpenChange(false);inspectorToggle.current?.focus()}}>Close inspector</Button></div>{inspector}</aside>}
   </div>
   <Sheet open={sheet!==null} onOpenChange={open=>{if(!open)setSheet(null)}}>
    {sheet&&<SheetContent aria-modal="true" side={sheet==='navigation'?'left':'bottom'} className={`workspace-sheet ${sheet==='navigation'?'workspace-frame':''}`} onCloseAutoFocus={event=>{event.preventDefault();if(returnFocus.current?.isConnected&&(document.activeElement===document.body||document.activeElement?.closest('[role="dialog"]')))returnFocus.current.focus()}}>

@@ -133,6 +133,113 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
         </label>
       </div>
     </header>
+    <section
+      aria-label="Workspace tabs"
+      class="workspace-tabs"
+    >
+      <div
+        aria-label="Open workspace tabs"
+        class="workspace-tab-strip"
+        role="group"
+      >
+        <button
+          class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+          data-open-runs="true"
+          data-size="default"
+          data-slot="button"
+          data-variant="outline"
+          type="button"
+        >
+          Open Runs
+        </button>
+        <div
+          class="workspace-tab"
+        >
+          <button
+            aria-label="Select Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-tab-select="true"
+            data-variant="ghost"
+            title="Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            type="button"
+          >
+            Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV
+          </button>
+          <button
+            aria-label="Pin Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Pin
+          </button>
+          <button
+            aria-label="Close Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+        <div
+          class="workspace-tab"
+        >
+          <button
+            aria-label="Select Claimed vs proven · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="true"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-tab-select="true"
+            data-variant="ghost"
+            title="Claimed vs proven · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            type="button"
+          >
+            Claimed vs proven · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV
+          </button>
+          <button
+            aria-label="Pin Claimed vs proven · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Pin
+          </button>
+          <button
+            aria-label="Close Claimed vs proven · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+      <details
+        class="workspace-recent"
+      >
+        <summary>
+          Recently closed (0; latest 20)
+        </summary>
+        <p>
+          No recently closed tabs.
+        </p>
+      </details>
+    </section>
     <div
       class="workspace-grid"
     >
@@ -168,6 +275,46 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
             <ul
               class="nav-list"
             >
+              <li>
+                <button
+                  aria-label="Runs"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-tree"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 5h13"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="M3 10a2 2 0 0 0 2 2h3"
+                    />
+                    <path
+                      d="M3 5v12a2 2 0 0 0 2 2h3"
+                    />
+                  </svg>
+                  <span>
+                    Runs
+                  </span>
+                </button>
+              </li>
               <li>
                 <button
                   aria-label="Overview"
@@ -1097,6 +1244,113 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
         </label>
       </div>
     </header>
+    <section
+      aria-label="Workspace tabs"
+      class="workspace-tabs"
+    >
+      <div
+        aria-label="Open workspace tabs"
+        class="workspace-tab-strip"
+        role="group"
+      >
+        <button
+          class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+          data-open-runs="true"
+          data-size="default"
+          data-slot="button"
+          data-variant="outline"
+          type="button"
+        >
+          Open Runs
+        </button>
+        <div
+          class="workspace-tab"
+        >
+          <button
+            aria-label="Select Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-tab-select="true"
+            data-variant="ghost"
+            title="Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            type="button"
+          >
+            Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV
+          </button>
+          <button
+            aria-label="Pin Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Pin
+          </button>
+          <button
+            aria-label="Close Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+        <div
+          class="workspace-tab"
+        >
+          <button
+            aria-label="Select Claimed vs proven · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="true"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-tab-select="true"
+            data-variant="ghost"
+            title="Claimed vs proven · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            type="button"
+          >
+            Claimed vs proven · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV
+          </button>
+          <button
+            aria-label="Pin Claimed vs proven · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Pin
+          </button>
+          <button
+            aria-label="Close Claimed vs proven · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+      <details
+        class="workspace-recent"
+      >
+        <summary>
+          Recently closed (0; latest 20)
+        </summary>
+        <p>
+          No recently closed tabs.
+        </p>
+      </details>
+    </section>
     <div
       class="workspace-grid"
     >
@@ -1132,6 +1386,46 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
             <ul
               class="nav-list"
             >
+              <li>
+                <button
+                  aria-label="Runs"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-tree"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 5h13"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="M3 10a2 2 0 0 0 2 2h3"
+                    />
+                    <path
+                      d="M3 5v12a2 2 0 0 0 2 2h3"
+                    />
+                  </svg>
+                  <span>
+                    Runs
+                  </span>
+                </button>
+              </li>
               <li>
                 <button
                   aria-label="Overview"
@@ -2061,6 +2355,75 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
         </label>
       </div>
     </header>
+    <section
+      aria-label="Workspace tabs"
+      class="workspace-tabs"
+    >
+      <div
+        aria-label="Open workspace tabs"
+        class="workspace-tab-strip"
+        role="group"
+      >
+        <button
+          class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+          data-open-runs="true"
+          data-size="default"
+          data-slot="button"
+          data-variant="outline"
+          type="button"
+        >
+          Open Runs
+        </button>
+        <div
+          class="workspace-tab"
+        >
+          <button
+            aria-label="Select Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="true"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-tab-select="true"
+            data-variant="ghost"
+            title="Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            type="button"
+          >
+            Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV
+          </button>
+          <button
+            aria-label="Pin Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Pin
+          </button>
+          <button
+            aria-label="Close Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+      <details
+        class="workspace-recent"
+      >
+        <summary>
+          Recently closed (0; latest 20)
+        </summary>
+        <p>
+          No recently closed tabs.
+        </p>
+      </details>
+    </section>
     <div
       class="workspace-grid"
     >
@@ -2096,6 +2459,46 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
             <ul
               class="nav-list"
             >
+              <li>
+                <button
+                  aria-label="Runs"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-tree"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 5h13"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="M3 10a2 2 0 0 0 2 2h3"
+                    />
+                    <path
+                      d="M3 5v12a2 2 0 0 0 2 2h3"
+                    />
+                  </svg>
+                  <span>
+                    Runs
+                  </span>
+                </button>
+              </li>
               <li>
                 <button
                   aria-current="page"
@@ -8989,6 +9392,75 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
         </label>
       </div>
     </header>
+    <section
+      aria-label="Workspace tabs"
+      class="workspace-tabs"
+    >
+      <div
+        aria-label="Open workspace tabs"
+        class="workspace-tab-strip"
+        role="group"
+      >
+        <button
+          class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+          data-open-runs="true"
+          data-size="default"
+          data-slot="button"
+          data-variant="outline"
+          type="button"
+        >
+          Open Runs
+        </button>
+        <div
+          class="workspace-tab"
+        >
+          <button
+            aria-label="Select Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="true"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-tab-select="true"
+            data-variant="ghost"
+            title="Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            type="button"
+          >
+            Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV
+          </button>
+          <button
+            aria-label="Pin Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Pin
+          </button>
+          <button
+            aria-label="Close Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+      <details
+        class="workspace-recent"
+      >
+        <summary>
+          Recently closed (0; latest 20)
+        </summary>
+        <p>
+          No recently closed tabs.
+        </p>
+      </details>
+    </section>
     <div
       class="workspace-grid"
     >
@@ -9024,6 +9496,46 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
             <ul
               class="nav-list"
             >
+              <li>
+                <button
+                  aria-label="Runs"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-tree"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 5h13"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="M3 10a2 2 0 0 0 2 2h3"
+                    />
+                    <path
+                      d="M3 5v12a2 2 0 0 0 2 2h3"
+                    />
+                  </svg>
+                  <span>
+                    Runs
+                  </span>
+                </button>
+              </li>
               <li>
                 <button
                   aria-current="page"
@@ -16093,6 +16605,113 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, client lens,
         </label>
       </div>
     </header>
+    <section
+      aria-label="Workspace tabs"
+      class="workspace-tabs"
+    >
+      <div
+        aria-label="Open workspace tabs"
+        class="workspace-tab-strip"
+        role="group"
+      >
+        <button
+          class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+          data-open-runs="true"
+          data-size="default"
+          data-slot="button"
+          data-variant="outline"
+          type="button"
+        >
+          Open Runs
+        </button>
+        <div
+          class="workspace-tab"
+        >
+          <button
+            aria-label="Select Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-tab-select="true"
+            data-variant="ghost"
+            title="Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            type="button"
+          >
+            Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV
+          </button>
+          <button
+            aria-label="Pin Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Pin
+          </button>
+          <button
+            aria-label="Close Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+        <div
+          class="workspace-tab"
+        >
+          <button
+            aria-label="Select Timeline · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="true"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-tab-select="true"
+            data-variant="ghost"
+            title="Timeline · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            type="button"
+          >
+            Timeline · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV
+          </button>
+          <button
+            aria-label="Pin Timeline · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Pin
+          </button>
+          <button
+            aria-label="Close Timeline · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+      <details
+        class="workspace-recent"
+      >
+        <summary>
+          Recently closed (0; latest 20)
+        </summary>
+        <p>
+          No recently closed tabs.
+        </p>
+      </details>
+    </section>
     <div
       class="workspace-grid"
     >
@@ -16128,6 +16747,46 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, client lens,
             <ul
               class="nav-list"
             >
+              <li>
+                <button
+                  aria-label="Runs"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-tree"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 5h13"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="M3 10a2 2 0 0 0 2 2h3"
+                    />
+                    <path
+                      d="M3 5v12a2 2 0 0 0 2 2h3"
+                    />
+                  </svg>
+                  <span>
+                    Runs
+                  </span>
+                </button>
+              </li>
               <li>
                 <button
                   aria-label="Overview"
@@ -18580,6 +19239,113 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, developer le
         </label>
       </div>
     </header>
+    <section
+      aria-label="Workspace tabs"
+      class="workspace-tabs"
+    >
+      <div
+        aria-label="Open workspace tabs"
+        class="workspace-tab-strip"
+        role="group"
+      >
+        <button
+          class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+          data-open-runs="true"
+          data-size="default"
+          data-slot="button"
+          data-variant="outline"
+          type="button"
+        >
+          Open Runs
+        </button>
+        <div
+          class="workspace-tab"
+        >
+          <button
+            aria-label="Select Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-tab-select="true"
+            data-variant="ghost"
+            title="Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            type="button"
+          >
+            Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV
+          </button>
+          <button
+            aria-label="Pin Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Pin
+          </button>
+          <button
+            aria-label="Close Overview · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+        <div
+          class="workspace-tab"
+        >
+          <button
+            aria-label="Select Timeline · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="true"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-tab-select="true"
+            data-variant="ghost"
+            title="Timeline · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            type="button"
+          >
+            Timeline · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV
+          </button>
+          <button
+            aria-label="Pin Timeline · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            aria-pressed="false"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Pin
+          </button>
+          <button
+            aria-label="Close Timeline · local-fixture · run_01M4NPV2TEX4NE8M3PQNBXTPPV"
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="ghost"
+            type="button"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+      <details
+        class="workspace-recent"
+      >
+        <summary>
+          Recently closed (0; latest 20)
+        </summary>
+        <p>
+          No recently closed tabs.
+        </p>
+      </details>
+    </section>
     <div
       class="workspace-grid"
     >
@@ -18615,6 +19381,46 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, developer le
             <ul
               class="nav-list"
             >
+              <li>
+                <button
+                  aria-label="Runs"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-tree"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 5h13"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="M3 10a2 2 0 0 0 2 2h3"
+                    />
+                    <path
+                      d="M3 5v12a2 2 0 0 0 2 2h3"
+                    />
+                  </svg>
+                  <span>
+                    Runs
+                  </span>
+                </button>
+              </li>
               <li>
                 <button
                   aria-label="Overview"

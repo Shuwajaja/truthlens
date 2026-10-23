@@ -1,0 +1,1487 @@
+{
+  "testedCommit": "5ae5c6fd3a1469aae13174f58da597a8ec2d0cd3",
+  "viewports": [
+    [
+      1440,
+      900
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "themes": [
+    "petrol-porcelain",
+    "cool-graphite"
+  ],
+  "reports": [
+    {
+      "name": "petrol-porcelain-1440-restored",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "petrol-porcelain-1440-criteria",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "petrol-porcelain-1440-runs",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "petrol-porcelain-1440-unavailable",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.inline-flex[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.inline-flex[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "petrol-porcelain-1440-unsaved",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "petrol-porcelain-390-restored",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "petrol-porcelain-390-criteria",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "petrol-porcelain-390-runs",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                "button[aria-label=\"Pin Runs · local-fixture\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                "button[aria-label=\"Close Runs · local-fixture\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            "button[aria-label=\"Pin Runs · local-fixture\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            "button[aria-label=\"Close Runs · local-fixture\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "petrol-porcelain-390-unavailable",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                "button[title=\"Runs · local-fixture\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                "button[aria-label=\"Pin Runs · local-fixture\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                "button[aria-label=\"Close Runs · local-fixture\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            "button[title=\"Runs · local-fixture\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            "button[aria-label=\"Pin Runs · local-fixture\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            "button[aria-label=\"Close Runs · local-fixture\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "petrol-porcelain-390-unsaved",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "cool-graphite-1440-restored",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-1440-criteria",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-1440-runs",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-1440-unavailable",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.inline-flex[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.inline-flex[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "cool-graphite-1440-unsaved",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-390-restored",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "cool-graphite-390-criteria",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "cool-graphite-390-runs",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                "button[aria-label=\"Pin Runs · local-fixture\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                "button[aria-label=\"Close Runs · local-fixture\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            "button[aria-label=\"Pin Runs · local-fixture\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            "button[aria-label=\"Close Runs · local-fixture\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "cool-graphite-390-unavailable",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                "button[title=\"Runs · local-fixture\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                "button[aria-label=\"Pin Runs · local-fixture\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                "button[aria-label=\"Close Runs · local-fixture\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            "button[title=\"Runs · local-fixture\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            "button[aria-label=\"Pin Runs · local-fixture\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            "button[aria-label=\"Close Runs · local-fixture\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "cool-graphite-390-unsaved",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "target": [
+                ".dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "petrol-porcelain-1440-production",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "petrol-porcelain-390-production",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-1440-production",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "cool-graphite-390-production",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    }
+  ],
+  "checks": [
+    {
+      "name": "petrol-porcelain-1440",
+      "keyboard": "select/pin/close/restore passed",
+      "lastCriterion": "hit-test and keyboard passed",
+      "unavailableReload": "passed"
+    },
+    {
+      "name": "petrol-porcelain-390",
+      "keyboard": "select/pin/close/restore passed",
+      "lastCriterion": "hit-test and keyboard passed",
+      "unavailableReload": "passed"
+    },
+    {
+      "name": "cool-graphite-1440",
+      "keyboard": "select/pin/close/restore passed",
+      "lastCriterion": "hit-test and keyboard passed",
+      "unavailableReload": "passed"
+    },
+    {
+      "name": "cool-graphite-390",
+      "keyboard": "select/pin/close/restore passed",
+      "lastCriterion": "hit-test and keyboard passed",
+      "unavailableReload": "passed"
+    }
+  ],
+  "errors": [],
+  "scope": "Targeted changed states; unrestricted axe with incomplete contrast manual inspection. Unrelated existing flows not repeated."
+}

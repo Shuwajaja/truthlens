@@ -1,10 +1,11 @@
 import { LayoutDashboard, ListChecks, ListTree, Route } from 'lucide-react'
-import type { View } from '../App.tsx'
+import type { WorkspaceView as View } from '../workspace/navigation-types.ts'
 import type { Lens } from '../lens.ts'
 import { LensToggle } from './LensToggle.tsx'
 import { Badge } from './ui/badge.tsx'
 
 const items = [
+  { key: 'runs', label: 'Runs', short: 'Runs', Icon: ListTree },
   { key: 'overview', label: 'Overview', short: 'Overview', Icon: LayoutDashboard },
   { key: 'claimed-vs-proven', label: 'Claimed vs proven', short: 'Claims', Icon: ListChecks },
   { key: 'timeline', label: 'Timeline', short: 'Timeline', Icon: ListTree },
