@@ -26,7 +26,7 @@ from truthlens.gate import GateServer, _bundled_value_opt, _map_path_arg
 from truthlens.ids import new_id
 from truthlens.ledger import Ledger
 from truthlens.manifest import build_manifest
-from truthlens.redaction import redact_str
+from truthlens.redaction import MAX_INPUT, redact, redact_str
 from truthlens.store import BlobStore
 
 WRAPPER = {"kind": "wrapper", "id": "truthlens-run"}
@@ -408,11 +408,8 @@ def child_env(pass_env: list[str], drop: set[str]) -> dict[str, str]:
 
 def _strip_secret_bytes(data: bytes, secrets: list[str]) -> bytes:
     """Remove known secrets at byte level (before any decoding, so non-UTF-8 keys match too)."""
-    for sec in secrets:
-        b = sec.encode("utf-8", "surrogateescape") if sec else b""
-        if len(b) >= 4:
-            data = data.replace(b, b"[REDACTED]")
-    return data
+    patterns = [sec.encode("utf-8", "surrogateescape") for sec in secrets if sec]
+    return _replace_known_bytes(data, patterns)
 
 
 def _escaped_repr(secret: str) -> str | None:
@@ -425,22 +422,80 @@ def _escaped_repr(secret: str) -> str | None:
 def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
     """Redact blobs before they enter the store. Known secrets (incl. the HMAC key) are removed at byte level
     first; then pattern redaction runs on the surrogateescape-decoded text, so non-UTF-8 bytes stay intact."""
-    data = _strip_secret_bytes(data, secrets)
-    text = data.decode("utf-8", "surrogateescape")
+    patterns = []
     for sec in secrets:
-        if len(sec) < 4:
+        if not sec:
             continue
+        patterns.append(sec.encode("utf-8", "surrogateescape"))
         escaped = _escaped_repr(sec)
-        if escaped and escaped in text:
-            text = text.replace(escaped, "[REDACTED]")
-    return _scrub(text, secrets).encode("utf-8", "surrogateescape")
+        if escaped:
+            patterns.append(escaped.encode("ascii"))
+    data = _replace_known_bytes(data, patterns)
+    text = data.decode("utf-8", "surrogateescape")
+    return redact_str(text).encode("utf-8", "surrogateescape")
+
+
+def _replace_known_text(text: str, patterns: list[str]) -> str:
+    patterns = {p for p in patterns if p}
+    if not patterns:
+        return text
+    alternatives = patterns | {"[REDACTED]"}
+    ordered = sorted(alternatives, key=lambda p: (len(p), p == "[REDACTED]"), reverse=True)
+    regex = re.compile("|".join(re.escape(p) for p in ordered))
+    return regex.sub(lambda m: m.group(0) if m.group(0) == "[REDACTED]" else "[REDACTED]", text)
+
+
+def _replace_known_bytes(data: bytes, patterns: list[bytes]) -> bytes:
+    patterns = {p for p in patterns if p}
+    if not patterns:
+        return data
+    marker = b"[REDACTED]"
+    alternatives = patterns | {marker}
+    ordered = sorted(alternatives, key=lambda p: (len(p), p == marker), reverse=True)
+    regex = re.compile(b"|".join(re.escape(p) for p in ordered))
+    return regex.sub(lambda m: m.group(0) if m.group(0) == marker else marker, data)
 
 
 def _scrub(text: str, secrets: list[str]) -> str:
-    for s in secrets:
-        if s and len(s) >= 4:
-            text = text.replace(s, "[REDACTED]")
-    return redact_str(text)
+    patterns = [pattern for sec in secrets if sec for pattern in (sec, _escaped_repr(sec)) if pattern]
+    return redact_str(_replace_known_text(text, patterns))
+
+
+def _redact_claim_trailers(stdout: str, secrets: list[str]) -> str:
+    """Redact valid recognized claim JSON structurally; scrub all surrounding and malformed text normally."""
+    if len(stdout) > MAX_INPUT:
+        return redact_str(stdout)
+
+    secret_patterns = [pattern for sec in secrets if sec for pattern in (sec, _escaped_repr(sec)) if pattern]
+
+    def scrub_known(value):
+        if isinstance(value, dict):
+            return {scrub_known(k): scrub_known(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [scrub_known(v) for v in value]
+        if isinstance(value, str):
+            return _replace_known_text(value, secret_patterns)
+        return value
+
+    parts = []
+    cursor = 0
+    for match in CLAIM_TRAILER.finditer(stdout):
+        parts.append(_scrub(stdout[cursor:match.start(1)], secrets))
+        try:
+            items = json.loads(match.group(1))
+        except (ValueError, TypeError):
+            parts.append(_scrub(match.group(1), secrets))
+        except (RecursionError, MemoryError):
+            parts.append("[REDACTED]")
+        else:
+            try:
+                sanitized = scrub_known(redact(items))
+                parts.append(json.dumps(sanitized, separators=(",", ":")))
+            except (RecursionError, MemoryError):
+                parts.append("[REDACTED]")
+        cursor = match.end(1)
+    parts.append(_scrub(stdout[cursor:], secrets))
+    return "".join(parts)
 
 
 def extract_claims(stdout: str) -> list[dict]:
@@ -561,8 +616,9 @@ def run(cfg: RunConfig) -> dict:
         finally:
             server.stop()
             shutil.rmtree(gate_dir, ignore_errors=True)
-        stdout = _scrub(_strip_secret_bytes(out, secrets).decode("utf-8", "replace"), secrets)
-        stderr = _scrub(_strip_secret_bytes(err, secrets).decode("utf-8", "replace"), secrets)
+        stdout = _redact_claim_trailers(out.decode("utf-8", "surrogateescape"), secrets)
+        stdout = stdout.encode("utf-8", "surrogateescape").decode("utf-8", "replace")
+        stderr = _scrub_bytes(err, secrets).decode("utf-8", "replace")
         emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "command_run",
                                             "sha256": blob(f"$ {_scrub(' '.join(cfg.command), secrets)}\n--- stdout\n{stdout}\n"
                                                            f"--- stderr\n{stderr}".encode()),
