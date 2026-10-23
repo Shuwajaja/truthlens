@@ -38,6 +38,10 @@ SPECC v1.0 fehlt: Report-/Outcome-Vertrag und Zuordnung zu den 18 SPECC-Kriterie
 
 # TruthLens — Status
 
+## Issue #51: wrapper redaction follow-ups — 23.10.2026
+
+Wrapper known-secret substitution now includes every nonempty value. Before storage and claim extraction, each valid recognized `TRUTHLENS_CLAIMS` JSON trailer is recursively redacted and serialized; malformed trailers retain ordinary text scrubbing, and claim extraction still selects the last trailer. The output blob is hashed from its sanitized stored bytes. Focused regressions cover a configured three-character secret, Unicode-escaped secret keys and values across multiple trailers, preserved neighboring output/fields, a valid signed ledger, and blob digest consistency. No ledger, gate, schema, or generic JSON decoding behavior changed.
+
 ## Viewer: Story/Timeline und schnelle PR-CI — 22.10.2026
 
 [Issue #150](https://github.com/Shuwajaja/truthlens/issues/150), eigener Branch w4/issue-150-readable-chronology auf mainf1f6074. PR149 mit den Modusfarben wurde während der Arbeit extern gemergt; deshalb jetzt eigener unabhängiger PR, kein Stapel. Story und Timeline zeigen reale Zeit in Mono, Akteur und getrenntes Ergebnis, gruppiert nach zusammenhängenden aufgezeichneten Task/Result-Typen. Lange Texte und explizit referenzierte Originalinhalte lassen sich nativ aufklappen. Zeitlücken behaupten keine Agent-Aktivität; Behauptung/Bestätigung/Exit0 werden nicht als Erfolg gewertet. Daten, Schema und Freigaberegeln unverändert.
