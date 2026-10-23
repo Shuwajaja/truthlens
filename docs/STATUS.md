@@ -26,6 +26,14 @@ Die drei Review-Punkte zu Head `7399dbf` werden im selben [PR #155](https://gith
 
 157 gezielte Python-Tests lokal bestanden (2,57s), Ruff `src tests` grün. Für sudo, Idle-Verhalten, Berichtsablage, Wiederaufnahme und CLI-Status wurden Fehler jeweils zuerst reproduziert und die Korrekturen anschließend erfolgreich geprüft; zusätzlicher Pfad-/Symlinktest schützt neue Berichtsreferenzen. Ein frischer gezielter Review meldet keine Blocker und führt36 betroffene Tests unabhängig erfolgreich aus. Der abschließende CI-Head und manuelle Release-Ergebnisse stehen im PR. Viewer-Code unverändert; kein neuer lokaler Browserlauf behauptet. Frühere Security-Freigabe laut Owner für7399dbf ersetzt nicht den Check dieser Änderungen. Live bleibt **not connected**, keine Host-Änderungen und kein Merge/Force-Push.
 
+## Wrapper #49/#50/#51 scoped follow-ups — 23 October 2026
+
+Configured pytest probes now use the configured entry point/interpreter and test environment/user, fixed probe arguments, a bounded timeout and static diagnostics. Valid JUnit failures survive a failed probe; a confirmed unavailable runner without valid XML stays unverified. Unsupported forms are not guessed. Post-agent capture failures attach informational evidence, skip artifacts/tests, close with failed status and a manifest, preserve the agent exit code, and return `capture_failed: true` with CLI exit 2. Gate shutdown and wrapper-owned temporary cleanup cover agent spawn errors too.
+
+The #51 parent-symlink follow-up routes repository byte reads through descriptor-relative `O_NOFOLLOW` opens. Unsafe parents are refused before bytes are read or hashed; final symlink text and legitimate deleted/nonregular handling are preserved. Post-agent capture and test-copy source refusals close with a failed manifest. Multi-command pytest strings using `;`, `&&` or newline are regression-tested to retain a failed report rather than a later passing invocation overwriting it.
+
+Local verification for #51: 47 focused wrapper and adjacent textconv/non-UTF-8/FIFO/symlink tests passed; seven new refusal/closure regressions were observed red before the fix. Earlier #49/#50 verification: 39 focused wrapper/CLI/gate tests, 157 fast CI Python tests, and Ruff passed. Regressions were observed failing before implementation. Separate-UID probe boundaries were mocked; no real user/host/service changes or full release suite run. Independent security review remains pending. Issue #49 remains scoped: gate response conflicts are outside this batch; broader arbitrary script/close behavior is also outside scope. Frozen contracts unchanged; no push or merge.
+
 ## Prüf-Agent Teil 2: Server-Pipeline und lesende Ansichten zur Prüfung — Owner-Stand23.10.2026
 
 [Issue #154](https://github.com/Shuwajaja/truthlens/issues/154), Branch `w5/issue-154-server-audit-integration`, Basis main `4d2907c46912ec845e9b1994729c4e9c138fbbbb` nach unabhängig geprüftem PR153-Squash. Alles in einem TruthLens-PR, keine Änderungen in vps-system. Neuer Launcher mit festem root-only Agent-Zero-Profil, getrenntem `tl-agent`, privatem Schlüssel, serverseitiger Sitzung und geschütztem Dispatch/Initiator plus `on_behalf_of=Shu`. Nur eigene signierte Server-Captures werden als read-only Snapshot registriert und automatisch in die persistente, serielle Audit-Queue übernommen. CLI `pipeline run/worker`, `admit`, `status`; keine Chat-/HTTP-Registrierung. Fremde, externe, unsignierte oder veränderte Pakete werden abgelehnt. Root-Registry-Leseports, lesender ACP-Handler und separates kompaktes Widget sind vorbereitet; Gateway-/Mausbot-Identität ist nicht konfiguriert.
@@ -59,6 +67,10 @@ Lokal 113 gezielte Audit-/Reader-/Ledger-/Tamper-/Manifest-/CLI-/Export-/MCP-Tes
 SPECC v1.0 fehlt: Report-/Outcome-Vertrag und Zuordnung zu den 18 SPECC-Kriterien können nicht bestätigt werden. [Abgeleiteter Vertrag und Grenzen](spec/audit-verifier-v1.md). Tasks 7–9 sind nicht live angebunden: im geprüften ACP-Wrapper fehlt der belegte vertrauenswürdige Capture-/Snapshot-/Principal-Pfad. Rückfrage läuft; keine Live-Erfolge, Host-/Routing-Änderungen oder Widget-Abnahme behauptet. Nichts gemergt, kein Force-Push, PR95 unberührt.
 
 # TruthLens — Status
+
+## Issue #51: wrapper redaction follow-ups — 23.10.2026
+
+Wrapper known-secret substitution now includes every nonempty value. Before storage and claim extraction, each valid recognized `TRUTHLENS_CLAIMS` JSON trailer is recursively redacted and serialized; malformed trailers retain ordinary text scrubbing, and claim extraction still selects the last trailer. The output blob is hashed from its sanitized stored bytes. Focused regressions cover a configured three-character secret, Unicode-escaped secret keys and values across multiple trailers, preserved neighboring output/fields, a valid signed ledger, and blob digest consistency. No ledger, gate, schema, or generic JSON decoding behavior changed.
 
 ## Viewer: Story/Timeline und schnelle PR-CI — 22.10.2026
 

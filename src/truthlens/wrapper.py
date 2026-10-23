@@ -7,12 +7,14 @@ executes itself are evidence. One ledger per run, closed with run.finished, mani
 from __future__ import annotations
 
 import difflib
+import errno
 import hashlib
 import json
 import os
 import re
 import shlex
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -24,7 +26,7 @@ from truthlens.gate import GateServer, _bundled_value_opt, _map_path_arg
 from truthlens.ids import new_id
 from truthlens.ledger import Ledger
 from truthlens.manifest import build_manifest
-from truthlens.redaction import redact_str
+from truthlens.redaction import MAX_INPUT, redact, redact_str
 from truthlens.store import BlobStore
 
 WRAPPER = {"kind": "wrapper", "id": "truthlens-run"}
@@ -78,6 +80,37 @@ SUDO = "/usr/bin/sudo"
 HELPER_ENV = {"PATH": "/usr/sbin:/usr/bin:/sbin:/bin", "LANG": "C.UTF-8"}
 
 
+def _runner_probe(tokens: list[str], env: dict[str, str], user: str | None) -> bool | None:
+    """Probe only a recognized configured runner, using fixed arguments and test isolation."""
+    if not tokens or any(t in {"|", "||", "&&", ";", "&"} for t in tokens):
+        return None
+    name = Path(tokens[0]).name
+    if name == "pytest":
+        args = ["--version"]
+    elif re.fullmatch(r"python(?:[0-9]+(?:\.[0-9]+)*)?", name) and tokens[1:3] == ["-m", "pytest"]:
+        args = ["-s", "-c", "import pytest"]
+    else:
+        return None
+    if "/" in tokens[0] and not os.path.isabs(tokens[0]):
+        return None  # relative executables depend on the test copy, never the wrapper cwd
+    target = shutil.which(tokens[0], path=env["PATH"])
+    if target is None:
+        return False
+    if not os.path.isabs(target):
+        return None  # relative PATH entries have a different meaning in the test copy
+    argv = [target, *args]
+    if user:
+        argv = [SUDO, "-n", "-u", user, "/usr/bin/env", "-i",
+                *[f"{k}={v}" for k, v in env.items()], *argv]
+    try:
+        # Output is intentionally discarded: a static diagnostic cannot leak runner stderr/secrets.
+        return subprocess.run(argv, cwd="/", env=HELPER_ENV if user else env,
+                              stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                              stderr=subprocess.DEVNULL, timeout=15, check=False).returncode == 0
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+
+
 class _HelperError(Exception):
     pass
 
@@ -85,25 +118,30 @@ class _HelperError(Exception):
 def junit_counts(xml: Path, rc: int) -> dict[str, int]:
     """Counts from pytest's JUnit XML, never from stdout. Missing/invalid XML -> nothing passed.
     A non-zero exit (except 5 = no tests collected, D27) is always at least one failure."""
+    return _junit_counts(xml, rc)[0]
+
+
+def _junit_counts(xml: Path, rc: int) -> tuple[dict[str, int], bool]:
+    """Also retain whether XML passed validation, independently of synthetic exit failures."""
     import xml.etree.ElementTree as ET
     bad = rc not in (0, 5)
     c = {"passed": 0, "failed": int(bad), "skipped": 0}
     try:
         root = ET.parse(xml).getroot()
     except (OSError, ET.ParseError):
-        return c
+        return c, False
     suites = [root] if root.tag == "testsuite" else root.findall("testsuite")
     try:
         tot = {k: sum(int(su.get(k, 0) or 0) for su in suites) for k in ("tests", "failures", "errors", "skipped")}
     except ValueError:
-        return c
+        return c, False
     if not suites or min(tot.values()) < 0 or tot["failures"] + tot["errors"] + tot["skipped"] > tot["tests"]:
-        return c  # malformed / inconsistent XML is no evidence
+        return c, False  # malformed / inconsistent XML is no evidence
     failed = tot["failures"] + tot["errors"]
     c = {"passed": max(tot["tests"] - failed - tot["skipped"], 0), "failed": failed, "skipped": tot["skipped"]}
     if bad and c["failed"] == 0:
         c["failed"] = 1
-    return c
+    return c, True
 
 
 GIT_SAFE = ("-c", "core.hooksPath=/dev/null", "-c", "core.attributesFile=/dev/null", "-c", "diff.external=",
@@ -180,9 +218,58 @@ def _is_shadow(rel: str) -> bool:
     return parts[-1] in SHADOW or parts[-1].endswith(".pth") or "_pytest" in parts or "pytest" in parts
 
 
-def _read(f: Path) -> bytes:
-    """File content; a symlink is recorded as its link text and never followed out of the repo."""
-    return b"symlink:" + os.readlink(f).encode() if f.is_symlink() else f.read_bytes()
+class UnsafeRepositoryPath(RuntimeError):
+    """A repository path cannot be read without traversing an unsafe component."""
+
+
+class _NonRegularFile(OSError):
+    """A working-tree entry is neither a regular file nor an allowed final symlink."""
+
+
+def _read(repo: Path, rel: str, *, symlinks: bool = True) -> bytes:
+    """Read relative to directory descriptors; parent symlinks are never traversed.
+
+    Pin each parent with O_NOFOLLOW before opening the next component. Replacing a
+    parent after it is opened cannot redirect the read. Final symlinks retain link
+    text, and nonblocking opens let fstat reject FIFOs/devices without reading them.
+    """
+    parts = rel.split("/")
+    if any(p in ("", ".", "..") for p in parts) or os.path.isabs(rel):
+        raise UnsafeRepositoryPath(f"unsafe repository path: {rel!r}")
+    directory = os.open(repo, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        for part in parts[:-1]:
+            try:
+                child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=directory)
+            except OSError as e:
+                if e.errno in (errno.ELOOP, errno.ENOTDIR):
+                    # ENOTDIR also describes an ordinary non-directory parent (a
+                    # legitimate deletion). This lstat classifies refusal only;
+                    # no later open relies on its result for containment.
+                    mode = os.stat(part, dir_fd=directory, follow_symlinks=False).st_mode
+                    if stat.S_ISLNK(mode):
+                        raise UnsafeRepositoryPath(f"unsafe repository path: {rel!r}") from e
+                    raise _NonRegularFile(rel) from e
+                raise
+            os.close(directory)
+            directory = child
+        try:
+            fd = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+        except OSError as e:
+            if e.errno != errno.ELOOP:
+                raise
+            if not symlinks:
+                raise _NonRegularFile(rel) from e
+            return b"symlink:" + os.fsencode(os.readlink(parts[-1], dir_fd=directory))
+        try:
+            if not stat.S_ISREG(os.fstat(fd).st_mode):
+                raise _NonRegularFile(rel)
+            with os.fdopen(fd, "rb", closefd=False) as stream:
+                return stream.read()
+        finally:
+            os.close(fd)
+    finally:
+        os.close(directory)
 
 
 def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes:
@@ -191,7 +278,7 @@ def _read_before(repo: Path, rel: str, before_snapshot: dict[str, str]) -> bytes
         return b""
     expected = before_snapshot[rel]
     try:
-        data = _read(repo / rel)
+        data = _read(repo, rel)
     except OSError:
         pass
     else:
@@ -215,14 +302,13 @@ def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
         sha_a = after.get(rel)
         if sha_b == sha_a:
             continue
-        path = repo / rel
         if rel not in before:
             lines.append(f"diff --git a/dev/null b/{rel}")
             lines.append("new file mode 100644")
             lines.append("--- /dev/null")
             lines.append(f"+++ b/{rel}")
             try:
-                data = _read(path)
+                data = _read(repo, rel)
             except OSError:
                 continue
         elif rel not in after:
@@ -236,7 +322,7 @@ def _make_diff(repo: Path, before: dict[str, str], after: dict[str, str],
             lines.append(f"--- a/{rel}")
             lines.append(f"+++ b/{rel}")
             try:
-                data = _read(path)
+                data = _read(repo, rel)
             except OSError:
                 continue
         if b"\0" in data:
@@ -263,9 +349,13 @@ def snapshot(repo: Path) -> dict[str, str]:
     """path -> sha256 of every tracked or untracked (non-ignored) file in the working tree."""
     out = {}
     for rel in _git(repo, "ls-files", "-co", "--exclude-standard", "-z").decode().split("\0"):
-        f = repo / rel
-        if rel and (f.is_symlink() or f.is_file()):
-            out[rel] = hashlib.sha256(_read(f)).hexdigest()
+        if not rel:
+            continue
+        try:
+            data = _read(repo, rel)
+        except (FileNotFoundError, _NonRegularFile):
+            continue  # deleted paths and nonregular entries are absent from the snapshot
+        out[rel] = hashlib.sha256(data).hexdigest()
     return out
 
 
@@ -282,9 +372,8 @@ def _capture_before(repo: Path, before: dict[str, str], dest: Path) -> None:
     for rel, sha in before.items():
         if os.path.isabs(rel) or ".." in rel.split("/"):
             raise RuntimeError(f"refusing to capture non-relative path: {rel!r}")
-        path = repo / rel
         try:
-            data = _read(path)  # symlink -> b"symlink:<target>", exactly what snapshot() hashes
+            data = _read(repo, rel)  # symlink -> b"symlink:<target>", exactly what snapshot() hashes
         except OSError as e:
             raise RuntimeError(f"cannot read pre-run content for {rel!r}: {e}") from e
         if hashlib.sha256(data).hexdigest() != sha:
@@ -319,11 +408,8 @@ def child_env(pass_env: list[str], drop: set[str]) -> dict[str, str]:
 
 def _strip_secret_bytes(data: bytes, secrets: list[str]) -> bytes:
     """Remove known secrets at byte level (before any decoding, so non-UTF-8 keys match too)."""
-    for sec in secrets:
-        b = sec.encode("utf-8", "surrogateescape") if sec else b""
-        if len(b) >= 4:
-            data = data.replace(b, b"[REDACTED]")
-    return data
+    patterns = [sec.encode("utf-8", "surrogateescape") for sec in secrets if sec]
+    return _replace_known_bytes(data, patterns)
 
 
 def _escaped_repr(secret: str) -> str | None:
@@ -336,22 +422,80 @@ def _escaped_repr(secret: str) -> str | None:
 def _scrub_bytes(data: bytes, secrets: list[str]) -> bytes:
     """Redact blobs before they enter the store. Known secrets (incl. the HMAC key) are removed at byte level
     first; then pattern redaction runs on the surrogateescape-decoded text, so non-UTF-8 bytes stay intact."""
-    data = _strip_secret_bytes(data, secrets)
-    text = data.decode("utf-8", "surrogateescape")
+    patterns = []
     for sec in secrets:
-        if len(sec) < 4:
+        if not sec:
             continue
+        patterns.append(sec.encode("utf-8", "surrogateescape"))
         escaped = _escaped_repr(sec)
-        if escaped and escaped in text:
-            text = text.replace(escaped, "[REDACTED]")
-    return _scrub(text, secrets).encode("utf-8", "surrogateescape")
+        if escaped:
+            patterns.append(escaped.encode("ascii"))
+    data = _replace_known_bytes(data, patterns)
+    text = data.decode("utf-8", "surrogateescape")
+    return redact_str(text).encode("utf-8", "surrogateescape")
+
+
+def _replace_known_text(text: str, patterns: list[str]) -> str:
+    patterns = {p for p in patterns if p}
+    if not patterns:
+        return text
+    alternatives = patterns | {"[REDACTED]"}
+    ordered = sorted(alternatives, key=lambda p: (len(p), p == "[REDACTED]"), reverse=True)
+    regex = re.compile("|".join(re.escape(p) for p in ordered))
+    return regex.sub(lambda m: m.group(0) if m.group(0) == "[REDACTED]" else "[REDACTED]", text)
+
+
+def _replace_known_bytes(data: bytes, patterns: list[bytes]) -> bytes:
+    patterns = {p for p in patterns if p}
+    if not patterns:
+        return data
+    marker = b"[REDACTED]"
+    alternatives = patterns | {marker}
+    ordered = sorted(alternatives, key=lambda p: (len(p), p == marker), reverse=True)
+    regex = re.compile(b"|".join(re.escape(p) for p in ordered))
+    return regex.sub(lambda m: m.group(0) if m.group(0) == marker else marker, data)
 
 
 def _scrub(text: str, secrets: list[str]) -> str:
-    for s in secrets:
-        if s and len(s) >= 4:
-            text = text.replace(s, "[REDACTED]")
-    return redact_str(text)
+    patterns = [pattern for sec in secrets if sec for pattern in (sec, _escaped_repr(sec)) if pattern]
+    return redact_str(_replace_known_text(text, patterns))
+
+
+def _redact_claim_trailers(stdout: str, secrets: list[str]) -> str:
+    """Redact valid recognized claim JSON structurally; scrub all surrounding and malformed text normally."""
+    if len(stdout) > MAX_INPUT:
+        return redact_str(stdout)
+
+    secret_patterns = [pattern for sec in secrets if sec for pattern in (sec, _escaped_repr(sec)) if pattern]
+
+    def scrub_known(value):
+        if isinstance(value, dict):
+            return {scrub_known(k): scrub_known(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [scrub_known(v) for v in value]
+        if isinstance(value, str):
+            return _replace_known_text(value, secret_patterns)
+        return value
+
+    parts = []
+    cursor = 0
+    for match in CLAIM_TRAILER.finditer(stdout):
+        parts.append(_scrub(stdout[cursor:match.start(1)], secrets))
+        try:
+            items = json.loads(match.group(1))
+        except (ValueError, TypeError):
+            parts.append(_scrub(match.group(1), secrets))
+        except (RecursionError, MemoryError):
+            parts.append("[REDACTED]")
+        else:
+            try:
+                sanitized = scrub_known(redact(items))
+                parts.append(json.dumps(sanitized, separators=(",", ":")))
+            except (RecursionError, MemoryError):
+                parts.append("[REDACTED]")
+        cursor = match.end(1)
+    parts.append(_scrub(stdout[cursor:], secrets))
+    return "".join(parts)
 
 
 def extract_claims(stdout: str) -> list[dict]:
@@ -374,7 +518,7 @@ def extract_claims(stdout: str) -> list[dict]:
 
 
 def run(cfg: RunConfig) -> dict:
-    """Execute one witnessed run. Returns {run_id, exit_code, manifest_sha256, ledger}."""
+    """Execute one witnessed run. Returns run_id, agent exit_code, capture_failed, manifest_sha256 and ledger."""
     cfg.out_dir.mkdir(parents=True, exist_ok=True)
     ledger_path = cfg.out_dir / "ledger.jsonl"
     if ledger_path.exists() and ledger_path.stat().st_size:
@@ -446,7 +590,7 @@ def run(cfg: RunConfig) -> dict:
     diffable_before = {rel: s for rel, s in before.items() if rel in head_files or rel not in unreadable}
     pre_diff = _make_diff(cfg.repo, head_files, diffable_before)
     sha = blob(canonical_bytes({"head": head, "files": before}) + b"\n" + _scrub_bytes(pre_diff, secrets))
-    protected_before = {rel: _read(cfg.repo / rel) for rel in before if is_protected(rel)}
+    protected_before = {rel: _read(cfg.repo, rel) for rel in before if is_protected(rel)}
     emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "sha256": sha, "kind": "file_changed",
                                         "refers_to": "git_state_before", "result": "info"})
 
@@ -469,9 +613,12 @@ def run(cfg: RunConfig) -> dict:
             rc, out, err = proc.returncode, proc.stdout, proc.stderr
         except subprocess.TimeoutExpired as e:
             rc, out, err = 124, e.stdout or b"", (e.stderr or b"") + b"\n[truthlens: timeout]"
-        server.stop()
-        stdout = _scrub(_strip_secret_bytes(out, secrets).decode("utf-8", "replace"), secrets)
-        stderr = _scrub(_strip_secret_bytes(err, secrets).decode("utf-8", "replace"), secrets)
+        finally:
+            server.stop()
+            shutil.rmtree(gate_dir, ignore_errors=True)
+        stdout = _redact_claim_trailers(out.decode("utf-8", "surrogateescape"), secrets)
+        stdout = stdout.encode("utf-8", "surrogateescape").decode("utf-8", "replace")
+        stderr = _scrub_bytes(err, secrets).decode("utf-8", "replace")
         emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "command_run",
                                             "sha256": blob(f"$ {_scrub(' '.join(cfg.command), secrets)}\n--- stdout\n{stdout}\n"
                                                            f"--- stderr\n{stderr}".encode()),
@@ -483,21 +630,39 @@ def run(cfg: RunConfig) -> dict:
                 p["criterion_ids"] = known
             emit({"kind": "agent", "id": cfg.agent or "agent"}, "agent.claim", p)
 
-        # after snapshot: diff + one artifact per changed file
-        after = snapshot(cfg.repo)
-        changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
-        diff = _make_diff(cfg.repo, before, after, before_dir)
-        emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
-                                            "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
-                                            "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
+        # Catch only capture reads/Git operations; ledger and store failures must propagate.
+        capture_failed = False
+        after, changed = {}, []
+        try:
+            after = snapshot(cfg.repo)
+            changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
+            diff = _make_diff(cfg.repo, before, after, before_dir)
+            captured_after = Path(tempfile.mkdtemp(prefix="tl-after-", dir=before_dir))
+            captured = []
+            for i, rel in enumerate(changed):
+                if rel in after:
+                    dest = captured_after / str(i)
+                    dest.write_bytes(_read(cfg.repo, rel))
+                    captured.append((rel, dest))
+        except (OSError, subprocess.CalledProcessError, RuntimeError):
+            capture_failed = True
+        if capture_failed:
+            emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "capture_error",
+                "sha256": blob(b"[truthlens: post-agent capture failed; artifacts and tests skipped]"),
+                "refers_to": "post_agent_capture", "result": "info"})
+            changed = []
+        else:
+            emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
+                "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
+                "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
+            for rel, dest in captured:
+                # The staged file is wrapper-owned; store/ledger exceptions are outside the capture catch.
+                s = blob(_scrub_bytes(dest.read_bytes(), secrets))
+                emit(WRAPPER, "artifact.recorded", {"artifact_id": new_id("art"), "sha256": s,
+                    "path": _scrub(rel, secrets), "manifest_ref": "manifest.json", "kind": "file",
+                    "provenance": "original"})
     finally:
         shutil.rmtree(before_dir, ignore_errors=True)
-    for rel in changed:
-        if rel in after:
-            s = blob(_scrub_bytes(_read(cfg.repo / rel), secrets))
-            emit(WRAPPER, "artifact.recorded", {"artifact_id": new_id("art"), "sha256": s, "path": _scrub(rel, secrets),
-                                                "manifest_ref": "manifest.json", "kind": "file",
-                                                "provenance": "original"})
 
     # witnessed tests (#26 review): run in a copy of the post-run tree where test files/config are restored
     # to their pre-run content (agent edits to tests/conftest never count), fresh HOME, fixed PATH, no keys.
@@ -506,21 +671,34 @@ def run(cfg: RunConfig) -> dict:
         emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "test_files_changed",
                                             "sha256": blob("\n".join(tampered).encode()), "refers_to": "protected",
                                             "changed": [_scrub(c, secrets) for c in tampered], "result": "info"})
-    for t in cfg.tests:
+    for t in ([] if capture_failed else cfg.tests):
+        runner_ok, valid_report = None, False
         with tempfile.TemporaryDirectory(prefix="tl-test-", ignore_cleanup_errors=True) as td:
             work, home = Path(td) / "w", Path(td) / "home"
             # round-5 finding c: copy only tracked + non-ignored files (git-ignored conftest.py never enters),
             # drop shadow modules (pytest.py, _pytest/, sitecustomize.py, *.pth), run with PYTHONSAFEPATH
             work.mkdir()
-            for rel in after:
-                if _is_shadow(rel) or (rel not in before and rel.split("/")[-1] in NEW_IMPORT_HOOKS):
-                    continue
-                src, dst = cfg.repo / rel, work / rel
-                # symlinks never enter the test copy (external pytest packages, tests/ -> foreign tests)
-                if src.is_symlink() or not src.resolve().is_relative_to(cfg.repo.resolve()):
-                    continue
-                dst.parent.mkdir(parents=True, exist_ok=True)
-                dst.write_bytes(src.read_bytes())
+            try:
+                for rel in after:
+                    if _is_shadow(rel) or (rel not in before and rel.split("/")[-1] in NEW_IMPORT_HOOKS):
+                        continue
+                    # Source reads use the same pinned parents as evidence capture.
+                    # Final symlinks never enter the fresh, wrapper-owned test copy.
+                    try:
+                        data = _read(cfg.repo, rel, symlinks=False)
+                    except _NonRegularFile:
+                        continue
+                    dst = work / rel
+                    if not dst.resolve().is_relative_to(work.resolve()):
+                        raise UnsafeRepositoryPath(f"unsafe test-copy path: {rel!r}")
+                    dst.parent.mkdir(parents=True, exist_ok=True)
+                    dst.write_bytes(data)
+            except (OSError, RuntimeError):
+                capture_failed = True
+                emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "capture_error",
+                    "sha256": blob(b"[truthlens: test-copy capture failed; remaining tests skipped]"),
+                    "refers_to": "post_agent_capture", "result": "info"})
+                break
             home.mkdir()
             for rel in after:
                 if is_protected(rel) and rel not in protected_before:
@@ -531,18 +709,6 @@ def run(cfg: RunConfig) -> dict:
                 (work / rel).parent.mkdir(parents=True, exist_ok=True)
                 (work / rel).unlink(missing_ok=True)
                 (work / rel).write_bytes(data)
-            if cfg.test_user:
-                rc_cmd = [SUDO, "-n", "-u", cfg.test_user, "/usr/bin/env", "-i", f"PATH={cfg.test_path or TEST_PATH}",
-                          "python", "-s", "-c", "import pytest"]
-            else:
-                rc_cmd = [sys.executable, "-s", "-c", "import pytest"]
-            try:  # sudo is absolute and started with a trusted env, never from --test-path
-                runner_ok = subprocess.run(rc_cmd, cwd="/", capture_output=True, check=False,
-                                           env=HELPER_ENV if cfg.test_user else
-                                           {"PATH": TEST_PATH, "HOME": str(home), "PYTHONNOUSERSITE": "1"}
-                                           ).returncode == 0
-            except OSError:
-                runner_ok = False
             test_env = {"PATH": cfg.test_path or TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8",
                         "TMPDIR": str(home), "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
             jx = Path(td) / "junit" / "report.xml"  # outside the copied tree; via env, not appended to the line
@@ -636,10 +802,12 @@ def run(cfg: RunConfig) -> dict:
                             if ch.returncode != 0:
                                 helper_err = f"chown to {u} failed (exit {ch.returncode})"
                         argv = [SUDO, "-n", "-u", u, "/usr/bin/env", "-i", *[f"{k}={v}" for k, v in test_env.items()], *argv]
-                        env_ = None
+                        env_ = HELPER_ENV
                     try:
                         if helper_err:
                             raise _HelperError(helper_err)
+                        runner_ok = _runner_probe(tokens, test_env, cfg.test_user)
+                        jx.unlink(missing_ok=True)  # probe output can never supply the witnessed report
                         tp = subprocess.run(argv, cwd=work, env=env_, stdin=subprocess.DEVNULL,
                                             capture_output=True, timeout=600, check=False)
                         text, trc = _strip_secret_bytes(tp.stdout + tp.stderr, secrets).decode("utf-8", "replace"), tp.returncode
@@ -647,7 +815,9 @@ def run(cfg: RunConfig) -> dict:
                         text, trc = "[truthlens: test timeout]", 124
                     except _HelperError as e:  # isolation could not be established: no evidence, run still finishes
                         text, trc = f"[truthlens: test isolation failed: {e}; tests not run]", 125
-                    counts = junit_counts(jx, trc) if not helper_err else {"passed": 0, "failed": 0, "skipped": 0}
+                    counts, valid_report = _junit_counts(jx, trc)
+                    if helper_err:
+                        counts = {"passed": 0, "failed": 0, "skipped": 0}
                     if cfg.test_user:  # hand the copy back so the temp dir can be removed; failure is reported
                         try:
                             back = subprocess.run([SUDO, "-n", "chown", "-R", str(os.getuid()), str(work), str(home),
@@ -657,9 +827,12 @@ def run(cfg: RunConfig) -> dict:
                         if back.returncode != 0 and not helper_err:
                             text += f"\n[truthlens: chown back failed (exit {back.returncode}); temp dir may remain]"
         text = _scrub(text, secrets)
-        if "pytest" in t.command and not runner_ok:  # #32.4: decided independently of the test output
-            counts = {"passed": 0, "failed": 0, "skipped": 0}
-            text += "\n[truthlens: pytest not importable in the clean env; result not decisive]"
+        if runner_ok is False:
+            if not valid_report:
+                counts = {"passed": 0, "failed": 0, "skipped": 0}
+            text += "\n[truthlens: configured pytest runner unavailable; without valid XML result not decisive]"
+        elif runner_ok is None:
+            text += "\n[truthlens: runner probe skipped; command form not classified or tests refused]"
         rep_ = blob(f"$ {_scrub(t.command, secrets)}\nexit {trc}\n{text}".encode())
         emit(WRAPPER, "test.reported", {"suite": _scrub(t.command, secrets), **counts, "exit_code": trc,
                                         "report_artifact_id": rep_,
@@ -667,10 +840,10 @@ def run(cfg: RunConfig) -> dict:
 
     # close (D28)
     last = led.read()[-1]["hash"]
-    emit(WRAPPER, "run.finished", {"exit_code": rc, "status": "ok" if rc == 0 else "failed", "last_hash": last})
+    emit(WRAPPER, "run.finished", {"exit_code": rc, "status": "ok" if rc == 0 and not capture_failed else "failed", "last_hash": last})
     manifest = build_manifest(led.read(), {"name": cfg.agent, "command": _scrub(" ".join(cfg.command), secrets)})
     mbytes = canonical_bytes(manifest) + b"\n"
     (cfg.out_dir / "manifest.json").write_bytes(mbytes)
     msha = hashlib.sha256(mbytes).hexdigest()
     (cfg.out_dir / "manifest.sha256").write_text(msha + "\n")
-    return {"run_id": run_id, "exit_code": rc, "manifest_sha256": msha, "ledger": str(ledger_path)}
+    return {"run_id": run_id, "exit_code": rc, "capture_failed": capture_failed, "manifest_sha256": msha, "ledger": str(ledger_path)}
