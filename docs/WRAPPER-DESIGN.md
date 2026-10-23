@@ -10,6 +10,7 @@ The wrapper is the only witness. Everything the agent prints is a claim; everyth
 3. **Claims:** the agent's final message / exit summary → `agent.claim` (actor.kind=agent). Optional claim mapping via `criterion_ids` in a JSON trailer; otherwise unmapped → `claim_unwitnessed`.
 4. **After:** second git snapshot; diff before→after stored as blob, one `artifact.recorded` per changed file (sha256 of file content, provenance `original`).
 5. **Witnessed tests:** the wrapper itself runs `--test` command(s) after the agent exits (fresh process, env without provider key), stores the report, writes `test.reported {passed, failed, skipped, criterion_ids}` as `actor.kind=wrapper`. Agent-run tests are only claims.
+   Expected post-agent capture I/O/Git failures attach a static diagnostic blob as `capture_error` (`result: info`), skip artifacts and witnessed tests, and close with `status: failed`. Ledger/store write errors propagate; they are not capture errors. The agent exit code is preserved, the returned JSON adds `capture_failed`, and the CLI returns 2 when it is true. Wrapper-owned snapshot/gate temporary directories are cleaned; the gate stops in `finally`. The measured repository is never repaired.
 6. **Close (D28):** `run.finished {exit_code, status, last_hash}` → manifest via `build_manifest()` → `manifest.json` + its sha256 next to the ledger.
 
 ## Trust boundaries
@@ -21,3 +22,5 @@ OpenCode (`opencode run --dir <wt> -m openrouter/… "<task>" </dev/null`) → A
 
 ## Demo
 `docs/DEMO-TASK.md`: c1 page exists (wrapper test → met), c2 email validation (wrapper unit test → met/unmet), c3 mobile layout (no witness → unverified while agent claims done).
+
+Recognized configured test runners are probed under the witnessed-test environment and user: Python `-m pytest` uses the resolved interpreter with fixed `-s -c "import pytest"`; a direct `pytest` entry point uses fixed `--version`. Probes have a 15-second timeout and discard output, recording only a static diagnostic. Unsupported command forms (including relative executables/PATH resolutions) are not guessed or replayed. Valid JUnit counts retain observed failures even if a probe fails; a confirmed unavailable runner without valid XML yields zero counts and an unverified result. The public `junit_counts()` API and its exit-code fallback remain unchanged. JUnit remains process-produced evidence, not independently authenticated by the probe.

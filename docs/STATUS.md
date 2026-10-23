@@ -1,3 +1,9 @@
+## Wrapper #49/#50 scoped follow-ups — 23 October 2026
+
+Configured pytest probes now use the configured entry point/interpreter and test environment/user, fixed probe arguments, a bounded timeout and static diagnostics. Valid JUnit failures survive a failed probe; a confirmed unavailable runner without valid XML stays unverified. Unsupported forms are not guessed. Post-agent capture failures attach informational evidence, skip artifacts/tests, close with failed status and a manifest, preserve the agent exit code, and return `capture_failed: true` with CLI exit 2. Gate shutdown and wrapper-owned temporary cleanup cover agent spawn errors too.
+
+Local verification: 39 focused wrapper/CLI/gate tests, 157 fast CI Python tests, and Ruff passed. Regressions were observed failing before implementation. Separate-UID probe boundaries were mocked; no real user/host/service changes or full release suite run. Independent security review remains pending. Issues #49 and #50 remain open: gate response conflicts and broader multicall/close paths are outside this batch. Frozen contracts unchanged; no push or merge.
+
 ## Viewer Phase A: local workspace redesign — 23 October 2026
 
 [Issue #156](https://github.com/Shuwajaja/truthlens/issues/156), independent branch `w5/issue-156-workspace-phase-a`, base main `f30320a` after #155. Owner-approved Petrol & Porcelain default / Cool Graphite alternative, existing self-hosted fonts, shared shell with independent desktop panels and mobile sheets; local fixture run → criterion → exact record. No foreign example/Agent-Plane code copied because complete provenance is absent. [Approved plan](../PLAN-redesign-2026-10-23.md) committed; phases B–F remain deferred.

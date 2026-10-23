@@ -78,6 +78,37 @@ SUDO = "/usr/bin/sudo"
 HELPER_ENV = {"PATH": "/usr/sbin:/usr/bin:/sbin:/bin", "LANG": "C.UTF-8"}
 
 
+def _runner_probe(tokens: list[str], env: dict[str, str], user: str | None) -> bool | None:
+    """Probe only a recognized configured runner, using fixed arguments and test isolation."""
+    if not tokens or any(t in {"|", "||", "&&", ";", "&"} for t in tokens):
+        return None
+    name = Path(tokens[0]).name
+    if name == "pytest":
+        args = ["--version"]
+    elif re.fullmatch(r"python(?:[0-9]+(?:\.[0-9]+)*)?", name) and tokens[1:3] == ["-m", "pytest"]:
+        args = ["-s", "-c", "import pytest"]
+    else:
+        return None
+    if "/" in tokens[0] and not os.path.isabs(tokens[0]):
+        return None  # relative executables depend on the test copy, never the wrapper cwd
+    target = shutil.which(tokens[0], path=env["PATH"])
+    if target is None:
+        return False
+    if not os.path.isabs(target):
+        return None  # relative PATH entries have a different meaning in the test copy
+    argv = [target, *args]
+    if user:
+        argv = [SUDO, "-n", "-u", user, "/usr/bin/env", "-i",
+                *[f"{k}={v}" for k, v in env.items()], *argv]
+    try:
+        # Output is intentionally discarded: a static diagnostic cannot leak runner stderr/secrets.
+        return subprocess.run(argv, cwd="/", env=HELPER_ENV if user else env,
+                              stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                              stderr=subprocess.DEVNULL, timeout=15, check=False).returncode == 0
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+
+
 class _HelperError(Exception):
     pass
 
@@ -85,25 +116,30 @@ class _HelperError(Exception):
 def junit_counts(xml: Path, rc: int) -> dict[str, int]:
     """Counts from pytest's JUnit XML, never from stdout. Missing/invalid XML -> nothing passed.
     A non-zero exit (except 5 = no tests collected, D27) is always at least one failure."""
+    return _junit_counts(xml, rc)[0]
+
+
+def _junit_counts(xml: Path, rc: int) -> tuple[dict[str, int], bool]:
+    """Also retain whether XML passed validation, independently of synthetic exit failures."""
     import xml.etree.ElementTree as ET
     bad = rc not in (0, 5)
     c = {"passed": 0, "failed": int(bad), "skipped": 0}
     try:
         root = ET.parse(xml).getroot()
     except (OSError, ET.ParseError):
-        return c
+        return c, False
     suites = [root] if root.tag == "testsuite" else root.findall("testsuite")
     try:
         tot = {k: sum(int(su.get(k, 0) or 0) for su in suites) for k in ("tests", "failures", "errors", "skipped")}
     except ValueError:
-        return c
+        return c, False
     if not suites or min(tot.values()) < 0 or tot["failures"] + tot["errors"] + tot["skipped"] > tot["tests"]:
-        return c  # malformed / inconsistent XML is no evidence
+        return c, False  # malformed / inconsistent XML is no evidence
     failed = tot["failures"] + tot["errors"]
     c = {"passed": max(tot["tests"] - failed - tot["skipped"], 0), "failed": failed, "skipped": tot["skipped"]}
     if bad and c["failed"] == 0:
         c["failed"] = 1
-    return c
+    return c, True
 
 
 GIT_SAFE = ("-c", "core.hooksPath=/dev/null", "-c", "core.attributesFile=/dev/null", "-c", "diff.external=",
@@ -374,7 +410,7 @@ def extract_claims(stdout: str) -> list[dict]:
 
 
 def run(cfg: RunConfig) -> dict:
-    """Execute one witnessed run. Returns {run_id, exit_code, manifest_sha256, ledger}."""
+    """Execute one witnessed run. Returns run_id, agent exit_code, capture_failed, manifest_sha256 and ledger."""
     cfg.out_dir.mkdir(parents=True, exist_ok=True)
     ledger_path = cfg.out_dir / "ledger.jsonl"
     if ledger_path.exists() and ledger_path.stat().st_size:
@@ -469,7 +505,9 @@ def run(cfg: RunConfig) -> dict:
             rc, out, err = proc.returncode, proc.stdout, proc.stderr
         except subprocess.TimeoutExpired as e:
             rc, out, err = 124, e.stdout or b"", (e.stderr or b"") + b"\n[truthlens: timeout]"
-        server.stop()
+        finally:
+            server.stop()
+            shutil.rmtree(gate_dir, ignore_errors=True)
         stdout = _scrub(_strip_secret_bytes(out, secrets).decode("utf-8", "replace"), secrets)
         stderr = _scrub(_strip_secret_bytes(err, secrets).decode("utf-8", "replace"), secrets)
         emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "command_run",
@@ -483,21 +521,39 @@ def run(cfg: RunConfig) -> dict:
                 p["criterion_ids"] = known
             emit({"kind": "agent", "id": cfg.agent or "agent"}, "agent.claim", p)
 
-        # after snapshot: diff + one artifact per changed file
-        after = snapshot(cfg.repo)
-        changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
-        diff = _make_diff(cfg.repo, before, after, before_dir)
-        emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
-                                            "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
-                                            "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
+        # Catch only capture reads/Git operations; ledger and store failures must propagate.
+        capture_failed = False
+        after, changed = {}, []
+        try:
+            after = snapshot(cfg.repo)
+            changed = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
+            diff = _make_diff(cfg.repo, before, after, before_dir)
+            captured_after = Path(tempfile.mkdtemp(prefix="tl-after-", dir=before_dir))
+            captured = []
+            for i, rel in enumerate(changed):
+                if rel in after:
+                    dest = captured_after / str(i)
+                    dest.write_bytes(_read(cfg.repo / rel))
+                    captured.append((rel, dest))
+        except (OSError, subprocess.CalledProcessError, RuntimeError):
+            capture_failed = True
+        if capture_failed:
+            emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "capture_error",
+                "sha256": blob(b"[truthlens: post-agent capture failed; artifacts and tests skipped]"),
+                "refers_to": "post_agent_capture", "result": "info"})
+            changed = []
+        else:
+            emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "file_changed",
+                "sha256": blob(_scrub_bytes(diff, secrets)), "refers_to": "git_diff_after",
+                "changed": [_scrub(c, secrets) for c in changed], "result": "info"})
+            for rel, dest in captured:
+                # The staged file is wrapper-owned; store/ledger exceptions are outside the capture catch.
+                s = blob(_scrub_bytes(dest.read_bytes(), secrets))
+                emit(WRAPPER, "artifact.recorded", {"artifact_id": new_id("art"), "sha256": s,
+                    "path": _scrub(rel, secrets), "manifest_ref": "manifest.json", "kind": "file",
+                    "provenance": "original"})
     finally:
         shutil.rmtree(before_dir, ignore_errors=True)
-    for rel in changed:
-        if rel in after:
-            s = blob(_scrub_bytes(_read(cfg.repo / rel), secrets))
-            emit(WRAPPER, "artifact.recorded", {"artifact_id": new_id("art"), "sha256": s, "path": _scrub(rel, secrets),
-                                                "manifest_ref": "manifest.json", "kind": "file",
-                                                "provenance": "original"})
 
     # witnessed tests (#26 review): run in a copy of the post-run tree where test files/config are restored
     # to their pre-run content (agent edits to tests/conftest never count), fresh HOME, fixed PATH, no keys.
@@ -506,7 +562,8 @@ def run(cfg: RunConfig) -> dict:
         emit(WRAPPER, "evidence.attached", {"evidence_id": new_id("evd"), "kind": "test_files_changed",
                                             "sha256": blob("\n".join(tampered).encode()), "refers_to": "protected",
                                             "changed": [_scrub(c, secrets) for c in tampered], "result": "info"})
-    for t in cfg.tests:
+    for t in ([] if capture_failed else cfg.tests):
+        runner_ok, valid_report = None, False
         with tempfile.TemporaryDirectory(prefix="tl-test-", ignore_cleanup_errors=True) as td:
             work, home = Path(td) / "w", Path(td) / "home"
             # round-5 finding c: copy only tracked + non-ignored files (git-ignored conftest.py never enters),
@@ -531,18 +588,6 @@ def run(cfg: RunConfig) -> dict:
                 (work / rel).parent.mkdir(parents=True, exist_ok=True)
                 (work / rel).unlink(missing_ok=True)
                 (work / rel).write_bytes(data)
-            if cfg.test_user:
-                rc_cmd = [SUDO, "-n", "-u", cfg.test_user, "/usr/bin/env", "-i", f"PATH={cfg.test_path or TEST_PATH}",
-                          "python", "-s", "-c", "import pytest"]
-            else:
-                rc_cmd = [sys.executable, "-s", "-c", "import pytest"]
-            try:  # sudo is absolute and started with a trusted env, never from --test-path
-                runner_ok = subprocess.run(rc_cmd, cwd="/", capture_output=True, check=False,
-                                           env=HELPER_ENV if cfg.test_user else
-                                           {"PATH": TEST_PATH, "HOME": str(home), "PYTHONNOUSERSITE": "1"}
-                                           ).returncode == 0
-            except OSError:
-                runner_ok = False
             test_env = {"PATH": cfg.test_path or TEST_PATH, "HOME": str(home), "LANG": "C.UTF-8",
                         "TMPDIR": str(home), "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
             jx = Path(td) / "junit" / "report.xml"  # outside the copied tree; via env, not appended to the line
@@ -636,10 +681,12 @@ def run(cfg: RunConfig) -> dict:
                             if ch.returncode != 0:
                                 helper_err = f"chown to {u} failed (exit {ch.returncode})"
                         argv = [SUDO, "-n", "-u", u, "/usr/bin/env", "-i", *[f"{k}={v}" for k, v in test_env.items()], *argv]
-                        env_ = None
+                        env_ = HELPER_ENV
                     try:
                         if helper_err:
                             raise _HelperError(helper_err)
+                        runner_ok = _runner_probe(tokens, test_env, cfg.test_user)
+                        jx.unlink(missing_ok=True)  # probe output can never supply the witnessed report
                         tp = subprocess.run(argv, cwd=work, env=env_, stdin=subprocess.DEVNULL,
                                             capture_output=True, timeout=600, check=False)
                         text, trc = _strip_secret_bytes(tp.stdout + tp.stderr, secrets).decode("utf-8", "replace"), tp.returncode
@@ -647,7 +694,9 @@ def run(cfg: RunConfig) -> dict:
                         text, trc = "[truthlens: test timeout]", 124
                     except _HelperError as e:  # isolation could not be established: no evidence, run still finishes
                         text, trc = f"[truthlens: test isolation failed: {e}; tests not run]", 125
-                    counts = junit_counts(jx, trc) if not helper_err else {"passed": 0, "failed": 0, "skipped": 0}
+                    counts, valid_report = _junit_counts(jx, trc)
+                    if helper_err:
+                        counts = {"passed": 0, "failed": 0, "skipped": 0}
                     if cfg.test_user:  # hand the copy back so the temp dir can be removed; failure is reported
                         try:
                             back = subprocess.run([SUDO, "-n", "chown", "-R", str(os.getuid()), str(work), str(home),
@@ -657,9 +706,12 @@ def run(cfg: RunConfig) -> dict:
                         if back.returncode != 0 and not helper_err:
                             text += f"\n[truthlens: chown back failed (exit {back.returncode}); temp dir may remain]"
         text = _scrub(text, secrets)
-        if "pytest" in t.command and not runner_ok:  # #32.4: decided independently of the test output
-            counts = {"passed": 0, "failed": 0, "skipped": 0}
-            text += "\n[truthlens: pytest not importable in the clean env; result not decisive]"
+        if runner_ok is False:
+            if not valid_report:
+                counts = {"passed": 0, "failed": 0, "skipped": 0}
+            text += "\n[truthlens: configured pytest runner unavailable; without valid XML result not decisive]"
+        elif runner_ok is None:
+            text += "\n[truthlens: runner probe skipped; command form not classified or tests refused]"
         rep_ = blob(f"$ {_scrub(t.command, secrets)}\nexit {trc}\n{text}".encode())
         emit(WRAPPER, "test.reported", {"suite": _scrub(t.command, secrets), **counts, "exit_code": trc,
                                         "report_artifact_id": rep_,
@@ -667,10 +719,10 @@ def run(cfg: RunConfig) -> dict:
 
     # close (D28)
     last = led.read()[-1]["hash"]
-    emit(WRAPPER, "run.finished", {"exit_code": rc, "status": "ok" if rc == 0 else "failed", "last_hash": last})
+    emit(WRAPPER, "run.finished", {"exit_code": rc, "status": "ok" if rc == 0 and not capture_failed else "failed", "last_hash": last})
     manifest = build_manifest(led.read(), {"name": cfg.agent, "command": _scrub(" ".join(cfg.command), secrets)})
     mbytes = canonical_bytes(manifest) + b"\n"
     (cfg.out_dir / "manifest.json").write_bytes(mbytes)
     msha = hashlib.sha256(mbytes).hexdigest()
     (cfg.out_dir / "manifest.sha256").write_text(msha + "\n")
-    return {"run_id": run_id, "exit_code": rc, "manifest_sha256": msha, "ledger": str(ledger_path)}
+    return {"run_id": run_id, "exit_code": rc, "capture_failed": capture_failed, "manifest_sha256": msha, "ledger": str(ledger_path)}

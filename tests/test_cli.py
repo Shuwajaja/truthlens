@@ -83,3 +83,15 @@ def test_cli_run_propagates_isolation_failure_125(tmp_path):
     assert rc == 125
     rep = next(e for e in Ledger(out / "ledger.jsonl").read() if e["type"] == "test.reported")
     assert rep["payload"]["exit_code"] == 125
+
+
+def test_capture_failed_exit_code(tmp_path, monkeypatch, capsys):
+    from truthlens import wrapper
+
+    def failed_capture(cfg):
+        return {"capture_failed": True, "exit_code": 0, "ledger": str(tmp_path / "absent")}
+
+    monkeypatch.setattr(wrapper, "run", failed_capture)
+    assert main(["run", "--out", str(tmp_path / "run"), "--repo", str(tmp_path / "repo"),
+                 "--hmac-key-file", str(_keyfile(tmp_path)), "--hmac-key-id", "k1", "--", "true"]) == 2
+    assert '"exit_code": 0' in capsys.readouterr().out

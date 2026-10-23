@@ -389,3 +389,175 @@ def test_pre_run_capture_refuses_silent_loss(tmp_path):
     dest.mkdir()
     with pytest.raises(RuntimeError):
         _read_captured(dest, "notes.txt")  # existed before the run, so a missing capture is an error
+
+
+def _runner_run(tmp_path, command, test_path=None, test_user=None):
+    from truthlens.wrapper import RunConfig, TestSpec, run
+
+    repo, _ = _repo(tmp_path)
+    out = tmp_path / "run"
+    result = run(RunConfig(out, repo, ["true"], criteria={"criteria": [{"id": "c1", "text": "tests pass", "source": "user"}]},
+                           tests=[TestSpec(["c1"], command)],
+                           test_path=test_path, test_user=test_user,
+                           hmac_key=b"fake-wrapper-key", hmac_key_id="k1"))
+    events = Ledger(out / "ledger.jsonl").read()
+    report = next(e["payload"] for e in events if e["type"] == "test.reported")
+    text = BlobStore(out / "blobs").get(report["report_artifact_id"]).decode()
+    return result, report, text
+
+
+def test_configured_runner_probe_preserves_junit_failure(tmp_path, monkeypatch):
+    from truthlens import wrapper
+
+    bindir = tmp_path / "bin"
+    bindir.mkdir()
+    runner = bindir / "python3"
+    runner.write_text(f"#!{sys.executable}\n" + textwrap.dedent('''
+        import os, pathlib, sys
+        if sys.argv[1:] == ['-s', '-c', 'import pytest']:
+            sys.exit(1)
+        pathlib.Path(os.environ['PYTEST_ADDOPTS'].split('=', 1)[1]).write_text(
+            '<testsuite tests="2" failures="1"/>')
+        sys.exit(1)
+    '''))
+    runner.chmod(0o700)
+    real_run = subprocess.run
+    probes = []
+
+    def spy(argv, **kw):
+        if argv[-3:] == ["-s", "-c", "import pytest"]:
+            probes.append((argv, kw))
+            if argv[0] != str(runner):
+                raise OSError("wrong interpreter")
+        return real_run(argv, **kw)
+
+    monkeypatch.setattr(wrapper.subprocess, "run", spy)
+    _, report, text = _runner_run(tmp_path, "python3 -m pytest", str(bindir))
+    assert report["failed"] == 1 and report["passed"] == 1
+    assert probes[0][0][0] == str(runner)
+    assert probes[0][1]["env"]["PATH"] == str(bindir)
+    assert 0 < probes[0][1]["timeout"] <= 30
+    assert "unavailable" in text
+
+
+def test_missing_configured_pytest_is_unverified(tmp_path):
+    _, report, text = _runner_run(tmp_path, "pytest -q", str(tmp_path / "absent"))
+    assert {k: report[k] for k in ("passed", "failed", "skipped")} == {"passed": 0, "failed": 0, "skipped": 0}
+    assert "unavailable" in text and "not decisive" in text
+    manifest = json.loads((tmp_path / "run/manifest.json").read_text())
+    assert manifest["acceptance"][0]["status"] == "unverified"
+
+
+def test_complex_test_command_skips_probe(tmp_path, monkeypatch):
+    from truthlens import wrapper
+
+    real_run = subprocess.run
+    probes = []
+
+    def spy(argv, **kw):
+        if argv[-3:] == ["-s", "-c", "import pytest"]:
+            probes.append(argv)
+        return real_run(argv, **kw)
+
+    monkeypatch.setattr(wrapper.subprocess, "run", spy)
+    _, report, text = _runner_run(tmp_path, "/bin/echo pytest")
+    assert report["passed"] == report["failed"] == 0
+    assert "probe skipped" in text
+    assert probes == []
+
+
+def test_capture_failure_closes_run_with_failed_manifest(tmp_path, monkeypatch):
+    from truthlens import wrapper
+
+    repo, _ = _repo(tmp_path)
+    out = tmp_path / "run"
+    owned = []
+    real_mkdtemp = wrapper.tempfile.mkdtemp
+    real_stop = wrapper.GateServer.stop
+    stopped = []
+
+    def mkdtemp(*a, **kw):
+        path = real_mkdtemp(*a, **kw)
+        if kw.get("prefix") in ("tl-before-", "tl-gate-"):
+            owned.append(Path(path))
+        return path
+
+    def stop(server):
+        real_stop(server)
+        stopped.append(True)
+
+    monkeypatch.setattr(wrapper.tempfile, "mkdtemp", mkdtemp)
+    monkeypatch.setattr(wrapper.GateServer, "stop", stop)
+    res = wrapper.run(wrapper.RunConfig(out, repo, [sys.executable, "-c",
+        "from pathlib import Path; Path('.git/config').write_text('[broken')"],
+        tests=[wrapper.TestSpec([], "pytest")], hmac_key=b"fake-wrapper-key", hmac_key_id="k1"))
+    assert res["capture_failed"] is True and res["exit_code"] == 0
+    events = Ledger(out / "ledger.jsonl").read()
+    errors = [e for e in events if e["payload"].get("kind") == "capture_error"]
+    assert len(errors) == 1 and errors[0]["payload"]["result"] == "info"
+    assert BlobStore(out / "blobs").get(errors[0]["payload"]["sha256"])
+    assert not any(e["type"] in ("artifact.recorded", "test.reported") for e in events)
+    assert not any(e["payload"].get("refers_to") == "git_diff_after" for e in events)
+    assert [e["type"] for e in events].count("run.finished") == 1
+    assert events[-1]["payload"] == {"exit_code": 0, "status": "failed", "last_hash": events[-2]["hash"]}
+    assert (out / "manifest.json").exists() and (out / "manifest.sha256").exists()
+    assert verify(out / "ledger.jsonl", b"fake-wrapper-key").anchored
+    assert stopped == [True] and owned and all(not p.exists() for p in owned)
+    assert (repo / ".git/config").read_text() == "[broken"
+
+
+@pytest.mark.parametrize("failure", ["oserror", "timeout", "ok"])
+def test_configured_probe_uses_test_identity_and_environment(tmp_path, monkeypatch, failure):
+    from truthlens import wrapper
+
+    runner = tmp_path / "pytest"
+    runner.write_text("#!/bin/sh\nexit 0\n")
+    runner.chmod(0o700)
+    env = {"PATH": str(tmp_path), "HOME": str(tmp_path / "home"), "LANG": "C.UTF-8",
+           "TMPDIR": str(tmp_path / "home"), "PYTHONSAFEPATH": "1", "PYTHONNOUSERSITE": "1"}
+    calls = []
+
+    def boundary(argv, **kw):
+        calls.append((argv, kw))
+        if failure == "oserror":
+            raise OSError("sk-test-private-diagnostic")
+        if failure == "timeout":
+            raise subprocess.TimeoutExpired(argv, 15, stderr=b"sk-test-private-diagnostic")
+        return subprocess.CompletedProcess(argv, 0)
+
+    monkeypatch.setattr(wrapper.subprocess, "run", boundary)
+    assert wrapper._runner_probe(["pytest", "-q", "tests/"], env, "fake-test-user") is (failure == "ok")
+    argv, kw = calls[0]
+    assert argv == ["/usr/bin/sudo", "-n", "-u", "fake-test-user", "/usr/bin/env", "-i",
+                    *[f"{k}={v}" for k, v in env.items()], str(runner), "--version"]
+    assert kw["env"] == {"PATH": "/usr/sbin:/usr/bin:/sbin:/bin", "LANG": "C.UTF-8"}
+    assert kw["cwd"] == "/" and 0 < kw["timeout"] <= 30
+    assert kw["stdout"] == kw["stderr"] == subprocess.DEVNULL
+
+
+def test_agent_spawn_error_stops_gate_and_cleans_owned_dirs(tmp_path, monkeypatch):
+    from truthlens import wrapper
+
+    repo, _ = _repo(tmp_path)
+    real_start = wrapper.GateServer.start
+    started = []
+    real_mkdtemp = wrapper.tempfile.mkdtemp
+    owned = []
+
+    def start(server):
+        started.append(server)
+        return real_start(server)
+
+    def mkdtemp(*a, **kw):
+        path = real_mkdtemp(*a, **kw)
+        if kw.get("prefix") in ("tl-before-", "tl-gate-"):
+            owned.append(Path(path))
+        return path
+
+    monkeypatch.setattr(wrapper.GateServer, "start", start)
+    monkeypatch.setattr(wrapper.tempfile, "mkdtemp", mkdtemp)
+    with pytest.raises(FileNotFoundError):
+        wrapper.run(wrapper.RunConfig(tmp_path / "run", repo, [str(tmp_path / "missing-agent")],
+                    hmac_key=b"fake-wrapper-key", hmac_key_id="k1"))
+    assert len(started) == 1 and not started[0]._t.is_alive()
+    assert owned and all(not p.exists() for p in owned)
