@@ -1,0 +1,9 @@
+{
+  "enabled": false,
+  "agent": "agent-zero",
+  "command": ["/opt/agent-zero/bin/agent-zero-task", "--task-file", "/srv/truthlens/tasks/current.json"],
+  "repo": "/srv/truthlens/workspaces/agent-zero",
+  "callers": [],
+  "criteria": {"criteria": []},
+  "tests": []
+}

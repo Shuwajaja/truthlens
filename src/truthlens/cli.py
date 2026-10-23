@@ -33,6 +33,17 @@ def _audit_anchor(value: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="truthlens")
     sub = ap.add_subparsers(dest="cmd", required=True)
+    p = sub.add_parser("pipeline", help="protected server pipeline (host setup required)")
+    pipeline_sub = p.add_subparsers(dest="pipeline_cmd", required=True)
+    run_parser = pipeline_sub.add_parser("run")
+    run_parser.add_argument("--profile", required=True)
+    pipeline_sub.add_parser("worker")
+    private_agent = pipeline_sub.add_parser("_agent", help=argparse.SUPPRESS)
+    private_agent.add_argument("--dispatch", required=True)
+    for command in ("admit", "status"):
+        p = sub.add_parser(command, help="protected server registry; no imports or registration")
+        p.add_argument("run_id")
+        p.add_argument("--session")
     p = sub.add_parser("audit", help="read-only audit of a completed run")
     p.add_argument("dir")
     p.add_argument("--json", action="store_true")
@@ -97,6 +108,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--hmac-key-env", metavar="VAR")
     p.add_argument("--hmac-key-id", metavar="ID")
     a = ap.parse_args(argv)
+
+    if a.cmd in ("pipeline", "admit", "status"):
+        return _pipeline_command(a)
 
     if a.cmd == "audit":
         from pathlib import Path
@@ -293,6 +307,39 @@ def _w2(a) -> int:
     except LedgerError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
+
+
+
+
+def _pipeline_command(args: argparse.Namespace) -> int:
+    import subprocess
+
+    from truthlens import pipeline, pipeline_jobs, registry
+
+    try:
+        if args.cmd == "pipeline" and args.pipeline_cmd == "_agent":
+            from truthlens.pipeline_agent import serve
+            return serve(args.dispatch)
+        if args.cmd == "pipeline" and args.pipeline_cmd == "run":
+            result = pipeline.run_profile(args.profile)
+        elif args.cmd == "pipeline":
+            registry.require_root()
+            pipeline_jobs.drain(registry.Registry())
+            result = {"state": "idle", "connection": "not connected"}
+        else:
+            uid = registry.caller_uid()
+            store = registry.Registry()
+            if args.cmd == "admit":
+                job = store.queue(args.run_id, uid, args.session)
+                result = pipeline_jobs.status(store, args.run_id, uid, args.session, audit_id=job["audit_id"])
+            else:
+                result = pipeline_jobs.status(store, args.run_id, uid, args.session)
+        print(json.dumps(result, sort_keys=True))
+        return 0
+    except (OSError, ValueError, KeyError, TypeError, AttributeError, RuntimeError, subprocess.SubprocessError):
+        print(json.dumps({"state": "unavailable", "connection": "not connected",
+                          "message": "Pipeline unavailable or access denied."}, sort_keys=True))
+        return 2
 
 
 if __name__ == "__main__":

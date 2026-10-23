@@ -21,6 +21,8 @@ jobs:
       - run: npm run check:styles --if-present
       - run: npm run check:language
       - run: npm run check:theme
+      - run: node --check ../integrations/agent-zero-acp/audit-status.cjs
+      - run: node --test ../integrations/agent-zero-acp/audit-status.test.cjs
       - run: npx vitest run
       - run: npm run build
   docs:
@@ -45,4 +47,4 @@ jobs:
       - run: pip install -e '.[dev]'
       - run: ruff check src tests
       - name: Fast deterministic unit tests
-        run: pytest -q tests/test_canonical.py tests/test_redaction.py tests/test_ledger.py tests/test_manifest.py tests/test_audit.py tests/test_audit_inputs.py
+        run: pytest -q tests/test_canonical.py tests/test_redaction.py tests/test_ledger.py tests/test_manifest.py tests/test_audit.py tests/test_audit_inputs.py tests/test_registry.py tests/test_pipeline.py tests/test_pipeline_agent.py tests/test_pipeline_jobs.py tests/test_registry_view.py

@@ -1,0 +1,24 @@
+# TEMPLATE ONLY. Do not install/enable without Shu's host-setup approval.
+[Unit]
+Description=TruthLens protected audit queue
+ConditionPathExists=/etc/truthlens/audit.key
+ConditionPathIsDirectory=/var/lib/truthlens
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+UMask=0077
+ExecStart=/opt/truthlens/venv/bin/truthlens pipeline worker
+WorkingDirectory=/
+Environment=PATH=/usr/bin:/bin
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/truthlens
+RestrictAddressFamilies=AF_UNIX
+KillMode=control-group
+TimeoutStartSec=infinity
+StandardOutput=null
+StandardError=null

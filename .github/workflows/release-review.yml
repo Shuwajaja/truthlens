@@ -1,8 +1,11 @@
 name: release-review
 on:
   workflow_dispatch:
+  pull_request:
+    types: [labeled]
 jobs:
   viewer:
+    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'release'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -45,6 +48,12 @@ jobs:
         env:
           REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
           TOOLBAR_OUTPUT: .screenshots/toolbar
+      - name: Compact registry widget (manual release; simulated disconnected source)
+        if: ${{ !cancelled() && steps.viewer-build.outcome == 'success' }}
+        run: node scripts/review-audit-widget.mjs
+        env:
+          REVIEW_BROWSER_EXECUTABLE: /usr/bin/google-chrome
+          WIDGET_OUTPUT: .screenshots/audit-widget
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -54,9 +63,11 @@ jobs:
             viewer/.screenshots/a11y/
             viewer/.screenshots/modes/
             viewer/.screenshots/toolbar/
+            viewer/.screenshots/audit-widget/
           if-no-files-found: error
           retention-days: 30
   test:
+    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'release'
     runs-on: ubuntu-latest
     strategy:
       matrix:
