@@ -34,7 +34,7 @@ it('opens the mobile criterion sheet with actual evidence and restores selection
  load(true);await screen.findByRole('main');expect(screen.queryByRole('navigation',{name:'Viewer navigation'})).toBeNull()
  const criterion=run.criteria.find(c=>c.status==='unmet')!,trigger=screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(criterion.text)})
  trigger.focus();fireEvent.click(trigger)
- const sheet=screen.getByRole('dialog',{name:'Context inspector'});expect(within(sheet).getByText(criterion.text)).toBeTruthy()
+ const sheet=screen.getByRole('dialog',{name:'Context inspector'});expect(sheet.getAttribute('aria-modal')).toBe('true');expect(within(sheet).getByText(criterion.text)).toBeTruthy()
  fireEvent.click(within(sheet).getByRole('button',{name:'Open event record'}));expect(within(sheet).getByText(/Event:/)).toBeTruthy()
  fireEvent.keyDown(document.activeElement!,{key:'Escape'});await waitFor(()=>expect(screen.queryByRole('dialog')).toBeNull());expect(document.activeElement).toBe(trigger)
 })

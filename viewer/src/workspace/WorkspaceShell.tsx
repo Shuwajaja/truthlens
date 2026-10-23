@@ -39,7 +39,7 @@ export function WorkspaceShell({children,navigation,inspector,lens,mobile,wide,o
    {wide&&inspectorOpen&&<aside className="workspace-inspector" aria-label="Context inspector"><div className="inspector-heading"><h2>Inspector</h2><Button variant="ghost" size="sm" onClick={()=>{onInspectorOpenChange(false);inspectorToggle.current?.focus()}}>Close inspector</Button></div>{inspector}</aside>}
   </div>
   <Sheet open={sheet!==null} onOpenChange={open=>{if(!open)setSheet(null)}}>
-   {sheet&&<SheetContent side={sheet==='navigation'?'left':'bottom'} className={`workspace-sheet ${sheet==='navigation'?'workspace-frame':''}`} onCloseAutoFocus={event=>{event.preventDefault();if(returnFocus.current?.isConnected&&(document.activeElement===document.body||document.activeElement?.closest('[role="dialog"]')))returnFocus.current.focus()}}>
+   {sheet&&<SheetContent aria-modal="true" side={sheet==='navigation'?'left':'bottom'} className={`workspace-sheet ${sheet==='navigation'?'workspace-frame':''}`} onCloseAutoFocus={event=>{event.preventDefault();if(returnFocus.current?.isConnected&&(document.activeElement===document.body||document.activeElement?.closest('[role="dialog"]')))returnFocus.current.focus()}}>
     <SheetHeader><SheetTitle>{sheet==='navigation'?'Navigation':'Context inspector'}</SheetTitle><SheetDescription className="sr-only">Local workspace. Reading evidence does not grant approval.</SheetDescription></SheetHeader>
     <div className="workspace-sheet-body" onClick={event=>{if(sheet==='navigation'&&(event.target as HTMLElement).closest('.nav-item'))setSheet(null)}}>{sheet==='navigation'?<>{navigation}{onOpenRun&&<Button variant="outline" onClick={()=>{setSheet(null);onOpenRun()}}>Run details</Button>}</>:inspector}</div>
    </SheetContent>}
