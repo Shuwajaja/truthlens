@@ -4,9 +4,10 @@ const required=['schema_version','id','seq','ts','run_id','actor','type','payloa
 const allowed=new Set([...required,'hmac','hmac_key_id','request_id'])
 export const isHash=(value:unknown):value is string=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value)
 const id=(value:unknown):value is string=>typeof value==='string'&&/^[A-Za-z0-9_-]{1,160}$/.test(value)
-function timestamp(value:unknown):number{
+function timestamp(value:unknown):bigint{
  requireLocal(typeof value==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?Z$/.test(value),'Invalid UTC timestamp')
- const n=Date.parse(value);requireLocal(Number.isFinite(n)&&new Date(n).toISOString().slice(0,19)===value.slice(0,19),'Invalid UTC timestamp');return n
+ const n=Date.parse(value.slice(0,19)+'Z');requireLocal(Number.isFinite(n)&&new Date(n).toISOString().slice(0,19)===value.slice(0,19),'Invalid UTC timestamp')
+ return BigInt(n)*1000n+BigInt(value.slice(20,-1).padEnd(6,'0'))
 }
 export async function verifyLocalLedger(bytes:Uint8Array,maxEvents:number):Promise<LocalEvent[]>{
  const text=decodeLocal(bytes);requireLocal(text.endsWith('\n'),'Ledger torn tail')
