@@ -269,7 +269,8 @@ def test_privileged_requests_denied(unix_broker, operation):
     assert seen == []
 
 
-def test_explain_flag_has_identical_fixed_denial_frame(unix_broker, capsys, monkeypatch):
+@pytest.mark.parametrize("extra", [{"explain": True}, {"pending": True}, {"command": "pending"}])
+def test_explain_flag_has_identical_fixed_denial_frame(unix_broker, capsys, monkeypatch, extra):
     import sys
 
     monkeypatch.setitem(sys.modules, "truthlens.pipeline_explain", None)
@@ -279,7 +280,7 @@ def test_explain_flag_has_identical_fixed_denial_frame(unix_broker, capsys, monk
     with socket.socket(socket.AF_UNIX) as sock:
         sock.settimeout(2)
         sock.connect(str(instance.config.socket_path))
-        wire.send(sock, {"version": 1, "run_id": "allowed", "explain": True})
+        wire.send(sock, {"version": 1, "run_id": "allowed", **extra})
         response = bytearray()
         while chunk := sock.recv(256):
             response.extend(chunk)

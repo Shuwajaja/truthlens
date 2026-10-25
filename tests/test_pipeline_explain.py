@@ -161,7 +161,7 @@ def test_real_key_reader_failure_is_fixed(checks, tmp_path, monkeypatch, capsys)
 
 
 def test_existing_outputs_remain_identical_and_do_not_import_diagnosis(monkeypatch, capsys, tmp_path):
-    from truthlens import mcp_status, status_client
+    from truthlens import mcp_status, status_client, status_wire
 
     monkeypatch.setitem(sys.modules, "truthlens.pipeline_explain", None)
     monkeypatch.setattr(registry, "caller_uid", registry.deny)
@@ -176,10 +176,17 @@ def test_existing_outputs_remain_identical_and_do_not_import_diagnosis(monkeypat
         monkeypatch.setattr(status_client, "check_status", lambda *a, status=status: {"status": status})
         assert main(["agent-status", "--socket", str(tmp_path / "s"), "r", "--json"]) == rc
         assert capsys.readouterr() == (json.dumps({"status": status}, separators=(",", ":")) + "\n", "")
+        assert main(["agent-status", "r"]) == rc
+        assert capsys.readouterr() == (status + "\n", "")
         monkeypatch.setattr(mcp_status, "check_status", lambda *a, status=status: {"status": status})
         assert mcp_status.call_status(tmp_path / "s", "truthlens_check_status", {"run_id": "r"}) == {
             "status": status
         }
         assert capsys.readouterr() == ("", "")
-    assert mcp_status.call_status(tmp_path / "s", "explain", {"run_id": "r"}) == {"status": "not_checkable"}
+    for operation in ("explain", "pending", "pipeline explain pending"):
+        assert status_wire.encode(mcp_status.call_status(tmp_path / "s", operation, {"run_id": "r"})) == (
+            b'{"status":"not_checkable"}'
+        )
+    assert main(["agent-status", "r", "--pending", "--json"]) == 2
+    assert capsys.readouterr() == ('{"status":"not_checkable"}\n', "")
     assert capsys.readouterr() == ("", "")
