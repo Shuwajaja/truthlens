@@ -123,3 +123,19 @@ def test_registered_human_response_uses_same_projection(published):
 
 
 pytest_plugins = ("tests.test_phase_b_reader",)
+
+
+@pytest.mark.parametrize("attack", ["empty_evidence", "unmet", "missing_test_rule", "different_inputs"])
+def test_review_incomplete_criteria_or_rule_evidence_never_pass(report, attack):
+    if attack == "empty_evidence":
+        report["criteria"][0]["evidence"] = []
+    elif attack == "unmet":
+        report["criteria"][0]["status"] = "unmet"
+    elif attack == "missing_test_rule":
+        report["checks"] = [c for c in report["checks"] if c["rule_id"] != "TL-AUD-008"]
+    else:
+        expected = dict(report["input_digests"]["run"])
+        expected["manifest.json"] = "0" * 64
+        assert project(report, input_digests=expected)["status"] == "not_checkable"
+        return
+    assert project(report)["status"] == "not_checkable"
