@@ -92,6 +92,8 @@ tokens and 12/14/16px scale, with rem units so 200% text enlargement reflows at
 320px. No new component dependency. Integrity is not approval stays visible;
 the status deck never claims browser signature verification. The viewer's
 separate neutral Hash only · signature not checked seal remains unchanged.
+Mobile header controls wrap in normal flow when text is enlarged; Navigation,
+Inspector and Theme remain reachable without horizontal page scrolling.
 
 No agent uses this human read service. The Phase G status broker, Unix socket,
 peer credentials and single tool remain deferred. The legacy MCP command is

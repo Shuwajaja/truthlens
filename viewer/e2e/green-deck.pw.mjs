@@ -54,6 +54,7 @@ async function textSize(page,factor){
 }
 async function scan(page,name,textZoom,screenshot=false,widget=false){
  await textSize(page,textZoom);await page.evaluate(()=>document.fonts.ready)
+ if(!widget)await page.getByTestId('audit-status').scrollIntoViewIfNeeded()
  const layout=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,
   overflow:[...document.querySelectorAll('body *')].filter(el=>el.getBoundingClientRect().right>innerWidth+1&&getComputedStyle(el).position!=='fixed').slice(0,10).map(el=>({tag:el.tagName,css:el.className,right:el.getBoundingClientRect().right,text:el.textContent.slice(0,60)}))}))
  assert(layout.scroll<=layout.width,`${name}: no page overflow ${JSON.stringify(layout)}`)
