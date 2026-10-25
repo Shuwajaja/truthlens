@@ -42,10 +42,11 @@ async function scan(page,name){
  assert(!manual.some(item=>item.outcome==='low-contrast'))
  assert.deepEqual(errors,[]);assert.deepEqual(external,[])
 }
-for(const width of [1440,390])for(const theme of ['petrol-porcelain','cool-graphite'])test(`${width} ${theme}: overview, empty state, keyboard run opening and no new reads`,{timeout:60000},async t=>{
+for(const width of [1440,390])for(const theme of ['petrol-porcelain','cool-graphite'])for(const lens of ['client','developer'])test(`${width} ${theme} ${lens}: overview, empty state, keyboard run opening and no new reads`,{timeout:60000},async t=>{
  const context=await browser.newContext({viewport:{width,height:width===390?844:900},reducedMotion:'reduce',timezoneId:process.env.TZ??'UTC'})
  t.after(()=>context.close())
- await context.addInitScript(theme=>{if(window===window.top)localStorage.setItem('truthlens.theme',theme)},theme)
+ await context.addInitScript(({theme,lens})=>{if(window===window.top){localStorage.setItem('truthlens.theme',theme);localStorage.setItem('tl-lens',lens)}},{theme,lens})
+ const prefix=`${width}-${theme}${lens==='developer'?'-developer':''}`
  const page=await context.newPage(),requests=[]
  page.on('pageerror',error=>errors.push(error.message))
  await page.route('**/*',async route=>{
@@ -61,11 +62,11 @@ for(const width of [1440,390])for(const theme of ['petrol-porcelain','cool-graph
  await page.goto(origin)
  await page.getByRole('heading',{name:'Not connected',exact:true}).waitFor()
  assert.deepEqual(requests,[],'production does not fetch on mount')
- await scan(page,`${width}-${theme}-empty`)
+ await scan(page,`${prefix}-empty`)
  await page.getByRole('button',{name:'Connect',exact:true}).click()
  await page.getByRole('heading',{name:'Runs',exact:true}).waitFor()
  assert(await page.getByText('No loaded runs to summarize.',{exact:true}).count())
- await scan(page,`${width}-${theme}-catalog-empty`)
+ await scan(page,`${prefix}-catalog-empty`)
  for(const summary of summaries){
   await page.getByRole('button',{name:`Open run ${summary.run_id}`,exact:true}).click()
   await page.getByRole('heading',{name:documents[summaries.indexOf(summary)].document.run.project,exact:true}).waitFor()
@@ -76,13 +77,13 @@ for(const width of [1440,390])for(const theme of ['petrol-porcelain','cool-graph
  assert.equal(await overview.getByRole('figure').count(),4)
  assert(await overview.getByText('4 of 12 criteria met',{exact:true}).count())
  assert.equal(await overview.getByText(/runs passed|signature checked/i).count(),0)
- await scan(page,`${width}-${theme}-loaded`)
+ await scan(page,`${prefix}-loaded`)
  const reads=requests.length,open=overview.getByRole('button',{name:`Open run: ${documents[3].document.run.project}`,exact:true})
  await open.focus();await page.keyboard.press('Enter')
  await page.getByRole('heading',{name:documents[3].document.run.project,exact:true}).waitFor()
  assert.equal(requests.length,reads,'overview reopening uses the existing loaded document')
  assert(await page.getByText('Integrity is not approval',{exact:true}).count())
- await scan(page,`${width}-${theme}-existing-review`)
+ await scan(page,`${prefix}-existing-review`)
  await page.getByRole('button',{name:'Open Runs',exact:true}).click()
  await page.goBack()
  await page.getByRole('heading',{name:documents[3].document.run.project,exact:true}).waitFor()
