@@ -1,3 +1,71 @@
+## Phase G1: status broker and status-only MCP — local qualification, 25 October 2026
+
+Branch `feat/phase-g1-status-broker`, base `90b04b4` (main after Phase F / #173).
+Implementation and test tree: `5a2d0d579a582c30937844a481e865446b5b47ba`;
+subsequent commits only record documentation. This is agent work, not human
+approval or deployed isolation. [Architecture and threat model](SELFHOST-MCP.md).
+
+The separate trusted Linux broker authenticates `SO_PEERCRED` against a nonroot
+UID allowlist and existing per-run registry dispatch rights. It reads stored
+completed audits and immutable captured bytes, checks run/anchor/input/verifier
+bindings and the existing source's explicit `verified is True` context, then
+uses Phase F's shared projection. Final journal comparison/projection is locked.
+No audit, admission, registration, approval, repair, execution, key read, second
+store or second verifier occurs on query. Socket ancestry/owner checks, `0660`
+mode, explicit existing group, two workers, bounded frames/deadlines and per-UID
+rate limits fail closed. There is no status cache.
+
+`truthlens mcp-status --socket PATH` is an unprivileged stdio adapter with exactly
+one tool, `truthlens_check_status({run_id})`. Its single canonical JSON text
+result contains only `status`: passed / failed / not_checkable. It uses only the
+broker socket; no Phase B reader, viewer, registry, snapshot or key path is
+available through this adapter. The optional official SDK is pinned to 2.3.0;
+synthetic subprocess tests exercise 2025-06-18 handshake and 2026-07-28 stateless
+requests. D34 requires stripping automatic SDK result metadata; full modern
+client conformance and installed Claude/Codex/Cursor/Agent Zero versions are not
+claimed. Legacy evidence MCP remains unchanged and explicitly non-D34.
+`failed` means an authenticated scoped contradiction, not generic task failure.
+Integrity is not approval.
+
+TDD checkpoint `7000774`: 68 failed, 23 missing-module setup errors, 1 passed
+before implementation. Targeted GREEN: 150 passed, 21 subtests; the independent
+review then identified explicit verification-context and atomic-observation
+requirements. Five added cases were witnessed RED and passed after the fixes.
+Independent Codex scoped re-review found no remaining blocking finding; reviewed
+broker SHA-256 `5791af5e0385345de57a6794dd345222c5e749690496b2faf41e1b700fe25408`.
+Author security self-review checked authorization-before-read, stored source
+bindings, absence of mutation/fallback, both peer identities, strict input and
+output schemas, limits, sanitized errors, optional dependency and CI selection.
+
+Final Python `pytest -q -rs` in **UTC and Europe/Berlin**, with `umask 022`,
+repository-local temporary directories and the three existing TCP-reader test
+functions deselected, each reported **587 passed, 2 skipped, 11 deselected,
+1 xfailed, 21 subtests passed**. This is not an unrestricted full-suite pass:
+the 11 parameterized loopback cases require TCP listeners forbidden by this
+task. The two skips require host accounts/sudo; the expected failure records
+the existing same-UID key risk. Earlier runs under inherited `umask 0002` had
+six unchanged static-reader fixture failures (group-writable files correctly
+refused); rerunning with owner-only/group-read fixture creation resolved them
+without changing assertions or reader code. The initial Unix tests also required
+a shorter repository-local base path to fit the Linux socket pathname limit.
+
+Full Viewer `npm test` passed in both timezones: **422 tests / 44 files** each,
+including language/style/theme guards and the five toolbar build variants.
+Existing jsdom `scrollTo` notices were observed. Ruff (`src tests` and CI scope),
+Viewer lint, TypeScript/production build and Python sdist/wheel build passed.
+No UI code changed; browser/axe checks were not run. Exact commands, intermediate
+failures and acceptance mapping remain in the requested untracked `PR_BODY.md`.
+
+- [x] Local broker/MCP implementation, real temporary Unix and stdio roundtrips
+  using signed synthetic fixtures, negative/leak tests and independent review.
+- [x] Permitted Python suites in both timezones, full Viewer suites, lint/build;
+  frozen event/manifest/trust contracts unchanged.
+- [ ] Existing TCP-loopback cases: not run under the no-listener constraint.
+- [ ] Real distinct UID/ACL/key custody, human-reader network denial, SSH forced
+  command, installed model-client versions and host isolation: not run.
+- [ ] Remote CI, deployment, push, PR, merge, publishing and host setup: not run.
+- [ ] G2 agent-status / read-only doctor / client configs / demo: separate work.
+
 ## Phase F: Green Deck status — local qualification, 25 October 2026
 
 Branch `feat/phase-f-green-deck`, base `9667c9d` (main after Phase E / #172).
