@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict'
 import {before,after,test} from 'node:test'
 import {execFileSync} from 'node:child_process'
-import {mkdir,readFile,writeFile} from 'node:fs/promises'
+import {mkdir,readFile,writeFile,symlink,readlink} from 'node:fs/promises'
 import {resolve,dirname} from 'node:path'
 import {preview} from 'vite'
 import {chromium} from 'playwright'
@@ -18,6 +18,11 @@ before(async()=>{
  testedCommit=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim()
  dirty=execFileSync('git',['diff','--name-only','HEAD'],{encoding:'utf8'}).trim().split('\n').filter(Boolean)
  for(const [name,files] of [['good',good.files],['other',other.files],['bad',bad.files]])for(const [path,bytes] of files){const dest=resolve(root,name,path);await mkdir(dirname(dest),{recursive:true});await writeFile(dest,bytes)}
+ for(const [path,bytes] of good.files){
+  const dest=resolve(root,'linked',path);await mkdir(dirname(dest),{recursive:true})
+  if(path.startsWith('blobs/')){const target=resolve(root,'good',path);try{await symlink(target,dest)}catch(e){if(e.code!=='EEXIST')throw e;assert.equal(await readlink(dest),target)}}
+  else await writeFile(dest,bytes)
+ }
  await mkdir(output,{recursive:true})
  server=await preview({preview:{host:'127.0.0.1',port:0,strictPort:true}});origin=`http://127.0.0.1:${server.httpServer.address().port}`
  browser=await chromium.launch({executablePath:process.env.REVIEW_BROWSER_EXECUTABLE,downloadsPath:resolve('../.cache/phase-e-downloads')})
@@ -53,6 +58,7 @@ for(const width of [1440,390])for(const theme of ['petrol-porcelain','cool-graph
  await page.getByRole('button',{name:'Connect',exact:true}).click();await page.getByRole('alert').waitFor();assert(await page.getByRole('heading',{name:'Not connected',exact:true}).count())
  const initialRequests=[...requests]
  const choose=async name=>page.getByLabel('Choose local ledger folder',{exact:true}).setInputFiles(resolve(root,name))
+ await choose('linked');await page.getByRole('alert').filter({hasText:'Referenced blob is missing'}).waitFor();await scan(page,`${width}-${theme}-symlink-rejected`)
  await choose('bad');await page.getByRole('alert').filter({hasText:'Local folder rejected'}).waitFor()
  assert.equal(await page.getByText('Original downloads',{exact:true}).count(),0)
  await scan(page,`${width}-${theme}-rejected`,true)
