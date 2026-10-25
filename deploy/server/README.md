@@ -42,6 +42,100 @@ adapted. No key material is included and no host changes were performed.
   The account names and sudoers ERE argument support must be checked before
   installation. Do not retain a general sudo/docker entitlement for tl-agent.
 
+## Profile preflight before a server run
+
+In an already authorized protected installation, the operator should run
+`truthlens profile check agent-zero` as root **before** `pipeline run`.
+Names use the existing protected `/etc/truthlens/profiles/NAME.json` loader;
+`truthlens profile check ./draft.json` checks an explicit draft without installing
+it. Drafts are bounded regular JSON files (64 KiB maximum, no final symlink).
+This root-only command adds no sudo permission and must never be granted to an
+agent. It reads the profile and probes Git HEAD only; it does not execute agent
+or test commands, confirm criteria, read keys/registry, create a run or write files.
+The Git probe discards output, ignores caller Git environment/global config,
+disables lazy fetching and has a five-second timeout.
+Warnings are fixed text on the operator's stderr. Exit 0 is quiet and means none
+of these three pitfalls was found; warnings or an unavailable check exit 2.
+This is a narrow preflight, not full schema, permissions, runner, attribution or
+isolation validation. A clean check does not promise a checkable run.
+
+Before enabling a profile, review these four requirements:
+
+1. **Criteria provenance:** the server wrapper uses `confirm=[]`. Criteria with
+   `"source": "derived"` therefore stay `proposed`; tests do not confirm them.
+   Derived-only criteria trigger `DERIVED_ONLY` and cannot support a checkable
+   claim, so status remains `not_checkable`. Mixed profiles can still have
+   unconfirmed derived criteria even without this warning. Use `"source": "user"`
+   only for criteria actually supplied by a human; do not relabel agent proposals
+   to bypass confirmation. Delegation is not per-run approval. There is no server
+   auto-confirmation or profile confirmation switch. The demo fixture in
+   `demo/make-fixture.sh` intentionally contains agent-derived criteria for the
+   interactive human-confirmation path; copying it into a server profile leaves
+   those criteria proposed. Human-supplied criteria permit scoped passed/failed
+   results only when the remaining authenticated audit, claims and evidence
+   requirements are met. Integrity is not approval.
+2. **Test interpreter:** use an absolute executable such as
+   `/usr/bin/python3 -m pytest -q -p no:cacheprovider tests`. The wrapper's default
+   test PATH starts with the TruthLens interpreter directory, so bare `python3`
+   may select the TruthLens venv, which may not contain pytest. Bare/relative test
+   executables trigger `TEST_EXECUTABLE`. The selected interpreter and pytest
+   must already be available to `tl-agent` in its isolated test environment;
+   availability in the operator's shell is insufficient. A missing runner gives
+   `runner unavailable` and `not_checkable`. Preflight never runs/imports pytest
+   and cannot establish its availability or whether a command is allowed.
+3. **Committed work repo:** the absolute workspace must itself be a Git repo with
+   at least one commit: `git -C /srv/truthlens/workspaces/agent-zero rev-parse
+   --verify 'HEAD^{commit}'` must succeed. An empty directory, `git init` without
+   a commit, or a missing path triggers `REPO_HEAD`. Git discovery is bounded so
+   a plain directory cannot borrow its parent's HEAD. Workspace ownership and
+   isolation requirements above still apply. Runtime errors stay fixed; inspect
+   this preflight rather than expecting a path-specific denial from the run.
+4. **Kernel attribution:** in the exact invoking session, inspect
+   `cat /proc/self/loginuid`. `4294967295` means unset. Interactive `pipeline run`
+   needs a valid kernel loginuid (normally established by PAM on login), with
+   matching `SUDO_UID` if present. Containers and non-PAM sessions often lack it
+   and are denied before profile loading. Preflight does not check loginuid.
+   The existing exception is a process whose actual parent is PID 1, with no
+   `SUDO_UID`: it is attributed to uid0/the service, which must be allowed by the
+   profile. A subreaper may prevent PID-1 parenting. Do not write loginuid, spoof
+   environment UIDs or weaken this check as a workaround; use an already reviewed
+   login/service context. Host/session setup requires separate authorization.
+
+Example profile for a **human-supplied** test criterion (inactive template):
+
+```json
+{
+  "enabled": false,
+  "agent": "agent-zero",
+  "command": ["/opt/agent-zero/bin/agent-zero-task", "--task-file", "/srv/truthlens/tasks/current.json"],
+  "repo": "/srv/truthlens/workspaces/agent-zero",
+  "callers": [],
+  "criteria": {
+    "requirement": {"id": "r1", "text": "The task tests must pass."},
+    "criteria": [{"id": "c1", "text": "The task test suite passes.", "source": "user"}]
+  },
+  "tests": [{"criterion_ids": ["c1"], "command": "/usr/bin/python3 -m pytest -q -p no:cacheprovider tests"}]
+}
+```
+
+Keep it disabled until the actual task command, human criterion, existing caller
+UID mappings, committed workspace and task-user runner have been reviewed.
+`callers: []` deliberately grants nobody access; this example is not launch-ready.
+It uses one test command, as required by the existing pipeline.
+
+### Troubleshooting profile runs
+
+| Symptom | Operator check before retrying |
+|---|---|
+| `not_checkable` despite executed tests | `DERIVED_ONLY`; check criterion provenance and the remaining audit evidence, not just test exit codes |
+| `runner unavailable` / `not_checkable` | `TEST_EXECUTABLE`; check absolute interpreter and pytest availability for `tl-agent` |
+| Fixed `Pipeline unavailable or access denied.` | `REPO_HEAD`; confirm Git has a commit, then existing workspace/installation policy |
+| Denial before profile loading, especially in a container | Inspect loginuid in that session and actual PID-1/service attribution; preflight does not certify either |
+
+Warnings are never added to `agent-status`, MCP, broker responses or pipeline
+status errors. Agents still receive only passed / failed / not_checkable through
+the G1 path. This section changes no trust contract or human-confirmation rule.
+
 ## Attribution and known root-equivalence boundary
 
 Initiator is kernel audit login UID, corroborated against `SUDO_UID` when present;

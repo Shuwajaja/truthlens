@@ -18,6 +18,20 @@ results authorizes deployment, merging, acceptance or a human approval event.
 
 ## Protected source and architecture
 
+Before capturing a server run, operators should read the
+[server profile preflight and troubleshooting guide](../deploy/server/README.md#profile-preflight-before-a-server-run).
+Root-only `truthlens profile check NAME|PATH` warns on derived-only criteria,
+bare/relative test executables and a workspace without a committed Git HEAD;
+it prints only fixed warnings to operator stderr and writes nothing. Server
+profiles have no human confirmation step: derived criteria stay proposed;
+`source: "user"` is reserved for criteria actually supplied by a human. Use an
+absolute task-user interpreter with pytest available. Separately inspect the
+invoking session's kernel loginuid: unset `4294967295` in containers/non-PAM
+sessions denies interactive runs; only the existing direct-PID-1 service
+exception applies. The linked guide contains an inactive example and limits.
+Preflight neither starts a run nor certifies runner/host isolation or attribution.
+It is not an agent tool; G1 responses and fixed agent-facing errors are unchanged.
+
 ```text
 agent UID -> unprivileged stdio MCP -> fixed Unix socket
   -> root broker: SO_PEERCRED allowlist -> per-run Registry.run authorization
