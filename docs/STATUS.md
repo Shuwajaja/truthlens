@@ -1,3 +1,72 @@
+## Phase F: Green Deck status — local qualification, 25 October 2026
+
+Branch `feat/phase-f-green-deck`, base `9667c9d` (main after Phase E / #172).
+Application and browser harness at `b791256`; later commits publish evidence and
+documentation only. One Python projection supplies a closed `status` and
+`reason_code` to the existing human stored-audit GET envelope and the local
+human CLI. Viewer audit views and the compact widget render that same result,
+without a second browser verdict calculation. Detailed rule-group summaries
+retain their existing scope. Missing checks, incomplete criterion evidence,
+identity/input-digest mismatch, hash-only authentication, running/error and
+interrupted/unavailable sources cannot become passed. A refresh clears cached
+green immediately. The widget starts Not connected, fetches only after human
+Connect, uses bounded existing reader routes and displays no events, evidence,
+paths, run IDs, timestamps or arbitrary report strings. No new route or write
+API. Mobile header controls wrap at 320px with enlarged text.
+
+Human SSH shell usage: `truthlens audit status DIR --json`; optional
+`--hmac-key-env VAR` or existing private `--hmac-key-file PATH`, plus optional
+`--expect-last-hash HEX`. Neither keys nor paths are returned. Exit codes:
+passed **0**, failed **1**, not_checkable **2**. This is the local equivalent of
+the requested `/audit status` view, not a Mausbot/ACP session command, network
+listener or legacy `truthlens status`/`truthlens mcp` integration. It reads and
+audits local bytes without writing them; it does not consume the Phase B service.
+The widget and viewer are human-only consumers of that service. No agent feed,
+Phase G Unix socket, SO_PEERCRED broker or tool is implemented or activated.
+Integrity is not approval; browser signature verification is not claimed.
+The existing hash-only seal and production Not connected fallback remain.
+
+TDD: `fa71988` initial RED (16 Python failures and missing viewer component),
+`89e68af` GREEN (100 targeted Python / 35 viewer tests); `07d618d` four review
+regressions RED and `47d4faa` GREEN (106 targeted Python); `30f4fff` four
+lifecycle/CLI privacy regressions RED and `787ec9f` GREEN (24 status tests).
+`0f837fc` records the real-browser 320px/200% overflow RED; `b791256` fixes it,
+with both affected theme probes passing. No assertion was weakened. The older
+widget test now requires the deliberate absence of evidence details.
+
+Full Python `TZ=UTC` and `TZ=Europe/Berlin` runs each passed **493 tests,
+2 skipped, 1 xfailed, 15 subtests passed**. The two skips require host users and
+sudo; the expected failure records the known same-UID key risk. They establish
+no live isolation. Full Viewer suites in both timezones each passed **422 tests
+/ 44 files**, including language/style/theme guards and the toolbar build
+matrix. Ruff, Viewer lint and TypeScript/production build passed. Each
+timezone's targeted Chromium run passed **6 specs / 102 unrestricted axe
+scans**, at **1440×900, 390×844 and 320×844**, both themes, normal and doubled
+computed text sizes. Zero axe violations and page errors; 10 incomplete rule
+results per run were classified by 78 CSS contrast probes per run, all passing.
+Eight small PNGs and a bounded report per timezone are
+[published with commands and limits](screenshots/feat/phase-f-green-deck/review-summary.md).
+Text enlargement is a CSS test, not native browser zoom or a blanket WCAG claim.
+Self-review and independent Codex review at `b791256` resolved incomplete
+evidence and lifecycle/privacy findings; no blocking finding remains. The
+untracked PR body retains exact commands and earlier environment/port-collision
+failures. No remote CI, push, PR, merge, host setup, deployment or publishing.
+
+Release-acceptance checklist (local scope only):
+
+- [x] Shared projection; source/rule/evidence correlation and fixed output
+  allowlist guarded by executable regressions.
+- [x] Interrupted/unavailable, running, error and unchecked states stay safe;
+  CLI and widget expose status only and keep the approval boundary visible.
+- [x] Full Python UTC/Berlin; host-only skips and same-UID expected failure
+  reported separately from passes.
+- [x] Full Viewer UTC/Berlin, Ruff, lint and TypeScript/production build.
+- [x] Targeted Playwright/full axe at all three widths, both themes and 200%
+  CSS text enlargement; bounded screenshots/reports published above.
+- [ ] Live human SSH/service, native browser zoom, other browsers and spoken
+  screenreader acceptance: not run; no operational activation authorized.
+- [ ] Phase G broker/agent qualification: deferred, no Phase B agent access.
+
 ## Phase E: local folders and individual exports — local review, 25 October 2026
 
 Branch `feat/phase-e-open-export`, base `569f35a` (main after Phase D / #170).

@@ -1,6 +1,7 @@
 import type {RunDoc} from './types.ts'
 import {isAuditReport,type AuditReport} from './audit-report.ts'
 import {validateRunDoc} from './validateRunDoc.ts'
+import {isStatusResult,unavailableStatus,type StatusResult} from './status-result.ts'
 
 export const MAX_DOCUMENT_BYTES=10*1024*1024
 export const MAX_CATALOG_BYTES=1024*1024
@@ -101,11 +102,17 @@ export async function loadPrivateRun(item:PrivateRunSummary,signal?:AbortSignal)
 
 /** Reads a previously stored report only; never starts an audit or accepts an API URL. */
 export async function loadPrivateAudit(item:PrivateRunSummary,signal?:AbortSignal):Promise<AuditReport|null>{
+ return (await loadPrivateAuditResult(item,signal)).report
+}
+
+/** Human reader only. No agent adapter or broker uses this service. */
+export async function loadPrivateAuditResult(item:PrivateRunSummary,signal?:AbortSignal):Promise<{report:AuditReport|null;status:StatusResult}>{
  if(!summary(item))throw Error('Invalid private reader audit reference')
  const value=await boundedJson(`/v1/runs/${encodeURIComponent(item.run_id)}/audits`,MAX_DOCUMENT_BYTES,signal)
  if(!record(value)||value.source_id!==item.source_id)throw Error('Stored audit source identity mismatch')
- if(value.audit===null)return null
+ if(value.audit===null)return {report:null,status:unavailableStatus}
  if(!isAuditReport(value.audit))throw Error('Invalid stored audit report')
  if(value.audit.run_id!==item.run_id||value.audit.ledger_last_hash!==item.ledger_last_hash)throw Error('Stored audit run identity or anchor mismatch')
- return value.audit
+ if(value.status!==undefined&&!isStatusResult(value.status))throw Error('Invalid status projection')
+ return {report:value.audit,status:isStatusResult(value.status)?value.status:unavailableStatus}
 }
