@@ -1,3 +1,66 @@
+## Phase G2: agent setup — local qualification, 25 October 2026
+
+Branch `feat/phase-g2-agent-setup`, base `3a7a9f7` (G1 / PR #174).
+Tested application/test content is committed at
+`7c1b53450bea8b3876871c4b1dbb8809bbccc2e1`; later STATUS-only edits do not change it.
+This is agent work, not human approval or deployed isolation.
+[Client setup and command reference](AGENT-SETUP.md).
+
+- `agent-status` uses only the existing G1 status client. Its complete output is
+  one status or canonical `{status}` JSON; exits passed=0, failed=1,
+  not_checkable=2. Invalid arguments, errors and even `--help` stay status-only.
+- `doctor` is read-only and human-facing: fixed socket metadata, adapter, SDK
+  and standalone-snippet checks. It never connects, scans client directories,
+  changes permissions/configs or reads keys/registry/runs. It always reports
+  `ISOLATION_UNVERIFIED` and exits 2; metadata is no isolation certificate.
+- `agent-config` emits JSON/TOML templates for Claude Code, Codex, Cursor and
+  Agent Zero. It wires only `mcp-status`; an explicit output creates a new 0600
+  file and refuses existing paths/symlinks. Actual client versions are unqualified.
+- `demo-status` roundtrips three explicitly simulated statuses over a private
+  temporary fake Unix broker, then demonstrates the real client returning
+  not_checkable. No production trust check is relaxed or globally patched.
+
+TDD: `d935eaf` witnessed 47 failing acceptance tests; `f636b34` passed those 47.
+The independent reviewer identified agent-status help expanding the output
+vocabulary: two additional cases failed at `f93c56b`, then `373a48c` fixed them.
+Expanded G2 tests: 64 passed. An intermediate boundary run passed 208 tests
+and 21 subtests. Independent Codex review and scoped re-review found no remaining
+code/D34 blocker; final author self-review checked broker-only imports, output
+allowlisting, read-only diagnostics, explicit file safety, demo isolation and CI
+selection. Final source/test blobs match the reviewed formatting-only changes.
+
+With `umask 022`, repo-local temporary files, local editable installation and the
+three existing TCP-listener test functions deselected, Python `pytest -q -rs`
+reported **651 passed, 2 skipped, 11 deselected, 1 xfailed, 21 subtests passed**
+in **UTC and Europe/Berlin**. This is not an unrestricted full-suite pass.
+The two skips need separate host accounts/sudo; the expected failure records the
+existing same-UID key risk. Initial UTC execution had one unchanged gate test
+failure (650 passed): its filtered subprocess could not import the uninstalled
+checkout. The first editable-install attempt also failed because setuptools
+was absent. Installing build tools and the local package only in this repo's
+venv resolved that environment issue; the targeted gate test and both later
+suite runs passed without changing assertions or security code.
+
+Full Viewer `npm test` passed **422 tests / 44 files** in each timezone, including
+the language/style/theme checks and five toolbar build variants. Existing jsdom
+scrollTo notices were observed. Ruff (`src tests` and CI scope), formatting of new
+helpers/tests, Viewer lint, TypeScript/production build, Python sdist/wheel build,
+installed demo smoke and setup-document snippet/link consistency checks passed.
+Initial Ruff findings were corrected before the final checks. Existing dependency
+contracts, frozen specs/trust levels and G1 broker/wire/client/adapter are unchanged; no new dependency or MCP field/tool.
+Exact commands, initial failures, review evidence and limits are in the requested
+untracked `PR_BODY.md`; no raw test reports were committed.
+
+- [x] Local G2 commands, four client templates, synthetic demo, leak/read-only
+  regressions, independent review and author security self-review.
+- [x] Permitted Python suites and full Viewer suites in both timezones; lint/build.
+- [ ] Eleven existing TCP cases: not run under the explicit no-listener rule.
+- [ ] Real client sessions, separate-UID/key/reader isolation, restricted SSH,
+  pipx/uv installation and coverage measurement: not run.
+- [ ] Remote CI, push, PR creation/merge, publishing, deployment and host setup:
+  not run; not authorized by this task. No UI change or browser/axe run; only
+  temporary Unix test/demo sockets, no TCP listener.
+
 ## Phase G1: status broker and status-only MCP — local qualification, 25 October 2026
 
 Branch `feat/phase-g1-status-broker`, base `90b04b4` (main after Phase F / #173).
@@ -64,7 +127,7 @@ failures and acceptance mapping remain in the requested untracked `PR_BODY.md`.
 - [ ] Real distinct UID/ACL/key custody, human-reader network denial, SSH forced
   command, installed model-client versions and host isolation: not run.
 - [ ] Remote CI, deployment, push, PR, merge, publishing and host setup: not run.
-- [ ] G2 agent-status / read-only doctor / client configs / demo: separate work.
+- G2 was deferred at this G1 checkpoint; see the current G2 section above.
 
 ## Phase F: Green Deck status — local qualification, 25 October 2026
 
