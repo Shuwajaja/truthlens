@@ -218,6 +218,23 @@ def finalize(store: Registry, dispatch: dict) -> dict:
     return captured
 
 
+def profile_tests(profile: dict) -> list:
+    tests = profile.get("tests", [])
+    if not isinstance(tests, list) or len(tests) > 1:
+        deny()  # unchanged wrapper cannot safely quiesce between multiple test-copy phases
+    return tests
+
+
+def check_repo(repo: Path, gid: int) -> None:
+    """Shared launcher/diagnosis metadata policy; never run a repository command."""
+    if not repo.is_absolute() or repo.is_symlink():
+        deny()
+    trusted(repo.parent, directory=True)
+    info = repo.stat()
+    if info.st_uid != 0 or info.st_gid != gid or info.st_mode & 0o007:
+        deny()
+
+
 def run_profile(name: str) -> dict:
     import fcntl
 
@@ -232,16 +249,9 @@ def run_profile(name: str) -> dict:
     agent_argv(profile.get("command"))
     trusted(Path(profile["command"][0]))
     gid = agent_account()
-    tests = profile.get("tests", [])
-    if not isinstance(tests, list) or len(tests) > 1:
-        deny()  # unchanged wrapper cannot safely quiesce between multiple test-copy phases
+    tests = profile_tests(profile)
     repo = Path(profile["repo"])
-    if not repo.is_absolute() or repo.is_symlink():
-        deny()
-    trusted(repo.parent, directory=True)
-    info = repo.stat()
-    if info.st_uid != 0 or info.st_gid != gid or info.st_mode & 0o007:
-        deny()
+    check_repo(repo, gid)
     store = Registry()
     _private_directory(store.root / "runs")
     lock = os.open(store.root / "capture.lock", os.O_RDWR | os.O_CREAT | os.O_NOFOLLOW, 0o600)

@@ -1,3 +1,33 @@
+## Operator broker unit and denial diagnosis — local preparation, 25 October 2026
+
+Branch `fix/operator-broker-unit-explain`, base `3e5237a`; scope is trial-runbook
+items **5 and 7** only. Red tests are committed at `cb45abb`: **24 failed,
+1 passed** for the missing command/unit. [Operator instructions and reason
+codes](../deploy/server/README.md#root-only-denial-diagnosis).
+
+- Inactive `truthlens-status-broker.service` example: root identity, protected
+  mode0660 Unix socket, AF_UNIX restriction, CAP_CHOWN for socket group assignment,
+  read-only state/installation, inaccessible key and suppressed output. Placeholder
+  IDs and no Install section; nothing is installed or activated.
+- Root-only `truthlens pipeline explain run --profile NAME` and `explain status
+  RUN_ID [--uid UID]` reuse existing deny checks and print one fixed enumerated
+  stage code to stderr. Real/effective root is checked before parsing/input reads.
+  Read-only registry locking and bounded key reads occur only for the documented
+  operator checks; status diagnosis never reads the key. No dispatch, audit,
+  profile/test execution, approval, repair or policy relaxation.
+- Normal fixed pipeline errors and agent CLI/MCP/broker status-only outputs remain
+  covered, including exact denial-frame bytes and unavailable diagnostic imports.
+  Frozen contracts, G1 wire/adapter/D34, caller mappings and interrupted-dispatch
+  behavior are unchanged. Integrity is not approval.
+
+Initial GREEN: `python -m pytest -q tests/test_pipeline_explain.py
+ tests/test_status_broker_unit.py tests/test_pipeline.py tests/test_profile_check.py
+ tests/test_status_broker.py tests/test_mcp_status.py --basetemp=.t/g3 --tb=short`
+(with repo-local venv PATH/TMPDIR and umask022): **177 passed**. The new operator
+checks simulate root identity/policy; temporary Unix sockets exercise actual
+framing, not separate-UID host isolation. Full requested validation and final
+self-review evidence will follow below. No push, PR, merge or host setup.
+
 ## Workspace overview v1 — local qualification, 25 October 2026
 
 Branch `design/overview-v1`, base `4b44db0`. Application source and unit tests:

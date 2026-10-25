@@ -361,3 +361,97 @@ required. No account, socket, service, key or firewall is installed here.
 Real UID/SSH/reader-denial/host isolation remains separately authorized and untested.
 G2 supplies local CLI/doctor/config/demo helpers; see the [agent setup guide](../../docs/AGENT-SETUP.md).
 They do not provision or certify this host. Existing ACP behavior is unchanged.
+
+## Inactive status broker unit (trial items 5 and 7)
+
+`truthlens-status-broker.service` is an **example only**. Nothing installs,
+starts or enables it. After separate host authorization, review and copy the
+example to `/etc/systemd/system/truthlens-status-broker.service`, replace
+`SOCKET_GID` with an existing nonroot status-socket group ID and `AGENT_UID`
+with the actual nonroot client UID; repeat `--allow-uid` for additional reviewed
+peers. These placeholders intentionally prevent accidental startup. Review the
+root-installed `/opt/truthlens/venv` distribution and protected registry first.
+Only then may the authorized operator reload systemd and start the service.
+It has no `[Install]` section; startup/boot policy requires separate review.
+This repository change performs none of those host actions.
+
+The broker **must run with real and effective UID 0**, as required by
+[SELFHOST-MCP](../../docs/SELFHOST-MCP.md). `RuntimeDirectory=truthlens` supplies
+root-owned mode0755 `/run/truthlens`; the broker creates
+`/run/truthlens/status.sock`, changes its group to `SOCKET_GID` and sets mode0660.
+The socket group allows connection only: kernel `SO_PEERCRED` allowlisting and
+per-run dispatch authorization remain mandatory. No private user namespace is
+used, so peer UIDs retain their existing meaning. `CAP_CHOWN` is retained solely
+for the socket group change; other capabilities are removed. AF_UNIX restriction
+leaves peer credential queries and socket creation available.
+
+`ProtectSystem=strict` leaves the runtime directory writable. The registry and
+installation stay read-only: `Registry.locked(create=False)` opens the journal
+`O_RDONLY`, then uses `flock(LOCK_EX)` on that descriptor. It neither creates a
+separate lock file nor writes the registry, so **do not add a writable state
+mount for this broker**. The key path is inaccessible, and stdout/stderr are
+suppressed. The broker does not read keys, dispatch work or start a verifier.
+Existing paths, including stale sockets, are refused; inspect ownership and
+process state before any separately authorized cleanup. No automatic unlink or
+restart loop is added. Actual systemd sandbox/UID isolation remains a host
+acceptance task; static unit tests and temporary sockets do not prove it.
+
+## Root-only denial diagnosis
+
+In an already authorized protected installation, run as root:
+
+```sh
+truthlens pipeline explain run --profile agent-zero
+truthlens pipeline explain status REGISTERED_RUN_ID
+truthlens pipeline explain status REGISTERED_RUN_ID --uid NUMERIC_CALLER_UID
+```
+
+Both real and effective UID must be zero **before argument parsing or input
+reads**. Do not grant sudo access to this command to agents. `--uid` exists only
+on this root-only status diagnosis command; it selects whose existing registry
+access to check and grants no access. Without it, the existing kernel loginuid /
+SUDO_UID / PID-1 attribution checks select the caller. Run diagnosis always uses
+that existing attribution; it does not accept an identity override.
+
+The command emits exactly one fixed code plus newline to **stderr**, with empty
+stdout. Exit 2 means the first listed check failed; exit 0 emits `PREFLIGHT_OK`.
+Neither exception text nor names, paths, IDs, counts, file contents or key bytes
+are printed. Codes describe a failed check stage, not a detailed exception:
+
+| Code | Failed check |
+|---|---|
+| `ROOT_REQUIRED` | Real or effective UID is not zero |
+| `ARGUMENTS_INVALID` | Operator diagnosis arguments are invalid |
+| `CALLER_IDENTITY_UNAVAILABLE` | Kernel loginuid is unavailable/unset without the existing PID-1 exception, or SUDO_UID disagrees |
+| `INSTALLATION_UNTRUSTED` | Launcher source or ancestry fails the existing protected-installation check |
+| `PROFILE_UNTRUSTED` | Protected profile name, ownership, permissions, ancestry, bounded read or JSON is invalid/unavailable |
+| `DELEGATION_DENIED` | Profile disabled, invalid delegation, or caller UID not uniquely allowed |
+| `COMMAND_UNTRUSTED` | Agent command shape, executable or ancestry is untrusted |
+| `AGENT_ACCOUNT_UNSAFE` | Existing tl-agent account/group/subid/sudo-policy check failed |
+| `TESTS_INVALID` | Existing launcher test-list limit failed |
+| `REPO_UNTRUSTED` | Existing launcher repo metadata/ownership/group/ancestry check failed |
+| `REPO_HEAD_MISSING` | The existing bounded, output-discarding Git preflight could not establish a HEAD commit |
+| `REGISTRY_UNAVAILABLE` | Protected registry metadata or read/validation failed |
+| `KEY_UNREADABLE` | Existing protected key metadata/bounded key reader check failed |
+| `RUN_ACCESS_DENIED` | Existing registry run lookup/authorization failed |
+| `STATUS_UNAVAILABLE` | Existing stored pipeline status read failed |
+| `PREFLIGHT_OK` | Listed checks completed; this is not a run verdict or approval |
+
+Run diagnosis reuses existing policy functions and the profile preflight Git
+probe. It reads the protected key only through the existing bounded reader,
+never exposes it, and creates no run directory or dispatch. Status diagnosis
+uses registry authorization and stored pipeline status, never keys or a fresh
+audit. Neither form executes profile/test commands, quiesces processes, queues
+work, confirms criteria, repairs data or writes files. The account check invokes
+the existing bounded `sudo -n -l -U tl-agent` policy probe with captured output.
+Registry reads acquire the existing advisory lock on an O_RDONLY descriptor.
+
+This is a narrow diagnosis, not a dry-run guarantee: capture locks, task/runner
+execution, fresh verification, snapshot freshness, broker socket/global UID
+allowlist/rate limits and live OS isolation are not tested. `PREFLIGHT_OK` for a
+stored status does not imply passed/failed or broker eligibility. It does not
+change caller mappings or interrupted-dispatch recovery (trial items 4 and 10).
+Normal pipeline/status errors remain exactly `Pipeline unavailable or access
+denied.`; agents still receive only passed / failed / not_checkable. Diagnosis
+has no broker wire option, MCP tool, status-client flag or journal logging path.
+Integrity is not approval.

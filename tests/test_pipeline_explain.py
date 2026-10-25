@@ -2,13 +2,16 @@
 
 import json
 import os
+import sys
 from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
 
 from truthlens import pipeline, pipeline_jobs, profile_check, registry
+from truthlens.audit_inputs import read_audit_key
 from truthlens.cli import main
+from truthlens.pipeline import load_profile as protected_load_profile
 
 
 @pytest.fixture
@@ -31,7 +34,7 @@ def checks(tmp_path, monkeypatch):
     monkeypatch.setattr(pipeline, "check_repo", lambda *a: None, raising=False)
     monkeypatch.setattr(profile_check, "_has_head", lambda repo: True)
     monkeypatch.setattr(pipeline, "read_audit_key", lambda *a: b"sk-test-synthetic")
-    store = SimpleNamespace(root=tmp_path, run=lambda *a: {}, records=lambda: [])
+    store = SimpleNamespace(root=tmp_path, run=lambda *a: {}, records=list)
     monkeypatch.setattr(registry, "Registry", lambda: store)
     monkeypatch.setattr(pipeline_jobs, "status", lambda *a: {})
     for name in ("run_profile", "finalize", "recover_captures"):
@@ -134,9 +137,33 @@ def test_status_reuses_authorization_and_never_reads_key(checks, monkeypatch, ca
     explain(capsys, "status", "synthetic-run", code="STATUS_UNAVAILABLE")
 
 
-def test_existing_outputs_remain_identical_and_do_not_import_diagnosis(monkeypatch, capsys, tmp_path):
-    from truthlens import mcp_status, status_broker, status_client
+def test_protected_profile_trust_failure_precedes_content_read(checks, tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(pipeline, "load_profile", protected_load_profile)
+    monkeypatch.setattr(pipeline, "PROFILE_ROOT", tmp_path)
+    path = tmp_path / "demo.json"
+    path.write_text("PRIVATE_CONTENT")
+    # A group-writable protected profile is denied even under simulated root.
+    path.chmod(0o660)
 
+    def trust(candidate, **kw):
+        if candidate == path:
+            registry.trusted(candidate, **kw)
+
+    monkeypatch.setattr(pipeline, "trusted", trust)
+    monkeypatch.setattr(os, "open", lambda *a: pytest.fail("must not read unsafe profile"))
+    explain(capsys, "run", "--profile", "demo", code="PROFILE_UNTRUSTED")
+
+
+def test_real_key_reader_failure_is_fixed(checks, tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(pipeline, "KEY_FILE", tmp_path / "missing-key")
+    monkeypatch.setattr(pipeline, "read_audit_key", read_audit_key)
+    explain(capsys, "run", "--profile", "demo", code="KEY_UNREADABLE")
+
+
+def test_existing_outputs_remain_identical_and_do_not_import_diagnosis(monkeypatch, capsys, tmp_path):
+    from truthlens import mcp_status, status_client
+
+    monkeypatch.setitem(sys.modules, "truthlens.pipeline_explain", None)
     monkeypatch.setattr(registry, "caller_uid", registry.deny)
     expected = (
         '{"connection": "not connected", "message": "Pipeline unavailable or access denied.", '
@@ -146,14 +173,13 @@ def test_existing_outputs_remain_identical_and_do_not_import_diagnosis(monkeypat
         assert main(args) == 2
         assert capsys.readouterr() == (expected, "")
     for status, rc in (("passed", 0), ("failed", 1), ("not_checkable", 2)):
-        monkeypatch.setattr(status_client, "check_status", lambda *a: {"status": status})
+        monkeypatch.setattr(status_client, "check_status", lambda *a, status=status: {"status": status})
         assert main(["agent-status", "--socket", str(tmp_path / "s"), "r", "--json"]) == rc
         assert capsys.readouterr() == (json.dumps({"status": status}, separators=(",", ":")) + "\n", "")
-        monkeypatch.setattr(mcp_status, "check_status", lambda *a: {"status": status})
+        monkeypatch.setattr(mcp_status, "check_status", lambda *a, status=status: {"status": status})
         assert mcp_status.call_status(tmp_path / "s", "truthlens_check_status", {"run_id": "r"}) == {
             "status": status
         }
         assert capsys.readouterr() == ("", "")
     assert mcp_status.call_status(tmp_path / "s", "explain", {"run_id": "r"}) == {"status": "not_checkable"}
-    assert status_broker.registered_status(None, "r", 1234) == {"status": "not_checkable"}
     assert capsys.readouterr() == ("", "")

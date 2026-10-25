@@ -257,7 +257,7 @@ def test_malformed_broker_requests_never_query_source(unix_broker, raw):
 
 
 @pytest.mark.parametrize(
-    "operation", ["audit", "register", "approve", "run", "repair", "events", "evidence", "raw"]
+    "operation", ["audit", "register", "approve", "run", "repair", "events", "evidence", "raw", "explain"]
 )
 def test_privileged_requests_denied(unix_broker, operation):
     instance, seen, _, wire = unix_broker
@@ -267,6 +267,25 @@ def test_privileged_requests_denied(unix_broker, operation):
         wire.send(sock, {"version": 1, "run_id": "allowed", "command": operation})
         assert wire.receive(sock, 256) == UNKNOWN
     assert seen == []
+
+
+def test_explain_flag_has_identical_fixed_denial_frame(unix_broker, capsys, monkeypatch):
+    import sys
+
+    monkeypatch.setitem(sys.modules, "truthlens.pipeline_explain", None)
+    instance, seen, _, wire = unix_broker
+    raw = b'{"status":"not_checkable"}'
+    expected = struct.pack("!I", len(raw)) + raw
+    with socket.socket(socket.AF_UNIX) as sock:
+        sock.settimeout(2)
+        sock.connect(str(instance.config.socket_path))
+        wire.send(sock, {"version": 1, "run_id": "allowed", "explain": True})
+        response = bytearray()
+        while chunk := sock.recv(256):
+            response.extend(chunk)
+        assert bytes(response) == expected
+    assert seen == []
+    assert capsys.readouterr() == ("", "")
 
 
 def test_oversize_frame_rejected_before_payload(unix_broker):

@@ -1,0 +1,38 @@
+# INACTIVE EXAMPLE. Separate host authorization is required before installation/activation.
+# Replace SOCKET_GID and AGENT_UID with existing, reviewed nonroot numeric IDs.
+[Unit]
+Description=TruthLens G1 status-only broker (inactive example)
+ConditionPathIsDirectory=/var/lib/truthlens
+
+[Service]
+Type=simple
+User=root
+Group=root
+UMask=0077
+RuntimeDirectory=truthlens
+RuntimeDirectoryMode=0755
+ExecStart=/opt/truthlens/venv/bin/python -m truthlens.status_broker --socket /run/truthlens/status.sock --socket-gid SOCKET_GID --allow-uid AGENT_UID
+WorkingDirectory=/
+Environment=PYTHONDONTWRITEBYTECODE=1
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadOnlyPaths=/var/lib/truthlens /opt/truthlens
+InaccessiblePaths=-/etc/truthlens/audit.key
+RestrictAddressFamilies=AF_UNIX
+# chown(socket, -1, socket_gid) needs CAP_CHOWN; no UID/user namespace remapping.
+CapabilityBoundingSet=CAP_CHOWN
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+TasksMax=16
+MemoryMax=256M
+StandardOutput=null
+StandardError=null
+# RuntimeDirectory is writable under ProtectSystem=strict. Registry.locked(create=False)
+# uses O_RDONLY + flock(LOCK_EX); it does not create a lock file or write the journal.
+# Do not add PrivateUsers: the broker and clients must agree on kernel SO_PEERCRED UIDs.
+# No Install section: this example enables nothing.
