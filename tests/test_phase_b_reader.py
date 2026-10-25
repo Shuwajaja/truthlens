@@ -17,15 +17,22 @@ from truthlens import read_projection, read_service, registry
 def published(tmp_path, monkeypatch):
     root = tmp_path / "published"
     snapshot = make_run(root / "snapshots" / ("a" * 32), key=None)
-    report = b'{"authentication":"supported","conclusion":"supported_within_scope"}'
+    anchor = json.loads((snapshot / "manifest.json").read_bytes())["ledger_last_hash"]
+    report = json.dumps({"authentication": "supported", "conclusion": "supported_within_scope",
+                         "run_id": RUN_ID, "ledger_last_hash": anchor}).encode()
     sha = hashlib.sha256(report).hexdigest()
     (root / "audits").mkdir()
     (root / "audits" / f"{sha}.json").write_bytes(report)
     row = {
-        "view_id": "shu", "run_id": RUN_ID, "dispatch_id": "a" * 32,
-        "snapshot_id": "a" * 32, "session_id": "c" * 32, "registration_id": "b" * 32,
-        "ledger_last_hash": json.loads((snapshot / "manifest.json").read_bytes())["ledger_last_hash"],
-        "capture_closed_at": "2026-10-25T00:00:00Z", "input_digests": digest_tree(snapshot),
+        "view_id": "shu",
+        "run_id": RUN_ID,
+        "dispatch_id": "a" * 32,
+        "snapshot_id": "a" * 32,
+        "session_id": "c" * 32,
+        "registration_id": "b" * 32,
+        "ledger_last_hash": anchor,
+        "capture_closed_at": "2026-10-25T00:00:00Z",
+        "input_digests": digest_tree(snapshot),
         "audit": {"sha256": sha},
     }
     (root / "read-index.json").write_text(json.dumps({"version": 1, "runs": [row]}))
@@ -76,7 +83,7 @@ def test_published_blob_reads_fail_closed(published, monkeypatch, attack):
     _, snapshot, row = published
     p = reader(published)
     sha = next(iter(p.blobs(RUN_ID)["blobs"]))
-    path = snapshot / "blobs" / sha
+    path = snapshot / "blobs" / "sha256" / sha[:2] / sha
     if attack == "traversal":
         sha = "../ledger.jsonl"
     elif attack == "symlink":
@@ -102,6 +109,63 @@ def test_published_tampered_inputs_are_denied(published, name):
     path.write_bytes(b"{}")
     with pytest.raises(registry.RegistryError):
         reader(published).audits(RUN_ID)
+
+
+def test_registered_audit_must_match_run_and_anchor(published):
+    root, _, row = published
+    report = json.dumps({"run_id": "foreign", "ledger_last_hash": row["ledger_last_hash"]}).encode()
+    sha = hashlib.sha256(report).hexdigest()
+    (root / "audits" / f"{sha}.json").write_bytes(report)
+    row["audit"] = {"sha256": sha}
+    (root / "read-index.json").write_text(json.dumps({"version": 1, "runs": [row]}))
+    with pytest.raises(registry.RegistryError):
+        reader(published).audits(RUN_ID)
+
+
+@pytest.mark.parametrize("attack", ["dispatch", "digest", "input_path", "duplicate", "version"])
+def test_published_index_validation(published, attack):
+    root, _, row = published
+    index = {"version": 1, "runs": [row]}
+    if attack == "dispatch":
+        row["dispatch_id"] = "../escape"
+    elif attack == "digest":
+        row["input_digests"]["ledger.jsonl"] = "no digest"
+    elif attack == "input_path":
+        row["input_digests"]["../outside"] = "a" * 64
+    elif attack == "duplicate":
+        index["runs"].append(dict(row))
+    else:
+        index["version"] = True
+    (root / "read-index.json").write_text(json.dumps(index))
+    with pytest.raises(registry.RegistryError):
+        reader(published).catalog()
+
+
+def test_unreferenced_blob_is_denied_even_when_published(published):
+    root, snapshot, row = published
+    data = b"unreferenced fixture"
+    sha = hashlib.sha256(data).hexdigest()
+    path = snapshot / "blobs" / "sha256" / sha[:2] / sha
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(data)
+    row["input_digests"].update(digest_tree(snapshot))
+    (root / "read-index.json").write_text(json.dumps({"version": 1, "runs": [row]}))
+    with pytest.raises(registry.RegistryError):
+        reader(published).blob(RUN_ID, sha)
+
+
+def test_loopback_config_loader_is_bounded_and_strict(tmp_path, monkeypatch):
+    monkeypatch.setattr(read_service, "trusted", lambda *a, **kw: None)
+    monkeypatch.setattr(read_service, "validate_loopback_paths", lambda c: None)
+    path = tmp_path / "config.json"
+    config = {"published_root": str(tmp_path), "viewer_dist": str(tmp_path),
+              "view_id": "shu", "origin": "http://127.0.0.1:8765"}
+    path.write_text(json.dumps(config))
+    assert read_service.load_loopback_config(path).view_id == "shu"
+    for raw in ('{"view_id":"a","view_id":"b"}', json.dumps({**config, "uid": 0}), " " * 17000):
+        path.write_text(raw)
+        with pytest.raises((ValueError, read_service.RegistryError, read_service.AuditInputError)):
+            read_service.load_loopback_config(path)
 
 
 def test_loopback_config_rejects_other_hosts_ports_and_request_views(tmp_path, monkeypatch):
@@ -132,8 +196,13 @@ def loopback(published, tmp_path, monkeypatch):
 def request(server, target, method="GET", headers=None):
     with socket.create_connection(server.server_address, timeout=2) as client:
         fields = {"Host": "127.0.0.1:8765", **(headers or {})}
-        client.sendall((f"{method} {target} HTTP/1.1\r\n" + "".join(
-            f"{k}: {v}\r\n" for k, v in fields.items()) + "\r\n").encode())
+        client.sendall(
+            (
+                f"{method} {target} HTTP/1.1\r\n"
+                + "".join(f"{k}: {v}\r\n" for k, v in fields.items())
+                + "\r\n"
+            ).encode()
+        )
         result = b""
         while block := client.recv(65536):
             result += block
