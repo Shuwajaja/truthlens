@@ -92,7 +92,9 @@ their rationale in the [event schema decisions](docs/spec/event-schema-v1.md),
 integrity is not approval. HMAC protection depends on keeping the signing key
 outside the agent's Unix identity.
 
-For visual review, see the [desktop/mobile screenshots and capture instructions](docs/screenshots/feat/job-application-polish/review-summary.md).
+For visual review, see the [screenshot instructions](#viewer-development-and-screenshots)
+and [previously published workspace evidence](docs/screenshots/w5/issue-156-workspace-phase-a/review-summary.md)
+(historical captures, tied to the source commits listed there).
 For current completion and operational limits, use [STATUS](docs/STATUS.md).
 
 ## Quickstart (reproducible demo)
@@ -124,6 +126,30 @@ and captures story/criterion/diff drawers when the selected export contains them
 `viewer/.screenshots/` (ignored); browser binaries stay in the clone's `.venv/`.
 It checks browser and HTTP errors and stops the preview afterward. It is not
 required by CI and does not install system packages.
+
+To publish a new review, select a directory under `docs/screenshots/<branch>/`:
+
+```bash
+# From viewer/, on a machine with Chromium's Linux libraries already installed:
+npm run build
+PLAYWRIGHT_BROWSERS_PATH=../.venv/playwright \
+  WORKSPACE_OUTPUT=../docs/screenshots/feat/job-application-polish \
+  npm run review:screenshots
+```
+
+The helper records the source commit, browser version, screenshots and unrestricted
+axe results at desktop **1440×900** and mobile **390×844**, across both themes and
+lenses. Inspect the images and all serious/critical and incomplete axe findings
+before presenting them as reviewed evidence. For an optional demo GIF, record the
+same local demo navigation with Playwright's `recordVideo` context option, close
+the context to finalize its WebM, then convert that recording with a local video
+tool. Keep the original recording and identify the source commit; do not replace
+recorded data or trust labels for the animation.
+
+The job-application polish capture attempt on 25 October 2026 was **blocked**:
+Playwright downloaded Chromium, but it could not start because the host lacks
+`libatk-1.0.so.0`. No new screenshot, GIF or axe pass was produced. Reproduce on
+a browser-ready machine; this task did not install host libraries or change services.
 
 The renderer registry changes presentation only; lens settings and drawer actions
 are separate from recorded inputs. Pre-migration Vitest snapshots cover the real
