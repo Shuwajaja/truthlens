@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # Creates the throw-away demo fixture repo (docs/DEMO-TASK.md) at $1 and the criteria file at $2.
+# Derived criteria need interactive human confirmation; server profiles have no confirmation step.
+# See deploy/server/README.md before reusing these proposals in a server profile.
 set -euo pipefail
 D="$1"; C="$(realpath -m "$2")"; mkdir -p "$D/tests"; cd "$D"
 cat > README.md <<'MD'

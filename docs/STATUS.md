@@ -1,3 +1,56 @@
+## Operator profile pitfalls — local qualification, 25 October 2026
+
+Branch `fix/operator-profile-pitfalls`, base `4b44db0`; tested code/tests at
+`6af4efbbc81ce195f766316ec74cb751efccda1f`. Subsequent documentation edits do not
+change those blobs. Scope is trial-runbook items **1, 2, 3 and 8** only.
+[Operator preflight, example and troubleshooting](../deploy/server/README.md#profile-preflight-before-a-server-run).
+
+- Root-only `truthlens profile check NAME|PATH` warns on derived-only criteria,
+  non-absolute test executables and a repo without a committed HEAD. It reuses
+  protected loading for installed names; explicit drafts get bounded no-follow
+  regular-file reads. Git is read-only, output-discarding, environment-isolated,
+  discovery-bounded, lazy-fetch-disabled and time-limited. No profile command,
+  runner probe, key/registry read, write, privilege grant or run is performed.
+- Warnings go only to operator stderr; exit 0 means no listed pitfall, not a
+  checkable run or approval. The shared execution loader is deliberately silent.
+  G1 broker/wire/client/adapter, fixed agent-facing errors and D34 are unchanged.
+- Documentation covers criterion provenance, an absolute task-user interpreter
+  with pytest, a committed Git workspace, and kernel loginuid/PID-1 attribution
+  including container/PAM/subreaper limits. The demo intentionally retains
+  derived proposals for interactive human confirmation. No auto-confirmation,
+  actor semantics, frozen contract or other trial-runbook item changed.
+
+TDD: `8fa90fb` captured **26 failures** before the command existed; `571609a`
+passed **40 targeted tests**. Review strengthened nonroot-before-open and
+all-status CLI/MCP leakage checks and added FIFO rejection. `608b761` captured
+the additional lazy-fetch regression (**1 failed, 29 passed** on the review
+working tree); `6af4efb` passed **44 targeted tests** with
+`.venv/bin/python -m pytest -q tests/test_profile_check.py tests/test_pipeline.py`.
+Final author self-review used a separate security/D34 pass over the complete
+diff; no blocking finding remains. This was self-review, not a separate reviewer
+or human approval. Root identity and broker replies in new tests are simulated;
+temporary Git repositories are real. No deployed isolation is claimed.
+
+Full Python suites, sequentially in **UTC and Europe/Berlin**, each reported
+**692 passed, 2 skipped, 1 xfailed, 21 subtests passed**, without deselection:
+`TZ=UTC` / `TZ=Europe/Berlin`, `umask 022`, command-scoped venv PATH and repo-local
+TMPDIR, `.venv/bin/python -m pytest -q -rs --basetemp=.u` / `--basetemp=.b`.
+The skips require existing host accounts/sudo; the expected failure preserves
+the same-UID key-risk regression. Full Viewer `npm test` passed **422 tests /
+44 files** in each timezone, including language/style/theme checks and all five
+toolbar build variants; existing jsdom scrollTo notices remain.
+Ruff (`src tests`), new-file formatting, Viewer lint/TypeScript/production build,
+Python sdist/wheel build, shell syntax and document/link/JSON consistency passed.
+
+Earlier full-suite failures were witnessed and resolved by test-environment
+settings: eight initial Python failures from umask/PATH/Unix socket path length;
+a later concurrent timezone attempt collided on the existing fixed loopback
+test port. Final runs were sequential. Two initial Ruff findings were corrected.
+Exact commands, intermediate results and limits are in untracked `PR_BODY.md`.
+No real host setup, live-service/client qualification, separate-UID isolation,
+browser/axe review, coverage measurement, publishing, push or PR action ran.
+Existing temporary Unix/loopback tests ran; no network feature was added.
+
 ## Phase G2: agent setup — local qualification, 25 October 2026
 
 Branch `feat/phase-g2-agent-setup`, base `3a7a9f7` (G1 / PR #174).
