@@ -51,4 +51,16 @@ describe('pure cross-run aggregation of exported fields',()=>{
   expect(result.latest).toHaveLength(14)
   expect(aggregateRuns(new Array(2**32-1)).omitted).toBe(2**32-1-OVERVIEW_LIMITS.runs)
  })
+ it('charges malformed and duplicate documents against the global work budget',()=>{
+  const a=entry(),event=a.doc.events[0]
+  a.doc.events=Array.from({length:10_000},(_,i)=>({...event,id:`event-${i}`}))
+  const copies=Array.from({length:15},()=>a)
+  const result=aggregateRuns([...copies,entry('after-budget')])
+  expect(result.latest.some(row=>row.runId==='after-budget')).toBe(false)
+  expect(result.excluded).toBeGreaterThan(0)
+ })
+ it('counts proposed criteria without conflating them with unverified criteria',()=>{
+  const a=entry();a.doc.criteria[0].status='proposed'
+  expect(aggregateRuns([a]).criteria).toMatchObject({proposed:1,met:0,unverified:1})
+ })
 })

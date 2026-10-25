@@ -1,15 +1,16 @@
 import {Button} from '../components/ui/button.tsx'
 import type {PrivateRunCatalog,PrivateRunSummary} from '../private-reader.ts'
 
-export function PrivateRunsView({catalog,loadingMore,onOpenRun,onLoadMore,onDisconnect}:{
+export function PrivateRunsView({catalog,loadingMore,onOpenRun,onLoadMore,onDisconnect,heading=true}:{
  catalog:PrivateRunCatalog
  loadingMore:boolean
  onOpenRun:(run:PrivateRunSummary)=>void
  onLoadMore:()=>void
  onDisconnect:()=>void
+ heading?:boolean
 }){
  return <section className="runs-view">
-  <h1>Runs</h1>
+  {heading?<h1>Runs</h1>:<h2>Private catalog</h2>}
   <p>Private reader catalog. Integrity is not approval.</p>
   <dl><dt>Workspace</dt><dd><code>{catalog.source_id}</code></dd></dl>
   {catalog.runs.length===0?<p>No runs are available in this private reader.</p>:<div className="runs-list">{catalog.runs.map(run=><article key={run.source_id}>

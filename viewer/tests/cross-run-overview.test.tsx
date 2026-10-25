@@ -26,6 +26,12 @@ it('shows an honest empty state for sources with no documents and no example cha
  expect(screen.queryByText(/0 of 0/)).toBeNull()
  expect(screen.getByText(/Integrity is not approval/)).toBeTruthy()
 })
+it('summarizes loaded snapshots even when earlier catalog sources have empty caches',()=>{
+ const empty={...source(),runs:new Map()}
+ const sources=[...Array.from({length:200},()=>empty),source()]
+ render(<RunsView sources={sources} onOpenRun={()=>{}}/> )
+ expect(screen.getByRole('button',{name:`Open run: ${run.run.project}`})).toBeTruthy()
+})
 it('renders hostile recorded strings as text, retaining metadata and the local trust boundary',()=>{
  const doc=structuredClone(run) as RunDoc
  doc.run.project='<img src=x onerror=alert(1)>'
