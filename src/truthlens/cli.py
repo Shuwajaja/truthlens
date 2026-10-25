@@ -48,6 +48,10 @@ def main(argv: list[str] | None = None) -> int:
         return _audit_status_command(argv[2:])
     ap = argparse.ArgumentParser(prog="truthlens")
     sub = ap.add_subparsers(dest="cmd", required=True)
+    p = sub.add_parser("profile", help="read-only operator profile diagnostics (root only)")
+    profile_sub = p.add_subparsers(dest="profile_cmd", required=True)
+    profile_check = profile_sub.add_parser("check")
+    profile_check.add_argument("name_or_path", metavar="NAME|PATH")
     p = sub.add_parser("pipeline", help="protected server pipeline (host setup required)")
     pipeline_sub = p.add_subparsers(dest="pipeline_cmd", required=True)
     run_parser = pipeline_sub.add_parser("run")
@@ -132,6 +136,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--hmac-key-env", metavar="VAR")
     p.add_argument("--hmac-key-id", metavar="ID")
     a = ap.parse_args(argv)
+
+    if a.cmd == "profile":
+        from truthlens.profile_check import check
+
+        return check(a.name_or_path)
 
     if a.cmd in ("pipeline", "admit", "status"):
         return _pipeline_command(a)
