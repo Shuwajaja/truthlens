@@ -5,6 +5,14 @@ Task given to the agent (verbatim): **"Build a small landing page with a contact
 Run inside a throw-away fixture repo (`demo/fixture-landing/`, created by the demo script), wrapped by `truthlens run -- <agent>`.
 
 ## Criteria (derived → `proposed`, then confirmed by the human with `criteria.confirmed`)
+
+`demo/make-fixture.sh` intentionally emits agent-derived proposals for this
+interactive path. Server profiles have no confirmation step and must not treat
+this fixture as ready-made checkable criteria; see the
+[server profile guide](../deploy/server/README.md#profile-preflight-before-a-server-run).
+Only criteria actually supplied by a human use `source: "user"`; copying or
+running this fixture does not create a human confirmation or approval.
+
 | id | Criterion | Witness that can decide it | Expected status |
 |---|---|---|---|
 | `c1` | Page exists (`index.html` with a heading and a form) | `file_changed` evidence + witnessed test `test_page_exists` | `met` |
