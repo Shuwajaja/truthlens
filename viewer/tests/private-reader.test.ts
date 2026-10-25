@@ -1,11 +1,23 @@
 import {afterEach,expect,it,vi} from 'vitest'
-import {connectPrivateReader,loadPrivateRun,MAX_CATALOG_BYTES,MAX_DOCUMENT_BYTES} from '../src/private-reader.ts'
+import {connectPrivateReader,loadPrivateCatalogPage,loadPrivateRun,MAX_CATALOG_BYTES,MAX_DOCUMENT_BYTES} from '../src/private-reader.ts'
 import run from '../fixtures/demo-run.json'
 
 const contextId='a'.repeat(64),runSourceId='b'.repeat(64)
 const catalog={source_id:contextId,runs:[{run_id:run.run.run_id,source_id:runSourceId,registration_id:'registration_1',ledger_last_hash:run.run.ledger_last_hash,capture_closed_at:'2026-10-23T00:00:00.000Z'}],next_offset:null}
 const json=(value:unknown)=>new Response(JSON.stringify(value),{headers:{'content-type':'application/json'}})
 afterEach(()=>vi.unstubAllGlobals())
+
+it.each([0,50])('rejects a non-advancing catalog cursor at offset %s',async offset=>{
+ vi.stubGlobal('fetch',vi.fn().mockResolvedValue(json({...catalog,next_offset:offset})))
+ await expect(loadPrivateCatalogPage(contextId,offset)).rejects.toThrow(/cursor/)
+})
+
+it('accepts an advancing catalog page without fetching any document',async()=>{
+ const fetchMock=vi.fn().mockResolvedValue(json({...catalog,next_offset:100}))
+ vi.stubGlobal('fetch',fetchMock)
+ expect((await loadPrivateCatalogPage(contextId,50)).next_offset).toBe(100)
+ expect(fetchMock.mock.calls.map(([url])=>url)).toEqual(['/v1/runs?offset=50&limit=50'])
+})
 
 it('connects only through the fixed same-origin health and first catalog paths',async()=>{
  const fetchMock=vi.fn().mockResolvedValueOnce(json({source_id:contextId,service:'available'})).mockResolvedValueOnce(json(catalog))

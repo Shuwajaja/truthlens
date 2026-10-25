@@ -13,6 +13,33 @@ const open = (ref: RunReference, view: 'overview' | 'timeline' = 'overview'): Na
 const openTab = (state = initialNavigationState(), ref = run('source', 'run'), view: 'overview' | 'timeline' = 'overview') => navigationReducer(state, open(ref, view))
 
 describe('navigationReducer', () => {
+  it('dedupes by source, target and every renderer including ClaimedVsProven', () => {
+    let state = initialNavigationState()
+    for (const sourceId of ['source-one', 'source-two']) {
+      for (const runId of ['run-one', 'run-two']) {
+        for (const view of ['overview', 'claimed-vs-proven', 'timeline', 'agent-story'] as const) {
+          const action: NavigationAction = { type: 'open-run', ref: run(sourceId, runId), view }
+          state = navigationReducer(navigationReducer(state, action), action)
+        }
+      }
+      const action: NavigationAction = { type: 'open-runs', sourceId }
+      state = navigationReducer(navigationReducer(state, action), action)
+    }
+    expect(state.tabs).toHaveLength(18)
+    expect(new Set(state.tabs.map(tab => tab.tabId)).size).toBe(18)
+  })
+
+  it('restores an already reopened target at capacity by selecting it', () => {
+    let state = openTab()
+    state = navigationReducer(state, { type: 'close-tab', tabId: state.activeTabId!, closedAt: 1 })
+    state = openTab(state)
+    for (let index = 1; index < MAX_OPEN_TABS; index++) state = openTab(state, run('s', String(index)))
+    state = navigationReducer(state, { type: 'restore-closed' })
+    expect(state.tabs).toHaveLength(MAX_OPEN_TABS)
+    expect(state.activeTabId).toBe(state.tabs[0].tabId)
+    expect(state.closed).toHaveLength(0)
+    expect(state.capacityError).toBeNull()
+  })
   it('keeps source identity and tuple boundaries distinct', () => {
     const first = openTab(initialNavigationState(), run('a|b', 'c'))
     const second = openTab(first, run('a', 'b|c'))

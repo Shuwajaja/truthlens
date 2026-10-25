@@ -19,6 +19,21 @@ function memoryStorage(seed?: string): Storage {
 }
 
 describe('navigation storage', () => {
+  it('binds metadata to one workspace without creating unbounded storage keys', () => {
+    const storage = memoryStorage()
+    const state = openRun()
+    expect(writeNavigation(storage, state, 'reader-one').status).toBe('saved')
+    expect(readNavigation(storage, 'reader-one').state).toEqual(state)
+    expect(readNavigation(storage, 'reader-two').state).toEqual(initialNavigationState())
+    expect(readNavigation(storage, 'reader-two').status).toBe('invalid')
+    expect(writeNavigation(storage, state, 'reader-two').status).toBe('saved')
+    expect(storage.length).toBe(1)
+    expect(readNavigation(storage, 'reader-one').state.tabs).toHaveLength(0)
+  })
+
+  it('does not attribute legacy unscoped metadata to a connected workspace', () => {
+    expect(readNavigation(memoryStorage(serializeNavigation(openRun())), 'reader').status).toBe('invalid')
+  })
   it('round trips only allowlisted metadata', () => {
     const state = openRun()
     const enriched = { ...state, tabs: state.tabs.map(tab => ({ ...tab, evidence: 'private content', runDoc: { secret: true } })) }
