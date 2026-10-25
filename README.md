@@ -12,6 +12,91 @@ For vibe coders and anyone handing work to AI agents — coding, research, writi
 > Tamper detection holds only while the HMAC key stays with the human and the agent runs as a separate Unix user.
 > "met" means: the restored test command that TruthLens started reported success; app code running in the test process can forge it (accepted v1 limit).
 
+## For reviewers
+
+TruthLens is a local-first evidence recorder for AI-agent work. Its Python CLI
+captures commands, file changes, test reports and agent claims in a portable run
+directory. The React viewer separates recorded evidence from claims and human
+approval. The core uses the Python standard library; the browser presents exported
+verification results and does **not** verify signatures itself.
+
+**Run locally** with Python 3.12+ and Node 24:
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -e '.[dev]'
+cd viewer
+npm ci
+npm run dev -- --host 127.0.0.1
+```
+
+Open the loopback URL printed by Vite. Development serves the committed
+`viewer/fixtures/demo-run.json`; no API key or new agent run is needed. This is
+recorded demo data, not a live service. For a fresh scripted capture, use the
+[offline quickstart](#quickstart-reproducible-demo) below. A production build
+starts **Not connected** and requires an explicit Connect action to the private
+reader; it never bundles the development fixture.
+
+**Tests** (from the repository root after activating the virtual environment):
+
+```bash
+pytest -q -ra
+ruff check src tests
+cd viewer
+npm test
+npm run lint
+npm run build
+node --test ../integrations/agent-zero-acp/audit-status.test.cjs
+```
+
+The Python suite includes tampering, redaction, approval replay, wrapper isolation,
+read-only APIs and projection regressions. `tests/test_round5.py` also checks that
+MCP withholds reports and timelines for a wrong signing key or a truncated ledger.
+Separate-UID tests skip when their local user/sudo prerequisites are unavailable;
+the documented same-UID attack is an expected failure. Neither is a security pass.
+`npm test` includes the retained toolbar build matrix and all Vitest tests; it is
+broader than fast PR CI. Browser screenshots and axe are separate manual checks.
+
+**Architecture:** the ledger and artifact store are the source of evidence;
+SQLite is a rebuildable projection. Start with `wrapper.py` for capture,
+`ledger.py` / `manifest.py` for verification, `export.py` / `mcp.py` for read paths,
+and `viewer/src/App.tsx` for presentation.
+
+```mermaid
+flowchart TD
+    Human[Human: criteria and exact-action approval] --> CLI[CLI / wrapper]
+    CLI --> Agent[Agent subprocess]
+    Agent --> Capture[Captured output and file changes]
+    CLI --> Tests[Witnessed test subprocess]
+    Tests --> Capture
+    Capture --> Redact[Redaction before hashing]
+    Redact --> Package[Run directory: ledger, manifest, blobs]
+    CLI --> Gate[Approval gate: hash-bound, single use]
+    Human --> Gate
+    Gate --> Package
+    Package --> Verify[Fail-closed ledger and artifact verification]
+    Verify --> Export[JSON export / report]
+    Verify --> MCP[Read-only stdio MCP]
+    Package --> SQLite[Rebuildable SQLite projection]
+    Export --> Viewer[React viewer: Client and Developer lenses]
+```
+
+**Design decisions:** canonical JSON excludes floats; secrets are replaced with
+plain `[REDACTED]` before hashing; events form a chain ordered by `seq`; writes
+use a single writer and fsync. Verification fails closed. Human-only approval
+events cannot be replaced by agent decisions. These are frozen contracts, with
+their rationale in the [event schema decisions](docs/spec/event-schema-v1.md),
+[artifact manifest](docs/spec/artifact-manifest-v1.md) and
+[trust levels](docs/TRUST-LEVELS.md). The approval gate is not a sandbox, and
+integrity is not approval. HMAC protection depends on keeping the signing key
+outside the agent's Unix identity.
+
+For visual review, see the [screenshot instructions](#viewer-development-and-screenshots)
+and [previously published workspace evidence](docs/screenshots/w5/issue-156-workspace-phase-a/review-summary.md)
+(historical captures, tied to the source commits listed there).
+For current completion and operational limits, use [STATUS](docs/STATUS.md).
+
 ## Quickstart (reproducible demo)
 ```bash
 pip install -e '.[dev]'
@@ -23,7 +108,7 @@ Expected: c1 `met`, c2 `unmet`, c3 `unverified`, the agent's "all done" claim `c
 
 ### Viewer development and screenshots
 
-The viewer is local-first. `npm run build` produces one local, disconnected build without demo data. Phase B (local reader/SSH access boundary) is not connected. Demo fixtures are available only to tests, screenshots and `npm run dev`. No public demo/preview delivery is planned; existing Vercel platform settings remain unchanged pending separate owner approval.
+The viewer is local-first. `npm run build` produces one local build that starts disconnected, without demo data. The repository includes a private reader/SSH access boundary; connecting and running a live service require separate setup. Demo fixtures are available only to tests, screenshots and `npm run dev`. No public demo/preview delivery is planned; existing Vercel platform settings remain unchanged pending separate owner approval.
 
 Use Node 24 (as in CI); the viewer declares Node >=22.19 and its locked developer
 dependencies may require newer Node 22 patch releases. From `viewer/`:
@@ -41,6 +126,30 @@ and captures story/criterion/diff drawers when the selected export contains them
 `viewer/.screenshots/` (ignored); browser binaries stay in the clone's `.venv/`.
 It checks browser and HTTP errors and stops the preview afterward. It is not
 required by CI and does not install system packages.
+
+To publish a new review, select a directory under `docs/screenshots/<branch>/`:
+
+```bash
+# From viewer/, on a machine with Chromium's Linux libraries already installed:
+npm run build
+PLAYWRIGHT_BROWSERS_PATH=../.venv/playwright \
+  WORKSPACE_OUTPUT=../docs/screenshots/feat/job-application-polish \
+  npm run review:screenshots
+```
+
+The helper records the source commit, browser version, screenshots and unrestricted
+axe results at desktop **1440×900** and mobile **390×844**, across both themes and
+lenses. Inspect the images and all serious/critical and incomplete axe findings
+before presenting them as reviewed evidence. For an optional demo GIF, record the
+same local demo navigation with Playwright's `recordVideo` context option, close
+the context to finalize its WebM, then convert that recording with a local video
+tool. Keep the original recording and identify the source commit; do not replace
+recorded data or trust labels for the animation.
+
+The job-application polish capture attempt on 25 October 2026 was **blocked**:
+Playwright downloaded Chromium, but it could not start because the host lacks
+`libatk-1.0.so.0`. No new screenshot, GIF or axe pass was produced. Reproduce on
+a browser-ready machine; this task did not install host libraries or change services.
 
 The renderer registry changes presentation only; lens settings and drawer actions
 are separate from recorded inputs. Pre-migration Vitest snapshots cover the real

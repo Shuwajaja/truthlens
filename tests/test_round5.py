@@ -7,11 +7,13 @@ import textwrap
 
 import pytest
 
+from tests.test_export_integrity import TEST_KEY, WRONG_KEY, _closed_run
 from tests.test_mcp import DEMO, _call, _rpc
 from tests.test_wrapper import _keyfile, _repo
 from truthlens import gate
 from truthlens.cli import main
 from truthlens.ledger import Ledger, LedgerError
+from truthlens.mcp import Server
 
 KEY = b"k" * 32
 
@@ -100,6 +102,43 @@ def test_e_mcp_without_key_is_not_verified_true(tmp_path):
     shutil.copytree(DEMO / "demo-2", tmp_path / "demo-2")
     rep = json.loads(_rpc(tmp_path, _call(1, "run_report", run="demo-2"))[0]["result"]["content"][0]["text"])
     assert rep["verified"] is False and rep["integrity"] == "hash-only"
+
+
+def test_e_mcp_wrong_key_withholds_report_and_timeline(tmp_path):
+    """A supplied but incorrect key must not expose apparently verified evidence."""
+    root, events, _ = _closed_run(tmp_path)
+    before = {path.name: path.read_bytes() for path in root.iterdir()}
+    trusted = Server(str(tmp_path), TEST_KEY)
+    assert trusted.call("run_report", {"run": "run"})["verified"] is True
+    assert len(trusted.call("run_events", {"run": "run"})["events"]) == len(events)
+
+    for tool in ("run_report", "run_events"):
+        response = Server(str(tmp_path), WRONG_KEY).handle(_call(1, tool, run="run"))
+        assert response["result"]["isError"] is False
+        doc = json.loads(response["result"]["content"][0]["text"])
+        assert doc["verified"] is False and doc["integrity"] == "failed"
+        assert "hmac mismatch" in json.dumps(doc["errors"])
+        assert not {"events", "criteria", "claims", "counts"}.intersection(doc)
+    assert {path.name: path.read_bytes() for path in root.iterdir()} == before
+
+
+def test_e_mcp_truncated_signed_run_withholds_report_and_timeline(tmp_path):
+    """Even a valid signed prefix cannot satisfy the unchanged manifest anchor."""
+    from truthlens.ledger import verify
+
+    root, _, _ = _closed_run(tmp_path)
+    ledger = root / "ledger.jsonl"
+    ledger.write_bytes(ledger.read_bytes().splitlines(keepends=True)[0])
+    assert verify(ledger, TEST_KEY).ok  # The retained event is still correctly signed.
+    before = {path.name: path.read_bytes() for path in root.iterdir()}
+
+    for key in (None, TEST_KEY):
+        for tool in ("run_report", "run_events"):
+            doc = Server(str(tmp_path), key).call(tool, {"run": "run"})
+            assert doc["verified"] is False and doc["integrity"] == "failed"
+            assert "anchor" in json.dumps(doc["errors"])
+            assert not {"events", "criteria", "claims", "counts"}.intersection(doc)
+    assert {path.name: path.read_bytes() for path in root.iterdir()} == before
 
 
 def _tl_agent_ok() -> bool:
