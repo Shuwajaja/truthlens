@@ -453,7 +453,7 @@ config = read_service.ReaderConfig(
     forwarder_uid=os.getuid(), view_id='synthetic-signal-test',
 )
 read_service.load_config = lambda path: config
-raise SystemExit(read_service.main(['--config', 'synthetic-only']))
+raise SystemExit(read_service.legacy_main(['--config', 'synthetic-only']))
 """
     process = subprocess.Popen(
         [

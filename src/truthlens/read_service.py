@@ -1,7 +1,8 @@
-"""Private, fixed-view Unix HTTP reader. No TCP listener or write API.
+"""Fixed-view read-only HTTP, with D34 unprivileged loopback entrypoint.
 
-Run only after a separately authorized host setup; this module creates/removes its
-own socket and never installs services, users, keys, or configuration.
+Run only after a separately authorized host setup. The legacy Unix transport
+is retained for compatibility tests; the CLI serves only the D34 loopback view.
+Neither transport installs services, users, keys, or configuration.
 """
 
 from __future__ import annotations
@@ -22,7 +23,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
-from truthlens.registry import ID, Registry, RegistryError, trusted
+from truthlens.registry import ID, RegistryError, trusted
 
 ROOT_UID = 0
 MAX_REQUEST = 16384
@@ -276,6 +277,17 @@ class ReadHandler(socketserver.BaseRequestHandler):
         if path == "/v1/runs":
             args = _query(query, {"offset": (0, 0, 1000000), "limit": (50, 1, 50)})
             return projection.catalog(**args), "application/json"
+        extra = re.fullmatch(
+            r"/v1/runs/([A-Za-z0-9_-]{1,80})/(artifacts|blobs|audits)(?:/([a-f0-9]{64}))?", path
+        )
+        if extra:
+            run_id, route, digest = extra.groups()
+            _query(query, {})
+            if digest is not None:
+                if route != "blobs":
+                    raise HTTPError(404, "not_found")
+                return projection.blob(run_id, digest), "application/octet-stream"
+            return getattr(projection, route)(run_id), "application/json"
         match = re.fullmatch(r"/v1/runs/([A-Za-z0-9_-]{1,80})/(document|events)", path)
         if match:
             run_id, route = match.groups()
@@ -439,8 +451,103 @@ class ReadServer(socketserver.UnixStreamServer):
             self.dist_fd = None
 
 
-def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Private fixed-view Unix HTTP reader")
+@dataclass(frozen=True)
+class LoopbackConfig:
+    published_root: Path
+    viewer_dist: Path
+    view_id: str
+    origin: str = "http://127.0.0.1:8765"
+
+    def validate(self) -> None:
+        if self.origin != "http://127.0.0.1:8765":
+            raise ValueError("Invalid reader configuration")
+        if not isinstance(self.view_id, str) or not ID.fullmatch(self.view_id):
+            raise ValueError("Invalid reader configuration")
+        for path in (self.published_root, self.viewer_dist):
+            if not isinstance(path, Path) or not path.is_absolute() or ".." in path.parts:
+                raise ValueError("Invalid reader configuration")
+        validate_loopback_paths(self)
+
+
+def validate_loopback_paths(config: LoopbackConfig) -> None:
+    # Same protected ancestry, but permit group read on the separate publication.
+    # Never grant this service access to the private registry or audit key.
+    trusted(config.published_root, directory=True)
+    trusted(config.published_root / "read-index.json")
+    trusted(config.viewer_dist, directory=True)
+    trusted(config.viewer_dist / "index.html")
+
+
+def load_loopback_config(path: Path) -> LoopbackConfig:
+    from truthlens.audit_inputs import SafeRunReader
+    from truthlens.read_projection import _json
+
+    trusted(path)
+    with SafeRunReader(path.parent) as reader:
+        raw = _json(reader.read(path.name, limit=MAX_REQUEST))
+        reader.finish()
+    if not isinstance(raw, dict) or set(raw) != set(LoopbackConfig.__dataclass_fields__):
+        raise ValueError("Invalid reader configuration")
+    for key in ("published_root", "viewer_dist"):
+        if not isinstance(raw[key], str):
+            raise TypeError("Invalid reader configuration")
+        raw[key] = Path(raw[key])
+    config = LoopbackConfig(**raw)
+    config.validate()
+    return config
+
+
+class LoopbackReadServer(socketserver.TCPServer):
+    """D34 Shu transport. Loopback is NOT an OS principal/authentication check.
+
+    Live use additionally requires reviewed worker UID/netns exclusion. Agent
+    Zero must never be pointed at this evidence-bearing endpoint.
+    """
+
+    request_queue_size = 16
+    allow_reuse_address = True
+
+    def __init__(self, config: LoopbackConfig, projection):
+        config.validate()
+        self.config = config
+        self.projection = projection
+        self.dist_fd = os.open(
+            config.viewer_dist, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC
+        )
+        self._slots = threading.BoundedSemaphore(2)
+        self._executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="truthlens-reader")
+        try:
+            super().__init__(("127.0.0.1", 8765), ReadHandler)
+        except BaseException:
+            self.server_close()
+            raise
+
+    def get_request(self):
+        request, address = super().get_request()
+        request.settimeout(REQUEST_TIMEOUT)
+        return request, address
+
+    process_request = ReadServer.process_request
+    _process_request = ReadServer._process_request
+    handle_error = ReadServer.handle_error
+
+    def verify_request(self, request: socket.socket, client_address) -> bool:
+        return client_address[0] == "127.0.0.1"
+
+    def server_close(self) -> None:
+        if hasattr(self, "socket"):
+            super().server_close()
+        self._executor.shutdown(wait=True)
+        if self.dist_fd is not None:
+            os.close(self.dist_fd)
+            self.dist_fd = None
+
+
+def legacy_main(argv: list[str] | None = None) -> int:
+    """Compatibility test entrypoint for the earlier Unix transport (not CLI)."""
+    from truthlens.registry import Registry
+
+    parser = argparse.ArgumentParser(description="Legacy private Unix HTTP reader")
     parser.add_argument("--config", required=True, type=Path)
     args = parser.parse_args(argv)
     try:
@@ -463,6 +570,35 @@ def main(argv: list[str] | None = None) -> int:
     except KeyboardInterrupt:
         return 0
     except (OSError, ValueError, RegistryError):
+        parser.exit(1, "Reader unavailable or configuration denied.\n")
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    from truthlens.audit_inputs import AuditInputError
+    from truthlens.read_projection import PublishedReadProjection
+
+    parser = argparse.ArgumentParser(description="D34 fixed Shu reader on 127.0.0.1:8765")
+    parser.add_argument("--config", required=True, type=Path)
+    args = parser.parse_args(argv)
+    try:
+        if os.getuid() == 0 or os.geteuid() == 0:
+            raise ValueError("Unprivileged reader required")
+        config = load_loopback_config(args.config)
+        projection = PublishedReadProjection(config.published_root, view_id=config.view_id)
+
+        def stop_on_sigterm(signum, frame):
+            raise KeyboardInterrupt
+
+        previous = signal.signal(signal.SIGTERM, stop_on_sigterm)
+        try:
+            with LoopbackReadServer(config, projection) as server:
+                server.serve_forever()
+        finally:
+            signal.signal(signal.SIGTERM, previous)
+    except KeyboardInterrupt:
+        return 0
+    except (OSError, ValueError, RegistryError, AuditInputError, TypeError, RecursionError):
         parser.exit(1, "Reader unavailable or configuration denied.\n")
     return 0
 

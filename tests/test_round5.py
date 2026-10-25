@@ -143,11 +143,14 @@ def test_e_mcp_truncated_signed_run_withholds_report_and_timeline(tmp_path):
 
 def _tl_agent_ok() -> bool:
     import shutil
-    return (shutil.which("sudo") is not None and subprocess.run(["id", "tl-agent"], capture_output=True, check=False).returncode == 0
+    # This host-only test creates its temporary fixture in the pre-provisioned
+    # agent workspace. An account alone is not sufficient; never create it here.
+    return (os.path.isdir("/srv/tl-agent/wt") and os.access("/srv/tl-agent/wt", os.W_OK | os.X_OK)
+            and shutil.which("sudo") is not None and subprocess.run(["id", "tl-agent"], capture_output=True, check=False).returncode == 0
             and subprocess.run(["sudo", "-n", "-u", "tl-agent", "true"], capture_output=True, check=False).returncode == 0)
 
 
-@pytest.mark.skipif(not _tl_agent_ok(), reason="needs local unix user tl-agent + sudo (box only, not CI)")
+@pytest.mark.skipif(not _tl_agent_ok(), reason="needs tl-agent + sudo + writable /srv/tl-agent/wt (host only)")
 def test_a_separate_uid_agent_cannot_read_key(tmp_path):
     """Same attack as test_a, but the agent runs as tl-agent via `sudo -u tl-agent env -i`: it can still see
     the key PATH in a parent cmdline, but reading the key file (owned by the box user, 600) must fail."""

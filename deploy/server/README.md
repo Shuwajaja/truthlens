@@ -137,75 +137,121 @@ Local privileged tests simulate root checks and do not establish VPS isolation.
 Host installation and activation still require separate explicit authorization.
 
 
-## Private reader preparation (D36; not installed)
+## Phase B reader — clarified D34 (25 October 2026; inactive)
 
-The owner selected a fixed Shu read view over a protected Unix socket and SSH.
-`truthlens-reader.service` is an **inactive example**, not a verified host unit.
-The implementation is started explicitly with `python -m truthlens.read_service
---config /etc/truthlens/reader.json` only after separate host authorization and
-an operator's review. Do not run it from an agent checkout or relax registry
-permissions. The root-only registry remains private. The reader service needs
-read-only access to its registry/snapshots and the immutable production Viewer
-build; the example hides the existing audit key and makes the filesystem
-read-only except for the socket directory. Any additional local key paths must
-also be hidden when preparing the actual service profile.
+The owner's clarified D34 selects a separate unprivileged `tl-reader` account,
+only `127.0.0.1:8765`, and one fixed Shu read view supplied by protected server
+configuration. This replaces the earlier D36 root-reader/Unix-forwarding
+preparation for the human reader. Legacy Unix classes remain compatibility
+code/tests; the module CLI now starts only the unprivileged loopback reader
+and refuses UID 0. No live reader, publication, account or policy is installed.
 
-The protected JSON configuration binds `view_id`, `forwarder_uid`, `state_root`,
-`socket_path`, `viewer_dist` and `origin`. There is no request-supplied principal,
-path, upstream URL or registration action. `forwarder_uid` is the numeric UID
-of the dedicated authorized SSH account, not a worker account. It also selects
-that UID's existing registry authorizations. The service confirms Linux Unix
-peer credentials before reading HTTP; root is not an automatic peer exception.
-A root-equivalent administrator can still change the configuration or impersonate
-a UID and is outside this boundary.
+Agent Zero receives **status only**: passed / failed / not checkable. It must
+never connect to the human evidence listener or receive events, evidence,
+reports, paths or keys. Its later transport is a separate Unix socket exposing
+only status, with permissions restricted to the actual Agent-Zero container
+UID. Do not use host networking or widen the loopback bind as a shortcut.
+The legacy widget/event projection is a human read view, not an Agent Zero API.
 
-The configured browser origin is a fixed loopback HTTP origin, for example
-`http://127.0.0.1:8765`. The intended client command, **after** approved setup,
-is `ssh -N -o ExitOnForwardFailure=yes -L
-127.0.0.1:8765:/run/truthlens-reader/reader.sock SSH_ACCOUNT@HOST` (join the
-line break into one command). Open the exact configured origin and choose
-Connect. The server has no TCP listener. Host/Origin/Fetch-Metadata checks
-complement SSH and socket permissions; they do not authenticate a human.
+### Separate publication, never relaxed registry permissions
 
-The service fails on an existing socket rather than unlinking an unknown
-endpoint. An operator must investigate stale state before a later restart.
-Runtime directory ownership/mode, socket ownership/mode, SSH forwarding policy,
-service sandboxing and account separation must be reviewed on the actual host.
-No commands here create accounts, change keys, install units or enable services.
+`/var/lib/truthlens` and its root-only registry/snapshots remain unchanged.
+The reader never instantiates `Registry`, opens that journal, runs
+`check_snapshot`, launches an audit, or reads an HMAC key. Instead a separately
+authorized trusted publisher/operator must export only already registered,
+closed, Shu-authorized snapshots and audit reports into a distinct tree such
+as `/srv/truthlens-published`. Phase B provides no publisher or admission route;
+its tests construct this layout from synthetic fixtures only. Copying an
+external run into a tree never creates pipeline registration.
 
-Live acceptance is still outstanding: run the actual permitted SSH path,
-observe denial from the worker UID, read a real eligible registered private
-snapshot, verify private filesystem contents/permissions remain unchanged, and
-measure peak memory with a large permitted journal. Local temporary sockets,
-synthetic registries and mocked browser responses do not establish any of those
-facts. No real private run or deployment result is asserted here.
+The publication and config must have root-owned, non-writable ancestry, no
+symlinks or hardlinks. Suggested inactive layout: root:tl-readers directories
+0550 and files0440, with group-read access only for `tl-reader`. The publisher
+must atomically replace and fsync files/directories before publishing the index
+last. It must preserve the original dispatch/session/registration, final anchor
+and captured SHA-256 digests; it must not derive authorization from untrusted
+run content. Publish reports only for that same run and ledger anchor. An
+incorrect trusted publication remains a trusted-operator error: hashes do not
+prove origin or freshness. Never add `tl-reader` to a root/key/worker group or
+make the original private registry group-readable.
 
+Protected `/etc/truthlens/reader.json` uses exactly these fields (example only):
 
-### Implemented preparation scope and bounds
+```json
+{
+  "published_root": "/srv/truthlens-published",
+  "viewer_dist": "/opt/truthlens/viewer/dist",
+  "view_id": "installation-specific-shu-view",
+  "origin": "http://127.0.0.1:8765"
+}
+```
 
-The current reader provides health, a catalog (at most 50 entries per page),
-RunDoc projections and event pages (at most 100 events). The planned artifact,
-blob, audit-report and export endpoints are not implemented by this slice.
-Documents omit blob bodies; a missing preview is not evidence of a missing
-original artifact. RunDoc projections remain `verified: false`,
-`integrity: hash-only`, even when the protected registration originated from a
-signed admission. This is not a fresh HMAC verification.
+The publication contains `read-index.json`, with integer `version: 1` and a
+`runs` array. Each entry has `view_id`, `run_id`, 32-lowercase-hex `dispatch_id`,
+`session_id`, `registration_id`, `snapshot_id` equal to `dispatch_id`,
+`ledger_last_hash`, `capture_closed_at`, and `input_digests` mapping relative
+captured filenames to lowercase SHA-256. Optional `audit: {"sha256": DIGEST}`
+references `audits/DIGEST.json`; absent audit returns null. Snapshot files live
+at `snapshots/DISPATCH_ID/{ledger.jsonl,manifest.json,blobs/sha256/aa/DIGEST}`.
+Only captured and event-referenced blob digests are readable. Index publication
+is configuration, not a new frozen event/manifest/trust format or an HTTP API.
+Unknown/foreign runs have the same fixed unavailable response. HTTP headers,
+query parameters and browser state cannot select a principal, view or path.
 
-The journal reader deliberately accepts at most 4MiB/10,000 rows (2MiB per row),
-below the core journal limit. Documents accept at most 2MiB of ledger input and
-10MiB of encoded response. Event pages retain the core 64MiB/100,000-event ledger
-limit, with a 128KiB encoded line bound; they do not retain all decoded events.
-The frozen verifier still buffers/splits the ledger bytes. These are fail-closed
-reader limits, not changed domain contracts or a measured memory guarantee.
-At most two requests are processed concurrently, using a fixed worker pool and
-a bounded pending connection backlog. The 256MiB unit memory cap is a hard
-operational ceiling, not a demonstrated availability guarantee for two maximum
-size inputs; peak-memory acceptance is still required. Large or concurrently changed inputs are
-unavailable, never silently truncated into a complete document.
+### Read routes and bounds
 
-Choose an installation-unique stable `view_id`, not a reused generic name across
-hosts. Source IDs combine that configured view/UID with the original dispatch,
-session, registration and captured ledger anchor. Paths and SSH usernames never
-come from browser requests. The socket parent must be root-owned mode0711;
-the socket is mode0600 owned by the configured nonroot forwarder UID. Protected
-config and registry files retain their existing root-only requirements.
+Only GET/HEAD exist; other methods, foreign Host/Origin, traversal, symlinks,
+hardlinks, mismatched digests and oversize inputs fail closed. All responses
+carry no-store, nosniff and CSP; no CORS access is granted. The browser must be
+served from the reader's exact origin. Routes are:
+
+- `/v1/health`: service availability and fixed view source identity.
+- `/v1/runs?offset=0&limit=50`: at most 50 registered entries, with next offset.
+- `/v1/runs/RUN_ID/document`: bounded RunDoc, always hash-only/verified false.
+- `/v1/runs/RUN_ID/events?after_seq=0&limit=100`: at most 100 projected events.
+- `/v1/runs/RUN_ID/artifacts`: checked manifest artifact metadata.
+- `/v1/runs/RUN_ID/blobs`: referenced blob digest metadata, at most 100.
+- `/v1/runs/RUN_ID/blobs/DIGEST`: captured blob bytes as octet-stream.
+- `/v1/runs/RUN_ID/audits`: stored audit report bound to run and ledger anchor,
+  or null; never a fresh audit or reader-side authentication claim.
+
+The read index is capped at 4MiB/10,000 rows. Document/artifact/blob/audit requests
+accept at most 2MiB of ledger input; event pages permit 64MiB/100,000 events and
+128KiB per encoded line. Manifest input is capped at 8MiB. Encoded responses are
+capped at 10MiB, individual blobs at 256KiB, stored reports at 2MiB. At most two
+requests run concurrently with a bounded listen backlog. The verifier still
+buffers ledger bytes; peak-memory and overload acceptance on a real host remain
+open. These are reader limits; frozen ledger/manifest contracts are unchanged.
+Missing content is unavailable, never fabricated or silently promoted to proof.
+
+### Host checklist — documentation only, do not execute during Phase B
+
+After separate owner authorization, an operator must review the installed
+system and then prepare a non-login `tl-reader` with no sudo/docker/key access,
+the separate read group/publication/config, a root-installed immutable Python
+package and fixture-free production Viewer build. Review
+`truthlens-reader.service` against that host before installing or starting it.
+It has no Install section and enables nothing. The template uses the host
+network namespace so SSH can reach loopback; it deliberately cannot substitute
+for reviewed worker UID/netns exclusion. No privileged capability is needed.
+
+Before activation, install and witness the OS rule denying `tl-agent`, `codex`
+and other workers access to TCP8765 (UID/netns policy), and denying access to
+the publication/config. No firewall or namespace commands are applied here.
+Verify the actual SSH user and forwarding policy separately. Inactive client
+command, only after that authorization and acceptance:
+
+```sh
+ssh -N -o ExitOnForwardFailure=yes -L 127.0.0.1:8765:127.0.0.1:8765 SHU_ACCOUNT@HOST
+```
+
+Open `http://127.0.0.1:8765` and choose Connect. The existing local source adapter
+uses only same-origin fixed read routes, bounded responses and catalog/document
+identity checks. Production starts **Not connected**, fetches no fixture, and
+keeps its fallback when the service is absent; no automatic live connection is
+added. Health means reader availability, not signature verification or approval.
+
+Live acceptance remains blocked pending host authorization: actual separate UID
+and key/registry denial, worker-port denial, Agent-Zero socket isolation, SSH
+forwarding, a real eligible registered snapshot/report, and peak memory. Local
+fixture tests prove the code boundary only. Integrity is not approval.

@@ -25,8 +25,31 @@ test('trusted in-process gateway port can read status only; ACP text supplies no
     prompt: [{ type: 'text', text: '/audit status run_123' }],
   }});
   assert.deepEqual(args, { runId: 'run_123', uid: 1234, sessionId: 'server-session' });
-  assert.match(messages[0].params.update.content.text, /contradictory/);
+  assert.match(messages[0].params.update.content.text, /failed/);
   assert.match(messages[0].params.update.content.text, /Integrity is not approval/);
+});
+
+test('D34 emits only the three status outcomes and never reflects private fields', async () => {
+  const read = async status => {
+    const handle = createAuditHandler({
+      resolveSession: async () => ({ uid: 1234, serverSession: 'trusted' }),
+      readRegistry: async () => ({ ...status, events: ['private event'], evidence: ['private evidence'],
+        path: '/private/snapshot', key: 'sk-test-never-reflect' }),
+    });
+    const result = await handle({ id: 1, method: 'session/prompt', params: {
+      sessionId: 's', prompt: [{ type: 'text', text: '/audit status run_123' }],
+    }});
+    const text = result[0].params.update.content.text;
+    assert.doesNotMatch(text, /run_123|private|sk-test|events|evidence/);
+    return text.split('.')[0];
+  };
+  assert.equal(await read({ state: 'completed', conclusion: 'supported_within_scope', verified: true,
+    integrity: 'hmac', authentication: 'supported' }), 'passed');
+  assert.equal(await read({ state: 'completed', conclusion: 'contradictory' }), 'failed');
+  assert.equal(await read({ state: 'completed', conclusion: 'supported_within_scope', verified: false }), 'not checkable');
+  for (const state of ['pending', 'queued', 'running', 'failed', 'unavailable']) {
+    assert.equal(await read({ state }), 'not checkable');
+  }
 });
 
 test('check cannot register/enqueue; normal chat stays delegated; unavailable errors are fixed', async () => {

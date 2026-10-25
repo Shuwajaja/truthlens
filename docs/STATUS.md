@@ -1,4 +1,45 @@
-## Fixed private reader preparation — 23 October 2026
+## Phase B: clarified D34 local read boundary — 25 October 2026
+
+Branch `feat/phase-b-read-service`, implementation `21343112f64e32f162c2a4b11f799b3d48c5b41c`.
+Repository preparation only: the CLI now uses an unprivileged reader on fixed
+`127.0.0.1:8765`, with one server-configured Shu view and GET/HEAD routes for
+health, runs, document, events, artifacts, captured blobs and stored audits.
+A separate protected read index selects published registered snapshots; the
+root-only registry/key permissions are unchanged. No per-request audit,
+`check_snapshot`, process launch or key access. RunDoc remains hash-only.
+Stored audit reports must match the registered run and ledger anchor.
+Agent Zero's existing disconnected adapter emits only passed / failed /
+not checkable, never events, evidence, reports, paths or keys. Its separate
+UID-restricted status socket remains later host work. The existing local Viewer
+adapter is reused; production remains **Not connected** without the service.
+Inactive systemd/tunnel examples and the D34 clarification are documented in
+[operator preparation](../deploy/server/README.md). This replaces the earlier
+D36 human-reader transport preparation below; legacy Unix compatibility tests
+remain. Frozen event, manifest and trust-level documents are unchanged.
+
+Witnessed against the implementation tree: full Python suite under `TZ=UTC`:
+**469 passed, 2 skipped, 1 xfailed, 15 subtests passed** (22.06s), with 81%
+combined coverage for the two reader modules (projection 88%, transport 77%).
+The first full run failed the pre-existing host-only test because
+`/srv/tl-agent/wt` was absent; its prerequisite guard now requires that existing
+writable workspace before privileged probes. Both host tests remain skipped,
+not passed; same-UID key access remains the existing expected failure.
+Full `TZ=Europe/Berlin npm test`: **329 passed / 36 files**, including the toolbar
+build matrix and language/style/theme checks. Three AgentStory timezone
+snapshot failures were reproduced first and fixed by test-local UTC selection.
+Ruff, Viewer lint/types/production build and 4 ACP status tests passed. New
+reader and status guarantees were witnessed red before implementation; see
+[local review body](../PR_BODY.md) for exact commands and checkpoints.
+
+Independent Codex subagent reviewed the final implementation commit and found
+no blocking security finding; wrong-run audit binding was separately reproduced
+and fixed. No remote CI, browser/axe run, live private snapshot, OS isolation,
+SSH tunnel, actual publication or Agent-Zero socket acceptance is claimed.
+No host setup, push, PR, merge or deployment was performed. Live activation is
+blocked pending separate authorization and witnessed worker UID/netns exclusion,
+least-privilege publication/config access and real-host memory acceptance.
+
+## Historical fixed private reader preparation — 23 October 2026
 
 D36 authorizes one fixed Shu read view over a protected Unix socket and SSH.
 The repository now prepares a key-free registered-snapshot reader, exact Unix
