@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import './browser-env.ts'
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App from '../src/App.tsx'
 import { RenderView } from '../src/renderkit/RenderView.tsx'
 import type { DrawerTarget } from '../src/components/Drawer.tsx'
@@ -10,7 +10,8 @@ import { claimOnlyRun } from './fixtures/claimOnlyRun.ts'
 import publicRun from '../fixtures/demo-run.json'
 
 const doc = publicRun as RunDoc
-afterEach(() => { cleanup(); localStorage.clear(); vi.unstubAllGlobals() })
+beforeEach(() => { vi.stubEnv('TZ', 'UTC') })
+afterEach(() => { cleanup(); localStorage.clear(); vi.unstubAllGlobals(); vi.unstubAllEnvs() })
 
 describe('Agent Story', () => {
   it('opens the exact recorded event from the new navigation entry', async () => {

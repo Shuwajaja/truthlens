@@ -43,9 +43,10 @@ test('D34 emits only the three status outcomes and never reflects private fields
     assert.doesNotMatch(text, /run_123|private|sk-test|events|evidence/);
     return text.split('.')[0];
   };
-  assert.equal(await read({ state: 'completed', conclusion: 'supported_within_scope', signature_checked: true }), 'passed');
+  assert.equal(await read({ state: 'completed', conclusion: 'supported_within_scope', verified: true,
+    integrity: 'hmac', authentication: 'supported' }), 'passed');
   assert.equal(await read({ state: 'completed', conclusion: 'contradictory' }), 'failed');
-  assert.equal(await read({ state: 'completed', conclusion: 'supported_within_scope', signature_checked: false }), 'not checkable');
+  assert.equal(await read({ state: 'completed', conclusion: 'supported_within_scope', verified: false }), 'not checkable');
   for (const state of ['pending', 'queued', 'running', 'failed', 'unavailable']) {
     assert.equal(await read({ state }), 'not checkable');
   }

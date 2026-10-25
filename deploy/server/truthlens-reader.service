@@ -1,28 +1,28 @@
 # INACTIVE TEMPLATE. Host installation/activation needs separate owner authorization.
 # Adapt paths and prepare trusted config/build/runtime directories before installation.
 [Unit]
-Description=TruthLens fixed private read view
+Description=TruthLens D34 fixed Shu read view (inactive example)
 ConditionPathExists=/etc/truthlens/reader.json
-ConditionPathIsDirectory=/var/lib/truthlens
+ConditionPathIsDirectory=/srv/truthlens-published
 
 [Service]
 Type=simple
-User=root
-Group=root
+User=tl-reader
+Group=tl-readers
 UMask=0077
 ExecStart=/opt/truthlens/venv/bin/python -m truthlens.read_service --config /etc/truthlens/reader.json
 WorkingDirectory=/
 Environment=PYTHONDONTWRITEBYTECODE=1
 NoNewPrivileges=true
 PrivateTmp=true
-PrivateNetwork=true
 ProtectHome=true
 ProtectSystem=strict
-ReadOnlyPaths=/var/lib/truthlens /opt/truthlens
-ReadWritePaths=/run/truthlens-reader
-InaccessiblePaths=-/etc/truthlens/audit.key
-RestrictAddressFamilies=AF_UNIX
-CapabilityBoundingSet=CAP_CHOWN
+ReadOnlyPaths=/srv/truthlens-published /opt/truthlens
+InaccessiblePaths=-/var/lib/truthlens -/etc/truthlens/audit.key
+RestrictAddressFamilies=AF_INET
+IPAddressDeny=any
+IPAddressAllow=127.0.0.1/32
+CapabilityBoundingSet=
 ProtectKernelTunables=true
 ProtectKernelModules=true
 ProtectControlGroups=true
@@ -32,4 +32,8 @@ MemoryMax=256M
 TasksMax=16
 StandardOutput=null
 StandardError=null
+# Loopback must be reachable by Shu's SSH forwarder. Worker exclusion requires
+# separate reviewed UID/netns policy; this unit does not establish that policy.
+# Agent Zero must NOT use this evidence-bearing listener. Its future dedicated
+# Unix socket must expose status only and restrict access to its container UID.
 # Intentionally no Install section: this template does not enable itself.

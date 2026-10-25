@@ -21,6 +21,18 @@ no authority. `readRegistry` must call the authorized root-side registry view
 with the verified UID and bound server-generated session. No port implementation
 or production binding is guessed here.
 
+D34 clarification (25 October 2026): the agent-facing result is exclusively
+`passed`, `failed`, or `not checkable`, plus the fixed integrity/connection
+notice. No run identifiers, raw events, evidence, reports, host paths or keys
+are reflected. `passed` requires a completed supported conclusion and the
+stored `verified: true`, `integrity: hmac`, `authentication: supported` flags;
+this adapter performs no fresh signature check. A contradictory completed
+report maps to `failed`; pending, execution failure and unverifiable outcomes
+map to `not checkable`. The protected gateway must supply only this status
+projection to Agent Zero, never the human reader's event/evidence routes.
+Its later container transport is a separate UID-restricted Unix socket;
+neither it nor a gateway is provisioned by Phase B.
+
 `node --test integrations/agent-zero-acp/audit-status.test.cjs` checks disconnected
 behavior, trusted-port dispatch, session-preserving wire envelopes, no registration
 and fixed errors. These tests do not establish deployed Mausbot authentication,

@@ -324,3 +324,25 @@ This decision does not authorize VPS installation, service activation, changes
 to users/keys/permissions or public exposure. Actual SSH forwarding, denial to
 the worker UID and a real authorized private snapshot remain live acceptance
 requirements; synthetic tests cannot satisfy them.
+
+### D34 clarification — unprivileged local read boundary (25 October 2026)
+
+Shu's clarified D34 selects one fixed Shu read view from protected server
+configuration and an unprivileged `tl-reader` bound only to `127.0.0.1:8765`.
+This replaces D36's earlier root-reader/Unix-forwarding preparation for the
+human view. Only GET/HEAD are allowed. The private registry and keys retain
+their existing permissions; a separate protected read-only publication contains
+only registered, authorized snapshots and stored audit reports. Requests cannot
+select identity or paths, publish/register, audit, start or approve.
+
+Agent Zero receives only passed / failed / not checkable, never raw events,
+evidence, reports, paths or keys. Its later container interface must use a
+separate status-only Unix socket restricted to the actual Agent-Zero UID.
+Workers (`tl-agent`, `codex`) must be denied the human loopback listener by a
+separately reviewed UID/netns rule. Shu accesses the human view by SSH tunnel.
+
+Phase B implements repository code with test fixtures only and inactive host
+examples. The Viewer stays Not connected when unavailable and never silently
+loads a fixture. Host users, permissions, firewall/netns rules, key access,
+publication and service activation require separate explicit authorization and
+live acceptance. Frozen event, manifest and trust-level contracts do not change.

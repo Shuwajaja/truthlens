@@ -11,6 +11,7 @@ import pytest
 
 from tests.audit_support import RUN_ID, digest_tree, make_run
 from truthlens import read_projection, read_service, registry
+from truthlens.audit_inputs import AuditInputError
 
 
 @pytest.fixture
@@ -18,8 +19,14 @@ def published(tmp_path, monkeypatch):
     root = tmp_path / "published"
     snapshot = make_run(root / "snapshots" / ("a" * 32), key=None)
     anchor = json.loads((snapshot / "manifest.json").read_bytes())["ledger_last_hash"]
-    report = json.dumps({"authentication": "supported", "conclusion": "supported_within_scope",
-                         "run_id": RUN_ID, "ledger_last_hash": anchor}).encode()
+    report = json.dumps(
+        {
+            "authentication": "supported",
+            "conclusion": "supported_within_scope",
+            "run_id": RUN_ID,
+            "ledger_last_hash": anchor,
+        }
+    ).encode()
     sha = hashlib.sha256(report).hexdigest()
     (root / "audits").mkdir()
     (root / "audits" / f"{sha}.json").write_bytes(report)
@@ -158,13 +165,17 @@ def test_loopback_config_loader_is_bounded_and_strict(tmp_path, monkeypatch):
     monkeypatch.setattr(read_service, "trusted", lambda *a, **kw: None)
     monkeypatch.setattr(read_service, "validate_loopback_paths", lambda c: None)
     path = tmp_path / "config.json"
-    config = {"published_root": str(tmp_path), "viewer_dist": str(tmp_path),
-              "view_id": "shu", "origin": "http://127.0.0.1:8765"}
+    config = {
+        "published_root": str(tmp_path),
+        "viewer_dist": str(tmp_path),
+        "view_id": "shu",
+        "origin": "http://127.0.0.1:8765",
+    }
     path.write_text(json.dumps(config))
     assert read_service.load_loopback_config(path).view_id == "shu"
     for raw in ('{"view_id":"a","view_id":"b"}', json.dumps({**config, "uid": 0}), " " * 17000):
         path.write_text(raw)
-        with pytest.raises((ValueError, read_service.RegistryError, read_service.AuditInputError)):
+        with pytest.raises((ValueError, registry.RegistryError, AuditInputError)):
             read_service.load_loopback_config(path)
 
 

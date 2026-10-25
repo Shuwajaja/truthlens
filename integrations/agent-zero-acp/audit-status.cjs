@@ -19,13 +19,14 @@ function createAuditHandler({ resolveSession = async () => null, readRegistry = 
         if (identity && Number.isSafeInteger(identity.uid) && identity.uid >= 0 &&
             typeof identity.serverSession === 'string' && identity.serverSession.length > 0) {
           const status = await readRegistry({ runId: request[2], uid: identity.uid, sessionId: identity.serverSession });
-          const states = new Set(['pending', 'queued', 'running', 'completed', 'failed', 'unavailable']);
-          const conclusions = new Set(['supported_within_scope', 'contradictory', 'not_checkable']);
-          if (status && states.has(status.state)) {
-            output = `Run ${request[2]} · audit ${status.state}`;
-            if (status.state === 'completed' && conclusions.has(status.conclusion)) output += ` · ${status.conclusion}`;
-            output += '. Integrity is not approval. Tracker not connected.';
-          }
+          // D34: this adapter emits a closed status vocabulary, never a run,
+          // report, event, evidence reference, path or arbitrary server field.
+          let result = 'not checkable';
+          if (status?.state === 'completed' && status.conclusion === 'contradictory') result = 'failed';
+          if (status?.state === 'completed' && status.conclusion === 'supported_within_scope'
+              && status.verified === true && status.integrity === 'hmac'
+              && status.authentication === 'supported') result = 'passed';
+          output = `${result}. Integrity is not approval. Tracker not connected.`;
         }
       } catch {
         output = 'Audit unavailable · not connected. No result could be read.';
