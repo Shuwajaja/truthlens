@@ -6,7 +6,7 @@ export const isHash=(value:unknown):value is string=>typeof value==='string'&&/^
 const id=(value:unknown):value is string=>typeof value==='string'&&/^[A-Za-z0-9_-]{1,160}$/.test(value)
 function timestamp(value:unknown):number{
  requireLocal(typeof value==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?Z$/.test(value),'Invalid UTC timestamp')
- const n=Date.parse(value);requireLocal(Number.isFinite(n),'Invalid UTC timestamp');return n
+ const n=Date.parse(value);requireLocal(Number.isFinite(n)&&new Date(n).toISOString().slice(0,19)===value.slice(0,19),'Invalid UTC timestamp');return n
 }
 export async function verifyLocalLedger(bytes:Uint8Array,maxEvents:number):Promise<LocalEvent[]>{
  const text=decodeLocal(bytes);requireLocal(text.endsWith('\n'),'Ledger torn tail')
