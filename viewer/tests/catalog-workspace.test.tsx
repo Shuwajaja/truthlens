@@ -66,3 +66,13 @@ it('keeps Not connected when the read service is unavailable',async()=>{
  expect(screen.getByRole('heading',{name:'Not connected'})).toBeTruthy()
  expect(screen.getByRole('alert').textContent).toContain('Unable to connect')
 })
+
+it.each(['Chain','Coverage','Gated actions','Changes','Compare'])('opens %s through the existing source/run tab model',async name=>{
+ setup(async path=>path.endsWith('/audits')?json({source_id:one.source_id,audit:null}):json(document(one)))
+ await connect();open(one);await screen.findByText(one.run_id,{selector:'h1'})
+ const navigation=within(screen.getByRole('navigation',{name:'Viewer navigation'}))
+ fireEvent.click(navigation.getByRole('button',{name,exact:true}))
+ fireEvent.click(navigation.getByRole('button',{name,exact:true}))
+ expect(within(screen.getByRole('region',{name:'Workspace tabs'})).getAllByRole('button',{name:new RegExp(`^Select ${name} ·`)})).toHaveLength(1)
+ expect(new URL(location.href).searchParams.get('view')).toBe(name.toLowerCase().replaceAll(' ','-'))
+})
