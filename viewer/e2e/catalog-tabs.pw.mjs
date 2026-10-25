@@ -31,6 +31,7 @@ async function pageFor(t,{width=1440,height=900,theme='petrol-porcelain',storage
  const context=await browser.newContext({viewport:{width,height},timezoneId:process.env.TZ??'UTC',reducedMotion:'reduce'})
  t.after(()=>context.close())
  await context.addInitScript(({theme,storageFailure})=>{
+  if(window!==window.top)return
   localStorage.setItem('truthlens.theme',theme)
   if(storageFailure)Storage.prototype.setItem=function(){throw Error('Storage unavailable')}
  },{theme,storageFailure})
