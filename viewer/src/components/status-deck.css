@@ -1,0 +1,6 @@
+.status-deck { display: grid; gap: var(--space-1); min-width: 0; overflow-wrap: anywhere; font-size: 0.875rem; }
+.status-deck p { margin: 0; }
+.status-deck-result { padding: var(--space-1); color: var(--neutral-text); background: var(--status-neutral-bg); font-size: 1rem; font-weight: 600; }
+.status-deck-result[data-status="passed"] { color: var(--success); background: var(--status-success-bg); }
+.status-deck-result[data-status="failed"] { color: var(--error-text); background: var(--status-error-bg); }
+.status-deck-boundary { color: var(--text-2); }

@@ -71,3 +71,28 @@ Local opening checks original canonical ledger lines, chain order/close/semantic
 An in-flow details disclosure offers original ledger, manifest and referenced evidence downloads. Every original download uses the captured bytes, not reconstructed text. The separate action is “Download derived RunDoc” and its filename contains `derived`. No inline image decoder or active content is introduced; raster dimensions are checked before opening and binary evidence remains download-only. Limits: 200 files, 10 MiB per file, 32 MiB per folder, 20,000 events, 16 million image pixels/8192 pixels per dimension; loaded local folders share a 50 MiB byte budget. Existing tokens, fonts, spacing, native inputs and shadcn buttons suffice.
 
 Paths reject traversal, absolute/drive paths, backslashes, ambiguous/encoded segments and duplicates. Explicit non-file/symlink entries are rejected. Browser handles/File objects do not expose lstat; a browser that dereferences a symlink cannot establish its original filesystem type. The interface discloses this limitation; browser selection is not an OS symlink audit. No filesystem path is followed by application code.
+
+## Phase F status deck
+
+The existing human stored-audit GET envelope carries a two-field status result
+from the shared Python projection: passed/failed/not_checkable and a fixed safe
+reason code. The local human `truthlens audit status DIR` command calls that same
+projection. Viewer audit views and the standalone widget share StatusDeck; they
+validate and display the result without deriving another overall audit verdict.
+Existing detailed rule-group summaries remain scoped to their named views.
+Missing legacy projection, unavailable sources, loading, interruption and errors
+are neutral Not checkable; cached green is cleared before a refresh.
+
+The compact widget shows status and its fixed explanation, with no run IDs,
+events, evidence, keys, timestamps or raw server errors. It starts Not connected,
+requests nothing until a human selects Connect, and uses only the existing
+bounded human reader and selected catalog identity. Refresh is explicit; no
+background feed. Both themes reuse the existing neutral/success/error surface
+tokens and 12/14/16px scale, with rem units so 200% text enlargement reflows at
+320px. No new component dependency. Integrity is not approval stays visible;
+the status deck never claims browser signature verification. The viewer's
+separate neutral Hash only · signature not checked seal remains unchanged.
+
+No agent uses this human read service. The Phase G status broker, Unix socket,
+peer credentials and single tool remain deferred. The legacy MCP command is
+unrelated and unchanged. No new API route, listener or write action is added.

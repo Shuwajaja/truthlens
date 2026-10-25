@@ -452,10 +452,12 @@ class PublishedReadProjection(ReadProjection):
         return {"source_id": self._source(registration), "blobs": blobs}
 
     def audits(self, run_id: str) -> dict:
+        from truthlens.status_projection import project_status
+
         registration, _, _, _ = self._snapshot(run_id, document=True)
         reference = registration.get("audit")
         if reference is None:
-            return {"source_id": self._source(registration), "audit": None}
+            return {"source_id": self._source(registration), "audit": None, "status": project_status(None)}
         sha = reference["sha256"]
         try:
             audit = _json(
@@ -467,7 +469,10 @@ class PublishedReadProjection(ReadProjection):
                 or audit.get("ledger_last_hash") != registration["ledger_last_hash"]
             ):
                 registry.deny()
-            return {"source_id": self._source(registration), "audit": audit}
+            return {
+                "source_id": self._source(registration), "audit": audit,
+                "status": project_status(audit, run_id=run_id, ledger_last_hash=registration["ledger_last_hash"]),
+            }
         except (ValueError, TypeError, RecursionError):
             registry.deny()
         raise AssertionError("unreachable")

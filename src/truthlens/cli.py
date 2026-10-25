@@ -31,6 +31,9 @@ def _audit_anchor(value: str) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    if argv[:2] == ["audit", "status"]:
+        return _audit_status_command(argv[2:])
     ap = argparse.ArgumentParser(prog="truthlens")
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("pipeline", help="protected server pipeline (host setup required)")
@@ -311,6 +314,42 @@ def _w2(a) -> int:
         return 1
 
 
+
+
+def _audit_status_command(argv: list[str]) -> int:
+    """Human-local read-only command; never connects to a service or broker."""
+    from pathlib import Path
+
+    from truthlens.audit import audit_run, serialize_report
+    from truthlens.audit_inputs import AuditInputError, read_audit_key
+    from truthlens.status_projection import project_status
+
+    parser = argparse.ArgumentParser(prog="truthlens audit status", description="Local status only; integrity is not approval.")
+    parser.add_argument("dir", nargs="?")
+    parser.add_argument("--json", action="store_true")
+    key_options = parser.add_mutually_exclusive_group()
+    key_options.add_argument("--hmac-key-env", metavar="VAR")
+    key_options.add_argument("--hmac-key-file", metavar="PATH")
+    parser.add_argument("--expect-last-hash", metavar="HEX", type=_audit_anchor)
+    args = parser.parse_args(argv)
+    try:
+        key = None
+        if args.hmac_key_env is not None:
+            value = os.environ.get(args.hmac_key_env)
+            key = value.encode() if value else b""
+        if args.hmac_key_file is not None and args.dir is not None:
+            try:
+                key = read_audit_key(Path(args.hmac_key_file), Path(args.dir))
+            except AuditInputError:
+                key = b""
+        report = audit_run(Path(args.dir), hmac_key=key, expected_last_hash=args.expect_last_hash) if args.dir else None
+        result = project_status(report)
+    except (KeyboardInterrupt, InterruptedError):
+        result = project_status(None, state="interrupted")
+    except (OSError, ValueError, TypeError, RuntimeError):
+        result = project_status(None, state="error")
+    print(serialize_report(result) if args.json else f"{result['status']} · {result['reason_code']}")
+    return {"passed": 0, "failed": 1, "not_checkable": 2}[result["status"]]
 
 
 def _pipeline_command(args: argparse.Namespace) -> int:

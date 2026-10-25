@@ -26,7 +26,8 @@ def project(report, **kwargs):
 def test_sources_rules_and_evidence_correlate(report):
     assert project(report) == {"status": "passed", "reason_code": "checks_passed"}
     assert project(report, run_id="foreign", ledger_last_hash=report["ledger_last_hash"]) == {
-        "status": "not_checkable", "reason_code": "identity_mismatch"
+        "status": "not_checkable",
+        "reason_code": "identity_mismatch",
     }
     missing_rule = copy.deepcopy(report)
     missing_rule["checks"] = [c for c in report["checks"] if c["rule_id"] != "TL-AUD-002"]
@@ -38,11 +39,10 @@ def test_sources_rules_and_evidence_correlate(report):
 
 def test_interruption_and_unavailable_source_clear_a_previous_pass(report):
     assert project(report, available=False) == {
-        "status": "not_checkable", "reason_code": "source_unavailable"
+        "status": "not_checkable",
+        "reason_code": "source_unavailable",
     }
-    assert project(report, state="interrupted") == {
-        "status": "not_checkable", "reason_code": "interrupted"
-    }
+    assert project(report, state="interrupted") == {"status": "not_checkable", "reason_code": "interrupted"}
     assert project(None)["status"] == "not_checkable"
 
 
@@ -51,10 +51,15 @@ def test_noncompleted_lifecycle_is_never_passed(report, state):
     assert project(report, state=state)["status"] == "not_checkable"
 
 
-@pytest.mark.parametrize("field,value", [
-    ("conclusion", "not_checkable"), ("conclusion", "running"),
-    ("authentication", "not_checkable"), ("integrity", "hash-only"),
-])
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("conclusion", "not_checkable"),
+        ("conclusion", "running"),
+        ("authentication", "not_checkable"),
+        ("integrity", "hash-only"),
+    ],
+)
 def test_incomplete_results_never_pass(report, field, value):
     report[field] = value
     assert project(report)["status"] == "not_checkable"

@@ -3,6 +3,8 @@ import {checkSummary,outcomeLabels,type AuditCheck,type AuditReport} from '../au
 import type {DrawerTarget} from './Drawer.tsx'
 import {Button} from './ui/button.tsx'
 import {PageHeading} from './PageHeading.tsx'
+import {StatusDeck} from './StatusDeck.tsx'
+import {unavailableStatus,type StatusResult} from '../status-result.ts'
 export type AuditView='chain'|'coverage'|'gated-actions'
 const titles={chain:'Chain',coverage:'Coverage','gated-actions':'Gated actions'}
 function Checks({checks,doc,onOpenDrawer}:{checks:AuditCheck[];doc:RunDoc;onOpenDrawer:(target:DrawerTarget)=>void}){
@@ -14,12 +16,13 @@ function Checks({checks,doc,onOpenDrawer}:{checks:AuditCheck[];doc:RunDoc;onOpen
   {check.criterion_ids.map(id=>{const criterion=doc.criteria.find(c=>c.criterion_id===id);return criterion?<Button key={id} variant="outline" size="sm" onClick={()=>onOpenDrawer({kind:'criterion',criterion,matched:criterion.evidence.flatMap(id=>{const event=doc.events.find(e=>e.id===id);return event?[event]:[]})})}>Open criterion {id}</Button>:<p key={id}>Criterion not exported: {id}</p>})}
  </li>)}</ul>
 }
-export function EvidenceReview({doc,view,report,onOpenDrawer}:{doc:RunDoc;view:AuditView;report:AuditReport|null;onOpenDrawer:(target:DrawerTarget)=>void}){
+export function EvidenceReview({doc,view,report,status=unavailableStatus,onOpenDrawer}:{doc:RunDoc;view:AuditView;report:AuditReport|null;status?:StatusResult;onOpenDrawer:(target:DrawerTarget)=>void}){
  const checks=report?.checks.filter(check=>view==='chain'?check.rule_id==='TL-AUD-001':view==='gated-actions'?check.rule_id==='TL-AUD-012':!['TL-AUD-001','TL-AUD-003','TL-AUD-012'].includes(check.rule_id))??[]
  const result=checkSummary(checks)
  const gateEvents=doc.events.filter(event=>event.type.startsWith('action.')||event.type.startsWith('approval.')).toSorted((a,b)=>a.seq-b.seq)
  return <section className="evidence-review">
   <PageHeading title={titles[view]} description="Stored audit results for this snapshot. Reading does not run a new check."/>
+  <StatusDeck result={status}/>
   <p className="audit-outcome" data-testid="review-outcome" data-outcome={result.outcome}>{result.label}</p>
   {view==='chain'&&<p>No individual chain-link diagnosis is inferred from these recorded checks.</p>}
   {view==='coverage'&&<p>Recorded content, claim and test evidence checks. Code coverage is not established.</p>}
