@@ -9,8 +9,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from truthlens import registry
 from truthlens.audit import _json
-from truthlens.registry import require_root
 
 DERIVED_ONLY = (
     "warning: DERIVED_ONLY: Derived criteria stay proposed; the server pipeline has no human "
@@ -41,7 +41,7 @@ def _load(value: str) -> dict:
         raise ValueError("oversize draft")
     profile = _json(raw)
     if not isinstance(profile, dict):
-        raise ValueError("invalid profile")
+        raise TypeError("invalid profile")
     return profile
 
 
@@ -71,6 +71,7 @@ def _has_head(repo: str) -> bool:
                     "GIT_CONFIG_NOSYSTEM": "1",
                     "GIT_CONFIG_GLOBAL": "/dev/null",
                     "GIT_CEILING_DIRECTORIES": str(Path(repo).parent),
+                    "GIT_NO_LAZY_FETCH": "1",
                 },
                 stdin=subprocess.DEVNULL,
                 stdout=subprocess.DEVNULL,
@@ -113,7 +114,7 @@ def _warnings(profile: dict) -> list[str]:
 def check(name_or_path: str) -> int:
     """Print fixed operator warnings to stderr; 0 means no listed pitfall, not approval."""
     try:
-        require_root()  # No sudoers entry or agent-accessible diagnostic path is added.
+        registry.require_root()  # No sudoers entry or agent-accessible diagnostic path is added.
         warnings = _warnings(_load(name_or_path))
     except (OSError, ValueError, TypeError, AttributeError, RuntimeError):
         print("Profile check unavailable or access denied.", file=sys.stderr)
