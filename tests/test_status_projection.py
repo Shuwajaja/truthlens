@@ -139,3 +139,17 @@ def test_review_incomplete_criteria_or_rule_evidence_never_pass(report, attack):
         assert project(report, input_digests=expected)["status"] == "not_checkable"
         return
     assert project(report)["status"] == "not_checkable"
+
+
+@pytest.mark.parametrize("state", ["running", "error", "not_checkable"])
+def test_report_lifecycle_never_overrides_safe_state(report, state):
+    report["state"] = state
+    assert project(report)["status"] == "not_checkable"
+
+
+def test_status_cli_parser_errors_never_echo_input(tmp_path, capsys):
+    assert main(["audit", "status", str(tmp_path), "--json", "/synthetic/private-marker"]) == 2
+    output = capsys.readouterr()
+    assert "synthetic" not in output.out + output.err
+    assert str(tmp_path) not in output.out + output.err
+    assert json.loads(output.out) == {"status": "not_checkable", "reason_code": "error"}
