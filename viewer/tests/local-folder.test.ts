@@ -96,3 +96,12 @@ it('does not read unrelated files or trust their exported claims',async()=>{
  const f=fixture(),read=vi.fn(()=>{throw Error('Unrelated file must not be read')})
  const opened=await openLocalFolder([...entries(f.files),{path:'run.json',kind:'file',size:1,read}]);expect(read).not.toHaveBeenCalled();expect(opened.doc.verified).toBe(false)
 })
+it('rejects approvals expired by a microsecond in a rehashed ledger',async()=>{
+ const f=fixture(),template=f.events[0],action_hash='a'.repeat(64)
+ f.events.splice(-1,0,
+  {...template,id:'evt_approval',actor:{kind:'human',id:'synthetic'},type:'approval.granted',payload:{action_hash,expires_at:'2026-10-25T00:00:00.000001Z'}},
+  {...template,id:'evt_executed',ts:'2026-10-25T00:00:00.000002Z',type:'action.executed',payload:{action_hash,approval_event_id:'evt_approval'}})
+ rechain(f)
+ const outcome=await openLocalFolder(entries(f.files)).then(()=> 'accepted',error=>error.message)
+ expect(outcome).toMatch(/expired/i)
+})
