@@ -413,7 +413,7 @@ access to check and grants no access. Without it, the existing kernel loginuid /
 SUDO_UID / PID-1 attribution checks select the caller. Run diagnosis always uses
 that existing attribution; it does not accept an identity override.
 
-The command emits exactly one fixed code plus newline to **stderr**, with empty
+The `run` and `status` forms emit exactly one fixed code plus newline to **stderr**, with empty
 stdout. Exit 2 means the first listed check failed; exit 0 emits `PREFLIGHT_OK`.
 Neither exception text nor names, paths, IDs, counts, file contents or key bytes
 are printed. Codes describe a failed check stage, not a detailed exception:
@@ -450,8 +450,65 @@ This is a narrow diagnosis, not a dry-run guarantee: capture locks, task/runner
 execution, fresh verification, snapshot freshness, broker socket/global UID
 allowlist/rate limits and live OS isolation are not tested. `PREFLIGHT_OK` for a
 stored status does not imply passed/failed or broker eligibility. It does not
-change caller mappings or interrupted-dispatch recovery (trial items 4 and 10).
+change caller mappings or interrupted-dispatch recovery. The inspection below
+addresses visibility for trial item 10; caller roles (item 4) remain unchanged.
 Normal pipeline/status errors remain exactly `Pipeline unavailable or access
 denied.`; agents still receive only passed / failed / not_checkable. Diagnosis
 has no broker wire option, MCP tool, status-client flag or journal logging path.
+Integrity is not approval.
+
+## Root-only pending dispatch inspection (trial item 10)
+
+In an already authorized protected installation, run as root:
+
+```sh
+truthlens pipeline explain pending
+```
+
+Both real and effective UID must be zero before parsing or reading inputs.
+Never grant agents sudo access to this command. It needs no loginuid/caller
+override: this is a root operator inspection, not a per-caller status lookup.
+It is unavailable through agent-status, the status broker wire and MCP.
+
+Success (exit 0) prints one JSON object plus newline to stdout with empty stderr:
+`{"pending":[],"truncated":false}` for an empty registry. A missing journal in
+an existing trusted registry directory also means empty; no file is created.
+Only dispatches without a matching `captured` record are listed, in journal
+order, once per dispatch ID. Captured runs, including completed runs, are absent.
+There is **no run ID before capture**; use the dispatch ID for operator correlation.
+Each entry contains only:
+
+| Field | Meaning |
+|---|---|
+| `dispatch_id` | Protected journal dispatch identifier; at most 80 ASCII letters, digits, `_` or `-` |
+| `profile` | Protected profile name with the same character/length restriction |
+| `age_seconds` | Whole seconds since dispatch; clamped to 0–2147483647 for clock skew/very old records |
+| `state` | Fixed `awaiting_capture`; no inference that the launcher stopped |
+| `retry` | Fixed `each_worker_round`: existing worker recovery tries uncaptured dispatches; this is not an observed retry count or promise of success |
+
+Output is limited to the first 100 entries and 32768 UTF-8 bytes including the
+newline. `truncated:true` means more pending dispatches exist; this command has
+no pagination or detail mode. The existing 32 MiB journal input limit and full
+hash-chain validation apply. Unavailable/untrusted/corrupt registry data or
+invalid projected fields yield exit 2, empty stdout and fixed
+`REGISTRY_UNAVAILABLE` on stderr; root and argument failures use `ROOT_REQUIRED`
+and `ARGUMENTS_INVALID`. No exception details or partial listing are emitted.
+
+The command opens the journal **O_RDONLY**, using its existing advisory lock;
+it does not create a lock file, journal, run or snapshot. It does not load profile
+contents, keys, run files, events or evidence, execute a task, retry, queue,
+repair, delete or grant approval. Concurrent appends may briefly wait on that
+existing lock. Inspection is a journal snapshot; an active capture can finish
+afterward. Uncaptured does not establish abandonment or a failed verdict.
+
+The operator can correlate the dispatch ID and profile with the separately
+authorized installation's launcher/worker state. Review whether the original
+launcher is still active, whether it stopped before capture, and the documented
+profile preflight before deciding any next action. Existing worker rounds retain
+their recovery behavior; inspection itself triggers none. Any manual service
+change, task rerun, backup or state cleanup requires separate explicit host
+authorization and its own recovery review. Do not edit the append-only journal
+or remove run/snapshot directories based on this listing. This change supplies
+**no cleanup command** and no automatic abandonment decision. It changes no
+caller mappings, registry authorization, frozen contracts or G1/D34 behavior.
 Integrity is not approval.

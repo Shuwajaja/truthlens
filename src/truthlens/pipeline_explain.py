@@ -1,16 +1,72 @@
-"""Root-only, read-only preflight. No broker/wire/adapter imports this module.
+"""Root-only, read-only inspection. No broker/wire/adapter imports this module.
 
-Only fixed stage codes leave this command. Existing policy functions remain
-unchanged; no diagnostic state, exception detail or logging enters normal requests.
+Preflight emits fixed stage codes; pending emits a bounded operator projection.
+No diagnostic state, exception detail or logging enters normal requests.
 """
 
 from __future__ import annotations
 
 import argparse
+import json
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
 
 from truthlens import pipeline, pipeline_jobs, profile_check, registry
+
+MAX_PENDING = 100
+MAX_PENDING_BYTES = 32768
+MAX_AGE_SECONDS = 2147483647
+
+
+def _pending(rows: list[dict]) -> str:
+    """Project uncaptured dispatches only; never read run/evidence/key files."""
+    captured = set()
+    for row in rows:
+        if row["event"] == "captured":
+            dispatch_id = row["data"].get("dispatch_id")
+            if not isinstance(dispatch_id, str) or not registry.ID.fullmatch(dispatch_id):
+                registry.deny()
+            captured.add(dispatch_id)
+    now = datetime.now(UTC)
+    seen, pending, truncated = set(), [], False
+    for row in rows:
+        if row["event"] != "dispatch":
+            continue
+        data = row["data"]
+        dispatch_id, profile = data.get("dispatch_id"), data.get("profile")
+        if not isinstance(dispatch_id, str) or not registry.ID.fullmatch(dispatch_id):
+            registry.deny()
+        if dispatch_id in captured:
+            continue
+        if not isinstance(profile, str) or not registry.ID.fullmatch(profile):
+            registry.deny()
+        stamp = row.get("time")
+        if not isinstance(stamp, str) or len(stamp) > 32:
+            registry.deny()
+        recorded = datetime.fromisoformat(stamp)
+        if recorded.tzinfo is None:
+            registry.deny()
+        age = min(MAX_AGE_SECONDS, max(0, int((now - recorded).total_seconds())))
+        if dispatch_id in seen:
+            continue
+        seen.add(dispatch_id)
+        if len(pending) == MAX_PENDING:
+            truncated = True
+            continue
+        pending.append(
+            {
+                "dispatch_id": dispatch_id,
+                "profile": profile,
+                "age_seconds": age,
+                "state": "awaiting_capture",
+                "retry": "each_worker_round",
+            }
+        )
+    output = json.dumps({"pending": pending, "truncated": truncated}, separators=(",", ":"))
+    if len(output.encode()) + 1 > MAX_PENDING_BYTES:
+        registry.deny()
+    return output
 
 
 def main(argv: list[str]) -> int:
@@ -31,7 +87,14 @@ def main(argv: list[str]) -> int:
         status = sub.add_parser("status", add_help=False, allow_abbrev=False)
         status.add_argument("run_id")
         status.add_argument("--uid", type=int)
+        sub.add_parser("pending", add_help=False, allow_abbrev=False)
         args = parser.parse_args(argv)
+        if args.operation == "pending":
+            reason = "REGISTRY_UNAVAILABLE"
+            # records() uses O_RDONLY, creates no files and validates the full journal.
+            output = _pending(registry.Registry().records())
+            print(output)
+            return 0
         reason = "CALLER_IDENTITY_UNAVAILABLE"
         uid = args.uid if args.operation == "status" and args.uid is not None else registry.caller_uid()
         if args.operation == "run":
