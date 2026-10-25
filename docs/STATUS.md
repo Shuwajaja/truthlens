@@ -1,3 +1,45 @@
+## Phase D: stored evidence, changes and comparison — local review, 25 October 2026
+
+Branch `feat/phase-d-evidence-compare`, base `935eebc` (Phase C / #169).
+Application/test commit `f6f057b`; later changes publish documentation/evidence only.
+The existing Phase C source/run/renderer tabs now include Chain, Coverage,
+Gated actions, Changes and Compare. Claims continues through Claimed vs proven.
+The viewer reads the existing stored-audit GET route, validates source/run/head
+and check shape, retains every recorded result and labels unchecked/partial,
+failed and not-applicable states separately. It does not run verification,
+infer per-link diagnostics, code-coverage percentages or human approval.
+Original gate events keep actor/simulation labels and open the existing
+Inspector/Sheets. Stored diffs reuse Renderkit's safe raw fallback; absent
+blobs remain empty. Comparison keeps both loaded snapshot identities, ledger
+heads and independent trust notices visible, with no reconstructed before-file.
+Frozen contracts, server code, Agent Zero and its status-only boundary are unchanged.
+Unavailable production service still retains Not connected.
+
+TDD: `347cf45` initial red checkpoint (16 intended failures, 4 passes and a
+missing-component suite); scoped red tests subsequently caught outcome coercion,
+duplicate comparison landmarks and missing renderer-failure/gate-record access.
+`f6f057b`: 33 targeted regressions passed. Full `TZ=UTC npm test` and
+`TZ=Europe/Berlin npm test` each passed **376 tests / 40 files**, including
+language/style/theme guards and the toolbar build matrix. Viewer lint,
+TypeScript/production build and `ruff check src tests` passed. Python code/tests
+are byte-identical to base; full UTC and Berlin runs each produced **469 passed,
+2 skipped, 1 xfailed, 15 subtests passed**. Host-only skips and the existing
+same-UID expected failure do not establish real isolation. Copied-venv import
+issues, intentional snapshot updates, the reproduced mobile overflow and one
+concurrent-run language-test timeout are recorded in untracked PR_BODY.md;
+assertions/timeouts were retained and final isolated viewer runs passed.
+
+Final source `f6f057b`: **4 Playwright specs in each timezone**, **44 unrestricted
+axe scans and 44 screenshots per timezone**, at **1440×900 / 390×844**, both themes.
+Zero axe violations at all impacts and zero page errors; incomplete-node
+classifications remain in the reports. [Published evidence, exact commands and
+limitations](screenshots/feat/phase-d-evidence-compare/review-summary.md).
+Synthetic API fixtures prove these UI boundaries only; no real private audit,
+other-browser, screenreader, live SSH/service or human approval acceptance is
+claimed. Self-review and a separate read-only Codex review of the implementation
+and scoped fixes found no blocking issue. No remote CI, push, PR, merge,
+deployment or host setup. No mock-only claim of live-service completion.
+
 ## Phase C: Phase B catalog, workspace identity and tab navigation — 25 October 2026
 
 Branch `feat/phase-c-catalog-tabs`, base `4b78f47` (Phase B / PR #168).
