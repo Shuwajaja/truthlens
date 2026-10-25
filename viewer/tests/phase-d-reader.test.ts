@@ -31,3 +31,7 @@ it('bounds stored audit responses before parsing',async()=>{
  vi.stubGlobal('fetch',vi.fn().mockResolvedValue(new Response('{}',{headers:{'content-type':'application/json','content-length':String(10*1024*1024+1)}})))
  await expect(loadPrivateAudit(item)).rejects.toThrow(/too large/)
 })
+it('rejects an outcome array instead of coercing it into a supported result',async()=>{
+ vi.stubGlobal('fetch',vi.fn().mockResolvedValue(json({source_id:item.source_id,audit:{...report,checks:[{...report.checks[0],outcome:['supported']}]}})))
+ await expect(loadPrivateAudit(item)).rejects.toThrow(/audit/i)
+})

@@ -76,3 +76,29 @@ it.each(['Chain','Coverage','Gated actions','Changes','Compare'])('opens %s thro
  expect(within(screen.getByRole('region',{name:'Workspace tabs'})).getAllByRole('button',{name:new RegExp(`^Select ${name} ·`)})).toHaveLength(1)
  expect(new URL(location.href).searchParams.get('view')).toBe(name.toLowerCase().replaceAll(' ','-'))
 })
+
+it('discards a late stored audit reply after switching snapshot and can retry a failed read',async()=>{
+ const late=deferred<Response>()
+ const audit=(item:typeof one)=>({source_id:item.source_id,audit:{audit_version:1,run_id:item.run_id,ledger_last_hash:item.ledger_last_hash,checks:[{rule_id:'TL-AUD-001',outcome:'supported',required:true,message:`Audit for ${item.run_id}`,event_ids:[],criterion_ids:[]}],limitations:[]}})
+ let failed=true
+ setup(async path=>{
+  if(path.endsWith('/audits')){
+   if(path.includes(one.run_id))return late.promise
+   if(failed){failed=false;throw Error('Synthetic read failure')}
+   return json(audit(two))
+  }
+  return json(document(path.includes(two.run_id)?two:one))
+ })
+ await connect();open(one);await screen.findByText(one.run_id,{selector:'h1'})
+ const navigate=()=>fireEvent.click(within(screen.getByRole('navigation',{name:'Viewer navigation'})).getByRole('button',{name:'Chain',exact:true}))
+ navigate();await screen.findByText('Loading stored audit…')
+ fireEvent.click(screen.getByRole('button',{name:'Open Runs'}));open(two);await screen.findByText(two.run_id,{selector:'h1'});navigate()
+ await screen.findByRole('button',{name:'Retry stored audit'})
+ await act(async()=>{late.resolve(json(audit(one)));await late.promise})
+ expect(screen.queryByText(`Audit for ${one.run_id}`)).toBeNull()
+ fireEvent.click(screen.getByRole('button',{name:'Retry stored audit'}))
+ await screen.findByText(`Audit for ${two.run_id}`)
+ expect(screen.queryByText(`Audit for ${one.run_id}`)).toBeNull()
+ const saved=localStorage.getItem('truthlens.workspace-navigation.v1')!
+ expect(saved).not.toContain('Audit for');expect(saved).not.toContain('checks');expect(saved).not.toContain('blobs')
+})
