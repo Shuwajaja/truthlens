@@ -32,6 +32,8 @@ def project_status(
     """Return only a closed status and fixed reason code, without report data."""
     if not available:
         return _unknown("source_unavailable")
+    if state == "completed" and isinstance(report, dict):
+        state = report.get("state", "completed")
     if state != "completed":
         return _unknown(
             "running"

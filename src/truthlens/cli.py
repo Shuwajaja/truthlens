@@ -324,14 +324,24 @@ def _audit_status_command(argv: list[str]) -> int:
     from truthlens.audit_inputs import AuditInputError, read_audit_key
     from truthlens.status_projection import project_status
 
-    parser = argparse.ArgumentParser(prog="truthlens audit status", description="Local status only; integrity is not approval.")
+    class StatusParser(argparse.ArgumentParser):
+        def error(self, message: str) -> None:
+            # argparse's default error reflects arbitrary argument text.
+            raise ValueError("invalid status arguments")
+
+    parser = StatusParser(prog="truthlens audit status", description="Local status only; integrity is not approval.")
     parser.add_argument("dir", nargs="?")
     parser.add_argument("--json", action="store_true")
     key_options = parser.add_mutually_exclusive_group()
     key_options.add_argument("--hmac-key-env", metavar="VAR")
     key_options.add_argument("--hmac-key-file", metavar="PATH")
     parser.add_argument("--expect-last-hash", metavar="HEX", type=_audit_anchor)
-    args = parser.parse_args(argv)
+    try:
+        args = parser.parse_args(argv)
+    except ValueError:
+        result = project_status(None, state="error")
+        print(serialize_report(result) if "--json" in argv else "not_checkable · error")
+        return 2
     try:
         key = None
         if args.hmac_key_env is not None:
