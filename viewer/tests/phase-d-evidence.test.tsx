@@ -68,3 +68,13 @@ it('evicted comparison content becomes unavailable instead of showing stale evid
  expect(screen.getByText(/Comparison snapshot unavailable/)).toBeTruthy()
  expect(screen.queryByRole('region',{name:'Right snapshot'})).toBeNull()
 })
+it('exposes recorded gate events even without an audit and labels simulated records',()=>{
+ const event={...doc.events[0],id:'synthetic-gate-record',type:'approval.granted',actor:{kind:'agent',id:'synthetic-agent'},payload:{simulated:true}}
+ const open=vi.fn()
+ render(<EvidenceReview doc={{...doc,events:[event]}} view="gated-actions" report={null} onOpenDrawer={open}/>)
+ expect(screen.getByTestId('review-outcome').textContent).toBe('Not checked')
+ expect(screen.getByText('Simulated record')).toBeTruthy()
+ expect(screen.getByText('agent · synthetic-agent')).toBeTruthy()
+ fireEvent.click(screen.getByRole('button',{name:'Open gate event synthetic-gate-record'}))
+ expect(open).toHaveBeenCalledWith({kind:'event',event})
+})
