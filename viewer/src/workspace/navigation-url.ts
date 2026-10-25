@@ -25,7 +25,7 @@ export function parseWorkspaceUrl(input: string | URL, defaultRef?: TabReference
   const hasRun = params.has('run')
   const explicit = hasSource || hasRun
   const rawView = params.get('view')
-  const view: WorkspaceView = isWorkspaceView(rawView) ? rawView : 'overview'
+  const view: WorkspaceView = isWorkspaceView(rawView) ? rawView : !explicit && rawView === null && defaultRef?.kind === 'runs' ? 'runs' : 'overview'
 
   if (explicit) {
     const sourceId = boundedParam(url, 'source')

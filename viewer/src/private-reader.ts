@@ -72,7 +72,9 @@ async function boundedJson(path:string,maxBytes:number,signal?:AbortSignal):Prom
 
 async function catalogPage(expectedSourceId:string,offset:number,signal?:AbortSignal):Promise<PrivateRunCatalog>{
  const value=await boundedJson(`/v1/runs?offset=${offset}&limit=50`,MAX_CATALOG_BYTES,signal)
- return parseCatalog(value,expectedSourceId)
+ const page=parseCatalog(value,expectedSourceId)
+ if(page.next_offset!==null&&page.next_offset<=offset)throw Error('Private reader catalog cursor did not advance')
+ return page
 }
 
 export async function connectPrivateReader(signal?:AbortSignal):Promise<PrivateReaderConnection>{

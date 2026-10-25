@@ -83,7 +83,7 @@ function ConnectedWorkspace({connection,onDisconnect}:{connection:PrivateReaderC
   {sourceId:connection.sourceId,label:'Private reader catalog',kind:'private-reader',runs:new Map()},
   ...catalog.runs.map(item=>({sourceId:item.source_id,label:'Private reader',kind:'private-reader' as const,runs:new Map(documents.has(item.source_id)?[[item.run_id,documents.get(item.source_id)!.doc] as [string,RunDoc]]:[])})),
  ],[catalog,connection,documents])
- const nav=useWorkspaceNavigation({sources})
+ const nav=useWorkspaceNavigation({sources,workspaceId:connection.sourceId})
  const doc=nav.activeRun
  const focusNext=useRef(false)
  const activeRunRef=nav.activeTab?.ref.kind==='run'?nav.activeTab.ref:undefined
@@ -155,7 +155,7 @@ function ConnectedWorkspace({connection,onDisconnect}:{connection:PrivateReaderC
 function LoadedWorkspace({doc:supplied}:{doc:RunDoc}){
  const mobile=useMobile(),wide=useWide()
  const [sources]=useState<WorkspaceSource[]>(()=>[{sourceId:'local-fixture',label:'Local development fixture',kind:'development-fixture',runs:new Map([[supplied.run.run_id,supplied]])}])
- const nav=useWorkspaceNavigation({sources})
+ const nav=useWorkspaceNavigation({sources,workspaceId:'local-development'})
  const doc=nav.activeRun
  const view=nav.activeTab?.view??'runs'
  const [record,setRecord]=useState<DrawerTarget|null>(null)

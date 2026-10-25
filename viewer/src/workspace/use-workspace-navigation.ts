@@ -8,11 +8,11 @@ function openAction(ref:TabReference,view:WorkspaceView):NavigationAction {
  return ref.kind==='runs'?{type:'open-runs',sourceId:ref.sourceId}:{type:'open-run',ref,view:view==='runs'?'overview':view}
 }
 /** Sole owner of workspace browser history. Resolution reads supplied memory only. */
-export function useWorkspaceNavigation({sources}:{sources:readonly WorkspaceSource[]}) {
+export function useWorkspaceNavigation({sources,workspaceId}:{sources:readonly WorkspaceSource[];workspaceId?:string}) {
  const source=sources[0],first=source?.runs.keys().next().value
- const defaultRef=useMemo<TabReference|undefined>(()=>source&&first?{kind:'run',sourceId:source.sourceId,runId:first}:undefined,[source,first])
+ const defaultRef=useMemo<TabReference|undefined>(()=>!source?undefined:first?{kind:'run',sourceId:source.sourceId,runId:first}:{kind:'runs',sourceId:source.sourceId},[source,first])
  const [initial]=useState(()=>{
-  const stored=readNavigation(),url=new URL(window.location.href)
+  const stored=readNavigation(undefined,workspaceId),url=new URL(window.location.href)
   const parsed=parseWorkspaceUrl(url,defaultRef)
   const explicit=parsed.explicit||url.searchParams.has('view')
   const state=parsed.ref&&(explicit||!stored.state.tabs.length)?navigationReducer(stored.state,openAction(parsed.ref,parsed.view)):stored.state
@@ -36,7 +36,7 @@ export function useWorkspaceNavigation({sources}:{sources:readonly WorkspaceSour
  }
  // Storage is an external system; report its actual write result.
  // oxlint-disable-next-line react/set-state-in-effect
- useEffect(()=>{setStorageStatus(writeNavigation(undefined,state).status)},[state])
+ useEffect(()=>{setStorageStatus(writeNavigation(undefined,state,workspaceId).status)},[state,workspaceId])
  // Bind the first entry to the identity restored from device metadata, without a new entry.
  useLayoutEffect(()=>{
   const active=initial.state.tabs.find(tab=>tab.tabId===initial.state.activeTabId)
