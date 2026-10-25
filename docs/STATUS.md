@@ -1,3 +1,45 @@
+## Phase C: Phase B catalog, workspace identity and tab navigation — 25 October 2026
+
+Branch `feat/phase-c-catalog-tabs`, base `4b78f47` (Phase B / PR #168).
+Reuses #160's source/target/renderer tab reducer, bounded close/pin/restore
+metadata and single history owner. The Phase B read adapter supplies Runs;
+workspace and snapshot identities are visible. An empty document cache now
+starts at a canonical Runs URL, so Back returns to the initial catalog.
+The existing single 64 KiB metadata slot is bound to the workspace; old unscoped
+or other-workspace metadata is ignored, and switching workspaces replaces the
+saved session. Claims remains a deduplicated renderer tab. Non-advancing catalog
+cursors are rejected. Existing 40-open/20-closed limits, late-response guards,
+memory-only storage fallback and inert unavailable references remain covered.
+
+TDD checkpoints: `b69ba30` red tests (7 intended failures / 24 passes),
+`e85ebd0` implementation (43 targeted tests passed); `9d0027b` fixes browser
+test initialization inside the opaque preview iframe. Self-review reproduced
+the same history gap for initial legacy renderer URLs without a run target:
+`9f8764b` red (5 failed / 14 passed), `734a5a4` green (48 targeted tests passed).
+Those targetless URLs now resolve to Runs; supplied-run legacy renderers retain
+their behavior. Final application/Vitest tree `734a5a4`: full `TZ=UTC npm test`
+and `TZ=Europe/Berlin npm test` each passed **347 tests / 37 files**, including
+static guards and the toolbar build matrix.
+Viewer lint/types/build and `ruff check src tests` passed. Python source is
+unchanged from the base; full UTC and Berlin runs each produced **469 passed,
+2 skipped, 1 xfailed, 15 subtests passed**. Repository-local test execution used
+short `--basetemp` paths, virtualenv PATH and umask 022. Earlier environment
+failures and one interrupted Berlin attempt are recorded in untracked PR_BODY.md;
+the skips and expected same-UID failure do not prove live isolation.
+
+Browser application/harness tree `734a5a4` (pending docs-only edits listed in
+the evidence): **6 specs passed in each timezone**, with actual
+Back/Forward, dedupe, reload/restore/pin, capacity, storage failure, delayed
+responses and last-criterion hit testing at **390×844**. Fourteen unrestricted
+axe scans and fourteen screenshots at **1440×900 / 390×844** found zero
+violations/page errors; incomplete-node classifications remain recorded.
+[Published screenshots, exact scope and limitations](screenshots/feat/phase-c-catalog-tabs/review-summary.md).
+Browser APIs use synthetic responses against the production build; no live
+private snapshot, SSH tunnel, separate UID or other-browser claim. Self-review
+found no blocking scoped issue. No remote CI was run. Frozen contracts and
+D34/Agent Zero status-only behavior are unchanged; unavailable production
+service retains Not connected. No push, PR, merge, deployment or host setup.
+
 ## Phase B: clarified D34 local read boundary — 25 October 2026
 
 Branch `feat/phase-b-read-service`, implementation `21343112f64e32f162c2a4b11f799b3d48c5b41c`.
