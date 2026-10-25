@@ -265,4 +265,5 @@ The broker uses the existing root-only registry and stored audits, never the
 human reader or a fresh audit. Peer UID plus per-run dispatch authorization is
 required. No account, socket, service, key or firewall is installed here.
 Real UID/SSH/reader-denial/host isolation remains separately authorized and untested.
-G2 CLI/doctor/config/demo remains deferred; existing ACP behavior is unchanged.
+G2 supplies local CLI/doctor/config/demo helpers; see the [agent setup guide](../../docs/AGENT-SETUP.md).
+They do not provision or certify this host. Existing ACP behavior is unchanged.

@@ -124,7 +124,10 @@ network denial to the human reader, process confinement and SSH forced-command
 checks require a separately authorized host and remain **not run**. No secure
 same-user quickstart or active deployment is claimed.
 
-G2 remains separate: `agent-status`, read-only `doctor`, client configs and demo.
+G2 adds `agent-status`, read-only `doctor`, explicit client snippets and a
+synthetic fake-broker demo; see the [agent setup guide](AGENT-SETUP.md).
+The broker/wire/client/adapter security boundary is unchanged. These helpers do
+not provision or certify a host, and actual client versions remain unqualified.
 Remote HTTP/OAuth, platform-specific macOS/Windows isolation and publishing
 remain out of scope. Rollback removes the new entrypoint/broker use; no data
 migration, cache or frozen-contract change is required.
