@@ -4,7 +4,7 @@ import {EvidenceWorkspaceView} from './workspace/EvidenceWorkspaceView.tsx'
 import {WorkspaceTabs} from './workspace/WorkspaceTabs.tsx'
 import {RunsView} from './workspace/RunsView.tsx'
 import type {WorkspaceSource,WorkspaceView} from './workspace/navigation-types.ts'
-import {useState,useEffect,useLayoutEffect,useRef,useMemo} from 'react'
+import {useState,useEffect,useLayoutEffect,useRef,useMemo,type ReactNode} from 'react'
 import type {RunDoc} from './types.ts'
 import {validateRunDoc} from './validateRunDoc.ts'
 import {readLens,writeLens,type Lens} from './lens.ts'
@@ -21,6 +21,9 @@ import {WorkspaceShell,type WorkspaceHandle} from './workspace/WorkspaceShell.ts
 import {applyTheme,readTheme} from './workspace/theme.ts'
 import {connectPrivateReader,loadPrivateCatalogPage,loadPrivateRun,type PrivateReaderConnection,type PrivateRunCatalog} from './private-reader.ts'
 import {PrivateRunsView} from './workspace/PrivateRunsView.tsx'
+import {LOCAL_LIMITS,type LocalFolder} from './local-folder.ts'
+import {LocalFolderOpen} from './workspace/LocalFolderOpen.tsx'
+import {LocalDownloads} from './workspace/LocalDownloads.tsx'
 export type {View} from './lib/use-view.ts'
 
 
@@ -32,6 +35,13 @@ function focusView(){
 }
 export default function App(){
  const mobile=useMobile(),wide=useWide()
+ const [localFolders,setLocalFolders]=useState<LocalFolder[]>([])
+ const onLocalOpen=(folder:LocalFolder)=>{
+  const retained=localFolders.filter(item=>item.sourceId!==folder.sourceId)
+  if(retained.reduce((n,item)=>n+item.totalBytes,folder.totalBytes)>LOCAL_LIMITS.cacheBytes)throw Error('Local folder cache size limit exceeded; reload to release files')
+  setLocalFolders([...retained,folder])
+ }
+ const localControls=<LocalFolderOpen onOpen={onLocalOpen}/>
  const [doc,setDoc]=useState<RunDoc|null>(null)
  const [error,setError]=useState<string|null>(null)
  const [invalidExport,setInvalidExport]=useState(false)
@@ -59,19 +69,19 @@ export default function App(){
   catch(error){if(!controller.signal.aborted)setConnectionError(error instanceof Error?error.message:'Unable to connect to the private reader')}
   finally{if(!controller.signal.aborted)setConnecting(false)}
  }
- if(!import.meta.env.DEV)return connection?<ConnectedWorkspace key={connection.sourceId} connection={connection} onDisconnect={()=>{connectionAbort.current?.abort();setConnection(null);setConnectionError(null)}}/>:<WorkspaceShell ref={workspace} lens={lens} mobile={mobile} wide={wide} inspectorAvailable={false} inspectorOpen={false} onInspectorOpenChange={()=>{}} inspector={<p>No recorded selection.</p>} navigation={<p className="section-note">No private run source is connected.</p>}>
-  <section className="local-disconnected"><h1>Not connected</h1><p>Connect to your private run catalog through your configured SSH connection.</p><p>Connect checks the local reader and loads its bounded run catalog. No request is made until you choose Connect.</p><Button variant="outline" disabled={connecting} onClick={connect}>{connecting?'Connecting…':'Connect'}</Button>{connectionError&&<p role="alert">Unable to connect: {connectionError}</p>}</section>
+ if(!import.meta.env.DEV)return connection?<ConnectedWorkspace key={connection.sourceId} connection={connection} localFolders={localFolders} localControls={localControls} onDisconnect={()=>{connectionAbort.current?.abort();setConnection(null);setConnectionError(null)}}/>:localFolders.length?<LoadedWorkspace localFolders={localFolders} localControls={localControls}/>:<WorkspaceShell ref={workspace} lens={lens} mobile={mobile} wide={wide} inspectorAvailable={false} inspectorOpen={false} onInspectorOpenChange={()=>{}} inspector={<p>No recorded selection.</p>} navigation={<p className="section-note">No private run source is connected.</p>}>
+  {localControls}<section className="local-disconnected"><h1>Not connected</h1><p>Connect to your private run catalog through your configured SSH connection.</p><p>Connect checks the local reader and loads its bounded run catalog. No request is made until you choose Connect.</p><Button variant="outline" disabled={connecting} onClick={connect}>{connecting?'Connecting…':'Connect'}</Button>{connectionError&&<p role="alert">Unable to connect: {connectionError}</p>}</section>
  </WorkspaceShell>
  if(error)return <ViewState title="Unable to load run data" description={error} error/>
  if(invalidExport)return <ViewState title="Invalid or inconsistent export" description="Restore a valid export and reload to view run data." error/>
  if(!doc)return <ViewState title="Loading run data…"/>
- return <LoadedWorkspace doc={doc}/>
+ return <LoadedWorkspace doc={doc} localFolders={localFolders} localControls={localControls}/>
 }
 
 const MAX_PRIVATE_CACHE_BYTES=50*1024*1024
 const MAX_PRIVATE_CATALOG_ENTRIES=200
 type CachedDocument={doc:RunDoc;bytes:number}
-function ConnectedWorkspace({connection,onDisconnect}:{connection:PrivateReaderConnection;onDisconnect:()=>void}){
+function ConnectedWorkspace({connection,onDisconnect,localFolders,localControls}:{connection:PrivateReaderConnection;onDisconnect:()=>void;localFolders:LocalFolder[];localControls:ReactNode}){
  const mobile=useMobile(),wide=useWide()
  const [catalog,setCatalog]=useState<PrivateRunCatalog>(connection.catalog)
  const [documents,setDocuments]=useState<Map<string,CachedDocument>>(()=>new Map())
@@ -82,10 +92,13 @@ function ConnectedWorkspace({connection,onDisconnect}:{connection:PrivateReaderC
  const [loadProblem,setLoadProblem]=useState<{key:string;message:string}|null>(null)
  const sources=useMemo<WorkspaceSource[]>(()=>[
   {sourceId:connection.sourceId,label:'Private reader catalog',kind:'private-reader',runs:new Map()},
+  ...localSources(localFolders),
   ...catalog.runs.map(item=>({sourceId:item.source_id,label:'Private reader',kind:'private-reader' as const,runs:new Map(documents.has(item.source_id)?[[item.run_id,documents.get(item.source_id)!.doc] as [string,RunDoc]]:[])})),
- ],[catalog,connection,documents])
+ ],[catalog,connection,documents,localFolders])
  const nav=useWorkspaceNavigation({sources,workspaceId:connection.sourceId})
+ useLocalSelection(nav,localFolders)
  const doc=nav.activeRun
+ const localFolder=localFolders.find(folder=>folder.sourceId===nav.activeSource?.sourceId)
  const focusNext=useRef(false)
  const activeRunRef=nav.activeTab?.ref.kind==='run'?nav.activeTab.ref:undefined
  const activeSummary=activeRunRef?catalog.runs.find(item=>item.source_id===activeRunRef.sourceId&&item.run_id===activeRunRef.runId):undefined
@@ -139,10 +152,11 @@ function ConnectedWorkspace({connection,onDisconnect}:{connection:PrivateReaderC
  const criterion=doc?.criteria.find(c=>c.criterion_id===selected)??doc?.criteria.find(c=>c.status==='unmet')??doc?.criteria[0]
  const matched=criterion?.evidence.flatMap(id=>{const event=doc?.events.find(e=>e.id===id);return event?[event]:[]})??[]
  const inspector=!doc?<p>No recorded selection.</p>:record?<Drawer inline target={record} doc={doc} trust={doc} blobs={doc.blobs} lens={lens} onOpenDrawer={openRecord} onClose={()=>setRecord(null)}/>:<CriterionDetail criterion={criterion} claims={doc.claims.filter(c=>c.criterion_ids.includes(criterion?.criterion_id??''))} matched={matched} onOpenDrawer={openRecord}/>
- const unavailable=nav.malformed||nav.activeTab&&!nav.activeSource||activeRunRef&&!activeSummary
+ const unavailable=nav.malformed||nav.activeTab&&!nav.activeSource||activeRunRef&&!activeSummary&&!localFolder
  const loading=activeRunRef&&activeSummary&&!doc&&loadProblem?.key!==activeKey
- return <WorkspaceShell sourceLabel="Private reader · loaded" sourceDescription="Private registered snapshot. Read-only view." tabs={<WorkspaceTabs state={nav.state} dispatch={nav.dispatch} onRuns={onRuns} unsaved={nav.storageStatus==='memory-only'}/>} inspectorAvailable={!!doc} lens={lens} mobile={mobile} wide={wide} onOpenRun={doc?()=>openRecord({kind:'run',doc}):undefined} inspectorOpen={inspectorOpen} onInspectorOpenChange={setInspectorOpen} ref={workspace} inspector={inspector} navigation={<Sidebar currentView={nav.activeTab?.view??'runs'} onViewChange={handleViewChange} lens={lens} onLensChange={handleLensChange} reviewRequired={doc?.review_required??false}/> }>
-  {unavailable?<section className="local-disconnected"><h1>Run unavailable</h1><p>This source or run is not available in the connected reader.</p><Button variant="outline" onClick={onRuns}>Return to Runs</Button></section>:activeRunRef&&!doc?<section className="local-disconnected"><h1>{loading?'Loading run…':'Unable to load run'}</h1>{loadProblem?.key===activeKey?<><p>{loadProblem.message}</p><Button variant="outline" onClick={()=>{setLoadProblem(null);setLoadRetry(value=>value+1)}}>Retry</Button><Button variant="outline" onClick={onRuns}>Return to Runs</Button></>:<p>Loading the selected run document from the private reader.</p>}</section>:!doc?<><PrivateRunsView catalog={catalog} loadingMore={loadingMore} onOpenRun={openRun} onLoadMore={loadMore} onDisconnect={onDisconnect}/>{catalogError&&<p role="alert">Unable to load more runs: {catalogError}</p>}</>:<>
+ return <WorkspaceShell sourceLabel={localFolder?"Local folder · not authenticated":"Private reader · loaded"} sourceDescription={localFolder?"Local unregistered files. Not D34 admission.":"Private registered snapshot. Read-only view."} tabs={<WorkspaceTabs state={nav.state} dispatch={nav.dispatch} onRuns={onRuns} unsaved={nav.storageStatus==='memory-only'}/>} inspectorAvailable={!!doc} lens={lens} mobile={mobile} wide={wide} onOpenRun={doc?()=>openRecord({kind:'run',doc}):undefined} inspectorOpen={inspectorOpen} onInspectorOpenChange={setInspectorOpen} ref={workspace} inspector={inspector} navigation={<Sidebar currentView={nav.activeTab?.view??'runs'} onViewChange={handleViewChange} lens={lens} onLensChange={handleLensChange} reviewRequired={doc?.review_required??false}/> }>
+  {localControls}{unavailable?<section className="local-disconnected"><h1>Run unavailable</h1><p>This source or run is not available in the connected reader.</p><Button variant="outline" onClick={onRuns}>Return to Runs</Button></section>:activeRunRef&&!doc?<section className="local-disconnected"><h1>{loading?'Loading run…':'Unable to load run'}</h1>{loadProblem?.key===activeKey?<><p>{loadProblem.message}</p><Button variant="outline" onClick={()=>{setLoadProblem(null);setLoadRetry(value=>value+1)}}>Retry</Button><Button variant="outline" onClick={onRuns}>Return to Runs</Button></>:<p>Loading the selected run document from the private reader.</p>}</section>:!doc?<><PrivateRunsView catalog={catalog} loadingMore={loadingMore} onOpenRun={openRun} onLoadMore={loadMore} onDisconnect={onDisconnect}/>{localFolders.length>0&&<RunsView sources={localSources(localFolders)} heading={false} onOpenRun={ref=>nav.navigate(ref,'overview')}/>}{catalogError&&<p role="alert">Unable to load more runs: {catalogError}</p>}</>:<>
+  {localFolder&&<LocalDownloads folder={localFolder}/>}
   <IntegrityNotice verified={doc.verified} integrity={doc.integrity}/>
   <EvidenceWorkspaceView key={identity} view={nav.activeTab?.view??'overview'} doc={doc} sourceId={nav.activeSource!.sourceId} summary={activeSummary} choices={sources.flatMap(source=>[...source.runs.values()].map(doc=>({sourceId:source.sourceId,doc})))} onOpenDrawer={openRecord}/>
   {nav.activeTab?.view!=='overview'&&<div className="review-return"><Button variant="outline" size="sm" onClick={()=>handleViewChange('overview')}>Review criteria</Button></div>}
@@ -154,11 +168,13 @@ function ConnectedWorkspace({connection,onDisconnect}:{connection:PrivateReaderC
  </WorkspaceShell>
 }
 
-function LoadedWorkspace({doc:supplied}:{doc:RunDoc}){
+function LoadedWorkspace({doc:supplied,localFolders,localControls}:{doc?:RunDoc;localFolders:LocalFolder[];localControls:ReactNode}){
  const mobile=useMobile(),wide=useWide()
- const [sources]=useState<WorkspaceSource[]>(()=>[{sourceId:'local-fixture',label:'Local development fixture',kind:'development-fixture',runs:new Map([[supplied.run.run_id,supplied]])}])
- const nav=useWorkspaceNavigation({sources,workspaceId:'local-development'})
+ const sources=useMemo<WorkspaceSource[]>(()=>[...(supplied?[{sourceId:'local-fixture',label:'Local development fixture',kind:'development-fixture' as const,runs:new Map([[supplied.run.run_id,supplied]])}]:[]),...localSources(localFolders)],[supplied,localFolders])
+ const nav=useWorkspaceNavigation({sources,workspaceId:supplied?'local-development':'local-folders'})
+ useLocalSelection(nav,localFolders)
  const doc=nav.activeRun
+ const localFolder=localFolders.find(folder=>folder.sourceId===nav.activeSource?.sourceId)
  const view=nav.activeTab?.view??'runs'
  const [record,setRecord]=useState<DrawerTarget|null>(null)
  const [selected,setSelected]=useState<string>()
@@ -172,15 +188,16 @@ function LoadedWorkspace({doc:supplied}:{doc:RunDoc}){
  useEffect(()=>{if(previousRecord.current.identity===identity&&previousRecord.current.record&&!record)document.getElementById('criterion-detail')?.focus({preventScroll:true});previousRecord.current={record,identity}},[record,identity])
  useLayoutEffect(()=>{if(focusNext.current||previousHistory.current!==nav.historyRevision){focusNext.current=false;previousHistory.current=nav.historyRevision;focusView()}},[identity,nav.historyRevision])
  const onRuns=()=>nav.navigate({kind:'runs',sourceId:sources[0].sourceId},'runs')
- const handleViewChange=(next:WorkspaceView)=>{focusNext.current=true;if(next==='runs')onRuns();else nav.navigate(nav.activeTab?.ref.kind==='run'?nav.activeTab.ref:{kind:'run',sourceId:sources[0].sourceId,runId:supplied.run.run_id},next);if(next===view)focusView()}
+ const handleViewChange=(next:WorkspaceView)=>{focusNext.current=true;if(next==='runs')onRuns();else nav.navigate(nav.activeTab?.ref.kind==='run'?nav.activeTab.ref:{kind:'run',sourceId:sources[0].sourceId,runId:sources[0].runs.keys().next().value!},next);if(next===view)focusView()}
  const handleLensChange=(next:Lens)=>{setLens(next);writeLens(next)}
  const openRecord=(target:DrawerTarget)=>{setRecord(target);setInspectorOpen(true);workspace.current?.inspect()}
  const selectCriterion=(id:string)=>{setSelected(id);setRecord(null);if(!wide)workspace.current?.inspect()}
  const criterion=doc?.criteria.find(c=>c.criterion_id===selected)??doc?.criteria.find(c=>c.status==='unmet')??doc?.criteria[0]
  const matched=criterion?.evidence.flatMap(id=>{const event=doc?.events.find(e=>e.id===id);return event?[event]:[]})??[]
  const inspector=!doc?<p>No recorded selection.</p>:record?<Drawer inline target={record} doc={doc} trust={doc} blobs={doc.blobs} lens={lens} onOpenDrawer={openRecord} onClose={()=>setRecord(null)}/>:<CriterionDetail criterion={criterion} claims={doc.claims.filter(c=>c.criterion_ids.includes(criterion?.criterion_id??''))} matched={matched} onOpenDrawer={openRecord}/>
- return <WorkspaceShell tabs={<WorkspaceTabs state={nav.state} dispatch={nav.dispatch} onRuns={onRuns} unsaved={nav.storageStatus==='memory-only'}/>} inspectorAvailable={!!doc} lens={lens} mobile={mobile} wide={wide} onOpenRun={doc?()=>openRecord({kind:'run',doc}):undefined} inspectorOpen={inspectorOpen} onInspectorOpenChange={setInspectorOpen} ref={workspace} inspector={inspector} navigation={<Sidebar currentView={view} onViewChange={handleViewChange} lens={lens} onLensChange={handleLensChange} reviewRequired={doc?.review_required??false}/>}>
-  {nav.malformed||nav.activeTab&&!nav.activeSource||nav.activeTab?.ref.kind==='run'&&!doc?<section className="local-disconnected"><h1>Run unavailable</h1><p>This source or run is unavailable in this workspace.</p><p className="workspace-reference">{nav.activeTab?.ref.sourceId} {nav.activeTab?.ref.kind==='run'?nav.activeTab.ref.runId:''}</p><Button variant="outline" onClick={onRuns}>Return to Runs</Button></section>:!doc?<RunsView sources={sources} onOpenRun={ref=>nav.navigate(ref,'overview')}/>:<>
+ return <WorkspaceShell sourceLabel={localFolder?"Local folder · not authenticated":undefined} sourceDescription={localFolder?"Local unregistered files. Not D34 admission.":undefined} tabs={<WorkspaceTabs state={nav.state} dispatch={nav.dispatch} onRuns={onRuns} unsaved={nav.storageStatus==='memory-only'}/>} inspectorAvailable={!!doc} lens={lens} mobile={mobile} wide={wide} onOpenRun={doc?()=>openRecord({kind:'run',doc}):undefined} inspectorOpen={inspectorOpen} onInspectorOpenChange={setInspectorOpen} ref={workspace} inspector={inspector} navigation={<Sidebar currentView={view} onViewChange={handleViewChange} lens={lens} onLensChange={handleLensChange} reviewRequired={doc?.review_required??false}/>}>
+  {localControls}{nav.malformed||nav.activeTab&&!nav.activeSource||nav.activeTab?.ref.kind==='run'&&!doc?<section className="local-disconnected"><h1>Run unavailable</h1><p>This source or run is unavailable in this workspace.</p><p className="workspace-reference">{nav.activeTab?.ref.sourceId} {nav.activeTab?.ref.kind==='run'?nav.activeTab.ref.runId:''}</p><Button variant="outline" onClick={onRuns}>Return to Runs</Button></section>:!doc?<RunsView sources={sources} onOpenRun={ref=>nav.navigate(ref,'overview')}/>:<>
+  {localFolder&&<LocalDownloads folder={localFolder}/>}
   <IntegrityNotice verified={doc.verified} integrity={doc.integrity}/>
   <EvidenceWorkspaceView key={identity} view={view} doc={doc} sourceId={nav.activeSource!.sourceId} choices={sources.flatMap(source=>[...source.runs.values()].map(doc=>({sourceId:source.sourceId,doc})))} onOpenDrawer={openRecord}/>
   {view!=='overview'&&<div className="review-return"><Button variant="outline" size="sm" onClick={()=>handleViewChange('overview')}>Review criteria</Button></div>}
@@ -190,4 +207,10 @@ function LoadedWorkspace({doc:supplied}:{doc:RunDoc}){
   {view==='agent-story'&&<RenderView input={{kind:'run',doc}} context={{lens,blobs:doc.blobs,onOpenDrawer:openRecord}}/>}
   </>}
  </WorkspaceShell>
+}
+
+function localSources(folders:LocalFolder[]):WorkspaceSource[]{return folders.map(folder=>({sourceId:folder.sourceId,label:'Local folder · unregistered',kind:'local-folder',runs:new Map([[folder.doc.run.run_id,folder.doc]])}))}
+function useLocalSelection(nav:ReturnType<typeof useWorkspaceNavigation>,folders:LocalFolder[]){
+ const latest=folders.at(-1),previous=useRef<LocalFolder|undefined>(undefined)
+ useLayoutEffect(()=>{if(latest&&latest!==previous.current){previous.current=latest;nav.navigate({kind:'run',sourceId:latest.sourceId,runId:latest.doc.run.run_id},'overview')}},[latest,nav])
 }
