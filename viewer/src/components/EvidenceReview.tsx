@@ -17,12 +17,14 @@ function Checks({checks,doc,onOpenDrawer}:{checks:AuditCheck[];doc:RunDoc;onOpen
 export function EvidenceReview({doc,view,report,onOpenDrawer}:{doc:RunDoc;view:AuditView;report:AuditReport|null;onOpenDrawer:(target:DrawerTarget)=>void}){
  const checks=report?.checks.filter(check=>view==='chain'?check.rule_id==='TL-AUD-001':view==='gated-actions'?check.rule_id==='TL-AUD-012':!['TL-AUD-001','TL-AUD-003','TL-AUD-012'].includes(check.rule_id))??[]
  const result=checkSummary(checks)
+ const gateEvents=doc.events.filter(event=>event.type.startsWith('action.')||event.type.startsWith('approval.')).toSorted((a,b)=>a.seq-b.seq)
  return <section className="evidence-review">
   <PageHeading title={titles[view]} description="Stored audit results for this snapshot. Reading does not run a new check."/>
   <p className="audit-outcome" data-testid="review-outcome" data-outcome={result.outcome}>{result.label}</p>
   {view==='chain'&&<p>No individual chain-link diagnosis is inferred from these recorded checks.</p>}
   {view==='coverage'&&<p>Recorded content, claim and test evidence checks. Code coverage is not established.</p>}
   {view==='gated-actions'&&<p>A recorded gate check does not grant human approval or establish uncaptured effects.</p>}
+  {view==='gated-actions'&&<section><h2>Recorded gate events</h2><p>Original records do not establish human approval.</p>{!gateEvents.length?<p>No gate events exported.</p>:<ul className="audit-checks">{gateEvents.map(event=><li key={event.id}><p><code>#{event.seq} · {event.type}</code></p><p>{event.summary}</p><p>{event.actor.kind} · {event.actor.id}</p>{event.payload.simulated===true&&<p>Simulated record</p>}<Button variant="outline" onClick={()=>onOpenDrawer({kind:'event',event})}>Open gate event {event.id}</Button></li>)}</ul>}</section>}
   {!report?<p>No stored audit report available. Not checked.</p>:<>
    {!checks.length?<p>No checks recorded for this view.</p>:<Checks checks={checks} doc={doc} onOpenDrawer={onOpenDrawer}/>}
    {view==='chain'&&<details><summary>Recorded authentication checks</summary><p>The browser does not check signatures.</p><Checks checks={report.checks.filter(check=>check.rule_id==='TL-AUD-003')} doc={doc} onOpenDrawer={onOpenDrawer}/></details>}
