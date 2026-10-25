@@ -1,6 +1,7 @@
 """Operator-only preflight; real temporary Git repos, simulated root identity."""
 
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -112,6 +113,28 @@ def test_git_failure_is_a_fixed_warning(tmp_path, profile, capsys, monkeypatch):
     assert "PRIVATE" not in out.err
 
 
+def test_git_probe_disables_fetch_and_discards_caller_environment(tmp_path, profile, capsys, monkeypatch):
+    monkeypatch.setenv("GIT_DIR", str(tmp_path / "foreign-repo"))
+    monkeypatch.setenv("GIT_CONFIG_COUNT", "1")
+    calls = []
+
+    def probe(argv, **kwargs):
+        calls.append((argv, kwargs))
+        return subprocess.CompletedProcess(argv, 0)
+
+    monkeypatch.setattr(subprocess, "run", probe)
+    assert check(tmp_path, profile) == 0
+    assert capsys.readouterr() == ("", "")
+    assert len(calls) == 1
+    argv, options = calls[0]
+    assert argv[0] == "/usr/bin/git" and "--no-optional-locks" in argv
+    assert argv[-3:] == ["rev-parse", "--verify", "HEAD^{commit}"]
+    assert options["env"]["GIT_NO_LAZY_FETCH"] == "1"
+    assert "GIT_DIR" not in options["env"] and "GIT_CONFIG_COUNT" not in options["env"]
+    assert options["stdin"] == options["stdout"] == options["stderr"] == subprocess.DEVNULL
+    assert options["timeout"] == 5 and not options.get("shell", False)
+
+
 @pytest.mark.parametrize("command", ["", "'unterminated", None])
 def test_invalid_test_command_is_fixed_diagnostic(tmp_path, profile, capsys, command):
     profile["tests"][0]["command"] = command
@@ -138,13 +161,13 @@ def test_name_reuses_protected_loader(tmp_path, profile, capsys, monkeypatch):
 def test_nonroot_denied_before_profile_read(tmp_path, capsys, monkeypatch):
     monkeypatch.setattr(registry.os, "getuid", lambda: 1234)
     monkeypatch.setattr(registry.os, "geteuid", lambda: 1234)
-    monkeypatch.setattr(Path, "read_bytes", lambda *a: pytest.fail("must not read profile"))
+    monkeypatch.setattr(os, "open", lambda *a: pytest.fail("must not open profile"))
     assert main(["profile", "check", str(tmp_path / "private.json")]) == 2
     out = capsys.readouterr()
     assert out.out == "" and out.err == "Profile check unavailable or access denied.\n"
 
 
-@pytest.mark.parametrize("kind", ["missing", "symlink", "directory", "oversize", "invalid", "array"])
+@pytest.mark.parametrize("kind", ["missing", "symlink", "directory", "fifo", "oversize", "invalid", "array"])
 def test_unsafe_or_invalid_draft_has_fixed_error(tmp_path, capsys, monkeypatch, kind):
     monkeypatch.setattr(registry, "require_root", lambda: None)
     path = tmp_path / "PRIVATE_PROFILE.json"
@@ -152,6 +175,8 @@ def test_unsafe_or_invalid_draft_has_fixed_error(tmp_path, capsys, monkeypatch, 
         path.symlink_to(tmp_path / "target")
     elif kind == "directory":
         path.mkdir()
+    elif kind == "fifo":
+        os.mkfifo(path)
     elif kind != "missing":
         path.write_text({"oversize": " " * 65537, "invalid": "PRIVATE_CONTENT", "array": "[]"}[kind])
     assert main(["profile", "check", str(path)]) == 2
@@ -159,7 +184,10 @@ def test_unsafe_or_invalid_draft_has_fixed_error(tmp_path, capsys, monkeypatch, 
     assert out.out == "" and out.err == "Profile check unavailable or access denied.\n"
 
 
-def test_operator_warnings_never_enter_agent_or_pipeline_outputs(tmp_path, profile, capsys, monkeypatch):
+@pytest.mark.parametrize("status,code", [("passed", 0), ("failed", 1), ("not_checkable", 2)])
+def test_operator_warnings_never_enter_agent_or_pipeline_outputs(
+    tmp_path, profile, capsys, monkeypatch, status, code
+):
     profile["criteria"]["criteria"][0]["source"] = "derived"
     profile["tests"][0]["command"] = "python3 -m pytest"
     profile["repo"] = str(tmp_path / "missing")
@@ -167,18 +195,28 @@ def test_operator_warnings_never_enter_agent_or_pipeline_outputs(tmp_path, profi
     warning = capsys.readouterr()
     assert all(code in warning.err for code in ("DERIVED_ONLY", "TEST_EXECUTABLE", "REPO_HEAD"))
 
-    from truthlens import pipeline
+    from truthlens import mcp_status, pipeline, profile_check, status_client
 
     monkeypatch.setattr(pipeline, "load_profile", lambda name: pytest.fail("status must not load profiles"))
+    monkeypatch.setattr(
+        profile_check, "_warnings", lambda value: pytest.fail("status must not check profiles")
+    )
+    monkeypatch.setattr(status_client, "check_status", lambda *args: {"status": status})
+    monkeypatch.setattr(mcp_status, "check_status", lambda *args: {"status": status})
     monkeypatch.setattr(registry, "caller_uid", registry.deny)
-    assert (
-        main(["agent-status", "--socket", str(tmp_path / "absent.sock"), "--run-id", "allowed", "--json"])
-        == 2
-    )
+    assert main(["agent-status", "--socket", str(tmp_path / "absent.sock"), "allowed", "--json"]) == code
+    assert capsys.readouterr() == (json.dumps({"status": status}, separators=(",", ":")) + "\n", "")
+    assert mcp_status.call_status(
+        tmp_path / "absent.sock", "truthlens_check_status", {"run_id": "allowed"}
+    ) == {"status": status}
+    assert capsys.readouterr() == ("", "")
+    assert main(["agent-status", "--run-id", "PRIVATE_INPUT", "--json"]) == 2
     assert capsys.readouterr() == ('{"status":"not_checkable"}\n', "")
-    assert main(["status", "allowed"]) == 2
-    assert capsys.readouterr() == (
+    assert main(["pipeline", "run", "--profile", "PRIVATE_PROFILE"]) == 2
+    expected = (
         '{"connection": "not connected", "message": "Pipeline unavailable or access denied.", '
-        '"state": "unavailable"}\n',
-        "",
+        '"state": "unavailable"}\n'
     )
+    assert capsys.readouterr() == (expected, "")
+    assert main(["status", "allowed"]) == 2
+    assert capsys.readouterr() == (expected, "")
