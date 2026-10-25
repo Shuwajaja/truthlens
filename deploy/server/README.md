@@ -496,9 +496,9 @@ and `ARGUMENTS_INVALID`. No exception details or partial listing are emitted.
 
 The command opens the journal **O_RDONLY**, using its existing advisory lock;
 it does not create a lock file, journal, run or snapshot. It does not load profile
-contents, keys, run files, events or evidence, execute a task, retry, queue,
-repair, delete or grant approval. Concurrent appends may briefly wait on that
-existing lock. Inspection is a journal snapshot; an active capture can finish
+contents, keys, run files, ledger events or evidence, execute a task, retry, queue,
+repair, delete or grant approval. Concurrent appends and inspection serialize on
+that existing lock. Inspection is a journal snapshot; an active capture can finish
 afterward. Uncaptured does not establish abandonment or a failed verdict.
 
 The operator can correlate the dispatch ID and profile with the separately

@@ -1,3 +1,55 @@
+## Pending dispatch inspection — local qualification, 25 October 2026
+
+Branch `fix/operator-pending-dispatch-inspect`, base `0f89fbe`; scope is trial
+item **10** only. Code/tests: `a6593dec4b0f58045bc7eaaa1eb3d68835bf79aa`;
+subsequent changes are documentation only. Red checkpoint `40671a1` witnessed
+**21 failed, 29 passed** before `pending` existed; three broker denial-frame
+probes passed. [Operator inspection and manual next steps](../deploy/server/README.md#root-only-pending-dispatch-inspection-trial-item-10).
+
+- `truthlens pipeline explain pending` checks real/effective root before parsing
+  or input reads, then uses the existing O_RDONLY validated journal reader.
+  It creates no files/locks, writes no journal bytes and triggers no recovery.
+- Only uncaptured dispatches appear, with validated bounded dispatch ID/profile,
+  clamped integer age and fixed state/retry indication. No run ID exists before
+  capture. Output is at most 100 entries / 32768 bytes, with explicit truncation.
+  No profile contents, keys, ledger events, evidence or arbitrary record text.
+- Caller mappings/registry authorization, recovery, frozen contracts, G1 wire,
+  adapter and D34 remain unchanged. Byte-exact normal error/status and broker
+  denial checks pass with the operator module unavailable. Integrity is not approval.
+
+Targeted `python -m pytest -q tests/test_pipeline_pending.py
+ tests/test_pipeline_explain.py tests/test_status_broker.py tests/test_mcp_status.py
+ --basetemp=.t/gg --tb=short`: **158 passed**. Sequential full Python runs with
+repo-local venv PATH/TMPDIR, current-source PYTHONPATH and umask022:
+`TZ=UTC python -m pytest -q -rs --tb=short --basetemp=.t/u11` and
+`TZ=Europe/Berlin python -m pytest -q -rs --tb=short --basetemp=.t/b10` each
+reported **747 passed, 2 skipped, 1 xfailed, 21 subtests passed**. Host-only
+tl-agent/sudo tests are skipped; the known same-UID `/proc` risk is an expected
+failure. These are not passes or live isolation qualification.
+
+Full Viewer `TZ=UTC npm test` and `TZ=Europe/Berlin npm test`, sequentially in
+`viewer/`: **436 passed / 46 files each**, including static checks and five
+toolbar builds. Existing jsdom scrollTo notices remain. `ruff check src tests`,
+changed Python format checks, Viewer `npm run lint`, `npm run build` (including
+TypeScript), local setuptools wheel build/content comparison and diff/document
+checks passed. Setuptools emitted its setup.py-install deprecation warning.
+Scoped stdlib tracing of 50 operator tests plus synthetic boundary probes covered
+**44/44 executable helper lines**; this is not branch/project coverage. The
+maximum-field 100-entry projection used **27231 bytes** including newline;
+invalid capture identifiers and an artificially exhausted byte budget failed
+closed. A real nonroot CLI invocation returned only `ROOT_REQUIRED`, exit 2.
+
+Earlier harness failures and fixes are recorded in the requested untracked
+`PR_BODY.md`: stale copied virtualenv source path and reuse of an old read-only
+pytest directory. The initial implementation also exposed duplicate-record
+validation bypass; validation now precedes deduplication and its tests pass.
+Final author self-review checked root ordering, fail-closed bounded projection,
+read-only behavior, unchanged error bytes and D34 reachability, tests and docs.
+No remaining blocking finding; this is the requested self-review, not an
+independent review or security certification. Real root/host/client/SSH/systemd
+isolation, live services, Python 3.13, browser/axe release flows and real human
+approval were not qualified. No push, PR, merge, deployment or host setup occurred.
+
 ## Operator broker unit and denial diagnosis — local preparation, 25 October 2026
 
 Branch `fix/operator-broker-unit-explain`, base `3e5237a`; scope is trial-runbook
