@@ -157,6 +157,18 @@ The generator never reads or edits this file automatically.
 
 ### Agent Zero
 
+An operator registers Agent Zero's actual nonroot UID under the protected
+profile's optional `status_readers`, for example
+`"status_readers": [{"uid": 5678, "name": "agent-zero"}]` (synthetic UID).
+Keep it out of `callers`. See the [protected configuration and strict validation
+rules](../deploy/server/README.md#status-readers-trial-item-4); do not edit a server
+profile from chat or use the example UID without verifying the existing account.
+The broker peer allowlist and protected socket access are separate prerequisites;
+the profile grant applies only to runs dispatched after that configuration.
+Missing/empty reader lists add nobody, and edits do not change historical grants.
+No run/dispatch/admit, approval, explain, evidence or Phase B reader access is
+granted. No host change is performed by these examples or config generators.
+
 ```sh
 truthlens agent-config agent-zero --socket /run/truthlens/status.sock
 ```

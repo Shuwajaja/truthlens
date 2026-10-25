@@ -1,3 +1,54 @@
+## Separate status-reader role — local qualification, 25 October 2026
+
+Branch `fix/status-reader-role`, base `110dbb6`; trial item **4** only.
+Code/tests: `845bf448bae088d07ce98eff6f7b20106a461367`; subsequent changes
+are documentation only. Red checkpoint `5a01254` recorded **29 failed,
+7 passed, 12 setup errors** before the reader dispatch API existed. Malformed
+reader configuration was accepted before the fix; green boundary tests now
+report **48 passed**. The launcher test's registry mock was also corrected.
+
+Optional protected-profile `status_readers` captures a separate, bounded,
+strictly validated reader UID list on new dispatches. Caller-only
+`authorized_uids`, detailed caller output and admission/evidence checks remain
+unchanged. Readers get only `passed` / `failed` / `not_checkable` through the
+existing broker or privileged local status CLI; no launch/admit/approval,
+explain or Phase B rights follow. Invalid/overlapping reader configuration
+denies launch, unknown UIDs retain identical fixed denials, and old runs gain
+no readers. Profile edits affect future runs only, including revocation.
+[Operator configuration](../deploy/server/README.md#status-readers-trial-item-4),
+[self-host boundary](SELFHOST-MCP.md) and [Agent Zero setup](AGENT-SETUP.md)
+describe the separate broker peer/socket prerequisites. G1 wire/client/adapter,
+D34 and frozen contracts are unchanged. Integrity is not approval.
+
+Sequential full Python runs using repo-local venv PATH/TMPDIR,
+`PYTHONPATH=$PWD/src` and umask022:
+`TZ=UTC python -m pytest -q -rs --tb=short --basetemp=.t/sru1` and
+`TZ=Europe/Berlin python -m pytest -q -rs --tb=short --basetemp=.t/srb1`
+each observed **795 passed, 2 skipped, 1 xfailed, 21 subtests passed**.
+The skips need host-only tl-agent/sudo fixtures; the expected failure is the
+known same-UID `/proc` risk. Neither proves live isolation.
+
+Viewer `TZ=UTC npm test` and `TZ=Europe/Berlin npm test`, sequentially:
+**436 passed / 46 files each**, including static checks and five toolbar builds;
+existing jsdom scrollTo notices remain. `ruff check src tests`, format checks
+for pipeline/registry/broker/new tests, Viewer lint and production build
+(including TypeScript), local setuptools wheel build and source comparison
+(33 modules), frozen-file/diff/document checks passed. Setuptools emitted its
+existing setup.py-install deprecation warning. Stdlib tracing of the 48 reader
+tests covered **49/50 added executable source lines (98%)**; this is scoped
+line coverage, not branch or whole-project coverage.
+
+Final author self-review checked the complete diff for role escalation,
+identity/run/session boundaries, fixed output bytes, malformed configuration,
+read-only status and D34 leakage. Independent Codex reviewer
+`/root/security_review` reviewed `110dbb6..845bf44` and the three role guides:
+no blocking security/consistency findings. Its internal-helper observation and
+earlier failed harness checks (long socket paths and copied venv import binding),
+resolutions, exact checks and limitations are recorded in untracked `PR_BODY.md`.
+No assertions were weakened. Real host/separate-UID/SSH/client/systemd isolation,
+real human approval, Python 3.13 and browser/axe release flows were not run.
+No push, PR, merge, deployment, host setup, new dependencies or Docker changes.
+
 ## Pending dispatch inspection — local qualification, 25 October 2026
 
 Branch `fix/operator-pending-dispatch-inspect`, base `0f89fbe`; scope is trial

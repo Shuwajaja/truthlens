@@ -34,7 +34,7 @@ It is not an agent tool; G1 responses and fixed agent-facing errors are unchange
 
 ```text
 agent UID -> unprivileged stdio MCP -> fixed Unix socket
-  -> root broker: SO_PEERCRED allowlist -> per-run Registry.run authorization
+  -> root broker: SO_PEERCRED allowlist -> per-run status authorization
   -> stored completed audit + protected registration/snapshot digest binding
   -> existing Phase F project_status -> {status} only
 
@@ -56,13 +56,28 @@ existing pathname, including a stale socket. Shutdown removes only its own
 socket inode. The client checks the protected socket ancestry/type/owner and
 kernel server UID as well; a replacement unprivileged broker cannot supply green.
 Group membership permits connecting, but never bypasses the peer allowlist or
-registry authorization. Per-run rights come from protected dispatch
-`authorized_uids`; there is no blanket all-runs grant. Session identifiers from
+registry authorization. Per-run status rights come from protected dispatch
+`authorized_uids` (existing callers) or the separate `status_reader_uids`;
+there is no blanket all-runs grant. Session identifiers from
 tool arguments are rejected. Remote users sharing a UID cannot be distinguished.
 
-The broker reads through existing `Registry.run`, `records`, `read_report`, `pipeline_jobs.status` and
+For Agent Zero, put its actual nonroot UID in the protected profile's optional
+`status_readers`, not `callers`, then separately allow that peer UID on the broker.
+See the [operator example and validation/overlap rules](../deploy/server/README.md#status-readers-trial-item-4).
+Missing/empty lists grant no readers. Grants are captured for new runs only;
+existing runs and caller rights stay unchanged, and profile edits do not revoke
+past dispatch grants. Reader labels are bounded ASCII configuration, never tool
+input or returned metadata. No run/admit/approve/explain/evidence capability or
+Phase B access follows from this role; socket/OS isolation still needs separate
+host authorization. The privileged local `truthlens status` command also narrows
+reader output to the same one-field projection; unknown UIDs keep its fixed denial.
+
+The broker reads through `Registry.status_registration`, `records`, `read_report`, `pipeline_jobs.status` and
 `SafeRunReader`; it does not use `read_service.py`, the publication tree or a
-second database. Before using Phase F's sole verdict projection it requires:
+second database. After authorizing the querying UID for status only, it internally
+reads the stored worker context as the dispatch's original initiator; the querying
+reader never receives that detailed result or gains caller authorization through
+`Registry.run`. Before using Phase F's sole verdict projection it requires:
 
 - Server-pipeline origin, closed capture receipt and fixed snapshot registration.
 - Latest job completed with an existing digest-bound stored report. Legacy inline
