@@ -189,11 +189,12 @@ badge moves clear of the Close button, including at narrow viewport widths.
 | `truthlens approve LEDGER HASH` | human approval for exactly one action, single use, expires after 10 min |
 | `truthlens verify LEDGER [--expect-last-hash H]` | fail-closed integrity check |
 | `truthlens report DIR` / `export DIR` / `project DIR` | criteria + claims vs witnessed / viewer JSON / SQLite projection |
-| `truthlens mcp --root DIR` | read-only MCP server over stdio (`list_runs`, `run_report`, `run_events`) |
+| `truthlens mcp-status --socket PATH` | D34 status-only stdio MCP; protected broker required ([architecture and limits](docs/SELFHOST-MCP.md)) |
+| `truthlens mcp --root DIR` | legacy evidence MCP, **not D34-compatible** (`list_runs`, `run_report`, `run_events`) |
 
 The approval gate is **not a sandbox**: it protects actions that need a capability only the wrapper holds; the agent's own shell is unrestricted (same OS user). See [TRUST-LEVELS](docs/TRUST-LEVELS.md).
 
-MCP client config example: `{"command": "python", "args": ["-m", "truthlens", "mcp", "--root", "demo/runs"]}`.
+Legacy human evidence MCP client config example (never an agent status fallback): `{"command": "python", "args": ["-m", "truthlens", "mcp", "--root", "demo/runs"]}`.
 
 > Status: **Schema frozen (v1).** Event Schema v1 and Artifact Manifest v1 are FROZEN. Live progress: [docs/STATUS.md](docs/STATUS.md). The week plan is an effort estimate, not approval phases; a minimal approval gate lands early (W2), W4 hardens and integrates it.
 

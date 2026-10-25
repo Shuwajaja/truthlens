@@ -1,6 +1,7 @@
 """G1: synthetic protected registry plus real temporary Unix sockets, no host isolation claim."""
 
 import copy
+import json
 import os
 import socket
 import struct
@@ -9,7 +10,7 @@ from dataclasses import replace
 
 import pytest
 
-from truthlens import pipeline, registry
+from truthlens import pipeline
 
 pytest_plugins = ("tests.test_registry",)
 UNKNOWN = {"status": "not_checkable"}
@@ -70,7 +71,22 @@ def test_registered_signed_closed_audit_reuses_projection_without_writes(complet
 
 
 @pytest.mark.parametrize("conclusion", ["supported_within_scope", "contradictory"])
-@pytest.mark.parametrize("attack", ["hash_only", "unsigned", "verified_false", "verified_int", "wrong_run", "wrong_anchor", "wrong_digest", "verifier", "ruleset", "open", "missing_digest"])
+@pytest.mark.parametrize(
+    "attack",
+    [
+        "hash_only",
+        "unsigned",
+        "verified_false",
+        "verified_int",
+        "wrong_run",
+        "wrong_anchor",
+        "wrong_digest",
+        "verifier",
+        "ruleset",
+        "open",
+        "missing_digest",
+    ],
+)
 def test_untrusted_or_misbound_audit_never_passes_or_fails(completed, attack, conclusion):
     report = copy.deepcopy(completed[3])
     report["conclusion"] = conclusion
@@ -163,7 +179,15 @@ def test_changed_or_missing_snapshot_or_stored_report_fails_closed(completed, at
 
 def test_legacy_inline_result_is_not_promoted(completed):
     store, _, _, report, job = completed
-    store.append("completed", {**job, "report": report})
+    store.append(
+        "completed",
+        {
+            **job,
+            "report": json.loads(
+                __import__("truthlens.audit", fromlist=["serialize_report"]).serialize_report(report)
+            ),
+        },
+    )
     assert query(completed) == UNKNOWN
 
 
@@ -174,7 +198,7 @@ def unix_broker(tmp_path, monkeypatch):
     monkeypatch.setattr(wire, "trusted_parent", lambda path: None)
     monkeypatch.setattr(wire, "BROKER_UID", os.getuid())
     monkeypatch.setattr(broker, "require_root", lambda: None)
-    config = broker.BrokerConfig(tmp_path / "status.sock", frozenset({os.getuid()}))
+    config = broker.BrokerConfig(tmp_path / "status.sock", frozenset({os.getuid()}), os.getgid())
     seen = []
 
     def source(run_id, uid):
@@ -195,7 +219,7 @@ def test_real_temp_socket_peer_check_and_client_roundtrip(unix_broker):
     instance, seen, client, _ = unix_broker
     assert client.check_status(instance.config.socket_path, "allowed") == {"status": "passed"}
     assert seen == [("allowed", os.getuid())]
-    assert instance.config.socket_path.stat().st_mode & 0o777 == 0o666
+    assert instance.config.socket_path.stat().st_mode & 0o777 == 0o660
 
 
 def test_wrong_or_unverifiable_peer_denied_before_source(unix_broker, monkeypatch):
@@ -208,7 +232,20 @@ def test_wrong_or_unverifiable_peer_denied_before_source(unix_broker, monkeypatc
     assert seen == []
 
 
-@pytest.mark.parametrize("raw", [b"{}", b"[]", b'null', b'{"version":true,"run_id":"allowed"}', b'{"version":1,"run_id":"allowed","uid":0}', b'{"version":1,"run_id":"allowed","run_id":"foreign"}', b'{"version":1,"run_id":"../key"}', b'\xff', b'{' ])
+@pytest.mark.parametrize(
+    "raw",
+    [
+        b"{}",
+        b"[]",
+        b"null",
+        b'{"version":true,"run_id":"allowed"}',
+        b'{"version":1,"run_id":"allowed","uid":0}',
+        b'{"version":1,"run_id":"allowed","run_id":"foreign"}',
+        b'{"version":1,"run_id":"../key"}',
+        b"\xff",
+        b"{",
+    ],
+)
 def test_malformed_broker_requests_never_query_source(unix_broker, raw):
     instance, seen, _, wire = unix_broker
     with socket.socket(socket.AF_UNIX) as sock:
@@ -219,7 +256,9 @@ def test_malformed_broker_requests_never_query_source(unix_broker, raw):
     assert seen == []
 
 
-@pytest.mark.parametrize("operation", ["audit", "register", "approve", "run", "repair", "events", "evidence", "raw"])
+@pytest.mark.parametrize(
+    "operation", ["audit", "register", "approve", "run", "repair", "events", "evidence", "raw"]
+)
 def test_privileged_requests_denied(unix_broker, operation):
     instance, seen, _, wire = unix_broker
     with socket.socket(socket.AF_UNIX) as sock:
@@ -261,7 +300,7 @@ def test_source_exception_or_extra_fields_cannot_leak(unix_broker, capsys):
     instance, _, client, _ = unix_broker
     marker = "/synthetic/private/key event evidence run_id URL"
     for response in [{"status": "passed", "details": marker}, {"status": marker}, None]:
-        instance.source = lambda *args: response
+        instance.source = lambda *args, response=response: response
         assert client.check_status(instance.config.socket_path, "allowed") == UNKNOWN
 
     def broken(*args):
@@ -285,3 +324,178 @@ def test_unprotected_ancestry_is_rejected(tmp_path):
     _, _, wire = modules()
     with pytest.raises((OSError, ValueError)):
         wire.trusted_parent(tmp_path / "status.sock")
+
+
+def test_client_checks_kernel_server_uid_after_connect(unix_broker, monkeypatch):
+    instance, _, client, wire = unix_broker
+    monkeypatch.setattr(wire, "peer_uid", lambda sock: os.getuid() + 1)
+    assert client.check_status(instance.config.socket_path, "allowed") == UNKNOWN
+
+
+def test_root_peer_is_not_an_eligible_agent(tmp_path, monkeypatch):
+    broker, _, wire = modules()
+    monkeypatch.setattr(broker, "require_root", lambda: None)
+    monkeypatch.setattr(wire, "trusted_parent", lambda path: None)
+    for uids, gid in [
+        (frozenset({0}), os.getgid()),
+        (frozenset({True}), os.getgid()),
+        (frozenset(), os.getgid()),
+        (frozenset({1234}), 0),
+    ]:
+        with pytest.raises(ValueError):
+            broker.BrokerConfig(tmp_path / "s", uids, gid).validate()
+
+
+def test_slow_drip_has_total_deadline(unix_broker, monkeypatch):
+    import time
+
+    instance, seen, _, wire = unix_broker
+    monkeypatch.setattr(wire, "TIMEOUT", 0.12)
+    with socket.socket(socket.AF_UNIX) as sock:
+        sock.settimeout(1)
+        sock.connect(str(instance.config.socket_path))
+        start = time.monotonic()
+        for byte in b"\x00\x00\x00":
+            try:
+                sock.send(bytes([byte]))
+            except BrokenPipeError:
+                break
+            time.sleep(0.07)
+        assert sock.recv(256) == b""
+        assert time.monotonic() - start < 0.8
+    assert seen == []
+
+
+def test_worker_capacity_is_bounded_and_busy_clients_fail_closed(unix_broker):
+    instance, seen, client, _ = unix_broker
+    entered = threading.Barrier(3)
+    release = threading.Event()
+    results = []
+
+    def blocked(*args):
+        entered.wait(timeout=2)
+        release.wait(timeout=2)
+        return {"status": "passed"}
+
+    instance.source = blocked
+    workers = [
+        threading.Thread(
+            target=lambda: results.append(client.check_status(instance.config.socket_path, "allowed"))
+        )
+        for _ in range(2)
+    ]
+    for worker in workers:
+        worker.start()
+    try:
+        entered.wait(timeout=2)
+        assert client.check_status(instance.config.socket_path, "allowed") == UNKNOWN
+    finally:
+        release.set()
+        for worker in workers:
+            worker.join(timeout=3)
+    assert len(results) == 2
+    assert seen == []
+
+
+def test_query_rate_is_bounded_per_allowed_uid(unix_broker):
+    instance, seen, client, _ = unix_broker
+    results = [client.check_status(instance.config.socket_path, "allowed") for _ in range(20)]
+    assert UNKNOWN in results
+    assert len(seen) < 20
+
+
+@pytest.mark.parametrize("contradictory", [False, True])
+def test_signed_fixture_registry_broker_stdio_roundtrip(
+    store, tmp_path, monkeypatch, unix_broker, contradictory
+):
+    import subprocess
+    import sys
+
+    from tests.audit_support import TEST_KEY, digest_tree, make_run
+    from tests.test_mcp_status import handshake, message, tool_status
+
+    broker, _, _ = modules()
+    monkeypatch.setattr(pipeline, "trusted", lambda *a, **kw: None)
+    key = tmp_path / "synthetic-key"
+    key.write_bytes(TEST_KEY)
+    key.chmod(0o600)
+    monkeypatch.setattr(pipeline, "KEY_FILE", key)
+    dispatch = store.dispatch("agent-zero", os.getuid(), "Shu", [os.getuid()], "a" * 64)
+    tests = (
+        [{"passed": 0, "failed": 1, "skipped": 0, "exit_code": 1, "criterion_ids": ["c1"]}]
+        if contradictory
+        else None
+    )
+    make_run(store.root / "runs" / dispatch["dispatch_id"], tests=tests)
+    capture = pipeline.finalize(store, dispatch)
+    job = store.queue(capture["run_id"], os.getuid())
+    report = pipeline.check_snapshot(store, {**dispatch, **capture})
+    store.append("completed", {**job, **store.save_report(job["audit_id"], report)})
+    before = digest_tree(store.root)
+    instance, _, _, _ = unix_broker
+    instance.source = lambda run_id, uid: broker.registered_status(store, run_id, uid)
+    # Child has only the status client. Synthetic ownership override matches the
+    # fixture; this is not a proof of separate-UID host protection.
+    bootstrap = "import os; from truthlens import status_wire as w; w.BROKER_UID=os.getuid(); w.trusted_parent=lambda p:None; from truthlens.cli import main; raise SystemExit(main())"
+    requests = handshake() + [
+        message(
+            "tools/call",
+            {"name": "truthlens_check_status", "arguments": {"run_id": capture["run_id"]}},
+            mid=2,
+        )
+    ]
+    result = subprocess.run(
+        [sys.executable, "-c", bootstrap, "mcp-status", "--socket", str(instance.config.socket_path)],
+        input=b"".join(json.dumps(m).encode() + b"\n" for m in requests),
+        check=False,
+        capture_output=True,
+        timeout=10,
+    )
+    assert result.returncode == 0 and result.stderr == b""
+    replies = [json.loads(line) for line in result.stdout.splitlines()]
+    assert tool_status(replies[-1]) == {"status": "failed" if contradictory else "passed"}
+    assert capture["run_id"].encode() not in result.stdout + result.stderr
+    assert TEST_KEY not in result.stdout + result.stderr
+    assert str(store.root).encode() not in result.stdout + result.stderr
+    assert digest_tree(store.root) == before
+
+
+@pytest.mark.parametrize("flag", [None, False, 1, "true"])
+def test_trusted_status_context_requires_verified_true(completed, monkeypatch, flag):
+    from truthlens import pipeline_jobs
+
+    context = {"state": "completed"}
+    if flag is not None:
+        context["verified"] = flag
+    monkeypatch.setattr(pipeline_jobs, "status", lambda *a, **kw: context)
+    assert query(completed) == UNKNOWN
+
+
+def test_final_projection_observes_an_atomic_journal(completed, monkeypatch):
+    from truthlens import status_projection
+
+    store = completed[0]
+    attempted, done = threading.Event(), threading.Event()
+    original = status_projection.project_status
+    writers = []
+
+    def append():
+        attempted.set()
+        store.append("running", completed[4])
+        done.set()
+
+    def project(*a, **kw):
+        writer = threading.Thread(target=append)
+        writers.append(writer)
+        writer.start()
+        assert attempted.wait(timeout=1)
+        assert not done.wait(timeout=0.03), "journal changed during final projection"
+        return original(*a, **kw)
+
+    monkeypatch.setattr(status_projection, "project_status", project)
+    result = query(completed)
+    for writer in writers:
+        writer.join(timeout=2)
+    assert result == {"status": "passed"}
+    assert done.is_set()
+    assert query(completed) == UNKNOWN

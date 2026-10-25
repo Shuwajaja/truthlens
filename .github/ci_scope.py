@@ -91,6 +91,10 @@ def extra_tests(paths: list[str], root: Path = Path(".")) -> list[str]:
         "manifest": ["test_manifest_r5.py", "test_export_integrity.py"],
         "cli": ["test_cli.py"],
     }
+    for source in ("status_broker", "status_wire", "status_client", "mcp_status", "status_projection", "cli"):
+        related.setdefault(source, []).extend(
+            ["test_status_broker.py", "test_mcp_status.py", "test_status_projection.py"]
+        )
     for source, tests in related.items():
         if f"src/truthlens/{source}.py" in paths:
             selected.update(f"tests/{test}" for test in tests)

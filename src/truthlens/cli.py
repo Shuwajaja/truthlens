@@ -8,9 +8,6 @@ import json
 import os
 import sys
 
-from truthlens.ids import new_id
-from truthlens.ledger import Ledger, LedgerError, repair, verify
-
 
 def _key(env: str | None) -> bytes | None:
     if not env:
@@ -32,6 +29,13 @@ def _audit_anchor(value: str) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
+    if argv[:1] == ["mcp-status"]:
+        from truthlens.mcp_status import main as status_main
+
+        return status_main(argv[1:])
+    from truthlens.ids import new_id
+    from truthlens.ledger import Ledger, LedgerError, repair, verify
+
     if argv[:2] == ["audit", "status"]:
         return _audit_status_command(argv[2:])
     ap = argparse.ArgumentParser(prog="truthlens")
@@ -83,7 +87,9 @@ def main(argv: list[str] | None = None) -> int:
                    help="capability only gated actions get (never the agent)")
     p.add_argument("--hmac-key-file", metavar="PATH", help="key file outside repo/out dir (preferred over env)")
     p.add_argument("agent_cmd", nargs=argparse.REMAINDER)
-    p = sub.add_parser("mcp", help="read-only MCP server over stdio for run dirs under --root")
+    p = sub.add_parser("mcp-status", help="status-only stdio MCP (protected broker required)")
+    p.add_argument("--socket", required=True)
+    p = sub.add_parser("mcp", help="legacy evidence MCP; NOT D34 status-only")
     p.add_argument("--root", required=True)
     p.add_argument("--hmac-key-env", metavar="VAR")
     p = sub.add_parser("request", help="(agent side) ask the running wrapper to execute a gated action")
@@ -198,6 +204,7 @@ def _run_key(a) -> bytes | None:
 def _verified_dir(d: str, key: bytes | None):
     from pathlib import Path
 
+    from truthlens.ledger import Ledger, verify
     from truthlens.manifest import check_manifest
     from truthlens.store import BlobStore
 
@@ -233,6 +240,7 @@ def _w2(a) -> int:
     from pathlib import Path
 
     from truthlens import gate, projection
+    from truthlens.ledger import Ledger, LedgerError
     from truthlens.manifest import acceptance, claims
     from truthlens.wrapper import RunConfig, parse_test_spec, run
 
