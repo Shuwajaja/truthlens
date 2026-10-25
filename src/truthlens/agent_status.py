@@ -17,7 +17,7 @@ class SafeParser(argparse.ArgumentParser):
 
 
 def main(argv: list[str]) -> int:
-    parser = SafeParser(prog="truthlens agent-status", allow_abbrev=False)
+    parser = SafeParser(prog="truthlens agent-status", allow_abbrev=False, add_help=False)
     parser.add_argument("run_id")
     parser.add_argument("--socket", default=DEFAULT_SOCKET)
     parser.add_argument("--json", action="store_true")
