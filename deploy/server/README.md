@@ -206,19 +206,19 @@ carry no-store, nosniff and CSP; no CORS access is granted. The browser must be
 served from the reader's exact origin. Routes are:
 
 - `/v1/health`: service availability and fixed view source identity.
-- `/v1/runs?offset=0&limit=50`: at most50 registered entries, with next offset.
+- `/v1/runs?offset=0&limit=50`: at most 50 registered entries, with next offset.
 - `/v1/runs/RUN_ID/document`: bounded RunDoc, always hash-only/verified false.
-- `/v1/runs/RUN_ID/events?after_seq=0&limit=100`: at most100 projected events.
+- `/v1/runs/RUN_ID/events?after_seq=0&limit=100`: at most 100 projected events.
 - `/v1/runs/RUN_ID/artifacts`: checked manifest artifact metadata.
-- `/v1/runs/RUN_ID/blobs`: referenced blob digest metadata, at most100.
+- `/v1/runs/RUN_ID/blobs`: referenced blob digest metadata, at most 100.
 - `/v1/runs/RUN_ID/blobs/DIGEST`: captured blob bytes as octet-stream.
 - `/v1/runs/RUN_ID/audits`: stored audit report bound to run and ledger anchor,
   or null; never a fresh audit or reader-side authentication claim.
 
-The read index is capped at4MiB/10,000 rows. Document/artifact/blob/audit requests
-accept at most2MiB of ledger input; event pages permit64MiB/100,000 events and
-128KiB per encoded line. Manifest input is capped at8MiB. Encoded responses are
-capped at10MiB, individual blobs at256KiB, stored reports at2MiB. At most two
+The read index is capped at 4MiB/10,000 rows. Document/artifact/blob/audit requests
+accept at most 2MiB of ledger input; event pages permit 64MiB/100,000 events and
+128KiB per encoded line. Manifest input is capped at 8MiB. Encoded responses are
+capped at 10MiB, individual blobs at 256KiB, stored reports at 2MiB. At most two
 requests run concurrently with a bounded listen backlog. The verifier still
 buffers ledger bytes; peak-memory and overload acceptance on a real host remain
 open. These are reader limits; frozen ledger/manifest contracts are unchanged.
