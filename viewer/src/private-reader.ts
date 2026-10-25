@@ -1,4 +1,5 @@
 import type {RunDoc} from './types.ts'
+import {isAuditReport,type AuditReport} from './audit-report.ts'
 import {validateRunDoc} from './validateRunDoc.ts'
 
 export const MAX_DOCUMENT_BYTES=10*1024*1024
@@ -42,7 +43,7 @@ function parseCatalog(value:unknown,expectedSourceId:string):PrivateRunCatalog{
 async function boundedJson(path:string,maxBytes:number,signal?:AbortSignal):Promise<unknown>{
  // Callers can select only these fixed same-origin routes; no URL or origin is accepted.
  if(path!=='/v1/health'&&!/^\/v1\/runs\?offset=(?:0|[1-9][0-9]*)&limit=50$/.test(path)
-  &&!/^\/v1\/runs\/[A-Za-z0-9_-]{1,80}\/document$/.test(path))throw Error('Invalid private reader path')
+  &&!/^\/v1\/runs\/[A-Za-z0-9_-]{1,80}\/(?:document|audits)$/.test(path))throw Error('Invalid private reader path')
  const timeout=AbortSignal.timeout(10000)
  const requestSignal=signal?AbortSignal.any([signal,timeout]):timeout
  const response=await fetch(path,{method:'GET',mode:'same-origin',credentials:'omit',cache:'no-store',redirect:'error',headers:{Accept:'application/json'},signal:requestSignal})
@@ -96,4 +97,15 @@ export async function loadPrivateRun(item:PrivateRunSummary,signal?:AbortSignal)
  if(value.document.run.run_id!==item.run_id)throw Error('Private reader document run id does not match the requested run id')
  if(value.document.run.ledger_last_hash!==item.ledger_last_hash)throw Error('Private reader document head does not match its catalog entry')
  return value.document
+}
+
+/** Reads a previously stored report only; never starts an audit or accepts an API URL. */
+export async function loadPrivateAudit(item:PrivateRunSummary,signal?:AbortSignal):Promise<AuditReport|null>{
+ if(!summary(item))throw Error('Invalid private reader audit reference')
+ const value=await boundedJson(`/v1/runs/${encodeURIComponent(item.run_id)}/audits`,MAX_DOCUMENT_BYTES,signal)
+ if(!record(value)||value.source_id!==item.source_id)throw Error('Stored audit source identity mismatch')
+ if(value.audit===null)return null
+ if(!isAuditReport(value.audit))throw Error('Invalid stored audit report')
+ if(value.audit.run_id!==item.run_id||value.audit.ledger_last_hash!==item.ledger_last_hash)throw Error('Stored audit run identity or anchor mismatch')
+ return value.audit
 }

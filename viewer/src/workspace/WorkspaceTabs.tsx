@@ -1,7 +1,7 @@
 import {useLayoutEffect,useRef} from 'react'
 import {Button} from '../components/ui/button.tsx'
 import type {NavigationAction,WorkspaceNavigationState,TabReference,WorkspaceView} from './navigation-types.ts'
-const viewLabels:Record<WorkspaceView,string>={runs:'Runs',overview:'Overview','claimed-vs-proven':'Claimed vs proven',timeline:'Timeline','agent-story':'Agent story'}
+const viewLabels:Record<WorkspaceView,string>={runs:'Runs',overview:'Overview','claimed-vs-proven':'Claimed vs proven',timeline:'Timeline','agent-story':'Agent story',chain:'Chain',coverage:'Coverage','gated-actions':'Gated actions',changes:'Changes',compare:'Compare'}
 function label(ref:TabReference,view:WorkspaceView){return `${viewLabels[view]} · ${ref.sourceId}${ref.kind==='run'?` · ${ref.runId}`:''}`}
 export function WorkspaceTabs({state,dispatch,onRuns,unsaved}:{state:WorkspaceNavigationState;dispatch:(action:NavigationAction)=>void;onRuns:()=>void;unsaved:boolean}){
  const root=useRef<HTMLElement>(null),pending=useRef(false)

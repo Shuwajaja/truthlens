@@ -9,7 +9,7 @@ export const MAX_IDENTIFIER_LENGTH = 512
 export const MAX_TAB_ID_LENGTH = MAX_IDENTIFIER_LENGTH * 12 + 128
 export const MAX_SERIALIZED_BYTES = 64 * 1024
 
-const views = new Set<WorkspaceView>(['runs', 'overview', 'claimed-vs-proven', 'timeline', 'agent-story'])
+const views = new Set<WorkspaceView>(['runs', 'overview', 'claimed-vs-proven', 'timeline', 'agent-story', 'chain', 'coverage', 'gated-actions', 'changes', 'compare'])
 
 export function isWorkspaceView(value: unknown): value is WorkspaceView {
   return typeof value === 'string' && views.has(value as WorkspaceView)

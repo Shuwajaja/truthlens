@@ -27,7 +27,8 @@ after(async()=>{
 })
 async function scan(page,name){
  await page.evaluate(()=>document.fonts.ready)
- assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'no page overflow')
+ const overflow=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,nodes:[...document.querySelectorAll('main *')].filter(node=>node.getBoundingClientRect().right>innerWidth+1).slice(0,8).map(node=>({tag:node.tagName,css:node.className,width:node.getBoundingClientRect().width}))}))
+ assert(overflow.scroll<=overflow.width,`no page overflow: ${JSON.stringify(overflow)}`)
  const result=await new AxeBuilder({page}).analyze(),manual=await reviewIncomplete(page,result)
  reports.push({name,violations:result.violations,incomplete:result.incomplete,manual})
  await page.screenshot({path:`${output}/${name}.png`})
@@ -85,4 +86,12 @@ for(const width of [1440,390])for(const theme of ['petrol-porcelain','cool-graph
  assert(await page.getByRole('region',{name:'Left snapshot'}).getByText(runs[2].source_id,{exact:true}).count())
  assert(await page.getByRole('region',{name:'Right snapshot'}).getByText(runs[0].source_id,{exact:true}).count())
  await scan(page,`${width}-${theme}-compare`)
+ await page.getByRole('region',{name:'Workspace tabs'}).getByRole('button',{name:'Open Runs',exact:true}).click()
+ await page.getByRole('button',{name:'Open run intact',exact:true}).click();await page.getByRole('heading',{name:'Snapshot intact',exact:true}).waitFor()
+ await navigate('Changes');await page.getByRole('region',{name:'Stored unified diff',exact:true}).waitFor()
+ await scan(page,`${width}-${theme}-stored-diff`)
+ await page.getByRole('button',{name:'Open diff event',exact:true}).click()
+ if(width===390)await page.getByRole('dialog').waitFor()
+ await scan(page,`${width}-${theme}-diff-inspector`)
+ if(width===390){await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});assert(await page.getByRole('button',{name:'Open diff event',exact:true}).evaluate(node=>node===document.activeElement),'diff trigger focus restored')}
 })
