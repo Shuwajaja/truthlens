@@ -41,12 +41,12 @@ export function parseWorkspaceUrl(input: string | URL, defaultRef?: TabReference
   }
 
   if (!defaultRef) return { ref: null, view, explicit: false, malformed: false }
+  // A renderer-only legacy URL cannot select a document that has not been supplied.
+  if (defaultRef.kind === 'runs') return { ref: { ...defaultRef }, view: 'runs', explicit: false, malformed: false }
   if (view === 'runs') {
     return { ref: { kind: 'runs', sourceId: defaultRef.sourceId }, view, explicit: false, malformed: false }
   }
-  return defaultRef.kind === 'run'
-    ? { ref: { ...defaultRef }, view, explicit: false, malformed: false }
-    : { ref: null, view, explicit: false, malformed: false }
+  return { ref: { ...defaultRef }, view, explicit: false, malformed: false }
 }
 
 export function writeWorkspaceUrl(input: string | URL, target: { ref: TabReference; view: WorkspaceView }): URL {

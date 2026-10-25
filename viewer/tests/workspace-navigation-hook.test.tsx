@@ -8,6 +8,24 @@ import {NAVIGATION_STORAGE_KEY,serializeNavigation} from '../src/workspace/navig
 import run from '../fixtures/demo-run.json'
 const sources:WorkspaceSource[]=['one','two'].map(sourceId=>({sourceId,label:sourceId,kind:'development-fixture',runs:new Map([[run.run.run_id,run]])}))
 afterEach(()=>{cleanup();localStorage.clear();history.replaceState(null,'','/');vi.restoreAllMocks()})
+it.each(['/', '/?view=timeline', '/?view=claimed-vs-proven'])('canonicalizes the initial catalog and restores Back/Forward without loading a document: %s',url=>{
+ history.replaceState(null,'',url)
+ const catalogSources:WorkspaceSource[]=[{sourceId:'reader',label:'Reader',kind:'private-reader',runs:new Map()}]
+ const {result}=renderHook(()=>useWorkspaceNavigation({sources:catalogSources}))
+ const initialUrl=location.href
+ expect(result.current.activeTab?.ref).toEqual({kind:'runs',sourceId:'reader'})
+ expect(new URL(initialUrl).searchParams.get('view')).toBe('runs')
+ act(()=>result.current.navigate({kind:'run',sourceId:'snapshot',runId:'one'},'claimed-vs-proven'))
+ const forwardUrl=location.href,push=vi.spyOn(history,'pushState')
+ history.replaceState(null,'',initialUrl)
+ act(()=>window.dispatchEvent(new PopStateEvent('popstate')))
+ expect(result.current.activeTab?.view).toBe('runs')
+ history.replaceState(null,'',forwardUrl)
+ act(()=>window.dispatchEvent(new PopStateEvent('popstate')))
+ expect(result.current.activeTab?.view).toBe('claimed-vs-proven')
+ expect(result.current.activeRun).toBeUndefined()
+ expect(push).not.toHaveBeenCalled()
+})
 it('routes the same run ID by source and restores popstate without pushing history',()=>{
  history.replaceState({kept:true},'','/?source=one&run='+run.run.run_id+'&view=overview&filter=kept#anchor')
  const {result}=renderHook(()=>useWorkspaceNavigation({sources})),push=vi.spyOn(history,'pushState')

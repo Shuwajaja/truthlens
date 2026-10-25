@@ -6,6 +6,12 @@ const defaultRef: RunReference = { kind: 'run', sourceId: 'local-fixture', runId
 const views: WorkspaceView[] = ['overview', 'claimed-vs-proven', 'timeline', 'agent-story']
 
 describe('workspace URL helpers', () => {
+  it.each(['', '&view=timeline', '&view=claimed-vs-proven', '&view=unknown'])('uses the catalog before a private document is loaded: %s', suffix => {
+    const ref = { kind: 'runs' as const, sourceId: 'reader-workspace' }
+    expect(parseWorkspaceUrl(`https://example.test/?filter=kept${suffix}#anchor`, ref)).toMatchObject({
+      ref, view: 'runs', explicit: false, malformed: false,
+    })
+  })
   it.each(views)('binds the legacy %s URL to the supplied default reference', view => {
     expect(parseWorkspaceUrl(`https://example.test/?view=${view}`, defaultRef)).toMatchObject({ ref: defaultRef, view })
   })
