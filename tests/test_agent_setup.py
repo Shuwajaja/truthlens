@@ -224,3 +224,101 @@ def test_g2_modules_always_select_dx_and_g1_regressions():
     expected = {"tests/test_agent_setup.py", "tests/test_status_broker.py", "tests/test_mcp_status.py"}
     for name in ("cli", "agent_status", "agent_setup", "demo_status"):
         assert expected.issubset(scope.extra_tests([f"src/truthlens/{name}.py"]))
+
+
+@pytest.mark.parametrize("status", ["passed", "failed", "not_checkable"])
+def test_cli_and_mcp_share_real_temp_broker_status(tmp_path, monkeypatch, capsys, status):
+    """Real Unix wire; only ownership checks simulated, no host-isolation claim."""
+    import threading
+    from truthlens import status_wire as wire
+    from truthlens.mcp_status import call_status
+
+    monkeypatch.setattr(wire, "trusted_parent", lambda p: None)
+    monkeypatch.setattr(wire, "BROKER_UID", os.getuid())
+    path = tmp_path / "s"
+    requests = []
+    errors = []
+    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as server:
+        server.bind(str(path))
+        server.listen(1)
+        server.settimeout(2)
+
+        def serve():
+            try:
+                for _ in range(2):
+                    connection, _ = server.accept()
+                    with connection:
+                        requests.append(wire.receive(connection, wire.MAX_REQUEST))
+                        wire.send(connection, {"status": status})
+            except Exception as error:
+                errors.append(type(error).__name__)
+
+        worker = threading.Thread(target=serve, daemon=True)
+        worker.start()
+        try:
+            assert main(["agent-status", "known", "--socket", str(path), "--json"]) == {
+                "passed": 0, "failed": 1, "not_checkable": 2}[status]
+            assert json.loads(capsys.readouterr().out) == call_status(
+                path, "truthlens_check_status", {"run_id": "known"}) == {"status": status}
+        finally:
+            worker.join(3)
+        assert not worker.is_alive() and not errors
+    assert requests == [{"version": 1, "run_id": "known"}] * 2
+
+
+@pytest.mark.parametrize("mode,owner,kind,expected", [
+    (0o660, 0, "socket", True), (0o666, 0, "socket", False),
+    (0o600, 0, "socket", False), (0o660, 1001, "socket", False),
+    (0o660, 0, "file", False), (0o660, 0, "symlink", False),
+])
+def test_doctor_socket_metadata_checks_do_not_certify_isolation(monkeypatch, mode, owner, kind, expected):
+    import stat
+    from types import SimpleNamespace
+    from truthlens import status_wire as wire
+
+    api = setup_module_api()
+    kinds = {"socket": stat.S_IFSOCK, "file": stat.S_IFREG, "symlink": stat.S_IFLNK}
+    monkeypatch.setattr(wire, "trusted_parent", lambda p: None)
+    monkeypatch.setattr(Path, "lstat", lambda p: SimpleNamespace(st_uid=owner, st_mode=kinds[kind] | mode))
+    assert api._socket_safe("/synthetic/status.sock") is expected
+
+
+def test_demo_failure_is_fixed_and_never_prints_partial_success(monkeypatch, capsys):
+    from truthlens import demo_status
+
+    def broken(*args, **kw):
+        raise OSError(PRIVATE)
+
+    monkeypatch.setattr(demo_status.socket.socket, "bind", broken)
+    assert main(["demo-status"]) == 2
+    assert capsys.readouterr() == ("", "Demo unavailable.\n")
+
+
+@pytest.mark.parametrize("client", CLIENTS)
+def test_client_config_unicode_and_escaping_are_data(client):
+    api = setup_module_api()
+    path = '/run/é😀/slash\\quote".sock'
+    text = api.render_config(client, path)
+    assert api.valid_config(text, client, path)
+    assert not api.valid_config(text.replace("mcp-status", "mcp"), client, path)
+    assert not api.valid_config(text.replace("truthlens\"", "sh\""), client, path)
+
+
+def test_doctor_does_not_write_bytecode_and_restores_flag(monkeypatch):
+    api = setup_module_api()
+    original = sys.dont_write_bytecode
+
+    def check_import(name):
+        assert sys.dont_write_bytecode is True
+        raise ImportError(PRIVATE)
+
+    monkeypatch.setattr(api.importlib, "import_module", check_import)
+    assert api._adapter_importable() is False
+    assert sys.dont_write_bytecode is original
+
+
+@pytest.mark.parametrize("args", [["--help"], ["known", "--help", "--json"]])
+def test_agent_status_help_cannot_expand_agent_output_vocabulary(args, capsys):
+    assert main(["agent-status", *args]) == 2
+    assert capsys.readouterr() == (
+        '{"status":"not_checkable"}\n' if "--json" in args else "not_checkable\n", "")
