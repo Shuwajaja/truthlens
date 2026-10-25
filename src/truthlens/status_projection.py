@@ -25,6 +25,7 @@ def project_status(
     *,
     run_id: str | None = None,
     ledger_last_hash: str | None = None,
+    input_digests: dict[str, str] | None = None,
     state: str = "completed",
     available: bool = True,
 ) -> StatusResult:
@@ -51,6 +52,15 @@ def project_status(
         ledger_last_hash is not None and report.get("ledger_last_hash") != ledger_last_hash
     ):
         return _unknown("identity_mismatch")
+    if input_digests is not None:
+        provenance = report.get("input_digests")
+        audited = provenance.get("run") if isinstance(provenance, dict) else None
+        if (
+            not isinstance(audited, dict)
+            or not {"ledger.jsonl", "manifest.json"}.issubset(audited)
+            or any(input_digests.get(name) != digest for name, digest in audited.items())
+        ):
+            return _unknown("identity_mismatch")
     checks = report.get("checks")
     outcomes = {"supported", "contradictory", "not_checkable", "not_applicable"}
     if not isinstance(checks, list) or not checks or len(checks) > 10000:
@@ -100,11 +110,24 @@ def project_status(
             not isinstance(criterion, dict)
             or not isinstance(criterion.get("criterion_id"), str)
             or criterion["criterion_id"] in criterion_ids
+            or criterion.get("status") != "met"
             or not isinstance(criterion.get("evidence"), list)
+            or not criterion["evidence"]
             or any(not isinstance(eid, str) or eid not in event_ids for eid in criterion["evidence"])
         ):
             return _unknown("incomplete_checks")
         criterion_ids.add(criterion["criterion_id"])
+        for eid in criterion["evidence"]:
+            witnessed = {
+                check["rule_id"]
+                for check in checks
+                if check["required"]
+                and check["outcome"] == "supported"
+                and eid in check["event_ids"]
+                and criterion["criterion_id"] in check["criterion_ids"]
+            }
+            if not {"TL-AUD-006", "TL-AUD-007", "TL-AUD-008", "TL-AUD-010"}.issubset(witnessed):
+                return _unknown("incomplete_checks")
     if any(cid not in criterion_ids for check in checks for cid in check["criterion_ids"]):
         return _unknown("incomplete_checks")
     return {"status": "passed", "reason_code": "checks_passed"}

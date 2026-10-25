@@ -471,7 +471,10 @@ class PublishedReadProjection(ReadProjection):
                 registry.deny()
             return {
                 "source_id": self._source(registration), "audit": audit,
-                "status": project_status(audit, run_id=run_id, ledger_last_hash=registration["ledger_last_hash"]),
+                "status": project_status(
+                    audit, run_id=run_id, ledger_last_hash=registration["ledger_last_hash"],
+                    input_digests=registration["input_digests"],
+                ),
             }
         except (ValueError, TypeError, RecursionError):
             registry.deny()
