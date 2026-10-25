@@ -1,5 +1,46 @@
 # TruthLens Viewer — Workspace design contract
 
+## Workspace overview, 25 October 2026
+
+The approved overview reference is `/home/codex/specs/truthlens-design/src.html`,
+with its `DATEN.md` field inventory and shared `DESIGN.md`. Implement the workspace
+overview in the existing Runs route (`?view=runs`), now also the fresh workspace
+landing page. Explicit run URLs, restored tabs and the existing run review remain
+compatible. English-only UI translates the opening
+sentence to “TruthLens checks whether AI agents really did what they claim.”
+
+This step uses loaded documents only: no new requests, automatic catalog reads,
+audit computation or broker access. RunDoc has no Phase F overall verdict, so
+the headline counts **criteria met**, never runs passed. Four charts show met
+criteria over recent runs, all four criterion statuses per run, recorded evidence
+kinds, and criterion counts by recorded agent. Missing dates remain undated.
+Evidence counts are event counts, not files or tests passed. Claims retain only
+supported / claim_unwitnessed; neither becomes a failed run. Agent comparisons
+describe these loaded records, not quality or performance rankings.
+
+The overview alone adopts the approved dark green palette: background #070B0A,
+surface #0E1513, raised #15201C, border #22312C, text #E6EDEA, secondary #A7B5AF,
+metadata #86948E, accent/result #1CDC44, failed #FF7B72, action/focus #79B8FF,
+neutral/warnings #97A3B3. Scope these tokens in theme.css to the overview so the
+existing run review is not restyled in this step. Keep Plus Jakarta Sans and
+JetBrains Mono local, the 12/14/16/20/28px scale, 8px cards and 44px controls.
+No amber, gradients, glow, animation, remote assets or chart dependency.
+
+Charts have visible text equivalents and counts, no made-up points or smoothing.
+All recorded strings render as React text nodes (DOM textContent), never HTML.
+Bound runs and per-run records before aggregation; reject malformed/oversized
+documents as a whole and disclose exclusions, duplicates and display limits.
+Limits: 1,000 source entries scanned, 200 documents considered, 10,000 entries
+per record/reference array, 100,000 total record/reference visits (including
+duplicates and rejected documents), and 4,096 characters per displayed string.
+Once the global work budget is exceeded, later nonempty documents are excluded.
+Group by run ID so repeated snapshots cannot inflate totals. Totals cover all
+accepted documents; the latest list and per-run charts cover at most 14 runs.
+An empty source has a neutral empty state. The scope notice always states that
+signature checking and overall verdicts are unavailable here, and that integrity
+is not approval. Check desktop 1440×900 and mobile 390×844, unrestricted axe,
+keyboard run opening, long labels, empty state and reduced motion.
+
 Owner-approved Phase A, 23 October 2026. Replaces the Stitch styling contract. The approved plan is [PLAN-redesign-2026-10-23.md](../PLAN-redesign-2026-10-23.md). The development fixture remains available only through Vite's local development middleware. Production may connect only when the user explicitly selects Connect to the fixed same-origin private read API provided through the authorized local socket and SSH repository setup. Production makes no connection attempt on mount and never loads the development fixture. There is no arbitrary URL, public endpoint, or remote source configuration.
 
 ## Themes and tokens

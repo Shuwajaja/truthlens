@@ -100,6 +100,28 @@
   --frame-mode-client: #9CAFA8;
   --frame-mode-developer: #A7B6CF;
 }
+/* Approved overview palette. Run detail themes remain unchanged in step 1. */
+.cross-run-overview {
+  color-scheme: dark;
+  --bg: #070B0A;
+  --surface: #0E1513;
+  --surface-2: #15201C;
+  --border: #22312C;
+  --text: #E6EDEA;
+  --text-2: #A7B5AF;
+  --text-3: #86948E;
+  --ok: #1CDC44;
+  --fail: #FF7B72;
+  --info: #79B8FF;
+  --neutral: #97A3B3;
+  --neutral-text: #97A3B3;
+  --warning: #97A3B3;
+  --focus: #79B8FF;
+  --accent: #1CDC44;
+  --accent-soft: #15201C;
+  --control-radius: 8px;
+  --radius: 8px;
+}
 @theme inline {
   --color-backdrop: var(--backdrop);
   --color-bg: var(--bg);

@@ -6,6 +6,7 @@ import App from '../src/App.tsx'
 import run from '../fixtures/demo-run.json'
 afterEach(()=>{cleanup();localStorage.clear();document.documentElement.removeAttribute('data-viewer-theme');vi.unstubAllGlobals();vi.unstubAllEnvs();history.replaceState(null,'','/')})
 function load(mobile=false){
+ history.replaceState(null,'','/?view=overview')
  vi.stubGlobal('scrollTo',()=>{})
  vi.stubGlobal('matchMedia',(query:string)=>({matches:query.includes('min-width')?!mobile:mobile&&query.includes('767'),addEventListener(){},removeEventListener(){}}))
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(run)})))

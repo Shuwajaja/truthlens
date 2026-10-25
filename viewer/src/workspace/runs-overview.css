@@ -1,0 +1,55 @@
+.runs-view.cross-run-overview { display:block; background:var(--bg); color:var(--text); padding:24px; border-radius:8px; min-width:0; }
+.cross-run-overview h1 { font-size:28px; margin:16px 0 8px; }
+.cross-run-overview h2 { font-size:20px; margin:0 0 12px; }
+.cross-run-overview h3 { font-size:16px; margin:0; }
+.cross-run-overview p { margin:8px 0; color:var(--text-2); }
+.cross-run-overview ul, .cross-run-overview ol { list-style:none; margin:0; padding:0; }
+.cross-run-overview .overview-intro { margin:0; color:var(--text); font-size:16px; }
+.overview-seal, .overview-limits { border:1px dashed var(--neutral); padding:12px 16px; border-radius:4px; font-size:12px; }
+.overview-score-charts { display:grid; grid-template-columns:minmax(180px,1fr) minmax(0,3fr); gap:16px; margin-top:24px; }
+.overview-score, .run-chart { padding:16px; border:1px solid var(--border); border-radius:8px; background:var(--surface); min-width:0; }
+.overview-score { align-self:start; }
+.overview-score h2 { font-family:var(--mono); font-size:28px; }
+.overview-score .criterion-stack { margin:24px 0 16px; }
+.run-charts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; min-width:0; }
+.run-chart figcaption p { font-size:12px; min-height:36px; }
+.cross-run-overview .chart-note { color:var(--text-3); font-size:12px; }
+.run-series li, .evidence-bars li { display:grid; grid-template-columns:minmax(0,1fr) minmax(40px,1fr) auto; gap:8px; align-items:center; margin:12px 0; }
+.run-series li > span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-family:var(--mono); font-size:12px; }
+.cross-run-overview meter { width:100%; height:12px; background:var(--surface-2); border:0; border-radius:4px; }
+.cross-run-overview meter::-webkit-meter-bar { background:var(--surface-2); border:0; }
+.cross-run-overview meter::-webkit-meter-optimum-value { background:var(--ok); }
+.cross-run-overview meter::-moz-meter-bar { background:var(--ok); }
+.cross-run-overview .evidence-bars meter::-webkit-meter-optimum-value { background:var(--info); }
+.cross-run-overview .evidence-bars meter::-moz-meter-bar { background:var(--info); }
+.run-series b, .evidence-bars b { font:500 12px/1.5 var(--mono); }
+.criterion-stack { display:flex; height:10px; background:var(--surface-2); overflow:hidden; border-radius:4px; }
+.criterion-stack span { background:var(--text-3); }
+.criterion-stack [data-criterion=met] { background:var(--ok); }
+.criterion-stack [data-criterion=unmet] { background:var(--fail); }
+.criterion-stack [data-criterion=proposed] { background:var(--text-2); }
+.criterion-counts { display:flex; flex-wrap:wrap; gap:4px 12px; font:400 12px/1.5 var(--mono); }
+.criterion-counts > span { color:var(--text-2); }
+.criterion-counts [data-criterion=met] { color:var(--ok); }
+.criterion-counts [data-criterion=unmet] { color:var(--fail); }
+.run-criteria-series li, .agent-bars li { display:grid; gap:8px; padding:12px 0; border-bottom:1px solid var(--border); }
+.run-chart-id { font:400 12px/1.5 var(--mono); overflow-wrap:anywhere; }
+.agent-bars li > span:first-child, .evidence-bars li > span { overflow-wrap:anywhere; }
+.latest-runs { margin-top:32px; }
+.latest-runs > ul > li { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto; gap:16px; align-items:center; padding:16px 0; border-top:1px solid var(--border); }
+.latest-run-main { min-width:0; overflow-wrap:anywhere; }
+.cross-run-overview .run-identity { font:400 12px/1.5 var(--mono); overflow-wrap:anywhere; }
+.latest-runs time { font-size:12px; }
+.cross-run-overview [data-slot=button] { border-color:var(--neutral); color:var(--text); background:var(--surface); min-height:44px; }
+.cross-run-overview [data-slot=button]:hover { background:var(--surface-2); }
+.cross-run-overview summary { cursor:pointer; min-height:44px; display:flex; align-items:center; color:var(--text-2); }
+.overview-empty { padding:24px 0; }
+@media(max-width:1199px) { .overview-score-charts { grid-template-columns:minmax(0,1fr); } }
+@media(max-width:767px) {
+ .cross-run-overview { padding:16px; }
+ .run-charts { grid-template-columns:minmax(0,1fr); }
+ .overview-score h2 { font-size:20px; }
+ .latest-runs > ul > li { grid-template-columns:minmax(0,1fr); gap:8px; }
+ .latest-runs [data-slot=button] { justify-self:start; }
+}
+@media(prefers-reduced-motion:reduce) { .cross-run-overview *, .cross-run-overview *::before, .cross-run-overview *::after { animation:none; transition:none; } }

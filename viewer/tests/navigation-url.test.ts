@@ -6,6 +6,9 @@ const defaultRef: RunReference = { kind: 'run', sourceId: 'local-fixture', runId
 const views: WorkspaceView[] = ['overview', 'claimed-vs-proven', 'timeline', 'agent-story']
 
 describe('workspace URL helpers', () => {
+  it('starts a fresh workspace at the cross-run overview, keeping run details behind selection',()=>{
+    expect(parseWorkspaceUrl('/',defaultRef)).toMatchObject({ref:{kind:'runs',sourceId:'local-fixture'},view:'runs',malformed:false})
+  })
   it.each(['', '&view=timeline', '&view=claimed-vs-proven', '&view=unknown'])('uses the catalog before a private document is loaded: %s', suffix => {
     const ref = { kind: 'runs' as const, sourceId: 'reader-workspace' }
     expect(parseWorkspaceUrl(`https://example.test/?filter=kept${suffix}#anchor`, ref)).toMatchObject({

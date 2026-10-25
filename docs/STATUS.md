@@ -1,3 +1,55 @@
+## Workspace overview v1 — local qualification, 25 October 2026
+
+Branch `design/overview-v1`, base `4b44db0`. Application source and unit tests:
+`e25d92070e0db01b6cc03d4e92f6506d7d71b5e6`; final manual browser helper:
+`45d61a3cee33b28f69e704bed1e60c19c6c40428`. Later evidence/document edits do
+not change application code. Red acceptance tests were committed at `2468329`.
+
+- The fresh workspace landing and `?view=runs` summarize loaded documents with
+  a criterion headline, four charts and a bounded latest-runs list. Clicking a
+  run opens the existing review. Explicit run links and restored tabs remain.
+- Only recorded criterion states, agent names, timestamps and evidence event
+  kinds contribute to charts. **RunDoc has no Phase F overall verdict**: the
+  score says criteria met, never runs passed. Catalog entries without loaded
+  documents are not counted. No new reads, network feature or dependency.
+- Pure aggregation deduplicates run IDs and bounds sources, documents, strings
+  and record/reference visits, including duplicate/malformed documents. Excluded
+  records and display limits are visible. React text nodes preserve recorded
+  strings; no HTML interpolation. Empty data produces an honest empty state.
+- The scoped dark green overview uses local Plus Jakarta Sans/JetBrains Mono,
+  neutral warnings, accessible chart text and reduced-motion rules. Existing
+  run detail styling, frozen contracts, G1/D34 and operator/pitfall docs are unchanged.
+
+Witnessed on the source above: full `npm test` in **UTC and Europe/Berlin**,
+**436 passed / 46 files** in each, including language/style/theme checks and the
+five toolbar builds. Existing jsdom scrollTo notices remain. `npm run lint`,
+`npm run build`, `ruff check src tests`, required-doc existence and diff checks
+passed. With `umask 022`, the repo-local venv on PATH, repo-local TMPDIR and short
+`--basetemp` paths, unrestricted Python `pytest -q -rs --tb=short` in **both
+timezones** reported **662 passed, 2 skipped, 1 xfailed, 21 subtests passed**.
+The two host-only skips and existing same-UID expected failure are not passes.
+Earlier environment failures (socket path length, PATH, umask and occupied
+loopback port), the old palette guard failure and a terminated intermediate
+Viewer run are recorded in the untracked requested `PR_BODY.md`.
+
+Final targeted real Chromium review at `45d61a3`: **8 scenarios / 32 unrestricted
+axe scans**, 1440×900 and 390×844, both shell themes and both lenses, disconnected
+and unloaded-catalog empty states, loaded overview and existing run review.
+Zero axe violations, page overflow, browser errors or external page requests.
+Twenty axe incomplete rule occurrences were checked through the existing CSS
+contrast review helper, all `css-contrast-pass`; this is not spoken screen-reader
+qualification. Keyboard opening, Back navigation and no additional document read
+on overview reopening passed. [Published screenshots and scope](screenshots/design/overview-v1/axe-summary.md).
+Reader responses in this review are synthetic UI fixtures, not a live service.
+
+Final author self-review checked the security/D34 boundary, input/work limits,
+text-only rendering, verdict honesty, navigation compatibility and the local
+React/interface checklists. No remaining blocking finding; this is an author
+self-review, not an independent security certification. No Python/security code
+changed. Python 3.13, live services, host/client isolation, human approval and the
+historical full browser release matrix were not qualified. No push, PR, merge,
+deployment or host setup was performed.
+
 ## Operator profile pitfalls — local qualification, 25 October 2026
 
 Branch `fix/operator-profile-pitfalls`, base `4b44db0`; tested code/tests at

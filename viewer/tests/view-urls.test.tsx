@@ -21,10 +21,15 @@ it.each([
  expect(selected()).toBe(label)
  expect(screen.getByRole('main').textContent).toContain(view==='overview'?publicRun.run.project:view==='agent-story'?'Agent Story':view==='claimed-vs-proven'?'Claims and recorded results':label)
 })
-it.each(['/','/?view=unknown','/?view='])('safely opens Overview for %s',async(url)=>{
+it.each(['/?view=unknown','/?view='])('safely opens the run Overview for an unrecognized legacy view: %s',async(url)=>{
  history.replaceState(null,'',url)
  render(<App/>);await screen.findByRole('main')
  expect(selected()).toBe('Overview')
+})
+it('starts a fresh workspace at the overview of runs',async()=>{
+ render(<App/>);await screen.findByRole('main')
+ expect(selected()).toBe('Runs')
+ expect(screen.queryByRole('button',{name:'Run details',exact:true})).toBeNull()
 })
 it('updates the shareable URL without losing other parameters/hash or adding duplicate entries',async()=>{
  history.replaceState({unrelated:'kept'},'','/review/run?filter=review#main-content')
