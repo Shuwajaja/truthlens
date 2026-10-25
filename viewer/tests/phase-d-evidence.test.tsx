@@ -53,6 +53,8 @@ it('comparison retains both source identities for the same run id and never inve
  expect(screen.getByText(/Choose another loaded snapshot/)).toBeTruthy()
  fireEvent.change(screen.getByLabelText('Comparison snapshot'),{target:{value:JSON.stringify(['snapshot-b',doc.run.run_id])}})
  const left=within(screen.getByRole('region',{name:'Left snapshot'})),right=within(screen.getByRole('region',{name:'Right snapshot'}))
+ expect(left.getByRole('complementary',{name:'Left snapshot trust boundaries'})).toBeTruthy()
+ expect(right.getByRole('complementary',{name:'Right snapshot trust boundaries'})).toBeTruthy()
  expect(left.getByText('snapshot-a')).toBeTruthy();expect(right.getByText('snapshot-b')).toBeTruthy()
  expect(left.getByText(doc.run.ledger_last_hash)).toBeTruthy();expect(right.getByText(doc.run.ledger_last_hash)).toBeTruthy()
  expect(left.getByText('Integrity is not approval')).toBeTruthy();expect(right.getByText('Integrity is not approval')).toBeTruthy()
