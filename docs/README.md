@@ -7,6 +7,7 @@
 | [spec/audit-verifier-v1.md](spec/audit-verifier-v1.md) | Read-only audit contract, scope and missing SPECC/integration boundaries |
 | [../deploy/server/README.md](../deploy/server/README.md) | Inactive server-pipeline templates, isolation prerequisites and disconnected gateway boundary |
 | [../integrations/agent-zero-acp/README.md](../integrations/agent-zero-acp/README.md) | Read-only ACP status handler; no identity from chat |
+| [SELFHOST-MCP.md](SELFHOST-MCP.md) | G1 status-only broker/MCP, threat model and deferred host/client qualification |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Components and data flow |
 | [TRUST-LEVELS.md](TRUST-LEVELS.md) | Trust labels for artifacts |
 | [WRAPPER-DESIGN.md](WRAPPER-DESIGN.md) | `truthlens run` witness design |

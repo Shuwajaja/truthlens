@@ -83,8 +83,22 @@ class ScopeTests(unittest.TestCase):
             for name in expected:
                 (root / name).touch()
             for source in ("read_projection", "read_service"):
-                self.assertEqual(
-                    set(self.scope.extra_tests([f"src/truthlens/{source}.py"], root)), expected
+                self.assertEqual(set(self.scope.extra_tests([f"src/truthlens/{source}.py"], root)), expected)
+
+    def test_g1_source_changes_always_select_boundary_regressions(self):
+        root = SCRIPT.parent.parent
+        expected = {"tests/test_status_broker.py", "tests/test_mcp_status.py"}
+        for source in (
+            "status_broker",
+            "status_wire",
+            "status_client",
+            "mcp_status",
+            "status_projection",
+            "cli",
+        ):
+            with self.subTest(source=source):
+                self.assertTrue(
+                    expected.issubset(self.scope.extra_tests([f"src/truthlens/{source}.py"], root))
                 )
 
     def test_aggregate_rejects_missing_required_evidence(self):

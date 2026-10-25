@@ -255,3 +255,14 @@ Live acceptance remains blocked pending host authorization: actual separate UID
 and key/registry denial, worker-port denial, Agent-Zero socket isolation, SSH
 forwarding, a real eligible registered snapshot/report, and peak memory. Local
 fixture tests prove the code boundary only. Integrity is not approval.
+
+
+## Phase G1 status broker (repository preparation only)
+
+The separate Linux status-only broker and `truthlens mcp-status` now have code
+and temporary-fixture tests; see [architecture and threat model](../../docs/SELFHOST-MCP.md).
+The broker uses the existing root-only registry and stored audits, never the
+human reader or a fresh audit. Peer UID plus per-run dispatch authorization is
+required. No account, socket, service, key or firewall is installed here.
+Real UID/SSH/reader-denial/host isolation remains separately authorized and untested.
+G2 CLI/doctor/config/demo remains deferred; existing ACP behavior is unchanged.
