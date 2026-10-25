@@ -1,3 +1,53 @@
+## Phase E: local folders and individual exports — local review, 25 October 2026
+
+Branch `feat/phase-e-open-export`, base `569f35a` (main after Phase D / #170).
+Final application fix `6174b5a`; final manual browser test `bbb9ef4`.
+Later changes publish documentation and evidence only. The Viewer can explicitly
+open a local ledger folder read-only, bound its input, check canonical ledger
+bytes/chain/close/approval/criterion rules, recompute manifest results and check
+referenced blobs. Local files always remain **not authenticated / hash-only**;
+input trust claims are ignored, and no key is accepted. Original ledger,
+manifest and evidence downloads preserve captured bytes. The separately named
+RunDoc download is labelled **derived**. No ZIP. Existing Phase C tabs and Phase D
+evidence/changes/comparison views are reused. Local sources stay in browser
+memory, outside registered catalogs, queues, the read service and Agent Zero.
+D34 remains status-only; unavailable service retains Not connected. Python,
+server code and frozen event/manifest/trust contracts are unchanged.
+
+TDD checkpoints: `bf82058` missing-feature RED, `34a1778` initial 30-test GREEN;
+`61c4408` calendar-normalization RED and `3b4ac55` fix; `bce4f57` one-microsecond
+approval-expiry RED and `6174b5a` fix. Final targeted set: **42 passed**.
+Full Viewer `TZ=UTC npm test` and `TZ=Europe/Berlin npm test` each passed
+**418 tests / 43 files**, including language/style/theme guards and the toolbar
+build matrix. Viewer lint, TypeScript/production build and Ruff passed. Full
+Python UTC and Berlin runs each produced **469 passed, 2 skipped, 1 xfailed,
+15 subtests passed**. Python code/tests are unchanged after those runs; their
+results are reused. Host-only skips and the same-UID expected failure do not
+prove live isolation. The untracked local PR body records exact commands,
+review scope, initial copied-venv/umask/socket-path failures and the inspected
+six-snapshot update; no assertion was weakened.
+
+Final browser source `bbb9ef4`: **4 Playwright specs per timezone**, each with
+**28 unrestricted axe scans and 8 small PNGs**, at **1440×900 / 390×844**, both
+themes and lenses. Each timezone completed 12 exact-byte original downloads,
+4 derived exports and unchanged-source comparisons, with **zero axe violations
+and page errors**. Incomplete contrast/modal nodes remain in the reports, with
+66 CSS contrast passes and 6 inactive modal background classifications per
+run. [Published evidence, commands and limits](screenshots/feat/phase-e-open-export/review-summary.md).
+The generic/browser Blob download cancellation was reproduced and fixed by
+canonicalizing the repo-local temporary path, without application changes.
+
+Self-review and independent read-only Codex review of the implementation and
+scoped timestamp fixes found no blocking code issue. A required symlink blob
+omitted by Chromium is rejected as missing; explicit non-file/link entries are
+also rejected. Browser file APIs cannot establish a complete OS symlink audit,
+including links omitted or dereferenced before selection. That literal,
+browser-independent symlink guarantee remains unproven, and the UI discloses
+the boundary. Native OS picker UI, slow/throttled downloads, other browsers,
+screenreader, live service/SSH/private runs, signatures and human approval were
+not accepted by these synthetic tests. No remote CI, push, PR, merge, deployment
+or host setup occurred.
+
 ## Phase D: stored evidence, changes and comparison — local review, 25 October 2026
 
 Branch `feat/phase-d-evidence-compare`, base `935eebc` (Phase C / #169).

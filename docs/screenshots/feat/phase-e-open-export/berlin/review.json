@@ -1,0 +1,2379 @@
+{
+  "testedCommit": "bbb9ef4ea26130553467b459d83335ca12f2fcdb",
+  "dirty": [],
+  "timezone": "Europe/Berlin",
+  "scope": "Synthetic fixtures; real browser File input and downloads. Native OS folder-picker UI, OS symlink detection, signature authentication, live services and human approval not established.",
+  "reports": [
+    {
+      "name": "1440-petrol-porcelain-symlink-rejected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-petrol-porcelain-rejected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-petrol-porcelain-downloads",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-petrol-porcelain-event-inspector",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-petrol-porcelain-changes",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-petrol-porcelain-unchecked-chain",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-petrol-porcelain-compare",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "1440-cool-graphite-symlink-rejected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-cool-graphite-rejected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-cool-graphite-downloads",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-cool-graphite-event-inspector",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-cool-graphite-changes",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-cool-graphite-unchecked-chain",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "1440-cool-graphite-compare",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "390-petrol-porcelain-symlink-rejected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "390-petrol-porcelain-rejected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "390-petrol-porcelain-downloads",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "390-petrol-porcelain-event-inspector",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": [
+            {
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+              ]
+            },
+            {
+              "target": [
+                "#root"
+              ]
+            },
+            {
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".inline-record-title"
+              ]
+            },
+            {
+              "target": [
+                ".pt-4 > aside > p"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "aria-hidden-focus",
+          "target": [
+            "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+          ],
+          "reasons": [
+            "focusable-modal-open"
+          ],
+          "outcome": "inactive-modal-background",
+          "hidden": true
+        },
+        {
+          "rule": "aria-hidden-focus",
+          "target": [
+            "#root"
+          ],
+          "reasons": [
+            "focusable-modal-open"
+          ],
+          "outcome": "inactive-modal-background",
+          "hidden": true
+        },
+        {
+          "rule": "aria-hidden-focus",
+          "target": [
+            "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+          ],
+          "reasons": [
+            "focusable-modal-open"
+          ],
+          "outcome": "inactive-modal-background",
+          "hidden": true
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".inline-record-title"
+          ],
+          "reasons": [
+            "elmPartiallyObscuring"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": false,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".pt-4 > aside > p"
+          ],
+          "reasons": [
+            "elmPartiallyObscuring"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 5.669375641823438,
+          "threshold": 4.5,
+          "foreground": [
+            0.27450980392156865,
+            0.396078431372549,
+            0.4235294117647059
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": false,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "390-petrol-porcelain-changes",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "390-petrol-porcelain-unchecked-chain",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "390-petrol-porcelain-compare",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 10.98653148683638,
+          "threshold": 4.5,
+          "foreground": [
+            0.09411764705882353,
+            0.22745098039215686,
+            0.25882352941176473
+          ],
+          "background": [
+            0.9450980392156862,
+            0.9568627450980393,
+            0.9372549019607843
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "390-cool-graphite-symlink-rejected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "390-cool-graphite-rejected",
+      "violations": [],
+      "incomplete": [],
+      "manual": []
+    },
+    {
+      "name": "390-cool-graphite-downloads",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab > .dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".dark\\:hover\\:bg-accent\\/50.shrink-0[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "390-cool-graphite-event-inspector",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "nodes": [
+            {
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+              ]
+            },
+            {
+              "target": [
+                "#root"
+              ]
+            },
+            {
+              "target": [
+                "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".inline-record-title"
+              ]
+            },
+            {
+              "target": [
+                ".pt-4 > aside > p"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "aria-hidden-focus",
+          "target": [
+            "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(1)"
+          ],
+          "reasons": [
+            "focusable-modal-open"
+          ],
+          "outcome": "inactive-modal-background",
+          "hidden": true
+        },
+        {
+          "rule": "aria-hidden-focus",
+          "target": [
+            "#root"
+          ],
+          "reasons": [
+            "focusable-modal-open"
+          ],
+          "outcome": "inactive-modal-background",
+          "hidden": true
+        },
+        {
+          "rule": "aria-hidden-focus",
+          "target": [
+            "span[data-radix-focus-guard=\"\"][data-aria-hidden=\"true\"][aria-hidden=\"true\"]:nth-child(5)"
+          ],
+          "reasons": [
+            "focusable-modal-open"
+          ],
+          "outcome": "inactive-modal-background",
+          "hidden": true
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".inline-record-title"
+          ],
+          "reasons": [
+            "elmPartiallyObscuring"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": false,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".pt-4 > aside > p"
+          ],
+          "reasons": [
+            "elmPartiallyObscuring"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 8.32632829512856,
+          "threshold": 4.5,
+          "foreground": [
+            0.6705882352941176,
+            0.7098039215686275,
+            0.7725490196078432
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": false,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "390-cool-graphite-changes",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "390-cool-graphite-unchecked-chain",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    },
+    {
+      "name": "390-cool-graphite-compare",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": [
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+              ]
+            },
+            {
+              "target": [
+                ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+              ]
+            }
+          ]
+        }
+      ],
+      "manual": [
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(2) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(3) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(4) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50[data-tab-select=\"true\"][data-variant=\"ghost\"]"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(5) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(2)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        },
+        {
+          "rule": "color-contrast",
+          "target": [
+            ".workspace-tab:nth-child(6) > .dark\\:hover\\:bg-accent\\/50.h-9[data-variant=\"ghost\"]:nth-child(3)"
+          ],
+          "reasons": [
+            "elmPartiallyObscured"
+          ],
+          "outcome": "css-contrast-pass",
+          "ratio": 15.201406492794767,
+          "threshold": 4.5,
+          "foreground": [
+            0.9294117647058824,
+            0.9450980392156862,
+            0.9686274509803922
+          ],
+          "background": [
+            0.09411764705882353,
+            0.10588235294117647,
+            0.13333333333333333
+          ],
+          "clipped": true,
+          "covered": false
+        }
+      ]
+    }
+  ],
+  "downloads": [
+    {
+      "viewport": 1440,
+      "theme": "petrol-porcelain",
+      "file": "ledger.jsonl",
+      "bytes": 2657,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    },
+    {
+      "viewport": 1440,
+      "theme": "petrol-porcelain",
+      "file": "manifest.json",
+      "bytes": 716,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    },
+    {
+      "viewport": 1440,
+      "theme": "petrol-porcelain",
+      "file": "blobs/sha256/b3/b3f5279f940a3e30586a7f7c4735b8416313b2ada35adb684c5a9d1097c3c35d",
+      "bytes": 37,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    },
+    {
+      "viewport": 1440,
+      "theme": "cool-graphite",
+      "file": "ledger.jsonl",
+      "bytes": 2657,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    },
+    {
+      "viewport": 1440,
+      "theme": "cool-graphite",
+      "file": "manifest.json",
+      "bytes": 716,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    },
+    {
+      "viewport": 1440,
+      "theme": "cool-graphite",
+      "file": "blobs/sha256/b3/b3f5279f940a3e30586a7f7c4735b8416313b2ada35adb684c5a9d1097c3c35d",
+      "bytes": 37,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    },
+    {
+      "viewport": 390,
+      "theme": "petrol-porcelain",
+      "file": "ledger.jsonl",
+      "bytes": 2657,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    },
+    {
+      "viewport": 390,
+      "theme": "petrol-porcelain",
+      "file": "manifest.json",
+      "bytes": 716,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    },
+    {
+      "viewport": 390,
+      "theme": "petrol-porcelain",
+      "file": "blobs/sha256/b3/b3f5279f940a3e30586a7f7c4735b8416313b2ada35adb684c5a9d1097c3c35d",
+      "bytes": 37,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    },
+    {
+      "viewport": 390,
+      "theme": "cool-graphite",
+      "file": "ledger.jsonl",
+      "bytes": 2657,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    },
+    {
+      "viewport": 390,
+      "theme": "cool-graphite",
+      "file": "manifest.json",
+      "bytes": 716,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    },
+    {
+      "viewport": 390,
+      "theme": "cool-graphite",
+      "file": "blobs/sha256/b3/b3f5279f940a3e30586a7f7c4735b8416313b2ada35adb684c5a9d1097c3c35d",
+      "bytes": 37,
+      "originalBytesEqual": true,
+      "sourceUnchanged": true
+    }
+  ],
+  "errors": []
+}
