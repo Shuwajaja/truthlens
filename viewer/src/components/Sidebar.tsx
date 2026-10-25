@@ -8,6 +8,11 @@ const items = [
   { key: 'runs', label: 'Runs', short: 'Runs', Icon: ListTree },
   { key: 'overview', label: 'Overview', short: 'Overview', Icon: LayoutDashboard },
   { key: 'claimed-vs-proven', label: 'Claimed vs proven', short: 'Claims', Icon: ListChecks },
+  { key: 'chain', label: 'Chain', short: 'Chain', Icon: ListChecks },
+  { key: 'coverage', label: 'Coverage', short: 'Coverage', Icon: ListChecks },
+  { key: 'gated-actions', label: 'Gated actions', short: 'Gated actions', Icon: ListChecks },
+  { key: 'changes', label: 'Changes', short: 'Changes', Icon: ListChecks },
+  { key: 'compare', label: 'Compare', short: 'Compare', Icon: ListChecks },
   { key: 'timeline', label: 'Timeline', short: 'Timeline', Icon: ListTree },
   { key: 'agent-story', label: 'Agent story', short: 'Story', Icon: Route },
 ] as const

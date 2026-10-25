@@ -1,6 +1,6 @@
 import type { RunDoc } from '../types.ts'
 
-export type WorkspaceView = 'runs' | 'overview' | 'claimed-vs-proven' | 'timeline' | 'agent-story'
+export type WorkspaceView = 'runs' | 'overview' | 'claimed-vs-proven' | 'timeline' | 'agent-story' | 'chain' | 'coverage' | 'gated-actions' | 'changes' | 'compare'
 export type RunReference = { kind: 'run'; sourceId: string; runId: string }
 export type RunsReference = { kind: 'runs'; sourceId: string }
 export type TabReference = RunReference | RunsReference

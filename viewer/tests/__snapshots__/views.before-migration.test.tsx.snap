@@ -411,6 +411,206 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
               </li>
               <li>
                 <button
+                  aria-label="Chain"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Chain
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Coverage"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Coverage
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Gated actions"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Gated actions
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Changes"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Changes
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Compare"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Compare
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
                   aria-label="Timeline"
                   class="nav-item "
                   type="button"
@@ -1522,6 +1722,206 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
               </li>
               <li>
                 <button
+                  aria-label="Chain"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Chain
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Coverage"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Coverage
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Gated actions"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Gated actions
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Changes"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Changes
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Compare"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Compare
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
                   aria-label="Timeline"
                   class="nav-item "
                   type="button"
@@ -2590,6 +2990,206 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
                   </svg>
                   <span>
                     Claimed vs proven
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Chain"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Chain
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Coverage"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Coverage
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Gated actions"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Gated actions
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Changes"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Changes
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Compare"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Compare
                   </span>
                 </button>
               </li>
@@ -9627,6 +10227,206 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
                   </svg>
                   <span>
                     Claimed vs proven
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Chain"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Chain
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Coverage"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Coverage
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Gated actions"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Gated actions
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Changes"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Changes
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Compare"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Compare
                   </span>
                 </button>
               </li>
@@ -16882,6 +17682,206 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, client lens,
               </li>
               <li>
                 <button
+                  aria-label="Chain"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Chain
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Coverage"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Coverage
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Gated actions"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Gated actions
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Changes"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Changes
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Compare"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Compare
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
                   aria-current="page"
                   aria-label="Timeline"
                   class="nav-item nav-item-active"
@@ -19511,6 +20511,206 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, developer le
                   </svg>
                   <span>
                     Claimed vs proven
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Chain"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Chain
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Coverage"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Coverage
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Gated actions"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Gated actions
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Changes"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Changes
+                  </span>
+                </button>
+              </li>
+              <li>
+                <button
+                  aria-label="Compare"
+                  class="nav-item "
+                  type="button"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="lucide lucide-list-checks"
+                    fill="none"
+                    height="18"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 5h8"
+                    />
+                    <path
+                      d="M13 12h8"
+                    />
+                    <path
+                      d="M13 19h8"
+                    />
+                    <path
+                      d="m3 17 2 2 4-4"
+                    />
+                    <path
+                      d="m3 7 2 2 4-4"
+                    />
+                  </svg>
+                  <span>
+                    Compare
                   </span>
                 </button>
               </li>

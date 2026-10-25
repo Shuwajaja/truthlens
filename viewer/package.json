@@ -10,6 +10,7 @@
     "dev": "vite",
     "test": "npm run check:language && npm run check:styles && npm run check:theme && npm run check:toolbar && vitest run",
     "test:catalog:browser": "node --test e2e/catalog-tabs.pw.mjs",
+    "test:evidence:browser": "node --test e2e/evidence-compare.pw.mjs",
     "build": "node scripts/build-brand.mjs --check && tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
