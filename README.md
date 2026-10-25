@@ -97,6 +97,20 @@ and [previously published workspace evidence](docs/screenshots/w5/issue-156-work
 (historical captures, tied to the source commits listed there).
 For current completion and operational limits, use [STATUS](docs/STATUS.md).
 
+## Screenshots
+
+Demo fixture only (`viewer/fixtures/demo-run.json`, no live data or secrets), captured locally at 1440×900 with `npm run review:screenshots` (Petrol & Porcelain theme, developer lens). Raw recording and axe results: [`docs/screenshots/source/`](docs/screenshots/source/).
+
+![TruthLens demo: navigating Overview, Claimed vs Proven, Timeline and Agent Story](docs/screenshots/truthlens-demo.gif)
+
+| Overview | Evidence (event inspector) |
+|---|---|
+| ![Overview](docs/screenshots/truthlens-overview.png) | ![Event evidence](docs/screenshots/truthlens-event.png) |
+| **Claimed vs Proven** | **Timeline** |
+| ![Claimed vs Proven](docs/screenshots/truthlens-claimed-vs-proven.png) | ![Timeline](docs/screenshots/truthlens-timeline.png) |
+| **Agent Story** | **Mobile navigation (390×844)** |
+| ![Agent Story](docs/screenshots/truthlens-agent-story.png) | ![Mobile navigation](docs/screenshots/truthlens-mobile-navigation.png) |
+
 ## Quickstart (reproducible demo)
 ```bash
 pip install -e '.[dev]'
