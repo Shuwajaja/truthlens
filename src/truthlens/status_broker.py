@@ -39,7 +39,7 @@ def registered_status(store: Registry, run_id: str, uid: int) -> dict[str, str]:
     try:
         if not wire.valid_run_id(run_id) or type(uid) is not int or uid <= 0:
             return wire.unknown()
-        registration = store.run(run_id, uid)
+        registration = store.status_registration(run_id, uid)
         # Registry selects the server dispatch, never caller-supplied session/UID.
         if (
             registration.get("origin") != "server_pipeline"
@@ -52,7 +52,10 @@ def registered_status(store: Registry, run_id: str, uid: int) -> dict[str, str]:
         ):
             return wire.unknown()
         rows = store.records()
-        context = pipeline_jobs.status(store, run_id, uid)
+        # Status authorization above is distinct from caller authority. Inspect
+        # the worker's stored context as the bound original initiator internally;
+        # never grant readers access to pipeline_jobs.status's detailed result.
+        context = pipeline_jobs.status(store, run_id, registration["initiator_uid"])
         if context.get("verified") is not True or context.get("state") != "completed":
             return wire.unknown()
         jobs = [r for r in rows if r["event"] in JOB_EVENTS and r["data"].get("run_id") == run_id]

@@ -251,7 +251,18 @@ class Registry:
         authorized_uids: list[int],
         profile_digest: str,
         initiator_name: str | None = None,
+        *,
+        status_reader_uids: list[int] | None = None,
     ) -> dict:
+        readers = [] if status_reader_uids is None else status_reader_uids
+        if (
+            not isinstance(readers, list)
+            or len(readers) > 64
+            or any(type(v) is not int or not 0 < v < 4294967295 for v in readers)
+            or len(set(readers)) != len(readers)
+            or any(v in authorized_uids for v in readers)
+        ):
+            deny()
         if (
             not ID.fullmatch(profile)
             or type(uid) is not int
@@ -273,10 +284,19 @@ class Registry:
             "on_behalf_of": on_behalf_of,
             "authorized_uids": authorized_uids,
         }
+        if readers:
+            data["status_reader_uids"] = readers
         self.append("dispatch", data)
         return data
 
     def run(self, run_id: str, uid: int, session_id: str | None = None) -> dict:
+        return self._run(run_id, uid, session_id, status_only=False)
+
+    def status_registration(self, run_id: str, uid: int, session_id: str | None = None) -> dict:
+        """Trusted status projection input only; never use for caller/evidence admission."""
+        return self._run(run_id, uid, session_id, status_only=True)
+
+    def _run(self, run_id: str, uid: int, session_id: str | None, *, status_only: bool) -> dict:
         if type(uid) is not int or uid < 0 or not isinstance(run_id, str) or not ID.fullmatch(run_id):
             deny()
         rows = self.records()
@@ -296,7 +316,10 @@ class Registry:
         if (
             dispatch is None
             or dispatch.get("origin") != "server_pipeline"
-            or uid not in dispatch.get("authorized_uids", [])
+            or (
+                uid not in dispatch.get("authorized_uids", [])
+                and (not status_only or uid not in dispatch.get("status_reader_uids", []))
+            )
             or (session_id is not None and session_id != dispatch["session_id"])
         ):
             deny()

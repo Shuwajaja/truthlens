@@ -88,17 +88,17 @@ def test_reader_denied_caller_details_admission_and_phase_b(reader_completed, mo
     before = digest_tree(store.root)
     for uid in (READER, 9999):
         for action in (
-            lambda: store.run(run_id, uid),
-            lambda: store.queue(run_id, uid),
-            lambda: pipeline_jobs.status(store, run_id, uid),
-            lambda: registry_view.summary(store, run_id, uid, session),
-            lambda: registry_view.events(store, run_id, uid, session, 0),
-            lambda: ReadProjection(store, uid=uid, view_id="shu").document(run_id),
+            lambda uid=uid: store.run(run_id, uid),
+            lambda uid=uid: store.queue(run_id, uid),
+            lambda uid=uid: pipeline_jobs.status(store, run_id, uid),
+            lambda uid=uid: registry_view.summary(store, run_id, uid, session),
+            lambda uid=uid: registry_view.events(store, run_id, uid, session, 0),
+            lambda uid=uid: ReadProjection(store, uid=uid, view_id="shu").document(run_id),
         ):
             with pytest.raises(registry.RegistryError, match=r"^Pipeline unavailable or access denied\.$"):
                 action()
         assert ReadProjection(store, uid=uid, view_id="shu").catalog()["runs"] == []
-        monkeypatch.setattr(registry, "caller_uid", lambda: uid)
+        monkeypatch.setattr(registry, "caller_uid", lambda uid=uid: uid)
         monkeypatch.setattr(registry, "Registry", lambda: store)
         assert main(["admit", run_id]) == 2
         assert capsys.readouterr() == (DENIAL, "")
@@ -123,6 +123,7 @@ def test_launcher_captures_readers_separately_from_callers(store, monkeypatch):
     value = {**profile(), "repo": str(store.root), "command": ["/opt/synthetic/task"]}
     monkeypatch.setattr(registry, "caller_uid", lambda: 1234)
     monkeypatch.setattr(registry, "Registry", lambda: store)
+    monkeypatch.setattr(pipeline, "Registry", lambda: store)
     monkeypatch.setattr(pipeline, "trusted", lambda *a, **kw: None)
     monkeypatch.setattr(pipeline, "load_profile", lambda *a: (value, "a" * 64))
     monkeypatch.setattr(pipeline, "agent_account", lambda: 1234)
@@ -155,7 +156,7 @@ def test_unknown_run_uid_and_wrong_session_keep_existing_denial_bytes(reader_com
         (READER, "unknown", []),
         (READER, capture["run_id"], ["--session", "wrong"]),
     ):
-        monkeypatch.setattr(registry, "caller_uid", lambda: uid)
+        monkeypatch.setattr(registry, "caller_uid", lambda uid=uid: uid)
         assert main(["status", run_id, *suffix]) == 2
         assert capsys.readouterr() == (DENIAL, "")
     assert broker().registered_status(store, capture["run_id"], 9999) == {"status": "not_checkable"}
@@ -171,7 +172,7 @@ def test_legacy_dispatch_has_no_retroactive_readers(completed):
 @pytest.mark.parametrize("command", [None, "approve", "run", "dispatch", "explain", "events", "evidence"])
 def test_reader_real_socket_status_and_fixed_privileged_denial(reader_completed, unix_broker, command):
     store, _, capture, _, _ = reader_completed
-    instance, _, client, wire = unix_broker
+    instance, _, _, wire = unix_broker
     # Peer identity is real; its mapping to the configured synthetic reader is simulated.
     instance.source = lambda run_id, uid: broker().registered_status(store, run_id, READER)
     payload = {"version": 1, "run_id": capture["run_id"]}
