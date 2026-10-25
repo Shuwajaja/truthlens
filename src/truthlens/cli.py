@@ -33,6 +33,14 @@ def main(argv: list[str] | None = None) -> int:
         from truthlens.mcp_status import main as status_main
 
         return status_main(argv[1:])
+    if argv[:1] == ["agent-status"]:
+        from truthlens.agent_status import main as agent_status_main
+
+        return agent_status_main(argv[1:])
+    if argv and argv[0] in {"doctor", "agent-config", "demo-status"}:
+        from truthlens.agent_setup import main as setup_main
+
+        return setup_main(argv[0], argv[1:])
     from truthlens.ids import new_id
     from truthlens.ledger import Ledger, LedgerError, repair, verify
 
@@ -89,6 +97,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("agent_cmd", nargs=argparse.REMAINDER)
     p = sub.add_parser("mcp-status", help="status-only stdio MCP (protected broker required)")
     p.add_argument("--socket", required=True)
+    for command, help_text in (
+        ("agent-status", "broker-only status CLI; passed=0, failed=1, not_checkable=2"),
+        ("doctor", "read-only human diagnostics; isolation remains unverified"),
+        ("agent-config", "print a status-only client snippet, or create an explicit output file"),
+        ("demo-status", "synthetic fake-broker demo; no real verification"),
+    ):
+        sub.add_parser(command, help=help_text)
     p = sub.add_parser("mcp", help="legacy evidence MCP; NOT D34 status-only")
     p.add_argument("--root", required=True)
     p.add_argument("--hmac-key-env", metavar="VAR")
