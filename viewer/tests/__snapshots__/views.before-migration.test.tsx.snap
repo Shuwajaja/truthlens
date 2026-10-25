@@ -748,6 +748,31 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, cli
         id="main-content"
         tabindex="-1"
       >
+        <section
+          aria-label="Open local files"
+          class="local-open"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
+          >
+            Open local folder
+          </button>
+          <input
+            aria-label="Choose local ledger folder"
+            class="sr-only"
+            multiple=""
+            tabindex="-1"
+            type="file"
+            webkitdirectory=""
+          />
+          <p>
+            Read only. Up to 200 files, 10 MiB each, 32 MiB total. Local files are unregistered and not admitted under D34. Browser selection cannot audit filesystem symlinks.
+          </p>
+        </section>
         <aside
           aria-label="Trust boundaries"
           class="integrity-notice"
@@ -2059,6 +2084,31 @@ exports[`recorded viewer layouts and renderer snapshots > Claimed vs Proven, dev
         id="main-content"
         tabindex="-1"
       >
+        <section
+          aria-label="Open local files"
+          class="local-open"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
+          >
+            Open local folder
+          </button>
+          <input
+            aria-label="Choose local ledger folder"
+            class="sr-only"
+            multiple=""
+            tabindex="-1"
+            type="file"
+            webkitdirectory=""
+          />
+          <p>
+            Read only. Up to 200 files, 10 MiB each, 32 MiB total. Local files are unregistered and not admitted under D34. Browser selection cannot audit filesystem symlinks.
+          </p>
+        </section>
         <aside
           aria-label="Trust boundaries"
           class="integrity-notice"
@@ -3332,6 +3382,31 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
         id="main-content"
         tabindex="-1"
       >
+        <section
+          aria-label="Open local files"
+          class="local-open"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
+          >
+            Open local folder
+          </button>
+          <input
+            aria-label="Choose local ledger folder"
+            class="sr-only"
+            multiple=""
+            tabindex="-1"
+            type="file"
+            webkitdirectory=""
+          />
+          <p>
+            Read only. Up to 200 files, 10 MiB each, 32 MiB total. Local files are unregistered and not admitted under D34. Browser selection cannot audit filesystem symlinks.
+          </p>
+        </section>
         <aside
           aria-label="Trust boundaries"
           class="integrity-notice"
@@ -10569,6 +10644,31 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
         id="main-content"
         tabindex="-1"
       >
+        <section
+          aria-label="Open local files"
+          class="local-open"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
+          >
+            Open local folder
+          </button>
+          <input
+            aria-label="Choose local ledger folder"
+            class="sr-only"
+            multiple=""
+            tabindex="-1"
+            type="file"
+            webkitdirectory=""
+          />
+          <p>
+            Read only. Up to 200 files, 10 MiB each, 32 MiB total. Local files are unregistered and not admitted under D34. Browser selection cannot audit filesystem symlinks.
+          </p>
+        </section>
         <aside
           aria-label="Trust boundaries"
           class="integrity-notice"
@@ -18020,6 +18120,31 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, client lens,
         id="main-content"
         tabindex="-1"
       >
+        <section
+          aria-label="Open local files"
+          class="local-open"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
+          >
+            Open local folder
+          </button>
+          <input
+            aria-label="Choose local ledger folder"
+            class="sr-only"
+            multiple=""
+            tabindex="-1"
+            type="file"
+            webkitdirectory=""
+          />
+          <p>
+            Read only. Up to 200 files, 10 MiB each, 32 MiB total. Local files are unregistered and not admitted under D34. Browser selection cannot audit filesystem symlinks.
+          </p>
+        </section>
         <aside
           aria-label="Trust boundaries"
           class="integrity-notice"
@@ -20854,6 +20979,31 @@ exports[`recorded viewer layouts and renderer snapshots > Timeline, developer le
         id="main-content"
         tabindex="-1"
       >
+        <section
+          aria-label="Open local files"
+          class="local-open"
+        >
+          <button
+            class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+            data-size="default"
+            data-slot="button"
+            data-variant="outline"
+            type="button"
+          >
+            Open local folder
+          </button>
+          <input
+            aria-label="Choose local ledger folder"
+            class="sr-only"
+            multiple=""
+            tabindex="-1"
+            type="file"
+            webkitdirectory=""
+          />
+          <p>
+            Read only. Up to 200 files, 10 MiB each, 32 MiB total. Local files are unregistered and not admitted under D34. Browser selection cannot audit filesystem symlinks.
+          </p>
+        </section>
         <aside
           aria-label="Trust boundaries"
           class="integrity-notice"

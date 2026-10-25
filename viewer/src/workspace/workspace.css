@@ -132,3 +132,12 @@
 .comparison-snapshot .node-properties { min-width: 0; }
 @media (min-width: 1200px) { .comparison-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
 .audit-checks button { white-space: normal; overflow-wrap: anywhere; max-width: 100%; height: auto; min-height: 44px; }
+
+.local-open, .local-downloads { display: grid; gap: var(--space-2); margin-block: var(--space-2); min-width: 0; overflow-wrap: anywhere; }
+.local-open p, .local-downloads p { color: var(--text-2); font-size: var(--size-label); }
+.local-open > button, .local-downloads > button { justify-self: start; min-height: 44px; }
+.local-downloads summary { cursor: pointer; padding-block: var(--space-2); min-height: 44px; }
+.local-downloads ul { list-style: none; padding: 0; display: grid; gap: var(--space-2); }
+.local-downloads li { display: grid; gap: var(--space-1); min-width: 0; }
+.local-downloads li button { justify-self: start; white-space: normal; overflow-wrap: anywhere; text-align: left; height: auto; min-height: 44px; max-width: 100%; }
+.local-downloads .workspace-reference { font-family: var(--font-mono); font-size: var(--size-label); color: var(--text-2); }
