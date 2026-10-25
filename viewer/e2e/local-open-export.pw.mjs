@@ -73,11 +73,19 @@ for(const width of [1440,390])for(const theme of ['petrol-porcelain','cool-graph
  const derived=await downloaded(page,'Download derived RunDoc'),document=JSON.parse(derived.bytes)
  assert.match(derived.filename,/derived/);assert.equal(document.provenance,'derived');assert.equal(document.verified,false);assert.equal(document.integrity,'hash-only')
  await scan(page,`${width}-${theme}-downloads`,true)
+ if(width===390)await page.getByRole('button',{name:'Inspector',exact:true}).click()
+ await page.getByRole('button',{name:'Open event record',exact:true}).click()
+ await page.getByRole('heading',{name:'Event: Tests run by TruthLens: 1 passed, 0 failed, 0 skipped',exact:true}).waitFor()
+ await scan(page,`${width}-${theme}-event-inspector`)
+ if(width===390){await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'});assert(await page.getByRole('button',{name:'Inspector',exact:true}).evaluate(node=>node===document.activeElement))}
  const navigate=async name=>{
   if(width===390)await page.getByRole('button',{name:'Navigation',exact:true}).click()
   await page.getByRole('navigation',{name:'Viewer navigation'}).getByRole('button',{name,exact:true}).click()
   if(width===390)await page.getByRole('dialog').waitFor({state:'hidden'})
  }
+ if(width===390)await page.getByRole('button',{name:'Navigation',exact:true}).click()
+ await page.getByRole('group',{name:'View lens'}).getByRole('button',{name:'Developer',exact:true}).click()
+ if(width===390){await page.keyboard.press('Escape');await page.getByRole('dialog').waitFor({state:'hidden'})}
  await navigate('Changes');await page.getByRole('heading',{name:'Changes',exact:true}).waitFor();await scan(page,`${width}-${theme}-changes`)
  await navigate('Chain');await page.getByTestId('review-outcome').filter({hasText:'Not checked'}).waitFor();await scan(page,`${width}-${theme}-unchecked-chain`)
  await choose('other');await page.getByRole('heading',{name:'Synthetic local folder',exact:true}).waitFor();await navigate('Compare')
