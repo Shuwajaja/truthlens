@@ -71,3 +71,28 @@ it('matches the existing synthetic demo acceptance and original binary/text blob
  walk(root);const opened=await openLocalFolder(entries(files));const manifest=JSON.parse(files.get('manifest.json')!.toString())
  expect(opened.doc.criteria.map(({criterion_id,text,evidence,status})=>({criterion_id,text,evidence,status}))).toEqual(manifest.acceptance)
 })
+
+function rechain(f:ReturnType<typeof fixture>){
+ for(const [index,e] of f.events.entries()){
+  e.seq=index+1;e.prev_hash=index?f.events[index-1].hash:'0'.repeat(64)
+  if(e.type==='run.finished')e.payload.last_hash=e.prev_hash
+  const {hash:_,...body}=e;e.hash=hash(canonical(body))
+ }
+ f.manifest.ledger_last_hash=f.events.at(-1).hash;f.sync()
+}
+it('rejects impossible UTC calendar dates even when hashes and manifest agree',async()=>{
+ const f=fixture();f.events[0].ts='2026-02-31T00:00:00.000Z';rechain(f)
+ await expect(openLocalFolder(entries(f.files))).rejects.toThrow(/timestamp/i)
+})
+it.each(['agent-confirmation','agent-witness','criterion-text','second-start'])('rejects semantic violation %s in a rehashed ledger',async mode=>{
+ const f=fixture()
+ if(mode==='agent-confirmation')f.events.splice(3,0,{...f.events[2],id:'evt_confirmation',type:'criteria.confirmed',actor:{kind:'agent',id:'synthetic'},payload:{criteria:[{criterion_id:'c1',text_sha256:f.events[2].payload.text_sha256}]}})
+ if(mode==='agent-witness')f.events[4].actor.kind='agent'
+ if(mode==='criterion-text')f.events[2].payload.text='Changed criterion'
+ if(mode==='second-start')f.events[1].type='run.started'
+ rechain(f);await expect(openLocalFolder(entries(f.files))).rejects.toThrow()
+})
+it('does not read unrelated files or trust their exported claims',async()=>{
+ const f=fixture(),read=vi.fn(()=>{throw Error('Unrelated file must not be read')})
+ const opened=await openLocalFolder([...entries(f.files),{path:'run.json',kind:'file',size:1,read}]);expect(read).not.toHaveBeenCalled();expect(opened.doc.verified).toBe(false)
+})
