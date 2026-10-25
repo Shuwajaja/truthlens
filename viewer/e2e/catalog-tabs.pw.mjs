@@ -27,7 +27,7 @@ after(async()=>{
  await browser?.close();await server?.close()
  await writeFile(`${output}/review.json`,JSON.stringify({testedCommit,dirty,viewports:[[1440,900],[390,844]],timezone:process.env.TZ??'host default',scope:'Production build with synthetic same-origin API responses; no live private run, SSH or OS isolation claim.',reports,errors},null,2)+'\n')
 })
-async function pageFor(t,{width=1440,height=900,theme='petrol-porcelain',storageFailure=false,load}={}){
+async function pageFor(t,{width=1440,height=900,theme='petrol-porcelain',storageFailure=false,initialView,load}={}){
  const context=await browser.newContext({viewport:{width,height},timezoneId:process.env.TZ??'UTC',reducedMotion:'reduce'})
  t.after(()=>context.close())
  await context.addInitScript(({theme,storageFailure})=>{
@@ -51,7 +51,9 @@ async function pageFor(t,{width=1440,height=900,theme='petrol-porcelain',storage
   }
   await route.fulfill({json:body})
  })
- await page.goto(origin+'/?filter=kept#anchor')
+ const initialUrl=new URL('/?filter=kept#anchor',origin)
+ if(initialView)initialUrl.searchParams.set('view',initialView)
+ await page.goto(initialUrl.href)
  await page.getByRole('heading',{name:'Not connected',exact:true}).waitFor()
  assert.deepEqual(requests,[],'no source request before Connect')
  await page.getByRole('button',{name:'Connect',exact:true}).click()
@@ -78,7 +80,7 @@ async function scan(page,name){
 }
 
 test('catalog identities, actual Back/Forward and renderer dedupe',{timeout:45000},async t=>{
- const {page,requests}=await pageFor(t)
+ const {page,requests}=await pageFor(t,{initialView:'timeline'})
  assert.equal(new URL(page.url()).searchParams.get('source'),workspace)
  assert.equal(await page.getByText(workspace,{exact:true}).count(),1)
  assert.equal(await page.getByText(runs[0].source_id,{exact:true}).count(),1)

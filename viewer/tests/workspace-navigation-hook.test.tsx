@@ -8,7 +8,8 @@ import {NAVIGATION_STORAGE_KEY,serializeNavigation} from '../src/workspace/navig
 import run from '../fixtures/demo-run.json'
 const sources:WorkspaceSource[]=['one','two'].map(sourceId=>({sourceId,label:sourceId,kind:'development-fixture',runs:new Map([[run.run.run_id,run]])}))
 afterEach(()=>{cleanup();localStorage.clear();history.replaceState(null,'','/');vi.restoreAllMocks()})
-it('canonicalizes the initial catalog and restores Back/Forward without loading a document',()=>{
+it.each(['/', '/?view=timeline', '/?view=claimed-vs-proven'])('canonicalizes the initial catalog and restores Back/Forward without loading a document: %s',url=>{
+ history.replaceState(null,'',url)
  const catalogSources:WorkspaceSource[]=[{sourceId:'reader',label:'Reader',kind:'private-reader',runs:new Map()}]
  const {result}=renderHook(()=>useWorkspaceNavigation({sources:catalogSources}))
  const initialUrl=location.href
