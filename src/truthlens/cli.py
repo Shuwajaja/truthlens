@@ -29,6 +29,10 @@ def _audit_anchor(value: str) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
+    if argv[:2] == ["pipeline", "explain"]:
+        from truthlens.pipeline_explain import main as explain_main
+
+        return explain_main(argv[2:])
     if argv[:1] == ["mcp-status"]:
         from truthlens.mcp_status import main as status_main
 
@@ -54,6 +58,7 @@ def main(argv: list[str] | None = None) -> int:
     profile_check.add_argument("name_or_path", metavar="NAME|PATH")
     p = sub.add_parser("pipeline", help="protected server pipeline (host setup required)")
     pipeline_sub = p.add_subparsers(dest="pipeline_cmd", required=True)
+    pipeline_sub.add_parser("explain", help="read-only operator diagnosis (real/effective root only)")
     run_parser = pipeline_sub.add_parser("run")
     run_parser.add_argument("--profile", required=True)
     pipeline_sub.add_parser("worker")

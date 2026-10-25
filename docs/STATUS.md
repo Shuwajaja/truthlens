@@ -1,3 +1,58 @@
+## Operator broker unit and denial diagnosis — local preparation, 25 October 2026
+
+Branch `fix/operator-broker-unit-explain`, base `3e5237a`; scope is trial-runbook
+items **5 and 7** only. Red tests are committed at `cb45abb`: **24 failed,
+1 passed** for the missing command/unit. [Operator instructions and reason
+codes](../deploy/server/README.md#root-only-denial-diagnosis).
+
+- Inactive `truthlens-status-broker.service` example: root identity, protected
+  mode0660 Unix socket, AF_UNIX restriction, CAP_CHOWN for socket group assignment,
+  read-only state/installation, inaccessible key and suppressed output. Placeholder
+  IDs and no Install section; nothing is installed or activated.
+- Root-only `truthlens pipeline explain run --profile NAME` and `explain status
+  RUN_ID [--uid UID]` reuse existing deny checks and print one fixed enumerated
+  stage code to stderr. Real/effective root is checked before parsing/input reads.
+  Read-only registry locking and bounded key reads occur only for the documented
+  operator checks; status diagnosis never reads the key. No dispatch, audit,
+  profile/test execution, approval, repair or policy relaxation.
+- Normal fixed pipeline errors and agent CLI/MCP/broker status-only outputs remain
+  covered, including exact denial-frame bytes and unavailable diagnostic imports.
+  Frozen contracts, G1 wire/adapter/D34, caller mappings and interrupted-dispatch
+  behavior are unchanged. Integrity is not approval.
+
+Tested code/tests: `139def89131027a6aeb86d9dfd60330d7c73b406` (subsequent status/evidence edits
+only). Targeted `python -m pytest -q tests/test_pipeline_explain.py
+ tests/test_status_broker_unit.py tests/test_pipeline.py tests/test_profile_check.py
+ tests/test_status_broker.py tests/test_mcp_status.py --basetemp=.t/g3 --tb=short`:
+**177 passed**. With repo-local venv PATH/TMPDIR and umask022, full
+`python -m pytest -q -rs --tb=short --basetemp=.t/pu` in UTC and
+`--basetemp=.t/pb` under Europe/Berlin each reported **721 passed, 2 skipped,
+1 xfailed, 21 subtests passed**. The two existing host-only skips and known
+same-UID `/proc` expected failure are not passes.
+
+Full Viewer `npm test` in UTC and Europe/Berlin each reported **436 passed /
+46 files**, including language/style/theme checks and all five toolbar builds.
+Existing jsdom scrollTo notices remain. `ruff check src tests`, changed Python
+format checks, Viewer `npm run lint`, `npm run build` (including TypeScript),
+local setuptools wheel build/package-content check, all 16 reason-code
+code/test/doc mappings, required-doc checks and diff checks passed. A scoped
+stdlib trace run of the 27 new operator/unit tests reported **60 executable
+lines / 100% line coverage** for `pipeline_explain.py`; this is not branch or
+whole-project coverage. The first trace-report attempt failed on stale copied
+venv bytecode paths after its 27 tests passed; the scoped report succeeded.
+Earlier harness/lint/import-order failures and their resolutions are recorded
+in the requested untracked `PR_BODY.md`.
+
+Final author self-review checked the exact diff for root-before-read behavior,
+fixed-only stderr, unchanged normal denial bytes, no diagnostic reachability
+from status/MCP/wire, no policy drift in extracted helpers, key non-disclosure
+and unit/socket/registry-lock compatibility. No remaining blocking finding;
+this is the requested author self-review, not an independent security review.
+The new operator checks simulate root identity/policy; temporary Unix sockets
+exercise framing, not separate-UID host isolation. Live systemd confinement,
+real separate-UID/client/SSH isolation, Python 3.13 and historical browser release
+flows were not run. No push, PR, merge, deployment or host setup was performed.
+
 ## Workspace overview v1 — local qualification, 25 October 2026
 
 Branch `design/overview-v1`, base `4b44db0`. Application source and unit tests:
