@@ -116,7 +116,9 @@ def _doctor(args) -> int:
         sdk = False
     print("MCP_SDK_PRESENT" if sdk else "MCP_SDK_MISSING")
     try:
-        text = _read_config(args.config) if args.config is not None else render_config(args.client, args.socket)
+        text = (
+            _read_config(args.config) if args.config is not None else render_config(args.client, args.socket)
+        )
         config_ok = valid_config(text, args.client, args.socket)
     except Exception:  # noqa: BLE001 -- fixed diagnostic
         config_ok = False

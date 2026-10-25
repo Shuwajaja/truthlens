@@ -4,7 +4,8 @@ from __future__ import annotations
 
 import argparse
 
-from truthlens import status_client, status_wire as wire
+from truthlens import status_client
+from truthlens import status_wire as wire
 
 DEFAULT_SOCKET = "/run/truthlens/status.sock"
 
@@ -29,6 +30,6 @@ def main(argv: list[str]) -> int:
         if wire.valid_run_id(args.run_id):
             result = wire.status_only(status_client.check_status(args.socket, args.run_id))
     except (Exception, KeyboardInterrupt):  # noqa: BLE001 -- D34: no reflected errors
-        pass
+        result = wire.unknown()
     print(wire.encode(result).decode() if as_json else result["status"])
     return {"passed": 0, "failed": 1, "not_checkable": 2}[result["status"]]

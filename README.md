@@ -189,6 +189,10 @@ badge moves clear of the Close button, including at narrow viewport widths.
 | `truthlens approve LEDGER HASH` | human approval for exactly one action, single use, expires after 10 min |
 | `truthlens verify LEDGER [--expect-last-hash H]` | fail-closed integrity check |
 | `truthlens report DIR` / `export DIR` / `project DIR` | criteria + claims vs witnessed / viewer JSON / SQLite projection |
+| `truthlens agent-status RUN_ID [--socket PATH] [--json]` | Broker-only status; exit 0/1/2 ([client setup](docs/AGENT-SETUP.md)) |
+| `truthlens doctor [--socket PATH]` | Read-only human diagnostics; isolation remains unverified |
+| `truthlens agent-config CLIENT --socket PATH [--output NEW_PATH]` | Print a client snippet or create only an explicit new file |
+| `truthlens demo-status` | Labelled synthetic temporary fake-broker demo; no real audit |
 | `truthlens mcp-status --socket PATH` | D34 status-only stdio MCP; protected broker required ([architecture and limits](docs/SELFHOST-MCP.md)) |
 | `truthlens mcp --root DIR` | legacy evidence MCP, **not D34-compatible** (`list_runs`, `run_report`, `run_events`) |
 

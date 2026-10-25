@@ -12,7 +12,8 @@ import tempfile
 import threading
 from pathlib import Path
 
-from truthlens import status_client, status_wire as wire
+from truthlens import status_client
+from truthlens import status_wire as wire
 
 
 def run_demo() -> str:
