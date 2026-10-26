@@ -33,21 +33,21 @@ export function RunCharts({data,copy=overviewCopy.en}:{data:RunAggregate;copy?:O
  const maxCriteria=Math.max(1,...chronological.map(row=>criterionTotal(row.criteria)))
  const maxEvidence=Math.max(1,...data.evidence.map(e=>e.count))
  const maxAgent=Math.max(1,...data.agents.map(row=>criterionTotal(row.criteria)))
- const point=(index:number)=>({x:dated.length===1?200:8+index/(dated.length-1)*384,y:92-dated[index].criteria.met/criterionTotal(dated[index].criteria)*80})
+ const point=(index:number)=>({x:8+index/(dated.length-1)*384,y:92-dated[index].criteria.met/criterionTotal(dated[index].criteria)*80})
  const labels=new Map([['Commands',copy.commands],['File changes',copy.files],['Test-file changes',copy.testFiles],['Test reports',copy.reports],['Artifact records',copy.artifacts],['Other recorded evidence',copy.other]])
  const move=(direction:number)=>{const element=strip.current;if(element)element.scrollBy({left:direction*(element.firstElementChild?.getBoundingClientRect().width??element.clientWidth)+direction*12,behavior:'auto'})}
  return <div className="chart-area">
   <div ref={strip} className="run-charts" role="region" aria-label={copy.charts} tabIndex={0}>
    <Chart title={copy.trend} description={copy.trendHelp}>
-    {dated.length?<><p className="trend-value">{dated.at(-1)!.criteria.met}/{criterionTotal(dated.at(-1)!.criteria)}</p>
+    {dated.length>=2?<><p className="trend-value">{dated.at(-1)!.criteria.met}/{criterionTotal(dated.at(-1)!.criteria)}</p>
      <svg className="criteria-trend" viewBox="0 0 400 104" role="img" aria-label={copy.trend}>
-      {dated.length>1&&<polyline points={dated.map((_,i)=>{const p=point(i);return `${p.x},${p.y}`}).join(' ')}/>}
+      <polyline points={dated.map((_,i)=>{const p=point(i);return `${p.x},${p.y}`}).join(' ')}/>
       {dated.map((row,i)=>{const p=point(i);return <circle key={row.runId} cx={p.x} cy={p.y} r="3"><title>{row.runId}: {row.criteria.met}/{criterionTotal(row.criteria)}</title></circle>})}
-     </svg></>:<p className="chart-empty">{copy.noDates}</p>}
+     </svg></>:<div className="chart-single"><p>{dated.length?copy.trendNeedsRuns:copy.noDates}</p></div>}
     <details className="chart-data"><summary aria-label={copy.chartData} title={copy.chartData}><span aria-hidden="true">⋯</span></summary><ul>{chronological.map(row=><li key={row.runId}><span>{row.runId}</span> · {criterionTotal(row.criteria)?`${row.criteria.met}/${criterionTotal(row.criteria)}`:copy.noCriteria} · {row.started??copy.noStart}</li>)}</ul></details>
    </Chart>
    <Chart title={copy.criteria} description={copy.criteriaHelp}>
-    <svg className="criteria-columns" viewBox="0 0 400 108" role="img" aria-label={copy.criteria}>
+    {chronological.length===1?<div className="chart-single"><p>{copy.singleRun}</p>{criterionTotal(chronological[0].criteria)?<CriterionText criteria={chronological[0].criteria} copy={copy}/>:<p>{copy.noCriteria}</p>}</div>:<svg className="criteria-columns" viewBox="0 0 400 108" role="img" aria-label={copy.criteria}>
      {chronological.map((row,index)=>{
       const slot=400/chronological.length,width=Math.min(32,slot-4),x=index*slot+(slot-width)/2
       let bottom=104
@@ -56,7 +56,7 @@ export function RunCharts({data,copy=overviewCopy.en}:{data:RunAggregate;copy?:O
        return height>0?<rect key={status} data-criterion={status} x={x} y={bottom} width={width} height={height} rx="2"><title>{row.runId}: {row.criteria[status]} {copy[status].toLowerCase()}</title></rect>:null
       })}</g>
      })}
-    </svg>
+    </svg>}
     <details className="chart-data"><summary aria-label={copy.chartData} title={copy.chartData}><span aria-hidden="true">⋯</span></summary><ul>{chronological.map(row=><li key={row.runId}><span>{row.runId}</span><CriterionText criteria={row.criteria} copy={copy}/></li>)}</ul></details>
    </Chart>
    <Chart title={copy.evidence} description={copy.evidenceHelp}>

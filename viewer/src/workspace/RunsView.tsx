@@ -31,7 +31,7 @@ export function RunsView({sources,onOpenRun,heading=true}:{sources:readonly Work
   <p className="overview-intro"><span>{copy.intro}</span> <span className="overview-current">{copy.loaded}: {data.totalRuns}.</span></p>
   {!data.totalRuns?<div className="overview-empty"><h2>{copy.empty}</h2><p>{copy.emptyHelp}</p></div>:<>
    <div className="overview-score-charts">
-    <section className="overview-score" aria-label={score}><ScoreRing criteria={data.criteria} label={score} copy={copy}/><h2>{score}</h2><CriterionText criteria={data.criteria} copy={copy}/><p className="overview-seal">{copy.hashOnly}</p></section>
+    <section className="overview-score" aria-label={score}><ScoreRing criteria={data.criteria} label={score} copy={copy}/><h2>{score}</h2>{total>0&&<p className="overview-summary">{data.criteria.unmet} {copy.unmet.toLowerCase()} · {data.criteria.unverified} {copy.unverified.toLowerCase()} · {data.criteria.proposed} {copy.proposed.toLowerCase()}.</p>}<p className="overview-seal">{copy.hashOnly}</p></section>
     <RunCharts data={data} copy={copy}/>
    </div>
    <section className="latest-runs"><h2>{copy.latest} <span>· {copy.latestHelp}</span></h2>
@@ -40,7 +40,7 @@ export function RunsView({sources,onOpenRun,heading=true}:{sources:readonly Work
      return <li key={row.runId}><button type="button" className="latest-run" onClick={()=>onOpenRun({kind:'run',sourceId:row.sourceId,runId:row.runId})} aria-describedby={`${descriptionId}-${index}`}>
       <span className="run-dot" data-status={status} aria-hidden="true"/>
       <span className="latest-run-main"><strong title={row.project}>{row.project||copy.untitled}</strong><span>{row.started?<time dateTime={row.started} title={recordedTime(row.started)}>{overviewTime(row.started,language)}</time>:copy.noStart}</span></span>
-      <span className="latest-run-agent">{row.agent||copy.noAgent} · {criterionTotal(row.criteria)?`${row.criteria.met}/${criterionTotal(row.criteria)} ${copy.met.toLowerCase()}`:copy.noCriteria}</span>
+      <span className="latest-run-agent"><span title={row.agent||copy.noAgent}>{row.agent||copy.noAgent}</span><span> · {criterionTotal(row.criteria)?`${row.criteria.met}/${criterionTotal(row.criteria)} ${copy.met.toLowerCase()}`:copy.noCriteria}</span></span>
       <span id={`${descriptionId}-${index}`} className="run-status" data-status={status}>{copy[`pill${status}`]}</span><span className="run-arrow" aria-hidden="true">›</span>
      </button></li>
     })}</ul>
