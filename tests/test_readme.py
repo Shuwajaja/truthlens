@@ -93,6 +93,15 @@ class ReadmeTests(unittest.TestCase):
                     self.assertTrue(any(p.startswith(relative.rstrip("/") + "/") for p in tracked))
                 else:
                     self.assertIn(relative, tracked, "link target must be tracked, not just present locally")
+                if url.fragment:
+                    self.assertTrue(path.is_file(), "heading target must be a file")
+                    target_headings = {
+                        re.sub(r"[^\w -]", "", title.lower()).replace(" ", "-")
+                        for title in re.findall(
+                            r"^#{1,6} (.+)$", path.read_text(encoding="utf-8"), re.MULTILINE
+                        )
+                    }
+                    self.assertIn(unquote(url.fragment), target_headings, "missing local link heading")
 
     def test_portfolio_opening_and_real_hero(self):
         text = README.read_text(encoding="utf-8")
