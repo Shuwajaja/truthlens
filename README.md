@@ -125,6 +125,25 @@ agents; it never falls back to legacy evidence access. See
 [architecture](docs/ARCHITECTURE.md), [status client setup](docs/AGENT-SETUP.md)
 and [broker boundaries](docs/SELFHOST-MCP.md).
 
+## Local catalog MCP
+
+`truthlens mcp` reads `TRUTHLENS_ROOT` and speaks newline JSON-RPC on stdio.
+It does not open a socket and it does not write. Tools are `list_runs`,
+`get_run` (claims, verdicts, evidence), `verify_run` (a local ledger or run
+directory) and `doctor`. `TRUE` / bestätigt and `FALSE` / widerlegt appear
+only when integrity is `hmac`. Hash-only results stay `UNKNOWN` / unklar.
+A file that cannot be checked is `not_checkable`. Integrity is not approval.
+Pass `--hmac-key-env VAR` only when that variable already holds the key; the
+examples below set no key. `--root` still selects the older human evidence
+tools and is not this catalog. `truthlens mcp-status` stays the separate
+one-tool status adapter.
+
+[Agent Zero example](integrations/agent-zero/mcp-servers.example.json) ·
+[Mausbot example](integrations/mausbot/mcp-servers.example.json). Both use a
+placeholder root. They are not a live host configuration. The private
+Artifact Hub repository was not available for this change; the loop follows
+the existing TruthLens stdio server.
+
 ## Security and contracts
 
 Canonical JSON excludes floats; `[REDACTED]` replaces secrets before hashing;

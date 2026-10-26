@@ -127,7 +127,10 @@ def test_tool_invalid_input_never_reaches_client(args, monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "name", ["audit", "register", "approve", "run", "repair", "raw", "list_runs", "run_events", "run_report"]
+    "name", [
+        "audit", "register", "approve", "run", "repair", "raw",
+        "list_runs", "run_events", "run_report", "get_run", "verify_run", "doctor",
+    ]
 )
 def test_other_tools_have_no_side_effects(name, monkeypatch):
     mcp = module()

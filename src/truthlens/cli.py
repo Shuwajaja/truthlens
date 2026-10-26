@@ -132,8 +132,11 @@ def main(argv: list[str] | None = None) -> int:
         ("demo-status", "synthetic fake-broker demo; no real verification"),
     ):
         sub.add_parser(command, help=help_text)
-    p = sub.add_parser("mcp", help="legacy evidence MCP; NOT D34 status-only")
-    p.add_argument("--root", required=True)
+    p = sub.add_parser(
+        "mcp",
+        help="local read-only catalog MCP (TRUTHLENS_ROOT); --root keeps the legacy evidence API",
+    )
+    p.add_argument("--root", help="legacy human evidence root; omit to use TRUTHLENS_ROOT")
     p.add_argument("--hmac-key-env", metavar="VAR")
     p = sub.add_parser("request", help="(agent side) ask the running wrapper to execute a gated action")
     p.add_argument("--timeout", type=float, default=30)
@@ -188,8 +191,22 @@ def main(argv: list[str] | None = None) -> int:
         return exit_code(report)
 
     if a.cmd == "mcp":
-        from truthlens.mcp import serve
-        serve(a.root, _key(a.hmac_key_env))
+        key = _key(a.hmac_key_env)
+        if a.root:
+            from truthlens.mcp import serve
+
+            serve(a.root, key, sys.stdin, sys.stdout)
+        else:
+            root = os.environ.get("TRUTHLENS_ROOT", "")
+            if not root.strip():
+                print(
+                    "error: TRUTHLENS_ROOT is unset (pass --root only for the legacy evidence API)",
+                    file=sys.stderr,
+                )
+                return 2
+            from truthlens.mcp_local import serve
+
+            serve(root, key, sys.stdin, sys.stdout)
         return 0
     if a.cmd == "request":
         from truthlens.gate import request
