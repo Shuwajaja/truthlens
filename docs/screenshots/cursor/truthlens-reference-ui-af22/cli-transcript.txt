@@ -1,0 +1,37 @@
+$ truthlens workspace init --project MCPDeck --root . --harness agent-zero --harness codex --harness claude-code --target local --yes
+◆ Projekt: mcpdeck
+◆ Geplante Änderung: Adapter agent-zero hinzufügen
+◆ Geplante Änderung: Adapter codex hinzufügen
+◆ Geplante Änderung: Adapter claude-code hinzufügen
+⚠ agent-zero: Live-Aufzeichnung noch nicht qualifiziert
+⚠ codex: Live-Aufzeichnung noch nicht qualifiziert
+⚠ claude-code: Live-Aufzeichnung noch nicht qualifiziert
+✓ Workspace geschrieben
+
+[exit 0]
+$ truthlens workspace doctor --root .
+✓ workspace: Workspace ist gültig und lesbar
+⚠ capture_adapter: Adapter ist nur eingetragen oder die Version ist unbekannt
+✓ heartbeat: Kein letzter Lauf ist bei einem neuen Projekt normal
+⚠ output_channel: Ausgabe nur lokal vorhanden; kein Reader konfiguriert
+⚠ agent_status: Konfiguration wurde nicht durch einen synthetischen Test nachgewiesen
+⚠ isolation: Isolation ist nicht geprüft
+
+[exit 0]
+$ truthlens workspace test --root .
+✓ Synthesetest complete (run_01M5WM546E4H678MECYTJV2SD2)
+
+[exit 0]
+$ truthlens runs list --root . --limit 5
+LAUF         AGENT        AUFGABE                            ✓   ✗   ?  ERGEBNIS
+ECYTJV2SD2   workspace-te truthlens workspace test           0   0   0  unklar
+
+[exit 0]
+$ truthlens doctor
+SOCKET_UNSAFE_OR_MISSING
+ADAPTER_IMPORTABLE
+MCP_SDK_PRESENT
+CLIENT_CONFIG_VALID
+ISOLATION_UNVERIFIED
+
+[exit 2]

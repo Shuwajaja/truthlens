@@ -19,7 +19,10 @@ async function scan(directory){
  for(const item of await readdir(directory,{withFileTypes:true})){
   const path=resolve(directory,item.name);
   if(item.isDirectory()){failures.push(...await scan(path));continue;}
-  if(path===fileURLToPath(new URL('../src/theme.css',import.meta.url)))continue;
+  if([
+    fileURLToPath(new URL('../src/theme.css',import.meta.url)),
+    fileURLToPath(new URL('../src/reference/theme.css',import.meta.url)),
+  ].includes(path))continue;
   const issues=styleViolations(await readFile(path,'utf8'));
   if(issues.length)failures.push(path+': '+issues.join(', '));
  }

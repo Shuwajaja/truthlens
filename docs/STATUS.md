@@ -1,3 +1,61 @@
+## Reference workspace and run surface — local checks, 26 October 2026
+
+Branch `cursor/truthlens-reference-ui-af22`, base `5198b00`. Human commands
+`truthlens workspace` and `truthlens runs` project an existing ledger. They do
+not replace `truthlens init LEDGER`, the legacy `truthlens doctor` (still exit
+2), or `truthlens mcp --root`. `TRUTHLENS_REFERENCE=0` disables the new
+commands with exit 2. The viewer routes `/runs`, `/runs/:id`, `/reports`,
+`/agents`, `/sources`, `/settings` and `/doctor` are an additional surface.
+`/` stays the evidence workspace.
+
+What is implemented: run-view projection and rejection rules; workspace init,
+unlink, doctor, synthetic test and repair; run list, show, quarantined import
+and recheck; a fixture-gated capture start that does not qualify a live
+harness; the reference UI, including a labelled demo catalog at `?demo=1`.
+What is not: a qualified Agent Zero, Codex, Claude Code or agy launcher; D34
+broker status from the UI; separate-UID isolation; hub result schema; pixel
+match to the briefing PNGs.
+
+Checks on this tree, before this status paragraph was added. The only source
+edit after the suites was `--tl-primary` `#7c5cff` to `#6846f5`, then a fresh
+axe scan.
+
+`PATH="/tmp/tl-venv/bin:$PATH" TZ=UTC /tmp/tl-venv/bin/python -m pytest -q -ra
+--tb=line --basetemp=/tmp/tl-pytest5` observed **895 passed, 2 skipped, 1
+xfailed, 123 subtests passed**. The skip and xfail are the existing host-only
+and same-UID cases. An earlier run without `python` on `PATH` failed
+`test_r6_gate_config_file_outside_refused_even_if_missing` with “program not
+found”; the same test passed once `/tmp/tl-venv/bin` was on `PATH`. This host
+has no project `.venv` from `python3 -m venv` (ensurepip is absent). The
+passing suite used a temporary venv with an editable install, pytest 9.1.1,
+ruff 0.17.2 and `mcp==2.3.0`.
+
+`/tmp/tl-venv/bin/ruff check` on the new Python modules and
+`tests/test_reference_commands.py` plus `tests/test_reference_demo_fixture.py`
+passed. `src/truthlens/cli.py` was not reformatted; ruff check on that file
+passed and ruff format would still rewrite pre-existing lines, so that rewrite
+was left out.
+
+In `viewer/`: `npm test` observed language, style, theme and toolbar gates
+passing and **53 files, 523 tests passed**. `npm run build` (`tsc -b` and
+`vite build`) completed. `npx oxlint` on the reference app and `App.tsx`
+reported no findings.
+
+Unrestricted axe, Playwright against `/opt/google/chrome/chrome`, Vite on
+`127.0.0.1:4179`, timezone Europe/Berlin. Viewports 1440×900 and 390×844 for
+`/runs?demo=1` and `/runs/run_8f3a21?demo=1`, plus 1440×900 for `/runs` and
+`/doctor?demo=1`. After the primary-color change, those states had **0
+violations and 0 incomplete**. The first scan had one serious
+`color-contrast` on the selected project chip. Screenshots and `axe.json` are
+under `docs/screenshots/cursor/truthlens-reference-ui-af22/`. The briefing PNG
+files were not in this checkout, so no side-by-side composite was produced.
+The CLI transcript there is captured stdout from `workspace init`, `workspace
+doctor`, `workspace test`, `runs list` and the legacy `doctor` (exit 2). It is
+not a recreation of the sample run IDs in the briefing image.
+
+No host permission, deployment, or ledger-format change. Capture qualification
+and TL1–TL6 live proofs remain open. Loopback is not host isolation.
+
 ## Init filesystem diagnostics — local checks, 26 October 2026
 
 Branch `improve/loop-24`, base `07864a74`. `truthlens init LEDGER` now handles

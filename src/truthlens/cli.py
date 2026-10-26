@@ -45,6 +45,14 @@ def main(argv: list[str] | None = None) -> int:
         from truthlens.agent_setup import main as setup_main
 
         return setup_main(argv[0], argv[1:])
+    if argv[:1] == ["workspace"]:
+        from truthlens.workspace_cmd import main as workspace_main
+
+        return workspace_main(argv[1:])
+    if argv[:1] == ["runs"]:
+        from truthlens.runs_cmd import main as runs_main
+
+        return runs_main(argv[1:])
     from truthlens.ids import new_id
     from truthlens.ledger import Ledger, LedgerError, repair, verify
 

@@ -12,7 +12,10 @@ async function scan(directory){
   const path=directory+'/'+entry.name;
   if(entry.isDirectory()){failures.push(...await scan(path));continue;}
   // Owner-approved fixed overview dictionary is the sole bilingual source.
-  if(resolve(path)===fileURLToPath(new URL('../src/workspace/overview-copy.ts',import.meta.url)))continue;
+  if([
+    fileURLToPath(new URL('../src/workspace/overview-copy.ts',import.meta.url)),
+    fileURLToPath(new URL('../src/reference/copy.ts',import.meta.url)),
+  ].includes(resolve(path)))continue;
   const lines=(await readFile(path,'utf8')).split('\n');
   lines.forEach((line,index)=>{if(germanUI.test(line))failures.push(path+':'+(index+1));});
  }

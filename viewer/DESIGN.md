@@ -1,5 +1,37 @@
 # TruthLens Viewer — Workspace design contract
 
+## Reference runs surface, 26 October 2026
+
+Routes `/runs`, `/runs/:id`, `/reports`, `/agents`, `/sources`, `/settings` and
+`/doctor` show the reference catalog. `/` and `/?view=overview` stay the
+evidence workspace, including its honesty seals and the production
+“Not connected” state.
+
+The reference surface is scoped under `.tl-ref` in
+`viewer/src/reference/theme.css`. German chrome lives only in
+`viewer/src/reference/copy.ts`. Recorded task text is data, not chrome.
+Tokens follow the shared UI contract, with contrast-adjusted text. Type uses
+the already vendored Plus Jakarta Sans and JetBrains Mono. Layout targets:
+sidebar 232px, header 56px, content padding 28px (16px below 768px), timeline
+360px. The evidence-workspace 12/14/16/20/28px scale still binds that surface;
+the reference theme file is the only place that also uses 13px and 22px to
+match the reference frames.
+
+Honesty rules still bind this surface:
+
+- Demo data is visible only with `?demo=1` and the label “Beispieldaten”.
+- One refuted claim makes the run “widerlegt”. Zero claims, an unfinished
+  audit, incomplete execution, or unknown integrity stay at most “unklar”.
+- `integrity=failed`, a bad shape, or counts that disagree with the claims
+  render “Nachweis beschädigt oder inkonsistent”. Confirmed claims from that
+  run are not shown and are not counted.
+- Hash-only evidence shows “Hash only · signature not checked”. “Integrität
+  ist keine Freigabe.” stays visible. HMAC text appears only when the
+  projection integrity is `hmac`.
+- The browser doctor never uses a green confirmed pill. Isolation stays
+  unverified. Recheck in the browser ends as “Kein Auditdienst verbunden”.
+- Filters in the query string apply to the table and the figures above it.
+
 Derived export headlines describe the presence of recorded claims without
 inventing a quotation or inferring completion. Both Python exports and local-folder
 derived exports say “Your agent made recorded claims.” when claims exist; with

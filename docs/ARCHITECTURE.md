@@ -106,6 +106,30 @@ The agent-facing `agent-status` deliberately has no help output: malformed
 arguments return `not_checkable` with exit code 2. Its usage belongs in the
 human-facing [agent setup guide](AGENT-SETUP.md).
 
+## Reference workspace and run views
+
+Human commands `truthlens workspace` and `truthlens runs` project an existing
+ledger into a run view. They do not replace `truthlens init LEDGER`, the
+read-only `truthlens doctor`, or the legacy human tool `truthlens mcp --root`.
+`TRUTHLENS_REFERENCE=0` disables the new commands with exit 2 and leaves
+ledgers in place. The projection is not a second ledger, audit, or D34 status.
+
+| Source | Responsibility |
+|---|---|
+| [run_view.py](../src/truthlens/run_view.py) | Fail-closed review summary, claim and timeline projection. |
+| [workspace_store.py](../src/truthlens/workspace_store.py), [workspace_cmd.py](../src/truthlens/workspace_cmd.py) | Project file, init, unlink, read-only doctor, local synthetic test, repair. |
+| [runs_cmd.py](../src/truthlens/runs_cmd.py), [run_catalog.py](../src/truthlens/run_catalog.py) | List, show, recheck and quarantined import. |
+| [capture_lifecycle.py](../src/truthlens/capture_lifecycle.py) | Fixture-gated start. Unqualified harnesses do not open a ledger. |
+| [human_io.py](../src/truthlens/human_io.py) | `--json`, `--quiet` and `--no-color` for the new commands. |
+| [schemas/](../schemas/) | Draft run-view, workspace-config and diagnostic-report schemas. |
+| [view-projections-v1.md](spec/view-projections-v1.md) | Projection rules. Event-schema decisions stay in the frozen spec. |
+| [viewer/src/reference/](../viewer/src/reference/) | Reference routes `/runs`, `/reports`, `/agents`, `/sources`, `/settings`, `/doctor`. |
+
+The viewer route `/` remains the evidence workspace. Reference routes are an
+additional surface. A labelled demo catalog is served only with `?demo=1`.
+Capture qualification for a live Agent Zero, Codex, Claude Code or agy
+harness is not claimed here.
+
 ## Trust and deployment limits
 
 **Integrity is not approval.** Only a verified HMAC context supports a signature
