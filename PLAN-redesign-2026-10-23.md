@@ -17,7 +17,7 @@ Freigabe: Petrol & Porcelain als Standard, Cool Graphite als Alternative; Plus J
 
 **Stack:** Bestehendes React/TypeScript/Vite, vorhandene Radix-/shadcn-Primitives, Renderkit, Vitest, Playwright und axe. Python-Standardbibliothek für den kleinen Lesedienst; keine neue Agentenruntime. Zusätzliche Bibliotheken nur bei nachgewiesenem Bedarf und geklärter Lizenz.
 
-**Referenzen:** Inbox-README; `01-redesign-plan/TruthLens-Workspace-UX-Umbau-SPECC-v1.0.md`; ausgewählte P0-Anforderungen aus `03-work-order/`; lokale Quellen aus 02/04/05. Materialwurzel: `/home/codex/truthlens-inbox/2026-10-23-redesign/`.
+**Referenzen:** Inbox-README; `01-redesign-plan/TruthLens-Workspace-UX-Umbau-SPECC-v1.0.md`; ausgewählte P0-Anforderungen aus `03-work-order/`; lokale Quellen aus 02/04/05. Materialwurzel: `$HOME/truthlens-inbox/2026-10-23-redesign/`.
 
 **Basis:** #155 ist inzwischen auf main integriert (`f30320a`). Phase A startet unabhängig darauf. Eine spätere Backend-Umsetzung beginnt erst nach gesonderter Freigabe auf aktuellem main.
 

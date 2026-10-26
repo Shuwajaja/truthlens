@@ -142,7 +142,7 @@ visual parity remain explicitly unqualified.
 ## Overview visual parity, 26 October 2026
 
 The owner-approved reference is the four desktop/mobile shots and `src.html` in
-`/home/codex/specs/truthlens-design/`. Step 2 changes the human overview only.
+`$HOME/specs/truthlens-design/`. Step 2 changes the human overview only.
 Use a centered 1208px column, compact TruthLens header, quiet opening sentence,
 320px score card beside a two-by-two chart grid, and compact latest-run rows in
 one bordered list. On mobile use 12px page gutters, a full-width score, and a
@@ -191,7 +191,7 @@ Screenshot evidence for this local-only task stays gitignored.
 
 ## Workspace overview, 25 October 2026
 
-The approved overview reference is `/home/codex/specs/truthlens-design/src.html`,
+The approved overview reference is `$HOME/specs/truthlens-design/src.html`,
 with its `DATEN.md` field inventory and shared `DESIGN.md`. Implement the workspace
 overview in the existing Runs route (`?view=runs`), now also the fresh workspace
 landing page. Explicit run URLs, restored tabs and the existing run review remain
