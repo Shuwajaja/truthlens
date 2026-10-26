@@ -1,3 +1,59 @@
+## Run detail visual parity — local implementation, 26 October 2026
+
+Branch `design/run-detail-v3`, base `49d0425`. Red checkpoint `a5ead77`
+recorded 9 failures before implementation (one proposed-criterion fixture was
+initially incomplete and corrected without changing the validator). Implementation
+`0f2240b149b88c229856d7e247a80793b757d28a`, tree
+`9a693f26fae31830a89bf28cc108abe39af9224a`; later changes are evidence/status only.
+[Viewer contract](../viewer/DESIGN.md),
+[manual review command](UI-PIPELINE.md#overview-visual-parity-26-october-2026).
+
+Selecting a run now opens the compact German/English summary, recorded project,
+agent and time, criterion ring/status counts, claim cards, claim/evidence gap rows
+and sequence-ordered timeline. Fixed Why templates use recorded fields only;
+missing claims, criteria, references, evidence and reasons remain explicit.
+Claim findings stay separate from criterion results; no overall verdict,
+verification claim or human approval is invented. Integrity is not approval.
+Details retains the existing English inspection/download/preview/comparison
+workspace and its theme preference. No new I/O, remote assets or dependencies.
+
+On the final code, `cd viewer && TZ=UTC DEBUG_PRINT_LIMIT=600 npm test` and
+`TZ=Europe/Berlin DEBUG_PRINT_LIMIT=600 npm test` each observed **465 passed /
+49 files**, including language/style/theme checks and all five toolbar builds.
+The dedicated run-detail file has 13 passing tests. Existing jsdom scrollTo
+notices remain. With `umask 022`, repo-local venv PATH, `TMPDIR=$PWD/.t` and
+`PYTHONPATH=$PWD/src`, `TZ=UTC .venv/bin/python -m pytest -q -rs --tb=short
+--basetemp=.t/r3u` and `TZ=Europe/Berlin .venv/bin/python -m pytest -q -rs
+--tb=short --basetemp=.t/r3b` each observed **795 passed, 2 skipped, 1 xfailed,
+21 subtests passed**. Skips need host-only tl-agent/sudo fixtures; the known
+same-UID /proc risk remains an expected failure. No live isolation or real user
+approval is qualified. Ruff (`check src tests`), viewer lint, brand/TypeScript/Vite
+build, review-script syntax and final diff checks passed.
+
+Author self-review fixed Details heading focus, returning to the summary after
+secondary evidence navigation and language metadata timing; focus/navigation
+regressions were witnessed red-to-green. This is independent-style author review,
+not independent security approval. The backend/frozen-contract/wire/dependency
+and deployment diff is empty. G1/G2, D34 and agent STATUS ONLY access are unchanged.
+
+**Rendered parity and browser accessibility remain unqualified.**
+`node scripts/review-overview.mjs` reports missing Chromium before starting a
+listener. No screenshots or axe scans were produced. The extended manual script
+captures run detail at 1440×900/390×844, including full-page, Why, menu,
+German/English, synthetic empty state, reduced motion and Details navigation when
+run on the Chrome review machine. Exact wrapping/spacing, touch, zoom,
+screen-reader behavior and unrestricted axe still need that review. Neutral
+unwitnessed gaps, no invented run verdict/seal/diagnoses, all four criterion states
+and real metadata intentionally differ from the example mockup.
+
+Earlier Python attempts exposed copied venv import pointers and an overlong Unix
+socket test path. Only ignored in-repo pointers and shorter test basetemps were
+used to correct the environment; no backend code/tests/assertions changed.
+The requested **untracked `PR_BODY.md`** records failures, fixes, evidence paths,
+remaining visual gaps, risks and follow-ups. Raw evidence remains gitignored
+inside this repo under the task's repo-only limit. No push, PR, merge, public
+change, server setup, browser installation or Docker change occurred.
+
 ## Overview visual parity — local implementation, 26 October 2026
 
 Branch `design/overview-v2`, base `553f400`. Red checkpoint `ccbe1a9` witnessed
