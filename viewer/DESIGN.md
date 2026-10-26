@@ -1,5 +1,31 @@
 # TruthLens Viewer — Workspace design contract
 
+## Run detail polish, 26 October 2026
+
+Step 3b keeps the summary's existing geometry, data joins and honesty boundary.
+Use round inline SVG check/cross/question icons beside visible result words and
+a right-aligned pill-shaped native Why disclosure with a 44px hit target. Keep
+criterion status separately labelled when claims have their own findings; every
+`claim_unwitnessed` stays a red gap, including beside an unverified criterion.
+Multiple findings remain individually visible. No claim uses criterion status as
+its finding. Missing reasons stay explicit; never assert no evidence was found.
+Supported comparison connectors are green and solid; gaps are red and dashed
+with a red-tinted evidence cell; unverified/proposed criterion prefixes are grey
+questions. Keep visible words alongside all shapes.
+
+Timeline dots use blue for recorded human actors, green only for wrapper/system
+test reports with positive passed and zero failed counts and no nonzero exit,
+red for recorded failures, and grey otherwise. Exit 0, file records and agent
+claims never establish a passed check. Test timeout/isolation exits (124/125)
+stay grey absent recorded failed tests. Dots share a vertical line; timestamps
+use the body font, tabular figures and right alignment at both breakpoints.
+Run-summary focus uses the green accent in `:focus-visible`; suppress only the
+non-keyboard heading outline while retaining programmatic navigation focus.
+German fixed labels include Befund; raw field values remain recorded text.
+No new dependencies, I/O, assets, contracts or agent access. Author self-review
+does not qualify independent security approval. Browser geometry, focus and axe
+need Chrome review at 1440×900 and 390×844; DOM checks alone do not qualify them.
+
 ## Run detail visual parity, 26 October 2026
 
 Step 3 applies the approved `desktop-lauf*.png` / `mobile-lauf*.png` geometry
