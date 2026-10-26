@@ -46,9 +46,9 @@ checkout or with a long `TMPDIR`. The working directory must be writable;
 creation or socket failures produce only `Demo unavailable.` and exit 2.
 It then queries the unchanged real status client, which must return
 `not_checkable` (relative socket paths are refused). The production socket path
-and its checks are unchanged. No registry, audit, key, service, root privilege, TCP listener
-or model client is needed. Fake green is never production proof. There is no
-adapter option or environment switch enabling the demo client. This is Linux
+and its checks are unchanged. No registry, audit, key, service, root privilege,
+TCP listener or model client is needed. Fake green is never production proof.
+There is no adapter option or environment switch enabling the demo client. This is Linux
 code qualification, not macOS/Windows isolation support. Demo exit codes are 0
 for the completed synthetic demonstration and 2 for a fixed unavailable message.
 
