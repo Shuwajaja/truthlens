@@ -1,3 +1,59 @@
+## Overview visual parity — local implementation, 26 October 2026
+
+Branch `design/overview-v2`, base `553f400`. Red checkpoint `ccbe1a9` witnessed
+**7 failing acceptance tests** before implementation. Code/tests/design docs:
+`beaf0667221e48ac05ec5f5bb736768debf678bd`, tree
+`4500ae041498496603daf3d0d6074f1f7384baea`; subsequent edits are evidence/status
+only. [Viewer contract](../viewer/DESIGN.md) and
+[manual review command](UI-PIPELINE.md#overview-visual-parity-26-october-2026).
+
+The human overview now uses the approved compact header, quiet German summary,
+real criteria score ring, two-by-two charts with stacked criterion columns,
+mobile chart strip, and latest-run rows with explicit criterion-status pills.
+English overview copy remains available through a fixed table; recorded text
+stays exact. Working tabs/navigation/local opening/catalog controls move into
+the small menu. Existing run detail, explicit connection/download boundaries,
+local fonts and safe text rendering remain. No invented overall run verdict,
+verified-ledger seal or approval. Integrity is not approval.
+
+On the final code, `cd viewer && TZ=UTC npm test` and
+`TZ=Europe/Berlin npm test` each observed **445 passed / 47 files**, including
+language/style/theme checks and all five toolbar build variants. Existing jsdom
+scrollTo notices remain. Python was unchanged; with repo-local venv PATH/TMPDIR,
+current-source PYTHONPATH and umask022,
+`TZ=UTC .venv/bin/python -m pytest -q -rs --tb=short --basetemp=.t/ov2u2` and
+`TZ=Europe/Berlin .venv/bin/python -m pytest -q -rs --tb=short --basetemp=.t/ov2b` each
+observed **795 passed, 2 skipped, 1 xfailed, 21 subtests passed**. Host-only
+fixtures explain the skips; the known same-UID /proc risk remains an expected
+failure. No live isolation or real human approval is qualified.
+
+`.venv/bin/ruff check src tests`, Viewer lint, production build (TypeScript/brand/Vite),
+static token/language/theme checks, browser-script syntax and final diff checks
+passed. The complete backend/frozen-contract/dependency diff is empty: G1/G2,
+broker/wire/adapter, D34 and STATUS ONLY for agents are unchanged. Author
+self-review fixed focus across run/tab transitions, screen-reader pill
+associations and explicit development-fixture labelling with red-to-green
+regressions. This is the requested independent-style self-review, not an
+independent security approval.
+
+**Visual/browser qualification remains open.** Playwright is installed but its
+Chromium executable is absent. `node scripts/review-overview.mjs` reports
+unavailable before starting a server; no screenshots or axe scans were produced.
+The four approved shots/source were inspected, but exact rendered parity, touch,
+zoom, screen-reader behavior and unrestricted axe remain untested. The manual
+script captures 1440×900/390×844 into gitignored `.screenshots/overview-v2` when
+an existing browser is available. Criteria metrics, neutral signature notice,
+real timestamps, metadata disclosures and English secondary tools intentionally
+differ from the mockup's invented run-pass data. Run detail styling is deferred.
+
+The first Python run failed one gate test because copied venv import pointers
+referenced older checkouts. Repairing only the ignored repo-local pointer made
+the focused test and both full suites pass; no product/assertion change. Earlier
+viewer selector/focus failures and their fixes, exact evidence paths, scope,
+risks and follow-ups are recorded in the requested **untracked `PR_BODY.md`**.
+No push, PR, merge, deployment, host setup, public change, new dependency or
+Docker change occurred.
+
 ## Separate status-reader role — local qualification, 25 October 2026
 
 Branch `fix/status-reader-role`, base `110dbb6`; trial item **4** only.
