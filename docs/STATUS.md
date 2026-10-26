@@ -1,3 +1,43 @@
+## Derived export headlines — local checks, 26 October 2026
+
+Branch `improve/loop-8`, base `862401eb`. Python export and browser local-folder
+projection previously invented “Your agent said: Done.” for every recorded claim,
+including incomplete work. Both now say “Your agent made recorded claims.”;
+actual claim text, findings, no-claim wording and trust metadata are preserved.
+Existing exports retain their old wording until regenerated. Current React
+components do not consume this headline field; no visual changes.
+
+Red tests-only checkpoint `eb17af54`: Python `tests/test_export_headline.py`
+observed **3 failed, 1 passed**; the local-folder Vitest headline target observed
+**3 failed, 1 passed, 35 filtered/skipped**. Failures were the fabricated quote.
+The same targets after the fix observed **4 passed** each (same viewer filter).
+Tested implementation `3273cd69c973581487afc8ab84cb21cfa58035b0`, tree
+`47f4363032b9cc4abbd943fad7bc01b28ad72b34`; subsequent edits are docs only.
+
+With `umask 022`, repo venv PATH, `PYTHONPATH="$PWD/src"`, `TMPDIR="$PWD/.t"`,
+`TZ=UTC .venv/bin/python -m pytest -q -ra --tb=short --basetemp=.t/l8utc`
+and the sequential Europe/Berlin run with `.t/l8berlin` each observed
+**812 passed, 2 skipped, 1 xfailed, 21 subtests passed**. Separate-UID host
+prerequisites are unavailable; same-UID key access remains expected failure.
+Only ignored in-repo venv import/script pointers were corrected; no installation.
+
+From `viewer/`, sequential `TZ=UTC DEBUG_PRINT_LIMIT=300 TMPDIR="$PWD/../.t"
+npm test` and Europe/Berlin runs each observed **516 passed / 52 files**,
+including static language/style/theme checks and five toolbar builds. Existing
+jsdom `scrollTo` notices remain. `ruff check src tests`, `ruff format --check
+tests/test_export_headline.py`, Python `compileall -q src/truthlens`, viewer
+lint/build (including TypeScript) and the Node status-adapter suite (**4 passed**)
+passed. Diff checks passed.
+
+Independent-style author self-review found no blocking security/D34 finding;
+this is not independent security approval. Frozen contracts, protected security
+modules, G1 broker/wire/adapter, D34 and approval/HMAC controls are unchanged.
+Synthetic keyless regressions prove only their export/local-folder boundaries;
+no real approval, live service, separate-UID isolation or native Windows proof.
+No coverage measurement. Chromium unavailable: browser/screenshots/axe **not run**.
+`PR_BODY.md` stays untracked; local commits only. No push, PR, merge, deployment,
+host setup, Docker changes or new dependencies.
+
 ## UTF-8 CLI manifests — local checks, 26 October 2026
 
 Branch `improve/loop-7`, base `3dc00f14`. The local `report`, `export` and
