@@ -33,6 +33,14 @@ criterion outcomes. Latest-run pills explicitly say **criteria** met/unmet/not
 checkable/proposed, never an inferred overall verdict. Keep full counts and source
 metadata in a disclosure. Charts retain accessible text equivalents.
 
+Round 2 review: score-ring circles have no fill, including status segments;
+status colours apply to their strokes and to filled criterion columns. Evidence
+bars use the existing green `--accent` token. Agent chart labels stay on one line
+with ellipsis, retaining the full text and title. Latest-run buttons take their
+accessible name from visible content. Overview dates use a short German/English
+local format without seconds, with the full zoned timestamp in the time title
+and the original timestamp in `datetime`. Keep existing tokens and type scale.
+
 The mockup's invented overall verdict, moving average and verified-ledger seal
 are replaced by supported criteria data and a neutral dashed
 “Hash only · signature not checked” notice. “Integrity is not approval” remains

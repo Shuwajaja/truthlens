@@ -7,13 +7,13 @@ import run from '../fixtures/demo-run.json'
 afterEach(()=>{cleanup();localStorage.clear();history.replaceState(null,'','/');vi.restoreAllMocks();vi.unstubAllGlobals()})
 function openTools(){const summary=screen.getByText('Menü');if(!summary.closest('details')!.open)fireEvent.click(summary)}
 function load(url='/') {history.replaceState(null,'',url);vi.stubGlobal('scrollTo',()=>{});vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(run)})));render(<App/>)}
-it('lists only the supplied run and opens its canonical Overview',async()=>{load('/?view=runs');await screen.findByRole('heading',{name:'Übersicht'});expect(screen.getAllByRole('button',{name:`Lauf öffnen: ${run.run.project}`})).toHaveLength(1);fireEvent.click(screen.getByRole('button',{name:`Lauf öffnen: ${run.run.project}`}));expect(new URL(location.href).searchParams.get('run')).toBe(run.run.run_id)})
+it('lists only the supplied run and opens its canonical Overview',async()=>{load('/?view=runs');await screen.findByRole('heading',{name:'Übersicht'});expect(screen.getAllByRole('button',{name:name=>name.startsWith(run.run.project)})).toHaveLength(1);fireEvent.click(screen.getByRole('button',{name:name=>name.startsWith(run.run.project)}));expect(new URL(location.href).searchParams.get('run')).toBe(run.run.run_id)})
 it('lands on the overview and opens details only after selecting a run',async()=>{
  load('/');await screen.findByRole('heading',{name:'Übersicht'})
  expect(screen.queryByRole('region',{name:'Criteria and evidence'})).toBeNull()
  expect(screen.getAllByRole('figure')).toHaveLength(4)
  expect(fetch).toHaveBeenCalledTimes(1)
- fireEvent.click(screen.getByRole('button',{name:`Lauf öffnen: ${run.run.project}`}))
+ fireEvent.click(screen.getByRole('button',{name:name=>name.startsWith(run.run.project)}))
  expect(screen.getByRole('region',{name:'Criteria and evidence'})).toBeTruthy()
  expect(fetch).toHaveBeenCalledTimes(1)
 })

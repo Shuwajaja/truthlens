@@ -3,9 +3,13 @@ import {useId,useMemo} from 'react'
 import {aggregateRuns,criterionTotal,OVERVIEW_LIMITS,type CriterionCounts} from './cross-run-data.ts'
 import {CriterionText,RunCharts,ScoreRing} from './RunCharts.tsx'
 import {recordedTime} from '../components/overview-data.ts'
-import {overviewCopy} from './overview-copy.ts'
+import {overviewCopy,type OverviewLanguage} from './overview-copy.ts'
 import {useOverviewLanguage} from './overview-language.ts'
 import './runs-overview.css'
+function overviewTime(value:string,language:OverviewLanguage){
+ const date=new Date(value)
+ return Number.isNaN(date.getTime())?value:new Intl.DateTimeFormat(language==='de'?'de-DE':'en-GB',{weekday:'short',day:'2-digit',month:language==='de'?'2-digit':'short',hour:'2-digit',minute:'2-digit',hour12:false}).format(date)
+}
 function criterionStatus(c:CriterionCounts){
  if(c.unmet)return 'Unmet'
  if(!criterionTotal(c)||c.unverified)return 'Unverified'
@@ -37,9 +41,9 @@ export function RunsView({sources,onOpenRun,heading=true}:{sources:readonly Work
    <section className="latest-runs"><h2>{copy.latest} <span>· {copy.latestHelp}</span></h2>
     <ul>{data.latest.map((row,index)=>{
      const status=criterionStatus(row.criteria)
-     return <li key={row.runId}><button type="button" className="latest-run" onClick={()=>onOpenRun({kind:'run',sourceId:row.sourceId,runId:row.runId})} aria-label={`${copy.open}: ${row.project||copy.untitled}`} aria-describedby={`${descriptionId}-${index}`}>
+     return <li key={row.runId}><button type="button" className="latest-run" onClick={()=>onOpenRun({kind:'run',sourceId:row.sourceId,runId:row.runId})} aria-describedby={`${descriptionId}-${index}`}>
       <span className="run-dot" data-status={status} aria-hidden="true"/>
-      <span className="latest-run-main"><strong title={row.project}>{row.project||copy.untitled}</strong><span>{row.started?<time dateTime={row.started}>{recordedTime(row.started)}</time>:copy.noStart}</span></span>
+      <span className="latest-run-main"><strong title={row.project}>{row.project||copy.untitled}</strong><span>{row.started?<time dateTime={row.started} title={recordedTime(row.started)}>{overviewTime(row.started,language)}</time>:copy.noStart}</span></span>
       <span className="latest-run-agent">{row.agent||copy.noAgent} · {criterionTotal(row.criteria)?`${row.criteria.met}/${criterionTotal(row.criteria)} ${copy.met.toLowerCase()}`:copy.noCriteria}</span>
       <span id={`${descriptionId}-${index}`} className="run-status" data-status={status}>{copy[`pill${status}`]}</span><span className="run-arrow" aria-hidden="true">›</span>
      </button></li>

@@ -67,7 +67,7 @@ it('truncates long agent names to one line and retains the complete name in a ti
 })
 it.each([
  ['de','So., 11.10., 16:46'],
- ['en','Sun, 11 Oct, 16:46'],
+ ['en','Sun 11 Oct, 16:46'],
 ] as const)('shows a short localized latest-run time and retains the full time with zone (%s)',(language,expected)=>{
  const {container,doc}=overview(language)
  const time=container.querySelector('.latest-run time')!

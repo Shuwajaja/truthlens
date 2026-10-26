@@ -63,7 +63,7 @@ export function RunCharts({data,copy=overviewCopy.en}:{data:RunAggregate;copy?:O
     {data.evidence.length?<ul className="evidence-bars">{data.evidence.map(({kind,count})=><li key={kind}><span>{labels.get(kind)??kind}</span><span className="evidence-track" aria-hidden="true"><span style={{width:`${count/maxEvidence*100}%`}}/></span><b>{count}</b></li>)}</ul>:<p>{copy.noEvidence}</p>}
    </Chart>
    <Chart title={copy.agents} description={copy.agentsHelp}>
-    <ul className="agent-bars">{data.agents.slice(0,14).map(row=><li key={row.agent}><span>{row.agent||copy.noAgent}</span><div aria-hidden="true" style={{width:`${criterionTotal(row.criteria)/maxAgent*100}%`}}><CriterionBar criteria={row.criteria}/></div><b>{criterionTotal(row.criteria)?`${row.criteria.met}/${criterionTotal(row.criteria)}`:'—'}</b></li>)}</ul>
+    <ul className="agent-bars">{data.agents.slice(0,14).map(row=><li key={row.agent}><span title={row.agent||copy.noAgent}>{row.agent||copy.noAgent}</span><div aria-hidden="true" style={{width:`${criterionTotal(row.criteria)/maxAgent*100}%`}}><CriterionBar criteria={row.criteria}/></div><b>{criterionTotal(row.criteria)?`${row.criteria.met}/${criterionTotal(row.criteria)}`:'—'}</b></li>)}</ul>
     <details className="chart-data"><summary aria-label={copy.chartData} title={copy.chartData}><span aria-hidden="true">⋯</span></summary><ul>{data.agents.slice(0,14).map(row=><li key={row.agent}>{row.agent||copy.noAgent} · {row.runs} {copy.runs}<CriterionText criteria={row.criteria} copy={copy}/></li>)}</ul></details>
     {data.agents.length>14&&<p>{copy.agentLimit}</p>}
    </Chart>
