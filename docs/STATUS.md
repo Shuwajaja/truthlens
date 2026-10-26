@@ -1,3 +1,20 @@
+## Reference branch keeps main and the mockup gaps, 26 October 2026
+
+`cursor/reference-start-onboarding-af22` merged `origin/main` at `eb41362`
+(PR #211, which contains PR #210 `c547c61`) and then closed the remaining
+reference gaps on `12218b1`. The catalog MCP, `truthlens setup`, and the
+bare harness doctor stay. The reference redesign stays. Not merged.
+
+On `12218b1`, before this paragraph:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **538 passed (538)**.
+- `node scripts/check-language.mjs`, `check-styles.mjs`, and `check-werk-theme.mjs` passed. `npx oxlint` on the touched reference files exited 0 and still printed the existing `react(set-state-in-effect)` warning at `ReferenceApp.tsx:32`.
+- `npm run build` printed `main-CVHqS4Hn.js` at **260.60 kB**. `tsc -b` passed.
+- `ruff check src tests` passed.
+- `PYTHONPATH=src TZ=UTC /tmp/tl-venv/bin/python -m pytest tests/test_reference_commands.py tests/test_reference_demo_fixture.py tests/test_vnext_acceptance.py tests/test_setup_mcp.py tests/test_mcp_catalog.py tests/test_agent_setup.py tests/test_readme.py tests/test_architecture_docs.py -q --tb=line` printed **128 passed, 108 subtests passed**.
+
+Chrome `/opt/google/chrome/chrome` on `vite preview` of that build: 6 unrestricted axe scans, 0 violations, no page errors, no horizontal overflow at 1440×900 or 390×844. Incomplete `color-contrast` on `.tl-mark` in the three 1440 scans only. The runs subtitle is “Beispieldaten (Demo)” in mono. It does not name `/srv/truthlens-published`. Claim text is quoted. The recorded `42 passed` line shows Alle 42 Tests. Zeitablauf is 480px at 1440. The HMAC line sits in the closed developer disclosure. Doctor in the footer has a green dot and its accessible name says isolation is not checked. `run_8f3a21` stays widerlegt. Screenshots and the real doctor/setup terminal image are under `docs/screenshots/cursor/reference-start-onboarding-af22/`. `/workspace/review-tl/vorlage/` was not on this machine. CI for this head was not watched in that local run.
+
 ## Mockup match — local checks, 26 October 2026
 
 The reference surface on this branch now follows the owner Läufe and
