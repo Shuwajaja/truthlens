@@ -1,3 +1,42 @@
+## Clock rollback IDs — local checks, 26 October 2026
+
+Branch `improve/loop-5`, base `e17e5d0c`. Clock rollback previously repeated
+event IDs and broke SQLite projection rebuilds. Non-advancing ticks now retain
+the last timestamp and increment the suffix; the prefixed ULID format and ledger
+ordering by `seq` are unchanged. Red checkpoint `4012cd4b`: `PYTHONPATH="$PWD/src"
+TMPDIR="$PWD/.t" TZ=UTC .venv/bin/python -m pytest -q tests/test_ids.py
+--basetemp=.t/l5red --tb=short` observed **3 failed, 2 passed**, including the real
+SQLite UNIQUE failure. The same target with `.t/l5green` observed **5 passed**.
+
+Full suites tested production commit `9d0b9d63`, tree
+`74d940e2ac0cabec29d72f90352a364a576fc3ba`. With `umask 022`, repo venv PATH,
+`PYTHONPATH="$PWD/src"` and `TMPDIR="$PWD/.t"`, `TZ=UTC .venv/bin/python -m
+pytest -q -ra --tb=short --basetemp=.t/5u2` and the Europe/Berlin run with
+`.t/5b` each observed **800 passed, 2 skipped, 1 xfailed, 21 subtests passed**.
+An initial UTC run had **1 failed, 799 passed**: ignored copied venv import
+pointers broke the gate subprocess. Correcting only those in-repo pointers made
+the unchanged gate test pass before the full rerun. Host-only separate-UID tests
+remain skipped; the known same-UID risk remains expected failure, not a pass.
+
+From `viewer/`, `TZ=UTC DEBUG_PRINT_LIMIT=300 npm test` and
+`TZ=Europe/Berlin DEBUG_PRINT_LIMIT=300 npm test` each observed **512 passed /
+52 files**, including static checks and five toolbar builds; existing jsdom
+scrollTo notices remain. Viewer lint/build and the Node status-adapter suite
+(**4 passed**) passed. Initial ruff found RUF007 in the new test; commit
+`40349bad` replaces adjacent `zip` with `pairwise` without changing the assertion.
+The five regressions then passed in both timezones and `ruff check src tests`
+passed. Production code is unchanged from the full-suite tested commit.
+
+Independent-style author diff/security review found no blocking finding; this
+is not independent security approval. Frozen contracts, G1 broker/wire/adapter,
+D34 status-only access, approval controls, viewer and dependencies are unchanged.
+The regression uses a real keyless ledger/projection with a simulated clock;
+it proves no live isolation, signature verification or real human approval.
+No Chromium: browser/axe checks not run; no UI change. Cross-thread/process and
+pre-existing suffix overflow behavior are outside scope. No coverage measurement.
+Requested `PR_BODY.md` stays untracked. Local commits only; no push, PR, merge,
+deployment, host setup, Docker change or new dependency.
+
 ## Verdict and integrity data boundary — local checks, 26 October 2026
 
 Branch `design/verdict-integrity`, base `7a81ffb9`; tested implementation
