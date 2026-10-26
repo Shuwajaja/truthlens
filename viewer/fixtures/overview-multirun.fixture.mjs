@@ -22,7 +22,10 @@ export function overviewMultirunFixture(){
    }
   }
   for(const kind of ['command_run','file_changed','test_files_changed'])events.push({seq:events.length+1,id:`${id}-${kind}`,ts:started,type:'evidence.attached',actor:{kind:'system',id:'synthetic-fixture-generator'},summary:'Development fixture · synthetic evidence',hash:'',payload:{kind}})
-  return {verified:false,integrity:'hash-only',headline:['Synthetic development fixture; not a recorded execution.'],review_required:false,
+  // Five simulated checked-export flags exercise presentation only. No HMAC is
+  // computed and these inputs never qualify verification or a Phase F verdict.
+  const simulatedCheckedExport=index%3===1
+  return {verified:simulatedCheckedExport,integrity:simulatedCheckedExport?'hmac':'hash-only',headline:['Synthetic development fixture; not a recorded execution or signature check.'],review_required:false,
    run:{run_id:id,project:`Development fixture ${String(index+1).padStart(2,'0')}`,agent:names[agent],command:'',started,finished:null,exit_code:null,ledger_last_hash:'',events:events.length},
    counts:{green:met,red:unmet,gray:unverified,yellow:0,outline:0},criteria,events,claims:[],artifacts:[],blobs:{}}
  })

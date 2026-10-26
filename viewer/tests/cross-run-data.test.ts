@@ -27,6 +27,15 @@ describe('pure cross-run aggregation of exported fields',()=>{
   expect(result.totalRuns).toBe(1);expect(result.criteria.met).toBe(0)
   expect(result.latest[0]).not.toHaveProperty('status')
  })
+ it('counts only the first accepted snapshot integrity and keeps unknown results neutral',()=>{
+  const a=entry(),checked=structuredClone(a),unknown=entry('unknown')
+  checked.doc.verified=true;checked.doc.integrity='hmac'
+  delete (unknown.doc as Partial<typeof unknown.doc>).integrity
+  const result=aggregateRuns([a,checked,unknown])
+  expect(result.integrity).toEqual({'signature-checked':0,'hash-only':1,open:1,failed:0})
+  expect(result.duplicates).toBe(1)
+  expect(result.latest.map(row=>row.integrity)).toEqual(['hash-only','open'])
+ })
  it('handles prototype-like agent names and unknown evidence kinds without object-key collisions',()=>{
   const a=entry();a.doc.run.agent='__proto__'
   a.doc.events=[{...a.doc.events[0],type:'evidence.attached',payload:{kind:'__proto__'}}]

@@ -85,6 +85,16 @@ are explicitly labelled synthetic inputs, not recorded witnesses. Compare the
 real fixture's layout with the approved lauf shots without expecting their
 invented numbers, overall verdict, verification seal or generated diagnoses.
 
+Step 5 retains criterion ratios and criterion-labelled pills: RunDoc lacks the
+audit checks/authentication/conclusion/input provenance required for Phase F's
+shared verdict projection. There is no pass-rate chart or inferred verdict.
+The header's Stand / As of is the newest accepted loaded run start, formatted in
+Europe/Berlin; no dated run means an explicit unavailable time. The script checks
+the single-run source time, newest synthetic time and undated/empty states.
+Integrity seals describe supplied **export** results, with green only for
+`verified === true && integrity === 'hmac'`; this browser checks no signatures.
+Hash-only/unchecked stay grey, and empty workspaces have no invented check result.
+
 The multi-run entry is `viewer/fixtures/overview-multirun.fixture.html`, served
 only during local development/manual review and absent from production output.
 It renders the real shell/overview/run-summary components; it does not exercise
@@ -94,6 +104,11 @@ label. The script captures `overview-multirun-1440.png`,
 `overview-multirun-full-1440.png`, `overview-multirun-390.png` and
 `overview-multirun-full-390.png`; it also checks chart marks/counts, long accessible
 names, German/English copy, mobile chart keys/buttons and keyboard run selection.
+Five synthetic documents carry simulated checked-export flags and nine are
+hash-only. Mixed seals count these separately; no all-verified claim follows.
+`run-checked-export-synthetic-1440.png` and
+`run-checked-export-synthetic-390.png` capture the checked-export detail state,
+with unrestricted axe. These flags test rendering, never HMAC verification.
 The production empty-state check still asserts no data requests or charts; emitted
 JS/HTML is checked for absence of the synthetic fixture input. No fixture is
 imported by the product entry. Browser/axe results remain unavailable on hosts

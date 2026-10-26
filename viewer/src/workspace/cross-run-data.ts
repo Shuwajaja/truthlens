@@ -1,4 +1,8 @@
 /** Human-facing, in-memory aggregation. No audit projection or I/O. */
+import {integrityBadge} from '../lib/status-badge.ts'
+import type {WorkspaceSource} from './navigation-types.ts'
+export type ExportIntegrity = ReturnType<typeof integrityBadge>['variant']
+export const exportIntegrityStates:ExportIntegrity[]=['signature-checked','hash-only','open','failed']
 export const OVERVIEW_LIMITS = {sources:1000, runs:200, recordsPerRun:10_000, totalRecords:100_000, text:4096, latest:14} as const
 export const criterionStates = ['met','unmet','unverified','proposed'] as const
 export type CriterionState = typeof criterionStates[number]
@@ -6,13 +10,14 @@ export type CriterionCounts = Record<CriterionState,number>
 export const criterionTotal=(c:CriterionCounts)=>criterionStates.reduce((n,s)=>n+c[s],0)
 export type OverviewRun = {
  sourceId:string; runId:string; project:string; agent:string; started:string|null
- criteria:CriterionCounts; reviewRequired:boolean
+ criteria:CriterionCounts; reviewRequired:boolean; integrity:ExportIntegrity
 }
 export type RunAggregate = {
  totalRuns:number; criteria:CriterionCounts; latest:OverviewRun[]
  agents:{agent:string; runs:number; criteria:CriterionCounts}[]
  evidence:{kind:string; count:number}[]
  excluded:number; duplicates:number; omitted:number
+ integrity:Record<ExportIntegrity,number>
 }
 const counts = ():CriterionCounts => ({met:0,unmet:0,unverified:0,proposed:0})
 const record = (v:unknown):v is Record<string,unknown> => typeof v==='object'&&v!==null&&!Array.isArray(v)
@@ -65,7 +70,9 @@ function readEntry(value:unknown,budget:WorkBudget){
  // stay visible as undated; never substitute the wall clock or array position.
  const instant=/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?(?:Z|[+-]\d\d:\d\d)$/.test(run.started)?Date.parse(run.started):NaN
  const row:OverviewRun={sourceId:value.sourceId,runId:run.run_id,project:run.project,agent:run.agent,
-  started:Number.isFinite(instant)?run.started:null,criteria,reviewRequired:doc.review_required}
+  started:Number.isFinite(instant)?run.started:null,criteria,reviewRequired:doc.review_required,
+  integrity:doc.integrity==='hmac'||doc.integrity==='hash-only'||doc.integrity==='failed'?
+   integrityBadge({verified:doc.verified===true,integrity:doc.integrity}).variant:'open'}
  return {row,instant,evidence}
 }
 
@@ -74,7 +81,7 @@ function readEntry(value:unknown,budget:WorkBudget){
  * Criteria, exit codes and claim findings never become a Phase F run verdict.
  */
 export function aggregateRuns(input:unknown):RunAggregate{
- const result:RunAggregate={totalRuns:0,criteria:counts(),latest:[],agents:[],evidence:[],excluded:0,duplicates:0,omitted:0}
+ const result:RunAggregate={totalRuns:0,criteria:counts(),latest:[],agents:[],evidence:[],excluded:0,duplicates:0,omitted:0,integrity:{'signature-checked':0,'hash-only':0,open:0,failed:0}}
  if(!Array.isArray(input))return result
  result.omitted=Math.max(0,input.length-OVERVIEW_LIMITS.runs)
  const seen=new Set<string>(),rows:{row:OverviewRun;instant:number}[]=[]
@@ -86,6 +93,7 @@ export function aggregateRuns(input:unknown):RunAggregate{
   const {row}=entry
   if(seen.has(row.runId)){result.duplicates++;continue}
   seen.add(row.runId);rows.push(entry);result.totalRuns++
+  result.integrity[row.integrity]++
   const agent=agents.get(row.agent)??{agent:row.agent,runs:0,criteria:counts()}
   agent.runs++
   for(const s of criterionStates){result.criteria[s]+=row.criteria[s];agent.criteria[s]+=row.criteria[s]}
@@ -97,4 +105,13 @@ export function aggregateRuns(input:unknown):RunAggregate{
  result.agents=[...agents.values()]
  result.evidence=[...evidence].map(([kind,count])=>({kind,count}))
  return result
+}
+
+/** Shared bounded collection keeps the header and charts on the same snapshots. */
+export function aggregateWorkspaceRuns(sources:readonly WorkspaceSource[]):RunAggregate{
+ const entries=[]
+ outer:for(const source of sources.slice(0,OVERVIEW_LIMITS.sources))for(const doc of source.runs.values()){
+  entries.push({sourceId:source.sourceId,doc});if(entries.length>OVERVIEW_LIMITS.runs)break outer
+ }
+ return aggregateRuns(entries)
 }

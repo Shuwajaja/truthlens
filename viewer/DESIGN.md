@@ -1,5 +1,39 @@
 # TruthLens Viewer — Workspace design contract
 
+## Verdict and integrity data boundary, 26 October 2026
+
+Step 5 retains criterion pills, the criterion ring and unsmoothed criterion-ratio
+trend. RunDoc does not contain Phase F's audit version, checks (including required
+flags, outcomes and evidence/criterion joins), conclusion, authentication or input
+digests. Its criteria, claims, exit code and integrity cannot reproduce
+`project_status` or its fixed reason codes. No overall verdict, passed-run count
+or pass-rate trend is inferred, and no Python/export/wire/legacy MCP change is made.
+
+Replace the hardcoded hash-only notice with the loaded export's integrity result.
+Only `verified === true && integrity === 'hmac'` gets a green seal stating that
+the protocol was unchanged and HMAC checked **at export**. Hash-only and unchecked
+signatures stay neutral grey; failure is red. Mixed sets list actual counts for
+each state across accepted, deduplicated loaded runs; they never claim all verified.
+Keep the check scope explicit: the browser performs no signature verification.
+Run detail and source details use the same guard. Empty workspaces report no
+integrity result. Integrity is not approval stays visible.
+
+The compact header adds Stand / As of from the latest valid loaded run **start**,
+following the overview's bounded acceptance and deduplication rules. Use short
+German/English dates in Europe/Berlin, with the zone visible and a full zoned
+timestamp in the title. With no dated run, say the time is unavailable; never
+substitute load time, wall clock, an unloaded catalog entry or an example date.
+Keep explicit development fixture provenance visible, with no example label in
+production. Preserve the local font, existing tokens and 12/14/16/20/28px scale;
+warnings stay grey, with no amber, network, dependencies or new assets.
+
+Acceptance: red-first tests cover the integrity guard and mixed/deduplicated
+counts, no false verdict, empty/undated data, latest loaded start, timezone/DST
+and language. Extend the synthetic fixture and manual review script to cover
+checked and hash-only exports (synthetic flags never prove verification).
+Run npm test in UTC and Europe/Berlin, lint and build. Chrome/axe/screenshots at
+1440×900 and 390×844 remain for VPSMan; no browser installation or network here.
+
 ## Overview with many or one run, 26 October 2026
 
 Step 4 keeps the approved palette, local fonts, 12/14/16/20/28px type scale,

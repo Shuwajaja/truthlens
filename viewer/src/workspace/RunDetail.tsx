@@ -1,5 +1,7 @@
 import {useId,useMemo,useRef,type ReactNode} from 'react'
 import type {Claim,Criterion,RunDoc,RunEvent} from '../types.ts'
+import {integrityBadge} from '../lib/status-badge.ts'
+import {OverviewIntegrity} from './OverviewIntegrity.tsx'
 import {ScoreRing} from './RunCharts.tsx'
 import {criterionStates,type CriterionCounts} from './cross-run-data.ts'
 import {overviewCopy,type OverviewCopy} from './overview-copy.ts'
@@ -92,7 +94,7 @@ export function RunDetail({doc,onRuns}:{doc:RunDoc;onRuns:()=>void}){
     <div className="run-detail-statuses">{criterionStates.map(status=><span key={status} className="criterion-pill" data-criterion={status}>{copy[status]} {counts[status]}</span>)}</div>
     <p className="run-detail-time">{time(doc.run.started,copy.noStart)}</p>
    </div>
-   <div className="run-detail-boundary"><p className="overview-seal">{copy.hashOnly}</p><p>{copy.approval}</p></div>
+   <div className="run-detail-boundary"><OverviewIntegrity integrity={integrityBadge(doc).variant} copy={copy}/><p className="integrity-scope">{copy.integrityScope}</p><p>{copy.approval}</p></div>
   </section>
   <section className="run-detail-claims" aria-labelledby={`${id}-claims`}><h2 id={`${id}-claims`}>{copy.claimsTitle}</h2>
    {!rows.length?<p>{copy.noCriteria}</p>:<><div ref={strip} className="claim-cards" role="region" aria-label={copy.claimStrip} tabIndex={0}>

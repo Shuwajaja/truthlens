@@ -21,7 +21,7 @@ export function Review(){
  const shell=useRef<WorkspaceHandle>(null),mobile=useMobile(),wide=useWide()
  const [selected,setSelected]=useState<RunReference|null>(null)
  const doc=selected?source.runs.get(selected.runId):undefined
- return <WorkspaceShell ref={shell} overview={!doc} sourceLabel={source.label} navigation={null} inspector={null} lens="client" mobile={mobile} wide={wide} inspectorAvailable={false} inspectorOpen={false} onInspectorOpenChange={()=>{}} runSummaryKey={doc?.run.run_id} runSummary={doc?<RunDetail doc={doc} onRuns={()=>setSelected(null)}/>:undefined}>
+ return <WorkspaceShell sources={[source]} ref={shell} overview={!doc} sourceLabel={source.label} navigation={null} inspector={null} lens="client" mobile={mobile} wide={wide} inspectorAvailable={false} inspectorOpen={false} onInspectorOpenChange={()=>{}} runSummaryKey={doc?.run.run_id} runSummary={doc?<RunDetail doc={doc} onRuns={()=>setSelected(null)}/>:undefined}>
   <RunsView sources={[source]} onOpenRun={setSelected}/>
  </WorkspaceShell>
 }

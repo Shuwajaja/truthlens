@@ -21,7 +21,7 @@ it('draws an accessible SVG ring from the recorded criterion counts',()=>{
  const ring=screen.getByRole('img',{name:`${met} of ${doc.criteria.length} criteria met`})
  expect(ring.tagName.toLowerCase()).toBe('svg')
  expect(ring.querySelectorAll('circle[data-criterion]').length).toBeGreaterThan(0)
- expect(screen.getByText('Hash only · signature not checked')).toBeTruthy()
+ expect(within(ring.closest('section')!).getByText('Hash only · signature not checked')).toBeTruthy()
 })
 it('shows criteria as vertical stacked columns with an exact text equivalent per run',()=>{
  const doc=structuredClone(fixture) as RunDoc
@@ -67,6 +67,7 @@ it('lands on the German overview with chrome in a closed menu and switches fixed
  load()
  await screen.findByText('TruthLens prüft, ob KI-Agenten wirklich getan haben, was sie behaupten.')
  const main=screen.getByRole('main'),shell=main.closest('.workspace-app')!
+ expect(screen.getByRole('banner').querySelector('.overview-stand time')?.getAttribute('datetime')).toBe(fixture.run.started)
  expect(shell.getAttribute('data-overview')).toBe('true')
  expect(within(screen.getByRole('banner')).getByText('Lokale Testaufzeichnung')).toBeTruthy()
  const tools=screen.getByText('Menü').closest('details')!
