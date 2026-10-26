@@ -162,7 +162,7 @@ combined diff/Markdown drawer uses labelled synthetic Markdown because that
 export contains none. Agent Story orders supported recorded events by `seq`,
 opens exact events, and displays exported statuses without deriving verification.
 Unknown types are omitted; missing events are never inferred. Claim steps stay
-yellow (including supported claims); only `met` criteria can appear green.
+neutral grey (including supported claims); only `met` criteria can appear green.
 “Review required” is a separate policy note, not a recorded event or export status.
 The integrity notice remains visible; its floating badge clears the drawer Close
 button at narrow widths.
