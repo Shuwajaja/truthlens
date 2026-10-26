@@ -7,7 +7,7 @@ export const copy = {
   check: '+ Lauf prüfen',
   exportJson: 'JSON exportieren',
   recheck: 'Erneut prüfen',
-  runs: 'Übersicht',
+  runs: 'Läufe',
   checksTitle: 'Prüfdetails',
   checksBody: 'Was je Anforderung tatsächlich geprüft wurde. Ein Ergebnis ist keine Freigabe.',
   checksEmpty: 'Noch keine geprüfte Anforderung.',
@@ -56,7 +56,7 @@ export const copy = {
   stepLoad: 'Lauf laden oder Demo ansehen',
   stepLoadBody: 'Lade die JSON-Projektion oder öffne gekennzeichnete Beispieldaten. Eine geladene Datei ist kein Live-Audit.',
   stepRead: 'Ergebnis verstehen',
-  stepReadBody: 'TRUE, FALSE und UNKNOWN sind Anzeigewörter. Sie beschreiben die Projektion, nicht ein Urteil dieser Seite.',
+  stepReadBody: 'bestätigt und widerlegt nur bei HMAC. Ohne HMAC bleibt unklar. Die Wörter beschreiben die Projektion, nicht ein Urteil dieser Seite.',
   meanUnknown: 'Kein HMAC, fehlender Beleg oder zweifelhafte Testqualität. Das ist der Startzustand.',
   meanTrue: 'Nur bei HMAC: die aufgezeichnete Prüfung stützt die Behauptung. Das ist keine Freigabe.',
   meanFalse: 'Nur bei HMAC: die aufgezeichnete Prüfung widerspricht der Behauptung.',
@@ -83,9 +83,9 @@ export const copy = {
   claimsChecked: 'Behauptungen geprüft',
   perRun: 'pro Lauf',
   confirmedRate: 'Bestätigt',
-  rateHint: 'TRUE / alle bewerteten Aussagen, UNKNOWN zählt mit',
+  rateHint: 'bestätigt / alle bewerteten Aussagen, unklar zählt mit',
   notable: 'Auffälligster Agent',
-  refutedClaims: 'FALSE',
+  refutedClaims: 'widerlegte Behauptungen',
   noNotable: 'kein eindeutiger Abstand',
   colRun: 'Lauf',
   colTask: 'Aufgabe',
@@ -97,9 +97,10 @@ export const copy = {
   colStatement: 'Behauptung des Agenten',
   colEvidence: 'Beleg',
   colOrigin: 'Quelle',
-  confirmed: 'TRUE',
-  refuted: 'FALSE',
-  unclear: 'UNKNOWN',
+  confirmed: 'bestätigt',
+  refuted: 'widerlegt',
+  unclear: 'unklar',
+  report: 'Prüfbericht',
   damaged: 'beschädigt',
   damagedTitle: 'Nachweis beschädigt oder inkonsistent',
   damagedBody: 'Bestätigte Aussagen aus diesem Lauf werden nicht angezeigt.',
@@ -193,12 +194,14 @@ export function when(value: string, now: string): string {
   return fullStamp(value)
 }
 
-export function clock(value: string): string {
+export function clock(value: string, seconds = false): string {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return copy.unknown
-  return new Intl.DateTimeFormat('de-DE', {
+  const options: Intl.DateTimeFormatOptions = {
     hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin', hourCycle: 'h23',
-  }).format(date)
+  }
+  if (seconds) options.second = '2-digit'
+  return new Intl.DateTimeFormat('de-DE', options).format(date)
 }
 
 export function fullStamp(value: string): string {

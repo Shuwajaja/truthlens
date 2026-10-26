@@ -40,7 +40,7 @@ def test_reference_demo_matches_projection_rules():
     for item in runs:
         assert item["demo"] is True
         assert item["synthetic"] is False
-        assert item["integrity"] == "hash-only"
+        assert item["integrity"] == "hmac"
         started = datetime.fromisoformat(item["started_at"])
         assert started >= window
         if item["audit_state"] == "complete":

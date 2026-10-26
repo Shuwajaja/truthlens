@@ -567,35 +567,39 @@ def test_runs_list_prints_result_and_time(tmp_path: Path, capsys: pytest.Capture
     listed = capsys.readouterr().out
     assert "ERGEBNIS" in listed
     assert "ZEIT" in listed
-    assert "UNKNOWN" in listed
+    assert "unklar" in listed
     assert "bestätigt" not in listed
-    assert "unklar" not in listed
+    assert "widerlegt" not in listed
+    assert "→ Details: truthlens runs show run_" in listed
     assert "run_" in listed
     assert main(["runs", "list", "--root", str(tmp_path), "--json"]) == 0
     payload = json.loads(capsys.readouterr().out)
     assert payload["items"][0]["review_summary"] == "unclear"
-    assert "UNKNOWN" not in json.dumps(payload)
+    body = json.dumps(payload)
+    assert "UNKNOWN" not in body
+    assert "unklar" not in body
+    assert "bestätigt" not in body
 
 
 def test_display_labels_keep_internal_verdicts():
     from truthlens.runs_cmd import display_label, shown_word
 
-    assert display_label("confirmed") == ("TRUE", "32")
-    assert display_label("refuted") == ("FALSE", "31")
-    assert display_label("unclear") == ("UNKNOWN", "33")
-    assert display_label("confirmed", "benchmark_missing") == ("UNKNOWN", "33")
+    assert display_label("confirmed") == ("bestätigt", "32")
+    assert display_label("refuted") == ("widerlegt", "31")
+    assert display_label("unclear") == ("unklar", "33")
+    assert display_label("confirmed", "benchmark_missing") == ("unklar", "33")
     assert shown_word({"review_summary": "confirmed", "claims": [{"reason_code": "benchmark_missing"}]})[
         0
-    ] == ("UNKNOWN")
+    ] == ("unklar")
     assert shown_word(
         {"review_summary": "refuted", "integrity": "hash-only", "claims": [{"reason_code": "witnessed_fail"}]}
-    )[0] == ("UNKNOWN")
+    )[0] == ("unklar")
     assert shown_word(
         {"review_summary": "confirmed", "integrity": "hmac", "claims": [{"reason_code": "witnessed_pass"}]}
-    )[0] == ("TRUE")
+    )[0] == ("bestätigt")
     assert shown_word(
         {"review_summary": "refuted", "integrity": "hmac", "claims": [{"reason_code": "benchmark_missing"}]}
-    )[0] == ("FALSE")
+    )[0] == ("widerlegt")
 
 
 def test_status_mcp_does_not_carry_evidence():

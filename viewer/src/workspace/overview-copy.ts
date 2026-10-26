@@ -26,6 +26,7 @@ export const overviewCopy = {
   displayTrue:'TRUE', displayFalse:'FALSE', displayUnknown:'UNKNOWN', explainTrue:'Supported inside this recorded, authenticated check.', explainFalse:'The recorded check contradicts this criterion.', explainUnknown:'Required evidence or independent authentication is missing.',
   auditTitle:'Protected audit', auditMissing:'This document has no protected audit status. UNKNOWN is not taken from criteria counts.', auditScope:'Separate from criterion results. This view does not compute HMAC or the agent status.',
   commands:'Commands', files:'File changes', testFiles:'Test-file changes', reports:'Test reports', artifacts:'Artifact records', other:'Other recorded evidence',
+  skipContent:'Skip to content', navButton:'Navigation', inspector:'Inspector', closeInspector:'Close inspector', contextInspector:'Context inspector', runDetailsButton:'Run details', themeLabel:'Theme', workspaceNav:'Workspace navigation', sheetHint:'Local workspace. Reading evidence does not grant approval.', criteriaTitle:'Criteria & evidence', criteriaRegion:'Criteria and evidence', criteriaWord:'criteria', localFixture:'Local test fixture.', noLive:'No live server connection.',
  },
  de: {
   asOf:'Stand', latestStart:'Neuester geladener Laufstart', signatureChecked:'Protokoll unverändert · HMAC im Export geprüft', signatureUnchecked:'Signatur nicht geprüft', integrityFailed:'Integritätsprüfung fehlgeschlagen', integrityScope:'Prüfergebnis beim Export; diese Ansicht prüft keine Signaturen.', noIntegrity:'Kein Integritätsprüfergebnis geladen.',
@@ -53,6 +54,7 @@ export const overviewCopy = {
   displayTrue:'TRUE', displayFalse:'FALSE', displayUnknown:'UNKNOWN', explainTrue:'Innerhalb dieser aufgezeichneten, authentifizierten Prüfung belegt.', explainFalse:'Die aufgezeichnete Prüfung widerspricht diesem Kriterium.', explainUnknown:'Erforderliche Nachweise oder unabhängige Authentifizierung fehlen.',
   auditTitle:'Geschützter Audit', auditMissing:'Dieses Dokument enthält keinen geschützten Auditstatus. UNKNOWN wird nicht aus Kriterien abgeleitet.', auditScope:'Getrennt vom Kriterium. Diese Ansicht berechnet kein HMAC und keinen Agentenstatus.',
   commands:'Befehle', files:'Datei-Änderungen', testFiles:'Test-Dateien', reports:'Testberichte', artifacts:'Datei-Aufzeichnungen', other:'Weitere aufgezeichnete Belege',
+  skipContent:'Zum Inhalt', navButton:'Navigation', inspector:'Inspektor', closeInspector:'Inspektor schließen', contextInspector:'Kontextinspektor', runDetailsButton:'Laufdetails', themeLabel:'Thema', workspaceNav:'Arbeitsbereich', sheetHint:'Lokaler Arbeitsbereich. Belege lesen ist keine Freigabe.', criteriaTitle:'Kriterien und Belege', criteriaRegion:'Kriterien und Belege', criteriaWord:'Kriterien', localFixture:'Lokale Testaufzeichnung.', noLive:'Keine Live-Verbindung.',
  },
 } as const
 export type OverviewLanguage = keyof typeof overviewCopy

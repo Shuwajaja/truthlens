@@ -114,7 +114,7 @@ it('switches fixed run copy to English, retains recorded content and returns to 
 it('keeps the existing review and record inspection reachable through Details',async()=>{
  await load()
  fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}))
- expect(screen.getByRole('region',{name:'Criteria and evidence'})).toBeTruthy()
+ expect(screen.getByRole('region',{name:'Kriterien und Belege'})).toBeTruthy()
  fireEvent.click(screen.getByRole('button',{name:'Open event record'}))
  expect(screen.getByRole('heading',{name:/^Event:/})).toBeTruthy()
  fireEvent.click(screen.getByRole('button',{name:'Zurück zum Lauf'}))

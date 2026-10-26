@@ -67,27 +67,27 @@ export function WorkspaceShell({children,tabs,overview=false,runSummary,runSumma
   <main id="main-content" tabIndex={-1}>{runSummary&&<button type="button" className="run-details-button" onClick={showDetails}>{copy.runTools}</button>}{runSummary??children}</main>
  </div>
  return <div ref={root} className="app-shell workspace-app" data-lens={lens} data-navigation-open={!mobile&&navigationOpen} data-inspector-open={wide&&inspectorOpen&&inspectorAvailable}>
-  <a className="skip-link" href="#main-content">Skip to content</a>
+  <a className="skip-link" href="#main-content">{copy.skipContent}</a>
   <header className="workspace-header workspace-frame">
    <div className="workspace-brand"><img src="/logo-icon.svg" alt="" width="24" height="30"/><span>TruthLens</span></div>
-   <span className="workspace-source">{sourceLabel??(import.meta.env.DEV?'Local development · fixture':'Local workspace')}</span>
+   <span className="workspace-source">{sourceLabel??(import.meta.env.DEV?copy.fixture:copy.workspace)}</span>
    <div className="workspace-controls">
     {runSummary&&<Button variant="outline" lang={language} onClick={showSummary}>{copy.backRun}</Button>}
-    <Button variant="ghost" aria-expanded={mobile?sheet==='navigation':navigationOpen} onClick={()=>mobile?toggleSheet('navigation'):setNavigationOpen(value=>!value)}><PanelLeft aria-hidden="true"/><span>Navigation</span></Button>
-    {inspectorAvailable&&<Button ref={inspectorToggle} variant="ghost" aria-expanded={wide?inspectorOpen:sheet==='inspector'} onClick={()=>wide?onInspectorOpenChange(!inspectorOpen):toggleSheet('inspector')}><PanelRight aria-hidden="true"/><span>Inspector</span></Button>}
-    <label className="theme-select"><span className="sr-only">Theme</span><select value={theme} onChange={event=>{const next=event.target.value as ViewerTheme;setTheme(next);saveTheme(next)}}><option value="petrol-porcelain">Petrol &amp; Porcelain</option><option value="cool-graphite">Cool Graphite</option></select></label>
+    <Button variant="ghost" aria-expanded={mobile?sheet==='navigation':navigationOpen} onClick={()=>mobile?toggleSheet('navigation'):setNavigationOpen(value=>!value)}><PanelLeft aria-hidden="true"/><span>{copy.navButton}</span></Button>
+    {inspectorAvailable&&<Button ref={inspectorToggle} variant="ghost" aria-expanded={wide?inspectorOpen:sheet==='inspector'} onClick={()=>wide?onInspectorOpenChange(!inspectorOpen):toggleSheet('inspector')}><PanelRight aria-hidden="true"/><span>{copy.inspector}</span></Button>}
+    <label className="theme-select"><span className="sr-only">{copy.themeLabel}</span><select value={theme} onChange={event=>{const next=event.target.value as ViewerTheme;setTheme(next);saveTheme(next)}}><option value="petrol-porcelain">Petrol &amp; Porcelain</option><option value="cool-graphite">Cool Graphite</option></select></label>
    </div>
   </header>
   {tabs}
   <div className="workspace-grid">
-   {!mobile&&navigationOpen&&<aside className="workspace-navigation workspace-frame" aria-label="Workspace navigation">{navigation}{onOpenRun&&<div className="workspace-run-link"><Button variant="outline" onClick={onOpenRun}>Run details</Button><p>{sourceDescription??<>Local test fixture.<br/>No live server connection.</>}</p></div>}</aside>}
+   {!mobile&&navigationOpen&&<aside className="workspace-navigation workspace-frame" aria-label={copy.workspaceNav}>{navigation}{onOpenRun&&<div className="workspace-run-link"><Button variant="outline" onClick={onOpenRun}>{copy.runDetailsButton}</Button><p>{sourceDescription??<>{copy.localFixture}<br/>{copy.noLive}</>}</p></div>}</aside>}
    <main id="main-content" tabIndex={-1}>{children}</main>
-   {wide&&inspectorOpen&&inspectorAvailable&&<aside className="workspace-inspector" aria-label="Context inspector"><div className="inspector-heading"><h2>Inspector</h2><Button variant="ghost" size="sm" onClick={()=>{onInspectorOpenChange(false);inspectorToggle.current?.focus()}}>Close inspector</Button></div>{inspector}</aside>}
+   {wide&&inspectorOpen&&inspectorAvailable&&<aside className="workspace-inspector" aria-label={copy.contextInspector}><div className="inspector-heading"><h2>{copy.inspector}</h2><Button variant="ghost" size="sm" onClick={()=>{onInspectorOpenChange(false);inspectorToggle.current?.focus()}}>{copy.closeInspector}</Button></div>{inspector}</aside>}
   </div>
   <Sheet open={sheet!==null} onOpenChange={open=>{if(!open)setSheet(null)}}>
    {sheet&&<SheetContent aria-modal="true" side={sheet==='navigation'?'left':'bottom'} className={`workspace-sheet ${sheet==='navigation'?'workspace-frame':''}`} onCloseAutoFocus={event=>{event.preventDefault();if(returnFocus.current?.isConnected&&(document.activeElement===document.body||document.activeElement?.closest('[role="dialog"]')))returnFocus.current.focus()}}>
-    <SheetHeader><SheetTitle>{sheet==='navigation'?'Navigation':'Context inspector'}</SheetTitle><SheetDescription className="sr-only">Local workspace. Reading evidence does not grant approval.</SheetDescription></SheetHeader>
-    <div className="workspace-sheet-body" onClick={event=>{if(sheet==='navigation'&&(event.target as HTMLElement).closest('.nav-item'))setSheet(null)}}>{sheet==='navigation'?<>{navigation}{onOpenRun&&<Button variant="outline" onClick={()=>{setSheet(null);onOpenRun()}}>Run details</Button>}</>:inspector}</div>
+    <SheetHeader><SheetTitle>{sheet==='navigation'?copy.navButton:copy.contextInspector}</SheetTitle><SheetDescription className="sr-only">{copy.sheetHint}</SheetDescription></SheetHeader>
+    <div className="workspace-sheet-body" onClick={event=>{if(sheet==='navigation'&&(event.target as HTMLElement).closest('.nav-item'))setSheet(null)}}>{sheet==='navigation'?<>{navigation}{onOpenRun&&<Button variant="outline" onClick={()=>{setSheet(null);onOpenRun()}}>{copy.runDetailsButton}</Button>}</>:inspector}</div>
    </SheetContent>}
   </Sheet>
  </div>

@@ -1,3 +1,26 @@
+## Mockup match — local checks, 26 October 2026
+
+The reference surface on this branch now follows the owner Läufe and
+run-detail mockups: sidebar Läufe / Prüfberichte / Agenten / Quellen,
+`bestätigt` / `widerlegt` / `unklar`, and an open Zeitablauf card.
+`bestätigt` and `widerlegt` still require `integrity: hmac`. The labelled
+demo catalog is hmac and stays “Beispieldaten (Demo)”. Hash-only stays
+`unklar`. `runs list` uses the same words and keeps the HMAC gate. Legacy
+`truthlens doctor` and `truthlens init LEDGER` are unchanged. Not merged.
+
+On the working tree after those edits, before this paragraph:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **537 passed (537)**.
+- `npm run build` printed `main-DPPt4yUv.js` at **260.48 kB**. `tsc -b` passed.
+- `node scripts/check-styles.mjs`, `check-language.mjs`, and `check-werk-theme.mjs` passed. `npx oxlint` on the touched viewer files exited 0 and still printed the existing `react(set-state-in-effect)` warning at `ReferenceApp.tsx:32`.
+- `ruff check` on `runs_cmd.py`, `build_reference_demo.py`, `test_reference_commands.py`, and `test_reference_demo_fixture.py` passed.
+- `PYTHONPATH=src TZ=UTC /tmp/tl-venv/bin/python -m pytest tests/test_reference_commands.py tests/test_reference_demo_fixture.py tests/test_vnext_acceptance.py -q` printed **28 passed**. The fixture test was run again after the demo totals changed and passed.
+- Chrome `/opt/google/chrome/chrome` on `vite preview` of that build: 6 unrestricted axe scans, 0 violations, no page errors, no horizontal overflow at 1440×900 or 390×844. Incomplete `color-contrast` on `.tl-mark` in the three 1440 scans only.
+
+`run_8f3a21` displays `widerlegt`, not the mockup’s `unklar` title, because the labelled run is refuted and hmac. Agent Zero’s refuted count is 45, not 14. The CLI screenshot is real `workspace init`, `workspace doctor`, and `runs list` output from `/tmp/tl-cli`; it does not claim a publish host.
+
+Screenshots: `docs/screenshots/cursor/reference-start-onboarding-af22/`.
+
 ## Guided empty start — local checks, 26 October 2026
 
 `cursor/reference-start-onboarding-af22` adds a welcome card and three

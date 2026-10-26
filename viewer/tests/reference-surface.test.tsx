@@ -190,8 +190,8 @@ it('lists checks and labelled records, and does not open an agent control', () =
   const {unmount} = render(<ReferenceApp location="/checks?demo=1" catalog={data} />)
   expect(screen.getByRole('heading', {name: copy.checksTitle})).toBeTruthy()
   expect(screen.getByText('passes')).toBeTruthy()
-  expect(screen.getByText('UNKNOWN')).toBeTruthy()
-  expect(screen.queryByText('TRUE')).toBeNull()
+  expect(screen.getByText(copy.unclear)).toBeTruthy()
+  expect(screen.queryByText(copy.confirmed)).toBeNull()
   expect(document.querySelector('.tl-pill.confirmed')).toBeNull()
   unmount()
   render(<ReferenceApp location="/agents?demo=1" catalog={data} />)
@@ -249,18 +249,18 @@ it('keeps TRUE and FALSE off hash-only runs and shows them for HMAC', () => {
   expect(screen.queryByRole('row', {name: /run_hash/})).toBeNull()
   expect(screen.queryByRole('row', {name: /run_open/})).toBeNull()
   const hmacRow = screen.getByRole('row', {name: /run_hmac/})
-  expect(within(hmacRow).getByText('TRUE').className).toContain('confirmed')
+  expect(within(hmacRow).getByText(copy.confirmed).className).toContain('confirmed')
   expect(hmacRow.querySelector('.tl-countline .ok')).toBeTruthy()
   cleanup()
   render(<ReferenceApp location="/runs?demo=1" catalog={catalog([unsigned, unsignedRefuted])} />)
   const hashRow = screen.getByRole('row', {name: /run_hash/})
-  expect(within(hashRow).getByText('UNKNOWN').className).toContain('unclear')
-  expect(within(hashRow).queryByText('TRUE')).toBeNull()
+  expect(within(hashRow).getByText(copy.unclear).className).toContain('unclear')
+  expect(within(hashRow).queryByText(copy.confirmed)).toBeNull()
   expect(hashRow.querySelector('.tl-pill.confirmed')).toBeNull()
   expect(hashRow.querySelector('.tl-countline .ok')).toBeNull()
   const openRow = screen.getByRole('row', {name: /run_open/})
-  expect(within(openRow).queryByText('FALSE')).toBeNull()
-  expect(within(openRow).getByText('UNKNOWN')).toBeTruthy()
+  expect(within(openRow).queryByText(copy.refuted)).toBeNull()
+  expect(within(openRow).getByText(copy.unclear)).toBeTruthy()
   expect(document.querySelector('.tl-card strong.ok')).toBeTruthy()
   const rate = [...document.querySelectorAll('.tl-kpis article')].find(node => node.textContent?.includes(copy.confirmedRate))
   expect(rate?.querySelector('strong')?.className ?? '').not.toContain('ok')
@@ -297,8 +297,8 @@ it('loads an operator file and still withholds TRUE without HMAC', async () => {
   fireEvent.change(screen.getByLabelText(copy.loadFile), {target: {files: [file]}})
   expect(await screen.findByText('from file')).toBeTruthy()
   expect(screen.getByText(/Hash only/)).toBeTruthy()
-  expect(screen.queryByText('TRUE')).toBeNull()
-  expect(document.querySelector('h1 .tl-pill')?.textContent).toBe('UNKNOWN')
+  expect(screen.queryByText(copy.confirmed)).toBeNull()
+  expect(document.querySelector('h1 .tl-pill')?.textContent).toBe(copy.unclear)
   expect(screen.queryByText(copy.demo)).toBeNull()
 })
 
@@ -314,21 +314,22 @@ it('shows TRUE when the loaded run view is HMAC', async () => {
   })})], 'run.json', {type: 'application/json'})
   fireEvent.change(screen.getByLabelText(copy.loadFile), {target: {files: [file]}})
   expect(await screen.findByText('signed claim')).toBeTruthy()
-  expect(document.querySelector('h1 .tl-pill')?.textContent).toBe('TRUE')
+  expect(document.querySelector('h1 .tl-pill')?.textContent).toBe(copy.confirmed)
   expect(document.querySelector('h1 .tl-pill')?.className).toContain('confirmed')
   expect(screen.getByText(copy.loadedSource, {exact: false})).toBeTruthy()
 })
 
-it('shows UNKNOWN when the recorded test quality is doubtful', () => {
+it('shows unklar when the recorded test quality is doubtful', () => {
   const sample = run({
     run_id: 'run_doubt',
+    integrity: 'hmac',
     review_summary: 'confirmed',
     counts: {confirmed: 1, refuted: 0, unclear: 0},
     claims: [{...claim('d', 'confirmed', 'faster benchmark'), reason_code: 'benchmark_missing'}],
   })
   render(<ReferenceApp location="/runs/run_doubt?demo=1" catalog={catalog([sample])} />)
   const pill = document.querySelector('h1 .tl-pill')
-  expect(pill?.textContent).toBe('UNKNOWN')
+  expect(pill?.textContent).toBe(copy.unclear)
   expect(pill?.className).toContain('unclear')
   expect(pill?.className).not.toContain('confirmed')
 })

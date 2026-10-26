@@ -22,13 +22,16 @@ Developer details keep the stored status word.
 
 ## Reference runs surface, 26 October 2026
 
-The reference catalog has three areas: Übersicht (`/runs`), Prüfdetails
-(`/checks`), and Nachweise (`/records`). `/runs/:id` opens one task.
-Technical events sit in a closed developer disclosure. `/settings` and
-`/doctor` stay footer tools. `/` and `/?view=overview` stay the evidence
-workspace, including its honesty seals and the production “Not connected”
-state. That workspace is not this catalog and does not gain a task store,
-an orchestration panel, or an artifact gallery.
+The populated reference surface follows the owner mockups: Läufe (`/runs`),
+Prüfberichte (`/reports`, count of completed audits), Agenten (`/agents`),
+and Quellen (`/sources`). `/checks` and `/records` stay reachable. `/runs/:id`
+opens one task. The breadcrumb is TruthLens / Läufe / run id. The claim
+table is titled Prüfbericht. Zeitablauf is an open card. Technical events
+stay in a closed developer disclosure. `/settings` and `/doctor` stay footer
+tools. `/` and `/?view=overview` stay the evidence workspace, including its
+honesty seals and the production “Not connected” state. That workspace is
+not this catalog and does not gain a task store, an orchestration panel, or
+an artifact gallery.
 
 The reference surface is scoped under `.tl-ref` in
 `viewer/src/reference/theme.css`. German chrome lives only in
@@ -47,14 +50,20 @@ reference theme file is the only place that also uses 13px and 22px.
 Honesty rules still bind this surface:
 
 - Demo data is visible only with `?demo=1` and the label “Beispieldaten”.
-- Human words are display-only. TRUE and FALSE appear only when integrity
-  is `hmac`. Hash-only, unknown, and failed integrity display UNKNOWN,
+- Human words on this surface are display-only: `bestätigt`, `widerlegt`,
+  and `unklar`. `bestätigt` and `widerlegt` appear only when integrity is
+  `hmac`. Hash-only, unknown, and failed integrity display `unklar`,
   including a stored `confirmed` or `refuted` summary. A `benchmark_missing`
-  reason shows UNKNOWN even on an HMAC confirmed claim. One refuted claim
-  shows FALSE only when integrity is `hmac`. Zero claims, an unfinished
-  audit, incomplete execution, or unknown integrity stay UNKNOWN. Stored
+  reason shows `unklar` even on an HMAC confirmed claim. One refuted claim
+  shows `widerlegt` only when integrity is `hmac`. Zero claims, an unfinished
+  audit, incomplete execution, or unknown integrity stay `unklar`. Stored
   values and the D34 statuses `passed` / `failed` / `not_checkable` do not
-  change. Green and red count colours follow the same HMAC rule.
+  change. The evidence workspace and `display_labels.py` keep TRUE, FALSE,
+  and UNKNOWN. Green and red count colours follow the same HMAC rule.
+  The labelled demo catalog is `integrity: hmac` so those colors can be
+  reproduced. It stays marked Beispieldaten. The browser does not check
+  the signature. A hash-only file stays `unklar`. The demo source label
+  stays “Beispieldaten (Demo)” and never a publish path.
 - `integrity=failed`, a bad shape, or counts that disagree with the claims
   render “Nachweis beschädigt oder inkonsistent”. Confirmed claims from that
   run are not shown and are not counted.
@@ -74,11 +83,10 @@ Honesty rules still bind this surface:
 An empty `/runs` (no loaded file, no `?demo=1`) is a guided start inside the
 existing reference shell. The welcome block is one bordered card: title,
 what this browser cannot do, and the three steps. It is not a second
-product, a chart, or a decorative splash. TruthLens tokens, Plus Jakarta
-Sans, JetBrains Mono, the 228px sidebar, and the 1px card border stay.
-Spacing follows the same 8/12/16/28 rhythm as the runs page. Memory Atlas
-is a quality reference for type, cards, and sidebar rhythm only. Do not
-copy its mint palette, serif headlines, glow, or knowledge graph.
+product, a chart, or a decorative splash. The populated Läufe page and the
+run page follow the owner mockups: Plus Jakarta Sans, JetBrains Mono, the
+228px sidebar, and the 1px card border. Spacing follows the same 8/12/16/28
+rhythm. Do not add a second palette, a glow, or a decorative graph.
 
 The three steps may claim only this:
 
@@ -89,9 +97,9 @@ The three steps may claim only this:
 2. Lauf laden oder Demo ansehen keeps the file input and the link to
    `/runs?demo=1`. The demo badge appears only after that link. A loaded
    file is labelled “Geladene Datei · kein Live-Audit”.
-3. Ergebnis verstehen states that TRUE and FALSE are display words and
-   appear only when integrity is `hmac`. Hash-only, missing evidence, and
-   a doubtful test stay UNKNOWN. The words on this step are an explanation.
+3. Ergebnis verstehen states that bestätigt and widerlegt are display words
+   and appear only when integrity is `hmac`. Hash-only, missing evidence, and
+   a doubtful test stay unklar. The words on this step are an explanation.
    They are not a result, and this step does not use a green confirmed pill.
    “Integrität ist keine Freigabe.” stays visible.
 
