@@ -28,7 +28,9 @@ function overview(language:OverviewLanguage='en'){
  return {...view,doc}
 }
 it('keeps every score-ring circle hollow while retaining status strokes and filled columns',()=>{
- const {container}=overview()
+ const doc=structuredClone(fixture) as RunDoc,second=structuredClone(doc)
+ second.run.run_id='second-synthetic-fixture'
+ const {container}=render(<RunsView sources={[{sourceId:'review-fixtures',label:'Synthetic fixtures',kind:'development-fixture',runs:new Map([[doc.run.run_id,doc],[second.run.run_id,second]])}]} onOpenRun={()=>{}}/>)
  const circles=container.querySelectorAll('.score-ring circle')
  expect(circles.length).toBeGreaterThan(1)
  // jsdom normalizes SVG fill:none to transparent RGBA.
