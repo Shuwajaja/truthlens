@@ -6,6 +6,9 @@ import {RunDetail} from '../src/workspace/RunDetail.tsx'
 import {OverviewLanguageProvider} from '../src/workspace/OverviewLanguageProvider.tsx'
 import type {RunDoc} from '../src/types.ts'
 import fixture from '../fixtures/demo-run.json'
+import {readFileSync} from 'node:fs'
+
+const detailStyles=readFileSync('src/workspace/run-detail.css','utf8')
 
 afterEach(cleanup)
 function show(change?:(doc:RunDoc)=>void){
@@ -89,4 +92,14 @@ it('uses a German finding label while preserving the recorded finding value',()=
  const details=screen.getAllByRole('article')[0].querySelector('.claim-reason')!
  expect(details.textContent).toContain('Befund: supported')
  expect(details.textContent).not.toContain('finding:')
+})
+
+it('retains semantic status colours through the card summary CSS cascade',()=>{
+ const style=document.createElement('style');style.textContent=detailStyles;document.head.append(style)
+ try{
+  show()
+  const cards=screen.getAllByRole('article')
+  expect(getComputedStyle(cards[0].querySelector('.claim-results .result-status')!).color).toBe('var(--ok)')
+  expect(getComputedStyle(cards[1].querySelector('.claim-results .result-status')!).color).toBe('var(--fail)')
+ }finally{style.remove()}
 })

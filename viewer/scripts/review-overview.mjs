@@ -54,6 +54,15 @@ try{
   await run.focus();await page.keyboard.press('Enter')
   await page.getByRole('region',{name:'Claim vs. evidence'}).waitFor()
   assert(await page.locator('main h1').evaluate(el=>el===document.activeElement),'keyboard run opening focuses its heading')
+  assert(await page.locator('main h1').evaluate(el=>{
+   const probe=document.createElement('span');probe.style.color='var(--accent)';el.append(probe)
+   const accent=getComputedStyle(probe).color;probe.remove()
+   return getComputedStyle(el).outlineStyle==='solid'&&getComputedStyle(el).outlineColor===accent
+  }),'keyboard run heading has a visible accent focus ring')
+  await page.getByRole('button',{name:'← Runs',exact:true}).click()
+  await page.locator('.latest-run').first().click()
+  assert(await page.locator('main h1').evaluate(el=>el===document.activeElement&&getComputedStyle(el).outlineStyle==='none'),'mouse run opening retains heading focus without a box')
+  report.checks.push(`${viewport.width}: keyboard accent ring and mouse heading focus without outline`)
   await page.locator('.overview-tools > summary').click()
   await page.getByRole('combobox',{name:'Language'}).selectOption('de')
   await page.keyboard.press('Escape')

@@ -41,7 +41,7 @@ it('shows one card per criterion, exact claims, results and only linked recorded
  fireEvent.click(card.getByText('Warum?'))
  expect(card.getByText(/Status: Erfüllt/)).toBeTruthy()
  expect(card.getByText(/Exit-Code: 0/)).toBeTruthy()
- expect(card.getAllByText(/finding: supported/).length).toBeGreaterThan(0)
+ expect(card.getAllByText(/Befund: supported/).length).toBeGreaterThan(0)
 })
 it('does not borrow an unrelated test or invent reasons when evidence is missing',async()=>{
  const {doc}=await load()
@@ -140,7 +140,9 @@ it('preserves multiple claims and missing evidence references without borrowing 
  const cards=screen.getAllByRole('article');expect(cards).toHaveLength(3)
  const card=within(cards[2])
  expect(card.getByText('<svg onload=alert(1)>')).toBeTruthy()
- expect(cards[2].querySelector('svg')).toBeNull()
+ // Static status SVGs are allowed; recorded claim markup must stay text.
+ expect(cards[2].querySelector('.claim-words svg')).toBeNull()
+ expect(cards[2].querySelector('[onload]')).toBeNull()
  expect(card.getByText('Referenzierte Kriterien fehlen: 1.')).toBeTruthy()
  fireEvent.click(card.getByText('Warum?'))
  expect(card.getByText('Referenzierte Beleg-Ereignisse fehlen: 1.')).toBeTruthy()
