@@ -1,3 +1,21 @@
+## Rebased onto squash-merged main — local checks, 26 October 2026
+
+`origin/main` is `f305f68`, the squash merge of PR #206. This branch merges
+that commit and keeps the reference commands and HMAC display rule from main
+together with `project_status` `not_checkable` / `authentication_unchecked`
+for an unauthenticated contradiction, plus the TRUE / FALSE / UNKNOWN display
+labels. No force-push. Not merged.
+
+On this tree, before this paragraph:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **536 passed (536)**.
+- `npm run build` printed `main-d1EXyPLQ.js` at **252.86 kB**.
+- `npm run lint`, `check:styles`, `check:language`, and `check:theme` passed. Lint printed one existing `react(set-state-in-effect)` warning in `ReferenceApp.tsx` and exited 0.
+- `ruff check src tests` passed.
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m pytest -q tests/test_vnext_acceptance.py tests/test_status_projection.py tests/test_status_broker.py tests/test_status_broker_unit.py tests/test_status_readers.py tests/test_reference_commands.py tests/test_reference_demo_fixture.py tests/test_architecture_docs.py tests/test_cli.py tests/test_mcp_status.py tests/test_agent_setup.py --tb=line` printed **291 passed, 51 subtests passed**.
+
+The projection change remains security-sensitive and is not independently reviewed. Full pytest, separate-UID, and Artifact Hub were not run.
+
 ## Merged onto the reference branch — local remeasure, 26 October 2026
 
 `cursor/standalone-mcp-vnext-af22` now contains `cursor/truthlens-reference-ui-af22`
