@@ -1,3 +1,41 @@
+## Failed SQLite projection cleanup — local checks, 26 October 2026
+
+Branch `improve/loop-6`, base `004ae952`. A failed projection insert left its
+SQLite connection open during temporary-file cleanup. Rebuilds now close the
+connection after transaction exit on both success and failure, retaining atomic
+replacement, fsync and the previous database on failure. The two regressions use
+verified keyless ledger events and a real SQLite length-limit error; they check
+closure, temporary-file cleanup, old-database preservation and a successful retry.
+Red checkpoint `e905bd79` observed **2 failed** at the closure assertion; the
+same targeted test after the fix observed **2 passed**.
+
+Tested code `5f37be45e01cd55a294416d43275533c6032b554`, tree
+`b09af34ebc4e584b0c7c69125e4d72025a43ff66`; later edits are docs only.
+With `umask 022`, repo venv PATH, `PYTHONPATH="$PWD/src"`, `TMPDIR="$PWD/.t"`,
+`TZ=UTC .venv/bin/python -m pytest -q -ra --tb=short --basetemp=.t/l6utc`
+and the sequential Europe/Berlin run with `.t/l6berlin` each observed
+**802 passed, 2 skipped, 1 xfailed, 21 subtests passed**. Separate-UID host
+tests remain skipped; the known same-UID risk remains expected failure.
+Only ignored in-repo venv import/shebang pointers were corrected before running
+the full suites; no dependency was installed.
+
+From `viewer/`, sequential `TZ=UTC DEBUG_PRINT_LIMIT=300 TMPDIR="$PWD/../.t"
+npm test` and the Europe/Berlin run each observed **512 passed / 52 files**,
+including static checks and five toolbar builds. Existing jsdom scrollTo notices
+remain. `ruff check src tests`, `ruff format --check tests/test_projection.py`,
+Python `compileall -q src/truthlens`, viewer lint/build (including TypeScript),
+the Node status-adapter suite (**4 passed**) and diff checks passed.
+
+Independent-style author self-review found no blocking security/D34 finding;
+this is not independent security approval. Frozen contracts, security-sensitive
+modules, G1 broker/wire/adapter, D34 status-only access, approval controls, viewer
+and dependencies are unchanged. Windows locking and disk-full behavior are not
+directly tested; the lowered SQLite limit proves only the stated failure path.
+No coverage measurement, live-service or separate-UID qualification. Chromium
+unavailable: screenshots/browser/axe **not run**; no UI changes. Requested
+`PR_BODY.md` stays untracked. Local commits only; no push, PR, merge, deployment,
+host setup, Docker changes or new dependencies.
+
 ## Clock rollback IDs — local checks, 26 October 2026
 
 Branch `improve/loop-5`, base `e17e5d0c`. Clock rollback previously repeated

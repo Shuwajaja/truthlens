@@ -10,6 +10,7 @@ import json
 import os
 import sqlite3
 import tempfile
+from contextlib import closing
 from pathlib import Path
 
 from truthlens.manifest import acceptance, claims
@@ -30,8 +31,8 @@ def build(events: list[dict], dest: str | os.PathLike) -> Path:
     fd, tmp = tempfile.mkstemp(dir=dest.parent, suffix=".sqlite.tmp")
     os.close(fd)
     try:
-        con = sqlite3.connect(tmp)
-        with con:
+        # SQLite's transaction context does not close the connection on exit.
+        with closing(sqlite3.connect(tmp)) as con, con:
             con.executescript(SCHEMA)
             con.executemany("INSERT INTO meta VALUES (?,?)", [
                 ("run_id", events[0]["run_id"] if events else ""),
@@ -47,7 +48,6 @@ def build(events: list[dict], dest: str | os.PathLike) -> Path:
             con.executemany("INSERT INTO artifacts VALUES (?,?,?)", [
                 (e["payload"]["artifact_id"], e["payload"]["path"], e["payload"]["sha256"])
                 for e in events if e["type"] == "artifact.recorded"])
-        con.close()
         with open(tmp, "rb+") as fh:
             os.fsync(fh.fileno())
         os.replace(tmp, dest)
