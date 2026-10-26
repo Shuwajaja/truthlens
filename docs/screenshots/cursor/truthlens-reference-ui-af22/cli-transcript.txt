@@ -1,0 +1,41 @@
+=== unset TRUTHLENS_REFERENCE; truthlens ===
+  ▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+  ▌  TRUTHLENS  ▐
+  ▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟
+TruthLens 0.1.0
+Belege prüfen. Ein Import hebt keinen Vertrauensstatus an.
+
+  truthlens init LEDGER
+  truthlens doctor
+  truthlens workspace doctor
+  truthlens runs list
+exit 0
+
+=== truthlens workspace doctor --root /tmp/tl-cli-review ===
+  ▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+  ▌  TRUTHLENS  ▐
+  ▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟
+TruthLens 0.1.0
+Isolation ist nicht geprüft.
+
+⚠ workspace: Workspace ist noch nicht eingerichtet
+· capture_adapter: Kein Adapter konfiguriert
+✔ heartbeat: Kein letzter Lauf ist bei einem neuen Projekt normal
+⚠ output_channel: Ausgabe nur lokal vorhanden; kein Reader konfiguriert
+⚠ agent_status: Konfiguration wurde nicht durch einen synthetischen Test nachgewiesen
+⚠ task_hook: Kein Task-Hook installiert
+⚠ isolation: Isolation ist nicht geprüft
+1 ok · 5 Warnungen · 0 Fehler
+exit 0
+
+=== truthlens runs list --root /tmp/tl-cli-review ===
+LAUF               AGENT          AUFGABE                        ✓   ✗   ?  ERGEBNIS     ZEIT
+exit 0
+
+=== truthlens runs show run_missing --root /tmp/tl-cli-review ===
+Referenzbefehle sind abgeschaltet
+exit 2
+
+=== truthlens workspace init --root /tmp/tl-cli-review ===
+Referenzbefehle sind abgeschaltet
+exit 2

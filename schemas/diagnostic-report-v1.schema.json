@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "diagnostic-report-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {"type": "string", "minLength": 1},
+          "state": {"enum": ["ok", "warning", "error", "unverified", "not_configured"]},
+          "message": {"type": "string", "minLength": 1},
+          "observed_at": {"type": "string", "format": "date-time"}
+        },
+        "required": ["code", "state", "message", "observed_at"]
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ok": {"type": "integer", "minimum": 0},
+        "warning": {"type": "integer", "minimum": 0},
+        "error": {"type": "integer", "minimum": 0}
+      },
+      "required": ["ok", "warning", "error"]
+    },
+    "isolation": {"enum": ["verified_for_documented_scope", "unverified", "failed"]}
+  },
+  "required": ["schema_version", "checks", "summary"]
+}

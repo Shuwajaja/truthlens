@@ -6,6 +6,7 @@
 | [STATUS.md](STATUS.md) | Current P0 branches, measured checks, known limits and next tasks |
 | [spec/](spec/) | Frozen specs: event schema v1, artifact manifest v1; all decisions as D-numbers |
 | [spec/audit-verifier-v1.md](spec/audit-verifier-v1.md) | Read-only audit contract, scope and missing SPECC/integration boundaries |
+| [spec/view-projections-v1.md](spec/view-projections-v1.md) | Human run-view projection. Not a change to the frozen event schema |
 | [../deploy/server/README.md](../deploy/server/README.md) | Inactive server-pipeline templates, isolation prerequisites and disconnected gateway boundary |
 | [../integrations/agent-zero-acp/README.md](../integrations/agent-zero-acp/README.md) | Read-only ACP status handler; no identity from chat |
 | [AGENT-SETUP.md](AGENT-SETUP.md) | G2 status CLI, read-only doctor, explicit client snippets and synthetic demo |

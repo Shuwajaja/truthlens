@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "run-view-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "run-view-v1"},
+    "run_id": {"type": "string", "minLength": 1},
+    "project_id": {"type": "string", "minLength": 1},
+    "task": {"type": "string", "minLength": 1},
+    "execution": {"enum": ["queued", "running", "completed", "failed", "cancelled", "interrupted"]},
+    "audit_state": {"enum": ["pending", "running", "complete", "unavailable"]},
+    "integrity": {"enum": ["hash-only", "hmac", "failed", "unknown"]},
+    "review_summary": {"enum": ["confirmed", "refuted", "unclear"]},
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "text": {"type": "string", "minLength": 1},
+          "verdict": {"enum": ["confirmed", "refuted", "unclear"]},
+          "evidence_refs": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "source_kind": {"enum": ["witnessed_test", "file_diff", "command", "git", "imported", "none"]},
+          "scope": {"type": "string", "minLength": 1},
+          "reason_code": {"type": "string", "minLength": 1}
+        },
+        "required": ["id", "text", "verdict", "evidence_refs", "source_kind", "scope", "reason_code"]
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "timestamp": {"type": "string", "format": "date-time"},
+          "kind": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "detail": {"type": "string"},
+          "observation": {"enum": ["captured", "agent_reported", "imported"]}
+        },
+        "required": ["id", "timestamp", "kind", "title", "detail", "observation"]
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "confirmed": {"type": "integer", "minimum": 0},
+        "refuted": {"type": "integer", "minimum": 0},
+        "unclear": {"type": "integer", "minimum": 0}
+      },
+      "required": ["confirmed", "refuted", "unclear"]
+    },
+    "agent_id": {"type": ["string", "null"]},
+    "started_at": {"type": ["string", "null"], "format": "date-time"},
+    "finished_at": {"type": ["string", "null"], "format": "date-time"},
+    "duration_ms": {"type": ["integer", "null"], "minimum": 0},
+    "git_commit": {"type": ["string", "null"]},
+    "audit_revision": {"type": ["string", "null"]}
+  },
+  "required": [
+    "schema_version", "run_id", "project_id", "task", "execution", "audit_state",
+    "integrity", "review_summary", "claims", "timeline", "counts"
+  ]
+}

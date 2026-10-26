@@ -214,6 +214,12 @@ and `agent-status --help` also produce only `not_checkable` (JSON if `--json` is
 present), without stderr detail. Use this page or `truthlens --help` for human
 usage information. The agent-facing command's help cannot expand D34 output.
 
+`truthlens workspace` and `truthlens runs` are human commands. They are not
+agent tools, not a replacement for `truthlens init LEDGER`, and not a way to
+attach the legacy `truthlens mcp --root` server to an agent. `workspace doctor`
+stays read-only and reports isolation as unverified. A live harness is not
+qualified by writing `workspace.toml`.
+
 Do not use doctor or a model's retelling as evidence of real isolation. Distinct
 UID/key custody, reader-network denial, restricted SSH forced command, actual
 client sessions and sudo/docker-equivalent privileges require separately
