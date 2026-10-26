@@ -120,8 +120,62 @@ Example profile for a **human-supplied** test criterion (inactive template):
 
 Keep it disabled until the actual task command, human criterion, existing caller
 UID mappings, committed workspace and task-user runner have been reviewed.
-`callers: []` deliberately grants nobody access; this example is not launch-ready.
+`callers: []` deliberately permits no launch; this example is not launch-ready.
 It uses one test command, as required by the existing pipeline.
+
+### Status readers (trial item 4)
+
+An operator may add optional `status_readers` to the same protected profile,
+for example `/etc/truthlens/profiles/agent-zero.json`. This fragment illustrates
+an existing caller and a separate Agent Zero status UID; numbers are synthetic,
+not account creation instructions or a launch-ready profile:
+
+```json
+{
+  "callers": [{"uid": 1234, "name": "Codex", "on_behalf_of": "Shu"}],
+  "status_readers": [{"uid": 5678, "name": "agent-zero"}]
+}
+```
+
+The full profile still needs the existing enabled/agent/command/repo/criteria/test
+settings. Profile files and their ancestry retain the existing root ownership,
+no-symlink, non-writable protection; the profile itself must be private (no group
+or other permission bits). Only the operator edits this configuration.
+
+`status_readers` defaults to `[]` when omitted. It must be a list of at most
+64 entries, each with exactly `name` and `uid`. Names match
+`[A-Za-z][A-Za-z0-9_-]{0,47}` (ASCII, case-sensitive); UIDs are JSON integers
+from 1 through 4294967294, never strings, booleans or root. Reader names and UIDs
+must be unique and must not overlap caller names or UIDs in that profile.
+Caller UIDs must also be unique; caller names remain the existing fixed set
+`Shu`, `VPSMan`, `Codex`, `systemd`, with existing `on_behalf_of: "Shu"` semantics.
+Invalid reader configuration denies the entire launch, including a valid caller,
+before dispatch; it is never silently ignored or treated as a caller entry.
+
+Each new dispatch snapshots reader UIDs separately as `status_reader_uids`;
+`authorized_uids` stays caller-only. Existing dispatches grant no new reader
+rights. Editing a profile affects future dispatches only, including removal:
+revoking a historical grant requires a separately reviewed operator action.
+There is no wildcard/all-runs reader role and no runtime profile reload for status.
+
+Agent Zero should use the existing G1 broker/`mcp-status` or `agent-status` client.
+The operator must separately allow its actual nonroot UID in the broker peer
+allowlist and permit access to the protected socket; neither alone grants a run.
+This role does not provision accounts/groups, sudoers, socket access or services.
+Do not give the reader pipeline-run/admit/worker/approval/explain permissions,
+private registry/key/snapshot access, Phase B access or root-equivalent rights.
+Shared UIDs cannot be isolated by this configuration.
+
+The existing privileged local `truthlens status RUN_ID [--session SESSION_ID]`
+also returns only compact `{"status":"passed"}`, `{"status":"failed"}` or
+`{"status":"not_checkable"}` for an attributed reader (exit 0/1/2). Its existing
+kernel-attributed invocation policy still applies; no sudoers rule is added here.
+Caller detailed status output and rights are unchanged. Unauthorized local
+requests retain the existing identical fixed denial; the broker always projects
+unavailable/unauthorized states to `not_checkable`. Reader grants never authorize
+dispatch, admission, approval, operator diagnosis or Phase B evidence routes.
+The separately configured human publication/loopback reader remains an OS/network
+boundary; this profile cannot revoke independent access to it. **Integrity is not approval.**
 
 ### Troubleshooting profile runs
 

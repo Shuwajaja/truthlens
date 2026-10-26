@@ -421,6 +421,13 @@ def _pipeline_command(args: argparse.Namespace) -> int:
                 job = store.queue(args.run_id, uid, args.session)
                 result = pipeline_jobs.status(store, args.run_id, uid, args.session, audit_id=job["audit_id"])
             else:
+                registration = store.status_registration(args.run_id, uid, args.session)
+                if uid in registration.get("status_reader_uids", []):
+                    from truthlens.status_broker import registered_status
+
+                    result = registered_status(store, args.run_id, uid)
+                    print(json.dumps(result, separators=(",", ":")))
+                    return {"passed": 0, "failed": 1, "not_checkable": 2}[result["status"]]
                 result = pipeline_jobs.status(store, args.run_id, uid, args.session)
         print(json.dumps(result, sort_keys=True))
         return 0

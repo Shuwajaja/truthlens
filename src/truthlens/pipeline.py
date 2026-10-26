@@ -93,6 +93,27 @@ def delegation(profile: dict, uid: int) -> dict:
             or caller.get("on_behalf_of") != "Shu"
         ):
             deny()
+    readers = profile.get("status_readers", [])
+    if not isinstance(readers, list) or len(readers) > 64:
+        deny()
+    uids = [c["uid"] for c in callers]
+    names = {c["name"] for c in callers}
+    if len(set(uids)) != len(uids):
+        deny()
+    for reader in readers:
+        if (
+            not isinstance(reader, dict)
+            or set(reader) != {"uid", "name"}
+            or type(reader["uid"]) is not int
+            or not 0 < reader["uid"] < 4294967295
+            or not isinstance(reader["name"], str)
+            or re.fullmatch(r"[A-Za-z][A-Za-z0-9_-]{0,47}", reader["name"]) is None
+            or reader["uid"] in uids
+            or reader["name"] in names
+        ):
+            deny()
+        uids.append(reader["uid"])
+        names.add(reader["name"])
     matches = [c for c in callers if c["uid"] == uid]
     if len(matches) != 1:
         deny()
@@ -259,7 +280,13 @@ def run_profile(name: str) -> dict:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         trusted(store.root / "capture.lock", private=True)
         dispatch = store.dispatch(
-            name, uid, caller["on_behalf_of"], [c["uid"] for c in profile["callers"]], digest, caller["name"]
+            name,
+            uid,
+            caller["on_behalf_of"],
+            [c["uid"] for c in profile["callers"]],
+            digest,
+            caller["name"],
+            status_reader_uids=[r["uid"] for r in profile.get("status_readers", [])],
         )
         source = store.root / "runs" / dispatch["dispatch_id"]
         source.mkdir(mode=0o700)
