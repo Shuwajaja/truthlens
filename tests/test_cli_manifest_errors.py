@@ -8,7 +8,15 @@ from tests.test_cli import tl
 @pytest.mark.parametrize("command", ["report", "export", "project"])
 @pytest.mark.parametrize(
     "problem",
-    ["missing-run", "missing-manifest", "manifest-directory", "invalid-json", "invalid-utf8", "array", "null"],
+    [
+        "missing-run",
+        "missing-manifest",
+        "manifest-directory",
+        "invalid-json",
+        "invalid-utf8",
+        "array",
+        "null",
+    ],
 )
 def test_cli_manifest_errors_are_actionable_and_leave_files_unchanged(tmp_path, command, problem):
     root = tmp_path / "run"
