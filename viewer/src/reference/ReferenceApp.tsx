@@ -89,11 +89,11 @@ function Shell({catalog, pathname, search, navigate, children, crumb}: {catalog:
           <div>
             <div className="tl-kicker">{copy.projects}</div>
             <div className="tl-projects">
-              {catalog?.projects.map(project => (
+              {catalog && catalog.projects.length > 0 ? catalog.projects.map(project => (
                 <a key={project.id} href={withParams('/runs', params, {project: project.id})} aria-current={params.get('project') === project.id ? 'page' : undefined} onClick={event => go(event, navigate)}>
                   <span className={`tl-dot ${project.id}`} aria-hidden="true" />{project.name}
                 </a>
-              ))}
+              )) : <p className="tl-side-note">{copy.sideEmpty}</p>}
             </div>
           </div>
           <div className="tl-side-foot">
@@ -173,17 +173,45 @@ function RunsPage({catalog, params, navigate, mode, onLoadFile, loadNote}: {cata
   if (mode === 'loading') return <div aria-busy="true"><p>{copy.loading}</p><div className="tl-skeleton" /><div className="tl-skeleton" /></div>
   if (mode === 'error') return <section className="tl-banner bad" role="alert"><h1>{copy.errorTitle}</h1><p>{copy.errorBody}</p><button type="button" className="tl-btn" onClick={() => set({state: null})}>{copy.retry}</button></section>
   if (mode === 'empty' || catalog.runs.length === 0) return (
-    <section>
-      <h1>{copy.emptyTitle}</h1>
-      <p>{copy.emptyBody}</p>
-      <p className="tl-mono">{copy.loadCli}</p>
-      <div className="tl-actions">
-        <label className="tl-btn primary" htmlFor="tl-run-file">{copy.loadFile}</label>
-        <a className="tl-btn" href="/settings">{copy.connect}</a>
-        <a className="tl-btn" href="/runs?demo=1">{copy.sample}</a>
-      </div>
-      <input id="tl-run-file" className="tl-file" type="file" accept="application/json,.json" onChange={event => { const file = event.target.files?.[0]; if (file) onLoadFile(file) }} />
-      {loadNote && <p role="status">{loadNote}</p>}
+    <section className="tl-start" aria-labelledby="tl-start-title">
+      <header className="tl-welcome">
+        <h1 id="tl-start-title">{copy.startTitle}</h1>
+        <p>{copy.startLead}</p>
+        <p>{copy.emptyTitle}</p>
+        <p className="tl-sub">{copy.emptyBody}</p>
+      </header>
+      <ol className="tl-steps">
+        <li>
+          <p className="tl-step-index" aria-hidden="true">1</p>
+          <h2>{copy.stepWorkspace}</h2>
+          <p>{copy.stepWorkspaceBody}</p>
+          <p className="tl-mono">{copy.stepWorkspaceCli}</p>
+          <a className="tl-btn" href="/settings" onClick={event => go(event, navigate)}>{copy.connect}</a>
+        </li>
+        <li>
+          <p className="tl-step-index" aria-hidden="true">2</p>
+          <h2>{copy.stepLoad}</h2>
+          <p>{copy.stepLoadBody}</p>
+          <p className="tl-mono">{copy.loadCli}</p>
+          <div className="tl-actions">
+            <label className="tl-btn primary" htmlFor="tl-run-file">{copy.loadFile}</label>
+            <a className="tl-btn" href="/runs?demo=1" onClick={event => go(event, navigate)}>{copy.sample}</a>
+          </div>
+          <input id="tl-run-file" className="tl-file" type="file" accept="application/json,.json" onChange={event => { const file = event.target.files?.[0]; if (file) onLoadFile(file) }} />
+          {loadNote && <p role="status">{loadNote}</p>}
+        </li>
+        <li>
+          <p className="tl-step-index" aria-hidden="true">3</p>
+          <h2>{copy.stepRead}</h2>
+          <p>{copy.stepReadBody}</p>
+          <dl className="tl-mean">
+            <div><dt>{copy.unclear}</dt><dd>{copy.meanUnknown}</dd></div>
+            <div><dt>{copy.confirmed}</dt><dd>{copy.meanTrue}</dd></div>
+            <div><dt>{copy.refuted}</dt><dd>{copy.meanFalse}</dd></div>
+          </dl>
+          <p>{copy.integrityHash}. {copy.integrityLine}</p>
+        </li>
+      </ol>
     </section>
   )
   return (
@@ -396,6 +424,16 @@ function DetailPage({catalog, run, navigate}: {catalog: Catalog; run: RunView; n
   )
 }
 
+function QuietEmpty({title, body, navigate, suffix}: {title: string; body: string; navigate: Navigate; suffix: string}) {
+  return (
+    <div className="tl-empty">
+      <h2>{title}</h2>
+      <p>{body}</p>
+      <a className="tl-btn" href={`/runs${suffix}`} onClick={event => go(event, navigate)}>{copy.backStart}</a>
+    </div>
+  )
+}
+
 function Secondary({kind, catalog, navigate}: {kind: string; catalog: Catalog | null; navigate: Navigate}) {
   const suffix = catalog?.demo ? '?demo=1' : ''
   if (kind === 'checks' || kind === 'reports') {
@@ -404,7 +442,7 @@ function Secondary({kind, catalog, navigate}: {kind: string; catalog: Catalog | 
       <section>
         <h1>{copy.checksTitle}</h1>
         <p>{copy.checksBody}</p>
-        {rows.length === 0 ? <p>{copy.checksEmpty}</p> : (
+        {rows.length === 0 ? <QuietEmpty title={copy.checksEmpty} body={copy.checksEmptyHelp} navigate={navigate} suffix={suffix} /> : (
           <div className="tl-table-wrap" tabIndex={0}>
             <table className="tl-table">
               <thead><tr><th>{copy.colTask}</th><th>{copy.requirement}</th><th>{copy.colResult}</th><th>{copy.reason}</th></tr></thead>
@@ -440,7 +478,7 @@ function Secondary({kind, catalog, navigate}: {kind: string; catalog: Catalog | 
         <h1>{copy.recordsTitle}</h1>
         <p>{copy.recordsBody}</p>
         {catalog?.demo ? <p>{copy.demo}: {catalog.source_label ?? copy.unknown}</p> : null}
-        {rows.length === 0 ? <p>{copy.recordsEmpty}</p> : rows.map(run => {
+        {rows.length === 0 ? <QuietEmpty title={copy.recordsEmpty} body={copy.recordsEmptyHelp} navigate={navigate} suffix={suffix} /> : rows.map(run => {
           const refs = [...new Set(run.claims.flatMap(claim => claim.evidence_refs))]
           const integrity = run.integrity === 'hmac' ? copy.integrityHmac : run.integrity === 'hash-only' ? copy.integrityHash : copy.integrityUnknown
           return (

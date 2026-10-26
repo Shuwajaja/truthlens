@@ -70,6 +70,26 @@
 .tl-menu { display: none; }
 .tl-content { padding: 28px; display: flex; flex-direction: column; gap: 16px; }
 .tl-content h1 { margin: 0; font-size: 22px; font-weight: 600; }
+.tl-start { display: flex; flex-direction: column; gap: 16px; }
+.tl-welcome { display: grid; gap: 8px; padding: 28px; border: 1px solid var(--tl-border); border-radius: 12px; background: var(--tl-card); }
+.tl-content .tl-welcome h1 { font-size: 28px; letter-spacing: -0.03em; line-height: 1.2; }
+.tl-welcome p { margin: 0; max-width: 68ch; color: var(--tl-muted); font-size: 16px; }
+.tl-welcome .tl-sub { font-size: 14px; }
+.tl-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
+.tl-steps > li { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; min-width: 0; padding: 20px; border: 1px solid var(--tl-border); border-radius: 12px; background: var(--tl-card); }
+.tl-step-index { margin: 0; color: var(--tl-faint); font-family: "JetBrains Mono Variable", ui-monospace, monospace; font-size: 12px; font-weight: 600; }
+.tl-steps h2 { margin: 0; font-size: 16px; font-weight: 600; }
+.tl-steps p, .tl-welcome p, .tl-empty p { overflow-wrap: anywhere; }
+.tl-steps p { margin: 0; color: var(--tl-muted); font-size: 14px; }
+.tl-steps .tl-actions { flex-wrap: wrap; }
+.tl-mean { display: grid; gap: 8px; width: 100%; margin: 0; }
+.tl-mean div { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.tl-mean dt { margin: 0; font-size: 12px; font-weight: 600; }
+.tl-mean dd { margin: 0; color: var(--tl-muted); font-size: 13px; }
+.tl-side-note { margin: 4px 10px; color: var(--tl-muted); font-size: 13px; }
+.tl-empty { display: grid; gap: 12px; justify-items: start; max-width: 640px; padding: 20px; border: 1px solid var(--tl-border); border-radius: 12px; background: var(--tl-card); }
+.tl-empty h2 { margin: 0; font-size: 16px; font-weight: 600; }
+.tl-empty p { margin: 0; color: var(--tl-muted); }
 .tl-sub { margin: 0; color: var(--tl-muted); font-size: 13px; }
 .tl-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .tl-card { background: var(--tl-card); border: 1px solid var(--tl-border); border-radius: 12px; padding: 16px; min-width: 0; box-shadow: none; }
@@ -143,7 +163,7 @@
   .tl-side { display: none; position: fixed; inset: 0 auto 0 0; width: min(280px, 88vw); z-index: 15; }
   .tl-side.open { display: flex; }
   .tl-menu { display: inline-flex; }
-  .tl-kpis, .tl-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tl-kpis, .tl-stats, .tl-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tl-detail { grid-template-columns: 1fr; }
   .tl-detail .tl-time { width: auto; }
 }
@@ -152,7 +172,7 @@
   .tl-top { height: auto; min-height: 56px; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; }
 }
 @media (max-width: 520px) {
-  .tl-kpis, .tl-stats { grid-template-columns: 1fr; }
+  .tl-kpis, .tl-stats, .tl-steps { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   .tl-ref * { transition: none !important; scroll-behavior: auto !important; }

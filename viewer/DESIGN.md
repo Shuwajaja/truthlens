@@ -63,11 +63,45 @@ Honesty rules still bind this surface:
   projection integrity is `hmac`.
 - The browser doctor never uses a green confirmed pill. Isolation stays
   unverified. The browser does not read a ledger and does not run an audit.
-  Without a loaded run-view file and without `?demo=1`, the runs page says
-  so. A file from `truthlens runs show --json` is labelled as a loaded file,
-  not a live audit. Recheck names `truthlens runs recheck` and does not
-  pretend to start a revision.
+  Without a loaded run-view file and without `?demo=1`, `/runs` is the
+  guided start below, not a bare sentence. A file from `truthlens runs show
+  --json` is labelled as a loaded file, not a live audit. Recheck names
+  `truthlens runs recheck` and does not pretend to start a revision.
 - Filters in the query string apply to the table and the figures above it.
+
+## Start and onboarding, 26 October 2026
+
+An empty `/runs` (no loaded file, no `?demo=1`) is a guided start inside the
+existing reference shell. The welcome block is one bordered card: title,
+what this browser cannot do, and the three steps. It is not a second
+product, a chart, or a decorative splash. TruthLens tokens, Plus Jakarta
+Sans, JetBrains Mono, the 228px sidebar, and the 1px card border stay.
+Spacing follows the same 8/12/16/28 rhythm as the runs page. Memory Atlas
+is a quality reference for type, cards, and sidebar rhythm only. Do not
+copy its mint palette, serif headlines, glow, or knowledge graph.
+
+The three steps may claim only this:
+
+1. Workspace einrichten names `truthlens init LEDGER` and says
+   `truthlens workspace init` still requires `TRUTHLENS_REFERENCE=1`.
+   The browser writes no workspace file. The settings link opens the
+   existing settings page.
+2. Lauf laden oder Demo ansehen keeps the file input and the link to
+   `/runs?demo=1`. The demo badge appears only after that link. A loaded
+   file is labelled “Geladene Datei · kein Live-Audit”.
+3. Ergebnis verstehen states that TRUE and FALSE are display words and
+   appear only when integrity is `hmac`. Hash-only, missing evidence, and
+   a doubtful test stay UNKNOWN. The words on this step are an explanation.
+   They are not a result, and this step does not use a green confirmed pill.
+   “Integrität ist keine Freigabe.” stays visible.
+
+Once a file or the labelled demo supplies runs, the same shell replaces the
+start with the existing runs table or, for one loaded run, that run. No
+fade implies that an audit ran. Prüfdetails and Nachweise with no loaded
+run use the same limit and link back to the start. The evidence workspace
+at `/` keeps its own empty state: no sample runs, no figures, and no TRUE
+result. Its cards repeat the three ideas and may link to the reference
+start. Opening a local folder remains the only way that overview gains runs.
 
 Derived export headlines describe the presence of recorded claims without
 inventing a quotation or inferring completion. Both Python exports and local-folder

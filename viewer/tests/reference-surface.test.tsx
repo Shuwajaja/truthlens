@@ -88,8 +88,18 @@ it('hides confirmed claims when a damaged run is opened', () => {
 
 it('shows an empty project on /runs and the demo label only for demo data', () => {
   const {unmount} = render(<ReferenceApp location="/runs" />)
+  expect(screen.getByRole('heading', {level: 1, name: copy.startTitle})).toBeTruthy()
+  expect(screen.getByRole('heading', {name: copy.stepWorkspace})).toBeTruthy()
+  expect(screen.getByRole('heading', {name: copy.stepLoad})).toBeTruthy()
+  expect(screen.getByRole('heading', {name: copy.stepRead})).toBeTruthy()
+  expect(screen.getByText(copy.meanTrue)).toBeTruthy()
+  expect(screen.getByText(copy.meanFalse)).toBeTruthy()
+  expect(screen.getByText(copy.meanUnknown)).toBeTruthy()
+  expect(screen.getByText(copy.integrityLine, {exact: false})).toBeTruthy()
+  expect(screen.getByText(copy.stepWorkspaceCli, {exact: false})).toBeTruthy()
+  expect(document.querySelector('.tl-pill.confirmed')).toBeNull()
   expect(screen.getByRole('link', {name: copy.connect})).toBeTruthy()
-  expect(screen.getByRole('link', {name: copy.sample})).toBeTruthy()
+  expect(screen.getByRole('link', {name: copy.sample}).getAttribute('href')).toBe('/runs?demo=1')
   expect(screen.queryByText(copy.demo)).toBeNull()
   expect(screen.queryByText('1.204')).toBeNull()
   unmount()
@@ -100,7 +110,20 @@ it('shows an empty project on /runs and the demo label only for demo data', () =
     counts: {confirmed: 1, refuted: 0, unclear: 0},
   })
   render(<ReferenceApp location="/runs?demo=1" catalog={catalog([sample])} />)
+  expect(screen.queryByRole('heading', {name: copy.startTitle})).toBeNull()
+  expect(screen.getByRole('row', {name: /run_ok/})).toBeTruthy()
   expect(screen.getByText(copy.demo)).toBeTruthy()
+})
+
+it('explains empty checks and records without a confirmed result', () => {
+  const {unmount} = render(<ReferenceApp location="/checks" />)
+  expect(screen.getByText(copy.checksEmptyHelp)).toBeTruthy()
+  expect(screen.getByRole('link', {name: copy.backStart}).getAttribute('href')).toBe('/runs')
+  expect(document.querySelector('.tl-pill.confirmed')).toBeNull()
+  unmount()
+  render(<ReferenceApp location="/records" />)
+  expect(screen.getByText(copy.recordsEmptyHelp)).toBeTruthy()
+  expect(document.querySelector('.tl-pill.confirmed')).toBeNull()
 })
 
 it('applies a project filter to the same figures as the table', () => {
