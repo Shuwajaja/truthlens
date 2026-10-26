@@ -93,6 +93,12 @@ it('lands on the German overview with chrome in a closed menu and switches fixed
 it('shows a German empty overview before disconnected controls and performs no production request',()=>{
  vi.stubEnv('DEV',false);vi.stubGlobal('fetch',vi.fn());render(<App/>)
  expect(screen.getByText('Noch keine geladenen Läufe.')).toBeTruthy()
+ expect(screen.getByRole('heading', {name: 'Workspace einrichten'})).toBeTruthy()
+ expect(screen.getByRole('heading', {name: 'Lauf laden oder Demo ansehen'})).toBeTruthy()
+ expect(screen.getByRole('heading', {name: 'Ergebnis verstehen'})).toBeTruthy()
+ expect(screen.getByRole('link', {name: 'Referenzansicht öffnen'}).getAttribute('href')).toBe('/runs')
+ expect(screen.getByText(/TRUE und FALSE nur nach HMAC/)).toBeTruthy()
+ expect(screen.queryByText('TRUE', {exact: true})).toBeNull()
  expect(screen.queryByRole('figure')).toBeNull()
  expect(screen.queryByText(/0\/0|0 von 0/)).toBeNull()
  const menu=screen.getByText('Menü').closest('details')!

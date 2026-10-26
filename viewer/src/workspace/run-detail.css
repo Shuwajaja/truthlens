@@ -52,8 +52,9 @@
 .claim-result .status-icon path, .gap-evidence .status-icon path { stroke:currentColor; }
 .claim-result .criterion-result { font-size:12px; }
 .claim-why { font-size:12px; margin-top:auto; }
-.claim-why > summary { cursor:pointer; min-height:44px; display:flex; align-items:center; justify-content:space-between; gap:12px; list-style:none; color:var(--text-2); border-radius:8px; }
+.claim-why > summary { cursor:pointer; min-height:44px; display:block; list-style:none; color:var(--text-2); border-radius:8px; }
 .claim-why > summary::-webkit-details-marker { display:none; }
+.claim-why-row { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:44px; }
 .claim-results { display:grid; gap:8px; min-width:0; }
 .claim-results .result-status, .claim-results .claim-finding { font-size:16px; font-weight:600; }
 .claim-results .claim-finding { color:inherit; }

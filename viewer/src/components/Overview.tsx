@@ -14,6 +14,8 @@ import {recordedDiff,recordedTime,recordedDuration} from './overview-data.ts'
 import {ProjectPreview} from './ProjectPreview.tsx'
 import {PageHeading} from './PageHeading.tsx'
 import {CriterionDetail} from './CriterionDetail.tsx'
+import {useOverviewLanguage} from '../workspace/overview-language.ts'
+import {overviewCopy} from '../workspace/overview-copy.ts'
 
 export function Overview({doc,lens,onOpenDrawer,showRunAction=true,selection,onSelectCriterion}:{doc:RunDoc;lens:Lens;showRunAction?:boolean;selection?:string;onSelectCriterion?:(id:string)=>void;onOpenDrawer:(target:DrawerTarget)=>void}){
  const [selected,setSelected]=useState<string>()
@@ -29,6 +31,8 @@ export function Overview({doc,lens,onOpenDrawer,showRunAction=true,selection,onS
  const failed=doc.criteria.filter(c=>c.status==='unmet').length
  const notChecked=doc.criteria.length-proven-failed
  const diff=recordedDiff(doc)
+ const {language}=useOverviewLanguage()
+ const face=overviewCopy[language]
  return <div className={`overview stitch-overview ${onSelectCriterion?'workspace-overview':''}`}>
   <section className="overview-run" aria-label="Exported run">
    <PageHeading title={doc.run.project} description={doc.run.agent} action={showRunAction&&<Button variant="outline" size="sm" aria-label={`Open run: ${doc.run.project} · Run details`} onClick={()=>onOpenDrawer({kind:'run',doc})}>Run details</Button>}/>
@@ -42,8 +46,8 @@ export function Overview({doc,lens,onOpenDrawer,showRunAction=true,selection,onS
    <Card className="status-card" data-status="unverified"><Button variant="ghost" className="status-review" disabled={!doc.criteria.find(c=>c.status!=='met'&&c.status!=='unmet')} onClick={()=>selectCriterion(doc.criteria.find(c=>c.status!=='met'&&c.status!=='unmet')?.criterion_id)}><span className="card-label"><span className="status-dot tone-open" aria-hidden="true"/>Not checked</span><span className="status-value text-open" data-testid="unwitnessed-count">{notChecked}</span><span className="status-description">Criteria without a confirmed result</span></Button></Card>
   </div>
   <div className="overview-workspace">
-   <Card className="panel criteria-panel" role="region" aria-label="Criteria and evidence">
-    <div className="panel-heading"><h2>Criteria &amp; evidence</h2><span className="section-note">{doc.criteria.length} criteria</span></div>
+   <Card className="panel criteria-panel" role="region" aria-label={face.criteriaRegion}>
+    <div className="panel-heading"><h2>{face.criteriaTitle}</h2><span className="section-note">{doc.criteria.length} {face.criteriaWord}</span></div>
     {doc.criteria.length===0?<Empty><EmptyDescription>No criteria exported.</EmptyDescription></Empty>:<ul className="criterion-list">{doc.criteria.map(c=><li key={c.criterion_id}>
      <button type="button" className="criterion-button" data-status={c.status} aria-pressed={c===selectedCriterion} onClick={()=>selectCriterion(c.criterion_id)}>
       <span className="sr-only">Evidence: </span><span className="criterion-content"><strong>{c.text}</strong><span>{c.plain}</span></span><StatusBadge source="criterion" status={c.status}/>

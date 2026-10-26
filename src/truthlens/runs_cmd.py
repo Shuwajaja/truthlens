@@ -26,21 +26,21 @@ from truthlens.workspace_store import WorkspaceError, resolve_root
 
 # Display only. Stored review_summary values stay confirmed, refuted, unclear.
 # D34 wire statuses stay passed, failed, not_checkable.
-DISPLAY = {"confirmed": ("TRUE", "32"), "refuted": ("FALSE", "31"), "unclear": ("UNKNOWN", "33")}
+DISPLAY = {"confirmed": ("bestätigt", "32"), "refuted": ("widerlegt", "31"), "unclear": ("unklar", "33")}
 DOUBTFUL_REASONS = frozenset({"benchmark_missing"})
 
 
 def display_label(verdict: str, reason_code: str | None = None) -> tuple[str, str]:
-    """Map an internal verdict to the human word. Doubtful test quality is UNKNOWN."""
+    """Map an internal verdict to the human word. Doubtful test quality is unklar."""
     if reason_code in DOUBTFUL_REASONS:
-        return "UNKNOWN", "33"
-    return DISPLAY.get(verdict, ("UNKNOWN", "33"))
+        return "unklar", "33"
+    return DISPLAY.get(verdict, ("unklar", "33"))
 
 
 def shown_word(view: dict) -> tuple[str, str]:
-    """Human word for a run. TRUE and FALSE require integrity hmac."""
+    """Human word for a run. bestätigt and widerlegt require integrity hmac."""
     if view.get("integrity") != "hmac":
-        return "UNKNOWN", "33"
+        return "unklar", "33"
     summary = str(view.get("review_summary") or "unclear")
     claims = view.get("claims") if isinstance(view.get("claims"), list) else []
     doubtful = any(isinstance(item, dict) and item.get("reason_code") in DOUBTFUL_REASONS for item in claims)
@@ -163,6 +163,8 @@ def _list(args: argparse.Namespace) -> int:
             f"{_relative(item.get('started_at'))}\n"
         )
         sys.stdout.write(line)
+    if payload["items"]:
+        sys.stdout.write(f"→ Details: truthlens runs show {payload['items'][0]['run_id']}\n")
     return 0
 
 
@@ -203,7 +205,7 @@ def _show(args: argparse.Namespace) -> int:
                 str(claim.get("verdict") or "unclear"), claim.get("reason_code")
             )
         else:
-            claim_word, claim_code = "UNKNOWN", "33"
+            claim_word, claim_code = "unklar", "33"
         sys.stdout.write(f"{paint(claim_word, claim_code, colored)}  {claim.get('text', '')}\n")
     if entry["demo"]:
         sys.stdout.write("Beispieldaten\n")

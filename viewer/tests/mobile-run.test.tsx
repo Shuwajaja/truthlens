@@ -11,9 +11,9 @@ it('opens real run metadata in the mobile sheet and restores the run trigger on 
  history.replaceState(null,'','/?view=overview')
  render(<App/>);await screen.findByRole('main');fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}));
  const navigation=screen.getByRole('button',{name:'Navigation',exact:true});navigation.focus();fireEvent.click(navigation);
- const trigger=screen.getByRole('button',{name:'Run details',exact:true});
+ const trigger=screen.getByRole('button',{name:'Laufdetails',exact:true});
  trigger.focus();fireEvent.click(trigger);
- const dialog=screen.getByRole('dialog',{name:'Context inspector'});
+ const dialog=screen.getByRole('dialog',{name:'Kontextinspektor'});
  const details=within(dialog);
  expect(details.getByText(publicRun.run.run_id)).toBeTruthy();
  expect(details.getByText(publicRun.run.command)).toBeTruthy();
@@ -24,7 +24,7 @@ it('opens real run metadata in the mobile sheet and restores the run trigger on 
  expect(document.activeElement).toBe(navigation);
  const criterion=screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(publicRun.criteria[0].text)});
  fireEvent.click(criterion);fireEvent.click(screen.getByRole('button',{name:'Open criterion record'}));
- const evidence=within(screen.getByRole('dialog',{name:'Context inspector'}));
+ const evidence=within(screen.getByRole('dialog',{name:'Kontextinspektor'}));
  fireEvent.mouseDown(evidence.getByRole('tab',{name:'Tests'}),{button:0,ctrlKey:false});
  expect(evidence.getByText(publicRun.events[13].summary)).toBeTruthy();
 })

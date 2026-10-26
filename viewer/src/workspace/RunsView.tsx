@@ -23,7 +23,7 @@ export function RunsView({sources,onOpenRun,heading=true}:{sources:readonly Work
  return <section className="runs-view cross-run-overview" lang={language}>
   <Heading className="sr-only">{copy.overview}</Heading>
   <p className="overview-intro"><span>{copy.intro}</span> <span className="overview-current">{copy.loaded}: {data.totalRuns}.</span></p>
-  {!data.totalRuns?<div className="overview-empty"><h2>{copy.empty}</h2><p>{copy.emptyHelp}</p></div>:<>
+  {!data.totalRuns?<div className="overview-empty"><h2>{copy.empty}</h2><p>{copy.emptyHelp}</p><ol className="overview-steps"><li><h3>{copy.stepSetup}</h3><p>{copy.stepSetupBody}</p><p className="run-identity">{copy.stepSetupCli}</p></li><li><h3>{copy.stepLoad}</h3><p>{copy.stepLoadBody}</p><p><a href="/runs">{copy.stepLoadLink}</a></p></li><li><h3>{copy.stepRead}</h3><p>{copy.stepReadBody}</p></li></ol></div>:<>
    <div className="overview-score-charts">
     <section className="overview-score" aria-label={score}><ScoreRing criteria={data.criteria} label={score} copy={copy}/><h2>{score}</h2>{total>0&&<p className="overview-summary">{data.criteria.unmet} {copy.unmet.toLowerCase()} · {data.criteria.unverified} {copy.unverified.toLowerCase()} · {data.criteria.proposed} {copy.proposed.toLowerCase()}.</p>}<div className="overview-integrity">{exportIntegrityStates.filter(state=>data.integrity[state]>0).map(state=><OverviewIntegrity key={state} integrity={state} copy={copy} count={data.totalRuns>1?data.integrity[state]:undefined}/>)}</div><p className="integrity-scope">{copy.integrityScope}</p></section>
     <RunCharts data={data} copy={copy}/>
