@@ -25,7 +25,7 @@ def new_id(prefix: str) -> str:
 
     Returns ``{prefix}_`` followed by a 26-character Crockford Base32 ULID.
     IDs produced within the same process are monotonically ordered by
-    creation time.
+    creation time, including when the wall clock moves backward.
     """
     global _last_timestamp_ms, _last_random
 
@@ -34,10 +34,11 @@ def new_id(prefix: str) -> str:
     if now_ms > _last_timestamp_ms:
         _last_timestamp_ms = now_ms
         _last_random = int.from_bytes(os.urandom(10), "big")
-    elif now_ms == _last_timestamp_ms:
-        _last_random = (_last_random + 1) % (2**80)
     else:
+        # Equal and backward ticks must both advance the suffix to avoid
+        # repeating the previous ID while the wall clock catches up.
         now_ms = _last_timestamp_ms
+        _last_random = (_last_random + 1) % (2**80)
 
     ts_part = _encode_base32(now_ms, 10)
     rand_part = _encode_base32(_last_random, 16)
