@@ -239,6 +239,13 @@ Cool Graphite is the explicit dark alternative: frame #0D0F13, reading area #181
 
 All literal colours live in src/theme.css; components, graph and SVG use semantic variables/currentColor. Separate frame/reading text, focus, borders, selection, status and mode tokens. Success means recorded proven result, error means recorded failed result, neutral grey means open human review or unchecked/missing. Warnings stay grey; no amber or yellow. Light-theme status text uses dark AA variants; dark theme uses lighter variants. Status surfaces are opaque 8% semantic mixes. Selection uses its own interaction token and aria-current/aria-pressed, never a result colour. Mode labels stay visible and use distinct muted role tokens.
 
+Workspace warning text uses neutral grey: #4B5563 in Petrol & Porcelain
+and #ABB5C5 in Cool Graphite. The light warning is darker than `--neutral-text`
+to retain AA contrast on nested status tints. The open human-review badge uses this colour for
+text and border, with the existing 8% warning surface mix. The overview and
+run-summary override stays #97A3B3. The theme check guards this mapping as well
+as AA text and 3:1 controls, including tinted and nested status surfaces.
+
 Self-hosted Plus Jakarta Sans Variable for prose; JetBrains Mono for IDs, times, code and numbers. Type scale 12/14/16/20/28px; body 14px, line-height 1.5. Spacing 8/16/24/32px, functional controls target 44px, panel radius 12px and control radius 8px. Optical border/icon/focus widths are exceptions. No new font/dependency/CDN.
 
 ## Shell and first review path
