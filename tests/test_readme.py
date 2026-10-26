@@ -9,6 +9,8 @@ import subprocess
 import sys
 import unittest
 from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -91,6 +93,15 @@ class ReadmeTests(unittest.TestCase):
                     self.assertTrue(any(p.startswith(relative.rstrip("/") + "/") for p in tracked))
                 else:
                     self.assertIn(relative, tracked, "link target must be tracked, not just present locally")
+                if url.fragment:
+                    self.assertTrue(path.is_file(), "heading target must be a file")
+                    target_headings = {
+                        re.sub(r"[^\w -]", "", title.lower()).replace(" ", "-")
+                        for title in re.findall(
+                            r"^#{1,6} (.+)$", path.read_text(encoding="utf-8"), re.MULTILINE
+                        )
+                    }
+                    self.assertIn(unquote(url.fragment), target_headings, "missing local link heading")
 
     def test_portfolio_opening_and_real_hero(self):
         text = README.read_text(encoding="utf-8")
@@ -124,3 +135,54 @@ class ReadmeTests(unittest.TestCase):
             for pattern in patterns:
                 with self.subTest(document=path.name, pattern=pattern):
                     self.assertIsNone(re.search(pattern, text), "private detail or credential-shaped text")
+
+
+class ReadmeLinkRegressionTests(unittest.TestCase):
+    def setUp(self):
+        """Exercise the README checker against a disposable, locally indexed checkout."""
+        checkout = Path(self.enterContext(TemporaryDirectory()))
+        (checkout / "docs").mkdir()
+        self.readme = checkout / "README.md"
+        self.readme.write_text("# TruthLens\n", encoding="utf-8")
+        (checkout / "docs" / "reviewer guide.md").write_text("## Fresh capture\n", encoding="utf-8")
+        subprocess.run(
+            ["git", "init", "--quiet", "--template=", "--initial-branch=main"],
+            cwd=checkout,
+            capture_output=True,
+            check=True,
+            timeout=10,
+        )
+        subprocess.run(
+            ["git", "add", "README.md", "docs"],
+            cwd=checkout,
+            capture_output=True,
+            check=True,
+            timeout=10,
+        )
+        self.enterContext(patch.multiple(sys.modules[__name__], ROOT=checkout, README=self.readme))
+
+    def test_readme_link_check_rejects_broken_file_fragments(self):
+        cases = [
+            ("docs/reviewer%20guide.md#missing", "missing local link heading"),
+            ("docs/reviewer%20guide.md#missing%2Dheading", "missing local link heading"),
+            ("docs/#fresh-capture", "heading target must be a file"),
+        ]
+        for target, message in cases:
+            with self.subTest(target=target):
+                self.readme.write_text(f"# TruthLens\n[Broken]({target})\n", encoding="utf-8")
+                with self.assertRaisesRegex(AssertionError, message):
+                    ReadmeTests().test_local_links_and_images_resolve_to_tracked_files()
+
+    def test_readme_link_check_accepts_published_targets_offline(self):
+        self.readme.write_text(
+            "# TruthLens\n"
+            "[Capture](docs/reviewer%20guide.md#fresh-capture)\n"
+            "[Encoded heading](docs/reviewer%20guide.md#fresh%2Dcapture)\n"
+            "[Guide](docs/reviewer%20guide.md)\n"
+            "[Directory](docs/)\n"
+            "[This page](#truthlens)\n"
+            "[External](https://example.invalid/unreachable#missing)\n"
+            "[External authority](//example.invalid/unreachable#missing)\n",
+            encoding="utf-8",
+        )
+        ReadmeTests().test_local_links_and_images_resolve_to_tracked_files()
