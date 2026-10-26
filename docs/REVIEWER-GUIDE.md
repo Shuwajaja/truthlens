@@ -101,6 +101,14 @@ exit code 1 without writing an export or projection. Check the directory and
 manifest readability; malformed JSON requires an intact copy of the recorded
 run, not edits to its evidence.
 
+`export DIR` prints viewer JSON to stdout by default. Use `-o FILE` to write it
+to a file; the parent directory must already exist. If that write fails (for
+example, the output names a directory or is not writable), the command prints
+a fixed, path-free `FAIL` diagnostic and exits 1. Choose a writable file path
+and check its parent directory and permissions. Verification still precedes
+writing. A failure after writing starts can leave an incomplete output file;
+rerun the export after resolving the write error.
+
 `run` options include `--criteria`, `--confirm`, `--test 'c1=COMMAND'`,
 `--pass-env`, `--gate-env`, `--hmac-key-file` and `--hmac-key-id`. Human criteria
 confirmation and approval must follow the frozen actor/signature rules.

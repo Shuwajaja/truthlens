@@ -331,7 +331,12 @@ def _w2(a) -> int:
             if a.output == "-":
                 print(doc)
             else:
-                Path(a.output).write_text(doc + "\n")
+                try:
+                    Path(a.output).write_text(doc + "\n")
+                except OSError:
+                    print("FAIL cannot write export; pass a writable output file path"
+                          " with an existing parent directory")
+                    return 1
             return 0
         if a.cmd == "project":
             print(projection.build(events, Path(a.dir) / "projection.sqlite"))
