@@ -186,12 +186,17 @@ def main(argv: list[str] | None = None) -> int:
         return _w2(a)
 
     if a.cmd == "init":
-        if os.path.exists(a.ledger) and os.path.getsize(a.ledger):
-            print("error: ledger exists", file=sys.stderr)
+        try:
+            if os.path.exists(a.ledger) and os.path.getsize(a.ledger):
+                print("error: ledger exists", file=sys.stderr)
+                return 1
+            run_id = new_id("run")
+            Ledger(a.ledger).append(run_id, {"kind": "system", "id": "truthlens-cli"}, "run.started",
+                                    {"repo": a.repo, "ref": a.ref, "command": a.command, "agent": a.agent})
+        except OSError:
+            print("FAIL cannot initialize ledger; pass a writable ledger file path"
+                  " with an existing parent directory")
             return 1
-        run_id = new_id("run")
-        Ledger(a.ledger).append(run_id, {"kind": "system", "id": "truthlens-cli"}, "run.started",
-                                {"repo": a.repo, "ref": a.ref, "command": a.command, "agent": a.agent})
         print(run_id)
         return 0
     if a.cmd == "verify":

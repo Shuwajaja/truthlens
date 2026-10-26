@@ -76,6 +76,7 @@ or the installed `truthlens` entry point.
 
 | Command | Purpose |
 |---|---|
+| `truthlens init LEDGER` | Create a ledger containing one system `run.started` event; parent directory must exist. |
 | `truthlens run --out DIR [OPTIONS] -- AGENT` | Capture one run: Git before/after, output as claims, wrapper-started tests, manifest. Key file and key ID required. |
 | `truthlens request -- COMMAND` | Inside a run, ask for a gated action; blocked until human approval. |
 | `truthlens approve LEDGER HASH` | Approve exactly one action; single use, expires after 10 minutes. |
@@ -88,6 +89,13 @@ or the installed `truthlens` entry point.
 | `truthlens demo-status` | Labelled synthetic temporary fake-broker demo; no real audit. |
 | `truthlens mcp-status --socket PATH` | D34 status-only stdio MCP; requires the protected broker. |
 | `truthlens mcp --root DIR` | Legacy human evidence MCP: `list_runs`, `run_report`, `run_events`; **not D34-compatible**. |
+
+For `init`, pass a new or empty ledger file path whose parent directory already
+exists. A filesystem failure prints a fixed, path-free `FAIL` diagnostic and
+exits 1 without printing a run ID. Check the parent directory and write
+permissions, including the adjacent lock file. A late write or fsync failure
+can leave ledger bytes or a lock file; failure does not guarantee rollback.
+A nonempty ledger is still refused without overwriting it.
 
 For `verify`, pass the `ledger.jsonl` file itself, not its run directory.
 An unreadable ledger (including a directory passed as the file) produces a
