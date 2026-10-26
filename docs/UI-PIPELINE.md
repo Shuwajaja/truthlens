@@ -54,8 +54,9 @@ Keep commands, source commit/tree, observed counts and limitations with the evid
 
 ## Overview visual parity (26 October 2026)
 
-The owner-approved overview uses the green-tinted dark theme independently of
-run detail, with a local German/English table. No upstream strings, fonts or code
+The owner-approved overview and run summary use the green-tinted dark theme,
+with a local German/English table. The secondary technical workspace retains
+its existing themes and explicit English language boundary. No upstream strings, fonts or code
 are fetched. The language scanner permits German only in that fixed dictionary;
 unit tests check matching translation keys and English copy. Existing recorded
 content and English secondary tools are not translated.
@@ -63,10 +64,22 @@ content and English secondary tools are not translated.
 For the focused local capture run
 `cd viewer && npm run build && node scripts/review-overview.mjs`. It uses only the recorded development fixture and
 local production build, captures 1440×900/390×844, runs unrestricted axe on the
-overview/menu/English/empty states, checks keyboard chart/menu/run navigation and
+overview and run detail (German/English, menu, Why and empty states), checks
+keyboard chart/claim strips, menu, Details inspection and return navigation, and
 blocks external requests. Evidence defaults to the gitignored
-`viewer/.screenshots/overview-v2/`; `OVERVIEW_OUTPUT` selects another location.
+`viewer/.screenshots/run-detail-v3/`; `OVERVIEW_OUTPUT` selects another location.
 A missing browser is reported as unavailable, never as a browser/axe pass.
 Review the screenshot against the approved mockup, all axe `incomplete` items,
 long labels, enlarged text and screen-reader behavior manually. This command is
 manual review only, outside automatic PR CI; it does not qualify live services.
+
+Run detail captures include viewport and full-page `run-detail-1440.png`,
+`run-detail-full-1440.png`, `run-detail-390.png` and `run-detail-full-390.png`.
+The summary identifies the tested commit, dirty-tree state, fixture boundary,
+all unrestricted axe violations/incomplete items and unavailable browser errors.
+`REVIEW_BROWSER_EXECUTABLE=/absolute/path/to/chrome` selects an already-installed
+Chrome on the review machine; do not download a browser for this task.
+Contexts use Europe/Berlin and reduced motion. The empty-detail screenshots
+are explicitly labelled synthetic inputs, not recorded witnesses. Compare the
+real fixture's layout with the approved lauf shots without expecting their
+invented numbers, overall verdict, verification seal or generated diagnoses.

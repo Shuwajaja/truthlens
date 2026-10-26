@@ -2,14 +2,10 @@ import type {WorkspaceSource,RunReference} from './navigation-types.ts'
 import {useId,useMemo} from 'react'
 import {aggregateRuns,criterionTotal,OVERVIEW_LIMITS,type CriterionCounts} from './cross-run-data.ts'
 import {CriterionText,RunCharts,ScoreRing} from './RunCharts.tsx'
-import {recordedTime} from '../components/overview-data.ts'
-import {overviewCopy,type OverviewLanguage} from './overview-copy.ts'
+import {recordedTime,overviewTime} from '../components/overview-data.ts'
+import {overviewCopy} from './overview-copy.ts'
 import {useOverviewLanguage} from './overview-language.ts'
 import './runs-overview.css'
-function overviewTime(value:string,language:OverviewLanguage){
- const date=new Date(value)
- return Number.isNaN(date.getTime())?value:new Intl.DateTimeFormat(language==='de'?'de-DE':'en-GB',{weekday:'short',day:'2-digit',month:language==='de'?'2-digit':'short',hour:'2-digit',minute:'2-digit',hour12:false}).format(date)
-}
 function criterionStatus(c:CriterionCounts){
  if(c.unmet)return 'Unmet'
  if(!criterionTotal(c)||c.unverified)return 'Unverified'

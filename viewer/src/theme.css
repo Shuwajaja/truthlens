@@ -100,7 +100,7 @@
   --frame-mode-client: #9CAFA8;
   --frame-mode-developer: #A7B6CF;
 }
-/* Approved overview palette. Run detail themes remain unchanged in step 1. */
+/* Approved overview and run-summary palette. Technical review retains its theme. */
 .cross-run-overview, .overview-shell {
   color-scheme: dark;
   --bg: #070B0A;

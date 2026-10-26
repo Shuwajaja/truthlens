@@ -1,3 +1,4 @@
+import type {OverviewLanguage} from '../workspace/overview-copy.ts'
 import type { RunDoc } from '../types.ts'
 
 /** Select an exported diff body, never JSON that merely quotes a diff marker. */
@@ -28,4 +29,9 @@ export function exportedHtmlArtifact(doc: RunDoc) {
     if (/\.html?$/i.test(artifact.path) && typeof text === 'string' && text.trim()) return {artifact, text}
   }
   return undefined
+}
+
+export function overviewTime(value:string,language:OverviewLanguage){
+ const date=new Date(value)
+ return Number.isNaN(date.getTime())?value:new Intl.DateTimeFormat(language==='de'?'de-DE':'en-GB',{weekday:'short',day:'2-digit',month:language==='de'?'2-digit':'short',hour:'2-digit',minute:'2-digit',hour12:false}).format(date)
 }

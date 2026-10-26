@@ -9,7 +9,7 @@ it('opens real run metadata in the mobile sheet and restores the run trigger on 
  vi.stubGlobal('matchMedia',(query:string)=>({matches:!query.includes('min-width'),addEventListener(){},removeEventListener(){}}))
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(publicRun)})))
  history.replaceState(null,'','/?view=overview')
- render(<App/>);await screen.findByRole('main');
+ render(<App/>);await screen.findByRole('main');fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}));
  const navigation=screen.getByRole('button',{name:'Navigation',exact:true});navigation.focus();fireEvent.click(navigation);
  const trigger=screen.getByRole('button',{name:'Run details',exact:true});
  trigger.focus();fireEvent.click(trigger);

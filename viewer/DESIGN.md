@@ -1,5 +1,46 @@
 # TruthLens Viewer — Workspace design contract
 
+## Run detail visual parity, 26 October 2026
+
+Step 3 applies the approved `desktop-lauf*.png` / `mobile-lauf*.png` geometry
+and the overview palette to the human run summary. Reuse its compact header,
+1208px column, 12px mobile gutters, local Plus Jakarta Sans, token colours and
+12/14/16/20/28px scale. No amber, gradients, glow, external assets or dependencies.
+The header leads to the overview and identifies project, agent and recorded start.
+Show a criterion score ring, all four status counts and a plain sentence counting
+recorded claims/findings separately from met criteria. Never infer a run verdict.
+
+Render one card per criterion and additional cards for claims with no matching
+criterion. Preserve every linked claim and missing reference; never substitute a
+criterion's text for an agent's words. Three columns on desktop, two on tablet,
+one horizontally scrolling strip on mobile with native keys and tap controls.
+Each card distinguishes criterion status, claim finding and linked evidence.
+Native Why disclosures use fixed templates for status/finding and recorded linked
+event type/exit/result/test-count fields. Missing evidence explicitly says no
+reason recorded; no inferred absence of file changes, isolation diagnosis or
+free-text generation. A supported claim with no criterion remains a claim finding.
+
+Claim/evidence rows use solid supported and dashed unwitnessed connectors, with
+actual claim counts and text equivalents; missing criterion/evidence references
+stay explicit. Timeline uses original event summaries, actor kinds/IDs and seq
+order, short German/English local times and full zoned timestamps in titles.
+No exit-0 event turns green as a passed check. All recorded text is React text.
+
+German defaults through the existing fixed overview dictionary; English remains
+available. The neutral signature notice and Integrity is not approval stay visible.
+Details opens the existing English review workspace, including inspection,
+downloads, preview, comparisons and original evidence views. Its legacy theme
+preference remains intact; returning to the summary restores the approved palette.
+No data read is added. Menu retains workspace tools; explicit/deep/restored run
+routes retain their identities. No frozen contract, G1/G2 or D34 change.
+
+Acceptance: red-first DOM regressions for counts, missing/unmatched/proposed
+records, text safety, timestamp/localization, navigation and existing inspection;
+full Python/viewer suites in UTC and Europe/Berlin, ruff/lint/build. Manual browser
+review captures 1440×900 and 390×844, unrestricted axe, menu/Why/Details/keyboard,
+empty state and reduced motion. Without Chromium, screenshots, axe and rendered
+visual parity remain explicitly unqualified.
+
 ## Overview visual parity, 26 October 2026
 
 The owner-approved reference is the four desktop/mobile shots and `src.html` in

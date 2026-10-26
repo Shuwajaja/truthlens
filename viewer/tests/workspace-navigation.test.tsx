@@ -14,7 +14,7 @@ it('lands on the overview and opens details only after selecting a run',async()=
  expect(screen.getAllByRole('figure')).toHaveLength(4)
  expect(fetch).toHaveBeenCalledTimes(1)
  fireEvent.click(screen.getByRole('button',{name:name=>name.startsWith(run.run.project)}))
- expect(screen.getByRole('region',{name:'Criteria and evidence'})).toBeTruthy()
+ expect(screen.getByRole('region',{name:'Behauptung gegen Beweis'})).toBeTruthy()
  expect(fetch).toHaveBeenCalledTimes(1)
 })
 it('keeps unavailable explicit references inert and offers Runs without fetching them',async()=>{load('/?source=missing&run=absent&view=timeline');await screen.findByRole('heading',{name:'Run unavailable'});expect(fetch).toHaveBeenCalledTimes(1);expect(screen.queryByText(run.run.project)).toBeNull();fireEvent.click(screen.getByRole('button',{name:'Return to Runs'}));expect(screen.getByRole('heading',{name:'Übersicht'})).toBeTruthy()})

@@ -2711,6 +2711,16 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, client lens,
         class="workspace-controls"
       >
         <button
+          class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+          data-size="default"
+          data-slot="button"
+          data-variant="outline"
+          lang="en"
+          type="button"
+        >
+          Back to run
+        </button>
+        <button
           aria-expanded="true"
           class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
           data-size="default"
@@ -9972,6 +9982,16 @@ exports[`recorded viewer layouts and renderer snapshots > Overview, developer le
       <div
         class="workspace-controls"
       >
+        <button
+          class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border bg-background hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-4"
+          data-size="default"
+          data-slot="button"
+          data-variant="outline"
+          lang="en"
+          type="button"
+        >
+          Back to run
+        </button>
         <button
           aria-expanded="true"
           class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[>svg]:px-4"
@@ -23269,7 +23289,7 @@ new file mode 100644
 exports[`recorded viewer layouts and renderer snapshots > criterion drawer with diff and synthetic Markdown, client lens 1`] = `
 <DocumentFragment>
   <div
-    aria-describedby="evidence-description radix-_r_b_"
+    aria-describedby="evidence-description radix-_r_e_"
     aria-label="Evidence detail"
     aria-modal="true"
     class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
@@ -23324,14 +23344,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           tabindex="0"
         >
           <button
-            aria-controls="radix-_r_c_-content-overview"
+            aria-controls="radix-_r_f_-content-overview"
             aria-selected="true"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="active"
-            id="radix-_r_c_-trigger-overview"
+            id="radix-_r_f_-trigger-overview"
             role="tab"
             tabindex="0"
             type="button"
@@ -23339,14 +23359,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Overview
           </button>
           <button
-            aria-controls="radix-_r_c_-content-tests"
+            aria-controls="radix-_r_f_-content-tests"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_c_-trigger-tests"
+            id="radix-_r_f_-trigger-tests"
             role="tab"
             tabindex="-1"
             type="button"
@@ -23354,14 +23374,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Tests
           </button>
           <button
-            aria-controls="radix-_r_c_-content-artifacts"
+            aria-controls="radix-_r_f_-content-artifacts"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_c_-trigger-artifacts"
+            id="radix-_r_f_-trigger-artifacts"
             role="tab"
             tabindex="-1"
             type="button"
@@ -23369,14 +23389,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Files
           </button>
           <button
-            aria-controls="radix-_r_c_-content-time"
+            aria-controls="radix-_r_f_-content-time"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_c_-trigger-time"
+            id="radix-_r_f_-trigger-time"
             role="tab"
             tabindex="-1"
             type="button"
@@ -23385,12 +23405,12 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           </button>
         </div>
         <div
-          aria-labelledby="radix-_r_c_-trigger-overview"
+          aria-labelledby="radix-_r_f_-trigger-overview"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="active"
-          id="radix-_r_c_-content-overview"
+          id="radix-_r_f_-content-overview"
           role="tabpanel"
           tabindex="0"
         >
@@ -26970,35 +26990,35 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           </div>
         </div>
         <div
-          aria-labelledby="radix-_r_c_-trigger-tests"
+          aria-labelledby="radix-_r_f_-trigger-tests"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_c_-content-tests"
+          id="radix-_r_f_-content-tests"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_c_-trigger-artifacts"
+          aria-labelledby="radix-_r_f_-trigger-artifacts"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_c_-content-artifacts"
+          id="radix-_r_f_-content-artifacts"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_c_-trigger-time"
+          aria-labelledby="radix-_r_f_-trigger-time"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_c_-content-time"
+          id="radix-_r_f_-content-time"
           role="tabpanel"
           tabindex="0"
         />
@@ -27041,7 +27061,7 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
 exports[`recorded viewer layouts and renderer snapshots > criterion drawer with diff and synthetic Markdown, developer lens 1`] = `
 <DocumentFragment>
   <div
-    aria-describedby="evidence-description radix-_r_s_"
+    aria-describedby="evidence-description radix-_r_12_"
     aria-label="Evidence detail"
     aria-modal="true"
     class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
@@ -27096,14 +27116,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           tabindex="0"
         >
           <button
-            aria-controls="radix-_r_t_-content-overview"
+            aria-controls="radix-_r_13_-content-overview"
             aria-selected="true"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="active"
-            id="radix-_r_t_-trigger-overview"
+            id="radix-_r_13_-trigger-overview"
             role="tab"
             tabindex="0"
             type="button"
@@ -27111,14 +27131,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Overview
           </button>
           <button
-            aria-controls="radix-_r_t_-content-tests"
+            aria-controls="radix-_r_13_-content-tests"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_t_-trigger-tests"
+            id="radix-_r_13_-trigger-tests"
             role="tab"
             tabindex="-1"
             type="button"
@@ -27126,14 +27146,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Tests
           </button>
           <button
-            aria-controls="radix-_r_t_-content-artifacts"
+            aria-controls="radix-_r_13_-content-artifacts"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_t_-trigger-artifacts"
+            id="radix-_r_13_-trigger-artifacts"
             role="tab"
             tabindex="-1"
             type="button"
@@ -27141,14 +27161,14 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
             Files
           </button>
           <button
-            aria-controls="radix-_r_t_-content-time"
+            aria-controls="radix-_r_13_-content-time"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_t_-trigger-time"
+            id="radix-_r_13_-trigger-time"
             role="tab"
             tabindex="-1"
             type="button"
@@ -27157,12 +27177,12 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           </button>
         </div>
         <div
-          aria-labelledby="radix-_r_t_-trigger-overview"
+          aria-labelledby="radix-_r_13_-trigger-overview"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="active"
-          id="radix-_r_t_-content-overview"
+          id="radix-_r_13_-content-overview"
           role="tabpanel"
           tabindex="0"
         >
@@ -30902,35 +30922,35 @@ exports[`recorded viewer layouts and renderer snapshots > criterion drawer with 
           </div>
         </div>
         <div
-          aria-labelledby="radix-_r_t_-trigger-tests"
+          aria-labelledby="radix-_r_13_-trigger-tests"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_t_-content-tests"
+          id="radix-_r_13_-content-tests"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_t_-trigger-artifacts"
+          aria-labelledby="radix-_r_13_-trigger-artifacts"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_t_-content-artifacts"
+          id="radix-_r_13_-content-artifacts"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_t_-trigger-time"
+          aria-labelledby="radix-_r_13_-trigger-time"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_t_-content-time"
+          id="radix-_r_13_-content-time"
           role="tabpanel"
           tabindex="0"
         />
@@ -30994,7 +31014,7 @@ exports[`recorded viewer layouts and renderer snapshots > preserves plain text b
 exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown source toggle inside the criterion drawer 1`] = `
 <DocumentFragment>
   <div
-    aria-describedby="evidence-description radix-_r_14_"
+    aria-describedby="evidence-description radix-_r_1a_"
     aria-label="Evidence detail"
     aria-modal="true"
     class="fixed z-50 flex flex-col gap-4 bg-background inset-y-0 right-0 h-full w-full max-w-[480px] border-l drawer-pane"
@@ -31049,14 +31069,14 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
           tabindex="0"
         >
           <button
-            aria-controls="radix-_r_15_-content-overview"
+            aria-controls="radix-_r_1b_-content-overview"
             aria-selected="true"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="active"
-            id="radix-_r_15_-trigger-overview"
+            id="radix-_r_1b_-trigger-overview"
             role="tab"
             tabindex="0"
             type="button"
@@ -31064,14 +31084,14 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
             Overview
           </button>
           <button
-            aria-controls="radix-_r_15_-content-tests"
+            aria-controls="radix-_r_1b_-content-tests"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_15_-trigger-tests"
+            id="radix-_r_1b_-trigger-tests"
             role="tab"
             tabindex="-1"
             type="button"
@@ -31079,14 +31099,14 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
             Tests
           </button>
           <button
-            aria-controls="radix-_r_15_-content-artifacts"
+            aria-controls="radix-_r_1b_-content-artifacts"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_15_-trigger-artifacts"
+            id="radix-_r_1b_-trigger-artifacts"
             role="tab"
             tabindex="-1"
             type="button"
@@ -31094,14 +31114,14 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
             Files
           </button>
           <button
-            aria-controls="radix-_r_15_-content-time"
+            aria-controls="radix-_r_1b_-content-time"
             aria-selected="false"
             class="relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-2 rounded-md border border-transparent px-2 py-2 text-sm font-medium whitespace-nowrap text-foreground/60 transition-colors group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-none group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100"
             data-orientation="horizontal"
             data-radix-collection-item=""
             data-slot="tabs-trigger"
             data-state="inactive"
-            id="radix-_r_15_-trigger-time"
+            id="radix-_r_1b_-trigger-time"
             role="tab"
             tabindex="-1"
             type="button"
@@ -31110,12 +31130,12 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
           </button>
         </div>
         <div
-          aria-labelledby="radix-_r_15_-trigger-overview"
+          aria-labelledby="radix-_r_1b_-trigger-overview"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="active"
-          id="radix-_r_15_-content-overview"
+          id="radix-_r_1b_-content-overview"
           role="tabpanel"
           tabindex="0"
         >
@@ -34673,35 +34693,35 @@ exports[`recorded viewer layouts and renderer snapshots > preserves the Markdown
           </div>
         </div>
         <div
-          aria-labelledby="radix-_r_15_-trigger-tests"
+          aria-labelledby="radix-_r_1b_-trigger-tests"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_15_-content-tests"
+          id="radix-_r_1b_-content-tests"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_15_-trigger-artifacts"
+          aria-labelledby="radix-_r_1b_-trigger-artifacts"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_15_-content-artifacts"
+          id="radix-_r_1b_-content-artifacts"
           role="tabpanel"
           tabindex="0"
         />
         <div
-          aria-labelledby="radix-_r_15_-trigger-time"
+          aria-labelledby="radix-_r_1b_-trigger-time"
           class="flex-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           data-orientation="horizontal"
           data-slot="tabs-content"
           data-state="inactive"
           hidden=""
-          id="radix-_r_15_-content-time"
+          id="radix-_r_1b_-content-time"
           role="tabpanel"
           tabindex="0"
         />
