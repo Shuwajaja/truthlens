@@ -51,11 +51,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Required docs exist (placeholder until W1)
+      - name: Required docs exist
         run: |
           for f in README.md docs/INVENTORY.md docs/ARCHITECTURE.md docs/TRUST-LEVELS.md docs/spec/event-schema-v1.md docs/spec/artifact-manifest-v1.md; do
             test -s "$f" || { echo "missing $f"; exit 1; }
           done
+      - name: README links, hero and private-detail tripwires (offline)
+        run: python3 -m unittest tests.test_readme -q
   test:
     needs: scope
     if: ${{ always() && (needs.scope.result != 'success' || needs.scope.outputs.python == 'true') }}
