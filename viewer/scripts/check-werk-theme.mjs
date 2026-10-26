@@ -5,7 +5,7 @@ const css=await readFile(new URL('../src/theme.css',import.meta.url),'utf8');
 const parse=block=>Object.fromEntries([...block.matchAll(/--([\w-]+):\s*([^;]+);/g)].map(m=>[m[1],m[2].trim()]));
 const base=parse(css.match(/:root\s*\{([\s\S]*?)\}/)[1]);
 const dark=parse(css.match(/:root\[data-viewer-theme="cool-graphite"\]\s*\{([\s\S]*?)\}/)[1]);
-const overview=parse(css.match(/\.cross-run-overview\s*\{([\s\S]*?)\}/)[1]);
+const overview=parse(css.match(/\.cross-run-overview, \.overview-shell\s*\{([\s\S]*?)\}/)[1]);
 assert.equal([...css.matchAll(/:root\b/g)].length,2,'base and one explicit alternative');
 assert(base.font.includes('Plus Jakarta Sans Variable'));assert(base.mono.includes('JetBrains Mono Variable'));
 assert.equal(base.radius,'12px');for(const [i,n] of [8,16,24,32].entries())assert.equal(base[`space-${i+1}`],`${n}px`);

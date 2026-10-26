@@ -5,6 +5,7 @@ import {resolve} from 'node:path'
 import {spawnSync} from 'node:child_process'
 import {afterEach,expect,it,vi} from 'vitest'
 import {cleanup,fireEvent,render,screen,within,waitFor} from '@testing-library/react'
+import {overviewCopy} from '../src/workspace/overview-copy.ts'
 import {germanUI} from '../scripts/check-language.mjs'
 import App from '../src/App.tsx'
 import publicRun from '../fixtures/demo-run.json'
@@ -81,3 +82,9 @@ it('the document uses English language metadata',()=>{
  expect(new DOMParser().parseFromString(html,'text/html').documentElement.lang).toBe('en')
  expect(new DOMParser().parseFromString(html,'text/html').title).toBe('TruthLens')
 })
+
+ it('permits only the fixed overview translation table and keeps complete English copy',()=>{
+  expect(Object.keys(overviewCopy.de).sort()).toEqual(Object.keys(overviewCopy.en).sort())
+  for(const value of Object.values(overviewCopy.en))expect(germanUI.test(value)).toBe(false)
+  expect(spawnSync(process.execPath,[resolve('scripts/check-language.mjs')]).status).toBe(0)
+ })

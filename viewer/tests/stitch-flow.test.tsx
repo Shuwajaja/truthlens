@@ -36,6 +36,7 @@ it('does not invent a criterion action when a result category is empty',()=>{
 it('uses one shell and a real criteria return action across all four views',async()=>{
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(doc)})))
  render(<App/>);await screen.findByRole('main')
+ fireEvent.click(screen.getByRole('button',{name:name=>name.startsWith(doc.run.project)}))
  const nav=within(screen.getByRole('navigation',{name:'Viewer navigation'}))
  for(const name of ['Overview','Claimed vs proven','Timeline','Agent story']){
   fireEvent.click(nav.getByRole('button',{name,exact:true}))
