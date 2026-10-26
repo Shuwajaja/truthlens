@@ -1,4 +1,4 @@
-"""Execute the architecture's offline CLI tour without provisioning a host."""
+"""Keep the architecture's source map and CLI tour usable offline."""
 
 from __future__ import annotations
 
@@ -9,6 +9,7 @@ import subprocess
 import sys
 import unittest
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 import pytest
 
@@ -20,6 +21,33 @@ class ArchitectureDocsTests(unittest.TestCase):
     def test_local_links_resolve_to_published_targets(self):
         links = re.findall(r"\]\(([^\s)]+)\)", DOCUMENT.read_text(encoding="utf-8"))
         self.assertTrue(links, "architecture needs links to source and supporting documentation")
+        tracked = set(subprocess.check_output(["git", "ls-files", "-z"], cwd=ROOT).decode().split("\0"))
+        for target in links:
+            with self.subTest(target=target):
+                url = urlsplit(target)
+                if url.scheme or url.netloc:
+                    continue  # Never fetch external links.
+                path = (DOCUMENT.parent / unquote(url.path)).resolve() if url.path else DOCUMENT.resolve()
+                self.assertTrue(path.is_relative_to(ROOT), "local links must stay in the checkout")
+                self.assertTrue(path.exists(), "missing local link target")
+                relative = path.relative_to(ROOT).as_posix()
+                if path.is_dir():
+                    prefix = relative.rstrip("/") + "/" if path != ROOT else ""
+                    self.assertTrue(
+                        any(p and p.startswith(prefix) for p in tracked),
+                        "directory must contain published files",
+                    )
+                else:
+                    self.assertIn(relative, tracked, "link target must be published")
+                if url.fragment:
+                    self.assertTrue(path.is_file(), "heading target must be a file")
+                    headings = {
+                        re.sub(r"[^\w -]", "", title.lower()).replace(" ", "-")
+                        for title in re.findall(
+                            r"^#{1,6} (.+)$", path.read_text(encoding="utf-8"), re.MULTILINE
+                        )
+                    }
+                    self.assertIn(unquote(url.fragment), headings, "missing local link heading")
 
     def test_documented_cli_tour_is_read_only_and_runs_offline(self):
         blocks = re.findall(
