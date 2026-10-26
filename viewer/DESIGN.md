@@ -273,7 +273,7 @@ Text >=4.5:1 on its actual surface; functional borders, selection and focus >=3:
 
 Four required browser regressions: actual mobile preview content/canvas; last criterion reachable and hit-testable without nav overlap; all secondary text contrast on both themes; delayed initial loading without heading focus/white frame while keyboard focus remains visible. Vitest guards theme restore/failure and user-only focus changes; full browser review covers real geometry and contrast.
 
-Fast PR CI: build/lint/unit/static guards. Manual release review: Playwright 1440x900 and 390x844, both themes and lenses, four views, criterion/event/file sheets, full axe (serious/critical fixed), keyboard and overflow checks; report incomplete findings honestly. Screenshots and axe summary identify the tested commit. No merge without independent security check and Shu approval.
+Fast PR CI: build/lint/unit/static guards. Manual release review: Playwright 1440x900 and 390x844, both themes and lenses, four views, criterion/event/file sheets, full axe (serious/critical fixed), keyboard and overflow checks; report incomplete findings honestly. Screenshots and axe summary identify the tested commit. Merge guidance follows the standing authorization and task-specific limits in [AGENTS.md](../AGENTS.md); security-sensitive changes require independent Codex review.
 
 ## Phase C navigation
 
