@@ -11,6 +11,8 @@ import unittest
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 README = ROOT / "README.md"
 
@@ -124,3 +126,58 @@ class ReadmeTests(unittest.TestCase):
             for pattern in patterns:
                 with self.subTest(document=path.name, pattern=pattern):
                     self.assertIsNone(re.search(pattern, text), "private detail or credential-shaped text")
+
+
+@pytest.fixture
+def readme_checkout(tmp_path, monkeypatch):
+    """Exercise the README checker against a disposable, locally indexed checkout."""
+    (tmp_path / "docs").mkdir()
+    readme = tmp_path / "README.md"
+    readme.write_text("# TruthLens\n", encoding="utf-8")
+    (tmp_path / "docs" / "reviewer guide.md").write_text("## Fresh capture\n", encoding="utf-8")
+    subprocess.run(
+        ["git", "init", "--quiet", "--template=", "--initial-branch=main"],
+        cwd=tmp_path,
+        capture_output=True,
+        check=True,
+        timeout=10,
+    )
+    subprocess.run(
+        ["git", "add", "README.md", "docs"],
+        cwd=tmp_path,
+        capture_output=True,
+        check=True,
+        timeout=10,
+    )
+    monkeypatch.setattr(sys.modules[__name__], "ROOT", tmp_path)
+    monkeypatch.setattr(sys.modules[__name__], "README", readme)
+    return readme
+
+
+@pytest.mark.parametrize(
+    "target, message",
+    [
+        ("docs/reviewer%20guide.md#missing", "missing local link heading"),
+        ("docs/reviewer%20guide.md#missing%2Dheading", "missing local link heading"),
+        ("docs/#fresh-capture", "heading target must be a file"),
+    ],
+)
+def test_readme_link_check_rejects_broken_file_fragments(readme_checkout, target, message):
+    readme_checkout.write_text(f"# TruthLens\n[Broken]({target})\n", encoding="utf-8")
+    with pytest.raises(AssertionError, match=message):
+        ReadmeTests().test_local_links_and_images_resolve_to_tracked_files()
+
+
+def test_readme_link_check_accepts_published_targets_offline(readme_checkout):
+    readme_checkout.write_text(
+        "# TruthLens\n"
+        "[Capture](docs/reviewer%20guide.md#fresh-capture)\n"
+        "[Encoded heading](docs/reviewer%20guide.md#fresh%2Dcapture)\n"
+        "[Guide](docs/reviewer%20guide.md)\n"
+        "[Directory](docs/)\n"
+        "[This page](#truthlens)\n"
+        "[External](https://example.invalid/unreachable#missing)\n"
+        "[External authority](//example.invalid/unreachable#missing)\n",
+        encoding="utf-8",
+    )
+    ReadmeTests().test_local_links_and_images_resolve_to_tracked_files()
