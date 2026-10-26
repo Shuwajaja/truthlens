@@ -2,6 +2,7 @@
 
 import re
 import sqlite3
+from itertools import pairwise
 
 import pytest
 
@@ -36,7 +37,7 @@ def test_ids_stay_unique_and_increasing_through_clock_changes(monkeypatch, ticks
 
     assert all(re.fullmatch(r"evt_[0-7][0-9A-HJKMNP-TV-Z]{25}", value) for value in generated)
     assert len(set(generated)) == len(ticks)
-    assert all(before < after for before, after in zip(generated, generated[1:]))
+    assert all(before < after for before, after in pairwise(generated))
 
 
 def test_rollback_events_verify_and_rebuild_projection(tmp_path, monkeypatch):
