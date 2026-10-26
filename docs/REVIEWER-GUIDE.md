@@ -84,11 +84,14 @@ or the installed `truthlens` entry point.
 | `truthlens report DIR` / `export DIR` / `project DIR` | Criteria and claims versus evidence / viewer JSON / rebuildable SQLite. |
 | `truthlens audit DIR --json` | Read-only audit; exits 0 supported, 1 contradiction, 2 required check unavailable. Hash-only cannot exit 0. |
 | `truthlens agent-status RUN_ID [--socket PATH] [--json]` | Broker-only status; exit 0/1/2. |
-| `truthlens doctor [--socket PATH]` | Read-only diagnostics for humans; isolation remains unverified. |
+| `truthlens setup --agent NAME --root PATH --key-env NAME --print` | Print one MCP entry. `--write` updates that harness file after a `.bak`. `--prompt` prints a config prompt. |
+| `truthlens doctor` | Read-only catalog readiness and harness table. No config contents or key values. |
+| `truthlens doctor --socket PATH` | Status-isolation doctor for humans; isolation remains unverified and the command exits 2. |
 | `truthlens agent-config CLIENT --socket PATH [--output NEW_PATH]` | Print a client snippet or create only an explicit new file. |
 | `truthlens demo-status` | Labelled synthetic temporary fake-broker demo; no real audit. |
 | `truthlens mcp-status --socket PATH` | D34 status-only stdio MCP; requires the protected broker. |
 | `truthlens mcp --root DIR` | Legacy human evidence MCP: `list_runs`, `run_report`, `run_events`; **not D34-compatible**. |
+| `truthlens mcp` | Local read-only catalog when `TRUTHLENS_ROOT` is set. Tools: `list_runs`, `get_run`, `verify_run`, `doctor`. Not D34. |
 
 For `init`, pass a new or empty ledger file path whose parent directory already
 exists. A filesystem failure prints a fixed, path-free `FAIL` diagnostic and

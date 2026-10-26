@@ -165,3 +165,8 @@ The legacy `truthlens mcp --root` still exposes reports/events and is **not
 D34-compatible**. Keep it confined to trusted human evidence workflows. It is
 unchanged and never used as a fallback. The existing ACP handler and viewer are
 also unchanged; G1 does not activate either integration.
+
+`truthlens mcp` with `TRUTHLENS_ROOT` is a separate local catalog. It can
+return claims and evidence, so it is not a status tool and not a fallback
+when `mcp-status` is missing. HMAC is required before a verdict is `TRUE` or
+`FALSE`. No network listener is added.

@@ -13,10 +13,23 @@ Existing commands keep their contracts.
   With `TRUTHLENS_REFERENCE=1` and no ledger path, `truthlens init` detects a
   local adapter and writes the workspace plus `.truthlens/hooks/task-end`.
   That hook appends an agent report. It does not open a ledger.
-- `truthlens doctor` stays the read-only status doctor and still exits 2.
-- `truthlens mcp --root` stays a human evidence tool. It is not installed for
-  agents, and this projection does not add `mcp install`. Its tools stay
+- `truthlens doctor --socket` stays the read-only status doctor and still exits 2.
+- `truthlens doctor` with no socket flag is the local catalog readiness scan.
+  It checks the runs directory, whether the named key env var is set, and
+  which harnesses are installed. It does not print config contents or key
+  values, and it does not write.
+- `truthlens setup` prints or writes one local MCP entry. It stores the env
+  var name, not the key value, and it copies an existing file to `.bak`
+  before replacing it.
+- `truthlens mcp --root DIR` stays a human evidence tool. It is not installed
+  for agents, and this projection does not add `mcp install`. Its tools stay
   `list_runs`, `run_report` and `run_events`.
+- `truthlens mcp` with `TRUTHLENS_ROOT` and no `--root` is a separate local
+  read-only catalog. Its tools are `list_runs`, `get_run`, `verify_run` and
+  `doctor`. It does not replace `truthlens mcp-status`. `TRUE` / `bestätigt`
+  and `FALSE` / `widerlegt` require integrity `hmac`; otherwise the verdict
+  is `UNKNOWN` / `unklar`, or `not_checkable` when the file cannot be
+  checked. The catalog does not use the network and does not write.
 - `truthlens mcp-status` stays the separate status tool
   `truthlens_check_status`. Its result stays `passed`, `failed` or
   `not_checkable`. It does not return claims, events or evidence.

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "truthlens": {
+      "command": "truthlens",
+      "args": ["mcp"],
+      "env": {
+        "TRUTHLENS_ROOT": "/path/to/local/runs"
+      }
+    }
+  }
+}
