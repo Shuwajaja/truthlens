@@ -187,7 +187,7 @@ def test_doctor_missing_sdk_and_adapter_errors_are_fixed(monkeypatch, capsys):
 
     monkeypatch.setattr(api.importlib, "import_module", broken)
     monkeypatch.setattr(api.importlib.util, "find_spec", lambda *a: None)
-    assert main(["doctor"]) == 2
+    assert main(["doctor", "--socket", "/run/truthlens/status.sock"]) == 2
     assert capsys.readouterr() == (
         (
             "SOCKET_UNSAFE_OR_MISSING\nADAPTER_UNAVAILABLE\nMCP_SDK_MISSING\n"

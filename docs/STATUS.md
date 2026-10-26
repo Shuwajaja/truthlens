@@ -1,3 +1,22 @@
+## Setup command and harness doctor — local checks, 26 October 2026
+
+`cursor/truthlens-setup-mcp-af22` adds `truthlens setup` and turns bare
+`truthlens doctor` into a read-only catalog scan. Setup prints or writes one
+MCP entry for Codex, Claude Code, Gemini/agy, Cursor, Agent Zero, or Mausbot.
+An existing file is copied to `.bak` first. The file stores the env var name,
+not the key value. `truthlens setup --prompt` prints a short config prompt
+with no path and no key. Bare doctor reports root, key-env presence, and a
+harness table. It does not print config contents or secrets.
+`truthlens doctor --socket` remains the isolation doctor and still exits 2.
+Not merged.
+
+On this tree, before this paragraph:
+
+- `/tmp/tl-venv/bin/ruff check src tests` passed.
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m pytest -q tests/test_setup_mcp.py tests/test_reference_commands.py tests/test_readme.py tests/test_architecture_docs.py tests/test_agent_setup.py --tb=line` printed **114 passed, 108 subtests passed**.
+
+Full pytest, CI, separate-UID, and a live harness install were not run.
+
 ## Local catalog MCP — local checks, 26 October 2026
 
 `cursor/truthlens-mcp-stdio-af22` adds `truthlens mcp` with `TRUTHLENS_ROOT`.

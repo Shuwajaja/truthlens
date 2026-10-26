@@ -144,6 +144,14 @@ placeholder root. They are not a live host configuration. The private
 Artifact Hub repository was not available for this change; the loop follows
 the existing TruthLens stdio server.
 
+## Set up your own harness
+
+[Set up TruthLens](docs/setup-mcp.md) is a short German and English guide:
+install, choose a runs directory and your own key env var, then add the MCP
+entry. `truthlens setup` can print that entry or write it after making a
+`.bak`. It stores the env var name, not the key. `truthlens doctor` checks
+readiness and does not print secrets. Without a key, a verdict stays unklar.
+
 ## Security and contracts
 
 Canonical JSON excludes floats; `[REDACTED]` replaces secrets before hashing;
