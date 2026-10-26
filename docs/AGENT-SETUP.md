@@ -11,6 +11,9 @@ qualification of installed client versions**. The SDK has synthetic stdio tests;
 actual client versions and Agent Zero's build-specific configuration remain
 unqualified. [Architecture, protocol limits and trust boundary](SELFHOST-MCP.md).
 The old `truthlens mcp --root` is a human evidence API and is not an agent fallback.
+Human report text may show `TRUE` / `FALSE` / `UNKNOWN`. Those words are not
+the tool result. `passed` still requires a qualified separate-UID broker; this
+demo and a green unit test do not provide that.
 
 ## Try the one-minute synthetic demo
 

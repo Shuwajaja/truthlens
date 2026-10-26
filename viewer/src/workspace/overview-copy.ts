@@ -19,7 +19,9 @@ export const overviewCopy = {
   chartData:'Recorded chart data', charts:'Run charts', previous:'Previous chart', next:'Next chart', swipe:'Swipe through charts',
   latest:'Latest runs', latestHelp:'Select a run for details', showing:'Showing', latestOrder:'Newest recorded start first; undated runs last.',
   untitled:'Untitled run', noAgent:'Agent not recorded', noStart:'Start time not recorded', open:'Open run', source:'Source', details:'Recorded details and sources',
-  review:'Review required', noReview:'No review required in export', pillMet:'Criteria: met', pillUnmet:'Criteria: unmet', pillUnverified:'Criteria: not checkable', pillProposed:'Criteria: proposed',
+  review:'Review required', noReview:'No review required in export', pillMet:'Criteria: met', pillUnmet:'Criteria: unmet', pillUnverified:'Criteria: not checkable', pillProposed:'Criteria: proposed', pillTrue:'Criteria: TRUE', pillFalse:'Criteria: FALSE', pillUnknown:'Criteria: UNKNOWN',
+  displayTrue:'TRUE', displayFalse:'FALSE', displayUnknown:'UNKNOWN', explainTrue:'Supported inside this recorded, authenticated check.', explainFalse:'The recorded check contradicts this criterion.', explainUnknown:'Required evidence or independent authentication is missing.',
+  auditTitle:'Protected audit', auditMissing:'This document has no protected audit status. UNKNOWN is not taken from criteria counts.', auditScope:'Separate from criterion results. This view does not compute HMAC or the agent status.',
   commands:'Commands', files:'File changes', testFiles:'Test-file changes', reports:'Test reports', artifacts:'Artifact records', other:'Other recorded evidence',
  },
  de: {
@@ -41,7 +43,9 @@ export const overviewCopy = {
   chartData:'Aufgezeichnete Diagrammdaten', charts:'Laufdiagramme', previous:'Vorheriges Diagramm', next:'Nächstes Diagramm', swipe:'Diagramme wischen',
   latest:'Letzte Läufe', latestHelp:'Antippen für Details', showing:'Gezeigt', latestOrder:'Neuester aufgezeichneter Start zuerst; undatierte Läufe zuletzt.',
   untitled:'Lauf ohne Titel', noAgent:'Agent nicht aufgezeichnet', noStart:'Startzeit nicht aufgezeichnet', open:'Lauf öffnen', source:'Quelle', details:'Aufgezeichnete Details und Quellen',
-  review:'Prüfung erforderlich', noReview:'Keine Prüfung im Export angefordert', pillMet:'Kriterien: erfüllt', pillUnmet:'Kriterien: nicht erfüllt', pillUnverified:'Kriterien: nicht prüfbar', pillProposed:'Kriterien: vorgeschlagen',
+  review:'Prüfung erforderlich', noReview:'Keine Prüfung im Export angefordert', pillMet:'Kriterien: erfüllt', pillUnmet:'Kriterien: nicht erfüllt', pillUnverified:'Kriterien: nicht prüfbar', pillProposed:'Kriterien: vorgeschlagen', pillTrue:'Kriterien: TRUE', pillFalse:'Kriterien: FALSE', pillUnknown:'Kriterien: UNKNOWN',
+  displayTrue:'TRUE', displayFalse:'FALSE', displayUnknown:'UNKNOWN', explainTrue:'Innerhalb dieser aufgezeichneten, authentifizierten Prüfung belegt.', explainFalse:'Die aufgezeichnete Prüfung widerspricht diesem Kriterium.', explainUnknown:'Erforderliche Nachweise oder unabhängige Authentifizierung fehlen.',
+  auditTitle:'Geschützter Audit', auditMissing:'Dieses Dokument enthält keinen geschützten Auditstatus. UNKNOWN wird nicht aus Kriterien abgeleitet.', auditScope:'Getrennt vom Kriterium. Diese Ansicht berechnet kein HMAC und keinen Agentenstatus.',
   commands:'Befehle', files:'Datei-Änderungen', testFiles:'Test-Dateien', reports:'Testberichte', artifacts:'Datei-Aufzeichnungen', other:'Weitere aufgezeichnete Belege',
  },
 } as const

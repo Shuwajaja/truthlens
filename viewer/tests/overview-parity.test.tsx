@@ -47,7 +47,8 @@ it('keeps zero criteria neutral and never calls criterion completion a run pass'
  render(<RunsView sources={[source(doc)]} onOpenRun={()=>{}}/>)
  expect(screen.getByRole('img',{name:'No criteria recorded'})).toBeTruthy()
  expect(screen.queryByText(/0\/0|0 of 0|NaN|runs passed/i)).toBeNull()
- expect(screen.getByText('Criteria: not checkable')).toBeTruthy()
+ expect(screen.getByText('Criteria: UNKNOWN')).toBeTruthy()
+ expect(screen.queryByText('Criteria: TRUE')).toBeNull()
 })
 it('labels latest-run pills as criteria and retains the existing run reference',()=>{
  const doc=structuredClone(fixture) as RunDoc
@@ -55,10 +56,11 @@ it('labels latest-run pills as criteria and retains the existing run reference',
  const open=vi.fn()
  render(<RunsView sources={[source(doc)]} onOpenRun={open}/>)
  const button=screen.getByRole('button',{name:name=>name.startsWith(doc.run.project)})
- expect(within(button).getByText('Criteria: met')).toBeTruthy()
+ expect(within(button).getByText('Criteria: UNKNOWN')).toBeTruthy()
  const statusId=button.getAttribute('aria-describedby')
  expect(statusId).toBeTruthy()
- expect(document.getElementById(statusId!)?.textContent).toBe('Criteria: met')
+ expect(document.getElementById(statusId!)?.textContent).toBe('Criteria: UNKNOWN')
+ expect(button.querySelector('.run-dot')?.getAttribute('data-status')).toBe('Unknown')
  fireEvent.click(button)
  expect(open).toHaveBeenCalledWith({kind:'run',sourceId:'fixture-source',runId:doc.run.run_id})
  expect(screen.queryByText(/runs passed|signature checked/i)).toBeNull()

@@ -1,5 +1,25 @@
 # TruthLens Viewer — Workspace design contract
 
+## Human display words, 26 October 2026
+
+Main criterion cards show `TRUE`, `FALSE`, or `UNKNOWN`. Those words are
+presentation. Stored `met` / `unmet` / `unverified` / `proposed` and the D34
+wire `passed` / `failed` / `not_checkable` stay unchanged.
+
+`TRUE` and `FALSE` require `verified === true` and `integrity === 'hmac'`.
+`met` maps to `TRUE` and `unmet` to `FALSE` only in that pair, and only for
+that criterion. Every other criterion state, and every hash-only, failed, or
+unchecked export, is `UNKNOWN`. Recorded counts on the ring and charts stay
+counts. Their green `met` stroke is neutral when the open run is not in that
+HMAC pair, so a hash-only `met` is not a green proof.
+
+The protected audit is a separate card. Run documents do not carry a Phase F
+result, and the browser does not compute one from criteria, claims, or exit
+codes. The audit card stays `UNKNOWN`, including when a loaded object contains
+an extra status field. The same colour on both cards does not merge them.
+Hash-only remains the grey seal. Integrity is not approval stays visible.
+Developer details keep the stored status word.
+
 Derived export headlines describe the presence of recorded claims without
 inventing a quotation or inferring completion. Both Python exports and local-folder
 derived exports say “Your agent made recorded claims.” when claims exist; with

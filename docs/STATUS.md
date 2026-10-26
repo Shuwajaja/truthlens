@@ -1,3 +1,51 @@
+## Standalone MCP vNext — local phase 0 and phase 2, 26 October 2026
+
+Branch `cursor/standalone-mcp-vnext-af22`, started from `origin/main`
+`5198b00`. This checkout is not the protected VPS. `/run/truthlens` was not
+present (`SOCKET_UNSAFE_OR_MISSING`). Agent Zero, Mausbot, separate UIDs, and
+the private Artifact Hub repository are not available here. No host permission,
+user, or service was changed. No production `passed` is claimed.
+
+Phase 0, from this tree only: TruthLens already has one agent tool,
+`truthlens_check_status`, returning one of `passed`, `failed`, or
+`not_checkable`. Legacy `truthlens mcp --root` remains the human evidence API.
+`truthlens doctor` still exits 2 with `ISOLATION_UNVERIFIED`. `demo-status`
+is labelled synthetic. Unknown here, and left unknown: the live broker UID,
+whether an agent process is root or in the docker group, whether a `/srv`
+reader is reachable, which Hub mounts exist, and which real runs are
+authenticated.
+
+Phase 1 (Artifact Hub) is not in this repository. AH-A01..A12 were not run.
+
+Phase 2, in this tree: human report text and `truthlens audit status` text add
+`TRUE` / `FALSE` / `UNKNOWN` without changing JSON. Hash-only report text keeps
+the stored `met` / `unmet` / `unverified` word and prints `UNKNOWN`. The
+existing viewer uses the same rule on criterion cards: `TRUE` and `FALSE` only
+when `verified === true` and `integrity === 'hmac'`. The protected-audit card
+stays `UNKNOWN`; the browser does not derive it from criteria. Run-list pills
+use the same authentication rule. Recorded counts stay counts.
+
+`project_status` now returns `not_checkable` / `authentication_unchecked` when
+a check is contradictory but the supplied report is not authenticated HMAC.
+An authenticated contradictory report still returns `failed` /
+`checks_failed`. This is a security-sensitive projection change. It is not
+independently reviewed in this commit, and it is not a host acceptance of
+TL-A03, TL-A04, TL-A07, TL-A08, or TL-A14.
+
+Witnessed on this dirty tree before the publishing commit, parent `5198b00`:
+
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m truthlens demo-status` printed the synthetic transcript and `Real client: not_checkable`, exit 0.
+- `truthlens report demo/runs/demo-2` exit 0. Stored statuses remained `met`, `unmet`, `unverified`; display words were `UNKNOWN`; the hash-only line was present.
+- `truthlens verify demo/runs/demo-2/ledger.jsonl` printed `OK 16 events, anchored`, exit 0. `verify` on the run directory (not the ledger file) exited 1 with the existing path diagnostic.
+- `truthlens audit status demo/runs/demo-2` printed `not_checkable · authentication_unchecked` and `Display: UNKNOWN`, exit 2.
+- `truthlens doctor` printed `SOCKET_UNSAFE_OR_MISSING`, `ADAPTER_IMPORTABLE`, `MCP_SDK_PRESENT`, `CLIENT_CONFIG_VALID`, `ISOLATION_UNVERIFIED`, exit 2.
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m pytest -q tests/test_vnext_acceptance.py tests/test_status_projection.py tests/test_status_broker.py tests/test_status_broker_unit.py tests/test_status_readers.py --tb=line -p no:cacheprovider` observed **157 passed**.
+- After the new `display_labels.py` link was staged, `tests/test_architecture_docs.py` observed **9 passed, 41 subtests passed**.
+- `cd viewer && node scripts/check-language.mjs` and `node scripts/check-styles.mjs` passed. `npm run build` passed. `npx vitest run` observed **53 files, 520 passed**.
+- `cd viewer && REVIEW_BROWSER_EXECUTABLE=/opt/google/chrome/chrome OVERVIEW_OUTPUT=docs/screenshots/cursor/standalone-mcp-vnext-af22 node scripts/review-overview.mjs` completed with no page errors and no serious or critical axe violations. 29 scans at 1440×900 and 390×844. Incomplete axe items remain, mostly `color-contrast` (overlapped SVG text, background not determined) and `label-content-name-mismatch` (chart summary `⋯` with an accessible name). Those incomplete items were not treated as passes. The script recorded commit `5198b00`, dirty tree, because the implementation was not committed yet.
+
+Not run: full pytest, separate-UID broker, real Agent Zero or Codex handshake, live HMAC tamper on a protected host, Windows, and Artifact Hub. Green unit tests and `demo-status` are not production isolation. Phases 3–6 stay open. No merge.
+
 ## Init filesystem diagnostics — local checks, 26 October 2026
 
 Branch `improve/loop-24`, base `07864a74`. `truthlens init LEDGER` now handles

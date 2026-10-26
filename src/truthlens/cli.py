@@ -350,11 +350,24 @@ def _w2(a) -> int:
         if a.json:
             print(json.dumps({"criteria": acc, "claims": cl}, indent=2))
             return 0
+        from truthlens.display_labels import criterion_label
+
+        # A supplied key is what made verify() check HMAC. No key is hash-only.
+        authenticated = key is not None
         print(f"VERIFIED {len(events)} events, anchored, manifest consistent")
         for c in acc:
-            print(f"  {c['criterion_id']:<6} {c['status']:<11} {c['text']}  (evidence: {len(c['evidence'])})")
+            label = criterion_label(c["status"], authenticated=authenticated)
+            print(
+                f"  {c['criterion_id']:<6} {c['status']:<11} {label:<7} {c['text']}"
+                f"  (evidence: {len(c['evidence'])})"
+            )
         for c in cl:
             print(f"  claim  {c['finding']:<17} {c['text'][:100]!r} -> {c['criterion_ids']}")
+        print("Display labels are separate from stored statuses. Integrity is not approval.")
+        if authenticated:
+            print("HMAC checked for this report. TRUE and FALSE apply only inside each criterion.")
+        else:
+            print("Hash only: signature not checked. Recorded met is not authenticated proof.")
         return 0
     led = Ledger(a.ledger, key, a.hmac_key_id if key else None)
     try:
@@ -398,7 +411,11 @@ def _audit_status_command(argv: list[str]) -> int:
         args = parser.parse_args(argv)
     except ValueError:
         result = project_status(None, state="error")
-        print(serialize_report(result) if "--json" in argv else "not_checkable · error")
+        if "--json" in argv:
+            print(serialize_report(result))
+        else:
+            print("not_checkable · error")
+            print("Display: UNKNOWN. Integrity is not approval.")
         return 2
     try:
         key = None
@@ -416,7 +433,13 @@ def _audit_status_command(argv: list[str]) -> int:
         result = project_status(None, state="interrupted")
     except (OSError, ValueError, TypeError, RuntimeError):
         result = project_status(None, state="error")
-    print(serialize_report(result) if args.json else f"{result['status']} · {result['reason_code']}")
+    if args.json:
+        print(serialize_report(result))
+    else:
+        from truthlens.display_labels import audit_label
+
+        print(f"{result['status']} · {result['reason_code']}")
+        print(f"Display: {audit_label(result['status'])}. Integrity is not approval.")
     return {"passed": 0, "failed": 1, "not_checkable": 2}[result["status"]]
 
 
