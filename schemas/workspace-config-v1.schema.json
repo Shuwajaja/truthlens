@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "workspace-config-v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "project_id": {"type": "string", "minLength": 1},
+    "display_name": {"type": "string", "minLength": 1},
+    "root": {"type": "string", "minLength": 1},
+    "target_profile": {"type": "string", "minLength": 1},
+    "adapters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "version": {"type": "string", "minLength": 1},
+          "capabilities": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "qualified_harness_version": {"type": ["string", "null"]}
+        },
+        "required": ["id", "version", "capabilities", "qualified_harness_version"]
+      }
+    }
+  },
+  "required": ["schema_version", "project_id", "display_name", "root", "target_profile", "adapters"]
+}

@@ -1,0 +1,6649 @@
+{
+  "demo": true,
+  "now": "2026-10-26T15:53:00.000Z",
+  "previous_window_runs": 108,
+  "source_label": "Beispieldaten (Demo)",
+  "projects": [
+    {
+      "id": "mcpdeck",
+      "name": "MCPDeck"
+    },
+    {
+      "id": "vpsman",
+      "name": "VPSMan"
+    },
+    {
+      "id": "mausbot",
+      "name": "Mausbot"
+    },
+    {
+      "id": "truthlens",
+      "name": "TruthLens"
+    }
+  ],
+  "agents": [
+    {
+      "id": "agent-zero",
+      "name": "Agent Zero",
+      "initial": "A"
+    },
+    {
+      "id": "codex",
+      "name": "Codex",
+      "initial": "C"
+    },
+    {
+      "id": "claude",
+      "name": "Claude",
+      "initial": "C"
+    }
+  ],
+  "runs": [
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_8f3a21",
+      "project_id": "mcpdeck",
+      "task": "README & Tests aktualisieren",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Alle 42 Tests laufen grün durch",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_c1"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "c2",
+          "text": "README enthält neuen Abschnitt „Installation“",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_c2"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "c3",
+          "text": "Keine Abhängigkeiten geändert",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_c3"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        },
+        {
+          "id": "c4",
+          "text": "Linter meldet keine Fehler",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_c4"
+          ],
+          "source_kind": "command",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "c5",
+          "text": "Performance um 30 % verbessert",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_c5"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "benchmark_missing"
+        },
+        {
+          "id": "c6",
+          "text": "CHANGELOG für v0.4.0 ergänzt",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_c6"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "c7",
+          "text": "Commit auf Branch feat/readme",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_c7"
+          ],
+          "source_kind": "git",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_8f3a21",
+          "timestamp": "2026-10-26T15:41:02.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "README & Tests aktualisieren",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 5,
+        "refuted": 1,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-26T15:41:02.000Z",
+      "finished_at": "2026-10-26T15:47:31.000Z",
+      "duration_ms": 389000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false,
+      "display": {
+        "evidence": [
+          "pytest-Ausgabe: 42 passed",
+          "Diff Zeile 12-38",
+          "package.json: +zod 3.23",
+          "eslint: 0 Probleme",
+          "Kein Benchmark im Lauf gefunden",
+          "CHANGELOG.md +9 Zeilen",
+          "git log a1c9e2f"
+        ],
+        "sources": [
+          "Testlauf",
+          "Datei-Diff",
+          "Datei-Diff",
+          "Befehl",
+          "—",
+          "Datei-Diff",
+          "Git"
+        ],
+        "timeline": [
+          [
+            "2026-10-26T15:41:02.000Z",
+            "captured",
+            "Aufgabe gestartet",
+            "Agent Zero erhält „README & Tests aktualisieren“"
+          ],
+          [
+            "2026-10-26T15:41:30.000Z",
+            "agent_reported",
+            "Dateien gelesen",
+            "14 Dateien im Workspace"
+          ],
+          [
+            "2026-10-26T15:44:12.000Z",
+            "captured",
+            "Befehl ausgeführt",
+            "npm test → 42 passed"
+          ],
+          [
+            "2026-10-26T15:46:55.000Z",
+            "captured",
+            "Dateien geändert",
+            "README.md, package.json, CHANGELOG.md"
+          ],
+          [
+            "2026-10-26T15:47:20.000Z",
+            "agent_reported",
+            "Abschluss-Bericht",
+            "7 Behauptungen erkannt"
+          ],
+          [
+            "2026-10-26T15:47:31.000Z",
+            "captured",
+            "Prüfung fertig",
+            "5 TRUE · 1 FALSE · 1 UNKNOWN"
+          ]
+        ]
+      }
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_8f2c07",
+      "project_id": "vpsman",
+      "task": "Honcho-Plugin reparieren",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "run_8f2c07y_0",
+          "text": "Beispielaussage run_8f2c07y 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8f2c07y_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8f2c07y_1",
+          "text": "Beispielaussage run_8f2c07y 1",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8f2c07y_1"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8f2c07y_2",
+          "text": "Beispielaussage run_8f2c07y 2",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8f2c07y_2"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8f2c07y_3",
+          "text": "Beispielaussage run_8f2c07y 3",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8f2c07y_3"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8f2c07y_4",
+          "text": "Beispielaussage run_8f2c07y 4",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8f2c07y_4"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8f2c07y_5",
+          "text": "Beispielaussage run_8f2c07y 5",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8f2c07y_5"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8f2c07q_0",
+          "text": "Beispielaussage run_8f2c07q 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_run_8f2c07q_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        },
+        {
+          "id": "run_8f2c07q_1",
+          "text": "Beispielaussage run_8f2c07q 1",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_run_8f2c07q_1"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_8f2c07",
+          "timestamp": "2026-10-26T15:05:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Honcho-Plugin reparieren",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 6,
+        "refuted": 0,
+        "unclear": 2
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-26T15:05:00.000Z",
+      "finished_at": "2026-10-26T15:06:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_8e9d55",
+      "project_id": "truthlens",
+      "task": "CLI-Befehl init bauen",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "run_8e9d55y_0",
+          "text": "Beispielaussage run_8e9d55y 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55y_1",
+          "text": "Beispielaussage run_8e9d55y 1",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_1"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55y_2",
+          "text": "Beispielaussage run_8e9d55y 2",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_2"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55y_3",
+          "text": "Beispielaussage run_8e9d55y 3",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_3"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55y_4",
+          "text": "Beispielaussage run_8e9d55y 4",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_4"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55y_5",
+          "text": "Beispielaussage run_8e9d55y 5",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_5"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55y_6",
+          "text": "Beispielaussage run_8e9d55y 6",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_6"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55y_7",
+          "text": "Beispielaussage run_8e9d55y 7",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_7"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55y_8",
+          "text": "Beispielaussage run_8e9d55y 8",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_8"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55y_9",
+          "text": "Beispielaussage run_8e9d55y 9",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_9"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55y_10",
+          "text": "Beispielaussage run_8e9d55y 10",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_10"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55y_11",
+          "text": "Beispielaussage run_8e9d55y 11",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e9d55y_11"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e9d55n_0",
+          "text": "Beispielaussage run_8e9d55n 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_run_8e9d55n_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        },
+        {
+          "id": "run_8e9d55n_1",
+          "text": "Beispielaussage run_8e9d55n 1",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_run_8e9d55n_1"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_8e9d55",
+          "timestamp": "2026-10-26T13:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "CLI-Befehl init bauen",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 12,
+        "refuted": 2,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-26T13:53:00.000Z",
+      "finished_at": "2026-10-26T13:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_8e71b0",
+      "project_id": "mausbot",
+      "task": "Docker-Compose prüfen",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "run_8e71b0y_0",
+          "text": "Beispielaussage run_8e71b0y 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e71b0y_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e71b0y_1",
+          "text": "Beispielaussage run_8e71b0y 1",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e71b0y_1"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e71b0y_2",
+          "text": "Beispielaussage run_8e71b0y 2",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e71b0y_2"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e71b0y_3",
+          "text": "Beispielaussage run_8e71b0y 3",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e71b0y_3"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e71b0n_0",
+          "text": "Beispielaussage run_8e71b0n 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_run_8e71b0n_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        },
+        {
+          "id": "run_8e71b0n_1",
+          "text": "Beispielaussage run_8e71b0n 1",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_run_8e71b0n_1"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        },
+        {
+          "id": "run_8e71b0n_2",
+          "text": "Beispielaussage run_8e71b0n 2",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_run_8e71b0n_2"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        },
+        {
+          "id": "run_8e71b0q_0",
+          "text": "Beispielaussage run_8e71b0q 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_run_8e71b0q_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_8e71b0",
+          "timestamp": "2026-10-26T12:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Docker-Compose prüfen",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 4,
+        "refuted": 3,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-26T12:53:00.000Z",
+      "finished_at": "2026-10-26T12:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_8e40fa",
+      "project_id": "mcpdeck",
+      "task": "Server-Liste rendern",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "run_8e40fay_0",
+          "text": "Beispielaussage run_8e40fay 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e40fay_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e40fay_1",
+          "text": "Beispielaussage run_8e40fay 1",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e40fay_1"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e40fay_2",
+          "text": "Beispielaussage run_8e40fay 2",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e40fay_2"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e40fay_3",
+          "text": "Beispielaussage run_8e40fay 3",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e40fay_3"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e40fay_4",
+          "text": "Beispielaussage run_8e40fay 4",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e40fay_4"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e40fay_5",
+          "text": "Beispielaussage run_8e40fay 5",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e40fay_5"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8e40fay_6",
+          "text": "Beispielaussage run_8e40fay 6",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8e40fay_6"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_8e40fa",
+          "timestamp": "2026-10-26T10:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Server-Liste rendern",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 7,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-26T10:53:00.000Z",
+      "finished_at": "2026-10-26T10:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_8dff12",
+      "project_id": "vpsman",
+      "task": "Backup-Skript testen",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "run_8dff12y_0",
+          "text": "Beispielaussage run_8dff12y 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8dff12y_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8dff12y_1",
+          "text": "Beispielaussage run_8dff12y 1",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8dff12y_1"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8dff12y_2",
+          "text": "Beispielaussage run_8dff12y 2",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8dff12y_2"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8dff12n_0",
+          "text": "Beispielaussage run_8dff12n 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_run_8dff12n_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        },
+        {
+          "id": "run_8dff12q_0",
+          "text": "Beispielaussage run_8dff12q 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_run_8dff12q_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        },
+        {
+          "id": "run_8dff12q_1",
+          "text": "Beispielaussage run_8dff12q 1",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_run_8dff12q_1"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        },
+        {
+          "id": "run_8dff12q_2",
+          "text": "Beispielaussage run_8dff12q 2",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_run_8dff12q_2"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        },
+        {
+          "id": "run_8dff12q_3",
+          "text": "Beispielaussage run_8dff12q 3",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_run_8dff12q_3"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_8dff12",
+          "timestamp": "2026-10-25T15:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Backup-Skript testen",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 3,
+        "refuted": 1,
+        "unclear": 4
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-25T15:53:00.000Z",
+      "finished_at": "2026-10-25T15:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_8de9a3",
+      "project_id": "truthlens",
+      "task": "MCP-Werkzeuge dokumentieren",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "run_8de9a3y_0",
+          "text": "Beispielaussage run_8de9a3y 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8de9a3y_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8de9a3y_1",
+          "text": "Beispielaussage run_8de9a3y 1",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8de9a3y_1"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8de9a3y_2",
+          "text": "Beispielaussage run_8de9a3y 2",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8de9a3y_2"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8de9a3y_3",
+          "text": "Beispielaussage run_8de9a3y 3",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8de9a3y_3"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8de9a3y_4",
+          "text": "Beispielaussage run_8de9a3y 4",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8de9a3y_4"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8de9a3y_5",
+          "text": "Beispielaussage run_8de9a3y 5",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8de9a3y_5"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8de9a3y_6",
+          "text": "Beispielaussage run_8de9a3y 6",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8de9a3y_6"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8de9a3y_7",
+          "text": "Beispielaussage run_8de9a3y 7",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8de9a3y_7"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8de9a3q_0",
+          "text": "Beispielaussage run_8de9a3q 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_run_8de9a3q_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_8de9a3",
+          "timestamp": "2026-10-25T12:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "MCP-Werkzeuge dokumentieren",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 8,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-25T12:53:00.000Z",
+      "finished_at": "2026-10-25T12:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_8d8e44",
+      "project_id": "mausbot",
+      "task": "Speicher-Export",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "run_8d8e44y_0",
+          "text": "Beispielaussage run_8d8e44y 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8d8e44y_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8d8e44y_1",
+          "text": "Beispielaussage run_8d8e44y 1",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8d8e44y_1"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8d8e44y_2",
+          "text": "Beispielaussage run_8d8e44y 2",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8d8e44y_2"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8d8e44y_3",
+          "text": "Beispielaussage run_8d8e44y 3",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8d8e44y_3"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8d8e44y_4",
+          "text": "Beispielaussage run_8d8e44y 4",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_run_8d8e44y_4"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        },
+        {
+          "id": "run_8d8e44n_0",
+          "text": "Beispielaussage run_8d8e44n 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_run_8d8e44n_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        },
+        {
+          "id": "run_8d8e44n_1",
+          "text": "Beispielaussage run_8d8e44n 1",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_run_8d8e44n_1"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_8d8e44",
+          "timestamp": "2026-10-24T15:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Speicher-Export",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 5,
+        "refuted": 2,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-24T15:53:00.000Z",
+      "finished_at": "2026-10-24T15:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h000",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 9",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h0_0",
+          "text": "Beispielaussage h0 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h0_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h000",
+          "timestamp": "2026-10-23T15:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 9",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T15:53:00.000Z",
+      "finished_at": "2026-10-23T15:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h001",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 10",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h1_0",
+          "text": "Beispielaussage h1 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h1_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h001",
+          "timestamp": "2026-10-23T15:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 10",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T15:13:00.000Z",
+      "finished_at": "2026-10-23T15:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h002",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 11",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h2_0",
+          "text": "Beispielaussage h2 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h2_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h002",
+          "timestamp": "2026-10-23T14:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 11",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T14:33:00.000Z",
+      "finished_at": "2026-10-23T14:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h003",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 12",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h3_0",
+          "text": "Beispielaussage h3 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h3_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h003",
+          "timestamp": "2026-10-23T13:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 12",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T13:53:00.000Z",
+      "finished_at": "2026-10-23T13:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h004",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 13",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h4_0",
+          "text": "Beispielaussage h4 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h4_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h004",
+          "timestamp": "2026-10-23T13:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 13",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T13:13:00.000Z",
+      "finished_at": "2026-10-23T13:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h005",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 14",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h5_0",
+          "text": "Beispielaussage h5 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h5_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h005",
+          "timestamp": "2026-10-23T12:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 14",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T12:33:00.000Z",
+      "finished_at": "2026-10-23T12:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h006",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 15",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h6_0",
+          "text": "Beispielaussage h6 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h6_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h006",
+          "timestamp": "2026-10-23T11:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 15",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T11:53:00.000Z",
+      "finished_at": "2026-10-23T11:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h007",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 16",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h7_0",
+          "text": "Beispielaussage h7 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h7_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h007",
+          "timestamp": "2026-10-23T11:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 16",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T11:13:00.000Z",
+      "finished_at": "2026-10-23T11:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h008",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 17",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h8_0",
+          "text": "Beispielaussage h8 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h8_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h008",
+          "timestamp": "2026-10-23T10:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 17",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T10:33:00.000Z",
+      "finished_at": "2026-10-23T10:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h009",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 18",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h9_0",
+          "text": "Beispielaussage h9 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h9_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h009",
+          "timestamp": "2026-10-23T09:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 18",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T09:53:00.000Z",
+      "finished_at": "2026-10-23T09:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h010",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 19",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h10_0",
+          "text": "Beispielaussage h10 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h10_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h010",
+          "timestamp": "2026-10-23T09:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 19",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T09:13:00.000Z",
+      "finished_at": "2026-10-23T09:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h011",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 20",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h11_0",
+          "text": "Beispielaussage h11 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h11_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h011",
+          "timestamp": "2026-10-23T08:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 20",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T08:33:00.000Z",
+      "finished_at": "2026-10-23T08:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h012",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 21",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h12_0",
+          "text": "Beispielaussage h12 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h12_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h012",
+          "timestamp": "2026-10-23T07:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 21",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T07:53:00.000Z",
+      "finished_at": "2026-10-23T07:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h013",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 22",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h13_0",
+          "text": "Beispielaussage h13 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h13_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h013",
+          "timestamp": "2026-10-23T07:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 22",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T07:13:00.000Z",
+      "finished_at": "2026-10-23T07:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h014",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 23",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h14_0",
+          "text": "Beispielaussage h14 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h14_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h014",
+          "timestamp": "2026-10-23T06:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 23",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T06:33:00.000Z",
+      "finished_at": "2026-10-23T06:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h015",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 24",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h15_0",
+          "text": "Beispielaussage h15 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h15_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h015",
+          "timestamp": "2026-10-23T05:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 24",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T05:53:00.000Z",
+      "finished_at": "2026-10-23T05:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h016",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 25",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h16_0",
+          "text": "Beispielaussage h16 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h16_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h016",
+          "timestamp": "2026-10-23T05:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 25",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T05:13:00.000Z",
+      "finished_at": "2026-10-23T05:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h017",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 26",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h17_0",
+          "text": "Beispielaussage h17 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h17_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h017",
+          "timestamp": "2026-10-23T04:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 26",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T04:33:00.000Z",
+      "finished_at": "2026-10-23T04:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h018",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 27",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h18_0",
+          "text": "Beispielaussage h18 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h18_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h018",
+          "timestamp": "2026-10-23T03:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 27",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T03:53:00.000Z",
+      "finished_at": "2026-10-23T03:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h019",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 28",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "refuted",
+      "claims": [
+        {
+          "id": "h19_0",
+          "text": "Beispielaussage h19 0",
+          "verdict": "refuted",
+          "evidence_refs": [
+            "ev_h19_0"
+          ],
+          "source_kind": "file_diff",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_fail"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h019",
+          "timestamp": "2026-10-23T03:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 28",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 1,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T03:13:00.000Z",
+      "finished_at": "2026-10-23T03:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h020",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 29",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h20_0",
+          "text": "Beispielaussage h20 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h20_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h020",
+          "timestamp": "2026-10-23T02:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 29",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-23T02:33:00.000Z",
+      "finished_at": "2026-10-23T02:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h021",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 30",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h21_0",
+          "text": "Beispielaussage h21 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h21_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h021",
+          "timestamp": "2026-10-23T01:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 30",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-23T01:53:00.000Z",
+      "finished_at": "2026-10-23T01:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h022",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 31",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h22_0",
+          "text": "Beispielaussage h22 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h22_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h022",
+          "timestamp": "2026-10-23T01:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 31",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-23T01:13:00.000Z",
+      "finished_at": "2026-10-23T01:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h023",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 32",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h23_0",
+          "text": "Beispielaussage h23 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h23_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h023",
+          "timestamp": "2026-10-23T00:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 32",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-23T00:33:00.000Z",
+      "finished_at": "2026-10-23T00:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h024",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 33",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h24_0",
+          "text": "Beispielaussage h24 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h24_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h024",
+          "timestamp": "2026-10-22T23:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 33",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T23:53:00.000Z",
+      "finished_at": "2026-10-22T23:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h025",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 34",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h25_0",
+          "text": "Beispielaussage h25 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h25_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h025",
+          "timestamp": "2026-10-22T23:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 34",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T23:13:00.000Z",
+      "finished_at": "2026-10-22T23:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h026",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 35",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h26_0",
+          "text": "Beispielaussage h26 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h26_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h026",
+          "timestamp": "2026-10-22T22:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 35",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T22:33:00.000Z",
+      "finished_at": "2026-10-22T22:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h027",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 36",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h27_0",
+          "text": "Beispielaussage h27 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h27_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h027",
+          "timestamp": "2026-10-22T21:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 36",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T21:53:00.000Z",
+      "finished_at": "2026-10-22T21:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h028",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 37",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h28_0",
+          "text": "Beispielaussage h28 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h28_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h028",
+          "timestamp": "2026-10-22T21:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 37",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T21:13:00.000Z",
+      "finished_at": "2026-10-22T21:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h029",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 38",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h29_0",
+          "text": "Beispielaussage h29 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h29_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h029",
+          "timestamp": "2026-10-22T20:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 38",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T20:33:00.000Z",
+      "finished_at": "2026-10-22T20:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h030",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 39",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h30_0",
+          "text": "Beispielaussage h30 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h30_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h030",
+          "timestamp": "2026-10-22T19:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 39",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T19:53:00.000Z",
+      "finished_at": "2026-10-22T19:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h031",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 40",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h31_0",
+          "text": "Beispielaussage h31 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h31_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h031",
+          "timestamp": "2026-10-22T19:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 40",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T19:13:00.000Z",
+      "finished_at": "2026-10-22T19:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h032",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 41",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h32_0",
+          "text": "Beispielaussage h32 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h32_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h032",
+          "timestamp": "2026-10-22T18:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 41",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T18:33:00.000Z",
+      "finished_at": "2026-10-22T18:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h033",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 42",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h33_0",
+          "text": "Beispielaussage h33 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h33_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h033",
+          "timestamp": "2026-10-22T17:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 42",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T17:53:00.000Z",
+      "finished_at": "2026-10-22T17:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h034",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 43",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h34_0",
+          "text": "Beispielaussage h34 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h34_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h034",
+          "timestamp": "2026-10-22T17:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 43",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T17:13:00.000Z",
+      "finished_at": "2026-10-22T17:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h035",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 44",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h35_0",
+          "text": "Beispielaussage h35 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h35_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h035",
+          "timestamp": "2026-10-22T16:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 44",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T16:33:00.000Z",
+      "finished_at": "2026-10-22T16:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h036",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 45",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h36_0",
+          "text": "Beispielaussage h36 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h36_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h036",
+          "timestamp": "2026-10-22T15:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 45",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T15:53:00.000Z",
+      "finished_at": "2026-10-22T15:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h037",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 46",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h37_0",
+          "text": "Beispielaussage h37 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h37_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h037",
+          "timestamp": "2026-10-22T15:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 46",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T15:13:00.000Z",
+      "finished_at": "2026-10-22T15:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h038",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 47",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h38_0",
+          "text": "Beispielaussage h38 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h38_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h038",
+          "timestamp": "2026-10-22T14:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 47",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T14:33:00.000Z",
+      "finished_at": "2026-10-22T14:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h039",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 48",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h39_0",
+          "text": "Beispielaussage h39 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h39_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h039",
+          "timestamp": "2026-10-22T13:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 48",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T13:53:00.000Z",
+      "finished_at": "2026-10-22T13:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h040",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 49",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h40_0",
+          "text": "Beispielaussage h40 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h40_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h040",
+          "timestamp": "2026-10-22T13:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 49",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T13:13:00.000Z",
+      "finished_at": "2026-10-22T13:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h041",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 50",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h41_0",
+          "text": "Beispielaussage h41 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h41_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h041",
+          "timestamp": "2026-10-22T12:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 50",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T12:33:00.000Z",
+      "finished_at": "2026-10-22T12:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h042",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 51",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h42_0",
+          "text": "Beispielaussage h42 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h42_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h042",
+          "timestamp": "2026-10-22T11:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 51",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T11:53:00.000Z",
+      "finished_at": "2026-10-22T11:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h043",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 52",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h43_0",
+          "text": "Beispielaussage h43 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h43_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h043",
+          "timestamp": "2026-10-22T11:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 52",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T11:13:00.000Z",
+      "finished_at": "2026-10-22T11:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h044",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 53",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h44_0",
+          "text": "Beispielaussage h44 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h44_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h044",
+          "timestamp": "2026-10-22T10:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 53",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T10:33:00.000Z",
+      "finished_at": "2026-10-22T10:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h045",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 54",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h45_0",
+          "text": "Beispielaussage h45 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h45_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h045",
+          "timestamp": "2026-10-22T09:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 54",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T09:53:00.000Z",
+      "finished_at": "2026-10-22T09:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h046",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 55",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h46_0",
+          "text": "Beispielaussage h46 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h46_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h046",
+          "timestamp": "2026-10-22T09:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 55",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T09:13:00.000Z",
+      "finished_at": "2026-10-22T09:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h047",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 56",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h47_0",
+          "text": "Beispielaussage h47 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h47_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h047",
+          "timestamp": "2026-10-22T08:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 56",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T08:33:00.000Z",
+      "finished_at": "2026-10-22T08:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h048",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 57",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h48_0",
+          "text": "Beispielaussage h48 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h48_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h048",
+          "timestamp": "2026-10-22T07:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 57",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T07:53:00.000Z",
+      "finished_at": "2026-10-22T07:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h049",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 58",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h49_0",
+          "text": "Beispielaussage h49 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h49_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h049",
+          "timestamp": "2026-10-22T07:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 58",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T07:13:00.000Z",
+      "finished_at": "2026-10-22T07:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h050",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 59",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h50_0",
+          "text": "Beispielaussage h50 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h50_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h050",
+          "timestamp": "2026-10-22T06:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 59",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T06:33:00.000Z",
+      "finished_at": "2026-10-22T06:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h051",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 60",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h51_0",
+          "text": "Beispielaussage h51 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h51_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h051",
+          "timestamp": "2026-10-22T05:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 60",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T05:53:00.000Z",
+      "finished_at": "2026-10-22T05:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h052",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 61",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h52_0",
+          "text": "Beispielaussage h52 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h52_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h052",
+          "timestamp": "2026-10-22T05:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 61",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T05:13:00.000Z",
+      "finished_at": "2026-10-22T05:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h053",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 62",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h53_0",
+          "text": "Beispielaussage h53 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h53_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h053",
+          "timestamp": "2026-10-22T04:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 62",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T04:33:00.000Z",
+      "finished_at": "2026-10-22T04:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h054",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 63",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h54_0",
+          "text": "Beispielaussage h54 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h54_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h054",
+          "timestamp": "2026-10-22T03:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 63",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T03:53:00.000Z",
+      "finished_at": "2026-10-22T03:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h055",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 64",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h55_0",
+          "text": "Beispielaussage h55 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h55_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h055",
+          "timestamp": "2026-10-22T03:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 64",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T03:13:00.000Z",
+      "finished_at": "2026-10-22T03:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h056",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 65",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h56_0",
+          "text": "Beispielaussage h56 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h56_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h056",
+          "timestamp": "2026-10-22T02:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 65",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T02:33:00.000Z",
+      "finished_at": "2026-10-22T02:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h057",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 66",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h57_0",
+          "text": "Beispielaussage h57 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h57_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h057",
+          "timestamp": "2026-10-22T01:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 66",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-22T01:53:00.000Z",
+      "finished_at": "2026-10-22T01:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h058",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 67",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h58_0",
+          "text": "Beispielaussage h58 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h58_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h058",
+          "timestamp": "2026-10-22T01:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 67",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-22T01:13:00.000Z",
+      "finished_at": "2026-10-22T01:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h059",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 68",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h59_0",
+          "text": "Beispielaussage h59 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h59_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h059",
+          "timestamp": "2026-10-22T00:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 68",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-22T00:33:00.000Z",
+      "finished_at": "2026-10-22T00:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h060",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 69",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h60_0",
+          "text": "Beispielaussage h60 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h60_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h060",
+          "timestamp": "2026-10-21T23:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 69",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T23:53:00.000Z",
+      "finished_at": "2026-10-21T23:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h061",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 70",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h61_0",
+          "text": "Beispielaussage h61 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h61_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h061",
+          "timestamp": "2026-10-21T23:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 70",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T23:13:00.000Z",
+      "finished_at": "2026-10-21T23:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h062",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 71",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h62_0",
+          "text": "Beispielaussage h62 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h62_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h062",
+          "timestamp": "2026-10-21T22:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 71",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T22:33:00.000Z",
+      "finished_at": "2026-10-21T22:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h063",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 72",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h63_0",
+          "text": "Beispielaussage h63 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h63_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h063",
+          "timestamp": "2026-10-21T21:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 72",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T21:53:00.000Z",
+      "finished_at": "2026-10-21T21:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h064",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 73",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h64_0",
+          "text": "Beispielaussage h64 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h64_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h064",
+          "timestamp": "2026-10-21T21:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 73",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T21:13:00.000Z",
+      "finished_at": "2026-10-21T21:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h065",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 74",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h65_0",
+          "text": "Beispielaussage h65 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h65_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h065",
+          "timestamp": "2026-10-21T20:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 74",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T20:33:00.000Z",
+      "finished_at": "2026-10-21T20:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h066",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 75",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h66_0",
+          "text": "Beispielaussage h66 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h66_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h066",
+          "timestamp": "2026-10-21T19:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 75",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T19:53:00.000Z",
+      "finished_at": "2026-10-21T19:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h067",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 76",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h67_0",
+          "text": "Beispielaussage h67 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h67_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h067",
+          "timestamp": "2026-10-21T19:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 76",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T19:13:00.000Z",
+      "finished_at": "2026-10-21T19:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h068",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 77",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h68_0",
+          "text": "Beispielaussage h68 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h68_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h068",
+          "timestamp": "2026-10-21T18:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 77",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T18:33:00.000Z",
+      "finished_at": "2026-10-21T18:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h069",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 78",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h69_0",
+          "text": "Beispielaussage h69 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h69_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h069",
+          "timestamp": "2026-10-21T17:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 78",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T17:53:00.000Z",
+      "finished_at": "2026-10-21T17:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h070",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 79",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h70_0",
+          "text": "Beispielaussage h70 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h70_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h070",
+          "timestamp": "2026-10-21T17:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 79",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T17:13:00.000Z",
+      "finished_at": "2026-10-21T17:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h071",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 80",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h71_0",
+          "text": "Beispielaussage h71 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h71_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h071",
+          "timestamp": "2026-10-21T16:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 80",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T16:33:00.000Z",
+      "finished_at": "2026-10-21T16:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h072",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 81",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h72_0",
+          "text": "Beispielaussage h72 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h72_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h072",
+          "timestamp": "2026-10-21T15:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 81",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T15:53:00.000Z",
+      "finished_at": "2026-10-21T15:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h073",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 82",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h73_0",
+          "text": "Beispielaussage h73 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h73_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h073",
+          "timestamp": "2026-10-21T15:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 82",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T15:13:00.000Z",
+      "finished_at": "2026-10-21T15:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h074",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 83",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h74_0",
+          "text": "Beispielaussage h74 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h74_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h074",
+          "timestamp": "2026-10-21T14:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 83",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T14:33:00.000Z",
+      "finished_at": "2026-10-21T14:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h075",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 84",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h75_0",
+          "text": "Beispielaussage h75 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h75_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h075",
+          "timestamp": "2026-10-21T13:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 84",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T13:53:00.000Z",
+      "finished_at": "2026-10-21T13:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h076",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 85",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h76_0",
+          "text": "Beispielaussage h76 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h76_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h076",
+          "timestamp": "2026-10-21T13:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 85",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T13:13:00.000Z",
+      "finished_at": "2026-10-21T13:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h077",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 86",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h77_0",
+          "text": "Beispielaussage h77 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h77_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h077",
+          "timestamp": "2026-10-21T12:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 86",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T12:33:00.000Z",
+      "finished_at": "2026-10-21T12:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h078",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 87",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h78_0",
+          "text": "Beispielaussage h78 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h78_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h078",
+          "timestamp": "2026-10-21T11:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 87",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T11:53:00.000Z",
+      "finished_at": "2026-10-21T11:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h079",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 88",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h79_0",
+          "text": "Beispielaussage h79 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h79_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h079",
+          "timestamp": "2026-10-21T11:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 88",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T11:13:00.000Z",
+      "finished_at": "2026-10-21T11:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h080",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 89",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h80_0",
+          "text": "Beispielaussage h80 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h80_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h080",
+          "timestamp": "2026-10-21T10:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 89",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T10:33:00.000Z",
+      "finished_at": "2026-10-21T10:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h081",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 90",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h81_0",
+          "text": "Beispielaussage h81 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h81_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h081",
+          "timestamp": "2026-10-21T09:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 90",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T09:53:00.000Z",
+      "finished_at": "2026-10-21T09:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h082",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 91",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h82_0",
+          "text": "Beispielaussage h82 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h82_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h082",
+          "timestamp": "2026-10-21T09:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 91",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T09:13:00.000Z",
+      "finished_at": "2026-10-21T09:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h083",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 92",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h83_0",
+          "text": "Beispielaussage h83 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h83_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h083",
+          "timestamp": "2026-10-21T08:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 92",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T08:33:00.000Z",
+      "finished_at": "2026-10-21T08:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h084",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 93",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h84_0",
+          "text": "Beispielaussage h84 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h84_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h084",
+          "timestamp": "2026-10-21T07:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 93",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T07:53:00.000Z",
+      "finished_at": "2026-10-21T07:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h085",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 94",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h85_0",
+          "text": "Beispielaussage h85 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h85_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h085",
+          "timestamp": "2026-10-21T07:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 94",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T07:13:00.000Z",
+      "finished_at": "2026-10-21T07:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h086",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 95",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h86_0",
+          "text": "Beispielaussage h86 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h86_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h086",
+          "timestamp": "2026-10-21T06:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 95",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T06:33:00.000Z",
+      "finished_at": "2026-10-21T06:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h087",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 96",
+      "execution": "completed",
+      "audit_state": "complete",
+      "integrity": "hash-only",
+      "review_summary": "confirmed",
+      "claims": [
+        {
+          "id": "h87_0",
+          "text": "Beispielaussage h87 0",
+          "verdict": "confirmed",
+          "evidence_refs": [
+            "ev_h87_0"
+          ],
+          "source_kind": "witnessed_test",
+          "scope": "demo-claim",
+          "reason_code": "witnessed_pass"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h087",
+          "timestamp": "2026-10-21T05:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 96",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 1,
+        "refuted": 0,
+        "unclear": 0
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T05:53:00.000Z",
+      "finished_at": "2026-10-21T05:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": "1",
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h088",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 97",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h88_0",
+          "text": "Beispielaussage h88 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h88_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h088",
+          "timestamp": "2026-10-21T05:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 97",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T05:13:00.000Z",
+      "finished_at": "2026-10-21T05:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h089",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 98",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h89_0",
+          "text": "Beispielaussage h89 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h89_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h089",
+          "timestamp": "2026-10-21T04:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 98",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T04:33:00.000Z",
+      "finished_at": "2026-10-21T04:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h090",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 99",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h90_0",
+          "text": "Beispielaussage h90 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h90_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h090",
+          "timestamp": "2026-10-21T03:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 99",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T03:53:00.000Z",
+      "finished_at": "2026-10-21T03:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h091",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 100",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h91_0",
+          "text": "Beispielaussage h91 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h91_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h091",
+          "timestamp": "2026-10-21T03:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 100",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T03:13:00.000Z",
+      "finished_at": "2026-10-21T03:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h092",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 101",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h92_0",
+          "text": "Beispielaussage h92 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h92_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h092",
+          "timestamp": "2026-10-21T02:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 101",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T02:33:00.000Z",
+      "finished_at": "2026-10-21T02:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h093",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 102",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h93_0",
+          "text": "Beispielaussage h93 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h93_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h093",
+          "timestamp": "2026-10-21T01:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 102",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-21T01:53:00.000Z",
+      "finished_at": "2026-10-21T01:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h094",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 103",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h94_0",
+          "text": "Beispielaussage h94 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h94_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h094",
+          "timestamp": "2026-10-21T01:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 103",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-21T01:13:00.000Z",
+      "finished_at": "2026-10-21T01:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h095",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 104",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h95_0",
+          "text": "Beispielaussage h95 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h95_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h095",
+          "timestamp": "2026-10-21T00:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 104",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-21T00:33:00.000Z",
+      "finished_at": "2026-10-21T00:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h096",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 105",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h96_0",
+          "text": "Beispielaussage h96 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h96_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h096",
+          "timestamp": "2026-10-20T23:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 105",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-20T23:53:00.000Z",
+      "finished_at": "2026-10-20T23:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h097",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 106",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h97_0",
+          "text": "Beispielaussage h97 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h97_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h097",
+          "timestamp": "2026-10-20T23:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 106",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-20T23:13:00.000Z",
+      "finished_at": "2026-10-20T23:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h098",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 107",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h98_0",
+          "text": "Beispielaussage h98 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h98_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h098",
+          "timestamp": "2026-10-20T22:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 107",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-20T22:33:00.000Z",
+      "finished_at": "2026-10-20T22:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h099",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 108",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h99_0",
+          "text": "Beispielaussage h99 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h99_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h099",
+          "timestamp": "2026-10-20T21:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 108",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-20T21:53:00.000Z",
+      "finished_at": "2026-10-20T21:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h100",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 109",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h100_0",
+          "text": "Beispielaussage h100 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h100_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h100",
+          "timestamp": "2026-10-20T21:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 109",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-20T21:13:00.000Z",
+      "finished_at": "2026-10-20T21:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h101",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 110",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h101_0",
+          "text": "Beispielaussage h101 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h101_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h101",
+          "timestamp": "2026-10-20T20:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 110",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-20T20:33:00.000Z",
+      "finished_at": "2026-10-20T20:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h102",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 111",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h102_0",
+          "text": "Beispielaussage h102 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h102_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h102",
+          "timestamp": "2026-10-20T19:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 111",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-20T19:53:00.000Z",
+      "finished_at": "2026-10-20T19:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h103",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 112",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h103_0",
+          "text": "Beispielaussage h103 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h103_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h103",
+          "timestamp": "2026-10-20T19:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 112",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-20T19:13:00.000Z",
+      "finished_at": "2026-10-20T19:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h104",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 113",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h104_0",
+          "text": "Beispielaussage h104 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h104_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h104",
+          "timestamp": "2026-10-20T18:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 113",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-20T18:33:00.000Z",
+      "finished_at": "2026-10-20T18:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h105",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 114",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h105_0",
+          "text": "Beispielaussage h105 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h105_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h105",
+          "timestamp": "2026-10-20T17:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 114",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-20T17:53:00.000Z",
+      "finished_at": "2026-10-20T17:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h106",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 115",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h106_0",
+          "text": "Beispielaussage h106 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h106_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h106",
+          "timestamp": "2026-10-20T17:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 115",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-20T17:13:00.000Z",
+      "finished_at": "2026-10-20T17:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h107",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 116",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h107_0",
+          "text": "Beispielaussage h107 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h107_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h107",
+          "timestamp": "2026-10-20T16:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 116",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-20T16:33:00.000Z",
+      "finished_at": "2026-10-20T16:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h108",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 117",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h108_0",
+          "text": "Beispielaussage h108 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h108_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h108",
+          "timestamp": "2026-10-20T15:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 117",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-20T15:53:00.000Z",
+      "finished_at": "2026-10-20T15:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h109",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 118",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h109_0",
+          "text": "Beispielaussage h109 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h109_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h109",
+          "timestamp": "2026-10-20T15:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 118",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-20T15:13:00.000Z",
+      "finished_at": "2026-10-20T15:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h110",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 119",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h110_0",
+          "text": "Beispielaussage h110 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h110_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h110",
+          "timestamp": "2026-10-20T14:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 119",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-20T14:33:00.000Z",
+      "finished_at": "2026-10-20T14:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h111",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 120",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h111_0",
+          "text": "Beispielaussage h111 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h111_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h111",
+          "timestamp": "2026-10-20T13:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 120",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-20T13:53:00.000Z",
+      "finished_at": "2026-10-20T13:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h112",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 121",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h112_0",
+          "text": "Beispielaussage h112 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h112_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h112",
+          "timestamp": "2026-10-20T13:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 121",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-20T13:13:00.000Z",
+      "finished_at": "2026-10-20T13:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h113",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 122",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h113_0",
+          "text": "Beispielaussage h113 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h113_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h113",
+          "timestamp": "2026-10-20T12:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 122",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-20T12:33:00.000Z",
+      "finished_at": "2026-10-20T12:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h114",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 123",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h114_0",
+          "text": "Beispielaussage h114 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h114_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h114",
+          "timestamp": "2026-10-20T11:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 123",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-20T11:53:00.000Z",
+      "finished_at": "2026-10-20T11:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h115",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 124",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h115_0",
+          "text": "Beispielaussage h115 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h115_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h115",
+          "timestamp": "2026-10-20T11:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 124",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-20T11:13:00.000Z",
+      "finished_at": "2026-10-20T11:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h116",
+      "project_id": "mcpdeck",
+      "task": "Beispielaufgabe 125",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h116_0",
+          "text": "Beispielaussage h116 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h116_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h116",
+          "timestamp": "2026-10-20T10:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 125",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-20T10:33:00.000Z",
+      "finished_at": "2026-10-20T10:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h117",
+      "project_id": "vpsman",
+      "task": "Beispielaufgabe 126",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h117_0",
+          "text": "Beispielaussage h117 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h117_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h117",
+          "timestamp": "2026-10-20T09:53:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 126",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "agent-zero",
+      "started_at": "2026-10-20T09:53:00.000Z",
+      "finished_at": "2026-10-20T09:54:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h118",
+      "project_id": "mausbot",
+      "task": "Beispielaufgabe 127",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h118_0",
+          "text": "Beispielaussage h118 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h118_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h118",
+          "timestamp": "2026-10-20T09:13:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 127",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "codex",
+      "started_at": "2026-10-20T09:13:00.000Z",
+      "finished_at": "2026-10-20T09:14:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    },
+    {
+      "schema_version": "run-view-v1",
+      "run_id": "run_h119",
+      "project_id": "truthlens",
+      "task": "Beispielaufgabe 128",
+      "execution": "completed",
+      "audit_state": "pending",
+      "integrity": "hash-only",
+      "review_summary": "unclear",
+      "claims": [
+        {
+          "id": "h119_0",
+          "text": "Beispielaussage h119 0",
+          "verdict": "unclear",
+          "evidence_refs": [
+            "ev_h119_0"
+          ],
+          "source_kind": "none",
+          "scope": "demo-claim",
+          "reason_code": "unwitnessed"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "tl_run_h119",
+          "timestamp": "2026-10-20T08:33:00.000Z",
+          "kind": "run.started",
+          "title": "Aufgabe gestartet",
+          "detail": "Beispielaufgabe 128",
+          "observation": "captured"
+        }
+      ],
+      "counts": {
+        "confirmed": 0,
+        "refuted": 0,
+        "unclear": 1
+      },
+      "agent_id": "claude",
+      "started_at": "2026-10-20T08:33:00.000Z",
+      "finished_at": "2026-10-20T08:34:00.000Z",
+      "duration_ms": 60000,
+      "git_commit": null,
+      "audit_revision": null,
+      "demo": true,
+      "synthetic": false
+    }
+  ]
+}

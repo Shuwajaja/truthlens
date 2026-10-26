@@ -6,7 +6,7 @@ import {spawnSync} from 'node:child_process'
 import {afterEach,expect,it,vi} from 'vitest'
 import {cleanup,fireEvent,render,screen,within,waitFor} from '@testing-library/react'
 import {overviewCopy} from '../src/workspace/overview-copy.ts'
-import {germanUI} from '../scripts/check-language.mjs'
+import {germanUI,referenceCopyViolations} from '../scripts/check-language.mjs'
 import App from '../src/App.tsx'
 import publicRun from '../fixtures/demo-run.json'
 import {recordedTime,recordedDuration} from '../src/components/overview-data.ts'
@@ -93,3 +93,9 @@ it('the document uses English language metadata',()=>{
   for(const value of Object.values(overviewCopy.en))expect(germanUI.test(value)).toBe(false)
   expect(spawnSync(process.execPath,[resolve('scripts/check-language.mjs')]).status).toBe(0)
  })
+
+it('checks reference copy outside its dictionary',()=>{
+ const source=readFileSync('src/reference/copy.ts','utf8')
+ expect(referenceCopyViolations(source)).toEqual([])
+ expect(referenceCopyViolations(source+'\nconst extra = "Öffnen"\n').length).toBeGreaterThan(0)
+})

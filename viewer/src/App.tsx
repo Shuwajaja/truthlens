@@ -26,8 +26,12 @@ import {LocalFolderOpen} from './workspace/LocalFolderOpen.tsx'
 import {LocalDownloads} from './workspace/LocalDownloads.tsx'
 import {RunDetail} from './workspace/RunDetail.tsx'
 import {OverviewLanguageProvider} from './workspace/OverviewLanguageProvider.tsx'
+import {ReferenceApp} from './reference/ReferenceApp.tsx'
 export type {View} from './lib/use-view.ts'
 
+function isReferencePath(path: string){
+ return /^\/(runs|checks|records|reports|agents|sources|settings|doctor)(\/|$)/.test(path)
+}
 
 function focusView(){
  const heading=document.querySelector<HTMLElement>('main h1')
@@ -35,7 +39,10 @@ function focusView(){
  heading.tabIndex=-1;heading.focus({preventScroll:true})
  window.scrollTo({top:0,left:0,behavior:'auto'})
 }
-export default function App(){return <OverviewLanguageProvider><WorkspaceApp/></OverviewLanguageProvider>}
+export default function App(){
+ if(typeof window!=='undefined'&&isReferencePath(window.location.pathname))return <ReferenceApp/>
+ return <OverviewLanguageProvider><WorkspaceApp/></OverviewLanguageProvider>
+}
 function WorkspaceApp(){
  const mobile=useMobile(),wide=useWide()
  const [localFolders,setLocalFolders]=useState<LocalFolder[]>([])

@@ -1,5 +1,54 @@
 # TruthLens Viewer — Workspace design contract
 
+## Reference runs surface, 26 October 2026
+
+The reference catalog has three areas: Übersicht (`/runs`), Prüfdetails
+(`/checks`), and Nachweise (`/records`). `/runs/:id` opens one task.
+Technical events sit in a closed developer disclosure. `/settings` and
+`/doctor` stay footer tools. `/` and `/?view=overview` stay the evidence
+workspace, including its honesty seals and the production “Not connected”
+state. That workspace is not this catalog and does not gain a task store,
+an orchestration panel, or an artifact gallery.
+
+The reference surface is scoped under `.tl-ref` in
+`viewer/src/reference/theme.css`. German chrome lives only in
+`viewer/src/reference/copy.ts`. Recorded task text is data, not chrome.
+The owner mockups replace the green-tinted near-black with a neutral
+background `#0a0a0b`, cards `#111113`, and a 1px border. There is no card
+shadow. The logo square is the only gradient (violet to cyan). The active
+project chip is a violet outline. The demo badge is a dashed amber outline
+and reads “Beispieldaten”; a demo catalog does not name a publish directory
+as its source. Type uses the already vendored Plus Jakarta Sans and
+JetBrains Mono for identifiers and evidence. Layout targets: sidebar 228px,
+header 56px, content padding 28px (16px below 768px), timeline 360px. The
+evidence-workspace 12/14/16/20/28px scale still binds that surface; the
+reference theme file is the only place that also uses 13px and 22px.
+
+Honesty rules still bind this surface:
+
+- Demo data is visible only with `?demo=1` and the label “Beispieldaten”.
+- Human words are display-only. TRUE and FALSE appear only when integrity
+  is `hmac`. Hash-only, unknown, and failed integrity display UNKNOWN,
+  including a stored `confirmed` or `refuted` summary. A `benchmark_missing`
+  reason shows UNKNOWN even on an HMAC confirmed claim. One refuted claim
+  shows FALSE only when integrity is `hmac`. Zero claims, an unfinished
+  audit, incomplete execution, or unknown integrity stay UNKNOWN. Stored
+  values and the D34 statuses `passed` / `failed` / `not_checkable` do not
+  change. Green and red count colours follow the same HMAC rule.
+- `integrity=failed`, a bad shape, or counts that disagree with the claims
+  render “Nachweis beschädigt oder inkonsistent”. Confirmed claims from that
+  run are not shown and are not counted.
+- Hash-only evidence shows “Hash only · signature not checked”. “Integrität
+  ist keine Freigabe.” stays visible. HMAC text appears only when the
+  projection integrity is `hmac`.
+- The browser doctor never uses a green confirmed pill. Isolation stays
+  unverified. The browser does not read a ledger and does not run an audit.
+  Without a loaded run-view file and without `?demo=1`, the runs page says
+  so. A file from `truthlens runs show --json` is labelled as a loaded file,
+  not a live audit. Recheck names `truthlens runs recheck` and does not
+  pretend to start a revision.
+- Filters in the query string apply to the table and the figures above it.
+
 Derived export headlines describe the presence of recorded claims without
 inventing a quotation or inferring completion. Both Python exports and local-folder
 derived exports say “Your agent made recorded claims.” when claims exist; with
