@@ -53,6 +53,7 @@ class ReadmeTests(unittest.TestCase):
                 [sys.executable, *command[2:]],
                 cwd=ROOT,
                 env={**os.environ, "PYTHONPATH": "src"},
+                check=False,
                 capture_output=True,
                 text=True,
                 encoding="utf-8",
