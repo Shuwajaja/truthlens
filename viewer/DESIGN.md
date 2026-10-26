@@ -1,5 +1,11 @@
 # TruthLens Viewer — Workspace design contract
 
+Derived export headlines describe the presence of recorded claims without
+inventing a quotation or inferring completion. Both Python exports and local-folder
+derived exports say “Your agent made recorded claims.” when claims exist; with
+none, retain the neutral no-claim headline. Original claim text and findings stay
+unchanged. This metadata wording introduces no visual, integrity or approval change.
+
 ## Verdict and integrity data boundary, 26 October 2026
 
 Step 5 retains criterion pills, the criterion ring and unsmoothed criterion-ratio
