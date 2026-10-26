@@ -26,6 +26,15 @@ tests/test_architecture_docs.py` printed **31 passed, 50 subtests passed**.
 `ruff check` and `ruff format --check` passed on the touched Python files.
 The full pytest suite was not re-run.
 
+Chrome `/opt/google/chrome/chrome` on the Vite dev server, after `e1d42a8`,
+captured 1440×900 and 390×844. Fourteen unrestricted axe scans had **zero
+violations**. Incomplete `color-contrast` remains on the short logo letter
+at desktop width. The hash-only demo detail pill was UNKNOWN. A review file
+with `integrity=hmac` showed TRUE; that file is not a signature check.
+Recheck named `truthlens runs recheck` and did not start a revision. Pictures
+and `axe.json` are under
+`docs/screenshots/cursor/truthlens-reference-ui-af22/`.
+
 ## Mockup functions — local checks, 26 October 2026
 
 The reference surface uses the neutral `#0a0a0b` / `#111113` palette from the

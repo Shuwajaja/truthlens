@@ -1,4 +1,4 @@
---- truthlens exit 0
+=== unset TRUTHLENS_REFERENCE; truthlens ===
   ▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
   ▌  TRUTHLENS  ▐
   ▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟
@@ -7,36 +7,35 @@ Belege prüfen. Ein Import hebt keinen Vertrauensstatus an.
 
   truthlens init LEDGER
   truthlens doctor
-  TRUTHLENS_REFERENCE=1 truthlens workspace doctor
-  TRUTHLENS_REFERENCE=1 truthlens runs list
+  truthlens workspace doctor
+  truthlens runs list
+exit 0
 
---- truthlens init --yes --root . exit 0
-◆ Projekt: mcpdeck
-◆ Geplante Änderung: Adapter codex hinzufügen
-⚠ codex: Live-Aufzeichnung noch nicht qualifiziert
-✔ Workspace geschrieben
-✔ Hook geschrieben .truthlens/hooks/task-end
-⚠ Der Hook speichert einen Agentenbericht und öffnet keinen Lauf
-
---- truthlens workspace doctor --root . exit 0
+=== truthlens workspace doctor --root /tmp/tl-cli-review ===
   ▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
   ▌  TRUTHLENS  ▐
   ▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟
 TruthLens 0.1.0
 Isolation ist nicht geprüft.
 
-✔ workspace: Workspace ist gültig und lesbar
-⚠ capture_adapter: Adapter ist nur eingetragen oder die Version ist unbekannt
+⚠ workspace: Workspace ist noch nicht eingerichtet
+· capture_adapter: Kein Adapter konfiguriert
 ✔ heartbeat: Kein letzter Lauf ist bei einem neuen Projekt normal
 ⚠ output_channel: Ausgabe nur lokal vorhanden; kein Reader konfiguriert
 ⚠ agent_status: Konfiguration wurde nicht durch einen synthetischen Test nachgewiesen
-✔ task_hook: Hook-Datei liegt bereit und öffnet keinen Lauf
+⚠ task_hook: Kein Task-Hook installiert
 ⚠ isolation: Isolation ist nicht geprüft
-3 ok · 4 Warnungen · 0 Fehler
+1 ok · 5 Warnungen · 0 Fehler
+exit 0
 
---- truthlens workspace test --root . exit 0
-✓ Synthesetest complete (run_01M5WSD5A50B2ZE078923F19MB)
-
---- truthlens runs list --root . exit 0
+=== truthlens runs list --root /tmp/tl-cli-review ===
 LAUF               AGENT          AUFGABE                        ✓   ✗   ?  ERGEBNIS     ZEIT
-run_01M5WSD5A50B2… workspace-test truthlens workspace test       0   0   0  UNKNOWN     vor 1 Min
+exit 0
+
+=== truthlens runs show run_missing --root /tmp/tl-cli-review ===
+Referenzbefehle sind abgeschaltet
+exit 2
+
+=== truthlens workspace init --root /tmp/tl-cli-review ===
+Referenzbefehle sind abgeschaltet
+exit 2
