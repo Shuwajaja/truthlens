@@ -24,6 +24,7 @@ def test_contributor_links_reach_tracked_rules_and_development_checks():
             continue  # This check never fetches external links.
         path = (ROOT / unquote(url.path)).resolve()
         assert path.is_relative_to(ROOT), "contributor links must stay in the checkout"
+        assert path.is_file(), "missing contributor link target"
         assert path.relative_to(ROOT).as_posix() in tracked, "link target must be published"
         if url.fragment:
             headings = {

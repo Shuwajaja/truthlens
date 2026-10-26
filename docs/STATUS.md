@@ -1,3 +1,45 @@
+## Contributor onboarding — local checks, 26 October 2026
+
+Branch `improve/loop-12`, base `b89533e5`. [CONTRIBUTING](../CONTRIBUTING.md)
+now links to the existing development checks and binding repository/UI rules,
+provides a descriptive branch command, and replaces obsolete mandatory week
+branches and per-PR owner approval with the current review/merge conditions.
+Product-level human approval and the status-only agent boundary stay explicit.
+
+Acceptance criteria were stated before edits: accurate workflow, working local
+links/anchors and a branch example executed in a disposable Git repository.
+Red tests-only commit `6a8ee0a7`: with `umask 022`, `PYTHONPATH="$PWD/src"`,
+`TMPDIR="$PWD/.t"`, `TZ=UTC`, `.venv/bin/python -m pytest -q
+tests/test_contributing_docs.py --basetemp=.t/l12red --tb=short` observed
+**2 failed** for the intended missing links/command. The same target with
+`.t/l12green` observed **2 passed** after the guide update.
+
+Full suites tested `3e0d2c05`, tree
+`4f5b58e710f44f1cf2612b685a9122a919cb321d`. With the same environment and
+repo venv on PATH, sequential `TZ=UTC .venv/bin/python -m pytest -q -ra
+--tb=short --basetemp=.t/l12utc` and Europe/Berlin with `.t/l12berlin` each
+observed **819 passed, 2 skipped, 1 xfailed, 73 subtests passed**. Separate-UID
+host prerequisites are absent; same-UID key access remains an expected failure.
+Review then added an explicit link-file-existence assertion: the targeted
+UTC run with `.t/l12review` observed **2 passed**. Other final edits are this
+status record; full-suite evidence above is for the stated commit.
+
+From `viewer/`, sequential `TZ=UTC DEBUG_PRINT_LIMIT=300 TMPDIR="$PWD/../.t"
+npm_config_cache="$PWD/.npm-cache" npm test` and Europe/Berlin each observed
+**516 passed / 52 files**, including static checks and five toolbar builds.
+Existing jsdom `scrollTo` notices remain. `ruff check src tests`, new-test
+formatting, Python `compileall`, viewer lint/build including TypeScript, Node
+status-adapter syntax and tests (**4 passed**), and diff checks passed. Ignored
+copied venv pointers were corrected inside the checkout; no installation.
+
+Independent-style author self-review found no blocking security/D34 finding;
+this is not independent security approval. Runtime code, frozen contracts,
+G1 broker/wire/client/adapter, human approval controls, viewer and dependencies
+are unchanged. No usable Chromium on this host: browser/screenshots/axe
+**not run**; no UI changes. No native Windows/macOS, coverage, live-service or
+separate-UID isolation claim. `PR_BODY.md` stays untracked. Local commits only;
+no push, PR, merge, deployment, host provisioning, Docker or dependency changes.
+
 ## Short synthetic demo socket addresses — local checks, 26 October 2026
 
 Branch `improve/loop-11`, base `f1ddb2dc`. Resolves the loop-10 synthetic-demo
