@@ -18,7 +18,7 @@ agent (OpenCode / Cursor / any CLI) ──► wrapper.py  (truthlens run) ──
 | `manifest.py` | Acceptance (met / unmet / unverified / proposed), claim support (D26, only `kind=completion`), Artifact Manifest v1, recompute-and-compare check (D28). |
 | `wrapper.py` | `truthlens run`: filtered agent env (HMAC key never passed), git captured with hooks/external diff disabled, before/after snapshot, byte-level secret removal, witnessed tests in a clean copy (tracked, non-ignored files, no symlinks, tests restored), counts from JUnit XML, optional `--test-user`. |
 | `gate.py` | Approval gate: request inbox outside the run dir, action hash = argv + resolved program + tree hash, execution from an immutable snapshot, human approval signed with the key, single use, expiry, rollback anchor outside the run dir. |
-| `projection.py` | Disposable SQLite read model, rebuilt atomically from a verified ledger. |
+| `projection.py` | Disposable SQLite read model, rebuilt atomically from a verified ledger. Failed rebuilds close the connection before temporary-file cleanup and preserve the previous database for retry. |
 | `export.py` | Viewer JSON (cards, claims, timeline, hash-checked text blobs). |
 | `mcp.py` | Read-only stdio MCP (`list_runs`, `run_report`, `run_events`); without key: `verified:false`, `integrity:"hash-only"`. |
 | `cli.py` | `init`, `run`, `request`, `act`, `approve`, `verify`, `repair`, `report`, `project`, `export`, `mcp`. |
