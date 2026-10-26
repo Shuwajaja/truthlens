@@ -1,3 +1,46 @@
+## Architecture reader guide — local checks, 26 October 2026
+
+Branch `improve/loop-10`, base `8fca88fa`. Refreshed
+[ARCHITECTURE](ARCHITECTURE.md) maps capture, audit, protected pipeline and B–G2
+readers to source; separates human evidence from D34 agent status-only access;
+and removes obsolete host/review assertions. Runtime code is unchanged.
+Red checkpoint `8f7edfaf`: `PYTHONPATH="$PWD/src" TMPDIR="$PWD/.t" TZ=UTC
+.venv/bin/python -m pytest -q tests/test_architecture_docs.py
+--basetemp=.t/l10red --tb=short` observed **1 failed** (missing CLI tour).
+The target with `.t/l10green2` observed **1 passed, 3 subtests passed** after
+the docs update. The check caught a drafted `agent-status --help` example:
+that CLI intentionally returns `not_checkable`/exit 2 rather than help. The
+page now documents this and uses three working help commands.
+
+With `umask 022`, repo venv PATH, `PYTHONPATH="$PWD/src"`, `TMPDIR="$PWD/.t"`,
+`TZ=UTC .venv/bin/python -m pytest -q -ra --tb=short --basetemp=.t/l10utc`
+observed **816 passed, 2 skipped, 1 xfailed, 73 subtests passed** on `6f2b1789`.
+Initial Europe/Berlin run with `.t/l10berlin` observed **1 failed, 815 passed**:
+the existing synthetic demo exceeded Linux's Unix socket pathname limit
+(108 bytes versus 107). A shorter targeted probe passed, then the full
+`TZ=Europe/Berlin` run with `.t/10b` observed **816 passed, 2 skipped, 1 xfailed,
+73 subtests passed** on `472876fc`, tree
+`7b8d8954862a131125754ee6b16cde648da56286`. That commit only cleans up lint in
+the new test. Separate-UID host checks skipped; same-UID key access remains an
+expected failure. Only ignored in-repo copied venv pointers were corrected;
+no installation. Long synthetic-demo socket paths remain an open limitation.
+
+From `viewer/`, sequential `TZ=UTC DEBUG_PRINT_LIMIT=300 TMPDIR="$PWD/../.t"
+npm test` and Europe/Berlin runs each observed **516 passed / 52 files**,
+including language/style/theme checks and five toolbar builds. Existing jsdom
+`scrollTo` notices remain. Viewer `npm run lint` and `npm run build` (including
+TypeScript), `ruff check src tests`, formatting of the new test, Python
+`compileall -q src/truthlens`, 37 offline architecture link/anchor checks and
+diff checks passed. Initial ruff findings in the new test were corrected.
+
+Independent-style author self-review found no blocking security/D34 finding;
+this is not independent security approval. Frozen contracts, protected runtime
+code, G1/wire/adapter, approval controls, viewer and dependencies are unchanged.
+No coverage measurement, native Windows/macOS or live/client/isolation proof.
+Chromium absent: browser/screenshots/axe **not run**; no UI changes. Requested
+`PR_BODY.md` stays untracked. Local commits only; no push, PR, merge, deployment,
+host setup, Docker changes or new dependencies.
+
 ## Derived export headlines — local checks, 26 October 2026
 
 Branch `improve/loop-8`, base `862401eb`. Python export and browser local-folder

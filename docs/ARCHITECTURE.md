@@ -1,38 +1,118 @@
 # Architecture
 
-```
-agent (OpenCode / Cursor / any CLI) ──► wrapper.py  (truthlens run) ──► ledger.py (JSONL, hash chain, HMAC)
-                                          │   ▲   │                         │
-                         gate inbox ──► gate.py ◄─┘ (approve by hash)       ├─► projection.py (SQLite, rebuildable)
-                                          │                                  ├─► export.py ─► viewer/ (React)
-                                          └─► store.py + manifest.py ────────┴─► mcp.py (read-only, stdio)
+TruthLens records what an agent did, checks the recorded evidence, and lets a
+human compare claims with witnessed results. The Python core uses the standard
+library; the viewer uses React, TypeScript and Vite. The optional status MCP
+adapter uses the pinned SDK extra. Start with the
+[offline walkthrough](../README.md#try-it-in-1-minute) for a runnable example;
+[STATUS](STATUS.md) records measured checks and remaining limits.
+
+## Capture and evidence
+
+```text
+agent command -> wrapper -> ledger.jsonl (hash chain, optional HMAC)
+                    |          |
+                    |          +-> manifest.json (criteria, claims, artifact references)
+                    +-> blobs/sha256/ (redacted content, addressed by hash)
+
+verified run -> report / export / SQLite projection -> human evidence review
+completed run -> read-only audit -> checks, conclusion and provenance
 ```
 
-## Modules (`src/truthlens/`)
-| Module | Role |
+1. `truthlens run` records the start, criteria and before snapshot, then starts
+   the agent with a filtered environment. The HMAC key is withheld from that
+   child environment; OS isolation is still needed to prevent file access.
+2. Gated actions are requested by the agent. A human approves the exact action
+   hash; the gate executes once from the approved snapshot. Agent decisions do
+   not become human approval or criterion-confirmation events.
+3. Capture stores redacted artifacts, witnessed tests, agent claims and the run
+   finish. The manifest derives criteria and claim support from those events.
+4. Evidence consumers verify the ledger and check manifest consistency before
+   deriving reports, exports or projections. A keyless hash-chain check is
+   **hash-only**, not signature verification. The audit additionally checks
+   bounded captured inputs and produces its own checks and provenance; the
+   viewer's criterion summary is not that audit verdict.
+
+| Source | Responsibility |
 |---|---|
-| `canonical.py`, `ids.py` | Canonical JSON (no floats), ULID-style ids. |
-| `ledger.py` | Append-only JSONL per run, Event Schema v1, SHA-256 chain by `seq`, HMAC with key id, fail-closed `verify`, `repair` (human + key only). |
-| `redaction.py` | `[REDACTED]` before hashing: secret names (any length), known token formats, CLI flags, URL credentials; input capped. |
-| `store.py` | Content-addressed blob store `blobs/sha256/xx/<sha>`. |
-| `manifest.py` | Acceptance (met / unmet / unverified / proposed), claim support (D26, only `kind=completion`), Artifact Manifest v1, recompute-and-compare check (D28). |
-| `wrapper.py` | `truthlens run`: filtered agent env (HMAC key never passed), git captured with hooks/external diff disabled, before/after snapshot, byte-level secret removal, witnessed tests in a clean copy (tracked, non-ignored files, no symlinks, tests restored), counts from JUnit XML, optional `--test-user`. |
-| `gate.py` | Approval gate: request inbox outside the run dir, action hash = argv + resolved program + tree hash, execution from an immutable snapshot, human approval signed with the key, single use, expiry, rollback anchor outside the run dir. |
-| `projection.py` | Disposable SQLite read model, rebuilt atomically from a verified ledger. Failed rebuilds close the connection before temporary-file cleanup and preserve the previous database for retry. |
-| `export.py` | Viewer JSON (cards, claims, timeline, hash-checked text blobs). |
-| `mcp.py` | Read-only stdio MCP (`list_runs`, `run_report`, `run_events`); without key: `verified:false`, `integrity:"hash-only"`. |
-| `cli.py` | `init`, `run`, `request`, `act`, `approve`, `verify`, `repair`, `report`, `project`, `export`, `mcp`. |
+| [wrapper.py](../src/truthlens/wrapper.py), [gate.py](../src/truthlens/gate.py) | Capture, filtered environment, restored-test witnessing and approval-bound execution. |
+| [ledger.py](../src/truthlens/ledger.py), [canonical.py](../src/truthlens/canonical.py), [redaction.py](../src/truthlens/redaction.py) | Canonical events, chain by `seq`, optional HMAC, fail-closed verification and redaction before hashing. |
+| [store.py](../src/truthlens/store.py), [manifest.py](../src/truthlens/manifest.py) | Content-addressed blobs and recomputed criteria/claim support. |
+| [projection.py](../src/truthlens/projection.py), [export.py](../src/truthlens/export.py) | Rebuildable SQLite and viewer JSON with integrity metadata. |
+| [audit.py](../src/truthlens/audit.py), [audit_inputs.py](../src/truthlens/audit_inputs.py) | Read-only audit of completed captures using bounded, safe input reads. |
 
-## Data flow
-1. `truthlens run` writes `run.started`, criteria, the before snapshot, then starts the agent with a filtered env.
-2. Gated actions: the agent calls `truthlens request -- <cmd>` → `action.requested` + `action.blocked`; a human runs `truthlens approve <ledger> <hash>`; the wrapper executes once from the approved snapshot → `action.executed` + evidence.
-3. After the agent: diff + changed files as redacted blobs (`artifact.recorded`), witnessed tests (`test.reported`), claims from agent output (`agent.claim`), `run.finished`, manifest.
-4. `export` / `mcp` / `project` read only verified runs; the viewer renders Client Lens (plain language, default) and Developer Lens (events, hashes, payloads, diffs).
+The [event schema](spec/event-schema-v1.md),
+[manifest contract](spec/artifact-manifest-v1.md) and
+[trust levels](TRUST-LEVELS.md) define the frozen contracts.
+Witnessed test success means the restored test command reported success;
+code in the tested process can still forge its own result.
 
-## Isolation and trust
-- Same OS user ⇒ the agent can read the HMAC key and approve itself (documented, `xfail` test). Protection only with a separate Unix user / sandbox.
-- On the build box: OpenCode worker, its ruff and tests run as `tl-agent` (`agent-config/scripts/tl-cycle.sh`); Cursor still runs as the box user, restricted to `viewer/`.
-- Witnessed tests prove "the restored test command reported success", not correctness; code inside the tested process can still forge its own result. See `docs/TRUST-LEVELS.md`.
-- Several items above (snapshot gate, JUnit counts, `--test-user`, byte-level redaction) are in open security PRs waiting for CodexChat review; see `docs/STATUS.md`.
+## Protected pipeline and separate readers (Phases B–G2)
 
-Stack: Python 3.12/3.13 stdlib-only core, pytest, ruff; Vite + React + TypeScript viewer; GitHub Actions.
+The server pipeline uses operator-controlled profiles, protected registration,
+captured snapshots and stored audit jobs. Its caller and status-reader roles
+are distinct. Adding a status reader grants no run, admit or approval rights.
+
+```text
+operator profile -> protected pipeline -> registered snapshot -> stored audit
+                                                                  |
+human -> separate fixed-view reader -> published evidence           |
+                                                                  v
+agent -> agent-status / mcp-status -> fixed Unix socket -> protected broker
+       <- {status} only           <-                    <- authorized projection
+```
+
+The human reader and agent broker are separate access paths. The broker checks
+kernel peer identity, per-run authorization and stored report/digest bindings;
+it uses the existing Phase F status projection. Its agent result is exactly
+`{"status":"passed"}`, `{"status":"failed"}` or
+`{"status":"not_checkable"}`. Run IDs are request inputs, never result fields.
+Events, evidence, paths, IDs, counts, free text and keys never enter that result.
+Unavailable or inconsistent evidence fails closed to `not_checkable`.
+
+| Source | Responsibility |
+|---|---|
+| [registry.py](../src/truthlens/registry.py), [pipeline.py](../src/truthlens/pipeline.py), [pipeline_jobs.py](../src/truthlens/pipeline_jobs.py) | Protected registration, capture orchestration and stored audit jobs. |
+| [read_projection.py](../src/truthlens/read_projection.py), [read_service.py](../src/truthlens/read_service.py), [viewer/](../viewer/) | Separate human evidence publication and fixed-view reader; local-folder/export viewing is also supported. |
+| [status_projection.py](../src/truthlens/status_projection.py) | Phase F projection from authenticated audit context to the fixed status vocabulary. |
+| [status_broker.py](../src/truthlens/status_broker.py), [status_wire.py](../src/truthlens/status_wire.py), [status_client.py](../src/truthlens/status_client.py) | G1 protected status source, bounded Unix transport and unprivileged client. |
+| [mcp_status.py](../src/truthlens/mcp_status.py), [agent_status.py](../src/truthlens/agent_status.py), [agent_setup.py](../src/truthlens/agent_setup.py) | Status-only MCP/CLI and G2 human diagnostics/client configuration helpers. |
+
+The legacy [mcp.py](../src/truthlens/mcp.py) (`truthlens mcp --root`) exposes
+reports and events for trusted human evidence workflows. It is **not
+D34-compatible**, must not be connected to agents, and is never a fallback for
+`mcp-status`. See [SELFHOST-MCP](SELFHOST-MCP.md) for G1's threat model and
+[AGENT-SETUP](AGENT-SETUP.md) for G2 interfaces and synthetic-demo limits.
+
+## Inspect the CLI offline
+
+From the repository root, with Python 3.12+ and TruthLens installed as described
+in the [reviewer guide](REVIEWER-GUIDE.md), these commands only print help. They
+do not start a broker, connect a client, read a key or configure the host.
+
+```bash
+python3 -m truthlens --help
+python3 -m truthlens audit --help
+python3 -m truthlens mcp-status --help
+```
+
+[The documentation check](../tests/test_architecture_docs.py) executes these
+examples from the checkout using the test interpreter. Help output proves CLI
+availability, not a working service or qualified MCP client.
+The agent-facing `agent-status` deliberately has no help output: malformed
+arguments return `not_checkable` with exit code 2. Its usage belongs in the
+human-facing [agent setup guide](AGENT-SETUP.md).
+
+## Trust and deployment limits
+
+**Integrity is not approval.** Only a verified HMAC context supports a signature
+verification claim. A same-UID, root or equivalent agent can defeat key and
+reader isolation; filtering the child environment alone cannot prevent this.
+The human evidence reader must remain unreachable to agents.
+
+The repository contains pipeline/reader/broker code and
+[inactive operator templates](../deploy/server/README.md), not proof of an
+isolated deployment. Separate-UID/ACL/key isolation, real client qualification
+and live service setup require their own evidence and authorization. Consult
+[STATUS](STATUS.md) for what was actually run; code or synthetic tests do not
+certify a host.
