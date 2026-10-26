@@ -2,7 +2,7 @@
 
 Binding implementation of the UI pipeline for this repository. `viewer/DESIGN.md` wins over general upstream advice. Review only changed components and affected behavior; avoid unrelated refactors and whole-repository instruction dumps.
 
-1. Read and update [viewer design](../viewer/DESIGN.md) before UI code. Preserve the integrity guard, neutral hash-only notice, visible approval boundary, real export data and English UI. Tokens and type scale remain the source of visual decisions.
+1. Read and update [viewer design](../viewer/DESIGN.md) before UI code. Preserve the integrity guard, neutral hash-only notice, visible approval boundary, real export data, English run detail/tools, and fixed German/English overview copy. Tokens and type scale remain the source of visual decisions.
 2. Prefer existing shadcn/Magic UI components when components are needed. Origin UI/coss code is excluded (AGPL).
 3. Apply the [local React checklist](../.agents/skills/react-best-practices.md) to changed React code, then the [local interface checklist](../.agents/skills/web-interface-review.md). Record findings as `file:line – rule`, with measured evidence where relevant. The [vetting record](../.agents/skills/README.md) pins source versions and licenses. Do not install upstream skill scripts/hooks or fetch changeable instructions during routine reviews.
 4. Run the checks below, then capture desktop **1440×900** and mobile **390×844** with headless Playwright and full unrestricted axe. Fix confirmed serious/critical findings. Exercise both lenses and affected views/drawers/sheets. Report browser errors, manual findings and unresolved axe `incomplete` items separately from passes.
@@ -13,10 +13,10 @@ Binding implementation of the UI pipeline for this repository. `viewer/DESIGN.md
 
 | Check | What it verifies | What still needs review |
 | --- | --- | --- |
-| `cd viewer && npm test` | English check, toolbar environment build matrix, behavioral tests | Requirements outside covered tests |
+| `cd viewer && npm test` | Fixed bilingual overview/English detail check, toolbar environment build matrix, behavioral tests | Requirements outside covered tests |
 | `npm run lint` | Configured React/TypeScript checks, including Rules of Hooks | Effect design, async sequencing, stale responses and measured render cost |
 | `npm run check:styles` | Semantic colour tokens | Layout, meaning and overlay occlusion |
-| `npm run check:language` | Known non-English UI strings | Plain English wording and recorded-data preservation |
+| `npm run check:language` | German copy confined to the approved overview dictionary | Copy quality, complete translations and recorded-data preservation |
 | `npm run build` | TypeScript and production bundling | Production deployment settings or performance claims |
 | `npm run check:toolbar` | Emitted toolbar loader only for exact `VERCEL_ENV=preview`; unset/production/development/unknown excluded | Vercel's independent platform injection settings |
 | `npm run check:toolbar -- --browser` | Chromium checks of built preview/production, real loader insertion, reuse and failed-network behavior; exact viewport screenshots | Authenticated hosted Comments, login/permissions and third-party overlay accessibility |
@@ -51,3 +51,22 @@ Shu’s later decision supersedes public demo/preview delivery: one local produc
 Test changed behavior and affected states once, then reuse that evidence while the code stays unchanged. Re-run only checks affected by a fix, a failure or a newly identified risk. Documentation-only changes do not need Viewer builds or browser matrices. Component-scoped CI may skip unrelated jobs, but its final check must distinguish those skips from executed passes and must fail if a required job did not succeed. Unknown change scope defaults to running checks.
 
 Keep commands, source commit/tree, observed counts and limitations with the evidence. Mark not-run, skipped, expected-failure, blocked and mocked checks explicitly. Never turn a fixture into a claimed real run, infer a working live service from a mock, remove an assertion to obtain green CI, or fabricate screenshots/results. Targeted browser review still uses unrestricted axe and the required viewports; its limited state coverage must be reported. No repeat of every historical scan is required for an unrelated or small change.
+
+## Overview visual parity (26 October 2026)
+
+The owner-approved overview uses the green-tinted dark theme independently of
+run detail, with a local German/English table. No upstream strings, fonts or code
+are fetched. The language scanner permits German only in that fixed dictionary;
+unit tests check matching translation keys and English copy. Existing recorded
+content and English secondary tools are not translated.
+
+For the focused local capture run
+`cd viewer && npm run build && node scripts/review-overview.mjs`. It uses only the recorded development fixture and
+local production build, captures 1440×900/390×844, runs unrestricted axe on the
+overview/menu/English/empty states, checks keyboard chart/menu/run navigation and
+blocks external requests. Evidence defaults to the gitignored
+`viewer/.screenshots/overview-v2/`; `OVERVIEW_OUTPUT` selects another location.
+A missing browser is reported as unavailable, never as a browser/axe pass.
+Review the screenshot against the approved mockup, all axe `incomplete` items,
+long labels, enlarged text and screen-reader behavior manually. This command is
+manual review only, outside automatic PR CI; it does not qualify live services.

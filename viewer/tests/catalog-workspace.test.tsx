@@ -17,10 +17,12 @@ function setup(load:(path:string)=>Promise<Response>=async path=>json(document(p
  const fetch=vi.fn(async(path:string)=>path==='/v1/health'?json({source_id:workspace,service:'available'}):path.startsWith('/v1/runs?')?json({source_id:workspace,runs:[one,two],next_offset:null}):load(path))
  vi.stubGlobal('fetch',fetch)
  render(<App/>)
+ openTools()
  return fetch
 }
-async function connect(){fireEvent.click(screen.getByRole('button',{name:'Connect',exact:true}));await screen.findByRole('heading',{name:'Runs',exact:true})}
-const open=(item:typeof one)=>fireEvent.click(screen.getByRole('button',{name:`Open run ${item.run_id}`,exact:true}))
+function openTools(){const summary=screen.getByText('Menü');if(!summary.closest('details')!.open)fireEvent.click(summary)}
+async function connect(){fireEvent.click(screen.getByRole('button',{name:'Connect',exact:true}));await screen.findByRole('heading',{name:'Übersicht',exact:true});openTools()}
+const open=(item:typeof one)=>{openTools();fireEvent.click(screen.getByRole('button',{name:`Open run ${item.run_id}`,exact:true}))}
 afterEach(()=>{cleanup();localStorage.clear();history.replaceState(null,'','/');vi.restoreAllMocks();vi.unstubAllGlobals();vi.unstubAllEnvs()})
 
 it('shows workspace and snapshot identities and canonicalizes the initial Runs entry',async()=>{

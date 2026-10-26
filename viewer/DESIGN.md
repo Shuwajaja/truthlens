@@ -1,13 +1,53 @@
 # TruthLens Viewer — Workspace design contract
 
+## Overview visual parity, 26 October 2026
+
+The owner-approved reference is the four desktop/mobile shots and `src.html` in
+`/home/codex/specs/truthlens-design/`. Step 2 changes the human overview only.
+Use a centered 1208px column, compact TruthLens header, quiet opening sentence,
+320px score card beside a two-by-two chart grid, and compact latest-run rows in
+one bordered list. On mobile use 12px page gutters, a full-width score, and a
+keyboard-focusable horizontally scrolling chart strip with previous/next buttons
+and a swipe hint. Use 12px panels and 8px controls, matching the shots. Keep
+the 12/14/16/20/28px scale, local Plus Jakarta Sans,
+green-tinted near-black tokens, grey warnings and no horizontal page overflow.
+
+The overview is first. Put workspace navigation, tabs, local folder opening and
+connection/catalog controls in a native disclosure reached from the small header
+menu. Retain source/tab identities, pin/close/restore, explicit connection and
+existing downloads/run detail. Opening a run uses the existing route and detail
+layout; explicit deep links and restored selections still work. No new I/O,
+aggregation, dependencies, telemetry, remote assets or changes to G1/G2/D34.
+
+German is the overview default, with English available through a fixed typed
+string table and selector. Only interface strings are translated; recorded names,
+IDs, values and evidence remain exact text nodes. Existing run review and
+secondary workspace tools stay English with explicit language boundaries.
+
+Use an SVG ring for **met / total recorded criteria**, with red unmet and grey
+unverified/proposed segments. Zero criteria has a neutral empty ring, no ratio.
+The trend shows actual dated criterion ratios, real point labels and no smoothing;
+one point is a point, not a trend. Criteria-per-run uses stacked vertical columns
+on a shared count scale. Evidence bars count recorded events; agent bars count
+criterion outcomes. Latest-run pills explicitly say **criteria** met/unmet/not
+checkable/proposed, never an inferred overall verdict. Keep full counts and source
+metadata in a disclosure. Charts retain accessible text equivalents.
+
+The mockup's invented overall verdict, moving average and verified-ledger seal
+are replaced by supported criteria data and a neutral dashed
+“Hash only · signature not checked” notice. “Integrity is not approval” remains
+visible in both languages. No example numbers in product; fixtures only in tests.
+Check desktop 1440×900/mobile 390×844, unrestricted axe, keyboard, long strings,
+no criteria/runs/evidence/dates, reduced motion and existing run opening.
+Screenshot evidence for this local-only task stays gitignored.
+
 ## Workspace overview, 25 October 2026
 
 The approved overview reference is `/home/codex/specs/truthlens-design/src.html`,
 with its `DATEN.md` field inventory and shared `DESIGN.md`. Implement the workspace
 overview in the existing Runs route (`?view=runs`), now also the fresh workspace
 landing page. Explicit run URLs, restored tabs and the existing run review remain
-compatible. English-only UI translates the opening
-sentence to “TruthLens checks whether AI agents really did what they claim.”
+compatible. Step 2 adds the German/English copy specified above.
 
 This step uses loaded documents only: no new requests, automatic catalog reads,
 audit computation or broker access. RunDoc has no Phase F overall verdict, so
@@ -71,7 +111,7 @@ Do not import code or instructions from example apps. Agent-Plane 05 has no comp
 
 ## Honesty and data boundary
 
-English UI; recorded contents stay exact. There is no public demo build. The existing recorded demo is now fixtures/demo-run.json, served at /run.json exclusively by Vite local development middleware. Production starts Not connected and offers an explicit Connect action; no fetch occurs on mount. Connect probes only same-origin /v1/health and /v1/runs, then opens a selected run through /v1/runs/{id}/document. Each source ID is derived from the validated view, registry and run anchor context; every response is checked against its identity. Reads are bounded (10 MiB per document, 1 MiB per catalog); the viewer keeps loaded documents within a 50 MiB total cache budget. No arbitrary URL, fixture in production, external run URL, audit enqueue, agent controls or approval actions. The private reader is reachable only through the authorized local socket and SSH repository setup. Existing Vercel project/deployment settings remain untouched. Preview links are not delivery evidence; PRs carry screenshots. Toolbar/deployment plumbing remains legacy test infrastructure, considered for later owner-approved removal. Widget remains not connected.
+Run detail and secondary workspace tools use English; the overview uses the fixed German/English table above. Recorded contents stay exact. There is no public demo build. The existing recorded demo is now fixtures/demo-run.json, served at /run.json exclusively by Vite local development middleware. Production starts Not connected and offers an explicit Connect action; no fetch occurs on mount. Connect probes only same-origin /v1/health and /v1/runs, then opens a selected run through /v1/runs/{id}/document. Each source ID is derived from the validated view, registry and run anchor context; every response is checked against its identity. Reads are bounded (10 MiB per document, 1 MiB per catalog); the viewer keeps loaded documents within a 50 MiB total cache budget. No arbitrary URL, fixture in production, external run URL, audit enqueue, agent controls or approval actions. The private reader is reachable only through the authorized local socket and SSH repository setup. Existing Vercel project/deployment settings remain untouched. Preview links are not delivery evidence; PRs carry screenshots. Toolbar/deployment plumbing remains legacy test infrastructure, considered for later owner-approved removal. Widget remains not connected.
 
 “Signature checked” only if verified === true AND integrity === 'hmac'. Neutral “Hash only · signature not checked” and “Integrity is not approval” remain visible. Browser validates structure/internal label consistency, not signatures. Claims, exit 0, human-confirmed criteria and completed jobs never become passed tests or human approval. Frozen contracts stay unchanged.
 

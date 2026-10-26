@@ -1,12 +1,26 @@
-import {useImperativeHandle,useRef,useState,type ReactNode,type Ref} from 'react'
+import {useEffect,useImperativeHandle,useLayoutEffect,useRef,useState,type ReactNode,type Ref} from 'react'
 import {PanelLeft,PanelRight} from 'lucide-react'
 import {Button} from '../components/ui/button.tsx'
 import {Sheet,SheetContent,SheetDescription,SheetHeader,SheetTitle} from '../components/ui/sheet.tsx'
 import {readTheme,saveTheme,type ViewerTheme} from './theme.ts'
+import {overviewCopy} from './overview-copy.ts'
+import {useOverviewLanguage} from './overview-language.ts'
 import type {Lens} from '../lens.ts'
 
 export type WorkspaceHandle={inspect:()=>void}
-export function WorkspaceShell({children,tabs,navigation,inspector,lens,mobile,wide,onOpenRun,inspectorOpen,onInspectorOpenChange,inspectorAvailable=true,sourceLabel,sourceDescription,ref}:{children:ReactNode;tabs?:ReactNode;navigation:ReactNode;inspector:ReactNode;lens:Lens;mobile:boolean;wide:boolean;onOpenRun?:()=>void;inspectorOpen:boolean;onInspectorOpenChange:(open:boolean)=>void;inspectorAvailable?:boolean;sourceLabel?:string;sourceDescription?:ReactNode;ref:Ref<WorkspaceHandle>}) {
+export function WorkspaceShell({children,tabs,overview=false,tools,navigation,inspector,lens,mobile,wide,onOpenRun,inspectorOpen,onInspectorOpenChange,inspectorAvailable=true,sourceLabel,sourceDescription,ref}:{children:ReactNode;tabs?:ReactNode;overview?:boolean;tools?:ReactNode;navigation:ReactNode;inspector:ReactNode;lens:Lens;mobile:boolean;wide:boolean;onOpenRun?:()=>void;inspectorOpen:boolean;onInspectorOpenChange:(open:boolean)=>void;inspectorAvailable?:boolean;sourceLabel?:string;sourceDescription?:ReactNode;ref:Ref<WorkspaceHandle>}) {
+ const {language,setLanguage}=useOverviewLanguage(),copy=overviewCopy[language]
+ useEffect(()=>{document.documentElement.lang=overview?language:'en';return ()=>{document.documentElement.lang='en'}},[overview,language])
+ const root=useRef<HTMLDivElement>(null),previousOverview=useRef(overview)
+ // Reparented workspace tabs cannot retain DOM focus across presentations.
+ useLayoutEffect(()=>{
+  if(previousOverview.current!==overview){
+   previousOverview.current=overview
+   if(document.activeElement===document.body||!document.activeElement?.isConnected){
+    root.current?.querySelector<HTMLElement>(overview?'.overview-tools > summary':'[data-tab-select][aria-pressed="true"]')?.focus()
+   }
+  }
+ },[overview])
  const [navigationOpen,setNavigationOpen]=useState(true)
  const [sheet,setSheet]=useState<'navigation'|'inspector'|null>(null)
  const [theme,setTheme]=useState<ViewerTheme>(readTheme)
@@ -22,7 +36,21 @@ export function WorkspaceShell({children,tabs,navigation,inspector,lens,mobile,w
   setSheet('inspector')
  }}),[wide,sheet])
  const toggleSheet=(next:'navigation'|'inspector')=>{returnFocus.current=document.activeElement instanceof HTMLElement?document.activeElement:null;setSheet(current=>current===next?null:next)}
- return <div className="app-shell workspace-app" data-lens={lens} data-navigation-open={!mobile&&navigationOpen} data-inspector-open={wide&&inspectorOpen&&inspectorAvailable}>
+ if(overview)return <div ref={root} className="app-shell workspace-app overview-shell" data-lens={lens} data-overview="true">
+  <a className="skip-link" href="#main-content">{copy.overview}</a>
+  <header className="overview-header">
+   <div className="overview-brand"><span className="overview-monogram" aria-hidden="true">T</span><div><strong>TruthLens</strong><p>{copy.overview} · <span lang={sourceLabel?'en':language}>{sourceLabel??(import.meta.env.DEV?copy.fixture:copy.workspace)}</span></p></div></div>
+   <details className="overview-tools" onKeyDown={event=>{if(event.key==='Escape'){event.currentTarget.open=false;event.currentTarget.querySelector('summary')?.focus()}}}>
+    <summary>{copy.menu}</summary>
+    <div className="overview-tools-panel">
+     <label className="overview-language">{copy.language}<select value={language} onChange={event=>{if(event.target.value==='en'||event.target.value==='de')setLanguage(event.target.value)}}><option value="de" lang="de">Deutsch</option><option value="en" lang="en">English</option></select></label>
+     <div lang="en">{tabs}{tools}{navigation}</div>
+    </div>
+   </details>
+  </header>
+  <main id="main-content" tabIndex={-1}>{children}</main>
+ </div>
+ return <div ref={root} className="app-shell workspace-app" data-lens={lens} data-navigation-open={!mobile&&navigationOpen} data-inspector-open={wide&&inspectorOpen&&inspectorAvailable}>
   <a className="skip-link" href="#main-content">Skip to content</a>
   <header className="workspace-header workspace-frame">
    <div className="workspace-brand"><img src="/logo-icon.svg" alt="" width="24" height="30"/><span>TruthLens</span></div>

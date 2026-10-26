@@ -101,7 +101,7 @@
   --frame-mode-developer: #A7B6CF;
 }
 /* Approved overview palette. Run detail themes remain unchanged in step 1. */
-.cross-run-overview {
+.cross-run-overview, .overview-shell {
   color-scheme: dark;
   --bg: #070B0A;
   --surface: #0E1513;
