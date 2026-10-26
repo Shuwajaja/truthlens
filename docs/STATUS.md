@@ -1,3 +1,30 @@
+## Run detail polish — local checks, 26 October 2026
+
+Branch `design/run-detail-polish`, base `0b9a884`; red checkpoint `2aa97c6`
+witnessed 21 failures before implementation. Tested code `5962d69`, tree
+`69094f36bf9225ee7cb1ee3f7cd175ad8fd27a35`; this later entry is docs only.
+Round SVG status icons and a same-row Why disclosure, red dashed/tinted gaps,
+record-derived timeline dots/body-font times, German Befund label and green
+keyboard-visible heading focus follow the [viewer contract](../viewer/DESIGN.md).
+Unwitnessed claims remain gaps even beside unverified criteria; no reasons,
+verification claims or approvals are invented.
+
+From `viewer/`, `TZ=UTC DEBUG_PRINT_LIMIT=600 npm test` and
+`TZ=Europe/Berlin DEBUG_PRINT_LIMIT=600 npm test` each observed **487 passed /
+50 files**, including static checks and the five toolbar builds. Existing jsdom
+scrollTo notices remain. Lint, production build, review-script syntax and diff
+checks passed. Intermediate runs failed on updated copy/SVG expectations and a
+CSS-test harness; corrected, with the actual cascade defect witnessed red/green.
+Author self-review found no blocking security/D34/scope finding; this is not an
+independent security approval. Backend, frozen contracts, G1/G2, D34, agent
+STATUS ONLY access and dependencies are unchanged. Python was not run (no changes).
+
+Chrome review remains required at 1440×900/390×844: the local script attempt
+stopped at missing Chromium before starting a listener, with no screenshots or
+axe scans. Exact visual parity, focus geometry and screen-reader behavior are
+unqualified. Requested `PR_BODY.md` remains untracked; local checks only, no push,
+PR, merge, deployment, server setup, browser installation or Docker changes.
+
 ## Run detail visual parity — local implementation, 26 October 2026
 
 Branch `design/run-detail-v3`, base `49d0425`. Red checkpoint `a5ead77`
