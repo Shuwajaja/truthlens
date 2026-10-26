@@ -1,3 +1,43 @@
+## Export output-path diagnostics — local checks, 26 October 2026
+
+Branch `improve/loop-23`, base `b35cf06a`. After successful verification,
+`truthlens export DIR -o FILE` now handles output-write `OSError` with a fixed,
+path-free `FAIL` diagnostic and exit 1. It explains that the destination must
+be a writable file path with an existing parent directory. Verification order,
+successful JSON output and integrity labels are unchanged.
+
+Acceptance criteria were stated before code. Red tests-only commit `899e7334`:
+with `umask 0022`, repo venv on PATH, `PYTHONPATH="$PWD/src"` and
+`TMPDIR="$PWD/.t"`, `TZ=UTC .venv/bin/python -m pytest -q
+tests/test_cli_export_errors.py --basetemp=.t/23r --tb=no` observed
+**5 failed, 2 passed**. The same target with `.t/23g` observed **7 passed**.
+Three subprocess cases cover directory, missing-parent and file-parent
+destinations; two injected write failures cover bounded diagnostics without
+relying on chmod. Additional cases check verification before writing and
+identical file/stdout JSON. Synthetic runs prove only these local boundaries.
+
+Full suites tested `355bc6c1`, tree `e96b13da63062d3489cc4c73959a632db3d2a32a`.
+With the environment above, `TZ=UTC .venv/bin/python -m pytest -q -ra
+--tb=short --basetemp=.t/23u` and the Europe/Berlin equivalent with `.t/23b`
+each observed **871 passed, 2 skipped, 1 xfailed, 113 subtests passed**.
+Separate-UID host prerequisites are absent; the existing same-UID key-access
+case remains an expected failure. `python3 -m unittest tests.test_readme -q`
+observed **7 tests, OK**; `tests.test_ci_scope` observed **10 tests, OK,
+1 skipped** (plain Python lacks pytest for its dev-only subprocess boundary).
+Required-doc existence, Ruff (`check src tests`), new-test formatting, Python
+`compileall` and diff checks passed. The copied venv was repaired with the
+authorized offline editable install. Subsequent tracked edits only record
+this evidence.
+
+Independent-style author self-review found no blocking finding; this is not
+independent security approval. Contracts, trust rules, D34, G1, viewer,
+dependencies and demo evidence are unchanged. Export writes remain non-atomic:
+a late write failure can leave an incomplete output. Permission failures were
+injected, not exercised under another UID; no native platform, coverage or
+live-service claim. Viewer/browser/axe checks were not run: no UI change, and
+this host has no Chromium. `PR_BODY.md` stays untracked. Local commits only;
+no push, PR, merge, deployment or host changes.
+
 ## Architecture link regression guard — local checks, 26 October 2026
 
 Branch `improve/loop-20`, base `77967dad`. The architecture documentation test
