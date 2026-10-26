@@ -171,7 +171,7 @@ def test_init_ledger_contract_is_unchanged(tmp_path: Path, capsys: pytest.Captur
     ledger = tmp_path / "ledger.jsonl"
     assert main(["init", str(ledger)]) == 0
     assert capsys.readouterr().out.strip().startswith("run_")
-    assert main(["doctor"]) == 2
+    assert main(["doctor", "--socket", "/run/truthlens/status.sock"]) == 2
     assert "ISOLATION_UNVERIFIED" in capsys.readouterr().out
     assert {tool["name"] for tool in TOOLS} == {"list_runs", "run_report", "run_events"}
 

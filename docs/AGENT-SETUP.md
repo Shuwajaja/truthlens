@@ -87,7 +87,12 @@ Human-only diagnostic:
 truthlens doctor --socket /run/truthlens/status.sock --client claude-code
 ```
 
-Doctor only checks socket ancestry/type/root ownership/exact `0660` mode,
+The command above is the status-isolation doctor. `truthlens doctor` without
+`--socket` is a separate read-only catalog scan, described in
+[Set up TruthLens](setup-mcp.md). That scan does not print config contents
+or key values.
+
+Doctor, in this socket form, only checks socket ancestry/type/root ownership/exact `0660` mode,
 adapter importability, installed SDK module availability and snippet syntax/content.
 It never connects to a socket, enumerates runs, reads a key/registry, invokes sudo,
 checks docker, starts a service, changes permissions or edits client configs.

@@ -52,7 +52,16 @@ def main(argv: list[str] | None = None) -> int:
         from truthlens.agent_status import main as agent_status_main
 
         return agent_status_main(argv[1:])
+    if argv[:1] == ["setup"]:
+        from truthlens.setup_mcp import main as catalog_setup_main
+
+        return catalog_setup_main(argv[1:])
     if argv and argv[0] in {"doctor", "agent-config", "demo-status"}:
+        if argv[0] == "doctor":
+            from truthlens.setup_mcp import doctor_main, mcp_doctor_argv
+
+            if mcp_doctor_argv(argv[1:]):
+                return doctor_main(argv[1:])
         from truthlens.agent_setup import main as setup_main
 
         return setup_main(argv[0], argv[1:])
