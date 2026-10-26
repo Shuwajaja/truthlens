@@ -35,7 +35,7 @@ export function projectLocal(events:LocalEvent[],manifest:unknown):RunDoc{
  })
  const start=events[0],fin=events.findLast(e=>e.type==='run.finished')!
  requireLocal(typeof (start.payload.command??'')==='string'&&(fin.payload.exit_code===null||fin.payload.exit_code===undefined||Number.isSafeInteger(fin.payload.exit_code)),'Invalid run command/exit code')
- return {verified:false,integrity:'hash-only',headline:claims.length?["Your agent said: Done.","Here's what's actually proven."]:["Here's what this run actually proves."],review_required:true,
+ return {verified:false,integrity:'hash-only',headline:claims.length?["Your agent made recorded claims.","Here's what's actually proven."]:["Here's what this run actually proves."],review_required:true,
   run:{run_id:start.run_id,project:(events.find(e=>e.type==='requirement.recorded')?.payload.text??'') as string,agent:agent.name,command:(start.payload.command??'') as string,started:start.ts,finished:fin.ts,exit_code:(fin.payload.exit_code??null) as number|null,ledger_last_hash:events.at(-1)!.hash,events:events.length},
   counts:Object.fromEntries((['green','yellow','red','gray','outline'] as Card[]).map(card=>[card,cards.filter(c=>c.card===card).length])) as Record<Card,number>,criteria:cards,claims,artifacts:artifacts as Artifact[],
   events:events.map(e=>({seq:e.seq,id:e.id,ts:e.ts,type:e.type,actor:e.actor,summary:summary(e),hash:e.hash,payload:e.payload}))}
