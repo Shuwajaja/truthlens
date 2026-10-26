@@ -4,6 +4,8 @@
 .overview-brand { display:flex; gap:12px; align-items:center; min-width:0; }
 .overview-brand strong { font-size:16px; }
 .overview-brand p { font-size:12px; color:var(--text-3); }
+.overview-brand .overview-stand { font-variant-numeric:tabular-nums; }
+.overview-brand time { font-family:var(--font); }
 .overview-monogram { display:grid; place-items:center; width:30px; height:30px; flex:none; border:1px solid var(--accent); border-radius:8px; color:var(--accent); background:var(--surface-2); font-size:20px; font-weight:600; }
 .overview-tools { position:relative; flex:none; }
 .overview-tools > summary { cursor:pointer; display:flex; align-items:center; min-height:44px; padding:0 12px; font-size:12px; color:var(--text-2); border:1px dashed var(--neutral); border-radius:8px; }
@@ -25,6 +27,11 @@
 .cross-run-overview .overview-intro { margin:0 0 16px; font:400 16px/1.5 var(--font); color:var(--text-2); }
 .cross-run-overview .overview-current { font-size:12px; color:var(--text-3); }
 .overview-seal, .overview-limits { border:1px dashed var(--neutral); padding:4px 8px; border-radius:8px; font-size:12px; }
+.overview-integrity { display:flex; flex-direction:column; align-items:center; gap:8px; }
+.overview-seal[data-integrity] { display:inline-block; color:var(--neutral); }
+.overview-seal[data-integrity=signature-checked] { color:var(--ok); border-color:var(--ok); border-style:solid; }
+.overview-seal[data-integrity=failed] { color:var(--fail); border-color:var(--fail); border-style:solid; }
+.integrity-scope { font-size:12px; color:var(--text-3); }
 .overview-score-charts { display:grid; grid-template-columns:320px minmax(0,1fr); gap:12px; }
 .overview-score, .run-chart { border:1px solid var(--border); border-radius:12px; background:var(--surface); min-width:0; }
 .overview-score { display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px; padding:24px; }

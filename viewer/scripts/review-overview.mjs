@@ -8,8 +8,20 @@ import {chromium} from 'playwright'
 import AxeBuilder from '@axe-core/playwright'
 const output=process.env.OVERVIEW_OUTPUT??'.screenshots/overview-multirun'
 await mkdir(output,{recursive:true})
-const report={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),tree:execFileSync('git',['rev-parse','HEAD^{tree}'],{encoding:'utf8'}).trim(),dirty:execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim()!=='' ,fixtures:['viewer/fixtures/demo-run.json: recorded development fixture','viewer/fixtures/overview-multirun.fixture.mjs: 14 synthetic development fixtures, 3 fixture agents; no witnessed execution or approval'],viewports:[{width:1440,height:900},{width:390,height:844}],scans:[],checks:[],pageErrors:[],blockedExternal:[]}
+const report={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),tree:execFileSync('git',['rev-parse','HEAD^{tree}'],{encoding:'utf8'}).trim(),dirty:execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim()!=='' ,fixtures:['viewer/fixtures/demo-run.json: recorded development fixture','viewer/fixtures/overview-multirun.fixture.mjs: 14 synthetic development fixtures, 3 fixture agents, 5 simulated checked-export flags / 9 hash-only; no signature check, witnessed execution or approval'],viewports:[{width:1440,height:900},{width:390,height:844}],scans:[],checks:[],pageErrors:[],blockedExternal:[]}
 let browser,server,production
+async function checkStand(page,started){
+ const stand=page.locator('.overview-stand'),time=stand.locator('time')
+ if(started){
+  assert.equal(await time.getAttribute('datetime'),started)
+  assert.match(await stand.innerText(),/Europe\/Berlin/)
+  const expected=new Intl.DateTimeFormat('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Europe/Berlin'}).format(new Date(started))
+  assert.equal(await time.innerText(),expected)
+ }else{
+  assert.equal(await time.count(),0)
+  assert.equal(await stand.innerText(),'Stand: Zeitpunkt nicht aufgezeichnet')
+ }
+}
 async function scan(page,name){
  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${name}: page overflow`)
  const result=await new AxeBuilder({page}).analyze()
@@ -31,6 +43,12 @@ async function reviewMultiple(origin,viewport){
   assert.equal(await page.locator('.criteria-columns > g').count(),14)
   assert.equal(await page.locator('.agent-bars > li').count(),3)
   await page.getByText('83 von 94 Kriterien erfüllt',{exact:true}).waitFor()
+  await checkStand(page,'2026-10-25T16:00:00.000Z')
+  const seals=page.locator('.overview-score .overview-integrity')
+  assert.equal(await seals.locator('[data-integrity=signature-checked]').innerText(),'5 · Protokoll unverändert · HMAC im Export geprüft')
+  assert.equal(await seals.locator('[data-integrity=hash-only]').innerText(),'9 · Nur Hash · Signatur nicht geprüft')
+  assert(!/Läufe bestanden|Bestanden-Quote/.test(await page.locator('main').innerText()),'criteria remain separate from Phase F verdicts')
+  assert.match(await page.locator('.overview-score .integrity-scope').innerText(),/beim Export/)
   await page.screenshot({path:`${output}/overview-multirun-${viewport.width}.png`,animations:'disabled'})
   await page.screenshot({path:`${output}/overview-multirun-full-${viewport.width}.png`,animations:'disabled',fullPage:true})
   await scan(page,`Synthetic multi-run German overview ${viewport.width}`)
@@ -59,7 +77,11 @@ async function reviewMultiple(origin,viewport){
   await page.locator('.latest-run').first().focus();await page.keyboard.press('Enter')
   await page.getByRole('heading',{name:'Development fixture 14',exact:true}).waitFor()
   await page.getByRole('region',{name:'Claim vs. evidence'}).waitFor()
-  report.checks.push(`${viewport.width}: 14 synthetic fixture runs / 3 agents, line, columns, counts, long accessible names, chart strip, fixed languages, native keyboard run selection; component review entry only, not App source loading`)
+  assert.equal(await page.locator('.run-detail-boundary [data-integrity=signature-checked]').innerText(),'Protocol unchanged · HMAC checked at export')
+  assert.equal(await page.locator('.run-detail-boundary [data-integrity=hash-only]').count(),0)
+  await page.screenshot({path:`${output}/run-checked-export-synthetic-${viewport.width}.png`,animations:'disabled',fullPage:true})
+  await scan(page,`Synthetic HMAC-flag run detail (no signature check performed) ${viewport.width}`)
+  report.checks.push(`${viewport.width}: 14 synthetic fixture runs / 3 agents, criterion line and columns (no verdict), mixed 5 checked-export flags / 9 hash-only, Berlin latest-start header, synthetic checked-export detail, long accessible names, chart strip, fixed languages, native keyboard run selection; component review entry only, not App source loading or signature verification`)
  }finally{await context.close()}
 }
 try{
@@ -83,6 +105,10 @@ try{
   await page.goto(origin)
   await page.getByRole('heading',{name:'Übersicht',exact:true}).waitFor()
   await page.evaluate(()=>document.fonts.ready)
+  const loaded=JSON.parse(await readFile('fixtures/demo-run.json','utf8'))
+  await checkStand(page,loaded.run.started)
+  assert.equal(await page.locator('.overview-score [data-integrity=hash-only]').innerText(),'Nur Hash · Signatur nicht geprüft')
+  assert.equal(await page.locator('.overview-score [data-integrity=signature-checked]').count(),0)
   assert.equal(await page.getByRole('figure').count(),4)
   assert.equal(await page.locator('.criteria-trend,.criteria-columns').count(),0,'single run uses calm text states, no isolated dot or column')
   assert.equal(await page.locator('.overview-tools').getAttribute('open'),null)
@@ -161,6 +187,7 @@ try{
   await page.reload()
   await page.getByRole('img',{name:'Keine Kriterien aufgezeichnet'}).waitFor()
   await page.getByText('Keine Ereignisse aufgezeichnet.',{exact:true}).waitFor()
+  await checkStand(page,null)
   await page.screenshot({path:`${output}/run-empty-synthetic-${viewport.width}.png`,animations:'disabled',fullPage:true})
   await scan(page,`Synthetic empty run detail ${viewport.width}`)
   report.checks.push(`${viewport.width}: synthetic empty RunDoc only; not a recorded witness`)
@@ -175,6 +202,9 @@ try{
  await context.route('**/*',route=>new URL(route.request().url()).origin===productionOrigin?route.continue():route.abort())
  await page.goto(productionOrigin)
  await page.getByText('Noch keine geladenen Läufe.',{exact:true}).waitFor()
+ await checkStand(page,null)
+ await page.getByText('Kein Integritätsprüfergebnis geladen.',{exact:true}).waitFor()
+ assert.equal(await page.locator('[data-integrity]').count(),0,'no check result invented for empty workspace')
  assert.equal(await page.getByRole('figure').count(),0)
  assert.deepEqual(requests,[],'production empty state makes no data request')
  await page.screenshot({path:`${output}/empty.png`,animations:'disabled',fullPage:true})

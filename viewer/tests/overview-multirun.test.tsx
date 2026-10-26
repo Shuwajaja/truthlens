@@ -22,6 +22,7 @@ it('aggregates fourteen synthetic runs and three agents with exact counts, stabl
  const entries=docs.map(doc=>({sourceId:'multi-fixture',doc}))
  const data=aggregateRuns([...entries,{sourceId:'duplicate',doc:docs[13]}])
  expect(data).toMatchObject({totalRuns:14,criteria:{met:83,unmet:3,unverified:8,proposed:0},excluded:0,duplicates:1,omitted:0})
+ expect(data.integrity).toEqual({'signature-checked':5,'hash-only':9,open:0,failed:0})
  expect(data.agents).toEqual([
   {agent:'Fixture Agent A',runs:7,criteria:{met:52,unmet:1,unverified:1,proposed:0}},
   {agent:'Fixture Agent B',runs:4,criteria:{met:21,unmet:0,unverified:3,proposed:0}},
@@ -48,7 +49,8 @@ it('renders the multi-run line, stacked columns, agent counts, criterion pills a
  for(const text of ['Kriterien: erfüllt','Kriterien: nicht erfüllt','Kriterien: nicht prüfbar'])expect(container.textContent).toContain(text)
  fireEvent.click(rows[0])
  expect(onOpenRun).toHaveBeenCalledWith({kind:'run',sourceId:'multi-fixture',runId:'fixture-overview-14'})
- expect(container.textContent).not.toMatch(/Läufe bestanden|runs passed|Signatur geprüft/)
+ expect(container.textContent).not.toMatch(/Läufe bestanden|runs passed|Bestanden-Quote/)
+ expect(container.querySelector('.overview-score .overview-integrity')?.textContent).toBe('5 · Protokoll unverändert · HMAC im Export geprüft9 · Nur Hash · Signatur nicht geprüft')
 })
 it.each(['de','en'] as const)('shows a calm single-run explanation and count summary instead of isolated chart marks (%s)',language=>{
  const {container}=show((overviewMultirunFixture() as RunDoc[]).slice(-1),language)

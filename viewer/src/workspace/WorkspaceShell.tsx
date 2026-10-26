@@ -1,4 +1,4 @@
-import {useImperativeHandle,useLayoutEffect,useRef,useState,type ReactNode,type Ref} from 'react'
+import {useImperativeHandle,useLayoutEffect,useMemo,useRef,useState,type ReactNode,type Ref} from 'react'
 import {PanelLeft,PanelRight} from 'lucide-react'
 import {Button} from '../components/ui/button.tsx'
 import {Sheet,SheetContent,SheetDescription,SheetHeader,SheetTitle} from '../components/ui/sheet.tsx'
@@ -6,9 +6,12 @@ import {readTheme,saveTheme,type ViewerTheme} from './theme.ts'
 import {overviewCopy} from './overview-copy.ts'
 import {useOverviewLanguage} from './overview-language.ts'
 import type {Lens} from '../lens.ts'
+import type {WorkspaceSource} from './navigation-types.ts'
+import {aggregateWorkspaceRuns} from './cross-run-data.ts'
+import {overviewTime,recordedTime} from '../components/overview-data.ts'
 
 export type WorkspaceHandle={inspect:()=>void}
-export function WorkspaceShell({children,tabs,overview=false,runSummary,runSummaryKey,tools,navigation,inspector,lens,mobile,wide,onOpenRun,inspectorOpen,onInspectorOpenChange,inspectorAvailable=true,sourceLabel,sourceDescription,ref}:{children:ReactNode;tabs?:ReactNode;overview?:boolean;runSummary?:ReactNode;runSummaryKey?:string;tools?:ReactNode;navigation:ReactNode;inspector:ReactNode;lens:Lens;mobile:boolean;wide:boolean;onOpenRun?:()=>void;inspectorOpen:boolean;onInspectorOpenChange:(open:boolean)=>void;inspectorAvailable?:boolean;sourceLabel?:string;sourceDescription?:ReactNode;ref:Ref<WorkspaceHandle>}) {
+export function WorkspaceShell({children,tabs,overview=false,runSummary,runSummaryKey,tools,navigation,inspector,lens,mobile,wide,onOpenRun,inspectorOpen,onInspectorOpenChange,inspectorAvailable=true,sourceLabel,sourceDescription,sources,ref}:{children:ReactNode;tabs?:ReactNode;overview?:boolean;runSummary?:ReactNode;runSummaryKey?:string;tools?:ReactNode;navigation:ReactNode;inspector:ReactNode;lens:Lens;mobile:boolean;wide:boolean;onOpenRun?:()=>void;inspectorOpen:boolean;onInspectorOpenChange:(open:boolean)=>void;inspectorAvailable?:boolean;sourceLabel?:string;sourceDescription?:ReactNode;sources?:readonly WorkspaceSource[];ref:Ref<WorkspaceHandle>}) {
  const {language,setLanguage}=useOverviewLanguage(),copy=overviewCopy[language]
  const [presentation,setPresentation]=useState({key:runSummaryKey,advanced:false})
  if(presentation.key!==runSummaryKey)setPresentation({key:runSummaryKey,advanced:false})
@@ -16,6 +19,7 @@ export function WorkspaceShell({children,tabs,overview=false,runSummary,runSumma
  const showDetails=()=>{focusSummaryHeading.current=true;setPresentation({key:runSummaryKey,advanced:true})}
  const showSummary=()=>{focusSummaryHeading.current=true;setPresentation({key:runSummaryKey,advanced:false})}
  const compact=overview||!!runSummary&&!presentation.advanced
+ const latestStart=useMemo(()=>compact&&sources?aggregateWorkspaceRuns(sources).latest[0]?.started:null,[compact,sources])
  useLayoutEffect(()=>{document.documentElement.lang=compact?language:'en';return ()=>{document.documentElement.lang='en'}},[compact,language])
  const root=useRef<HTMLDivElement>(null),previousOverview=useRef(compact)
  // Reparented workspace tabs cannot retain DOM focus across presentations.
@@ -51,7 +55,7 @@ export function WorkspaceShell({children,tabs,overview=false,runSummary,runSumma
  if(compact)return <div ref={root} className="app-shell workspace-app overview-shell" data-lens={lens} data-overview={overview?"true":undefined} data-run-detail={runSummary?"true":undefined}>
   <a className="skip-link" href="#main-content">{copy.overview}</a>
   <header className="overview-header">
-   <div className="overview-brand"><span className="overview-monogram" aria-hidden="true">T</span><div><strong>TruthLens</strong><p>{overview?copy.overview:copy.runDetail} · <span lang={sourceLabel?'en':language}>{sourceLabel??(import.meta.env.DEV?copy.fixture:copy.workspace)}</span></p></div></div>
+   <div className="overview-brand"><span className="overview-monogram" aria-hidden="true">T</span><div><strong>TruthLens</strong><p>{overview?copy.overview:copy.runDetail} · <span lang={sourceLabel?'en':language}>{sourceLabel??(import.meta.env.DEV?copy.fixture:copy.workspace)}</span></p><p className="overview-stand" title={copy.latestStart}>{copy.asOf}: {latestStart?<><time dateTime={latestStart} title={recordedTime(latestStart,'Europe/Berlin')}>{overviewTime(latestStart,language,'Europe/Berlin')}</time> · Europe/Berlin</>:copy.noTime}</p></div></div>
    <details className="overview-tools" onKeyDown={event=>{if(event.key==='Escape'){event.currentTarget.open=false;event.currentTarget.querySelector('summary')?.focus()}}}>
     <summary>{copy.menu}</summary>
     <div className="overview-tools-panel">

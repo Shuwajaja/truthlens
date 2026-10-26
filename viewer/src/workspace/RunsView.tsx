@@ -1,6 +1,7 @@
 import type {WorkspaceSource,RunReference} from './navigation-types.ts'
 import {useId,useMemo} from 'react'
-import {aggregateRuns,criterionTotal,OVERVIEW_LIMITS,type CriterionCounts} from './cross-run-data.ts'
+import {aggregateWorkspaceRuns,criterionTotal,exportIntegrityStates,OVERVIEW_LIMITS,type CriterionCounts} from './cross-run-data.ts'
+import {OverviewIntegrity} from './OverviewIntegrity.tsx'
 import {CriterionText,RunCharts,ScoreRing} from './RunCharts.tsx'
 import {recordedTime,overviewTime} from '../components/overview-data.ts'
 import {overviewCopy} from './overview-copy.ts'
@@ -14,14 +15,7 @@ function criterionStatus(c:CriterionCounts){
 }
 export function RunsView({sources,onOpenRun,heading=true}:{sources:readonly WorkspaceSource[];heading?:boolean;onOpenRun:(ref:RunReference)=>void}){
  const {language}=useOverviewLanguage(),copy=overviewCopy[language],descriptionId=useId()
- const data=useMemo(()=>{
-  const entries=[]
-  // Bound collection as well as aggregation; do not flatten a huge workspace.
-  outer:for(const source of sources.slice(0,OVERVIEW_LIMITS.sources))for(const doc of source.runs.values()){
-   entries.push({sourceId:source.sourceId,doc});if(entries.length>OVERVIEW_LIMITS.runs)break outer
-  }
-  return aggregateRuns(entries)
- },[sources])
+ const data=useMemo(()=>aggregateWorkspaceRuns(sources),[sources])
  const sourceLimited=sources.length>OVERVIEW_LIMITS.sources
  const total=criterionTotal(data.criteria)
  const score=total?`${data.criteria.met} ${copy.of} ${total} ${copy.criteriaMet}`:copy.noCriteria
@@ -31,7 +25,7 @@ export function RunsView({sources,onOpenRun,heading=true}:{sources:readonly Work
   <p className="overview-intro"><span>{copy.intro}</span> <span className="overview-current">{copy.loaded}: {data.totalRuns}.</span></p>
   {!data.totalRuns?<div className="overview-empty"><h2>{copy.empty}</h2><p>{copy.emptyHelp}</p></div>:<>
    <div className="overview-score-charts">
-    <section className="overview-score" aria-label={score}><ScoreRing criteria={data.criteria} label={score} copy={copy}/><h2>{score}</h2>{total>0&&<p className="overview-summary">{data.criteria.unmet} {copy.unmet.toLowerCase()} · {data.criteria.unverified} {copy.unverified.toLowerCase()} · {data.criteria.proposed} {copy.proposed.toLowerCase()}.</p>}<p className="overview-seal">{copy.hashOnly}</p></section>
+    <section className="overview-score" aria-label={score}><ScoreRing criteria={data.criteria} label={score} copy={copy}/><h2>{score}</h2>{total>0&&<p className="overview-summary">{data.criteria.unmet} {copy.unmet.toLowerCase()} · {data.criteria.unverified} {copy.unverified.toLowerCase()} · {data.criteria.proposed} {copy.proposed.toLowerCase()}.</p>}<div className="overview-integrity">{exportIntegrityStates.filter(state=>data.integrity[state]>0).map(state=><OverviewIntegrity key={state} integrity={state} copy={copy} count={data.totalRuns>1?data.integrity[state]:undefined}/>)}</div><p className="integrity-scope">{copy.integrityScope}</p></section>
     <RunCharts data={data} copy={copy}/>
    </div>
    <section className="latest-runs"><h2>{copy.latest} <span>· {copy.latestHelp}</span></h2>
@@ -44,10 +38,10 @@ export function RunsView({sources,onOpenRun,heading=true}:{sources:readonly Work
       <span id={`${descriptionId}-${index}`} className="run-status" data-status={status}>{copy[`pill${status}`]}</span><span className="run-arrow" aria-hidden="true">›</span>
      </button></li>
     })}</ul>
-    <details className="latest-details"><summary>{copy.details}</summary><p>{copy.showing} {data.latest.length} {copy.of} {data.totalRuns} {copy.runs}. {copy.latestOrder}</p><ul>{data.latest.map(row=><li key={row.runId}><strong>{row.project||copy.untitled}</strong><p className="run-identity">{row.runId}</p><p>{copy.source}: <span className="run-identity">{row.sourceId}</span></p><CriterionText criteria={row.criteria} copy={copy}/><p>{row.reviewRequired?copy.review:copy.noReview}</p></li>)}</ul></details>
+    <details className="latest-details"><summary>{copy.details}</summary><p>{copy.showing} {data.latest.length} {copy.of} {data.totalRuns} {copy.runs}. {copy.latestOrder}</p><ul>{data.latest.map(row=><li key={row.runId}><strong>{row.project||copy.untitled}</strong><p className="run-identity">{row.runId}</p><p>{copy.source}: <span className="run-identity">{row.sourceId}</span></p><CriterionText criteria={row.criteria} copy={copy}/><OverviewIntegrity integrity={row.integrity} copy={copy}/><p>{row.reviewRequired?copy.review:copy.noReview}</p></li>)}</ul></details>
    </section>
   </>}
-  <footer className="overview-boundary"><p>{copy.approval} {sources.some(source=>source.kind==='local-folder')?copy.localScope:copy.scope} {copy.across} {data.totalRuns} {copy.runs}.</p><p>{copy.limitations}</p>{!data.totalRuns&&<p className="overview-seal">{copy.hashOnly}</p>}</footer>
+  <footer className="overview-boundary"><p>{copy.approval} {sources.some(source=>source.kind==='local-folder')?copy.localScope:copy.scope} {copy.across} {data.totalRuns} {copy.runs}.</p><p>{copy.limitations}</p>{!data.totalRuns&&<p>{copy.noIntegrity}</p>}</footer>
   {(data.excluded>0||data.omitted>0||data.duplicates>0||sourceLimited)&&<p className="overview-limits">{data.excluded} {copy.excluded} {data.duplicates} {copy.duplicates} {data.omitted>0||sourceLimited?copy.limit:''}</p>}
  </section>
 }
