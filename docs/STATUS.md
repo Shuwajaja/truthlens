@@ -1,3 +1,31 @@
+## Review corrections — HMAC display and open commands, 26 October 2026
+
+Hash-only and any non-HMAC run stay UNKNOWN in the reference viewer and in
+`truthlens runs` text. TRUE and FALSE require `integrity=hmac`. Stored
+`review_summary` values and `--json` stay `confirmed` / `refuted` /
+`unclear`. The browser still does not read a ledger and does not run
+`audit_run`. `/runs` without a loaded file and without `?demo=1` says so.
+A run-view JSON file (`truthlens runs show RUN_ID --json`, a catalog, or a
+list) can be loaded and is labelled `Geladene Datei · kein Live-Audit`.
+`Erneut prüfen` names `truthlens runs recheck` and does not start a revision.
+
+`truthlens workspace doctor` and `truthlens runs list` run when
+`TRUTHLENS_REFERENCE` is unset, empty, or `0`. The other workspace and runs
+commands, and bare `truthlens init` without a ledger path, still exit 2
+unless the variable is exactly `1`. `truthlens init LEDGER` is unchanged.
+The start banner names the two open commands without the variable prefix.
+
+Checks on this tree, before the screenshot pass:
+`cd viewer && npx vitest run` printed **53 passed (53)** and **532 passed
+(532)**. `npx vitest run tests/reference-surface.test.tsx` printed **14
+passed**. `npm run build` printed `main-g2AtOZhy.js` at **250.67 kB**.
+`node scripts/check-language.mjs src` and `node scripts/check-styles.mjs src`
+passed. `PATH="/tmp/tl-venv/bin:$PATH" TZ=UTC /tmp/tl-venv/bin/python -m
+pytest -q tests/test_reference_commands.py tests/test_reference_demo_fixture.py
+tests/test_architecture_docs.py` printed **31 passed, 50 subtests passed**.
+`ruff check` and `ruff format --check` passed on the touched Python files.
+The full pytest suite was not re-run.
+
 ## Mockup functions — local checks, 26 October 2026
 
 The reference surface uses the neutral `#0a0a0b` / `#111113` palette from the

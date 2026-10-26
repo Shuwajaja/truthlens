@@ -120,7 +120,7 @@
 .tl-dev summary { min-height: 44px; display: flex; align-items: center; font-weight: 600; cursor: pointer; }
 .tl-time li { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 8px; list-style: none; }
 .tl-time ul { margin: 0; padding: 0 0 0 12px; display: flex; flex-direction: column; gap: 14px; border-left: 1px solid var(--tl-border); }
-.tl-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.tl-sr, .tl-file { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .tl-time small { display: block; color: var(--tl-faint); }
 .tl-head-row { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
 .tl-meta { display: flex; flex-wrap: wrap; gap: 8px; color: var(--tl-muted); font-size: 13px; }

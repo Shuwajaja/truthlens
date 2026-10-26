@@ -48,6 +48,7 @@ function catalog(runs: RunView[], projects: Catalog['projects'] = [{id: 'mcpdeck
 it('renders a refuted run as refuted and keeps a damaged run off the confirmed path', () => {
   const refuted = run({
     run_id: 'run_bad',
+    integrity: 'hmac',
     review_summary: 'refuted',
     claims: [claim('a', 'confirmed', 'passes'), claim('b', 'refuted', 'dependency changed')],
     counts: {confirmed: 1, refuted: 1, unclear: 0},
@@ -166,7 +167,9 @@ it('lists checks and labelled records, and does not open an agent control', () =
   const {unmount} = render(<ReferenceApp location="/checks?demo=1" catalog={data} />)
   expect(screen.getByRole('heading', {name: copy.checksTitle})).toBeTruthy()
   expect(screen.getByText('passes')).toBeTruthy()
-  expect(screen.getByText('TRUE')).toBeTruthy()
+  expect(screen.getByText('UNKNOWN')).toBeTruthy()
+  expect(screen.queryByText('TRUE')).toBeNull()
+  expect(document.querySelector('.tl-pill.confirmed')).toBeNull()
   unmount()
   render(<ReferenceApp location="/agents?demo=1" catalog={data} />)
   expect(screen.getByText(copy.agentsRetired)).toBeTruthy()
@@ -197,6 +200,100 @@ it('opens the selected run from search', () => {
   fireEvent.click(within(screen.getByRole('dialog')).getByRole('link', {name: 'run_ok'}))
   expect(screen.getByRole('heading', {name: /run_ok/})).toBeTruthy()
   expect(screen.queryByRole('dialog')).toBeNull()
+})
+
+it('keeps TRUE and FALSE off hash-only runs and shows them for HMAC', () => {
+  const unsigned = run({
+    run_id: 'run_hash',
+    review_summary: 'confirmed',
+    claims: [claim('a', 'confirmed', 'unsigned pass')],
+    counts: {confirmed: 1, refuted: 0, unclear: 0},
+  })
+  const signed = run({
+    run_id: 'run_hmac',
+    integrity: 'hmac',
+    review_summary: 'confirmed',
+    claims: [claim('b', 'confirmed', 'signed pass')],
+    counts: {confirmed: 1, refuted: 0, unclear: 0},
+  })
+  const unsignedRefuted = run({
+    run_id: 'run_open',
+    review_summary: 'refuted',
+    claims: [claim('c', 'refuted', 'unsigned fail')],
+    counts: {confirmed: 0, refuted: 1, unclear: 0},
+  })
+  render(<ReferenceApp location="/runs?demo=1&status=confirmed" catalog={catalog([unsigned, signed, unsignedRefuted])} />)
+  expect(screen.queryByRole('row', {name: /run_hash/})).toBeNull()
+  expect(screen.queryByRole('row', {name: /run_open/})).toBeNull()
+  const hmacRow = screen.getByRole('row', {name: /run_hmac/})
+  expect(within(hmacRow).getByText('TRUE').className).toContain('confirmed')
+  expect(hmacRow.querySelector('.tl-countline .ok')).toBeTruthy()
+  cleanup()
+  render(<ReferenceApp location="/runs?demo=1" catalog={catalog([unsigned, unsignedRefuted])} />)
+  const hashRow = screen.getByRole('row', {name: /run_hash/})
+  expect(within(hashRow).getByText('UNKNOWN').className).toContain('unclear')
+  expect(within(hashRow).queryByText('TRUE')).toBeNull()
+  expect(hashRow.querySelector('.tl-pill.confirmed')).toBeNull()
+  expect(hashRow.querySelector('.tl-countline .ok')).toBeNull()
+  const openRow = screen.getByRole('row', {name: /run_open/})
+  expect(within(openRow).queryByText('FALSE')).toBeNull()
+  expect(within(openRow).getByText('UNKNOWN')).toBeTruthy()
+  expect(document.querySelector('.tl-card strong.ok')).toBeTruthy()
+  const rate = [...document.querySelectorAll('.tl-kpis article')].find(node => node.textContent?.includes(copy.confirmedRate))
+  expect(rate?.querySelector('strong')?.className ?? '').not.toContain('ok')
+})
+
+it('states that recheck does not start in the browser', () => {
+  const sample = run({
+    run_id: 'run_ok',
+    review_summary: 'confirmed',
+    claims: [claim('a', 'confirmed', 'passes')],
+    counts: {confirmed: 1, refuted: 0, unclear: 0},
+  })
+  render(<ReferenceApp location="/runs/run_ok?demo=1" catalog={catalog([sample])} />)
+  fireEvent.click(screen.getByRole('button', {name: copy.recheck}))
+  const dialog = screen.getByRole('dialog')
+  expect(dialog.textContent).toContain(copy.recheckBody)
+  expect(dialog.textContent).toContain('truthlens runs recheck run_ok')
+  expect(within(dialog).queryByRole('button', {name: /Revision/})).toBeNull()
+})
+
+it('loads an operator file and still withholds TRUE without HMAC', async () => {
+  render(<ReferenceApp location="/runs" />)
+  expect(screen.getByText(copy.emptyBody)).toBeTruthy()
+  const rejected = new File(['{'], 'broken.json', {type: 'application/json'})
+  fireEvent.change(screen.getByLabelText(copy.loadFile), {target: {files: [rejected]}})
+  expect(await screen.findByText(copy.loadRejected)).toBeTruthy()
+  const file = new File([JSON.stringify({schema_version: 1, demo: false, item: run({
+    run_id: 'run_file',
+    demo: false,
+    review_summary: 'confirmed',
+    claims: [claim('a', 'confirmed', 'from file')],
+    counts: {confirmed: 1, refuted: 0, unclear: 0},
+  })})], 'run.json', {type: 'application/json'})
+  fireEvent.change(screen.getByLabelText(copy.loadFile), {target: {files: [file]}})
+  expect(await screen.findByText('from file')).toBeTruthy()
+  expect(screen.getByText(/Hash only/)).toBeTruthy()
+  expect(screen.queryByText('TRUE')).toBeNull()
+  expect(document.querySelector('h1 .tl-pill')?.textContent).toBe('UNKNOWN')
+  expect(screen.queryByText(copy.demo)).toBeNull()
+})
+
+it('shows TRUE when the loaded run view is HMAC', async () => {
+  render(<ReferenceApp location="/runs" />)
+  const file = new File([JSON.stringify({item: run({
+    run_id: 'run_signed',
+    demo: false,
+    integrity: 'hmac',
+    review_summary: 'confirmed',
+    claims: [claim('a', 'confirmed', 'signed claim')],
+    counts: {confirmed: 1, refuted: 0, unclear: 0},
+  })})], 'run.json', {type: 'application/json'})
+  fireEvent.change(screen.getByLabelText(copy.loadFile), {target: {files: [file]}})
+  expect(await screen.findByText('signed claim')).toBeTruthy()
+  expect(document.querySelector('h1 .tl-pill')?.textContent).toBe('TRUE')
+  expect(document.querySelector('h1 .tl-pill')?.className).toContain('confirmed')
+  expect(screen.getByText(copy.loadedSource, {exact: false})).toBeTruthy()
 })
 
 it('shows UNKNOWN when the recorded test quality is doubtful', () => {

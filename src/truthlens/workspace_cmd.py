@@ -16,6 +16,7 @@ from truthlens.human_io import (
     color_enabled,
     emit_json,
     error_payload,
+    exposed_subcommand,
     fail,
     paint,
     reference_enabled,
@@ -533,7 +534,7 @@ def _repair(args: argparse.Namespace) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
-    if not reference_enabled():
+    if not reference_enabled() and not exposed_subcommand(argv, "doctor"):
         return fail(
             "REFERENCE_DISABLED", "Referenzbefehle sind abgeschaltet", as_json="--json" in argv, status=2
         )

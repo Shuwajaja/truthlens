@@ -27,12 +27,14 @@ reference theme file is the only place that also uses 13px and 22px.
 Honesty rules still bind this surface:
 
 - Demo data is visible only with `?demo=1` and the label “Beispieldaten”.
-- Human words are display-only: stored `confirmed` shows TRUE, `refuted`
-  shows FALSE, and `unclear` shows UNKNOWN. A `benchmark_missing` reason
-  shows UNKNOWN even when a stored claim says confirmed. One refuted claim
-  still shows FALSE. Zero claims, an unfinished audit, incomplete execution,
-  or unknown integrity stay at most UNKNOWN. Stored values and the D34
-  statuses `passed` / `failed` / `not_checkable` do not change.
+- Human words are display-only. TRUE and FALSE appear only when integrity
+  is `hmac`. Hash-only, unknown, and failed integrity display UNKNOWN,
+  including a stored `confirmed` or `refuted` summary. A `benchmark_missing`
+  reason shows UNKNOWN even on an HMAC confirmed claim. One refuted claim
+  shows FALSE only when integrity is `hmac`. Zero claims, an unfinished
+  audit, incomplete execution, or unknown integrity stay UNKNOWN. Stored
+  values and the D34 statuses `passed` / `failed` / `not_checkable` do not
+  change. Green and red count colours follow the same HMAC rule.
 - `integrity=failed`, a bad shape, or counts that disagree with the claims
   render “Nachweis beschädigt oder inkonsistent”. Confirmed claims from that
   run are not shown and are not counted.
@@ -40,7 +42,11 @@ Honesty rules still bind this surface:
   ist keine Freigabe.” stays visible. HMAC text appears only when the
   projection integrity is `hmac`.
 - The browser doctor never uses a green confirmed pill. Isolation stays
-  unverified. Recheck in the browser ends as “Kein Auditdienst verbunden”.
+  unverified. The browser does not read a ledger and does not run an audit.
+  Without a loaded run-view file and without `?demo=1`, the runs page says
+  so. A file from `truthlens runs show --json` is labelled as a loaded file,
+  not a live audit. Recheck names `truthlens runs recheck` and does not
+  pretend to start a revision.
 - Filters in the query string apply to the table and the figures above it.
 
 Derived export headlines describe the presence of recorded claims without

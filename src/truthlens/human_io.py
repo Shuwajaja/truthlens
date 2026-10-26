@@ -28,13 +28,26 @@ def quiet_enabled(argv: list[str]) -> bool:
 
 
 def reference_enabled() -> bool:
-    """Workspace and runs commands stay off unless explicitly enabled.
+    """Most workspace and runs commands stay off unless explicitly enabled.
 
     The default is ``0`` when ``TRUTHLENS_REFERENCE`` is unset. Only the exact
-    value ``1`` turns them on. Every other value, including an empty string,
-    leaves them off and the command exits 2. Ledgers are not deleted.
+    value ``1`` turns them on. ``truthlens workspace doctor`` and
+    ``truthlens runs list`` are the exceptions and run without the variable.
+    Every other value, including an empty string, leaves the remaining
+    commands off and those commands exit 2. Ledgers are not deleted.
     """
     return os.environ.get("TRUTHLENS_REFERENCE", "0") == "1"
+
+
+def exposed_subcommand(argv: list[str], name: str) -> bool:
+    """True when the first non-option token is ``name``."""
+    for item in argv:
+        if item == "--":
+            return False
+        if item.startswith("-"):
+            continue
+        return item == name
+    return False
 
 
 def paint(text: str, code: str, enabled: bool) -> str:
@@ -82,8 +95,8 @@ def write_banner(stream: TextIO | None = None, *, compact: bool = False) -> None
     target.write("Belege prüfen. Ein Import hebt keinen Vertrauensstatus an.\n\n")
     target.write("  truthlens init LEDGER\n")
     target.write("  truthlens doctor\n")
-    target.write("  TRUTHLENS_REFERENCE=1 truthlens workspace doctor\n")
-    target.write("  TRUTHLENS_REFERENCE=1 truthlens runs list\n")
+    target.write("  truthlens workspace doctor\n")
+    target.write("  truthlens runs list\n")
 
 
 def emit_json(payload: dict) -> None:

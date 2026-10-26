@@ -27,9 +27,13 @@ New human commands:
 - `truthlens workspace init|unlink|doctor|test|repair`
 - `truthlens runs list|show|recheck|import`
 
-Those commands stay off unless `TRUTHLENS_REFERENCE` is exactly `1`. When the
-variable is unset, the default is off. Empty, `0` and every other value also
-exit 2. Turning the commands off does not delete ledgers.
+`truthlens workspace doctor` and `truthlens runs list` run without
+`TRUTHLENS_REFERENCE`. The other new commands (`workspace
+init|unlink|test|repair`, `runs show|recheck|import`, and bare `truthlens
+init` without a ledger path) stay off unless `TRUTHLENS_REFERENCE` is exactly
+`1`. When the variable is unset, the default for those commands is off.
+Empty, `0` and every other value also exit 2. Turning them off does not
+delete ledgers.
 `truthlens` with no arguments prints a start banner and exits 0. Colour is
 used only on a TTY, and never when `NO_COLOR` or `--no-color` is set.
 `truthlens workspace doctor` prints the same banner, then its checks and a
@@ -71,10 +75,11 @@ confirmation has no witness.
    `hmac` on a projection that still has its witness. A self-declared `hmac`
    on import is downgraded.
 
-Human CLI text and the reference viewer map those stored values for display:
-`confirmed` is TRUE, `refuted` is FALSE, `unclear` is UNKNOWN. A doubtful
-test (`benchmark_missing`) is shown as UNKNOWN unless the run is refuted.
-`--json` keeps `confirmed`, `refuted` and `unclear`. The reference viewer
+Human CLI text and the reference viewer show TRUE or FALSE only when
+integrity is `hmac`. Hash-only, unknown, failed, and missing integrity
+display UNKNOWN, including a stored confirmed or refuted summary. A doubtful
+test (`benchmark_missing`) is UNKNOWN even on an HMAC run, unless that run is
+refuted. `--json` keeps `confirmed`, `refuted` and `unclear`. The reference viewer
 areas are Übersicht, Prüfdetails and Nachweise. Technical timeline events
 are inside a closed developer disclosure. There is no task store, no
 orchestration panel and no artifact gallery.

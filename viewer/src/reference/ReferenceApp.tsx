@@ -2,7 +2,7 @@ import {useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type Mouse
 import {createPortal} from 'react-dom'
 import './theme.css'
 import {clock, copy, delta, duration, fullStamp, grouped, percent, relative, tenths, when} from './copy.ts'
-import {displayTone, eligible, exportBody, filterRuns, metrics, shownSummary, type Catalog, type RunView, type Summary} from './model.ts'
+import {catalogFromOperatorFile, displayTone, eligible, exportBody, filterRuns, metrics, shownSummary, type Catalog, type RunView, type Summary} from './model.ts'
 
 type Navigate = (href: string) => void
 
@@ -35,8 +35,8 @@ function Fill({children}: {children: ReactNode}) {
   return createPortal(children, node)
 }
 
-function Pill({summary, claims}: {summary: Summary; claims?: {reason_code?: string}[]}) {
-  const tone = displayTone(summary, claims)
+function Pill({summary, claims, integrity}: {summary: Summary; claims?: {reason_code?: string}[]; integrity?: RunView['integrity']}) {
+  const tone = displayTone(summary, claims, integrity)
   const label = tone === 'confirmed' ? copy.confirmed : tone === 'refuted' ? copy.refuted : tone === 'unclear' ? copy.unclear : copy.damaged
   return <span className={`tl-pill ${tone}`}>{label}</span>
 }
@@ -160,9 +160,10 @@ function SearchDialog({catalog, onClose, navigate}: {catalog: Catalog; onClose: 
   )
 }
 
-function RunsPage({catalog, params, navigate, mode}: {catalog: Catalog; params: URLSearchParams; navigate: Navigate; mode: string | null}) {
+function RunsPage({catalog, params, navigate, mode, onLoadFile, loadNote}: {catalog: Catalog; params: URLSearchParams; navigate: Navigate; mode: string | null; onLoadFile: (file: File) => void; loadNote: string | null}) {
   const filtered = useMemo(() => filterRuns(catalog.runs, catalog.now, params), [catalog, params])
   const numbers = metrics(filtered, catalog.demo)
+  const rateSigned = filtered.filter(run => eligible(run, catalog.demo)).every(run => run.integrity === 'hmac')
   const range = params.get('range') ?? '7d'
   const windowLabel = range === '1d' ? copy.range1 : range === '30d' ? copy.range30 : range === 'all' ? copy.rangeAll : copy.runsWindow
   const page = Math.max(1, Number(params.get('page') ?? '1') || 1)
@@ -171,7 +172,20 @@ function RunsPage({catalog, params, navigate, mode}: {catalog: Catalog; params: 
   const set = (updates: Record<string, string | null>) => navigate(withParams('/runs', params, updates))
   if (mode === 'loading') return <div aria-busy="true"><p>{copy.loading}</p><div className="tl-skeleton" /><div className="tl-skeleton" /></div>
   if (mode === 'error') return <section className="tl-banner bad" role="alert"><h1>{copy.errorTitle}</h1><p>{copy.errorBody}</p><button type="button" className="tl-btn" onClick={() => set({state: null})}>{copy.retry}</button></section>
-  if (mode === 'empty' || catalog.runs.length === 0) return <section><h1>{copy.emptyTitle}</h1><p>{copy.emptyBody}</p><div className="tl-actions"><a className="tl-btn primary" href="/settings">{copy.connect}</a><a className="tl-btn" href="/runs?demo=1">{copy.sample}</a></div></section>
+  if (mode === 'empty' || catalog.runs.length === 0) return (
+    <section>
+      <h1>{copy.emptyTitle}</h1>
+      <p>{copy.emptyBody}</p>
+      <p className="tl-mono">{copy.loadCli}</p>
+      <div className="tl-actions">
+        <label className="tl-btn primary" htmlFor="tl-run-file">{copy.loadFile}</label>
+        <a className="tl-btn" href="/settings">{copy.connect}</a>
+        <a className="tl-btn" href="/runs?demo=1">{copy.sample}</a>
+      </div>
+      <input id="tl-run-file" className="tl-file" type="file" accept="application/json,.json" onChange={event => { const file = event.target.files?.[0]; if (file) onLoadFile(file) }} />
+      {loadNote && <p role="status">{loadNote}</p>}
+    </section>
+  )
   return (
     <>
       {mode === 'offline' && <p className="tl-banner warn" role="status">{copy.offline}</p>}
@@ -185,7 +199,7 @@ function RunsPage({catalog, params, navigate, mode}: {catalog: Catalog; params: 
       <section className="tl-kpis" aria-label={copy.runs}>
         <article className="tl-card"><div className="tl-label">{windowLabel}</div><strong className={numbers.runs > 0 ? 'ok' : undefined}>{grouped(numbers.runs)}</strong><p className={range === '7d' && numbers.runs > (catalog.previous_window_runs ?? 0) ? 'tl-delta ok' : 'tl-delta'}>{range === '7d' && catalog.demo ? delta(numbers.runs, catalog.previous_window_runs) : copy.noComparison}</p></article>
         <article className="tl-card"><div className="tl-label">{copy.claimsChecked}</div><strong>{numbers.total ? grouped(numbers.total) : copy.unknown}</strong><p>{copy.average} {tenths(numbers.total, numbers.runs)} {copy.perRun}</p></article>
-        <article className="tl-card"><div className="tl-label">{copy.confirmedRate}</div><strong className={numbers.counts.confirmed > 0 ? 'ok' : undefined}>{percent(numbers.counts.confirmed, numbers.total)}</strong><p title={copy.rateHint}>{percent(numbers.counts.refuted, numbers.total)} {copy.refuted} · {percent(numbers.counts.unclear, numbers.total)} {copy.unclear}</p></article>
+        <article className="tl-card"><div className="tl-label">{copy.confirmedRate}</div><strong className={rateSigned && numbers.counts.confirmed > 0 ? 'ok' : undefined}>{percent(numbers.counts.confirmed, numbers.total)}</strong><p title={copy.rateHint}>{percent(numbers.counts.refuted, numbers.total)} {copy.refuted} · {percent(numbers.counts.unclear, numbers.total)} {copy.unclear}</p></article>
         <article className="tl-card"><div className="tl-label">{copy.notable}</div><strong className="tl-agent-kpi">{notable ? <AgentMark catalog={catalog} id={notable.id} /> : copy.unknown}</strong><p>{numbers.notable ? `${grouped(numbers.notable[1])} ${copy.refutedClaims}` : copy.noNotable}</p></article>
       </section>
       <div className="tl-filters">
@@ -226,14 +240,15 @@ function RunsPage({catalog, params, navigate, mode}: {catalog: Catalog; params: 
             <tbody>
               {slice.map(run => {
                 const summary = shownSummary(run)
+                const signed = run.integrity === 'hmac'
                 const total = run.counts.confirmed + run.counts.refuted + run.counts.unclear
                 return (
                   <tr key={run.run_id}>
                     <td className="tl-mono"><a href={`/runs/${run.run_id}?${params.toString()}`} onClick={event => go(event, navigate)}>{run.run_id}</a></td>
                     <td><span className="tl-task">{run.task}<small>{projectName(catalog, run.project_id)}</small></span></td>
                     <td><AgentMark catalog={catalog} id={run.agent_id} /></td>
-                    <td>{summary === 'damaged' ? copy.unknown : <span className="tl-pills"><span className="tl-sr">{run.counts.confirmed} {copy.confirmed}, {run.counts.refuted} {copy.refuted}, {run.counts.unclear} {copy.unclear}</span><span className="tl-bars" aria-hidden="true">{total > 0 && <><i className="confirmed" style={{width: `${(run.counts.confirmed / total) * 100}%`}} /><i className="refuted" style={{width: `${(run.counts.refuted / total) * 100}%`}} /><i className="unclear" style={{width: `${(run.counts.unclear / total) * 100}%`}} /></>}</span><span className="tl-countline" aria-hidden="true"><span className="ok">{run.counts.confirmed} ✓</span><span className="bad">{run.counts.refuted} ✗</span><span className="warn">{run.counts.unclear} ?</span></span></span>}</td>
-                    <td><Pill summary={summary} claims={run.claims} /></td>
+                    <td>{summary === 'damaged' ? copy.unknown : <span className="tl-pills"><span className="tl-sr">{signed ? `${run.counts.confirmed} ${copy.confirmed}, ${run.counts.refuted} ${copy.refuted}, ${run.counts.unclear} ${copy.unclear}` : `${total} ${copy.unclear}`}</span><span className="tl-bars" aria-hidden="true">{total > 0 && <><i className={signed ? 'confirmed' : 'unclear'} style={{width: `${(run.counts.confirmed / total) * 100}%`}} /><i className={signed ? 'refuted' : 'unclear'} style={{width: `${(run.counts.refuted / total) * 100}%`}} /><i className="unclear" style={{width: `${(run.counts.unclear / total) * 100}%`}} /></>}</span><span className="tl-countline" aria-hidden="true"><span className={signed ? 'ok' : 'warn'}>{run.counts.confirmed} ✓</span><span className={signed ? 'bad' : 'warn'}>{run.counts.refuted} ✗</span><span className="warn">{run.counts.unclear} ?</span></span></span>}</td>
+                    <td><Pill summary={summary} claims={run.claims} integrity={run.integrity} /></td>
                     <td><time dateTime={run.started_at ?? undefined} title={run.started_at ? fullStamp(run.started_at) : copy.unknown}>{run.started_at ? relative(run.started_at, catalog.now) : copy.unknown}</time></td>
                   </tr>
                 )
@@ -247,14 +262,13 @@ function RunsPage({catalog, params, navigate, mode}: {catalog: Catalog; params: 
           </div>
         </div>
       )}
-      {params.get('check') === '1' && <CheckDialog catalog={catalog} navigate={navigate} onClose={() => set({check: null})} />}
+      {params.get('check') === '1' && <CheckDialog catalog={catalog} navigate={navigate} onClose={() => set({check: null})} onLoadFile={onLoadFile} loadNote={loadNote} />}
     </>
   )
 }
 
-function CheckDialog({catalog, navigate, onClose}: {catalog: Catalog; navigate: Navigate; onClose: () => void}) {
+function CheckDialog({catalog, navigate, onClose, onLoadFile, loadNote}: {catalog: Catalog; navigate: Navigate; onClose: () => void; onLoadFile: (file: File) => void; loadNote: string | null}) {
   const title = useId()
-  const [note, setNote] = useState<string | null>(null)
   const root = useRef<HTMLDivElement>(null)
   useEffect(() => { root.current?.querySelector('button')?.focus() }, [])
   return (
@@ -269,19 +283,8 @@ function CheckDialog({catalog, navigate, onClose}: {catalog: Catalog; navigate: 
         </select>
         <p>{copy.importNote}</p>
         <label className="tl-btn" htmlFor="tl-import">{copy.importBundle}</label>
-        <input id="tl-import" type="file" accept="application/json,.json" onChange={async event => {
-          const file = event.target.files?.[0]
-          if (!file) return
-          try {
-            const payload = JSON.parse(await file.text()) as {item?: RunView; claims?: RunView['claims']; review_summary?: string}
-            const view = payload.item ?? payload as RunView
-            const summary = view.claims ? shownSummary(view) : 'damaged'
-            setNote(summary === 'damaged' || summary === 'confirmed' && payload.item == null ? copy.importRejected : copy.importOk)
-          } catch {
-            setNote(copy.importRejected)
-          }
-        }} />
-        {note && <p role="status">{note}</p>}
+        <input id="tl-import" className="tl-file" type="file" accept="application/json,.json" onChange={event => { const file = event.target.files?.[0]; if (file) onLoadFile(file) }} />
+        {loadNote && <p role="status">{loadNote}</p>}
         <div className="tl-actions"><button type="button" className="tl-btn" onClick={onClose}>{copy.close}</button></div>
       </div>
     </div>
@@ -290,8 +293,8 @@ function CheckDialog({catalog, navigate, onClose}: {catalog: Catalog; navigate: 
 
 function DetailPage({catalog, run, navigate}: {catalog: Catalog; run: RunView; navigate: Navigate}) {
   const summary = shownSummary(run)
+  const signed = run.integrity === 'hmac'
   const [ask, setAsk] = useState(false)
-  const [recheck, setRecheck] = useState<'idle' | 'pending' | 'fail'>('idle')
   const timeline = run.display?.timeline?.map((item, index) => ({
     id: `${run.run_id}-${index}`, timestamp: item[0], observation: item[1], title: item[2], detail: item[3],
   })) ?? run.timeline
@@ -310,7 +313,7 @@ function DetailPage({catalog, run, navigate}: {catalog: Catalog; run: RunView; n
       <div className="tl-head-row">
         <div>
           <p className="tl-sub"><a href={catalog.demo ? '/runs?demo=1' : '/runs'} onClick={event => go(event, navigate)}>{copy.backRuns}</a></p>
-          <h1>{run.task} <Pill summary={summary} claims={run.claims} /></h1>
+          <h1>{run.task} <Pill summary={summary} claims={run.claims} integrity={run.integrity} /></h1>
           <Fill>
             <button type="button" className="tl-btn" onClick={download}>{copy.exportJson}</button>
             <button type="button" className="tl-btn primary" onClick={() => setAsk(true)}>{copy.recheck}</button>
@@ -323,15 +326,22 @@ function DetailPage({catalog, run, navigate}: {catalog: Catalog; run: RunView; n
             <span className="tl-mono">{run.run_id}</span>
           </p>
           <p className="tl-sub">{integrity}. {copy.integrityLine}</p>
+          {catalog.source_label && <p className="tl-sub">{copy.source}: {catalog.source_label}</p>}
         </div>
       </div>
       {summary === 'damaged' ? <section className="tl-banner bad" role="alert"><h2>{copy.damagedTitle}</h2><p>{copy.damagedBody}</p></section> : (
         <>
           <section className="tl-stats">
             <article className="tl-card"><div className="tl-label">{copy.claims}</div><strong>{grouped(run.claims.length)}</strong></article>
-            <article className="tl-card"><div className="tl-label">{copy.confirmed}</div><strong className="ok">{grouped(run.counts.confirmed)}</strong></article>
-            <article className="tl-card"><div className="tl-label">{copy.refuted}</div><strong className="bad">{grouped(run.counts.refuted)}</strong></article>
-            <article className="tl-card"><div className="tl-label">{copy.unclear}</div><strong className="warn">{grouped(run.counts.unclear)}</strong></article>
+            {signed ? (
+              <>
+                <article className="tl-card"><div className="tl-label">{copy.confirmed}</div><strong className="ok">{grouped(run.counts.confirmed)}</strong></article>
+                <article className="tl-card"><div className="tl-label">{copy.refuted}</div><strong className="bad">{grouped(run.counts.refuted)}</strong></article>
+                <article className="tl-card"><div className="tl-label">{copy.unclear}</div><strong className="warn">{grouped(run.counts.unclear)}</strong></article>
+              </>
+            ) : (
+              <article className="tl-card"><div className="tl-label">{copy.unclear}</div><strong className="warn">{grouped(run.claims.length)}</strong></article>
+            )}
           </section>
           <div className="tl-detail">
             <div className="tl-table-wrap" tabIndex={0} role="region" aria-label={copy.colStatement}>
@@ -340,7 +350,7 @@ function DetailPage({catalog, run, navigate}: {catalog: Catalog; run: RunView; n
                 <tbody>
                   {run.claims.map((item, index) => (
                     <tr key={item.id}>
-                      <td><Pill summary={item.verdict} claims={[item]} /></td>
+                      <td><Pill summary={item.verdict} claims={[item]} integrity={run.integrity} /></td>
                       <td>{item.text}</td>
                       <td className="tl-evidence">{run.display?.evidence?.[index] ?? (item.evidence_refs[0] ?? copy.unknown)}</td>
                       <td>{run.display?.sources?.[index] ?? item.source_kind}</td>
@@ -375,11 +385,9 @@ function DetailPage({catalog, run, navigate}: {catalog: Catalog; run: RunView; n
           <div role="dialog" aria-modal="true" aria-labelledby="tl-recheck" className="tl-dialog" onKeyDown={event => { if (event.key === 'Escape') setAsk(false) }}>
             <h2 id="tl-recheck">{copy.recheckTitle}</h2>
             <p>{copy.recheckBody}</p>
-            {recheck === 'pending' && <p role="status">{copy.recheckPending}</p>}
-            {recheck === 'fail' && <p role="alert">{copy.recheckFail} {copy.recheckCli} {run.run_id}</p>}
+            <p role="status">{copy.recheckCli} {run.run_id}</p>
             <div className="tl-actions">
-              <button type="button" className="tl-btn" onClick={() => setAsk(false)}>{copy.cancel}</button>
-              <button type="button" className="tl-btn primary" onClick={() => { setRecheck('pending'); window.setTimeout(() => setRecheck('fail'), 300) }}>{copy.startRecheck}</button>
+              <button type="button" className="tl-btn" onClick={() => setAsk(false)}>{copy.close}</button>
             </div>
           </div>
         </div>
@@ -405,7 +413,7 @@ function Secondary({kind, catalog, navigate}: {kind: string; catalog: Catalog | 
                   <tr key={`${run.run_id}-${claim.id}`}>
                     <td><a href={`/runs/${run.run_id}${suffix}`} onClick={event => go(event, navigate)}>{run.task}</a></td>
                     <td>{claim.text}</td>
-                    <td><Pill summary={claim.verdict} claims={[claim]} /></td>
+                    <td><Pill summary={claim.verdict} claims={[claim]} integrity={run.integrity} /></td>
                     <td>{reasonLabel(claim.reason_code)}</td>
                   </tr>
                 ))}
@@ -437,7 +445,7 @@ function Secondary({kind, catalog, navigate}: {kind: string; catalog: Catalog | 
           const integrity = run.integrity === 'hmac' ? copy.integrityHmac : run.integrity === 'hash-only' ? copy.integrityHash : copy.integrityUnknown
           return (
             <article className="tl-card" key={run.run_id}>
-              <h2><a href={`/runs/${run.run_id}${suffix}`} onClick={event => go(event, navigate)}>{run.task}</a> <Pill summary={shownSummary(run)} claims={run.claims} /></h2>
+              <h2><a href={`/runs/${run.run_id}${suffix}`} onClick={event => go(event, navigate)}>{run.task}</a> <Pill summary={shownSummary(run)} claims={run.claims} integrity={run.integrity} /></h2>
               <p className="tl-mono">{run.run_id}</p>
               <p>{integrity}. {copy.integrityLine}</p>
               <p>{refs.length ? refs.join(', ') : copy.noRecord}</p>
@@ -478,11 +486,13 @@ function Secondary({kind, catalog, navigate}: {kind: string; catalog: Catalog | 
 export function ReferenceApp({catalog: given, location: forced}: {catalog?: Catalog; location?: string}) {
   const [href, setHref] = useState(forced ?? (typeof window === 'undefined' ? '/runs' : window.location.pathname + window.location.search))
   const [remote, setRemote] = useState<Catalog | null>(null)
+  const [loaded, setLoaded] = useState<Catalog | null>(null)
+  const [loadNote, setLoadNote] = useState<string | null>(null)
   const [failed, setFailed] = useState(false)
   const url = new URL(href, 'http://truthlens.local')
   const demo = url.searchParams.get('demo') === '1'
   const stateParam = url.searchParams.get('state')
-  const catalog = given ?? remote
+  const catalog = loaded ?? given ?? remote
   useEffect(() => {
     if (forced) return
     const onPop = () => setHref(window.location.pathname + window.location.search)
@@ -490,14 +500,14 @@ export function ReferenceApp({catalog: given, location: forced}: {catalog?: Cata
     return () => window.removeEventListener('popstate', onPop)
   }, [forced])
   useEffect(() => {
-    if (given || !demo || stateParam === 'empty') return
+    if (given || loaded || !demo || stateParam === 'empty') return
     const controller = new AbortController()
     fetch('/reference-demo.json', {signal: controller.signal}).then(async response => {
       if (!response.ok) throw new Error('load')
       setRemote(await response.json() as Catalog)
     }).catch(() => { if (!controller.signal.aborted) setFailed(true) })
     return () => controller.abort()
-  }, [given, demo, stateParam])
+  }, [given, loaded, demo, stateParam])
   const navigate = (next: string) => {
     if (!forced) history.pushState({scrollY: window.scrollY}, '', next)
     setHref(next)
@@ -520,6 +530,26 @@ export function ReferenceApp({catalog: given, location: forced}: {catalog?: Cata
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [forced])
+  const readFile = (file: File) => {
+    void file.text().then(text => {
+      let payload: unknown
+      try {
+        payload = JSON.parse(text) as unknown
+      } catch {
+        setLoadNote(copy.loadRejected)
+        return
+      }
+      const next = catalogFromOperatorFile(payload, new Date().toISOString())
+      if (!next) {
+        setLoadNote(copy.loadRejected)
+        return
+      }
+      setLoaded(next)
+      setLoadNote(null)
+      const path = next.runs.length === 1 ? `/runs/${encodeURIComponent(next.runs[0].run_id)}` : '/runs'
+      navigate(hrefOf(path, next.demo ? 'demo=1' : ''))
+    }).catch(() => setLoadNote(copy.loadRejected))
+  }
   const mode = failed ? 'error' : url.searchParams.get('state')
   const active = url.pathname.startsWith('/runs/') ? catalog?.runs.find(run => run.run_id === decodeURIComponent(url.pathname.slice('/runs/'.length))) : undefined
   const missing = Boolean(catalog && url.pathname.startsWith('/runs/') && !active)
@@ -529,7 +559,7 @@ export function ReferenceApp({catalog: given, location: forced}: {catalog?: Cata
     <Shell catalog={catalog} pathname={url.pathname} search={url.searchParams.toString()} navigate={navigate} crumb={crumb}>
       {!catalog && demo && mode !== 'error' && mode !== 'empty' ? <div aria-busy="true"><p>{copy.loading}</p><div className="tl-skeleton" /></div> : null}
       {url.pathname === '/runs' && (catalog || mode === 'empty' || mode === 'error' || !demo) && (
-        <RunsPage catalog={catalog ?? emptyCatalog(demo)} params={url.searchParams} navigate={navigate} mode={catalog ? mode : (demo ? mode : 'empty')} />
+        <RunsPage catalog={catalog ?? emptyCatalog(demo)} params={url.searchParams} navigate={navigate} mode={catalog ? mode : (demo ? mode : 'empty')} onLoadFile={readFile} loadNote={loadNote} />
       )}
       {active && catalog && <DetailPage catalog={catalog} run={active} navigate={navigate} />}
       {missing && <section role="alert"><h1>{copy.missingRun}</h1></section>}

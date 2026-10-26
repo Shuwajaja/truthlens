@@ -111,9 +111,13 @@ human-facing [agent setup guide](AGENT-SETUP.md).
 Human commands `truthlens workspace` and `truthlens runs` project an existing
 ledger into a run view. They do not replace `truthlens init LEDGER`, the
 read-only `truthlens doctor`, or the legacy human tool `truthlens mcp --root`.
-`TRUTHLENS_REFERENCE` defaults to off. Only the exact value `1` enables the
-new commands. Unset, empty, `0` and every other value exit 2 and leave
-ledgers in place. The projection is not a second ledger, audit, or D34 status.
+`truthlens workspace doctor` and `truthlens runs list` run without a feature
+flag. `TRUTHLENS_REFERENCE` defaults to off for the other new commands. Only
+the exact value `1` enables workspace init, unlink, test and repair, and
+runs show, recheck and import. Unset, empty, `0` and every other value exit
+2 for those commands and leave ledgers in place. The projection is not a
+second ledger, audit, or D34 status. Human TRUE and FALSE require integrity
+`hmac`; hash-only text stays UNKNOWN.
 
 | Source | Responsibility |
 |---|---|

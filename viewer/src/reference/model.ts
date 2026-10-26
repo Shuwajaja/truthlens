@@ -63,9 +63,16 @@ export type Summary = Verdict | 'damaged'
 
 const DOUBTFUL = new Set(['benchmark_missing'])
 
-/** Display tone. Stored verdicts stay confirmed, refuted, unclear. */
-export function displayTone(summary: Summary, claims: {reason_code?: string}[] = []): Summary {
-  if (summary === 'damaged' || summary === 'refuted') return summary
+/** Display tone. Stored verdicts stay confirmed, refuted, unclear.
+ * TRUE and FALSE require integrity hmac. Anything else stays UNKNOWN. */
+export function displayTone(
+  summary: Summary,
+  claims: {reason_code?: string}[] = [],
+  integrity?: RunView['integrity'],
+): Summary {
+  if (summary === 'damaged') return summary
+  if (integrity !== 'hmac') return 'unclear'
+  if (summary === 'refuted') return summary
   if (claims.some(item => item.reason_code != null && DOUBTFUL.has(item.reason_code))) return 'unclear'
   return summary
 }
@@ -117,7 +124,7 @@ export function filterRuns(runs: RunView[], now: string, query: URLSearchParams)
     if (project && run.project_id !== project) return false
     if (agent && run.agent_id !== agent) return false
     const summary = shownSummary(run)
-    if (status && summary !== status) return false
+    if (status && displayTone(summary, run.claims, run.integrity) !== status) return false
     if (text && !`${run.task} ${run.run_id}`.toLowerCase().includes(text)) return false
     if (start != null) {
       const at = new Date(run.started_at ?? '').getTime()
@@ -132,17 +139,17 @@ export function filterRuns(runs: RunView[], now: string, query: URLSearchParams)
 
 export function metrics(runs: RunView[], demoMode: boolean) {
   const rows = runs.filter(run => eligible(run, demoMode))
-  const counts = rows.reduce((sum, run) => ({
-    confirmed: sum.confirmed + run.counts.confirmed,
-    refuted: sum.refuted + run.counts.refuted,
-    unclear: sum.unclear + run.counts.unclear,
-  }), {confirmed: 0, refuted: 0, unclear: 0})
-  const total = counts.confirmed + counts.refuted + counts.unclear
+  const counts = {confirmed: 0, refuted: 0, unclear: 0}
   const byAgent = new Map<string, number>()
   for (const run of rows) {
-    if (!run.agent_id) continue
-    byAgent.set(run.agent_id, (byAgent.get(run.agent_id) ?? 0) + run.counts.refuted)
+    for (const claim of run.claims) {
+      const tone = displayTone(claim.verdict, [claim], run.integrity)
+      if (tone !== 'confirmed' && tone !== 'refuted' && tone !== 'unclear') continue
+      counts[tone] += 1
+      if (tone === 'refuted' && run.agent_id) byAgent.set(run.agent_id, (byAgent.get(run.agent_id) ?? 0) + 1)
+    }
   }
+  const total = counts.confirmed + counts.refuted + counts.unclear
   const ranked = [...byAgent.entries()].filter(([, value]) => value > 0).sort((a, b) => b[1] - a[1])
   const notable = ranked.length > 0 && (ranked.length === 1 || ranked[0][1] > ranked[1][1]) ? ranked[0] : null
   return {runs: rows.length, counts, total, notable}
@@ -160,4 +167,43 @@ export function exportBody(run: RunView, demo: boolean) {
     duration_ms: run.duration_ms ?? null, git_commit: run.git_commit ?? null, audit_revision: run.audit_revision ?? null,
   }
   return {schema_version: 1, demo, item}
+}
+
+function asRun(value: unknown): RunView | null {
+  if (!value || typeof value !== 'object') return null
+  const run = value as RunView
+  if (run.schema_version !== 'run-view-v1' || typeof run.run_id !== 'string') return null
+  if (!Array.isArray(run.claims) || !run.counts) return null
+  if (shownSummary(run) === 'damaged') return null
+  return run
+}
+
+/** Operator file from `runs show --json`, a catalog, or a list of run views.
+ * Damaged views are dropped. This does not read a ledger or start an audit. */
+export function catalogFromOperatorFile(payload: unknown, now: string): Catalog | null {
+  let views: unknown[] = []
+  let envelopeDemo = false
+  let stamp = now
+  if (Array.isArray(payload)) views = payload
+  else if (payload && typeof payload === 'object') {
+    const body = payload as {runs?: unknown; item?: unknown; demo?: unknown; now?: unknown; schema_version?: unknown}
+    envelopeDemo = body.demo === true
+    if (typeof body.now === 'string' && Number.isFinite(new Date(body.now).getTime())) stamp = body.now
+    if (Array.isArray(body.runs)) views = body.runs
+    else if (body.item && typeof body.item === 'object') views = [body.item]
+    else if (body.schema_version === 'run-view-v1') views = [payload]
+    else return null
+  } else return null
+  const runs = views.flatMap(item => {
+    const run = asRun(item)
+    return run ? [run] : []
+  })
+  if (runs.length === 0) return null
+  const demo = envelopeDemo || runs.some(run => run.demo === true)
+  const projects = [...new Map(runs.map(run => [run.project_id, {id: run.project_id, name: run.project_id}])).values()]
+  const agents = [...new Map(runs.flatMap(run => {
+    if (!run.agent_id) return []
+    return [[run.agent_id, {id: run.agent_id, name: run.agent_id, initial: run.agent_id.slice(0, 1).toUpperCase()}] as const]
+  })).values()]
+  return {demo, now: stamp, source_label: copy.loadedSource, projects, agents, runs, previous_window_runs: null}
 }

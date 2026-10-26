@@ -251,11 +251,15 @@ def test_workspace_doctor_never_claims_isolation(tmp_path: Path, capsys: pytest.
 
 def test_feature_flag_defaults_off(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     monkeypatch.delenv("TRUTHLENS_REFERENCE", raising=False)
-    assert main(["workspace", "doctor", "--root", str(tmp_path), "--json"]) == 2
+    assert main(["workspace", "doctor", "--root", str(tmp_path), "--json"]) == 0
+    assert main(["runs", "list", "--root", str(tmp_path), "--json"]) == 0
+    assert main(["workspace", "init", "--root", str(tmp_path), "--json"]) == 2
+    assert main(["runs", "show", "run_missing", "--root", str(tmp_path), "--json"]) == 2
     monkeypatch.setenv("TRUTHLENS_REFERENCE", "0")
-    assert main(["runs", "list", "--root", str(tmp_path), "--json"]) == 2
+    assert main(["runs", "recheck", "run_missing", "--root", str(tmp_path), "--json"]) == 2
+    assert main(["workspace", "doctor", "--root", str(tmp_path), "--json"]) == 0
     monkeypatch.setenv("TRUTHLENS_REFERENCE", "")
-    assert main(["workspace", "doctor", "--root", str(tmp_path), "--json"]) == 2
+    assert main(["workspace", "test", "--root", str(tmp_path), "--json"]) == 2
     assert main(["init", str(tmp_path / "ledger.jsonl")]) == 0
     monkeypatch.setenv("TRUTHLENS_REFERENCE", "1")
     assert main(["workspace", "doctor", "--root", str(tmp_path), "--json"]) == 0
@@ -531,6 +535,9 @@ def test_banner_color_follows_the_terminal(monkeypatch: pytest.MonkeyPatch):
     write_banner(plain)
     assert "TruthLens 0.1.0" in plain.getvalue()
     assert "\x1b" not in plain.getvalue()
+    assert "  truthlens workspace doctor\n" in plain.getvalue()
+    assert "  truthlens runs list\n" in plain.getvalue()
+    assert "TRUTHLENS_REFERENCE=1 truthlens" not in plain.getvalue()
     assert main([]) == 0
 
 
@@ -580,9 +587,15 @@ def test_display_labels_keep_internal_verdicts():
     assert shown_word({"review_summary": "confirmed", "claims": [{"reason_code": "benchmark_missing"}]})[
         0
     ] == ("UNKNOWN")
-    assert shown_word({"review_summary": "refuted", "claims": [{"reason_code": "benchmark_missing"}]})[0] == (
-        "FALSE"
-    )
+    assert shown_word(
+        {"review_summary": "refuted", "integrity": "hash-only", "claims": [{"reason_code": "witnessed_fail"}]}
+    )[0] == ("UNKNOWN")
+    assert shown_word(
+        {"review_summary": "confirmed", "integrity": "hmac", "claims": [{"reason_code": "witnessed_pass"}]}
+    )[0] == ("TRUE")
+    assert shown_word(
+        {"review_summary": "refuted", "integrity": "hmac", "claims": [{"reason_code": "benchmark_missing"}]}
+    )[0] == ("FALSE")
 
 
 def test_status_mcp_does_not_carry_evidence():

@@ -11,7 +11,15 @@ from pathlib import Path
 from typing import ClassVar
 
 from truthlens.audit import audit_run
-from truthlens.human_io import color_enabled, emit_json, error_payload, fail, paint, reference_enabled
+from truthlens.human_io import (
+    color_enabled,
+    emit_json,
+    error_payload,
+    exposed_subcommand,
+    fail,
+    paint,
+    reference_enabled,
+)
 from truthlens.ids import new_id
 from truthlens.run_catalog import collect, import_source, public_list_item
 from truthlens.workspace_store import WorkspaceError, resolve_root
@@ -30,6 +38,9 @@ def display_label(verdict: str, reason_code: str | None = None) -> tuple[str, st
 
 
 def shown_word(view: dict) -> tuple[str, str]:
+    """Human word for a run. TRUE and FALSE require integrity hmac."""
+    if view.get("integrity") != "hmac":
+        return "UNKNOWN", "33"
     summary = str(view.get("review_summary") or "unclear")
     claims = view.get("claims") if isinstance(view.get("claims"), list) else []
     doubtful = any(isinstance(item, dict) and item.get("reason_code") in DOUBTFUL_REASONS for item in claims)
@@ -187,9 +198,12 @@ def _show(args: argparse.Namespace) -> int:
     for claim in view.get("claims") or []:
         if not isinstance(claim, dict):
             continue
-        claim_word, claim_code = display_label(
-            str(claim.get("verdict") or "unclear"), claim.get("reason_code")
-        )
+        if view.get("integrity") == "hmac":
+            claim_word, claim_code = display_label(
+                str(claim.get("verdict") or "unclear"), claim.get("reason_code")
+            )
+        else:
+            claim_word, claim_code = "UNKNOWN", "33"
         sys.stdout.write(f"{paint(claim_word, claim_code, colored)}  {claim.get('text', '')}\n")
     if entry["demo"]:
         sys.stdout.write("Beispieldaten\n")
@@ -283,7 +297,7 @@ def _import(args: argparse.Namespace) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
-    if not reference_enabled():
+    if not reference_enabled() and not exposed_subcommand(argv, "list"):
         return fail(
             "REFERENCE_DISABLED", "Referenzbefehle sind abgeschaltet", as_json="--json" in argv, status=2
         )
