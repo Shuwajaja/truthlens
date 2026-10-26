@@ -1,3 +1,46 @@
+## Init filesystem diagnostics — local checks, 26 October 2026
+
+Branch `improve/loop-24`, base `07864a74`. `truthlens init LEDGER` now handles
+filesystem `OSError` during its existing-file check and initialization with a
+fixed, path-free `FAIL` diagnostic and exit 1. It requests a writable ledger
+file path with an existing parent directory; failure prints no run ID.
+Successful creation, empty-file initialization and refusal to overwrite a
+nonempty ledger retain their behavior. The ledger writer is unchanged.
+
+Acceptance criteria were stated before code. Red tests-only commit `753acfd9`:
+`umask 0022; TZ=UTC .venv/bin/python -m pytest -q tests/test_cli_init_errors.py
+--basetemp=.t/24r --tb=no` observed **5 failed, 3 passed**. After formatting,
+the same target with `.t/24r2 --tb=short` reproduced those results. The same
+target with `.t/24g --tb=short` observed **8 passed**, recorded in fix commit
+`ee1805e2`. Two real subprocess path failures and injected stat, lock-open
+and fsync failures cover bounded diagnostics. Success and nonempty-ledger
+refusal remain covered. Injected faults prove only their stated boundary.
+
+Full suites tested `ee1805e2`, tree `072e0352a01717005f917d5a063ff8b6fe9e3985`.
+With `umask 0022`, repo venv on PATH, `PYTHONPATH="$PWD/src"` and
+`TMPDIR="$PWD/.t"`, `TZ=UTC .venv/bin/python -m pytest -q -ra --tb=short
+--basetemp=.t/24u` and `TZ=Europe/Berlin .venv/bin/python -m pytest -q -ra
+--tb=short --basetemp=.t/24b` each observed **879 passed, 2 skipped, 1 xfailed,
+113 subtests passed**. Separate-UID host prerequisites are absent; the existing
+same-UID key-access case remains an expected failure, not a security pass.
+`python3 -m unittest tests.test_readme -q` observed **7 tests, OK**;
+`python3 -m unittest tests.test_ci_scope -q` observed **10 tests run, OK,
+1 skipped** (plain Python lacks pytest for its dev-only subprocess check).
+CI required-doc existence, `.venv/bin/ruff check src tests`, new-test formatting,
+`.venv/bin/python -m compileall -q src` and diff checks passed. The authorized
+offline editable install repaired the copied venv; import resolution inside
+this checkout was checked. Subsequent tracked edits only record this evidence.
+
+Independent-style author self-review of the CLI/test/guide diff found no blocking
+finding; this is not independent security approval. The handler catches only
+`OSError`, emits no exception/path details and leaves actor/signing rules intact.
+A late write/fsync failure can leave ledger bytes or a lock file; no rollback
+or durability is promised on failure. Native-platform, separate-UID, real disk
+fault, coverage and live-service checks were not run. No viewer change:
+npm/browser/axe checks were not run, and this host has no Chromium. Contracts,
+D34/G1 boundaries and demo evidence are unchanged. `PR_BODY.md` stays untracked;
+local commits only, with no push, PR, merge, deployment or host changes.
+
 ## Export output-path diagnostics — local checks, 26 October 2026
 
 Branch `improve/loop-23`, base `b35cf06a`. After successful verification,
