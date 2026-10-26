@@ -4,7 +4,7 @@ TruthLens records what an agent did, checks the recorded evidence, and lets a
 human compare claims with witnessed results. The Python core uses the standard
 library; the viewer uses React, TypeScript and Vite. The optional status MCP
 adapter uses the pinned SDK extra. Start with the
-[offline walkthrough](../README.md#try-it-in-1-minute) for a runnable example;
+[offline walkthrough](../README.md#quickstart) for a runnable example;
 [STATUS](STATUS.md) records measured checks and remaining limits.
 
 ## Capture and evidence

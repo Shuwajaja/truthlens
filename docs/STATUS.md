@@ -1,3 +1,23 @@
+## Portfolio README — local checks, 26 October 2026
+
+`cursor/readme-portfolio-af22` starts from `origin/main` at `eb41362`.
+The English README is the portfolio entry: wordmark, the one-line pitch,
+CI / Python / license badges, the reference runs captures, a terminal
+capture, Why, verification with the HMAC rule, Quickstart including
+`truthlens setup --agent`, MCP, an architecture diagram, roadmap and license.
+The German guide is [docs/de/README.md](de/README.md). Not merged.
+
+On this tree, before this paragraph:
+
+- `PYTHONPATH=src TZ=UTC /tmp/tl-venv/bin/python -m pytest tests/test_readme.py tests/test_architecture_docs.py tests/test_mcp_catalog.py -q --tb=short` printed **23 passed, 95 subtests passed**.
+- `ruff check tests/test_readme.py tests/test_mcp_catalog.py` passed.
+
+The terminal image is real stdout. `truthlens doctor` exited 1 with
+`entries=0`. `truthlens runs list` exited 0 and printed `UNKNOWN` for the
+hash-only demo ledger. The runs pictures are the reference runs view with
+labelled sample data. The key value is not in the README or that capture.
+CI for this head was not part of the local run.
+
 ## Setup command and harness doctor — local checks, 26 October 2026
 
 `cursor/truthlens-setup-mcp-af22` adds `truthlens setup` and turns bare
