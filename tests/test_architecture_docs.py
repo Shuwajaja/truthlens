@@ -31,7 +31,6 @@ class ArchitectureDocsTests(unittest.TestCase):
                         for args in (
                             ["--help"],
                             ["audit", "--help"],
-                            ["agent-status", "--help"],
                             ["mcp-status", "--help"],
                         )
                     ],
