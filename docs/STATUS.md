@@ -1,3 +1,48 @@
+## UTF-8 CLI manifests — local checks, 26 October 2026
+
+Branch `improve/loop-7`, base `3dc00f14`. The local `report`, `export` and
+`project` commands read manifests with the host's default encoding, so valid
+UTF-8 criterion text failed under an ASCII locale. Both CLI manifest reads now
+specify UTF-8. Six real subprocess regressions use a synthetic keyless ledger,
+Unicode agent-proposed criterion text and a confirmed ASCII locale with Python
+UTF-8 mode disabled. They check preserved text/proposed status, hash-only export,
+unchanged source bytes and fail-closed rejection of inconsistent manifests
+without writing derived outputs. No human approval is simulated or granted.
+
+Red checkpoint `0ed886f3`: `PYTHONPATH="$PWD/src" TMPDIR="$PWD/.t" TZ=UTC
+.venv/bin/python -m pytest -q tests/test_cli_utf8.py --basetemp=.t/l7red
+--tb=short` observed **6 failed** with the intended `UnicodeDecodeError`.
+The same target after the fix, with `.t/l7green-checkpoint`, observed **6 passed**.
+Tested implementation `8af4dd117e3189af675c88e7ae2bef3a8f99e90c`, tree
+`aa08ce9677828651bfceaaa79e9012f771abde9a`; subsequent edits are docs only.
+
+With `umask 022`, repo venv PATH, `PYTHONPATH="$PWD/src"`, `TMPDIR="$PWD/.t"`,
+`TZ=UTC .venv/bin/python -m pytest -q -ra --tb=short --basetemp=.t/l7utc`
+and the sequential Europe/Berlin run with `.t/l7berlin` each observed
+**808 passed, 2 skipped, 1 xfailed, 21 subtests passed**. The separate-UID host
+tests remain skipped; the known same-UID risk remains expected failure. Only
+ignored in-repo venv import/shebang pointers were corrected before these full
+runs; no dependencies were installed.
+
+From `viewer/`, sequential `TZ=UTC DEBUG_PRINT_LIMIT=300 TMPDIR="$PWD/../.t"
+npm test` and the Europe/Berlin run each observed **512 passed / 52 files**,
+including language/style/theme checks and five toolbar builds. Existing jsdom
+scrollTo notices remain. `ruff check src tests`, `ruff format --check
+tests/test_cli_utf8.py`, Python `compileall -q src/truthlens`, viewer
+`npm run lint` and `npm run build` (including TypeScript) passed. From `viewer/`,
+`node --test ../integrations/agent-zero-acp/audit-status.test.cjs` observed
+**4 passed**. Diff checks passed.
+
+Independent-style author self-review found no blocking security/D34 finding;
+this is not independent security approval. Frozen contracts, security-sensitive
+modules, G1 broker/wire/adapter, D34 status-only access, approval controls, viewer
+and dependencies are unchanged. This Linux ASCII-locale regression is not native
+Windows qualification; criteria-file reads and terminal output encoding are
+outside this fix. No coverage measurement, live service or separate-UID proof.
+Chromium unavailable: browser/screenshots/axe **not run**; no UI changes.
+Requested `PR_BODY.md` stays untracked. Local commits only; no push, PR, merge,
+deployment, host setup, Docker changes or new dependencies.
+
 ## Failed SQLite projection cleanup — local checks, 26 October 2026
 
 Branch `improve/loop-6`, base `004ae952`. A failed projection insert left its

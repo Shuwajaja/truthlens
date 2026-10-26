@@ -238,7 +238,7 @@ def _verified_dir(d: str, key: bytes | None):
     from truthlens.store import BlobStore
 
     root = Path(d)
-    mf = json.loads((root / "manifest.json").read_text())
+    mf = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
     r = verify(root / "ledger.jsonl", key, mf.get("ledger_last_hash"))
     if not r.ok:
         return None, [f"line {n}: {m}" for n, m in r.errors]
@@ -301,7 +301,7 @@ def _w2(a) -> int:
             return 1
         if a.cmd == "export":
             from truthlens import export
-            mf = json.loads((Path(a.dir) / "manifest.json").read_text())
+            mf = json.loads((Path(a.dir) / "manifest.json").read_text(encoding="utf-8"))
             from truthlens.store import BlobStore
             store = BlobStore(Path(a.dir) / "blobs")
 
