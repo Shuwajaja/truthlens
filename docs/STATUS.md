@@ -1,3 +1,52 @@
+## Verdict and integrity data boundary — local checks, 26 October 2026
+
+Branch `design/verdict-integrity`, base `7a81ffb9`; tested implementation
+`1931a952645b8fa327422090d6e46bc62e069da0`, tree
+`7d9ea1aaff39e8ce7b84f05bd5ddfbe8d9f534b9`. This later entry is docs only.
+Plan/data boundary: [viewer contract](../viewer/DESIGN.md#verdict-and-integrity-data-boundary-26-october-2026).
+RunDoc lacks Phase F's audit checks, conclusion, authentication and provenance;
+criterion pills, criterion ring and criterion-ratio trend remain. No run verdict
+or fixed reason code is invented. Integrity seals now use supplied export fields,
+green only for verified HMAC, grey for hash-only/unchecked; mixed sets show exact
+deduplicated counts. The browser checks no signatures. Empty workspaces have no
+invented integrity result. The header's Stand uses the latest accepted loaded
+run start in Europe/Berlin; absent dates stay explicit. Integrity is not approval.
+
+Red-first `TZ=UTC DEBUG_PRINT_LIMIT=300 npx vitest run
+tests/verdict-integrity.test.tsx` observed **15 failed / 1 passed**. After fixing
+test-harness selectors/parameterization, the corrected tests were also run against
+a pristine archive of base `7a81ffb9`: **15 failed / 1 passed** (exit 1). The
+implemented targeted file observed **16 passed**. A broader intermediate run
+had **56 passed / 1 failed** from a now-ambiguous hash-only text query; scoping
+that assertion to the score card fixed it without dropping its requirement.
+
+From `viewer/`, `TZ=UTC DEBUG_PRINT_LIMIT=300 npm test` and
+`TZ=Europe/Berlin DEBUG_PRINT_LIMIT=300 npm test` each observed **512 passed /
+52 files** (exit 0), including language/style/theme checks and five toolbar builds.
+Existing jsdom scrollTo notices remain. `npm run lint`, `npm run build`,
+`node --check viewer/scripts/review-overview.mjs` (from repo root), diff checks,
+fixture-entry type checking (`tsc --ignoreConfig --allowJs --noEmit` with the
+viewer JSX/module/lib flags) and in-memory Vite fixture-entry bundling passed.
+Earlier standalone type-check invocations failed on missing TS6 command flags;
+the corrected invocation passed without changing source to bypass errors.
+
+The manual review attempt confirmed synthetic fixtures absent from production
+JS/HTML, then exited 1 at missing Chromium before starting a listener. No
+screenshots or axe scans were produced. VPSMan still needs 1440×900/390×844
+rendering, unrestricted axe, geometry/focus, zoom/touch and screen-reader review.
+Five simulated checked-export flags and nine hash-only documents exercise mixed
+presentation only; no signature verification, live service or approval is proven.
+See the extended [manual review coverage](UI-PIPELINE.md#overview-visual-parity-26-october-2026).
+
+Author self-review checked the diff, React/interface checklists, integrity guard,
+date selection, D34 and scope; no blocking finding remained. This is not an
+independent security approval. Python, frozen contracts, G1 broker/wire, shared
+status projection, legacy MCP, dependencies and deployment files are unchanged;
+Python suite **not run** (no Python changes). Raw logs are outside the repo at
+`/tmp/truthlens-runs/design-verdict-integrity/` because the prescribed
+`/workspace/projects/truthlens-runs/` was not writable. Requested `PR_BODY.md`
+stays untracked. Local commits only; no push, PR, merge, deployment or network.
+
 ## Overview: many or one run — local checks, 26 October 2026
 
 Branch `design/overview-multirun`, base `8d12f931`; red checkpoint `d499493e`
