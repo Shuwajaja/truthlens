@@ -89,6 +89,11 @@ or the installed `truthlens` entry point.
 | `truthlens mcp-status --socket PATH` | D34 status-only stdio MCP; requires the protected broker. |
 | `truthlens mcp --root DIR` | Legacy human evidence MCP: `list_runs`, `run_report`, `run_events`; **not D34-compatible**. |
 
+For `verify`, pass the `ledger.jsonl` file itself, not its run directory.
+An unreadable ledger (including a directory passed as the file) produces a
+`FAIL` diagnostic and exit code 1 without changing the input. Check the file
+path and read permissions; no traceback or filesystem exception details are printed.
+
 For `report`, `export` and `project`, pass a run directory containing
 `manifest.json` and `ledger.jsonl`, rather than either file itself. An unreadable
 manifest or one that is not a UTF-8 JSON object produces a `FAIL` diagnostic and

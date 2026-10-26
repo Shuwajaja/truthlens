@@ -195,7 +195,11 @@ def main(argv: list[str] | None = None) -> int:
         print(run_id)
         return 0
     if a.cmd == "verify":
-        r = verify(a.ledger, _key(a.hmac_key_env), a.expect_last_hash)
+        try:
+            r = verify(a.ledger, _key(a.hmac_key_env), a.expect_last_hash)
+        except OSError:
+            print("FAIL cannot read ledger; pass a readable ledger.jsonl file (not a run directory)")
+            return 1
         if r.ok:
             print(f"OK {r.events} events, {'anchored' if r.anchored else 'unanchored'}")
             return 0
