@@ -26,9 +26,15 @@ The populated reference surface follows the owner mockups: Läufe (`/runs`),
 Prüfberichte (`/reports`, count of completed audits), Agenten (`/agents`),
 and Quellen (`/sources`). `/checks` and `/records` stay reachable. `/runs/:id`
 opens one task. The breadcrumb is TruthLens / Läufe / run id. The claim
-table is titled Prüfbericht. Zeitablauf is an open card. Technical events
-stay in a closed developer disclosure. `/settings` and `/doctor` stay footer
-tools. `/` and `/?view=overview` stay the evidence workspace, including its
+table is titled Prüfbericht. Recorded claim text is shown in German
+quotation marks; the stored text is not rewritten. A recorded evidence line
+that contains “N passed” is shown as “Alle N Tests” using that N. Other
+evidence stays as recorded. Zeitablauf is an open card, 480px wide, with
+20px between rows. Technical events, the HMAC or hash line, and the source
+line stay in a closed developer disclosure under the report. That disclosure
+is a text control until it is opened. `/settings` and `/doctor` stay footer
+tools. Doctor carries a green dot; its accessible name says isolation is
+not checked. The search control reads Suchen with a ⌘K chip. `/` and `/?view=overview` stay the evidence workspace, including its
 honesty seals and the production “Not connected” state. That workspace is
 not this catalog and does not gain a task store, an orchestration panel, or
 an artifact gallery.
@@ -42,8 +48,12 @@ shadow. The logo square is the only gradient (violet to cyan). The active
 project chip is a violet outline. The demo badge is a dashed amber outline
 and reads “Beispieldaten”; a demo catalog does not name a publish directory
 as its source. Type uses the already vendored Plus Jakarta Sans and
-JetBrains Mono for identifiers and evidence. Layout targets: sidebar 228px,
-header 56px, content padding 28px (16px below 768px), timeline 360px. The
+JetBrains Mono for identifiers and evidence. The runs subtitle is the source label in JetBrains Mono, the same
+weight as a path line. A demo catalog still reads “Beispieldaten (Demo)”
+and never a publish directory. The dashed Beispieldaten badge stays in the
+header. Layout targets: sidebar 228px,
+header 56px, content padding 28px (16px below 768px), timeline 480px. The
+logo square is 32px with an 8px radius. The
 evidence-workspace 12/14/16/20/28px scale still binds that surface; the
 reference theme file is the only place that also uses 13px and 22px.
 
@@ -68,8 +78,9 @@ Honesty rules still bind this surface:
   render “Nachweis beschädigt oder inkonsistent”. Confirmed claims from that
   run are not shown and are not counted.
 - Hash-only evidence shows “Hash only · signature not checked”. “Integrität
-  ist keine Freigabe.” stays visible. HMAC text appears only when the
-  projection integrity is `hmac`.
+  ist keine Freigabe.” stays in the closed run disclosure, on the start
+  step, and on Nachweise. HMAC text appears only when the projection
+  integrity is `hmac`. The default run view does not show that line.
 - The browser doctor never uses a green confirmed pill. Isolation stays
   unverified. The browser does not read a ledger and does not run an audit.
   Without a loaded run-view file and without `?demo=1`, `/runs` is the

@@ -1,7 +1,7 @@
 import {useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type MouseEvent, type ReactNode} from 'react'
 import {createPortal} from 'react-dom'
 import './theme.css'
-import {clock, copy, delta, duration, fullStamp, grouped, percent, relative, tenths, when} from './copy.ts'
+import {clock, copy, delta, duration, fullStamp, grouped, percent, quoted, relative, shownEvidence, tenths, when} from './copy.ts'
 import {catalogFromOperatorFile, displayTone, eligible, exportBody, filterRuns, metrics, shownSummary, type Catalog, type RunView, type Summary} from './model.ts'
 
 type Navigate = (href: string) => void
@@ -99,9 +99,9 @@ function Shell({catalog, pathname, search, navigate, children, crumbs}: {catalog
           </div>
           <div className="tl-side-foot">
             {item('/settings', copy.settings)}
-            <a href={`/doctor${keep}`} aria-current={pathname === '/doctor' ? 'page' : undefined} onClick={event => { setOpen(false); go(event, navigate) }}>
+            <a href={`/doctor${keep}`} aria-current={pathname === '/doctor' ? 'page' : undefined} aria-label={`${copy.doctor}. ${copy.docIsolation}`} onClick={event => { setOpen(false); go(event, navigate) }}>
               <span>{copy.doctor}</span>
-              <span className="tl-dot captured" title={copy.docIsolation} aria-hidden="true" />
+              <span className="tl-dot captured" aria-hidden="true" />
             </a>
           </div>
         </aside>
@@ -121,7 +121,7 @@ function Shell({catalog, pathname, search, navigate, children, crumbs}: {catalog
               {demo && <span className="tl-badge">{copy.demo}</span>}
             </div>
             <div className="tl-actions">
-              <button type="button" className="tl-btn" onClick={() => navigate(hrefOf(pathname, new URLSearchParams({...Object.fromEntries(params), find: '1'}).toString()))}><span className="tl-kbd">⌘K</span>{copy.search}</button>
+              <button type="button" className="tl-btn" onClick={() => navigate(hrefOf(pathname, new URLSearchParams({...Object.fromEntries(params), find: '1'}).toString()))}>{copy.search}<span className="tl-kbd" aria-hidden="true">⌘K</span></button>
               <span id="tl-top-actions" />
             </div>
           </header>
@@ -229,7 +229,7 @@ function RunsPage({catalog, params, navigate, mode, onLoadFile, loadNote}: {cata
       <header className="tl-head-row">
         <div>
           <h1>{copy.runs}</h1>
-          <p className="tl-sub">{copy.intro} · {copy.source}: {catalog.source_label ?? copy.unknown}</p>
+          <p className="tl-source">{catalog.source_label ?? copy.unknown}</p>
         </div>
       </header>
       {catalog.runs.length > 0 && <Fill><button type="button" className="tl-btn primary" onClick={() => set({check: '1'})}>{copy.check}</button></Fill>}
@@ -364,8 +364,6 @@ function DetailPage({catalog, run}: {catalog: Catalog; run: RunView}) {
             <span className="tl-sep" aria-hidden="true">·</span>
             <span className="tl-mono">{run.run_id}</span>
           </p>
-          <p className="tl-sub">{integrity}. {copy.integrityLine}</p>
-          {catalog.source_label && <p className="tl-sub">{copy.source}: {catalog.source_label}</p>}
         </div>
       </div>
       {summary === 'damaged' ? <section className="tl-banner bad" role="alert"><h2>{copy.damagedTitle}</h2><p>{copy.damagedBody}</p></section> : (
@@ -392,32 +390,14 @@ function DetailPage({catalog, run}: {catalog: Catalog; run: RunView}) {
                     {run.claims.map((item, index) => (
                       <tr key={item.id}>
                         <td><Pill summary={item.verdict} claims={[item]} integrity={run.integrity} /></td>
-                        <td>{item.text}</td>
-                        <td className="tl-evidence">{run.display?.evidence?.[index] ?? (item.evidence_refs[0] ?? copy.unknown)}</td>
+                        <td>{quoted(item.text)}</td>
+                        <td className="tl-evidence">{shownEvidence(run.display?.evidence?.[index] ?? (item.evidence_refs[0] ?? copy.unknown))}</td>
                         <td>{run.display?.sources?.[index] ?? item.source_kind}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-              <details className="tl-card tl-dev">
-                <summary><span className="tl-dev-label">{copy.developer}</span></summary>
-                <p>{copy.developerBody}</p>
-                {run.timeline.length === 0 ? <p>{copy.developerEmpty}</p> : (
-                  <ul>
-                    {run.timeline.map(item => (
-                      <li key={item.id}>
-                        <span className={`tl-dot ${item.observation}`} aria-hidden="true" />
-                        <span>
-                          <time dateTime={item.timestamp} title={fullStamp(item.timestamp)}>{clock(item.timestamp, true)}</time>
-                          <b>{item.title}</b>
-                          <small>{item.detail}</small>
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </details>
             </div>
             <aside className="tl-card tl-time" aria-label={copy.timeline}>
               <h2>{copy.timeline}</h2>
@@ -439,6 +419,26 @@ function DetailPage({catalog, run}: {catalog: Catalog; run: RunView}) {
           </div>
         </>
       )}
+      <details className="tl-dev">
+        <summary><span className="tl-dev-label">{copy.developer}</span></summary>
+        <p>{integrity}. {copy.integrityLine}</p>
+        {catalog.source_label ? <p>{copy.source}: {catalog.source_label}</p> : null}
+        <p>{copy.developerBody}</p>
+        {run.timeline.length === 0 ? <p>{copy.developerEmpty}</p> : (
+          <ul>
+            {run.timeline.map(item => (
+              <li key={item.id}>
+                <span className={`tl-dot ${item.observation}`} aria-hidden="true" />
+                <span>
+                  <time dateTime={item.timestamp} title={fullStamp(item.timestamp)}>{clock(item.timestamp, true)}</time>
+                  <b>{item.title}</b>
+                  <small>{item.detail}</small>
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </details>
       {ask && (
         <div className="tl-search">
           <div role="dialog" aria-modal="true" aria-labelledby="tl-recheck" className="tl-dialog" onKeyDown={event => { if (event.key === 'Escape') setAsk(false) }}>
@@ -481,7 +481,7 @@ function Secondary({kind, catalog, navigate}: {kind: string; catalog: Catalog | 
                 {rows.map(({run, claim}) => (
                   <tr key={`${run.run_id}-${claim.id}`}>
                     <td><a href={`/runs/${run.run_id}${suffix}`} onClick={event => go(event, navigate)}>{run.task}</a></td>
-                    <td>{claim.text}</td>
+                    <td>{quoted(claim.text)}</td>
                     <td><Pill summary={claim.verdict} claims={[claim]} integrity={run.integrity} /></td>
                     <td>{reasonLabel(claim.reason_code)}</td>
                   </tr>

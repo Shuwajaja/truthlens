@@ -241,3 +241,15 @@ export function duration(ms: number | null | undefined): string {
   const seconds = total % 60
   return `${minutes} Min ${seconds} s`
 }
+
+/** Display quotes around a recorded claim. The stored text is unchanged. */
+export function quoted(text: string): string {
+  return `„${text}“`
+}
+
+/** A recorded “N passed” line is shown as a count. Other evidence stays as recorded. */
+export function shownEvidence(text: string): string {
+  const found = text.match(/(\d+)\s+passed\b/)
+  if (!found?.[1]) return text
+  return `Alle ${grouped(Number(found[1]))} Tests`
+}
