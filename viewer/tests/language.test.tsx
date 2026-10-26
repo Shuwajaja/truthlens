@@ -42,10 +42,15 @@ for(const mobile of [false,true])for(const lens of ['client','developer']){
   vi.stubGlobal('matchMedia',(query:string)=>({matches:query.includes('min-width')?!mobile:mobile,addEventListener(){},removeEventListener(){}}))
   vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(publicRun)})))
   localStorage.setItem('tl-lens',lens)
+  history.replaceState(null,'','/?view=overview')
   render(<App/>);await screen.findByRole('main')
+  const menu=screen.getByText('Menü');if(!menu.closest('details')!.open)fireEvent.click(menu)
+  fireEvent.change(screen.getByRole('combobox',{name:'Sprache'}),{target:{value:'en'}})
+  fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}))
   const navigate=(name:string)=>{
    if(mobile)fireEvent.click(screen.getByRole('button',{name:'Navigation',exact:true}))
    fireEvent.click(within(screen.getByRole('navigation',{name:'Viewer navigation'})).getByRole('button',{name,exact:true}))
+   if(name==='Overview'&&screen.queryByRole('button',{name:'Details',exact:true}))fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}))
   }
   const close=async()=>{if(mobile){fireEvent.keyDown(document.activeElement!,{key:'Escape'});await waitFor(()=>expect(screen.queryByRole('dialog')).toBeNull())}else fireEvent.click(screen.getByRole('button',{name:'Back to criterion'}))}
   const inspectRecord=async(trigger:HTMLElement)=>{

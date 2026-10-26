@@ -5,7 +5,7 @@ import {execFileSync} from 'node:child_process'
 import {createServer,preview} from 'vite'
 import {chromium} from 'playwright'
 import AxeBuilder from '@axe-core/playwright'
-const output=process.env.OVERVIEW_OUTPUT??'.screenshots/overview-v2'
+const output=process.env.OVERVIEW_OUTPUT??'.screenshots/run-detail-v3'
 await mkdir(output,{recursive:true})
 const report={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),dirty:execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim()!=='' ,fixture:'viewer/fixtures/demo-run.json; recorded development fixture only',scans:[],checks:[],pageErrors:[],blockedExternal:[]}
 let browser,server,production
@@ -52,10 +52,54 @@ try{
   assert(await menu.evaluate(el=>el===document.activeElement),'Escape restores menu summary focus')
   const run=page.locator('.latest-run').first()
   await run.focus();await page.keyboard.press('Enter')
+  await page.getByRole('region',{name:'Claim vs. evidence'}).waitFor()
+  assert(await page.locator('main h1').evaluate(el=>el===document.activeElement),'keyboard run opening focuses its heading')
+  await page.locator('.overview-tools > summary').click()
+  await page.getByRole('combobox',{name:'Language'}).selectOption('de')
+  await page.keyboard.press('Escape')
+  await page.locator('main h1').focus()
+  await page.evaluate(()=>window.scrollTo(0,0))
+  await page.screenshot({path:`${output}/run-detail-${viewport.width}.png`,animations:'disabled'})
+  await page.screenshot({path:`${output}/run-detail-full-${viewport.width}.png`,animations:'disabled',fullPage:true})
+  await scan(page,`German run detail ${viewport.width}`)
+  const why=page.locator('.claim-why > summary').first()
+  await why.focus();await page.keyboard.press('Enter')
+  assert(await why.evaluate(el=>el.parentElement.open),'Why opens by keyboard')
+  await scan(page,`Run detail Why ${viewport.width}`)
+  await page.keyboard.press('Enter')
+  if(viewport.width===390){
+   const strip=page.getByRole('region',{name:'Aufgezeichnete Kriterien und Behauptungen'})
+   await strip.focus();await page.keyboard.press('ArrowRight')
+   await page.getByRole('button',{name:'Nächste Behauptung'}).click()
+   assert(await strip.evaluate(el=>el.scrollLeft>0),'claim strip responds to keys and tap control')
+  }
+  await page.locator('.overview-tools > summary').click()
+  await scan(page,`Run detail menu ${viewport.width}`)
+  await page.getByRole('combobox',{name:'Sprache'}).selectOption('en')
+  await page.keyboard.press('Escape')
+  await scan(page,`English run detail ${viewport.width}`)
+  await page.getByRole('button',{name:'Details',exact:true}).click()
   await page.getByRole('region',{name:'Criteria and evidence'}).waitFor()
-  assert(await page.locator('main h1').evaluate(el=>el===document.activeElement),'run opening focuses its heading')
+  await scan(page,`Existing Details workspace ${viewport.width}`)
+  await page.getByRole('button',{name:'Back to run',exact:true}).click()
+  await page.getByRole('region',{name:'Claim vs. evidence'}).waitFor()
+  report.checks.push(`${viewport.width}: run screenshots, unrestricted axe, native Why, claim strip, language, menu, preserved Details and return`)
+
+  assert(await page.locator('main h1').evaluate(el=>el===document.activeElement),'return to run focuses its heading')
   assert(new URL(page.url()).searchParams.has('run'),'existing canonical run route')
   report.checks.push(`${viewport.width}: menu Enter/Escape, local-open reachable, fixed language switch, keyboard run opening`)
+  await page.route('**/run.json',async route=>{
+   const response=await route.fetch(),doc=await response.json()
+   doc.criteria=[];doc.claims=[];doc.events=[];doc.artifacts=[];doc.blobs={}
+   doc.counts={green:0,yellow:0,red:0,gray:0,outline:0};doc.run.events=0;doc.run.started=''
+   await route.fulfill({json:doc})
+  })
+  await page.reload()
+  await page.getByRole('img',{name:'Keine Kriterien aufgezeichnet'}).waitFor()
+  await page.getByText('Keine Ereignisse aufgezeichnet.',{exact:true}).waitFor()
+  await page.screenshot({path:`${output}/run-empty-synthetic-${viewport.width}.png`,animations:'disabled',fullPage:true})
+  await scan(page,`Synthetic empty run detail ${viewport.width}`)
+  report.checks.push(`${viewport.width}: synthetic empty RunDoc only; not a recorded witness`)
   await context.close()
  }
  production=await preview({preview:{host:'127.0.0.1',port:0,strictPort:true}})

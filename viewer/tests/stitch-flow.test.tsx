@@ -37,13 +37,13 @@ it('uses one shell and a real criteria return action across all four views',asyn
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(doc)})))
  render(<App/>);await screen.findByRole('main')
  fireEvent.click(screen.getByRole('button',{name:name=>name.startsWith(doc.run.project)}))
- const nav=within(screen.getByRole('navigation',{name:'Viewer navigation'}))
+ fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}))
  for(const name of ['Overview','Claimed vs proven','Timeline','Agent story']){
-  fireEvent.click(nav.getByRole('button',{name,exact:true}))
+  fireEvent.click(within(screen.getByRole('navigation',{name:'Viewer navigation'})).getByRole('button',{name,exact:true}))
   expect(screen.getAllByRole('banner')).toHaveLength(1);expect(screen.getAllByRole('main')).toHaveLength(1)
   expect(screen.queryByRole('complementary',{name:'Evidence drawer'})).toBeNull()
   expect(screen.queryByText('Navigator coming later')).toBeNull()
-  if(name!=='Overview'){fireEvent.click(screen.getByRole('button',{name:'Review criteria'}));expect(screen.getByRole('region',{name:'Criteria and evidence'})).toBeTruthy();expect(document.activeElement).toBe(screen.getByRole('heading',{level:1}))}
+  if(name!=='Overview'){fireEvent.click(screen.getByRole('button',{name:'Review criteria'}));expect(screen.getByRole('region',{name:'Behauptung gegen Beweis'})).toBeTruthy();expect(document.activeElement).toBe(screen.getByRole('heading',{level:1}));fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}))}
  }
 })
 it.each(['loading','invalid','error'] as const)('uses the shared honest %s state without manufacturing run content',async state=>{

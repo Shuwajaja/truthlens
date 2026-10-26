@@ -21,5 +21,5 @@ async function scan(directory){
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){
  const failures=await scan(process.argv[2]??'src');
  if(failures.length){console.error('German UI text found at:\n'+failures.join('\n'));process.exitCode=1;}
- else console.log('UI language: English tools/detail; German confined to the fixed overview dictionary.');
+ else console.log('UI language: English secondary tools; German overview/run copy confined to the fixed dictionary.');
 }

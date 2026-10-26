@@ -79,7 +79,7 @@ it('lands on the German overview with chrome in a closed menu and switches fixed
  expect(within(screen.getByRole('button',{name:name=>name.startsWith(fixture.run.project)})).getByText(fixture.run.project)).toBeTruthy()
  expect(fetch).toHaveBeenCalledTimes(1)
  fireEvent.click(screen.getByRole('button',{name:name=>name.startsWith(fixture.run.project)}))
- expect(screen.getByRole('region',{name:'Criteria and evidence'})).toBeTruthy()
+ expect(screen.getByRole('region',{name:'Claim vs. evidence'})).toBeTruthy()
  expect(document.activeElement).toBe(screen.getByRole('heading',{level:1}))
  expect(document.documentElement.lang).toBe('en')
  expect(fetch).toHaveBeenCalledTimes(1)
@@ -98,15 +98,15 @@ it('shows a German empty overview before disconnected controls and performs no p
 
 it('keeps focus reachable when closing a detail tab returns to the compact overview',async()=>{
  history.replaceState(null,'','/?view=overview');load()
- await screen.findByRole('region',{name:'Criteria and evidence'})
+ await screen.findByRole('region',{name:'Behauptung gegen Beweis'});fireEvent.click(screen.getByText('Menü'))
  const tabs=screen.getByRole('region',{name:'Workspace tabs'})
  const selected=within(tabs).getAllByRole('button',{name:/^Close /}).at(-1)!
  selected.focus();fireEvent.click(selected)
  await screen.findByRole('heading',{name:'Übersicht'})
- expect(document.activeElement).toBe(screen.getByText('Menü'))
- fireEvent.click(screen.getByText('Menü'))
+ expect(document.activeElement).toBe(screen.getByRole('button',{name:'Open Runs'}))
+ expect(screen.getByText('Menü').closest('details')!.open).toBe(true)
  fireEvent.click(screen.getByText(/Recently closed/))
  fireEvent.click(screen.getByRole('button',{name:/^Restore Overview/}))
- expect(screen.getByRole('region',{name:'Criteria and evidence'})).toBeTruthy()
+ expect(screen.getByRole('region',{name:'Behauptung gegen Beweis'})).toBeTruthy()
  expect(document.activeElement?.getAttribute('data-tab-select')).not.toBeNull()
 })
