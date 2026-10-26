@@ -157,7 +157,7 @@ def main() -> None:
         "demo": True,
         "now": stamp(NOW),
         "previous_window_runs": 108,
-        "source_label": "/srv/truthlens-published",
+        "source_label": "Beispieldaten (Demo)",
         "projects": [
             {"id": "mcpdeck", "name": "MCPDeck"},
             {"id": "vpsman", "name": "VPSMan"},

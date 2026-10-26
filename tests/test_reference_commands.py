@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -16,6 +17,11 @@ from truthlens.run_view import RunViewRejected, load_declared_view, project_run
 W = {"kind": "wrapper", "id": "w"}
 H = {"kind": "human", "id": "u"}
 A = {"kind": "agent", "id": "a"}
+
+
+@pytest.fixture(autouse=True)
+def reference_commands_enabled(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setenv("TRUTHLENS_REFERENCE", "1")
 
 
 def _close(ledger: Ledger, run_id: str, code: int = 0) -> list[dict]:
@@ -127,6 +133,36 @@ def test_failed_integrity_and_tampered_confirmation_are_rejected(tmp_path: Path)
     assert bare.value.code == "UNWITNESSED_CONFIRMATION"
 
 
+def test_imported_view_drops_self_declared_audit_and_task(tmp_path: Path):
+    events = _ledger(tmp_path / "ledger.jsonl")
+    honest = project_run(
+        events, project_id="mcpdeck", audit_state="unavailable", integrity="hash-only", imported=True
+    )
+    lying = json.loads(json.dumps(honest))
+    lying["audit_state"] = "complete"
+    lying["audit_revision"] = "rev-self"
+    lying["task"] = "selbst erklärt fertig"
+    lying["review_summary"] = "confirmed"
+    loaded = load_declared_view(lying, events, project_id="mcpdeck", imported=True)
+    assert loaded["audit_state"] == "unavailable"
+    assert loaded["audit_revision"] is None
+    assert loaded["task"] == "README aktualisieren"
+    assert loaded["review_summary"] == "unclear"
+    bare = json.loads(json.dumps(honest))
+    bare["audit_state"] = "complete"
+    bare["audit_revision"] = "rev-self"
+    bare["task"] = "selbst erklärt fertig"
+    without_events = load_declared_view(bare, None, project_id="mcpdeck", imported=True)
+    assert without_events["audit_state"] == "unavailable"
+    assert without_events["audit_revision"] is None
+    assert without_events["task"] == "imported"
+    assert without_events["review_summary"] == "unclear"
+    bare["review_summary"] = "confirmed"
+    with pytest.raises(RunViewRejected) as unwitnessed:
+        load_declared_view(bare, None, project_id="mcpdeck", imported=True)
+    assert unwitnessed.value.code == "UNWITNESSED_CONFIRMATION"
+
+
 def test_init_ledger_contract_is_unchanged(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
     ledger = tmp_path / "ledger.jsonl"
     assert main(["init", str(ledger)]) == 0
@@ -209,13 +245,31 @@ def test_workspace_doctor_never_claims_isolation(tmp_path: Path, capsys: pytest.
     assert main(["workspace", "doctor", "--root", str(tmp_path), "--json"]) == 4
 
 
-def test_feature_flag_disables_new_commands(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+def test_feature_flag_defaults_off(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.delenv("TRUTHLENS_REFERENCE", raising=False)
+    assert main(["workspace", "doctor", "--root", str(tmp_path), "--json"]) == 2
     monkeypatch.setenv("TRUTHLENS_REFERENCE", "0")
+    assert main(["runs", "list", "--root", str(tmp_path), "--json"]) == 2
+    monkeypatch.setenv("TRUTHLENS_REFERENCE", "")
     assert main(["workspace", "doctor", "--root", str(tmp_path), "--json"]) == 2
     assert main(["init", str(tmp_path / "ledger.jsonl")]) == 0
+    monkeypatch.setenv("TRUTHLENS_REFERENCE", "1")
+    assert main(["workspace", "doctor", "--root", str(tmp_path), "--json"]) == 0
 
 
-def test_status_reader_cannot_start_and_extension_cannot_witness(tmp_path: Path):
+def _hand_built_run(root: Path, run_id: str = "run_manual") -> str:
+    """A record the test writes itself. This is not a qualified launcher."""
+    run = root / ".truthlens" / "runs" / run_id
+    run.mkdir(parents=True)
+    record = {"run_id": run_id, "project_id": "mcpdeck", "execution": "running", "inbox": []}
+    (run / "record.json").write_text(json.dumps(record) + "\n", encoding="utf-8")
+    Ledger(run / "ledger.jsonl").append(
+        run_id, W, "run.started", {"repo": "r", "ref": "", "command": "README", "agent": "agent-zero"}
+    )
+    return run_id
+
+
+def test_edited_workspace_cannot_start_a_run(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     assert (
         main(
             [
@@ -236,88 +290,116 @@ def test_status_reader_cannot_start_and_extension_cannot_witness(tmp_path: Path)
     )
     path = tmp_path / ".truthlens" / "workspace.toml"
     text = path.read_text(encoding="utf-8")
-    path.write_text(text + 'qualified_harness_version = "test-fixture"\n', encoding="utf-8")
-    refused = start_run(
-        role="status_reader", root=tmp_path, task="README", harness="agent-zero", project_id="mcpdeck"
+    path.write_text(
+        text + 'qualified_harness_version = "test-fixture"\nqualified_harness_version = "9.9.9"\n',
+        encoding="utf-8",
     )
-    assert refused["code"] == "START_REFUSED"
-    assert not (tmp_path / ".truthlens" / "runs").exists()
-    started = start_run(
-        role="operator", root=tmp_path, task="README", harness="agent-zero", project_id="mcpdeck"
+    runs = tmp_path / ".truthlens" / "runs"
+    for peer in (None, "operator", SimpleNamespace(role="operator")):
+        refused = start_run(
+            root=tmp_path, task="README", harness="agent-zero", project_id="mcpdeck", peer=peer
+        )
+        assert refused["captured"] is False
+        assert refused["code"] == "START_REFUSED"
+        assert not runs.exists()
+
+    def trusted_peer(peer: object | None) -> str | None:
+        if peer is None or isinstance(peer, str):
+            return None
+        role = getattr(peer, "role", None)
+        return role if isinstance(role, str) else None
+
+    monkeypatch.setattr("truthlens.capture_lifecycle._peer_role", trusted_peer)
+    for harness in ("agent-zero", "codex"):
+        blocked = start_run(
+            root=tmp_path,
+            task="README",
+            harness=harness,
+            project_id="mcpdeck",
+            peer=SimpleNamespace(role="operator"),
+        )
+        assert blocked["captured"] is False
+        assert blocked["code"] == "NOT_QUALIFIED"
+        assert not runs.exists()
+
+
+def test_extension_cannot_witness_a_hand_built_record(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    """Lifecycle coverage after a test-built record. Not a live Agent Zero launcher."""
+
+    def trusted_peer(peer: object | None) -> str | None:
+        if peer is None or isinstance(peer, str):
+            return None
+        role = getattr(peer, "role", None)
+        return role if isinstance(role, str) else None
+
+    monkeypatch.setattr("truthlens.capture_lifecycle._peer_role", trusted_peer)
+    run_id = _hand_built_run(tmp_path)
+    ledger = tmp_path / ".truthlens" / "runs" / run_id / "ledger.jsonl"
+    assert mark_interrupted(root=tmp_path, run_id=run_id, peer="recorder")["code"] == "START_REFUSED"
+    assert (
+        mark_interrupted(root=tmp_path, run_id=run_id, peer=SimpleNamespace(role="recorder"))["execution"]
+        == "interrupted"
     )
-    assert started["captured"] is True
-    assert started["record"]["execution"] == "running"
-    run_id = started["run_id"]
-    assert (tmp_path / ".truthlens" / "runs" / run_id / "ledger.jsonl").is_file()
-    assert mark_interrupted(role="recorder", root=tmp_path, run_id=run_id)["execution"] == "interrupted"
-    assert finish(role="recorder", root=tmp_path, run_id=run_id, exit_code=0)["code"] == "RESUME_REFUSED"
-    assert resume(role="operator", root=tmp_path, run_id=run_id)["code"] == "RESUME_REFUSED"
+    assert (
+        finish(root=tmp_path, run_id=run_id, exit_code=0, peer=SimpleNamespace(role="recorder"))["code"]
+        == "RESUME_REFUSED"
+    )
+    assert (
+        resume(root=tmp_path, run_id=run_id, peer=SimpleNamespace(role="operator"))["code"]
+        == "RESUME_REFUSED"
+    )
     witness = ingest_extension(
-        role="extension",
         root=tmp_path,
         run_id=run_id,
         project_id="mcpdeck",
         message_id="m1",
         text="ok",
         event_type="test.reported",
+        peer=SimpleNamespace(role="extension"),
     )
     assert witness["code"] == "WITNESS_REFUSED"
     mismatch = ingest_extension(
-        role="extension",
         root=tmp_path,
         run_id=run_id,
         project_id="other",
         message_id="m2",
         text="fremd",
         event_type="agent.reported",
+        peer=SimpleNamespace(role="extension"),
     )
     assert mismatch["code"] == "PROJECT_MISMATCH"
     first = ingest_extension(
-        role="extension",
         root=tmp_path,
         run_id=run_id,
         project_id="mcpdeck",
         message_id="m2",
         text="fertig",
         event_type="agent.reported",
+        peer=SimpleNamespace(role="extension"),
     )
     second = ingest_extension(
-        role="extension",
         root=tmp_path,
         run_id=run_id,
         project_id="mcpdeck",
         message_id="m2",
         text="fertig",
         event_type="agent.reported",
+        peer="extension",
     )
     assert first["count"] == 1
-    assert second["code"] == "DUPLICATE"
-    assert second["count"] == 1
-    assert "approval.granted" not in (tmp_path / ".truthlens" / "runs" / run_id / "ledger.jsonl").read_text()
-
-
-def test_unqualified_harness_is_not_captured(tmp_path: Path):
-    assert (
-        main(
-            [
-                "workspace",
-                "init",
-                "--project",
-                "mcpdeck",
-                "--root",
-                str(tmp_path),
-                "--harness",
-                "codex",
-                "--target",
-                "local",
-                "--yes",
-            ]
-        )
-        == 0
+    assert second["code"] == "START_REFUSED"
+    repeated = ingest_extension(
+        root=tmp_path,
+        run_id=run_id,
+        project_id="mcpdeck",
+        message_id="m2",
+        text="fertig",
+        event_type="agent.reported",
+        peer=SimpleNamespace(role="extension"),
     )
-    result = start_run(role="operator", root=tmp_path, task="README", harness="codex", project_id="mcpdeck")
-    assert result["captured"] is False
-    assert result["code"] == "NOT_QUALIFIED"
+    assert repeated["code"] == "DUPLICATE"
+    assert repeated["count"] == 1
+    assert "approval.granted" not in ledger.read_text(encoding="utf-8")
 
 
 def test_runs_round_trip_import_and_recheck(tmp_path: Path, capsys: pytest.CaptureFixture[str]):

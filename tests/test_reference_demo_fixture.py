@@ -18,6 +18,8 @@ NOW = datetime(2026, 10, 26, 15, 53, tzinfo=UTC)
 def test_reference_demo_matches_projection_rules():
     payload = json.loads(FIXTURE.read_text(encoding="utf-8"))
     assert payload["demo"] is True
+    assert payload["source_label"] == "Beispieldaten (Demo)"
+    assert "/srv/" not in payload["source_label"]
     assert payload["previous_window_runs"] == 108
     runs = payload["runs"]
     assert len(runs) == 128

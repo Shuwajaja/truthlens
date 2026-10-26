@@ -20,7 +20,9 @@ New human commands:
 - `truthlens workspace init|unlink|doctor|test|repair`
 - `truthlens runs list|show|recheck|import`
 
-`TRUTHLENS_REFERENCE=0` makes those commands exit 2. It does not delete ledgers.
+Those commands stay off unless `TRUTHLENS_REFERENCE` is exactly `1`. When the
+variable is unset, the default is off. Empty, `0` and every other value also
+exit 2. Turning the commands off does not delete ledgers.
 `truthlens --help` does not list them, because they are dispatched before the
 legacy parser. Each subcommand prints its own usage.
 
@@ -73,15 +75,24 @@ run can be listed. It is not part of the success rate.
 
 ## Capture boundary
 
-Only harness `agent-zero` with `qualified_harness_version` exactly
-`test-fixture` may open a durable ledger before a local test execution. Any
-other version, including an empty version, returns not qualified and writes
-no run. This is a fixture gate. It is not a qualified live Agent Zero,
-Codex, Claude Code or agy launcher. Ordinary chats stay uncaptured.
+Production `start_run` does not read `workspace.toml` and does not open a
+ledger. A value such as `qualified_harness_version = "test-fixture"` in that
+file does not qualify a harness. The capture role is not a caller argument.
+`_peer_role` returns None in production, so a G1 status peer and a
+caller-supplied role string are both refused (`START_REFUSED`) and no run
+directory is created. A test may replace `_peer_role`. That replacement is
+not a live launcher: `start_run` still returns `NOT_QUALIFIED` and writes
+nothing. G1 status peers may query status. They are not capture operators,
+and `SO_PEERCRED` is not capture authorization. There is no qualified Agent
+Zero, Codex, Claude Code or agy launcher. Ordinary chats stay uncaptured.
 
 Import copies `ledger.jsonl` only, quarantines it, and projects it as
 imported hash-only evidence. A view that asserts confirmed without events is
 rejected. A view whose claim verdicts disagree with the events is rejected.
+An imported view does not keep a self-declared `audit_state`, audit revision
+or `task`. With events, the task comes from the ledger `run.started` command
+and the audit state is `unavailable`. Without events, the task is `imported`
+and the audit state is `unavailable`. A self-declared `hmac` stays hash-only.
 
 ## Schemas
 

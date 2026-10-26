@@ -1,17 +1,62 @@
+## Review corrections — local checks, 26 October 2026
+
+`TRUTHLENS_REFERENCE` is off unless the value is exactly `1`. Unset, empty,
+`0` and every other value leave `truthlens workspace` and `truthlens runs`
+off with exit 2. Ledgers are not deleted. `truthlens init` still runs when
+the flag is off.
+
+`start_run` does not read `workspace.toml`. `qualified_harness_version =
+"test-fixture"` does not open a ledger. A caller-supplied role string is not
+a capture role. Production `_peer_role` returns None, so the call is
+`START_REFUSED` and no run directory is created. A test may replace
+`_peer_role`. `start_run` still returns `NOT_QUALIFIED` and writes nothing.
+That replacement is not a live Agent Zero launcher. G1 status peers are not
+capture operators.
+
+An imported view does not keep a self-declared `audit_state` or `task`. With
+events, the task comes from the ledger command and the audit state is
+`unavailable`. The demo catalog `source_label` is `Beispieldaten (Demo)`.
+
+`viewer/src/reference/copy.ts` and `viewer/src/reference/theme.css` are
+scanned again. German outside a `copy` dictionary line fails the language
+check. The reference theme may use hex of length 3, 4, 6 or 8 and font sizes
+12, 13, 14, 16, 20, 22 and 28. Named colours, gradients, emoji and other
+sizes still fail. `src/theme.css` and `overview-copy.ts` stay fully skipped,
+as before.
+
+Viewer count. The section below records **53 files, 523 tests** for the
+tree before these corrections. GitHub Actions run `40369449029`, job
+`viewer`, command `npx vitest run` on `98212b3`, printed **53 passed (53)**
+and **523 passed (523)**. The same job's `npm run build` log includes
+`main-….js` at **244.78 kB**. This tree's `cd viewer && npm test` (language,
+style, theme and toolbar gates, then vitest 5.0.5) printed **Test Files 53
+passed (53)** and **Tests 525 passed (525)**. The two added tests check
+reference copy outside its dictionary and the reference theme. A vitest
+total of 244 was not printed here.
+
+The full pytest suite was not re-run after these corrections. The 895-passed
+figure below is from before them. After the corrections,
+`PATH="/tmp/tl-venv/bin:$PATH" TZ=UTC /tmp/tl-venv/bin/python -m pytest -q
+tests/test_reference_commands.py tests/test_reference_demo_fixture.py
+tests/test_architecture_docs.py` observed **26 passed, 50 subtests passed**.
+A second run of the two reference files, after `ruff format`, observed **17
+passed**. `ruff check` and `ruff format --check` passed on the touched
+Python files. `cli.py` was not reformatted.
+
 ## Reference workspace and run surface — local checks, 26 October 2026
 
 Branch `cursor/truthlens-reference-ui-af22`, base `5198b00`. Human commands
 `truthlens workspace` and `truthlens runs` project an existing ledger. They do
 not replace `truthlens init LEDGER`, the legacy `truthlens doctor` (still exit
-2), or `truthlens mcp --root`. `TRUTHLENS_REFERENCE=0` disables the new
-commands with exit 2. The viewer routes `/runs`, `/runs/:id`, `/reports`,
-`/agents`, `/sources`, `/settings` and `/doctor` are an additional surface.
-`/` stays the evidence workspace.
+2), or `truthlens mcp --root`. Those two commands run only when
+`TRUTHLENS_REFERENCE` is exactly `1`. The viewer routes `/runs`, `/runs/:id`,
+`/reports`, `/agents`, `/sources`, `/settings` and `/doctor` are an additional
+surface. `/` stays the evidence workspace.
 
 What is implemented: run-view projection and rejection rules; workspace init,
 unlink, doctor, synthetic test and repair; run list, show, quarantined import
-and recheck; a fixture-gated capture start that does not qualify a live
-harness; the reference UI, including a labelled demo catalog at `?demo=1`.
+and recheck; a capture module that does not open a ledger; the reference UI,
+including a labelled demo catalog at `?demo=1`.
 What is not: a qualified Agent Zero, Codex, Claude Code or agy launcher; D34
 broker status from the UI; separate-UID isolation; hub result schema; pixel
 match to the briefing PNGs.
@@ -36,10 +81,12 @@ passed. `src/truthlens/cli.py` was not reformatted; ruff check on that file
 passed and ruff format would still rewrite pre-existing lines, so that rewrite
 was left out.
 
-In `viewer/`: `npm test` observed language, style, theme and toolbar gates
-passing and **53 files, 523 tests passed**. `npm run build` (`tsc -b` and
+In `viewer/`: `npm test` on that earlier tree observed language, style, theme
+and toolbar gates passing. Vitest printed **53 files, 523 tests passed**,
+the same line as Actions run `40369449029`. `npm run build` (`tsc -b` and
 `vite build`) completed. `npx oxlint` on the reference app and `App.tsx`
-reported no findings.
+reported no findings. The recount after the review corrections is in the
+section above (**525** tests).
 
 Unrestricted axe, Playwright against `/opt/google/chrome/chrome`, Vite on
 `127.0.0.1:4179`, timezone Europe/Berlin. Viewports 1440×900 and 390×844 for

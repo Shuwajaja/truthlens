@@ -352,16 +352,31 @@ def load_declared_view(
             isinstance(item, dict) and item.get("verdict") == "confirmed" for item in view.get("claims") or []
         ):
             raise RunViewRejected("UNWITNESSED_CONFIRMATION", "Bestätigung ohne prüfbaren Beleg abgelehnt")
+        if imported:
+            view = dict(view)
+            view["audit_state"] = "unavailable"
+            view["audit_revision"] = None
+            view["task"] = "imported"
+            view["review_summary"] = review_summary(
+                view.get("claims") or [], view.get("execution"), "unavailable", view.get("integrity")
+            )
         return assert_consistent(view)
+    started = events[0].get("payload") if events and isinstance(events[0], dict) else None
+    recorded_task = started.get("command") if isinstance(started, dict) else None
     recomputed = project_run(
         events,
         project_id=project_id,
-        audit_state=view.get("audit_state") if view.get("audit_state") in AUDITS else "unavailable",
+        audit_state="unavailable"
+        if imported
+        else (view.get("audit_state") if view.get("audit_state") in AUDITS else "unavailable"),
         integrity="hash-only"
         if view.get("integrity") == "hmac"
         else (view.get("integrity") if view.get("integrity") in {"hash-only", "unknown"} else "unknown"),
-        task=view.get("task") if isinstance(view.get("task"), str) else None,
+        task=recorded_task if imported else (view.get("task") if isinstance(view.get("task"), str) else None),
         agent_id=view.get("agent_id") if isinstance(view.get("agent_id"), str) else None,
+        audit_revision=None
+        if imported
+        else (view.get("audit_revision") if isinstance(view.get("audit_revision"), str) else None),
         imported=imported,
     )
     declared = {

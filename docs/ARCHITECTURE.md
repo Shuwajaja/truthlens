@@ -111,7 +111,8 @@ human-facing [agent setup guide](AGENT-SETUP.md).
 Human commands `truthlens workspace` and `truthlens runs` project an existing
 ledger into a run view. They do not replace `truthlens init LEDGER`, the
 read-only `truthlens doctor`, or the legacy human tool `truthlens mcp --root`.
-`TRUTHLENS_REFERENCE=0` disables the new commands with exit 2 and leaves
+`TRUTHLENS_REFERENCE` defaults to off. Only the exact value `1` enables the
+new commands. Unset, empty, `0` and every other value exit 2 and leave
 ledgers in place. The projection is not a second ledger, audit, or D34 status.
 
 | Source | Responsibility |
@@ -119,7 +120,7 @@ ledgers in place. The projection is not a second ledger, audit, or D34 status.
 | [run_view.py](../src/truthlens/run_view.py) | Fail-closed review summary, claim and timeline projection. |
 | [workspace_store.py](../src/truthlens/workspace_store.py), [workspace_cmd.py](../src/truthlens/workspace_cmd.py) | Project file, init, unlink, read-only doctor, local synthetic test, repair. |
 | [runs_cmd.py](../src/truthlens/runs_cmd.py), [run_catalog.py](../src/truthlens/run_catalog.py) | List, show, recheck and quarantined import. |
-| [capture_lifecycle.py](../src/truthlens/capture_lifecycle.py) | Fixture-gated start. Unqualified harnesses do not open a ledger. |
+| [capture_lifecycle.py](../src/truthlens/capture_lifecycle.py) | Does not open a ledger and does not read qualification from workspace.toml. |
 | [human_io.py](../src/truthlens/human_io.py) | `--json`, `--quiet` and `--no-color` for the new commands. |
 | [schemas/](../schemas/) | Draft run-view, workspace-config and diagnostic-report schemas. |
 | [view-projections-v1.md](spec/view-projections-v1.md) | Projection rules. Event-schema decisions stay in the frozen spec. |

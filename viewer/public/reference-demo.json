@@ -2,7 +2,7 @@
   "demo": true,
   "now": "2026-10-26T15:53:00.000Z",
   "previous_window_runs": 108,
-  "source_label": "/srv/truthlens-published",
+  "source_label": "Beispieldaten (Demo)",
   "projects": [
     {
       "id": "mcpdeck",

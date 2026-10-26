@@ -27,6 +27,16 @@ def quiet_enabled(argv: list[str]) -> bool:
     return "--quiet" in argv
 
 
+def reference_enabled() -> bool:
+    """Workspace and runs commands stay off unless explicitly enabled.
+
+    The default is ``0`` when ``TRUTHLENS_REFERENCE`` is unset. Only the exact
+    value ``1`` turns them on. Every other value, including an empty string,
+    leaves them off and the command exits 2. Ledgers are not deleted.
+    """
+    return os.environ.get("TRUTHLENS_REFERENCE", "0") == "1"
+
+
 def paint(text: str, code: str, enabled: bool) -> str:
     return f"\033[{code}m{text}\033[0m" if enabled else text
 

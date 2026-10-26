@@ -12,7 +12,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import ClassVar
 
-from truthlens.human_io import color_enabled, emit_json, error_payload, fail, paint
+from truthlens.human_io import color_enabled, emit_json, error_payload, fail, paint, reference_enabled
 from truthlens.ids import new_id
 from truthlens.ledger import Ledger
 from truthlens.workspace_store import (
@@ -422,7 +422,7 @@ def _repair(args: argparse.Namespace) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
-    if os.environ.get("TRUTHLENS_REFERENCE", "1") == "0":
+    if not reference_enabled():
         return fail(
             "REFERENCE_DISABLED", "Referenzbefehle sind abgeschaltet", as_json="--json" in argv, status=2
         )

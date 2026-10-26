@@ -11,9 +11,8 @@ import json
 import os
 from pathlib import Path
 
-from truthlens.ids import new_id
 from truthlens.ledger import Ledger
-from truthlens.workspace_store import WorkspaceError, load
+from truthlens.workspace_store import WorkspaceError
 
 WRAPPER = {"kind": "wrapper", "id": "truthlens-recorder"}
 AGENT = {"kind": "agent", "id": "extension"}
@@ -56,60 +55,36 @@ def _write_record(root: Path, record: dict) -> None:
     os.replace(temporary, path)
 
 
-def _qualified(root: Path, harness: str) -> str | None:
-    document, _foreign = load(root / ".truthlens" / "workspace.toml")
-    for item in document["adapters"]:
-        if item["id"] == harness:
-            version = item.get("qualified_harness_version")
-            return version if isinstance(version, str) and version else None
+def _peer_role(peer: object | None) -> str | None:
+    """Capture role is not a caller string and not a workspace.toml field.
+
+    A G1 status peer may query status. It is not a capture operator, and this
+    function does not read ``SO_PEERCRED`` or ``qualified_harness_version``.
+    Production returns None. Tests may replace this function; that replacement
+    does not qualify a live harness and cannot be switched on from a config file.
+    """
+    del peer
     return None
 
 
-def start_run(*, role: str, root: Path, task: str, harness: str, project_id: str) -> dict:
-    if role != "operator":
+def start_run(*, root: Path, task: str, harness: str, project_id: str, peer: object | None = None) -> dict:
+    """Refuse to open a ledger. There is no production launcher.
+
+    ``peer`` is not a role name. ``workspace.toml`` is not consulted. A verified
+    operator still gets ``NOT_QUALIFIED`` until a separate launcher exists.
+    """
+    del root, task, harness, project_id
+    if _peer_role(peer) != "operator":
         return {"captured": False, "code": "START_REFUSED", "message": "Start durch diese Rolle verweigert"}
-    if harness != "agent-zero":
-        return {
-            "captured": False,
-            "code": "NOT_QUALIFIED",
-            "message": "Manueller Import oder nicht verbunden",
-        }
-    try:
-        version = _qualified(root, harness)
-    except WorkspaceError as exc:
-        return {"captured": False, "code": exc.code, "message": exc.message}
-    if version != "test-fixture":
-        return {
-            "captured": False,
-            "code": "NOT_QUALIFIED",
-            "message": "Kein qualifizierter Agent-Zero-Launcher für die installierte Version",
-        }
-    if not task.strip():
-        return {"captured": False, "code": "USAGE", "message": "Aufgabe fehlt"}
-    run_id = new_id("run")
-    destination = root / ".truthlens" / "runs" / run_id
-    destination.mkdir(parents=True, exist_ok=True)
-    Ledger(destination / "ledger.jsonl").append(
-        run_id,
-        WRAPPER,
-        "run.started",
-        {"repo": str(root), "ref": "", "command": task, "agent": harness},
-    )
-    record = {
-        "run_id": run_id,
-        "project_id": project_id,
-        "task": task,
-        "harness": harness,
-        "execution": "running",
-        "qualified_harness_version": version,
-        "fixture_qualification": version == "test-fixture",
-        "inbox": [],
+    return {
+        "captured": False,
+        "code": "NOT_QUALIFIED",
+        "message": "Kein qualifizierter Agent-Zero-Launcher für die installierte Version",
     }
-    _write_record(root, record)
-    return {"captured": True, "code": "STARTED", "run_id": run_id, "execution": "running", "record": record}
 
 
-def mark_interrupted(*, role: str, root: Path, run_id: str) -> dict:
+def mark_interrupted(*, root: Path, run_id: str, peer: object | None = None) -> dict:
+    role = _peer_role(peer)
     if role not in {"operator", "recorder"}:
         return {
             "captured": True,
@@ -124,15 +99,15 @@ def mark_interrupted(*, role: str, root: Path, run_id: str) -> dict:
     return {"code": "INTERRUPTED", "execution": "interrupted", "run_id": run_id}
 
 
-def resume(*, role: str, root: Path, run_id: str) -> dict:
+def resume(*, root: Path, run_id: str, peer: object | None = None) -> dict:
     record = _read_record(root, run_id)
-    if role != "operator" or record["execution"] == "interrupted":
+    if _peer_role(peer) != "operator" or record["execution"] == "interrupted":
         return {"code": "RESUME_REFUSED", "execution": record["execution"], "run_id": run_id}
     return {"code": "UNCHANGED", "execution": record["execution"], "run_id": run_id}
 
 
-def finish(*, role: str, root: Path, run_id: str, exit_code: int) -> dict:
-    if role != "recorder":
+def finish(*, root: Path, run_id: str, exit_code: int, peer: object | None = None) -> dict:
+    if _peer_role(peer) != "recorder":
         return {"code": "START_REFUSED", "message": "Nur der Recorder schließt die Aufnahme"}
     record = _read_record(root, run_id)
     if record["execution"] == "interrupted":
@@ -159,15 +134,15 @@ def finish(*, role: str, root: Path, run_id: str, exit_code: int) -> dict:
 
 def ingest_extension(
     *,
-    role: str,
     root: Path,
     run_id: str,
     project_id: str,
     message_id: str,
     text: str,
     event_type: str,
+    peer: object | None = None,
 ) -> dict:
-    if role != "extension":
+    if _peer_role(peer) != "extension":
         return {"accepted": False, "code": "START_REFUSED", "message": "Start durch diese Rolle verweigert"}
     if event_type in WITNESS_TYPES:
         return {
