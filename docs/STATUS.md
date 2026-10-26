@@ -1,3 +1,29 @@
+## Guided empty start — local checks, 26 October 2026
+
+`cursor/reference-start-onboarding-af22` adds a welcome card and three
+steps to empty `/runs`, and the same three ideas to the evidence overview
+that still says “Noch keine geladenen Läufe.” No sample runs are injected
+into that overview. TRUE and FALSE on the start are an explanation; that
+step has no green confirmed pill. The browser does not read a ledger and
+does not run an audit. Not merged.
+
+On `120b39d`, before the mobile filter wrap:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **537 passed (537)**.
+- `npm run lint`, `check:styles`, `check:language`, and `check:theme` passed. Lint printed the existing `react(set-state-in-effect)` warning at `ReferenceApp.tsx:32` and exited 0.
+
+`e7f7b90` only wraps the runs filter row so the demo table stays inside a
+390px viewport. Vitest was not re-run after that CSS change. No Python
+changed, so pytest was not run.
+
+After `e7f7b90`:
+
+- `npm run check:styles` passed.
+- `npm run build` printed `main-BxO56OpM.js` at **257.83 kB**. `tsc -b` passed.
+- Chrome `/opt/google/chrome/chrome` on `vite preview` of that commit: 10 unrestricted axe scans, 0 violations, no page errors, no horizontal overflow at 1440×900 or 390×844. Incomplete `color-contrast` on `.tl-mark` in the four 1440 reference scans only. The script checked the start, the demo transition (no confirmed pill), empty Prüfdetails, a hash-only file showing UNKNOWN, and the workspace empty state with no figure.
+
+Screenshots: `docs/screenshots/cursor/reference-start-onboarding-af22/`.
+
 ## Rebased onto squash-merged main — local checks, 26 October 2026
 
 `origin/main` is `f305f68`, the squash merge of PR #206. This branch merges
