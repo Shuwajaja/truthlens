@@ -255,10 +255,13 @@ def _verified_dir(d: str, key: bytes | None):
         return None, ["manifest.json must contain a UTF-8 JSON object"]
     if not isinstance(mf, dict):
         return None, ["manifest.json must contain a UTF-8 JSON object"]
-    r = verify(root / "ledger.jsonl", key, mf.get("ledger_last_hash"))
-    if not r.ok:
-        return None, [f"line {n}: {m}" for n, m in r.errors]
-    events = Ledger(root / "ledger.jsonl").read()
+    try:
+        r = verify(root / "ledger.jsonl", key, mf.get("ledger_last_hash"))
+        if not r.ok:
+            return None, [f"line {n}: {m}" for n, m in r.errors]
+        events = Ledger(root / "ledger.jsonl").read()
+    except OSError:
+        return None, ["cannot read ledger.jsonl; pass a run directory containing a readable ledger.jsonl file"]
     store = BlobStore(root / "blobs")
     def blob_ok(s: str) -> bool:  # re-hash: swapped artifact bytes must not verify
         import hashlib
