@@ -82,8 +82,11 @@ def project_status(
             )
         ):
             return _unknown("invalid_report")
-    # Preserve every contradictory check, including repeated or optional rules.
+    # A contradiction is failed only for an already authenticated report.
+    # Callers supply that fact; an unsigned contradiction stays not_checkable.
     if any(check["outcome"] == "contradictory" for check in checks):
+        if report.get("authentication") != "supported" or report.get("integrity") != "hmac":
+            return _unknown("authentication_unchecked")
         return {"status": "failed", "reason_code": "checks_failed"}
     if (
         report.get("conclusion") != "supported_within_scope"

@@ -96,10 +96,14 @@
 .latest-run-agent > span:first-child { min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .latest-run-agent > span:last-child { flex:none; }
 .run-status { font-size:12px; line-height:1.4; border:1px solid var(--neutral); color:var(--neutral); border-radius:12px; padding:3px 8px; text-align:center; }
+.run-status[data-status=True],
 .run-status[data-status=Met] { color:var(--ok); border-color:var(--ok); }
+.run-status[data-status=False],
 .run-status[data-status=Unmet] { color:var(--fail); border-color:var(--fail); }
 .run-dot { display:block; width:10px; height:10px; border-radius:50%; background:var(--neutral); }
+.run-dot[data-status=True],
 .run-dot[data-status=Met] { background:var(--ok); }
+.run-dot[data-status=False],
 .run-dot[data-status=Unmet] { background:var(--fail); }
 .run-arrow { color:var(--text-3); }
 .latest-details { font-size:12px; color:var(--text-3); margin-top:8px; }

@@ -84,6 +84,12 @@ D34-compatible**, must not be connected to agents, and is never a fallback for
 `mcp-status`. See [SELFHOST-MCP](SELFHOST-MCP.md) for G1's threat model and
 [AGENT-SETUP](AGENT-SETUP.md) for G2 interfaces and synthetic-demo limits.
 
+Human text may also show `TRUE`, `FALSE`, or `UNKNOWN`.
+[display_labels.py](../src/truthlens/display_labels.py) maps those words for
+the report and for `truthlens audit status` text. JSON, the ledger, and the
+agent tool stay on the stored and D34 vocabularies. Hash-only report text uses
+`UNKNOWN`. A green unit test or `demo-status` is not a production `passed`.
+
 ## Inspect the CLI offline
 
 From the repository root, with Python 3.12+ and TruthLens installed as described
