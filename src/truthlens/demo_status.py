@@ -18,8 +18,11 @@ from truthlens import status_wire as wire
 
 def run_demo() -> str:
     """Roundtrip three fixed simulated cases; real client must fail closed."""
-    with tempfile.TemporaryDirectory(prefix="tl-demo-") as directory:
-        path = Path(directory) / "status.sock"
+    with tempfile.TemporaryDirectory(prefix="tl-demo-", dir=".") as directory:
+        # AF_UNIX limits the address bytes, even when the cwd/temp root is long.
+        # Keep the fake socket in a private 0700 directory, addressed relatively;
+        # the unchanged real client rejects relative paths and must fail closed.
+        path = Path(os.path.relpath(directory)) / "status.sock"
         with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as server:
             server.bind(str(path))
             os.chmod(path, 0o600)  # private fake socket, not a production broker

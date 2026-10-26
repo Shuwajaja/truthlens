@@ -38,10 +38,15 @@ Simulated: not_checkable
 Real client: not_checkable
 ```
 
-The demo creates a private temporary Unix socket, uses a private synthetic client
-for three fixed fake replies, and removes the temporary directory afterward.
+The demo creates a temporary directory (`0700`) in the current working directory
+and a private Unix socket (`0600`) inside it, uses a private synthetic client for
+three fixed fake replies, and removes the temporary directory afterward. A short
+relative socket address avoids Unix pathname limits even in a deeply nested
+checkout or with a long `TMPDIR`. The working directory must be writable;
+creation or socket failures produce only `Demo unavailable.` and exit 2.
 It then queries the unchanged real status client, which must return
-`not_checkable`. No registry, audit, key, service, root privilege, TCP listener
+`not_checkable` (relative socket paths are refused). The production socket path
+and its checks are unchanged. No registry, audit, key, service, root privilege, TCP listener
 or model client is needed. Fake green is never production proof. There is no
 adapter option or environment switch enabling the demo client. This is Linux
 code qualification, not macOS/Windows isolation support. Demo exit codes are 0
