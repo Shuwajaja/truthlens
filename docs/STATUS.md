@@ -1,3 +1,40 @@
+## Architecture link regression guard — local checks, 26 October 2026
+
+Branch `improve/loop-20`, base `77967dad`. The architecture documentation test
+now checks the guide's 37 inline local links offline: published files or
+directories containing tracked files, target heading fragments, and checkout
+containment. Disposable Git indexes exercise six broken-target cases and valid
+relative, percent-encoded, directory and same-page links. External URLs are
+skipped without fetching. The existing three help examples remain covered.
+
+Acceptance criteria were stated before edits. Red tests-only checkpoint
+`d458b8b2`: `umask 0022; TZ=UTC .venv/bin/python -m pytest -q
+tests/test_architecture_docs.py --basetemp=.t/20r --tb=short` observed
+**6 failed, 3 passed, 3 subtests passed**: invalid links were accepted by the
+initial link-presence check. The same target with `.t/20g`, then `.t/20gd`
+after the guide update, observed **9 passed, 40 subtests passed** each.
+
+Full suites tested `6143803a`, tree
+`7ffba9f406df30b937246a1faf662409572a2610`. With `umask 0022`, repo venv
+on PATH, `PYTHONPATH="$PWD/src"` and `TMPDIR="$PWD/.t"`, sequential
+`TZ=UTC .venv/bin/python -m pytest -q -ra --tb=short --basetemp=.t/20u`
+and `TZ=Europe/Berlin .venv/bin/python -m pytest -q --tb=short
+--basetemp=.t/20b` each observed **860 passed, 2 skipped, 1 xfailed,
+110 subtests passed**. Host prerequisites for separate-UID checks are absent;
+same-UID key access remains an expected failure. The copied venv initially
+could not import TruthLens; the requested offline editable install repaired it.
+Ruff (`.venv/bin/python -m ruff check src tests`), changed-test format and diff
+checks passed. Subsequent tracked edits only record this evidence.
+
+Independent-style author self-review found no blocking finding; this is not
+independent security approval. Runtime/security code, frozen contracts, D34,
+G1 wire/adapter, viewer, dependencies and demo evidence are unchanged. The
+checker covers current inline links/simple heading slugs, not every Markdown
+construct or external availability. No coverage, native platform or live
+isolation claim. Viewer/browser/screenshots/axe checks were not run: no UI
+change; Chromium is unavailable on this host. `PR_BODY.md` remains untracked.
+Local commits only; no push, PR, merge, deployment or host changes.
+
 ## Contributor onboarding — local checks, 26 October 2026
 
 Branch `improve/loop-12`, base `b89533e5`. [CONTRIBUTING](../CONTRIBUTING.md)

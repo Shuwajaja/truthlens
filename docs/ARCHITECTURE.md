@@ -97,8 +97,11 @@ python3 -m truthlens mcp-status --help
 ```
 
 [The documentation check](../tests/test_architecture_docs.py) executes these
-examples from the checkout using the test interpreter. Help output proves CLI
-availability, not a working service or qualified MCP client.
+examples from the checkout using the test interpreter. It also checks this
+guide's inline local links against tracked files or directories containing
+tracked files, and checks heading fragments against the target document.
+External links are not fetched. Help output proves CLI availability, not a
+working service or qualified MCP client.
 The agent-facing `agent-status` deliberately has no help output: malformed
 arguments return `not_checkable` with exit code 2. Its usage belongs in the
 human-facing [agent setup guide](AGENT-SETUP.md).
