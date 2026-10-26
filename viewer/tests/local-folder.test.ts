@@ -80,6 +80,19 @@ function rechain(f:ReturnType<typeof fixture>){
  }
  f.manifest.ledger_last_hash=f.events.at(-1).hash;f.sync()
 }
+it.each([null,'I could not finish.','Only the documentation is done.','Done.'])('does not invent a completion quote for claim %s',async text=>{
+ const f=fixture()
+ if(text!==null)f.events.splice(-1,0,{...f.events[0],id:'evt_claim',type:'agent.claim',actor:{kind:'agent',id:'synthetic'},payload:{claim_id:'claim_1',kind:'completion',text,criterion_ids:[]}})
+ rechain(f)
+ const before=new Map([...f.files].map(([path,bytes])=>[path,Buffer.from(bytes)]))
+ const opened=await openLocalFolder(entries(f.files))
+ expect(opened.doc.claims).toEqual(text===null?[]:[{claim_id:'claim_1',text,criterion_ids:[],finding:'claim_unwitnessed'}])
+ expect(opened.doc).toMatchObject({verified:false,integrity:'hash-only',review_required:true})
+ expect(JSON.parse(new TextDecoder().decode(derivedDownload(opened).bytes)).headline).toEqual(opened.doc.headline)
+ for(const [path,bytes] of before)expect(Buffer.from(originalDownload(opened,path).bytes)).toEqual(bytes)
+ expect(f.files).toEqual(before)
+ expect(opened.doc.headline).toEqual(text===null?["Here's what this run actually proves."]:["Your agent made recorded claims.","Here's what's actually proven."])
+})
 it('rejects impossible UTC calendar dates even when hashes and manifest agree',async()=>{
  const f=fixture();f.events[0].ts='2026-02-31T00:00:00.000Z';rechain(f)
  await expect(openLocalFolder(entries(f.files))).rejects.toThrow(/timestamp/i)
