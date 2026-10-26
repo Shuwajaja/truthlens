@@ -22,8 +22,8 @@ Manual visual inspection of desktop Runs and mobile restored-tab captures confir
 Reproduction from `viewer/`:
 
 ```sh
-LD_LIBRARY_PATH=/home/codex/truthlens/.worktrees/redesign-phase-a/viewer/node_modules/.browser-deps/usr/lib/x86_64-linux-gnu \
-REVIEW_BROWSER_EXECUTABLE=/home/codex/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome \
+LD_LIBRARY_PATH=$PWD/node_modules/.browser-deps/usr/lib/x86_64-linux-gnu \
+REVIEW_BROWSER_EXECUTABLE=$HOME/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome \
 node scripts/review-navigation.mjs
 ```
 

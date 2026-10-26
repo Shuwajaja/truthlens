@@ -44,7 +44,7 @@ Axe `incomplete` results are unresolved manual-review items, not passes or confi
 | `aria-prohibited-attr` | 4 |
 | `color-contrast` | 28 |
 
-This does not establish full accessibility compliance. Screen readers, alternate exports, loading/error states and every drawer tab were not exhaustively tested. Frozen contracts, real data and trust guards were not changed. Existing CI screenshots still check contrast only at other viewport sizes; the full audit here is separately reproducible with `cd viewer && npm run build && node scripts/audit-a11y.mjs`. On this host prepend `LD_LIBRARY_PATH=/home/codex/truthlens/.venv/playwright-libs/usr/lib/x86_64-linux-gnu` to the node command to use the already-present browser libraries.
+This does not establish full accessibility compliance. Screen readers, alternate exports, loading/error states and every drawer tab were not exhaustively tested. Frozen contracts, real data and trust guards were not changed. Existing CI screenshots still check contrast only at other viewport sizes; the full audit here is separately reproducible with `cd viewer && npm run build && node scripts/audit-a11y.mjs`. On this host prepend `LD_LIBRARY_PATH=<workspace>/.venv/playwright-libs/usr/lib/x86_64-linux-gnu` to the node command to use the already-present browser libraries.
 
 [Detailed axe results and keyboard evidence](axe-results.json)
 
