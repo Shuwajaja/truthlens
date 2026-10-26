@@ -16,7 +16,9 @@ DOCUMENT = ROOT / "docs" / "ARCHITECTURE.md"
 
 class ArchitectureDocsTests(unittest.TestCase):
     def test_documented_cli_tour_is_read_only_and_runs_offline(self):
-        blocks = re.findall(r"^```bash\n(.*?)^```", DOCUMENT.read_text(encoding="utf-8"), re.M | re.S)
+        blocks = re.findall(
+            r"^```bash\n(.*?)^```", DOCUMENT.read_text(encoding="utf-8"), re.MULTILINE | re.DOTALL
+        )
         commands = [line.strip() for block in blocks for line in block.splitlines() if line.strip()]
         self.assertTrue(commands, "architecture needs an executable offline CLI tour")
         env = {**os.environ, "PYTHONPATH": str(ROOT / "src"), "PYTHONIOENCODING": "utf-8"}
@@ -43,6 +45,7 @@ class ArchitectureDocsTests(unittest.TestCase):
                     text=True,
                     encoding="utf-8",
                     timeout=10,
+                    check=False,
                 )
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertIn("usage:", result.stdout.lower())
