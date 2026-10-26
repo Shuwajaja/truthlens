@@ -18,10 +18,24 @@ with a local recorded test run, not a live service. The grey seal means
 From a fresh clone, with **Python 3.12+**, run these commands in the repository
 root. No package installation, API key, agent or network connection is needed:
 
+**macOS / Linux (Bash):**
+
 ```bash
 PYTHONPATH=src python3 -m truthlens report demo/runs/demo-2
 PYTHONPATH=src python3 -m truthlens verify demo/runs/demo-2/ledger.jsonl
 ```
+
+**Windows (PowerShell):** with Python 3.12+ available through the `py` launcher:
+
+```powershell
+$env:PYTHONPATH = "src"
+py -3 -m truthlens report demo/runs/demo-2
+py -3 -m truthlens verify demo/runs/demo-2/ledger.jsonl
+```
+
+This sets `PYTHONPATH` for the current PowerShell session. If your Python
+installation provides `python` instead of `py`, replace `py -3` with `python`
+in both commands, using Python 3.12+.
 
 This reads a committed **real OpenCode recording**. Expect `c1 met` (page exists),
 `c2 unmet` (email validation), and `c3 unverified` (mobile layout). The report

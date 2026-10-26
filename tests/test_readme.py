@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import os
 import re
+import shlex
 import subprocess
+import sys
 import unittest
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -13,6 +16,56 @@ README = ROOT / "README.md"
 
 
 class ReadmeTests(unittest.TestCase):
+    def test_powershell_offline_walkthrough_matches_posix_commands(self):
+        text = README.read_text(encoding="utf-8")
+        walkthrough = text.split("## Try it in 1 minute\n", 1)[1].split("\n## ", 1)[0]
+        posix = re.search(r"```bash\n(.*?)\n```", walkthrough, re.DOTALL)
+        powershell = re.search(r"```powershell\n(.*?)\n```", walkthrough, re.DOTALL)
+        self.assertIsNotNone(posix, "keep the POSIX offline walkthrough")
+        self.assertIsNotNone(powershell, "provide an offline walkthrough for Windows PowerShell")
+        ps_lines = powershell[1].splitlines()
+        self.assertEqual(ps_lines[0], '$env:PYTHONPATH = "src"')
+        posix_commands = [shlex.split(line) for line in posix[1].splitlines()]
+        ps_commands = [shlex.split(line) for line in ps_lines[1:]]
+        self.assertEqual(len(posix_commands), 2)
+        self.assertEqual(len(ps_commands), 2)
+        for bash, ps in zip(posix_commands, ps_commands, strict=True):
+            self.assertEqual(bash[:2], ["PYTHONPATH=src", "python3"])
+            self.assertEqual(ps[:2], ["py", "-3"])
+            # These simple argument lists are compared, not executed in PowerShell.
+            self.assertEqual(ps[2:], bash[2:])
+
+    def test_offline_walkthrough_commands_read_the_recorded_demo(self):
+        text = README.read_text(encoding="utf-8")
+        block = re.search(r"```bash\n(.*?)\n```", text, re.DOTALL)
+        self.assertIsNotNone(block)
+        commands = [shlex.split(line) for line in block[1].splitlines()]
+        self.assertEqual(
+            commands,
+            [
+                ["PYTHONPATH=src", "python3", "-m", "truthlens", "report", "demo/runs/demo-2"],
+                ["PYTHONPATH=src", "python3", "-m", "truthlens", "verify", "demo/runs/demo-2/ledger.jsonl"],
+            ],
+        )
+        outputs = []
+        for command in commands:
+            result = subprocess.run(
+                [sys.executable, *command[2:]],
+                cwd=ROOT,
+                env={**os.environ, "PYTHONPATH": "src"},
+                check=False,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                timeout=15,
+            )
+            self.assertEqual(result.returncode, 0, "documented offline command failed")
+            self.assertEqual(result.stderr, "", "documented offline command wrote diagnostics")
+            outputs.append(result.stdout)
+        for criterion, status in (("c1", "met"), ("c2", "unmet"), ("c3", "unverified")):
+            self.assertRegex(outputs[0], rf"(?m)^\s*{criterion}\s+{status}\b")
+        self.assertEqual(outputs[1].strip(), "OK 16 events, anchored")
+
     def test_local_links_and_images_resolve_to_tracked_files(self):
         text = README.read_text(encoding="utf-8")
         tracked = set(subprocess.check_output(["git", "ls-files", "-z"], cwd=ROOT).decode().split("\0"))
