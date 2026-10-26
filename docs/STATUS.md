@@ -1,3 +1,26 @@
+## Overview: many or one run — local checks, 26 October 2026
+
+Branch `design/overview-multirun`, base `8d12f931`; red checkpoint `d499493e`
+witnessed **7 failed / 16 passed** before implementation. Tested code `f12e7aab`,
+tree `41aaf559fd4dc22392985d862bfdce0a1744b691`; subsequent edits are docs only.
+Fourteen labelled synthetic development fixtures/three agents cover exact totals,
+ordering and charts. Single-run explanations replace isolated marks; the ring has
+a calm criterion-count summary, and agent names ellipsize with accessible full text.
+The manual [review script](UI-PIPELINE.md#overview-visual-parity-26-october-2026)
+captures both data volumes. Fixtures are absent from emitted production JS/HTML.
+
+From `viewer/`, `TZ=UTC DEBUG_PRINT_LIMIT=600 npm test` and
+`TZ=Europe/Berlin DEBUG_PRINT_LIMIT=600 npm test` each observed **495 passed /
+51 files**, including static checks and five toolbar builds. Existing jsdom
+scrollTo notices remain. Lint, production build, separate fixture-entry type check
+and in-memory bundle, script syntax and diff checks passed. Language-flow tests
+retain assertions with a 15-second timeout. Author self-review found no blocking
+security/D34/scope finding; it is not independent security approval. Frozen
+contracts, backend, G1/D34, agent STATUS ONLY access and dependencies are unchanged.
+Python not run (no changes). Chromium unavailable: screenshots, unrestricted axe,
+real geometry/focus and screen-reader review **not run**; visual parity remains open.
+`PR_BODY.md` is untracked. Local commits only; no push, PR, merge or deployment.
+
 ## Run detail polish — local checks, 26 October 2026
 
 Branch `design/run-detail-polish`, base `0b9a884`; red checkpoint `2aa97c6`

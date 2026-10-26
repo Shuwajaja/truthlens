@@ -1,13 +1,14 @@
-// Local manual review only. Uses the recorded dev fixture, never product sample data.
+// Local manual review only. Recorded single-run and labelled synthetic multi-run
+// development fixtures; neither becomes production sample data.
 import assert from 'node:assert/strict'
-import {mkdir,writeFile} from 'node:fs/promises'
+import {mkdir,writeFile,readdir,readFile} from 'node:fs/promises'
 import {execFileSync} from 'node:child_process'
 import {createServer,preview} from 'vite'
 import {chromium} from 'playwright'
 import AxeBuilder from '@axe-core/playwright'
-const output=process.env.OVERVIEW_OUTPUT??'.screenshots/run-detail-v3'
+const output=process.env.OVERVIEW_OUTPUT??'.screenshots/overview-multirun'
 await mkdir(output,{recursive:true})
-const report={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),dirty:execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim()!=='' ,fixture:'viewer/fixtures/demo-run.json; recorded development fixture only',scans:[],checks:[],pageErrors:[],blockedExternal:[]}
+const report={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),tree:execFileSync('git',['rev-parse','HEAD^{tree}'],{encoding:'utf8'}).trim(),dirty:execFileSync('git',['status','--porcelain'],{encoding:'utf8'}).trim()!=='' ,fixtures:['viewer/fixtures/demo-run.json: recorded development fixture','viewer/fixtures/overview-multirun.fixture.mjs: 14 synthetic development fixtures, 3 fixture agents; no witnessed execution or approval'],viewports:[{width:1440,height:900},{width:390,height:844}],scans:[],checks:[],pageErrors:[],blockedExternal:[]}
 let browser,server,production
 async function scan(page,name){
  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`${name}: page overflow`)
@@ -15,7 +16,60 @@ async function scan(page,name){
  report.scans.push({name,violations:result.violations,incomplete:result.incomplete,passes:result.passes.map(item=>item.id)})
  assert(!result.violations.some(item=>item.impact==='serious'||item.impact==='critical'),`${name}: serious/critical axe findings (see summary.json)`)
 }
+async function reviewMultiple(origin,viewport){
+ const context=await browser.newContext({viewport,locale:'de-DE',timezoneId:'Europe/Berlin',reducedMotion:'reduce'})
+ try{
+  await context.route('**/*',route=>{const url=new URL(route.request().url());if(url.origin===origin)return route.continue();report.blockedExternal.push(url.origin);return route.abort()})
+  const page=await context.newPage()
+  page.on('pageerror',error=>report.pageErrors.push(error.message))
+  await page.goto(`${origin}/fixtures/overview-multirun.fixture.html`)
+  await page.getByRole('heading',{name:'Übersicht',exact:true}).waitFor()
+  await page.evaluate(()=>document.fonts.ready)
+  await page.getByRole('banner').getByText('Development fixtures · synthetic, not recorded executions',{exact:true}).waitFor()
+  assert.equal(await page.locator('.latest-run').count(),14)
+  assert.equal(await page.locator('.criteria-trend circle').count(),14)
+  assert.equal(await page.locator('.criteria-columns > g').count(),14)
+  assert.equal(await page.locator('.agent-bars > li').count(),3)
+  await page.getByText('83 von 94 Kriterien erfüllt',{exact:true}).waitFor()
+  await page.screenshot({path:`${output}/overview-multirun-${viewport.width}.png`,animations:'disabled'})
+  await page.screenshot({path:`${output}/overview-multirun-full-${viewport.width}.png`,animations:'disabled',fullPage:true})
+  await scan(page,`Synthetic multi-run German overview ${viewport.width}`)
+  for(const name of ['Kriterien pro Lauf','Agenten im Vergleich']){
+   const chart=page.getByRole('figure',{name,exact:true})
+   await chart.scrollIntoViewIfNeeded()
+   await scan(page,`Synthetic multi-run ${name} ${viewport.width}`)
+  }
+  for(const label of await page.locator('.agent-bars > li > span:first-child').all()){
+   assert(await label.evaluate(el=>{const css=getComputedStyle(el);return el.title===el.textContent&&css.whiteSpace==='nowrap'&&css.textOverflow==='ellipsis'&&css.overflow==='hidden'}),'full agent identity retained in ellipsis label')
+  }
+  if(viewport.width===390){
+   const charts=page.getByRole('region',{name:'Laufdiagramme'})
+   await charts.evaluate(el=>{el.scrollLeft=0});await charts.focus();await page.keyboard.press('ArrowRight')
+   await page.getByRole('button',{name:'Nächstes Diagramm'}).click()
+   assert(await charts.evaluate(el=>el.scrollLeft>0),'multi-run chart strip responds to keyboard and button')
+  }
+  const longAgent='FixtureAgentWithAnIntentionallyLongUnbrokenNameForEllipsisReview'
+  assert.equal(await page.getByRole('button',{name:new RegExp(longAgent)}).count(),3,'agent names remain in mobile accessible row names')
+  const menu=page.locator('.overview-tools > summary')
+  await menu.focus();await page.keyboard.press('Enter')
+  await page.getByRole('combobox',{name:'Sprache'}).selectOption('en')
+  await page.keyboard.press('Escape')
+  await page.getByText('83 of 94 criteria met',{exact:true}).waitFor()
+  await scan(page,`Synthetic multi-run English overview ${viewport.width}`)
+  await page.locator('.latest-run').first().focus();await page.keyboard.press('Enter')
+  await page.getByRole('heading',{name:'Development fixture 14',exact:true}).waitFor()
+  await page.getByRole('region',{name:'Claim vs. evidence'}).waitFor()
+  report.checks.push(`${viewport.width}: 14 synthetic fixture runs / 3 agents, line, columns, counts, long accessible names, chart strip, fixed languages, native keyboard run selection; component review entry only, not App source loading`)
+ }finally{await context.close()}
+}
 try{
+ // Check actual emitted files, not merely a runtime condition in the product.
+ for(const entry of await readdir('dist',{recursive:true})){
+  if(!/\.(?:js|html)$/.test(entry))continue
+  const contents=await readFile(`dist/${entry}`,'utf8')
+  assert(!/fixture-overview-|FixtureAgentWithAnIntentionallyLongUnbrokenName|overview-multirun\.fixture/.test(contents),'synthetic review fixtures excluded from production output')
+ }
+ report.checks.push('Production JS/HTML contains no multi-run fixture input or review entry')
  // Launch before starting any listener, so an unavailable browser leaves no server.
  browser=await chromium.launch({executablePath:process.env.REVIEW_BROWSER_EXECUTABLE})
  server=await createServer({mode:'development',server:{host:'127.0.0.1',port:0,strictPort:true}})
@@ -30,6 +84,7 @@ try{
   await page.getByRole('heading',{name:'Übersicht',exact:true}).waitFor()
   await page.evaluate(()=>document.fonts.ready)
   assert.equal(await page.getByRole('figure').count(),4)
+  assert.equal(await page.locator('.criteria-trend,.criteria-columns').count(),0,'single run uses calm text states, no isolated dot or column')
   assert.equal(await page.locator('.overview-tools').getAttribute('open'),null)
   await page.screenshot({path:`${output}/overview-${viewport.width}.png`,animations:'disabled'})
   await page.screenshot({path:`${output}/full-${viewport.width}.png`,animations:'disabled',fullPage:true})
@@ -110,6 +165,7 @@ try{
   await scan(page,`Synthetic empty run detail ${viewport.width}`)
   report.checks.push(`${viewport.width}: synthetic empty RunDoc only; not a recorded witness`)
   await context.close()
+  await reviewMultiple(origin,viewport)
  }
  production=await preview({preview:{host:'127.0.0.1',port:0,strictPort:true}})
  const productionOrigin=`http://127.0.0.1:${production.httpServer.address().port}`

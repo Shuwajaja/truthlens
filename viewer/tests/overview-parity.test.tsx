@@ -25,18 +25,21 @@ it('draws an accessible SVG ring from the recorded criterion counts',()=>{
 })
 it('shows criteria as vertical stacked columns with an exact text equivalent per run',()=>{
  const doc=structuredClone(fixture) as RunDoc
- render(<RunsView sources={[source(doc)]} onOpenRun={()=>{}}/>)
+ const second=structuredClone(doc);second.run.run_id='second-synthetic-fixture'
+ render(<RunsView sources={[source(doc),source(second)]} onOpenRun={()=>{}}/>)
  const chart=screen.getByRole('figure',{name:'Criteria per run'})
  const image=within(chart).getByRole('img')
  expect(image.tagName.toLowerCase()).toBe('svg')
  expect(image.querySelectorAll('rect[data-criterion]').length).toBeGreaterThan(0)
  expect(within(chart).getByText(doc.run.run_id)).toBeTruthy()
- expect(within(chart).getByText(`${doc.criteria.filter(c=>c.status==='met').length} met`)).toBeTruthy()
+ const row=within(chart).getByText(doc.run.run_id).closest('li')!
+ expect(within(row).getByText(`${doc.criteria.filter(c=>c.status==='met').length} met`)).toBeTruthy()
 })
-it('uses a single real trend point without manufacturing a line for one dated run',()=>{
+it('explains why one dated run cannot establish a trend without drawing isolated marks',()=>{
  render(<RunsView sources={[source()]} onOpenRun={()=>{}}/>)
  const chart=screen.getByRole('figure',{name:'Criteria met over recent runs'})
- expect(within(chart).getByRole('img').querySelectorAll('circle')).toHaveLength(1)
+ expect(within(chart).queryByRole('img')).toBeNull()
+ expect(within(chart).getByText('A trend needs at least 2 loaded runs with dates and criteria.')).toBeTruthy()
  expect(chart.querySelector('polyline')).toBeNull()
 })
 it('keeps zero criteria neutral and never calls criterion completion a run pass',()=>{

@@ -62,12 +62,13 @@ unit tests check matching translation keys and English copy. Existing recorded
 content and English secondary tools are not translated.
 
 For the focused local capture run
-`cd viewer && npm run build && node scripts/review-overview.mjs`. It uses only the recorded development fixture and
-local production build, captures 1440×900/390×844, runs unrestricted axe on the
+`cd viewer && npm run build && node scripts/review-overview.mjs`. It uses the recorded single-run development fixture,
+fourteen explicitly synthetic development fixtures and the local production build.
+It captures each overview at 1440×900/390×844, runs unrestricted axe on the
 overview and run detail (German/English, menu, Why and empty states), checks
 keyboard chart/claim strips, menu, Details inspection and return navigation, and
 blocks external requests. Evidence defaults to the gitignored
-`viewer/.screenshots/run-detail-v3/`; `OVERVIEW_OUTPUT` selects another location.
+`viewer/.screenshots/overview-multirun/`; `OVERVIEW_OUTPUT` selects another location.
 A missing browser is reported as unavailable, never as a browser/axe pass.
 Review the screenshot against the approved mockup, all axe `incomplete` items,
 long labels, enlarged text and screen-reader behavior manually. This command is
@@ -83,3 +84,17 @@ Contexts use Europe/Berlin and reduced motion. The empty-detail screenshots
 are explicitly labelled synthetic inputs, not recorded witnesses. Compare the
 real fixture's layout with the approved lauf shots without expecting their
 invented numbers, overall verdict, verification seal or generated diagnoses.
+
+The multi-run entry is `viewer/fixtures/overview-multirun.fixture.html`, served
+only during local development/manual review and absent from production output.
+It renders the real shell/overview/run-summary components; it does not exercise
+App source ingestion, the private reader, a ledger or live agents. All fourteen
+documents and three agent names are synthetic, with an explicit fixture source
+label. The script captures `overview-multirun-1440.png`,
+`overview-multirun-full-1440.png`, `overview-multirun-390.png` and
+`overview-multirun-full-390.png`; it also checks chart marks/counts, long accessible
+names, German/English copy, mobile chart keys/buttons and keyboard run selection.
+The production empty-state check still asserts no data requests or charts; emitted
+JS/HTML is checked for absence of the synthetic fixture input. No fixture is
+imported by the product entry. Browser/axe results remain unavailable on hosts
+without an installed Chrome; no browser download is part of this task.

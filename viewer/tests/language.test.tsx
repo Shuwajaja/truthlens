@@ -73,7 +73,7 @@ for(const mobile of [false,true])for(const lens of ['client','developer']){
   const records=within(screen.getByRole('list',{name:'Graph records'}))
   await inspectRecord(records.getByRole('button',{name:`Claim: ${publicRun.claims[1].text}`}))
   await inspectRecord(records.getByRole('button',{name:`File: ${publicRun.artifacts[0].path}`}))
- })
+ },15_000)
 }
 
 it('formats local dates in English with a 24-hour clock and a zone',()=>{

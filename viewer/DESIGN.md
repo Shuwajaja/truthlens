@@ -1,5 +1,37 @@
 # TruthLens Viewer — Workspace design contract
 
+## Overview with many or one run, 26 October 2026
+
+Step 4 keeps the approved palette, local fonts, 12/14/16/20/28px type scale,
+1208px desktop column, 320px score card and mobile chart strip. With at least
+two dated runs containing criteria, draw the actual met/total ratios as an
+unsmoothed line in chronological run order. Stacked columns and agent bars count
+recorded criterion outcomes; latest-run pills describe criteria, never a run verdict.
+Below the ring, use a quiet sentence counting unmet, not checkable and proposed
+criteria. Keep full status counts in the accessible chart data and details.
+
+With fewer than two dated runs with criteria, explain the trend requirement
+instead of showing a large ratio and an isolated dot. With one loaded run, show
+its criterion counts and a comparison explanation instead of a narrow column.
+Use the same minimum chart-body height so these states retain balanced geometry.
+No criteria/dates remains explicit; no synthetic chart marks fill the space.
+Agent names in bars and run rows stay on one line with ellipsis, full text nodes
+and title; mobile row names remain available to assistive technology.
+Fixed overview labels are German by default and English when selected; recorded
+strings stay exact. Warnings remain grey; reduced motion and native keys remain.
+
+`fixtures/overview-multirun.fixture.mjs` supplies fourteen explicitly synthetic
+development documents, three fixture agents and mixed criterion outcomes for
+tests/manual review only. The separate review HTML entry renders the real shell,
+overview and run summary without adding an App import, data endpoint or product
+control. Its fixture label stays visible in the existing source-label position.
+It is not a production build entry; production empty state has no sample data.
+Synthetic reports are neither recorded witnesses nor human approvals. Browser
+review must capture single/multiple runs at 1440×900 and 390×844 with unrestricted
+axe; missing Chrome leaves visual/accessibility qualification open.
+Frozen contracts, G1 broker/wire/adapter boundary and D34 stay unchanged;
+agents get STATUS ONLY. No new I/O, dependencies, assets or external requests.
+
 ## Run detail polish, 26 October 2026
 
 Step 3b keeps the summary's existing geometry, data joins and honesty boundary.
@@ -94,8 +126,8 @@ secondary workspace tools stay English with explicit language boundaries.
 Use an SVG ring for **met / total recorded criteria**, with red unmet and grey
 unverified/proposed segments. Zero criteria has a neutral empty ring, no ratio.
 The trend shows actual dated criterion ratios, real point labels and no smoothing;
-one point is a point, not a trend. Criteria-per-run uses stacked vertical columns
-on a shared count scale. Evidence bars count recorded events; agent bars count
+a single eligible run uses the explanatory state above. Criteria-per-run uses
+stacked vertical columns on a shared count scale. Evidence bars count recorded events; agent bars count
 criterion outcomes. Latest-run pills explicitly say **criteria** met/unmet/not
 checkable/proposed, never an inferred overall verdict. Keep full counts and source
 metadata in a disclosure. Charts retain accessible text equivalents.
@@ -111,7 +143,8 @@ and the original timestamp in `datetime`. Keep existing tokens and type scale.
 The mockup's invented overall verdict, moving average and verified-ledger seal
 are replaced by supported criteria data and a neutral dashed
 “Hash only · signature not checked” notice. “Integrity is not approval” remains
-visible in both languages. No example numbers in product; fixtures only in tests.
+visible in both languages. No example numbers in product; fixtures only in tests
+and the separate development review entry.
 Check desktop 1440×900/mobile 390×844, unrestricted axe, keyboard, long strings,
 no criteria/runs/evidence/dates, reduced motion and existing run opening.
 Screenshot evidence for this local-only task stays gitignored.
