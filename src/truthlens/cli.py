@@ -238,7 +238,14 @@ def _verified_dir(d: str, key: bytes | None):
     from truthlens.store import BlobStore
 
     root = Path(d)
-    mf = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+    try:
+        mf = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+    except OSError:
+        return None, ["cannot read manifest.json; pass a run directory containing manifest.json and ledger.jsonl"]
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return None, ["manifest.json must contain a UTF-8 JSON object"]
+    if not isinstance(mf, dict):
+        return None, ["manifest.json must contain a UTF-8 JSON object"]
     r = verify(root / "ledger.jsonl", key, mf.get("ledger_last_hash"))
     if not r.ok:
         return None, [f"line {n}: {m}" for n, m in r.errors]

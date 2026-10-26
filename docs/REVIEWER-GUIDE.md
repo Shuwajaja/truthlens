@@ -89,6 +89,13 @@ or the installed `truthlens` entry point.
 | `truthlens mcp-status --socket PATH` | D34 status-only stdio MCP; requires the protected broker. |
 | `truthlens mcp --root DIR` | Legacy human evidence MCP: `list_runs`, `run_report`, `run_events`; **not D34-compatible**. |
 
+For `report`, `export` and `project`, pass a run directory containing
+`manifest.json` and `ledger.jsonl`, rather than either file itself. An unreadable
+manifest or one that is not a UTF-8 JSON object produces a `FAIL` diagnostic and
+exit code 1 without writing an export or projection. Check the directory and
+manifest readability; malformed JSON requires an intact copy of the recorded
+run, not edits to its evidence.
+
 `run` options include `--criteria`, `--confirm`, `--test 'c1=COMMAND'`,
 `--pass-env`, `--gate-env`, `--hmac-key-file` and `--hmac-key-id`. Human criteria
 confirmation and approval must follow the frozen actor/signature rules.
