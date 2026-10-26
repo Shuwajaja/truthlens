@@ -126,8 +126,8 @@ secondary workspace tools stay English with explicit language boundaries.
 Use an SVG ring for **met / total recorded criteria**, with red unmet and grey
 unverified/proposed segments. Zero criteria has a neutral empty ring, no ratio.
 The trend shows actual dated criterion ratios, real point labels and no smoothing;
-one point is a point, not a trend. Criteria-per-run uses stacked vertical columns
-on a shared count scale. Evidence bars count recorded events; agent bars count
+a single eligible run uses the explanatory state above. Criteria-per-run uses
+stacked vertical columns on a shared count scale. Evidence bars count recorded events; agent bars count
 criterion outcomes. Latest-run pills explicitly say **criteria** met/unmet/not
 checkable/proposed, never an inferred overall verdict. Keep full counts and source
 metadata in a disclosure. Charts retain accessible text equivalents.
@@ -143,7 +143,8 @@ and the original timestamp in `datetime`. Keep existing tokens and type scale.
 The mockup's invented overall verdict, moving average and verified-ledger seal
 are replaced by supported criteria data and a neutral dashed
 “Hash only · signature not checked” notice. “Integrity is not approval” remains
-visible in both languages. No example numbers in product; fixtures only in tests.
+visible in both languages. No example numbers in product; fixtures only in tests
+and the separate development review entry.
 Check desktop 1440×900/mobile 390×844, unrestricted axe, keyboard, long strings,
 no criteria/runs/evidence/dates, reduced motion and existing run opening.
 Screenshot evidence for this local-only task stays gitignored.
