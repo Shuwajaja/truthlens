@@ -10,9 +10,16 @@ audit, and not a D34 broker status.
 Existing commands keep their contracts.
 
 - `truthlens init LEDGER` creates a ledger. It is not a workspace wizard.
+  With `TRUTHLENS_REFERENCE=1` and no ledger path, `truthlens init` detects a
+  local adapter and writes the workspace plus `.truthlens/hooks/task-end`.
+  That hook appends an agent report. It does not open a ledger.
 - `truthlens doctor` stays the read-only status doctor and still exits 2.
 - `truthlens mcp --root` stays a human evidence tool. It is not installed for
-  agents, and this projection does not add `mcp install`.
+  agents, and this projection does not add `mcp install`. Its tools stay
+  `list_runs`, `run_report` and `run_events`.
+- `truthlens mcp-status` stays the separate status tool
+  `truthlens_check_status`. Its result stays `passed`, `failed` or
+  `not_checkable`. It does not return claims, events or evidence.
 - `truthlens agent-status` stays exit 0, 1 or 2 and still returns only a status.
 
 New human commands:
@@ -23,8 +30,13 @@ New human commands:
 Those commands stay off unless `TRUTHLENS_REFERENCE` is exactly `1`. When the
 variable is unset, the default is off. Empty, `0` and every other value also
 exit 2. Turning the commands off does not delete ledgers.
-`truthlens --help` does not list them, because they are dispatched before the
-legacy parser. Each subcommand prints its own usage.
+`truthlens` with no arguments prints a start banner and exits 0. Colour is
+used only on a TTY, and never when `NO_COLOR` or `--no-color` is set.
+`truthlens workspace doctor` prints the same banner, then its checks and a
+summary `N ok · N Warnung · N Fehler`. `truthlens doctor` stays the read-only
+status doctor. `truthlens runs list` adds a `ZEIT` column to the human table.
+`truthlens --help` does not list the new commands, because they are
+dispatched before the legacy parser. Each subcommand prints its own usage.
 
 `--json` prints one object on stdout. Progress stays on stderr. `--quiet`,
 `--no-color` / `NO_COLOR`, `--config` and `--root` apply to the new commands.
@@ -53,10 +65,19 @@ confirmation has no witness.
 1. Any refuted claim makes the run refuted.
 2. Otherwise the run is unclear when any claim is unclear, there are no
    claims, execution is not `completed`, the audit is not `complete`, or
-   integrity is `unknown`.
+   integrity is `unknown`. A benchmark claim without a witnessed matching
+   test stays unclear (`reason_code=benchmark_missing`).
 3. Otherwise the run is confirmed. That requires integrity `hash-only` or
    `hmac` on a projection that still has its witness. A self-declared `hmac`
    on import is downgraded.
+
+Human CLI text and the reference viewer map those stored values for display:
+`confirmed` is TRUE, `refuted` is FALSE, `unclear` is UNKNOWN. A doubtful
+test (`benchmark_missing`) is shown as UNKNOWN unless the run is refuted.
+`--json` keeps `confirmed`, `refuted` and `unclear`. The reference viewer
+areas are Übersicht, Prüfdetails and Nachweise. Technical timeline events
+are inside a closed developer disclosure. There is no task store, no
+orchestration panel and no artifact gallery.
 
 One refuted claim is enough. There is no threshold of two. Imported
 completions are not confirmed. A benchmark or performance claim stays unclear

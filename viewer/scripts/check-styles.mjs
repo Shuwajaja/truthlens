@@ -15,12 +15,16 @@ export function styleViolations(source){
  if(decorative.test(source))failures.push('decorative effect or emoji');
  return failures;
 }
+function withoutLogoMark(source){
+ return source.replace(/\.tl-mark\s*\{[^}]*\}/g,'');
+}
 export function referenceThemeViolations(source){
  const failures=[];
+ const rest=withoutLogoMark(source);
  if(/font-size:\s*(?!(?:12|13|14|16|20|22|28)px)[\d.]+px|font-weight:\s*(?!(?:400|500|600)\b)\d+|font-(?:bold|extrabold|black)|text-\[\d/i.test(source))failures.push('typography');
  if(/\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\s*\(/i.test(source)||utility.test(source)||namedDeclaration.test(source)||namedUtility.test(source))failures.push('literal colour');
  for(const match of source.matchAll(/#([\da-f]+)/gi))if(![3,4,6,8].includes(match[1].length))failures.push('literal colour');
- if(decorative.test(source))failures.push('decorative effect or emoji');
+ if(decorative.test(rest))failures.push('decorative effect or emoji');
  return [...new Set(failures)];
 }
 async function scan(directory){

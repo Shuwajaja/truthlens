@@ -2,26 +2,37 @@
 
 ## Reference runs surface, 26 October 2026
 
-Routes `/runs`, `/runs/:id`, `/reports`, `/agents`, `/sources`, `/settings` and
-`/doctor` show the reference catalog. `/` and `/?view=overview` stay the
-evidence workspace, including its honesty seals and the production
-“Not connected” state.
+The reference catalog has three areas: Übersicht (`/runs`), Prüfdetails
+(`/checks`), and Nachweise (`/records`). `/runs/:id` opens one task.
+Technical events sit in a closed developer disclosure. `/settings` and
+`/doctor` stay footer tools. `/` and `/?view=overview` stay the evidence
+workspace, including its honesty seals and the production “Not connected”
+state. That workspace is not this catalog and does not gain a task store,
+an orchestration panel, or an artifact gallery.
 
 The reference surface is scoped under `.tl-ref` in
 `viewer/src/reference/theme.css`. German chrome lives only in
 `viewer/src/reference/copy.ts`. Recorded task text is data, not chrome.
-Tokens follow the shared UI contract, with contrast-adjusted text. Type uses
-the already vendored Plus Jakarta Sans and JetBrains Mono. Layout targets:
-sidebar 232px, header 56px, content padding 28px (16px below 768px), timeline
-360px. The evidence-workspace 12/14/16/20/28px scale still binds that surface;
-the reference theme file is the only place that also uses 13px and 22px to
-match the reference frames.
+The owner mockups replace the green-tinted near-black with a neutral
+background `#0a0a0b`, cards `#111113`, and a 1px border. There is no card
+shadow. The logo square is the only gradient (violet to cyan). The active
+project chip is a violet outline. The demo badge is a dashed amber outline
+and reads “Beispieldaten”; a demo catalog does not name a publish directory
+as its source. Type uses the already vendored Plus Jakarta Sans and
+JetBrains Mono for identifiers and evidence. Layout targets: sidebar 228px,
+header 56px, content padding 28px (16px below 768px), timeline 360px. The
+evidence-workspace 12/14/16/20/28px scale still binds that surface; the
+reference theme file is the only place that also uses 13px and 22px.
 
 Honesty rules still bind this surface:
 
 - Demo data is visible only with `?demo=1` and the label “Beispieldaten”.
-- One refuted claim makes the run “widerlegt”. Zero claims, an unfinished
-  audit, incomplete execution, or unknown integrity stay at most “unklar”.
+- Human words are display-only: stored `confirmed` shows TRUE, `refuted`
+  shows FALSE, and `unclear` shows UNKNOWN. A `benchmark_missing` reason
+  shows UNKNOWN even when a stored claim says confirmed. One refuted claim
+  still shows FALSE. Zero claims, an unfinished audit, incomplete execution,
+  or unknown integrity stay at most UNKNOWN. Stored values and the D34
+  statuses `passed` / `failed` / `not_checkable` do not change.
 - `integrity=failed`, a bad shape, or counts that disagree with the claims
   render “Nachweis beschädigt oder inkonsistent”. Confirmed claims from that
   run are not shown and are not counted.

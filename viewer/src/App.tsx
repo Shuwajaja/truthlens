@@ -30,7 +30,7 @@ import {ReferenceApp} from './reference/ReferenceApp.tsx'
 export type {View} from './lib/use-view.ts'
 
 function isReferencePath(path: string){
- return /^\/(runs|reports|agents|sources|settings|doctor)(\/|$)/.test(path)
+ return /^\/(runs|checks|records|reports|agents|sources|settings|doctor)(\/|$)/.test(path)
 }
 
 function focusView(){

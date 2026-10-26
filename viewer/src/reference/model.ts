@@ -61,6 +61,15 @@ export type Catalog = {
 
 export type Summary = Verdict | 'damaged'
 
+const DOUBTFUL = new Set(['benchmark_missing'])
+
+/** Display tone. Stored verdicts stay confirmed, refuted, unclear. */
+export function displayTone(summary: Summary, claims: {reason_code?: string}[] = []): Summary {
+  if (summary === 'damaged' || summary === 'refuted') return summary
+  if (claims.some(item => item.reason_code != null && DOUBTFUL.has(item.reason_code))) return 'unclear'
+  return summary
+}
+
 const DAY = 86_400_000
 
 export function shownSummary(run: RunView): Summary {

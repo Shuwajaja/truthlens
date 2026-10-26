@@ -6,7 +6,7 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import ClassVar
 
@@ -16,7 +16,28 @@ from truthlens.ids import new_id
 from truthlens.run_catalog import collect, import_source, public_list_item
 from truthlens.workspace_store import WorkspaceError, resolve_root
 
-LABELS = {"confirmed": "bestätigt", "refuted": "widerlegt", "unclear": "unklar"}
+# Display only. Stored review_summary values stay confirmed, refuted, unclear.
+# D34 wire statuses stay passed, failed, not_checkable.
+DISPLAY = {"confirmed": ("TRUE", "32"), "refuted": ("FALSE", "31"), "unclear": ("UNKNOWN", "33")}
+DOUBTFUL_REASONS = frozenset({"benchmark_missing"})
+
+
+def display_label(verdict: str, reason_code: str | None = None) -> tuple[str, str]:
+    """Map an internal verdict to the human word. Doubtful test quality is UNKNOWN."""
+    if reason_code in DOUBTFUL_REASONS:
+        return "UNKNOWN", "33"
+    return DISPLAY.get(verdict, ("UNKNOWN", "33"))
+
+
+def shown_word(view: dict) -> tuple[str, str]:
+    summary = str(view.get("review_summary") or "unclear")
+    claims = view.get("claims") if isinstance(view.get("claims"), list) else []
+    doubtful = any(isinstance(item, dict) and item.get("reason_code") in DOUBTFUL_REASONS for item in claims)
+    if summary == "refuted":
+        return display_label("refuted")
+    if doubtful:
+        return display_label("unclear", "benchmark_missing")
+    return display_label(summary)
 
 
 class _Parser(argparse.ArgumentParser):
@@ -65,6 +86,31 @@ def _matches(entry: dict, args: argparse.Namespace) -> bool:
     return True
 
 
+def _relative(value: str | None) -> str:
+    parsed = _stamp(value)
+    if parsed is None:
+        return "—"
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=UTC)
+    seconds = int((datetime.now(UTC) - parsed).total_seconds())
+    if seconds < 0:
+        return "—"
+    if seconds < 3600:
+        return f"vor {max(1, round(seconds / 60))} Min"
+    if seconds < 86400:
+        return f"vor {max(1, round(seconds / 3600))} Std"
+    if seconds < 2 * 86400:
+        return "gestern"
+    return f"vor {seconds // 86400} Tagen"
+
+
+def _fit(text: str, width: int) -> str:
+    text = text.replace("\n", " ")
+    if len(text) <= width:
+        return text.ljust(width)
+    return text[: width - 1] + "…"
+
+
 def _list(args: argparse.Namespace) -> int:
     try:
         root = _root(args)
@@ -89,22 +135,23 @@ def _list(args: argparse.Namespace) -> int:
         emit_json(payload)
         return 0
     colored = color_enabled(sys.argv)
-    sys.stdout.write(f"{'LAUF':<12} {'AGENT':<12} {'AUFGABE':<32} {'✓':>3} {'✗':>3} {'?':>3}  ERGEBNIS\n")
+    sys.stdout.write(
+        f"{'LAUF':<18} {'AGENT':<14} {'AUFGABE':<28} {'✓':>3} {'✗':>3} {'?':>3}  {'ERGEBNIS':<12} ZEIT\n"
+    )
     for item in payload["items"]:
         counts = item["counts"]
-        label = (
-            "beschädigt" if item.get("problem") == "damaged" else LABELS.get(item["review_summary"], "unklar")
-        )
+        if item.get("problem") == "damaged":
+            label, color = "beschädigt", "31"
+        else:
+            label, color = shown_word(item)
         agent = str(item.get("agent_id") or "—")
-        task = str(item["task"]).replace("\n", " ")
-        if len(task) > 32:
-            task = task[:31] + "…"
+        result = paint(_fit(label, 12), color, colored)
         line = (
-            f"{item['run_id'][-10:]:<12} {agent[:12]:<12} {task:<32} "
-            f"{counts['confirmed']:>3} {counts['refuted']:>3} {counts['unclear']:>3}  {label}"
+            f"{_fit(str(item['run_id']), 18)} {_fit(agent, 14)} {_fit(str(item['task']), 28)} "
+            f"{counts['confirmed']:>3} {counts['refuted']:>3} {counts['unclear']:>3}  {result}"
+            f"{_relative(item.get('started_at'))}\n"
         )
-        color = {"bestätigt": "32", "widerlegt": "31", "unklar": "33", "beschädigt": "31"}[label]
-        sys.stdout.write(paint(line, color, colored) + "\n")
+        sys.stdout.write(line)
     return 0
 
 
@@ -130,12 +177,20 @@ def _show(args: argparse.Namespace) -> int:
     if args.json:
         emit_json({"schema_version": 1, "demo": entry["demo"], "item": view})
         return 0
-    label = LABELS[view["review_summary"]]
-    sys.stdout.write(f"{view['run_id']}  {view['task']}  {label}\n")
+    word, code = shown_word(view)
+    colored = color_enabled(sys.argv)
+    sys.stdout.write(f"{view['run_id']}  {view['task']}  {paint(word, code, colored)}\n")
     sys.stdout.write(
         f"Integrität: {view['integrity']} · Audit: {view['audit_state']} · Ausführung: {view['execution']}\n"
     )
     sys.stdout.write("Integrität ist keine Freigabe.\n")
+    for claim in view.get("claims") or []:
+        if not isinstance(claim, dict):
+            continue
+        claim_word, claim_code = display_label(
+            str(claim.get("verdict") or "unclear"), claim.get("reason_code")
+        )
+        sys.stdout.write(f"{paint(claim_word, claim_code, colored)}  {claim.get('text', '')}\n")
     if entry["demo"]:
         sys.stdout.write("Beispieldaten\n")
     if args.timeline:

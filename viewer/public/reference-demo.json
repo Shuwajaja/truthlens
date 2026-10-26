@@ -204,7 +204,7 @@
             "2026-10-26T15:47:31.000Z",
             "captured",
             "Prüfung fertig",
-            "5 bestätigt · 1 widerlegt · 1 unklar"
+            "5 TRUE · 1 FALSE · 1 UNKNOWN"
           ]
         ]
       }

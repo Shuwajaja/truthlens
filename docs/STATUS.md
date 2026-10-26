@@ -1,3 +1,45 @@
+## Mockup functions — local checks, 26 October 2026
+
+The reference surface uses the neutral `#0a0a0b` / `#111113` palette from the
+owner frames. The logo square is the only gradient. Demo data stays labelled
+`Beispieldaten` and does not name a publish directory.
+
+`truthlens` with no arguments prints a banner. `truthlens init` without a
+ledger path, when `TRUTHLENS_REFERENCE=1`, writes the workspace and
+`.truthlens/hooks/task-end`. The hook stores an agent report and does not
+open a run. `truthlens init LEDGER` is unchanged. `truthlens runs list`
+prints `ERGEBNIS` and `ZEIT`. `truthlens workspace doctor` prints the banner
+and `N ok · N Warnung · N Fehler`. The legacy `truthlens doctor` output is
+unchanged.
+
+The browser still cannot run `audit_run`. `Erneut prüfen` stays fail-closed
+and names `truthlens runs recheck`. Counts on the runs page stay computed
+from the catalog.
+
+Human words on that surface are display-only. Stored `confirmed` /
+`refuted` / `unclear` render as TRUE / FALSE / UNKNOWN. `benchmark_missing`
+renders UNKNOWN unless the run is refuted. `--json`, the ledger and the
+D34 statuses `passed` / `failed` / `not_checkable` stay unchanged.
+`truthlens_check_status` remains the only status tool and does not return
+evidence. The reference areas are Übersicht, Prüfdetails and Nachweise.
+The evidence workspace at `/` is unchanged.
+
+Local checks on this tree, after those display and area changes:
+`cd viewer && npm test` printed **53 files, 528 tests**. A later edit moved
+the search dialog off the `form` element; `npx vitest run
+tests/reference-surface.test.tsx` then printed **10 passed**. `npm run
+build` printed `main-DveMhl2d.js` at **248.66 kB** before that dialog edit.
+`PATH="/tmp/tl-venv/bin:$PATH" TZ=UTC /tmp/tl-venv/bin/python -m pytest -q
+tests/test_reference_commands.py tests/test_reference_demo_fixture.py
+tests/test_architecture_docs.py` printed **31 passed, 50 subtests**. The
+full pytest suite was not re-run. Chrome screenshots and unrestricted axe
+for the reference routes are under
+`docs/screenshots/cursor/truthlens-reference-ui-af22/`. Fifteen scans had
+no violations. Desktop scans still report one incomplete `color-contrast`
+on the logo mark because its text is too short to judge; dialog scans also
+leave links behind the overlay incomplete because their background is
+covered. That is not a measured contrast failure.
+
 ## Review corrections — local checks, 26 October 2026
 
 `TRUTHLENS_REFERENCE` is off unless the value is exactly `1`. Unset, empty,

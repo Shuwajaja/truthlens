@@ -12,7 +12,15 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import ClassVar
 
-from truthlens.human_io import color_enabled, emit_json, error_payload, fail, paint, reference_enabled
+from truthlens.human_io import (
+    color_enabled,
+    emit_json,
+    error_payload,
+    fail,
+    paint,
+    reference_enabled,
+    write_banner,
+)
 from truthlens.ids import new_id
 from truthlens.ledger import Ledger
 from truthlens.workspace_store import (
@@ -65,18 +73,105 @@ def _say(args: argparse.Namespace, symbol: str, text: str, color: str) -> None:
     sys.stdout.write(line + "\n")
 
 
+_HOOK = """#!/usr/bin/env python3
+\"\"\"Record one task-end note. This file does not open a ledger.\"\"\"
+import json
+import os
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+root = Path(__file__).resolve().parents[1]
+text = " ".join(sys.argv[1:]).strip()
+if not text and not sys.stdin.isatty():
+    text = sys.stdin.read(4000).strip()
+if not text:
+    sys.stderr.write("Aufgabe fehlt\\n")
+    raise SystemExit(2)
+inbox = root / "inbox"
+inbox.mkdir(parents=True, exist_ok=True)
+payload = {
+    "schema_version": 1,
+    "kind": "agent_reported",
+    "text": text[:4000],
+    "observed_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+}
+path = inbox / "task-end.jsonl"
+fd = os.open(path, os.O_APPEND | os.O_CREAT | os.O_WRONLY, 0o644)
+with os.fdopen(fd, "a", encoding="utf-8") as handle:
+    handle.write(json.dumps(payload, ensure_ascii=False) + "\\n")
+    handle.flush()
+    os.fsync(handle.fileno())
+sys.stdout.write("Agentenbericht gespeichert. Kein Lauf geöffnet.\\n")
+"""
+
+
+def _detect(root: Path) -> tuple[str, str, list[str]]:
+    found: list[str] = []
+    if (root / ".agent-zero").is_dir() or (root / "AGENTS.md").is_file():
+        found.append("agent-zero")
+    if (root / ".codex").is_dir():
+        found.append("codex")
+    if (root / ".claude").is_dir():
+        found.append("claude-code")
+    if (root / "agy.toml").is_file():
+        found.append("agy")
+    if not found:
+        raise WorkspaceError("USAGE", "Kein Adapter im Projekt gefunden", 2)
+    return slug(root.name), "local", found
+
+
+def _install_hook(root: Path) -> Path:
+    path = root / ".truthlens" / "hooks" / "task-end"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(".tmp")
+    fd = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o755)
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        handle.write(_HOOK)
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(temporary, path)
+    os.chmod(path, 0o755)
+    return path
+
+
+_INIT_VALUES = {"--root", "--config", "--project", "--harness", "--target"}
+
+
+def redirect_bare_init(argv: list[str]) -> int | None:
+    """`truthlens init` without a ledger path sets up the workspace when enabled."""
+    if not reference_enabled() or argv[:1] != ["init"]:
+        return None
+    items = argv[1:]
+    index = 0
+    while index < len(items):
+        item = items[index]
+        flag = item.split("=", 1)[0]
+        if flag in {"--repo", "--ref", "--command", "--agent"} or not item.startswith("-"):
+            return None
+        index += 2 if flag in _INIT_VALUES and "=" not in item else 1
+    return main(argv)
+
+
 def _init(args: argparse.Namespace) -> int:
-    if not args.project or not args.target or not args.harness:
-        return fail(
-            "USAGE",
-            "Projekt, Zielprofil und mindestens ein Adapter sind erforderlich",
-            as_json=args.json,
-            status=2,
-        )
     try:
         root = _root_from(args)
-        profile = check_profile(args.target)
-        project = slug(args.project)
+        harnesses: list[str]
+        if args.project and args.target and args.harness:
+            profile = check_profile(args.target)
+            project = slug(args.project)
+            display = args.project
+            harnesses = list(args.harness)
+        elif args.project or args.target or args.harness:
+            return fail(
+                "USAGE",
+                "Projekt, Zielprofil und mindestens ein Adapter sind erforderlich",
+                as_json=args.json,
+                status=2,
+            )
+        else:
+            project, profile, harnesses = _detect(root)
+            display = project
     except WorkspaceError as exc:
         return fail(exc.code, exc.message, as_json=args.json, status=exc.status)
     path = config_path(root, args.config)
@@ -93,7 +188,7 @@ def _init(args: argparse.Namespace) -> int:
                     status=1,
                 )
         else:
-            document = blank(args.project, root, profile)
+            document = blank(display, root, profile)
     except WorkspaceError as exc:
         return fail(exc.code, exc.message, as_json=args.json, status=exc.status)
     changes: list[str] = []
@@ -101,10 +196,10 @@ def _init(args: argparse.Namespace) -> int:
     if document["target_profile"] != profile:
         document["target_profile"] = profile
         changes.append("Zielprofil aktualisieren")
-    if document["display_name"] != args.project:
-        document["display_name"] = args.project
+    if document["display_name"] != display:
+        document["display_name"] = display
         changes.append("Anzeigename aktualisieren")
-    for harness in args.harness:
+    for harness in harnesses:
         if harness not in HARNESSES:
             return fail("USAGE", "Unbekannter Adapter", as_json=args.json, status=2)
         desired = adapter(harness)
@@ -138,8 +233,12 @@ def _init(args: argparse.Namespace) -> int:
             write_managed(path, managed)
         except WorkspaceError as exc:
             return fail(exc.code, exc.message, as_json=args.json, status=exc.status)
+        hook = _install_hook(root)
         payload["applied"] = True
-        _say(args, "✓", "Workspace geschrieben", "32")
+        payload["hook"] = hook.name
+        _say(args, "✔", "Workspace geschrieben", "32")
+        _say(args, "✔", f"Hook geschrieben {hook.relative_to(root)}", "32")
+        _say(args, "⚠", "Der Hook speichert einen Agentenbericht und öffnet keinen Lauf", "33")
     if args.json:
         emit_json(payload)
     return 0
@@ -246,6 +345,11 @@ def _doctor(args: argparse.Namespace) -> int:
                 "Konfiguration wurde nicht durch einen synthetischen Test nachgewiesen",
             )
         )
+    hook = root / ".truthlens" / "hooks" / "task-end"
+    if hook.is_file():
+        checks.append(_check("task_hook", "ok", "Hook-Datei liegt bereit und öffnet keinen Lauf"))
+    else:
+        checks.append(_check("task_hook", "warning", "Kein Task-Hook installiert"))
     checks.append(_check("isolation", "unverified", "Isolation ist nicht geprüft"))
     summary = {"ok": 0, "warning": 0, "error": 0}
     for item in checks:
@@ -259,14 +363,21 @@ def _doctor(args: argparse.Namespace) -> int:
     if args.json:
         emit_json(report)
     else:
+        if not args.quiet:
+            write_banner(compact=True)
         for item in checks:
-            mark = {"ok": "✓", "warning": "⚠", "error": "✗", "unverified": "⚠", "not_configured": "·"}[
+            mark = {"ok": "✔", "warning": "⚠", "error": "✗", "unverified": "⚠", "not_configured": "·"}[
                 item["state"]
             ]
             color = {"ok": "32", "warning": "33", "error": "31", "unverified": "33", "not_configured": "37"}[
                 item["state"]
             ]
             _say(args, mark, f"{item['code']}: {item['message']}", color)
+        warn_word = "Warnung" if summary["warning"] == 1 else "Warnungen"
+        error_word = "Fehler"
+        sys.stdout.write(
+            f"{summary['ok']} ok · {summary['warning']} {warn_word} · {summary['error']} {error_word}\n"
+        )
     if unreachable:
         return 4
     if summary["error"]:

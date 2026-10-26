@@ -41,6 +41,51 @@ def paint(text: str, code: str, enabled: bool) -> str:
     return f"\033[{code}m{text}\033[0m" if enabled else text
 
 
+_LOGO = (
+    "  ▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜",
+    "  ▌  TRUTHLENS  ▐",
+    "  ▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟",
+)
+
+
+def _ramp(text: str, enabled: bool) -> str:
+    if not enabled:
+        return text
+    start = (91, 75, 219)
+    end = (21, 94, 117)
+    width = max(1, len(text) - 1)
+    painted: list[str] = []
+    for index, char in enumerate(text):
+        if char == " ":
+            painted.append(char)
+            continue
+        mix = index / width
+        red = round(start[0] + (end[0] - start[0]) * mix)
+        green = round(start[1] + (end[1] - start[1]) * mix)
+        blue = round(start[2] + (end[2] - start[2]) * mix)
+        painted.append(f"\033[38;2;{red};{green};{blue}m{char}\033[0m")
+    return "".join(painted)
+
+
+def write_banner(stream: TextIO | None = None, *, compact: bool = False) -> None:
+    """Start screen. Colour only on a TTY when NO_COLOR and --no-color are absent."""
+    from truthlens import __version__
+
+    target = stream or sys.stdout
+    enabled = color_enabled(sys.argv, target)
+    for line in _LOGO:
+        target.write(_ramp(line, enabled) + "\n")
+    target.write(f"TruthLens {__version__}\n")
+    if compact:
+        target.write("Isolation ist nicht geprüft.\n\n")
+        return
+    target.write("Belege prüfen. Ein Import hebt keinen Vertrauensstatus an.\n\n")
+    target.write("  truthlens init LEDGER\n")
+    target.write("  truthlens doctor\n")
+    target.write("  TRUTHLENS_REFERENCE=1 truthlens workspace doctor\n")
+    target.write("  TRUTHLENS_REFERENCE=1 truthlens runs list\n")
+
+
 def emit_json(payload: dict) -> None:
     sys.stdout.write(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n")
 

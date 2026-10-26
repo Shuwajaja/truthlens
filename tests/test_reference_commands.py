@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import io
 import json
+import subprocess
+import sys
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -10,6 +13,7 @@ import pytest
 
 from truthlens.capture_lifecycle import finish, ingest_extension, mark_interrupted, resume, start_run
 from truthlens.cli import main
+from truthlens.human_io import write_banner
 from truthlens.ledger import Ledger
 from truthlens.mcp import TOOLS
 from truthlens.run_view import RunViewRejected, load_declared_view, project_run
@@ -486,6 +490,113 @@ def test_workspace_test_is_excluded_from_metrics(tmp_path: Path, capsys: pytest.
     assert item["synthetic"] is True
     assert item["excluded_from_metrics"] is True
     assert item["review_summary"] == "unclear"
+
+
+def test_bare_init_installs_a_hook_that_does_not_open_a_run(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+):
+    root = tmp_path / "mcpdeck"
+    root.mkdir()
+    (root / ".codex").mkdir()
+    assert main(["init", "--yes", "--root", str(root)]) == 0
+    text = capsys.readouterr().out
+    assert "Hook geschrieben" in text
+    assert "öffnet keinen Lauf" in text
+    hook = root / ".truthlens" / "hooks" / "task-end"
+    assert hook.is_file()
+    assert not (root / ".truthlens" / "runs").exists()
+    completed = subprocess.run(
+        [sys.executable, str(hook), "README"], check=False, capture_output=True, text=True
+    )
+    assert completed.returncode == 0
+    assert "Kein Lauf geöffnet" in completed.stdout
+    assert not (root / ".truthlens" / "runs").exists()
+    note = (root / ".truthlens" / "inbox" / "task-end.jsonl").read_text(encoding="utf-8")
+    assert "agent_reported" in note
+    assert "README" in note
+
+
+def test_banner_color_follows_the_terminal(monkeypatch: pytest.MonkeyPatch):
+    class Tty(io.StringIO):
+        def isatty(self) -> bool:
+            return True
+
+    monkeypatch.delenv("NO_COLOR", raising=False)
+    colored = Tty()
+    write_banner(colored)
+    assert "TruthLens 0.1.0" in colored.getvalue()
+    assert "\x1b[38;2;" in colored.getvalue()
+    monkeypatch.setenv("NO_COLOR", "1")
+    plain = Tty()
+    write_banner(plain)
+    assert "TruthLens 0.1.0" in plain.getvalue()
+    assert "\x1b" not in plain.getvalue()
+    assert main([]) == 0
+
+
+def test_runs_list_prints_result_and_time(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    assert (
+        main(
+            [
+                "workspace",
+                "init",
+                "--project",
+                "mcpdeck",
+                "--root",
+                str(tmp_path),
+                "--harness",
+                "agent-zero",
+                "--target",
+                "local",
+                "--yes",
+            ]
+        )
+        == 0
+    )
+    capsys.readouterr()
+    assert main(["workspace", "test", "--root", str(tmp_path), "--json"]) == 0
+    capsys.readouterr()
+    assert main(["runs", "list", "--root", str(tmp_path)]) == 0
+    listed = capsys.readouterr().out
+    assert "ERGEBNIS" in listed
+    assert "ZEIT" in listed
+    assert "UNKNOWN" in listed
+    assert "bestätigt" not in listed
+    assert "unklar" not in listed
+    assert "run_" in listed
+    assert main(["runs", "list", "--root", str(tmp_path), "--json"]) == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["items"][0]["review_summary"] == "unclear"
+    assert "UNKNOWN" not in json.dumps(payload)
+
+
+def test_display_labels_keep_internal_verdicts():
+    from truthlens.runs_cmd import display_label, shown_word
+
+    assert display_label("confirmed") == ("TRUE", "32")
+    assert display_label("refuted") == ("FALSE", "31")
+    assert display_label("unclear") == ("UNKNOWN", "33")
+    assert display_label("confirmed", "benchmark_missing") == ("UNKNOWN", "33")
+    assert shown_word({"review_summary": "confirmed", "claims": [{"reason_code": "benchmark_missing"}]})[
+        0
+    ] == ("UNKNOWN")
+    assert shown_word({"review_summary": "refuted", "claims": [{"reason_code": "benchmark_missing"}]})[0] == (
+        "FALSE"
+    )
+
+
+def test_status_mcp_does_not_carry_evidence():
+    from truthlens import status_wire
+    from truthlens.mcp_status import INPUT_SCHEMA, OUTPUT_SCHEMA
+
+    evidence = {tool["name"] for tool in TOOLS}
+    assert evidence == {"list_runs", "run_report", "run_events"}
+    assert "truthlens_check_status" not in evidence
+    assert set(INPUT_SCHEMA["properties"]) == {"run_id"}
+    assert OUTPUT_SCHEMA["properties"]["status"]["enum"] == list(status_wire.STATUSES)
+    assert status_wire.STATUSES == ("passed", "failed", "not_checkable")
+    assert "claims" not in OUTPUT_SCHEMA["properties"]
+    assert "events" not in OUTPUT_SCHEMA["properties"]
 
 
 def test_schema_files_match_the_projection_enums():

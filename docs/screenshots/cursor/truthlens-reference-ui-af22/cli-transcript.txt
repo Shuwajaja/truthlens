@@ -1,37 +1,42 @@
-$ truthlens workspace init --project MCPDeck --root . --harness agent-zero --harness codex --harness claude-code --target local --yes
-◆ Projekt: mcpdeck
-◆ Geplante Änderung: Adapter agent-zero hinzufügen
-◆ Geplante Änderung: Adapter codex hinzufügen
-◆ Geplante Änderung: Adapter claude-code hinzufügen
-⚠ agent-zero: Live-Aufzeichnung noch nicht qualifiziert
-⚠ codex: Live-Aufzeichnung noch nicht qualifiziert
-⚠ claude-code: Live-Aufzeichnung noch nicht qualifiziert
-✓ Workspace geschrieben
+--- truthlens exit 0
+  ▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+  ▌  TRUTHLENS  ▐
+  ▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟
+TruthLens 0.1.0
+Belege prüfen. Ein Import hebt keinen Vertrauensstatus an.
 
-[exit 0]
-$ truthlens workspace doctor --root .
-✓ workspace: Workspace ist gültig und lesbar
+  truthlens init LEDGER
+  truthlens doctor
+  TRUTHLENS_REFERENCE=1 truthlens workspace doctor
+  TRUTHLENS_REFERENCE=1 truthlens runs list
+
+--- truthlens init --yes --root . exit 0
+◆ Projekt: mcpdeck
+◆ Geplante Änderung: Adapter codex hinzufügen
+⚠ codex: Live-Aufzeichnung noch nicht qualifiziert
+✔ Workspace geschrieben
+✔ Hook geschrieben .truthlens/hooks/task-end
+⚠ Der Hook speichert einen Agentenbericht und öffnet keinen Lauf
+
+--- truthlens workspace doctor --root . exit 0
+  ▛▀▀▀▀▀▀▀▀▀▀▀▀▀▀▜
+  ▌  TRUTHLENS  ▐
+  ▙▄▄▄▄▄▄▄▄▄▄▄▄▄▄▟
+TruthLens 0.1.0
+Isolation ist nicht geprüft.
+
+✔ workspace: Workspace ist gültig und lesbar
 ⚠ capture_adapter: Adapter ist nur eingetragen oder die Version ist unbekannt
-✓ heartbeat: Kein letzter Lauf ist bei einem neuen Projekt normal
+✔ heartbeat: Kein letzter Lauf ist bei einem neuen Projekt normal
 ⚠ output_channel: Ausgabe nur lokal vorhanden; kein Reader konfiguriert
 ⚠ agent_status: Konfiguration wurde nicht durch einen synthetischen Test nachgewiesen
+✔ task_hook: Hook-Datei liegt bereit und öffnet keinen Lauf
 ⚠ isolation: Isolation ist nicht geprüft
+3 ok · 4 Warnungen · 0 Fehler
 
-[exit 0]
-$ truthlens workspace test --root .
-✓ Synthesetest complete (run_01M5WM546E4H678MECYTJV2SD2)
+--- truthlens workspace test --root . exit 0
+✓ Synthesetest complete (run_01M5WSD5A50B2ZE078923F19MB)
 
-[exit 0]
-$ truthlens runs list --root . --limit 5
-LAUF         AGENT        AUFGABE                            ✓   ✗   ?  ERGEBNIS
-ECYTJV2SD2   workspace-te truthlens workspace test           0   0   0  unklar
-
-[exit 0]
-$ truthlens doctor
-SOCKET_UNSAFE_OR_MISSING
-ADAPTER_IMPORTABLE
-MCP_SDK_PRESENT
-CLIENT_CONFIG_VALID
-ISOLATION_UNVERIFIED
-
-[exit 2]
+--- truthlens runs list --root . exit 0
+LAUF               AGENT          AUFGABE                        ✓   ✗   ?  ERGEBNIS     ZEIT
+run_01M5WSD5A50B2… workspace-test truthlens workspace test       0   0   0  UNKNOWN     vor 1 Min

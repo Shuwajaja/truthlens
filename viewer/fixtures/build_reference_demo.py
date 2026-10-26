@@ -109,7 +109,7 @@ def visible() -> list[dict]:
                 ["2026-10-26T15:44:12.000Z", "captured", "Befehl ausgeführt", "npm test → 42 passed"],
                 ["2026-10-26T15:46:55.000Z", "captured", "Dateien geändert", "README.md, package.json, CHANGELOG.md"],
                 ["2026-10-26T15:47:20.000Z", "agent_reported", "Abschluss-Bericht", "7 Behauptungen erkannt"],
-                ["2026-10-26T15:47:31.000Z", "captured", "Prüfung fertig", "5 bestätigt · 1 widerlegt · 1 unklar"],
+                ["2026-10-26T15:47:31.000Z", "captured", "Prüfung fertig", "5 TRUE · 1 FALSE · 1 UNKNOWN"],
             ],
         },
     )

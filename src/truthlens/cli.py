@@ -28,7 +28,18 @@ def _audit_anchor(value: str) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    argv = sys.argv[1:] if argv is None else argv
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if not argv:
+        from truthlens.human_io import write_banner
+
+        write_banner()
+        return 0
+    if argv[0] == "init":
+        from truthlens.workspace_cmd import redirect_bare_init
+
+        redirected = redirect_bare_init(argv)
+        if redirected is not None:
+            return redirected
     if argv[:2] == ["pipeline", "explain"]:
         from truthlens.pipeline_explain import main as explain_main
 

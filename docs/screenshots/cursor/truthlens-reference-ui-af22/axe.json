@@ -1,5 +1,4 @@
 {
-  "timezone": "Europe/Berlin",
   "origin": "http://127.0.0.1:4179",
   "reports": [
     {
@@ -10,9 +9,16 @@
         "height": 900
       },
       "status": 200,
-      "serious": [],
+      "console": [],
       "violations": [],
-      "incomplete": []
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 1
+        }
+      ]
     },
     {
       "name": "runs-390",
@@ -22,7 +28,7 @@
         "height": 844
       },
       "status": 200,
-      "serious": [],
+      "console": [],
       "violations": [],
       "incomplete": []
     },
@@ -34,9 +40,16 @@
         "height": 900
       },
       "status": 200,
-      "serious": [],
+      "console": [],
       "violations": [],
-      "incomplete": []
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 1
+        }
+      ]
     },
     {
       "name": "detail-390",
@@ -46,19 +59,69 @@
         "height": 844
       },
       "status": 200,
-      "serious": [],
+      "console": [],
       "violations": [],
       "incomplete": []
     },
     {
-      "name": "empty-1440",
-      "url": "/runs",
+      "name": "checks-1440",
+      "url": "/checks?demo=1",
       "viewport": {
         "width": 1440,
         "height": 900
       },
       "status": 200,
-      "serious": [],
+      "console": [],
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "checks-390",
+      "url": "/checks?demo=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": 200,
+      "console": [],
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "name": "records-1440",
+      "url": "/records?demo=1",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": 200,
+      "console": [],
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "records-390",
+      "url": "/records?demo=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": 200,
+      "console": [],
       "violations": [],
       "incomplete": []
     },
@@ -70,9 +133,117 @@
         "height": 900
       },
       "status": 200,
-      "serious": [],
+      "console": [],
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "doctor-390",
+      "url": "/doctor?demo=1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": 200,
+      "console": [],
       "violations": [],
       "incomplete": []
+    },
+    {
+      "name": "settings-1440",
+      "url": "/settings?demo=1",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": 200,
+      "console": [],
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "empty-1440",
+      "url": "/runs",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "status": 200,
+      "console": [],
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "search-1440",
+      "url": "http://127.0.0.1:4179/runs?demo=1&find=1",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "recheck-1440",
+      "url": "http://127.0.0.1:4179/runs/run_8f3a21?demo=1",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "name": "check-1440",
+      "url": "http://127.0.0.1:4179/runs?demo=1&check=1",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "count": 3
+        }
+      ]
     }
   ]
 }

@@ -133,7 +133,7 @@ it('returns focus to the search control after Escape', () => {
     counts: {confirmed: 1, refuted: 0, unclear: 0},
   })
   render(<ReferenceApp location="/runs?demo=1" catalog={catalog([sample])} />)
-  const search = screen.getByRole('button', {name: copy.search})
+  const search = screen.getByRole('button', {name: new RegExp(copy.search)})
   search.focus()
   fireEvent.keyDown(window, {key: 'k', ctrlKey: true})
   const dialog = screen.getByRole('dialog')
@@ -153,6 +153,64 @@ it('keeps the browser doctor off the green confirmed pill', () => {
   render(<ReferenceApp location="/doctor?demo=1" catalog={catalog([sample])} />)
   expect(document.querySelector('.tl-pill.confirmed')).toBeNull()
   expect(screen.getByText(copy.docIsolation)).toBeTruthy()
+})
+
+it('lists checks and labelled records, and does not open an agent control', () => {
+  const sample = run({
+    run_id: 'run_ok',
+    review_summary: 'confirmed',
+    claims: [claim('a', 'confirmed', 'passes')],
+    counts: {confirmed: 1, refuted: 0, unclear: 0},
+  })
+  const data = catalog([sample])
+  const {unmount} = render(<ReferenceApp location="/checks?demo=1" catalog={data} />)
+  expect(screen.getByRole('heading', {name: copy.checksTitle})).toBeTruthy()
+  expect(screen.getByText('passes')).toBeTruthy()
+  expect(screen.getByText('TRUE')).toBeTruthy()
+  unmount()
+  render(<ReferenceApp location="/agents?demo=1" catalog={data} />)
+  expect(screen.getByText(copy.agentsRetired)).toBeTruthy()
+  expect(screen.queryByRole('button', {name: /start/i})).toBeNull()
+  cleanup()
+  render(<ReferenceApp location="/records?demo=1" catalog={data} />)
+  expect(screen.getByText(/fixture/)).toBeTruthy()
+  expect(screen.getByText(/Hash only/)).toBeTruthy()
+  expect(screen.queryByText(/\/srv\//)).toBeNull()
+  cleanup()
+  render(<ReferenceApp location="/runs/run_ok?demo=1" catalog={data} />)
+  expect(screen.getByRole('button', {name: copy.exportJson})).toBeTruthy()
+  expect(screen.getByRole('button', {name: copy.recheck})).toBeTruthy()
+  const developer = document.querySelector('details.tl-dev')
+  expect(developer).toBeTruthy()
+  expect((developer as HTMLDetailsElement).open).toBe(false)
+})
+
+it('opens the selected run from search', () => {
+  const sample = run({
+    run_id: 'run_ok',
+    review_summary: 'confirmed',
+    claims: [claim('a', 'confirmed', 'passes')],
+    counts: {confirmed: 1, refuted: 0, unclear: 0},
+  })
+  render(<ReferenceApp location="/runs?demo=1&find=1" catalog={catalog([sample])} />)
+  fireEvent.change(screen.getByLabelText(copy.searchLabel), {target: {value: 'run_ok'}})
+  fireEvent.click(within(screen.getByRole('dialog')).getByRole('link', {name: 'run_ok'}))
+  expect(screen.getByRole('heading', {name: /run_ok/})).toBeTruthy()
+  expect(screen.queryByRole('dialog')).toBeNull()
+})
+
+it('shows UNKNOWN when the recorded test quality is doubtful', () => {
+  const sample = run({
+    run_id: 'run_doubt',
+    review_summary: 'confirmed',
+    counts: {confirmed: 1, refuted: 0, unclear: 0},
+    claims: [{...claim('d', 'confirmed', 'faster benchmark'), reason_code: 'benchmark_missing'}],
+  })
+  render(<ReferenceApp location="/runs/run_doubt?demo=1" catalog={catalog([sample])} />)
+  const pill = document.querySelector('h1 .tl-pill')
+  expect(pill?.textContent).toBe('UNKNOWN')
+  expect(pill?.className).toContain('unclear')
+  expect(pill?.className).not.toContain('confirmed')
 })
 
 it('serves the reference surface from /runs without replacing the evidence workspace', () => {
