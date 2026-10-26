@@ -210,12 +210,34 @@ def test_human_command_invalid_options_never_reflect(args, message, capsys):
     assert capsys.readouterr() == ("", message + "\n")
 
 
-def test_demo_is_labelled_end_to_end_and_does_not_patch_real_client(tmp_path, monkeypatch, capsys):
+@pytest.mark.parametrize("deep", [False, True], ids=["normal", "long-cwd-and-temp"])
+def test_demo_is_labelled_end_to_end_and_does_not_patch_real_client(tmp_path, monkeypatch, capsys, deep):
     import tempfile
 
     from truthlens import status_client, status_wire
 
-    monkeypatch.setattr(tempfile, "tempdir", str(tmp_path))
+    directory = tmp_path / ("nested-" + "x" * 120) if deep else tmp_path
+    directory.mkdir(exist_ok=True)
+    monkeypatch.chdir(directory)
+    monkeypatch.setattr(tempfile, "tempdir", str(directory))
+    if deep:
+        assert len(os.fsencode(directory)) > 107
+    bound = []
+    original_bind = socket.socket.bind
+    original_connect = socket.socket.connect
+
+    def bind(server, address):
+        path = Path(address).absolute()
+        assert path.parent.stat().st_mode & 0o777 == 0o700
+        bound.append(path)
+        return original_bind(server, address)
+
+    def connect(client, address):
+        assert Path(address).stat().st_mode & 0o777 == 0o600
+        return original_connect(client, address)
+
+    monkeypatch.setattr(socket.socket, "bind", bind)
+    monkeypatch.setattr(socket.socket, "connect", connect)
     original_query = status_client.check_status
     original_uid = status_wire.BROKER_UID
     assert main(["demo-status"]) == 0
@@ -227,7 +249,9 @@ def test_demo_is_labelled_end_to_end_and_does_not_patch_real_client(tmp_path, mo
         ),
         "",
     )
-    assert list(tmp_path.iterdir()) == []
+    assert len(bound) == 1
+    assert not bound[0].parent.exists()
+    assert list(directory.iterdir()) == []
     assert status_client.check_status is original_query
     assert status_wire.BROKER_UID == original_uid
 

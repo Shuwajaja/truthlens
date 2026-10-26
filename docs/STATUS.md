@@ -1,3 +1,50 @@
+## Short synthetic demo socket addresses — local checks, 26 October 2026
+
+Branch `improve/loop-11`, base `f1ddb2dc`. Resolves the loop-10 synthetic-demo
+pathname limitation recorded below. The human-only demo now creates a private
+`0700` temporary directory under the working directory and binds its `0600`
+socket through a short relative address. Long checkout/temp paths no longer
+prevent the three labelled simulated roundtrips. The working directory must be
+writable. [Agent setup](AGENT-SETUP.md) documents this requirement and the existing
+fixed `Demo unavailable.`/exit 2 failure. The unchanged real client refuses the
+relative demo path and returns `not_checkable`; this is no live-broker proof.
+
+Acceptance criteria were recorded before code: reproduce long paths first,
+retain exact labelled output/cleanup, witness private directory/socket modes,
+and preserve G1/D34. Red tests-only checkpoint `78bb40fd`: with `umask 022`,
+`PYTHONPATH="$PWD/src" TMPDIR="$PWD/.t" TZ=UTC .venv/bin/python -m pytest -q
+tests/test_agent_setup.py -k test_demo_is_labelled --basetemp=.t/l11red
+--tb=short` observed **1 failed, 1 passed, 63 deselected**. The long-path CLI
+returned exit 2; a separate direct probe raised `OSError: AF_UNIX path too long`.
+The same target with `.t/l11green` observed **2 passed, 63 deselected** after
+the fix. Real sockets are used; the test observes `0700` before bind, `0600`
+before connect, cleanup and unchanged real-client function/broker UID.
+
+Tested implementation `8ecc6a60`, tree
+`2b78e630a54f449f21a023c35804ff17f0d50487`; subsequent tracked edits are docs
+only. With `umask 022`, repo venv PATH, `PYTHONPATH="$PWD/src"`,
+`TMPDIR="$PWD/.t"`, sequential `TZ=UTC .venv/bin/python -m pytest -q -ra
+--tb=short --basetemp=.t/11u` and Europe/Berlin with `.t/11b` each observed
+**817 passed, 2 skipped, 1 xfailed, 73 subtests passed**. Separate-UID host
+prerequisites are absent; same-UID key access remains the expected failure.
+Ignored in-repo venv import/entrypoint pointers were corrected; no installation.
+
+From `viewer/`, sequential `TZ=UTC DEBUG_PRINT_LIMIT=300 TMPDIR="$PWD/../.t"
+npm_config_cache="$PWD/.npm-cache" npm test` and Europe/Berlin runs each observed
+**516 passed / 52 files**, including language/style/theme checks and five toolbar
+builds. Existing jsdom `scrollTo` notices remain. `ruff check src tests`, changed
+Python formatting, `compileall -q src/truthlens`, viewer lint and production
+build (including TypeScript) passed. Diff and added-document-link checks passed.
+
+Independent-style author self-review found no blocking security/D34 finding;
+this is not independent security approval. Frozen contracts, G1 broker/wire/
+client/adapter, production socket contract, authorization, HMAC/approval controls,
+viewer and dependencies are unchanged. No native macOS/Windows, coverage,
+live-client/service or separate-UID isolation claim. No usable Chromium: the
+cached executable fails on missing `libatk-1.0.so.0`; browser/screenshots/axe
+**not run**, with no UI changes. `PR_BODY.md` stays untracked. Local commits
+only; no push, PR, merge, deployment, host setup, Docker changes or dependencies.
+
 ## Architecture reader guide — local checks, 26 October 2026
 
 Branch `improve/loop-10`, base `8fca88fa`. Refreshed
