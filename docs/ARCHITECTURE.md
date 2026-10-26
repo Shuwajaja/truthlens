@@ -84,6 +84,15 @@ D34-compatible**, must not be connected to agents, and is never a fallback for
 `mcp-status`. See [SELFHOST-MCP](SELFHOST-MCP.md) for G1's threat model and
 [AGENT-SETUP](AGENT-SETUP.md) for G2 interfaces and synthetic-demo limits.
 
+[mcp_local.py](../src/truthlens/mcp_local.py) is `truthlens mcp` with
+`TRUTHLENS_ROOT` and no `--root`. It lists local runs and returns claims,
+verdicts and evidence. `TRUE` and `FALSE` require integrity `hmac`. It does
+not open a network connection, does not write, and does not replace
+`mcp-status`. The private Artifact Hub tree was not in this checkout; the
+stdio loop matches the existing TruthLens JSON-RPC server rather than an
+imported Hub package. Example client files are in the
+[local catalog section](AGENT-SETUP.md#local-catalog-not-status).
+
 Human text may also show `TRUE`, `FALSE`, or `UNKNOWN`.
 [display_labels.py](../src/truthlens/display_labels.py) maps those words for
 the report and for `truthlens audit status` text. JSON, the ledger, and the

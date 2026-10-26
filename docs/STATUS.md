@@ -1,3 +1,25 @@
+## Local catalog MCP — local checks, 26 October 2026
+
+`cursor/truthlens-mcp-stdio-af22` adds `truthlens mcp` with `TRUTHLENS_ROOT`.
+Tools are `list_runs`, `get_run`, `verify_run` and `doctor`. `TRUE` /
+`bestätigt` and `FALSE` / `widerlegt` require integrity `hmac`. Hash-only
+stays `UNKNOWN` / `unklar`. A file that cannot be checked is `not_checkable`.
+The server does not open a network connection and does not write.
+`truthlens mcp --root` keeps `list_runs`, `run_report` and `run_events`.
+`truthlens mcp-status` stays the one-tool D34 adapter. Example configs are
+`integrations/agent-zero/mcp-servers.example.json` and
+`integrations/mausbot/mcp-servers.example.json`. The private Artifact Hub
+repository was not readable from this environment, so the stdio loop follows
+the existing TruthLens JSON-RPC server. Not merged.
+
+On this tree, before this paragraph:
+
+- `/tmp/tl-venv/bin/ruff check src/truthlens/mcp_local.py src/truthlens/cli.py tests/test_mcp_catalog.py tests/test_mcp_status.py` passed.
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m pytest -q tests/test_mcp_catalog.py tests/test_mcp.py tests/test_mcp_status.py tests/test_export_integrity.py tests/test_readme.py tests/test_architecture_docs.py tests/test_vnext_acceptance.py tests/test_reference_commands.py --tb=line` printed **102 passed, 107 subtests passed**.
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m pytest -q tests/test_round5.py -k mcp --tb=line` printed **3 passed, 51 deselected**.
+
+Full pytest, separate-UID, live HMAC on a protected host, and Artifact Hub were not run.
+
 ## Rebased onto squash-merged main — local checks, 26 October 2026
 
 `origin/main` is `f305f68`, the squash merge of PR #206. This branch merges

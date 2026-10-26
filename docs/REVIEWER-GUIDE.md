@@ -89,6 +89,7 @@ or the installed `truthlens` entry point.
 | `truthlens demo-status` | Labelled synthetic temporary fake-broker demo; no real audit. |
 | `truthlens mcp-status --socket PATH` | D34 status-only stdio MCP; requires the protected broker. |
 | `truthlens mcp --root DIR` | Legacy human evidence MCP: `list_runs`, `run_report`, `run_events`; **not D34-compatible**. |
+| `truthlens mcp` | Local read-only catalog when `TRUTHLENS_ROOT` is set. Tools: `list_runs`, `get_run`, `verify_run`, `doctor`. Not D34. |
 
 For `init`, pass a new or empty ledger file path whose parent directory already
 exists. A filesystem failure prints a fixed, path-free `FAIL` diagnostic and

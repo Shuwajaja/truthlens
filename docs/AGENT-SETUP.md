@@ -15,6 +15,23 @@ Human report text may show `TRUE` / `FALSE` / `UNKNOWN`. Those words are not
 the tool result. `passed` still requires a qualified separate-UID broker; this
 demo and a green unit test do not provide that.
 
+## Local catalog (not status)
+
+`truthlens mcp` with `TRUTHLENS_ROOT` and without `--root` is a separate
+read-only stdio catalog: `list_runs`, `get_run`, `verify_run`, `doctor`.
+`get_run` returns claims, verdicts and evidence. `TRUE` / `bestätigt` and
+`FALSE` / `widerlegt` require HMAC integrity (`--hmac-key-env VAR`, with the
+key only in that variable). Otherwise the verdict is `UNKNOWN` / `unklar`,
+or `not_checkable` when the file cannot be checked. Integrity is not
+approval. Doctor reports isolation as unverified and does not start a
+service. The catalog does not use the network and does not write.
+
+Example files, with a placeholder root and no key:
+[Agent Zero](../integrations/agent-zero/mcp-servers.example.json) and
+[Mausbot](../integrations/mausbot/mcp-servers.example.json). They are not
+`truthlens mcp-status` snippets. `valid_config` rejects them. They do not
+qualify a client or a host.
+
 ## Try the one-minute synthetic demo
 
 From a reviewed checkout, in your own virtual environment (Python 3.12+):
