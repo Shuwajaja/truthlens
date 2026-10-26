@@ -10,13 +10,12 @@ assert.equal([...css.matchAll(/:root\b/g)].length,2,'base and one explicit alter
 assert(base.font.includes('Plus Jakarta Sans Variable'));assert(base.mono.includes('JetBrains Mono Variable'));
 assert.equal(base.radius,'12px');for(const [i,n] of [8,16,24,32].entries())assert.equal(base[`space-${i+1}`],`${n}px`);
 assert.doesNotMatch(css,/Inter Variable/i);
-// Legacy review palettes stay frozen; the approved overview is a scoped addition.
+// Review palettes retain their roles; warnings use AA-safe greys and the overview stays scoped.
 assert.doesNotMatch(JSON.stringify([base,dark]),/#(?:1CDC44|79B8FF)\b/i);
 assert.deepEqual(overview,{bg:'#070B0A',surface:'#0E1513','surface-2':'#15201C',border:'#22312C',text:'#E6EDEA','text-2':'#A7B5AF','text-3':'#86948E',ok:'#1CDC44',fail:'#FF7B72',info:'#79B8FF',neutral:'#97A3B3','neutral-text':'#97A3B3',warning:'#97A3B3',focus:'#79B8FF',accent:'#1CDC44','accent-soft':'#15201C','control-radius':'8px',radius:'8px'});
 const measurements=[];
-for(const [profile,values,expected] of [['Petrol & Porcelain',base,{bg:'#F1F4EF',frame:'#102F38'}],['Cool Graphite',{...base,...dark},{bg:'#181B22',frame:'#0D0F13'}]]){
+for(const [profile,values,expected] of [['Petrol & Porcelain',base,{bg:'#F1F4EF',frame:'#102F38',warning:'#4B5563'}],['Cool Graphite',{...base,...dark},{bg:'#181B22',frame:'#0D0F13',warning:'#ABB5C5'}]]){
  for(const [key,value] of Object.entries(expected))assert.equal(values[key],value);
- assert.equal(values.warning,values['neutral-text'],`${profile}: warnings and open human review must use neutral text, never amber/yellow`);
  const rgb=key=>{const value=values[key];if(value.startsWith('var('))return rgb(value.slice(6,-1));assert.match(value,/^#[\da-f]{6}$/i,key);return value.slice(1).match(/../g).map(x=>parseInt(x,16)/255)};
  const luminance=rgb=>rgb.map(x=>Math.round(x*255)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4).reduce((s,x,i)=>s+x*[.2126,.7152,.0722][i],0);
  const check=(fg,bg,threshold,label)=>{const [lo,hi]=[luminance(fg),luminance(bg)].sort((a,b)=>a-b);const ratio=(hi+.05)/(lo+.05);assert(ratio>=threshold,`${profile}: ${label} ${ratio.toFixed(2)} < ${threshold}`);measurements.push({profile,label,ratio,threshold})};
