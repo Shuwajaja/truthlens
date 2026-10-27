@@ -112,6 +112,12 @@ exit code 1 without writing an export or projection. Check the directory and
 manifest readability; malformed JSON requires an intact copy of the recorded
 run, not edits to its evidence.
 
+An unreadable `ledger.jsonl` (including a directory with that name) also produces
+a fixed, path-free `FAIL` diagnostic and exit code 1, without traceback or
+filesystem exception details. Check that the run contains a readable ledger
+file. These ledger read failures leave the run and existing export/projection
+files unchanged; no report or viewer JSON is emitted.
+
 `export DIR` prints viewer JSON to stdout by default. Use `-o FILE` to write it
 to a file; the parent directory must already exist. If that write fails (for
 example, the output names a directory or is not writable), the command prints

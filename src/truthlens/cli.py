@@ -359,16 +359,19 @@ def _verified_dir(d: str, key: bytes | None):
         return None, ["manifest.json must contain a UTF-8 JSON object"]
     from truthlens.keys import ManagedKey, verification_key
 
-    if isinstance(key, ManagedKey):
-        # Validate structure before trusting any event field for key selection.
-        preliminary = verify(root / "ledger.jsonl", None, mf.get("ledger_last_hash"))
-        if not preliminary.ok:
-            return None, [f"line {n}: {m}" for n, m in preliminary.errors]
-        key, _ = verification_key(key, Ledger(root / "ledger.jsonl").read())
-    r = verify(root / "ledger.jsonl", key, mf.get("ledger_last_hash"))
-    if not r.ok:
-        return None, [f"line {n}: {m}" for n, m in r.errors]
-    events = Ledger(root / "ledger.jsonl").read()
+    try:
+        if isinstance(key, ManagedKey):
+            # Validate structure before trusting any event field for key selection.
+            preliminary = verify(root / "ledger.jsonl", None, mf.get("ledger_last_hash"))
+            if not preliminary.ok:
+                return None, [f"line {n}: {m}" for n, m in preliminary.errors]
+            key, _ = verification_key(key, Ledger(root / "ledger.jsonl").read())
+        r = verify(root / "ledger.jsonl", key, mf.get("ledger_last_hash"))
+        if not r.ok:
+            return None, [f"line {n}: {m}" for n, m in r.errors]
+        events = Ledger(root / "ledger.jsonl").read()
+    except OSError:
+        return None, ["cannot read ledger.jsonl; pass a run directory containing a readable ledger.jsonl file"]
     store = BlobStore(root / "blobs")
     def blob_ok(s: str) -> bool:  # re-hash: swapped artifact bytes must not verify
         import hashlib
