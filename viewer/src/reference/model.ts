@@ -64,7 +64,7 @@ export type Summary = Verdict | 'damaged'
 const DOUBTFUL = new Set(['benchmark_missing'])
 
 /** Display tone. Stored verdicts stay confirmed, refuted, unclear.
- * TRUE and FALSE require integrity hmac. Anything else stays UNKNOWN. */
+ * The green and red words require integrity hmac. Anything else stays unclear. */
 export function displayTone(
   summary: Summary,
   claims: {reason_code?: string}[] = [],

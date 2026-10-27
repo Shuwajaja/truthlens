@@ -16,7 +16,7 @@ Green and red words require HMAC. **Integrity is not approval.**
 ![Terminal capture of truthlens doctor and truthlens runs list.](docs/images/terminal-doctor-runs.png)
 
 In that capture, `truthlens doctor` exits 1 because no harness entry is
-installed. `truthlens runs list` prints `UNKNOWN` because the recorded run
+installed. `truthlens runs list` prints unklar because the recorded run
 is hash-only. The key value is not shown.
 
 ## Why
@@ -36,12 +36,12 @@ is not a release decision. Integrity is not approval.
 3. **Check.** Verification recomputes the chain and, when a key is supplied,
    the HMAC. A bad chain fails closed. Hash-only means the bytes were not
    authenticated.
-4. **Show.** Confirmed and refuted require HMAC. In the viewer those words
-   are bestätigt and widerlegt. On the CLI they are `TRUE` and `FALSE`.
-   Without HMAC the result stays unklar or `UNKNOWN`, including when a
-   stored summary says confirmed or refuted. One refuted HMAC claim is
-   refuted. A doubtful test stays unklar. The browser does not compute the
-   HMAC.
+4. **Show.** Confirmed and refuted require HMAC. The viewer and
+   `truthlens runs list` say bestätigt, widerlegt, and unklar. The report
+   and the catalog MCP say `TRUE`, `FALSE`, and `UNKNOWN`. Without HMAC
+   the result stays unklar or `UNKNOWN`, including when a stored summary
+   says confirmed or refuted. One refuted HMAC claim is refuted. A
+   doubtful test stays unklar. The browser does not compute the HMAC.
 
 ### What it does not do
 

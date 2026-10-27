@@ -7,7 +7,7 @@ export const copy = {
   check: '+ Lauf prüfen',
   exportJson: 'JSON exportieren',
   recheck: 'Erneut prüfen',
-  runs: 'Übersicht',
+  runs: 'Läufe',
   checksTitle: 'Prüfdetails',
   checksBody: 'Was je Anforderung tatsächlich geprüft wurde. Ein Ergebnis ist keine Freigabe.',
   checksEmpty: 'Noch keine geprüfte Anforderung.',
@@ -48,6 +48,22 @@ export const copy = {
   sample: 'Beispiel ansehen',
   emptyTitle: 'Dieser Browser liest kein Ledger',
   emptyBody: 'Ohne geladene Datei und ohne Beispieldaten gibt es hier keine Läufe. Dieser Browser startet kein Audit.',
+  startTitle: 'Willkommen bei TruthLens',
+  startLead: 'Drei Schritte, bis ein Lauf in der Übersicht steht.',
+  stepWorkspace: 'Workspace einrichten',
+  stepWorkspaceBody: 'Die lokale CLI legt den Workspace an. Dieser Browser schreibt keine Datei und liest kein Ledger.',
+  stepWorkspaceCli: 'truthlens init LEDGER bleibt unverändert. truthlens workspace init braucht TRUTHLENS_REFERENCE=1.',
+  stepLoad: 'Lauf laden oder Demo ansehen',
+  stepLoadBody: 'Lade die JSON-Projektion oder öffne gekennzeichnete Beispieldaten. Eine geladene Datei ist kein Live-Audit.',
+  stepRead: 'Ergebnis verstehen',
+  stepReadBody: 'bestätigt und widerlegt nur bei HMAC. Ohne HMAC bleibt unklar. Die Wörter beschreiben die Projektion, nicht ein Urteil dieser Seite.',
+  meanUnknown: 'Kein HMAC, fehlender Beleg oder zweifelhafte Testqualität. Das ist der Startzustand.',
+  meanTrue: 'Nur bei HMAC: die aufgezeichnete Prüfung stützt die Behauptung. Das ist keine Freigabe.',
+  meanFalse: 'Nur bei HMAC: die aufgezeichnete Prüfung widerspricht der Behauptung.',
+  sideEmpty: 'Kein Projekt geladen',
+  checksEmptyHelp: 'Lade auf der Übersicht eine Laufdatei oder öffne die gekennzeichneten Beispieldaten. Dieser Browser startet kein Audit.',
+  recordsEmptyHelp: 'Ohne geladene Laufansicht gibt es keine Originalverweise. Dieser Browser prüft keine Signatur.',
+  backStart: 'Zum Start',
   loadFile: 'Laufdatei laden',
   loadCli: 'Projektion aus der CLI: truthlens runs show RUN_ID --json',
   loadRejected: 'Die Datei ist keine gültige Laufansicht.',
@@ -67,9 +83,9 @@ export const copy = {
   claimsChecked: 'Behauptungen geprüft',
   perRun: 'pro Lauf',
   confirmedRate: 'Bestätigt',
-  rateHint: 'TRUE / alle bewerteten Aussagen, UNKNOWN zählt mit',
+  rateHint: 'bestätigt / alle bewerteten Aussagen, unklar zählt mit',
   notable: 'Auffälligster Agent',
-  refutedClaims: 'FALSE',
+  refutedClaims: 'widerlegte Behauptungen',
   noNotable: 'kein eindeutiger Abstand',
   colRun: 'Lauf',
   colTask: 'Aufgabe',
@@ -81,9 +97,10 @@ export const copy = {
   colStatement: 'Behauptung des Agenten',
   colEvidence: 'Beleg',
   colOrigin: 'Quelle',
-  confirmed: 'TRUE',
-  refuted: 'FALSE',
-  unclear: 'UNKNOWN',
+  confirmed: 'bestätigt',
+  refuted: 'widerlegt',
+  unclear: 'unklar',
+  report: 'Prüfbericht',
   damaged: 'beschädigt',
   damagedTitle: 'Nachweis beschädigt oder inkonsistent',
   damagedBody: 'Bestätigte Aussagen aus diesem Lauf werden nicht angezeigt.',
@@ -177,12 +194,14 @@ export function when(value: string, now: string): string {
   return fullStamp(value)
 }
 
-export function clock(value: string): string {
+export function clock(value: string, seconds = false): string {
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return copy.unknown
-  return new Intl.DateTimeFormat('de-DE', {
+  const options: Intl.DateTimeFormatOptions = {
     hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin', hourCycle: 'h23',
-  }).format(date)
+  }
+  if (seconds) options.second = '2-digit'
+  return new Intl.DateTimeFormat('de-DE', options).format(date)
 }
 
 export function fullStamp(value: string): string {
@@ -221,4 +240,16 @@ export function duration(ms: number | null | undefined): string {
   const minutes = Math.floor(total / 60)
   const seconds = total % 60
   return `${minutes} Min ${seconds} s`
+}
+
+/** Display quotes around a recorded claim. The stored text is unchanged. */
+export function quoted(text: string): string {
+  return `„${text}“`
+}
+
+/** A recorded “N passed” line is shown as a count. Other evidence stays as recorded. */
+export function shownEvidence(text: string): string {
+  const found = text.match(/(\d+)\s+passed\b/)
+  if (!found?.[1]) return text
+  return `Alle ${grouped(Number(found[1]))} Tests`
 }

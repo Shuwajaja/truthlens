@@ -37,7 +37,9 @@ def summarize(claims: list[dict], execution: str, audit_state: str, integrity: s
 def pack(run_id: str, project: str, agent: str, task: str, started: datetime, claims: list[dict],
          *, audit: str, finished: datetime | None = None, display: dict | None = None) -> dict:
     execution = "completed"
-    integrity = "hash-only"
+    # Labelled demo only. hmac lets the reference colors match the owner mockup.
+    # The browser does not check this signature. Hash-only files stay unklar.
+    integrity = "hmac"
     counts = {"confirmed": 0, "refuted": 0, "unclear": 0}
     for item in claims:
         counts[item["verdict"]] += 1
@@ -109,7 +111,7 @@ def visible() -> list[dict]:
                 ["2026-10-26T15:44:12.000Z", "captured", "Befehl ausgeführt", "npm test → 42 passed"],
                 ["2026-10-26T15:46:55.000Z", "captured", "Dateien geändert", "README.md, package.json, CHANGELOG.md"],
                 ["2026-10-26T15:47:20.000Z", "agent_reported", "Abschluss-Bericht", "7 Behauptungen erkannt"],
-                ["2026-10-26T15:47:31.000Z", "captured", "Prüfung fertig", "5 TRUE · 1 FALSE · 1 UNKNOWN"],
+                ["2026-10-26T15:47:31.000Z", "captured", "Prüfung fertig", "5 ✓ · 1 ✗ · 1 ?"],
             ],
         },
     )
@@ -130,19 +132,32 @@ def visible() -> list[dict]:
 
 
 def hidden(start_index: int) -> list[dict]:
+    """120 labelled runs behind the eight visible rows.
+
+    Together with those rows the catalog is 1.204 claims: 975 confirmed,
+    108 refuted, 121 unclear. Agent Zero stays the unique refuted leader.
+    Pending audits stay unclear. This is still marked Beispieldaten.
+    """
     projects = ["mcpdeck", "vpsman", "mausbot", "truthlens"]
-    agents = ["agent-zero", "codex", "claude"]
+    mixes: list[tuple[str, str, int, int, int]] = []
+    for index in range(20):
+        mixes.append(("agent-zero", "complete", 11, 2, 0))
+    for index in range(29):
+        mixes.append(("codex", "complete", 11 if index < 18 else 10, 1, 0))
+    for index in range(30):
+        mixes.append(("claude", "complete", 11 if index < 7 else 10, 1, 0))
+    for index in range(9):
+        mixes.append((["codex", "claude"][index % 2], "complete", 10, 0, 0))
+    for index in range(32):
+        mixes.append((["agent-zero", "codex", "claude"][index % 3], "pending", 0, 0, 4 if index < 16 else 3))
     rows = []
-    for index in range(120):
+    for index, (agent, audit, ok, bad, unsure) in enumerate(mixes):
         moment = NOW - timedelta(days=3, minutes=40 * index)
-        audit = "pending" if index >= 88 else "complete"
-        agent = "agent-zero" if index < 20 else agents[index % 3]
-        if audit == "pending":
-            claims = many("unclear", 1, f"h{index}")
-        elif index < 20:
-            claims = many("refuted", 1, f"h{index}")
-        else:
-            claims = many("confirmed", 1, f"h{index}")
+        claims = (
+            many("confirmed", ok, f"h{index}y")
+            + many("refuted", bad, f"h{index}n")
+            + many("unclear", unsure, f"h{index}q")
+        )
         rows.append(pack(
             f"run_h{index:03d}", projects[index % 4], agent, f"Beispielaufgabe {index + start_index}",
             moment, claims, audit=audit,

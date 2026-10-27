@@ -12,11 +12,85 @@ On this tree, before this paragraph:
 - `PYTHONPATH=src TZ=UTC /tmp/tl-venv/bin/python -m pytest tests/test_readme.py tests/test_architecture_docs.py tests/test_mcp_catalog.py -q --tb=short` printed **23 passed, 95 subtests passed**.
 - `ruff check tests/test_readme.py tests/test_mcp_catalog.py` passed.
 
-The terminal image is real stdout. `truthlens doctor` exited 1 with
-`entries=0`. `truthlens runs list` exited 0 and printed `UNKNOWN` for the
-hash-only demo ledger. The runs pictures are the reference runs view with
-labelled sample data. The key value is not in the README or that capture.
-CI for this head was not part of the local run.
+The first terminal image was real stdout. `truthlens doctor` exited 1 with
+`entries=0`. On the pre-#209 tree, `truthlens runs list` exited 0 and
+printed `UNKNOWN` for the hash-only demo ledger. After merging `994c943`,
+the same commands were run again: doctor still exited 1, and `runs list`
+exited 0 and printed `unklar`. The reference UI files in `994c943` match
+`12218b1`, so the runs and detail pictures were kept. The key value is not
+in the README or that capture. CI for the pre-merge head was not part of
+the local run.
+
+After the conflict resolution, before this paragraph was updated:
+
+- `PYTHONPATH=src TZ=UTC /tmp/tl-venv/bin/python -m pytest tests/test_readme.py tests/test_architecture_docs.py tests/test_mcp_catalog.py tests/test_reference_commands.py -q --tb=line` printed **44 passed, 95 subtests passed**.
+- `ruff check tests/test_readme.py tests/test_mcp_catalog.py src/truthlens/runs_cmd.py` passed.
+
+## Reference branch keeps main and the mockup gaps, 26 October 2026
+
+`cursor/reference-start-onboarding-af22` merged `origin/main` at `eb41362`
+(PR #211, which contains PR #210 `c547c61`) and then closed the remaining
+reference gaps on `12218b1`. The catalog MCP, `truthlens setup`, and the
+bare harness doctor stay. The reference redesign stays. Not merged.
+
+On `12218b1`, before this paragraph:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **538 passed (538)**.
+- `node scripts/check-language.mjs`, `check-styles.mjs`, and `check-werk-theme.mjs` passed. `npx oxlint` on the touched reference files exited 0 and still printed the existing `react(set-state-in-effect)` warning at `ReferenceApp.tsx:32`.
+- `npm run build` printed `main-CVHqS4Hn.js` at **260.60 kB**. `tsc -b` passed.
+- `ruff check src tests` passed.
+- `PYTHONPATH=src TZ=UTC /tmp/tl-venv/bin/python -m pytest tests/test_reference_commands.py tests/test_reference_demo_fixture.py tests/test_vnext_acceptance.py tests/test_setup_mcp.py tests/test_mcp_catalog.py tests/test_agent_setup.py tests/test_readme.py tests/test_architecture_docs.py -q --tb=line` printed **128 passed, 108 subtests passed**.
+
+Chrome `/opt/google/chrome/chrome` on `vite preview` of that build: 6 unrestricted axe scans, 0 violations, no page errors, no horizontal overflow at 1440×900 or 390×844. Incomplete `color-contrast` on `.tl-mark` in the three 1440 scans only. The runs subtitle is “Beispieldaten (Demo)” in mono. It does not name `/srv/truthlens-published`. Claim text is quoted. The recorded `42 passed` line shows Alle 42 Tests. Zeitablauf is 480px at 1440. The HMAC line sits in the closed developer disclosure. Doctor in the footer has a green dot and its accessible name says isolation is not checked. `run_8f3a21` stays widerlegt. Screenshots and the real doctor/setup terminal image are under `docs/screenshots/cursor/reference-start-onboarding-af22/`. `/workspace/review-tl/vorlage/` was not on this machine. CI for this head was not watched in that local run.
+
+## Mockup match — local checks, 26 October 2026
+
+The reference surface on this branch now follows the owner Läufe and
+run-detail mockups: sidebar Läufe / Prüfberichte / Agenten / Quellen,
+`bestätigt` / `widerlegt` / `unklar`, and an open Zeitablauf card.
+`bestätigt` and `widerlegt` still require `integrity: hmac`. The labelled
+demo catalog is hmac and stays “Beispieldaten (Demo)”. Hash-only stays
+`unklar`. `runs list` uses the same words and keeps the HMAC gate. Legacy
+`truthlens doctor` and `truthlens init LEDGER` are unchanged. Not merged.
+
+On the working tree after those edits, before this paragraph:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **537 passed (537)**.
+- `npm run build` printed `main-DPPt4yUv.js` at **260.48 kB**. `tsc -b` passed.
+- `node scripts/check-styles.mjs`, `check-language.mjs`, and `check-werk-theme.mjs` passed. `npx oxlint` on the touched viewer files exited 0 and still printed the existing `react(set-state-in-effect)` warning at `ReferenceApp.tsx:32`.
+- `ruff check` on `runs_cmd.py`, `build_reference_demo.py`, `test_reference_commands.py`, and `test_reference_demo_fixture.py` passed.
+- `PYTHONPATH=src TZ=UTC /tmp/tl-venv/bin/python -m pytest tests/test_reference_commands.py tests/test_reference_demo_fixture.py tests/test_vnext_acceptance.py -q` printed **28 passed**. The fixture test was run again after the demo totals changed and passed.
+- Chrome `/opt/google/chrome/chrome` on `vite preview` of that build: 6 unrestricted axe scans, 0 violations, no page errors, no horizontal overflow at 1440×900 or 390×844. Incomplete `color-contrast` on `.tl-mark` in the three 1440 scans only.
+
+`run_8f3a21` displays `widerlegt`, not the mockup’s `unklar` title, because the labelled run is refuted and hmac. Agent Zero’s refuted count is 45, not 14. The CLI screenshot is real `workspace init`, `workspace doctor`, and `runs list` output from `/tmp/tl-cli`; it does not claim a publish host.
+
+Screenshots: `docs/screenshots/cursor/reference-start-onboarding-af22/`.
+
+## Guided empty start — local checks, 26 October 2026
+
+`cursor/reference-start-onboarding-af22` adds a welcome card and three
+steps to empty `/runs`, and the same three ideas to the evidence overview
+that still says “Noch keine geladenen Läufe.” No sample runs are injected
+into that overview. TRUE and FALSE on the start are an explanation; that
+step has no green confirmed pill. The browser does not read a ledger and
+does not run an audit. Not merged.
+
+On `120b39d`, before the mobile filter wrap:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **537 passed (537)**.
+- `npm run lint`, `check:styles`, `check:language`, and `check:theme` passed. Lint printed the existing `react(set-state-in-effect)` warning at `ReferenceApp.tsx:32` and exited 0.
+
+`e7f7b90` only wraps the runs filter row so the demo table stays inside a
+390px viewport. Vitest was not re-run after that CSS change. No Python
+changed, so pytest was not run.
+
+After `e7f7b90`:
+
+- `npm run check:styles` passed.
+- `npm run build` printed `main-BxO56OpM.js` at **257.83 kB**. `tsc -b` passed.
+- Chrome `/opt/google/chrome/chrome` on `vite preview` of that commit: 10 unrestricted axe scans, 0 violations, no page errors, no horizontal overflow at 1440×900 or 390×844. Incomplete `color-contrast` on `.tl-mark` in the four 1440 reference scans only. The script checked the start, the demo transition (no confirmed pill), empty Prüfdetails, a hash-only file showing UNKNOWN, and the workspace empty state with no figure.
+
+Screenshots: `docs/screenshots/cursor/reference-start-onboarding-af22/`.
 
 ## Setup command and harness doctor — local checks, 26 October 2026
 

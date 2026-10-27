@@ -27,8 +27,9 @@ Freigabe. Integrität ist keine Freigabe.
    unklar, auch wenn die gespeicherte Zusammenfassung bestätigt oder widerlegt
    lautet. Der Browser rechnet den HMAC nicht.
 
-In der Oberfläche heißen die Wörter bestätigt, widerlegt und unklar.
-Auf der Kommandozeile heißen sie `TRUE`, `FALSE` und `UNKNOWN`.
+In der Oberfläche und bei `truthlens runs list` heißen die Wörter
+bestätigt, widerlegt und unklar. Bericht und Katalog-MCP sagen `TRUE`,
+`FALSE` und `UNKNOWN`.
 
 ## Schnellstart
 

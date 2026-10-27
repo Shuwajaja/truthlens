@@ -1,0 +1,226 @@
+{
+  "scans": [
+    {
+      "viewport": "1440",
+      "path": "/runs",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "targets": [
+            [
+              ".tl-mark"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "viewport": "1440",
+      "path": "/runs?demo=1",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "targets": [
+            [
+              ".tl-mark"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "viewport": "1440",
+      "path": "/runs/run_8f3a21?demo=1",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 1,
+          "targets": [
+            [
+              ".tl-mark"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "viewport": "390",
+      "path": "/runs",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "viewport": "390",
+      "path": "/runs?demo=1",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "viewport": "390",
+      "path": "/runs/run_8f3a21?demo=1",
+      "violations": [],
+      "incomplete": []
+    }
+  ],
+  "checks": [
+    {
+      "viewport": "1440",
+      "path": "/runs",
+      "source": "",
+      "badge": "",
+      "srv": false,
+      "settings": [
+        "Einstellungen",
+        "Doctor"
+      ],
+      "dot": true,
+      "kbd": "⌘K",
+      "quotes": false,
+      "count": false,
+      "pytest": false,
+      "devOpen": null,
+      "devInReport": false,
+      "headIntegrity": false,
+      "timeWidth": null,
+      "markBox": 32,
+      "pill": "",
+      "overflow": 0,
+      "kind": "start",
+      "errors": []
+    },
+    {
+      "viewport": "1440",
+      "path": "/runs?demo=1",
+      "source": "Beispieldaten (Demo)",
+      "badge": "Beispieldaten",
+      "srv": false,
+      "settings": [
+        "Einstellungen",
+        "Doctor"
+      ],
+      "dot": true,
+      "kbd": "⌘K",
+      "quotes": false,
+      "count": false,
+      "pytest": false,
+      "devOpen": null,
+      "devInReport": false,
+      "headIntegrity": false,
+      "timeWidth": null,
+      "markBox": 32,
+      "pill": "widerlegt",
+      "overflow": 0,
+      "kind": "runs",
+      "errors": []
+    },
+    {
+      "viewport": "1440",
+      "path": "/runs/run_8f3a21?demo=1",
+      "source": "",
+      "badge": "Beispieldaten",
+      "srv": false,
+      "settings": [
+        "Einstellungen",
+        "Doctor"
+      ],
+      "dot": true,
+      "kbd": "⌘K",
+      "quotes": true,
+      "count": true,
+      "pytest": false,
+      "devOpen": false,
+      "devInReport": false,
+      "headIntegrity": false,
+      "timeWidth": 480,
+      "markBox": 32,
+      "pill": "widerlegt",
+      "overflow": 0,
+      "kind": "detail",
+      "errors": []
+    },
+    {
+      "viewport": "390",
+      "path": "/runs",
+      "source": "",
+      "badge": "",
+      "srv": false,
+      "settings": [
+        "Einstellungen",
+        "Doctor"
+      ],
+      "dot": true,
+      "kbd": "⌘K",
+      "quotes": false,
+      "count": false,
+      "pytest": false,
+      "devOpen": null,
+      "devInReport": false,
+      "headIntegrity": false,
+      "timeWidth": null,
+      "markBox": 0,
+      "pill": "",
+      "overflow": 0,
+      "kind": "start",
+      "errors": []
+    },
+    {
+      "viewport": "390",
+      "path": "/runs?demo=1",
+      "source": "Beispieldaten (Demo)",
+      "badge": "Beispieldaten",
+      "srv": false,
+      "settings": [
+        "Einstellungen",
+        "Doctor"
+      ],
+      "dot": true,
+      "kbd": "⌘K",
+      "quotes": false,
+      "count": false,
+      "pytest": false,
+      "devOpen": null,
+      "devInReport": false,
+      "headIntegrity": false,
+      "timeWidth": null,
+      "markBox": 0,
+      "pill": "widerlegt",
+      "overflow": 0,
+      "kind": "runs",
+      "errors": []
+    },
+    {
+      "viewport": "390",
+      "path": "/runs/run_8f3a21?demo=1",
+      "source": "",
+      "badge": "Beispieldaten",
+      "srv": false,
+      "settings": [
+        "Einstellungen",
+        "Doctor"
+      ],
+      "dot": true,
+      "kbd": "⌘K",
+      "quotes": true,
+      "count": true,
+      "pytest": false,
+      "devOpen": false,
+      "devInReport": false,
+      "headIntegrity": false,
+      "timeWidth": 358,
+      "markBox": 0,
+      "pill": "widerlegt",
+      "overflow": 0,
+      "kind": "detail",
+      "errors": []
+    }
+  ],
+  "errors": []
+}

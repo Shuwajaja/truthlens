@@ -4,7 +4,7 @@ import {afterEach, expect, it} from 'vitest'
 import {cleanup, fireEvent, render, screen, within} from '@testing-library/react'
 import App from '../src/App.tsx'
 import {ReferenceApp} from '../src/reference/ReferenceApp.tsx'
-import {copy} from '../src/reference/copy.ts'
+import {copy, quoted, shownEvidence} from '../src/reference/copy.ts'
 import type {Catalog, RunView} from '../src/reference/model.ts'
 
 afterEach(() => {
@@ -82,14 +82,27 @@ it('hides confirmed claims when a damaged run is opened', () => {
   render(<ReferenceApp location="/runs/run_hurt?demo=1" catalog={catalog([damaged])} />)
   expect(screen.getByRole('alert').textContent).toContain(copy.damagedTitle)
   expect(screen.queryByText('must-not-render-confirmed')).toBeNull()
-  expect(screen.getByText(/Hash only/)).toBeTruthy()
-  expect(screen.getByText(/Integrität ist keine Freigabe/)).toBeTruthy()
+  const developer = document.querySelector('details.tl-dev') as HTMLDetailsElement
+  expect(developer.open).toBe(false)
+  expect(developer.textContent).toContain('Hash only')
+  expect(developer.textContent).toContain(copy.integrityLine)
+  expect(document.querySelector('.tl-head-row')?.textContent).not.toContain('Hash only')
 })
 
 it('shows an empty project on /runs and the demo label only for demo data', () => {
   const {unmount} = render(<ReferenceApp location="/runs" />)
+  expect(screen.getByRole('heading', {level: 1, name: copy.startTitle})).toBeTruthy()
+  expect(screen.getByRole('heading', {name: copy.stepWorkspace})).toBeTruthy()
+  expect(screen.getByRole('heading', {name: copy.stepLoad})).toBeTruthy()
+  expect(screen.getByRole('heading', {name: copy.stepRead})).toBeTruthy()
+  expect(screen.getByText(copy.meanTrue)).toBeTruthy()
+  expect(screen.getByText(copy.meanFalse)).toBeTruthy()
+  expect(screen.getByText(copy.meanUnknown)).toBeTruthy()
+  expect(screen.getByText(copy.integrityLine, {exact: false})).toBeTruthy()
+  expect(screen.getByText(copy.stepWorkspaceCli, {exact: false})).toBeTruthy()
+  expect(document.querySelector('.tl-pill.confirmed')).toBeNull()
   expect(screen.getByRole('link', {name: copy.connect})).toBeTruthy()
-  expect(screen.getByRole('link', {name: copy.sample})).toBeTruthy()
+  expect(screen.getByRole('link', {name: copy.sample}).getAttribute('href')).toBe('/runs?demo=1')
   expect(screen.queryByText(copy.demo)).toBeNull()
   expect(screen.queryByText('1.204')).toBeNull()
   unmount()
@@ -100,7 +113,25 @@ it('shows an empty project on /runs and the demo label only for demo data', () =
     counts: {confirmed: 1, refuted: 0, unclear: 0},
   })
   render(<ReferenceApp location="/runs?demo=1" catalog={catalog([sample])} />)
+  expect(screen.queryByRole('heading', {name: copy.startTitle})).toBeNull()
+  expect(screen.getByRole('row', {name: /run_ok/})).toBeTruthy()
   expect(screen.getByText(copy.demo)).toBeTruthy()
+  expect(document.querySelector('.tl-source')?.textContent).toBe('fixture')
+  expect(screen.queryByText(/\/srv\//)).toBeNull()
+  expect(screen.getByRole('link', {name: copy.settings})).toBeTruthy()
+  expect(screen.getByRole('link', {name: new RegExp(copy.doctor)}).querySelector('.tl-dot.captured')).toBeTruthy()
+  expect(screen.getByRole('button', {name: copy.search}).textContent).toContain('⌘K')
+})
+
+it('explains empty checks and records without a confirmed result', () => {
+  const {unmount} = render(<ReferenceApp location="/checks" />)
+  expect(screen.getByText(copy.checksEmptyHelp)).toBeTruthy()
+  expect(screen.getByRole('link', {name: copy.backStart}).getAttribute('href')).toBe('/runs')
+  expect(document.querySelector('.tl-pill.confirmed')).toBeNull()
+  unmount()
+  render(<ReferenceApp location="/records" />)
+  expect(screen.getByText(copy.recordsEmptyHelp)).toBeTruthy()
+  expect(document.querySelector('.tl-pill.confirmed')).toBeNull()
 })
 
 it('applies a project filter to the same figures as the table', () => {
@@ -166,9 +197,9 @@ it('lists checks and labelled records, and does not open an agent control', () =
   const data = catalog([sample])
   const {unmount} = render(<ReferenceApp location="/checks?demo=1" catalog={data} />)
   expect(screen.getByRole('heading', {name: copy.checksTitle})).toBeTruthy()
-  expect(screen.getByText('passes')).toBeTruthy()
-  expect(screen.getByText('UNKNOWN')).toBeTruthy()
-  expect(screen.queryByText('TRUE')).toBeNull()
+  expect(screen.getByText(quoted('passes'))).toBeTruthy()
+  expect(screen.getByText(copy.unclear)).toBeTruthy()
+  expect(screen.queryByText(copy.confirmed)).toBeNull()
   expect(document.querySelector('.tl-pill.confirmed')).toBeNull()
   unmount()
   render(<ReferenceApp location="/agents?demo=1" catalog={data} />)
@@ -226,18 +257,18 @@ it('keeps TRUE and FALSE off hash-only runs and shows them for HMAC', () => {
   expect(screen.queryByRole('row', {name: /run_hash/})).toBeNull()
   expect(screen.queryByRole('row', {name: /run_open/})).toBeNull()
   const hmacRow = screen.getByRole('row', {name: /run_hmac/})
-  expect(within(hmacRow).getByText('TRUE').className).toContain('confirmed')
+  expect(within(hmacRow).getByText(copy.confirmed).className).toContain('confirmed')
   expect(hmacRow.querySelector('.tl-countline .ok')).toBeTruthy()
   cleanup()
   render(<ReferenceApp location="/runs?demo=1" catalog={catalog([unsigned, unsignedRefuted])} />)
   const hashRow = screen.getByRole('row', {name: /run_hash/})
-  expect(within(hashRow).getByText('UNKNOWN').className).toContain('unclear')
-  expect(within(hashRow).queryByText('TRUE')).toBeNull()
+  expect(within(hashRow).getByText(copy.unclear).className).toContain('unclear')
+  expect(within(hashRow).queryByText(copy.confirmed)).toBeNull()
   expect(hashRow.querySelector('.tl-pill.confirmed')).toBeNull()
   expect(hashRow.querySelector('.tl-countline .ok')).toBeNull()
   const openRow = screen.getByRole('row', {name: /run_open/})
-  expect(within(openRow).queryByText('FALSE')).toBeNull()
-  expect(within(openRow).getByText('UNKNOWN')).toBeTruthy()
+  expect(within(openRow).queryByText(copy.refuted)).toBeNull()
+  expect(within(openRow).getByText(copy.unclear)).toBeTruthy()
   expect(document.querySelector('.tl-card strong.ok')).toBeTruthy()
   const rate = [...document.querySelectorAll('.tl-kpis article')].find(node => node.textContent?.includes(copy.confirmedRate))
   expect(rate?.querySelector('strong')?.className ?? '').not.toContain('ok')
@@ -272,10 +303,10 @@ it('loads an operator file and still withholds TRUE without HMAC', async () => {
     counts: {confirmed: 1, refuted: 0, unclear: 0},
   })})], 'run.json', {type: 'application/json'})
   fireEvent.change(screen.getByLabelText(copy.loadFile), {target: {files: [file]}})
-  expect(await screen.findByText('from file')).toBeTruthy()
+  expect(await screen.findByText(quoted('from file'))).toBeTruthy()
   expect(screen.getByText(/Hash only/)).toBeTruthy()
-  expect(screen.queryByText('TRUE')).toBeNull()
-  expect(document.querySelector('h1 .tl-pill')?.textContent).toBe('UNKNOWN')
+  expect(screen.queryByText(copy.confirmed)).toBeNull()
+  expect(document.querySelector('h1 .tl-pill')?.textContent).toBe(copy.unclear)
   expect(screen.queryByText(copy.demo)).toBeNull()
 })
 
@@ -290,24 +321,47 @@ it('shows TRUE when the loaded run view is HMAC', async () => {
     counts: {confirmed: 1, refuted: 0, unclear: 0},
   })})], 'run.json', {type: 'application/json'})
   fireEvent.change(screen.getByLabelText(copy.loadFile), {target: {files: [file]}})
-  expect(await screen.findByText('signed claim')).toBeTruthy()
-  expect(document.querySelector('h1 .tl-pill')?.textContent).toBe('TRUE')
+  expect(await screen.findByText(quoted('signed claim'))).toBeTruthy()
+  expect(document.querySelector('h1 .tl-pill')?.textContent).toBe(copy.confirmed)
   expect(document.querySelector('h1 .tl-pill')?.className).toContain('confirmed')
   expect(screen.getByText(copy.loadedSource, {exact: false})).toBeTruthy()
 })
 
-it('shows UNKNOWN when the recorded test quality is doubtful', () => {
+it('shows unklar when the recorded test quality is doubtful', () => {
   const sample = run({
     run_id: 'run_doubt',
+    integrity: 'hmac',
     review_summary: 'confirmed',
     counts: {confirmed: 1, refuted: 0, unclear: 0},
     claims: [{...claim('d', 'confirmed', 'faster benchmark'), reason_code: 'benchmark_missing'}],
   })
   render(<ReferenceApp location="/runs/run_doubt?demo=1" catalog={catalog([sample])} />)
   const pill = document.querySelector('h1 .tl-pill')
-  expect(pill?.textContent).toBe('UNKNOWN')
+  expect(pill?.textContent).toBe(copy.unclear)
   expect(pill?.className).toContain('unclear')
   expect(pill?.className).not.toContain('confirmed')
+})
+
+it('quotes a claim and turns a passed count into Alle N Tests', () => {
+  const sample = run({
+    run_id: 'run_quote',
+    integrity: 'hmac',
+    review_summary: 'confirmed',
+    claims: [claim('a', 'confirmed', 'Alle 42 Tests laufen')],
+    counts: {confirmed: 1, refuted: 0, unclear: 0},
+    display: {evidence: ['pytest-Ausgabe: 42 passed'], sources: ['Testlauf']},
+  })
+  render(<ReferenceApp location="/runs/run_quote?demo=1" catalog={catalog([sample])} />)
+  expect(screen.getByText(quoted('Alle 42 Tests laufen'))).toBeTruthy()
+  expect(screen.getByText(shownEvidence('pytest-Ausgabe: 42 passed'))).toBeTruthy()
+  expect(screen.queryByText('pytest-Ausgabe: 42 passed')).toBeNull()
+  expect(shownEvidence('Diff Zeile 12-38')).toBe('Diff Zeile 12-38')
+  const developer = document.querySelector('details.tl-dev') as HTMLDetailsElement
+  expect(developer.open).toBe(false)
+  expect(developer.textContent).toContain(copy.integrityHmac)
+  expect(developer.textContent).toContain('fixture')
+  expect(document.querySelector('.tl-head-row')?.textContent).not.toContain(copy.integrityLine)
+  expect(document.querySelector('.tl-report details')).toBeNull()
 })
 
 it('serves the reference surface from /runs without replacing the evidence workspace', () => {
