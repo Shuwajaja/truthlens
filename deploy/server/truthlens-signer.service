@@ -1,0 +1,38 @@
+# EXAMPLE ONLY — NOT INSTALLED. Review paths, IDs and isolation before activation.
+[Unit]
+Description=TruthLens host signing service (agent reports, not witnessed facts)
+After=local-fs.target
+
+[Service]
+Type=simple
+User=tl-signer
+Group=truthlens-callers
+ExecStart=/opt/truthlens/venv/bin/truthlens signer serve --config /etc/truthlens/signer/config.json
+UMask=0077
+RuntimeDirectory=truthlens-signer
+RuntimeDirectoryMode=0750
+RuntimeDirectoryPreserve=no
+ReadWritePaths=/srv/agent-runs/truthlens /run/truthlens-signer
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX
+SystemCallArchitectures=native
+LimitCORE=0
+TasksMax=16
+MemoryMax=256M
+StandardOutput=journal
+StandardError=journal
+Restart=no
+# No Install section: nothing is enabled by this example.

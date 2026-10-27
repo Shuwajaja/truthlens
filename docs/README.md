@@ -10,6 +10,7 @@
 | [../deploy/server/README.md](../deploy/server/README.md) | Inactive server-pipeline templates, isolation prerequisites and disconnected gateway boundary |
 | [../integrations/agent-zero-acp/README.md](../integrations/agent-zero-acp/README.md) | Read-only ACP status handler; no identity from chat |
 | [AGENT-SETUP.md](AGENT-SETUP.md) | G2 status CLI, read-only doctor, explicit client snippets and synthetic demo |
+| [signer.md](signer.md) / [Deutsch](de/signer.md) | Host signing service, reported provenance, protocol and inactive deployment steps |
 | [setup-mcp.md](setup-mcp.md) | Install TruthLens and add a local MCP entry. German and English |
 | [de/README.md](de/README.md) | German guide: what the check shows, TL-003, and setup |
 | [SELFHOST-MCP.md](SELFHOST-MCP.md) | G1 status-only broker/MCP, threat model and deferred host/client qualification |
