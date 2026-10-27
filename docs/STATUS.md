@@ -1,3 +1,29 @@
+## Personal HMAC key commands — local checks, 27 October 2026
+
+Branch `feat/key-command`, base `a86601e`. `truthlens key init` creates a
+private compatible key file; `key rotate` and forced replacement retain only
+retired IDs in an adjacent private sidecar. Unavailable retired IDs remain
+UNKNOWN, with a reason; current-ID bad signatures and broken chains still fail.
+Managed run signing uses the stored ID. MCP/setup accept file flags and
+`TRUTHLENS_HMAC_KEY_FILE`, preferring files over environment secrets. Doctor and
+setup suggest key initialization when missing. See [setup](setup-mcp.md).
+
+Witnessed on the implementation tree committed with this entry:
+
+- `/tmp/truthlens-keycmd-venv/bin/python -m pytest -q tests/test_keys.py tests/test_setup_mcp.py tests/test_audit_inputs.py tests/test_audit.py tests/test_cli.py tests/test_mcp.py tests/test_mcp_catalog.py tests/test_readme.py tests/test_cli_export_errors.py tests/test_cli_manifest_errors.py tests/test_cli_utf8.py tests/test_status_projection.py --tb=short`: **176 passed, 42 subtests passed**. Initial three lifecycle acceptance tests failed before implementation.
+- `/tmp/truthlens-keycmd-venv/bin/ruff check src tests`: passed.
+- `/tmp/truthlens-keycmd-venv/bin/python -m build --no-isolation --outdir /tmp/truthlens-keycmd-build`: sdist and wheel built. The initial attempt lacked setuptools in the temporary venv; installing build tools there resolved it.
+- Independent Codex reviewer `/root/security_review`: a key-read location-policy finding was fixed and covered by seven regressions. Final scoped review found no blockers; combined reviewed-source/test digest `52d850bdc283ed43f70a12b4bd6a4c3b4f0c03baac01b4c0eb33130e6b16a242`.
+
+All generated keys were temporary test data outside the repository. No real
+key, host configuration, service, push, PR or merge was touched. Key files use
+POSIX ownership, permissions and locks; full suites, real clients and OS-level
+isolation were not qualified. An exploratory non-POSIX report probe failed on
+the existing ledger's fcntl dependency; no Windows support is claimed here.
+The new key command's unsupported-locking failure path is tested. Restart MCP
+after rotation/replacement; processes load the key at startup. No old secrets
+are retained, and same-UID agents remain outside the key-custody guarantee.
+
 ## Portfolio README — local checks, 26 October 2026
 
 `cursor/readme-portfolio-af22` starts from `origin/main` at `eb41362`.

@@ -97,6 +97,8 @@ class CatalogServer:
             integrity = "unknown"
         verified = doc.get("verified") is True and integrity == "hmac"
         out: dict = {"verified": verified, "integrity": integrity, "note": NOTE}
+        if isinstance(doc.get("reason"), str):
+            out["reason"] = doc["reason"]
         out.update(self._words(integrity, verified))
         if integrity == "hmac" and verified:
             out["authenticated"] = True
@@ -218,17 +220,24 @@ class CatalogServer:
             rel = target.parent.relative_to(self.root).as_posix()
             return self._check(self._run_doc("." if rel == "." else rel))
         if target.is_file():
-            from truthlens.ledger import verify
+            from truthlens.keys import ManagedKey, verification_key
+            from truthlens.ledger import Ledger, verify
 
-            result = verify(target, self.key)
+            key, reason = self.key, None
+            if isinstance(key, ManagedKey):
+                preliminary = verify(target)
+                if preliminary.ok:
+                    key, reason = verification_key(key, Ledger(target).read())
+            result = verify(target, key)
             if not result.ok:
                 return self._check({
                     "verified": False,
                     "integrity": "failed",
                     "errors": [f"line {n}: {message}" for n, message in result.errors],
                 })
-            verified = self.key is not None
-            return self._check({"verified": verified, "integrity": "hmac" if verified else "hash-only"})
+            verified = key is not None
+            return self._check({"verified": verified, "integrity": "hmac" if verified else "hash-only",
+                                **({"reason": reason} if reason else {})})
         raise ValueError("not a run or ledger")
 
     def doctor(self) -> dict:

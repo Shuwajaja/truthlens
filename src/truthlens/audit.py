@@ -105,6 +105,9 @@ def _verified_events(
             ):
                 raise ValueError("invalid confirmation shape")
         signed = any("hmac" in e for e in events)
+        from truthlens.keys import verification_key
+
+        hmac_key, unavailable = verification_key(hmac_key, events)
         verified = verify_bytes(raw, hmac_key if signed else None)
         if not verified.ok:
             checks.append(Check("TL-AUD-001", "contradictory", True, "Ledger verification failed."))
@@ -139,7 +142,8 @@ def _verified_events(
         auth = "supported" if signed and hmac_key is not None else "not_checkable"
         checks.append(
             Check(
-                "TL-AUD-003", auth, True, "HMAC checked." if auth == "supported" else "Signature not checked."
+                "TL-AUD-003", auth, True,
+                "HMAC checked." if auth == "supported" else unavailable or "Signature not checked."
             )
         )
         if not verified.anchored:
@@ -406,6 +410,7 @@ def _verifier_digests() -> dict[str, str]:
         "cli.py",
         "audit.py",
         "audit_inputs.py",
+        "keys.py",
         "canonical.py",
         "ledger.py",
         "manifest.py",

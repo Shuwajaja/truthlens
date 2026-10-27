@@ -176,14 +176,21 @@ class SafeRunReader:
 
 
 def read_audit_key(path: Path, run_root: Path) -> bytes:
+    from truthlens.keys import read_key_file
+
+    return read_key_file(path, run_root)
+
+
+def _read_key_bytes(path: Path, run_root: Path | None = None) -> bytes:
     """Read an external owner-only key; never include its contents in diagnostics."""
     try:
         key_path = Path(os.path.abspath(path))
-        root_path = Path(os.path.abspath(run_root))
-        if key_path.is_relative_to(root_path):
-            raise AuditInputError("unsafe_key")
-        with SafeRunReader(root_path):
-            pass
+        if run_root is not None:
+            root_path = Path(os.path.abspath(run_root))
+            if key_path.is_relative_to(root_path):
+                raise AuditInputError("unsafe_key")
+            with SafeRunReader(root_path):
+                pass
         with SafeRunReader(key_path.parent) as reader:
             fd = reader._open(key_path.name)
             try:

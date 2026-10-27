@@ -47,21 +47,48 @@ authentisieren die Aufzeichnung nicht.
 ### Eigenen Harness einrichten
 
 Der Platzhalter `/path/to/local/runs` ist kein echter Ordner. Den Schlüssel
-setzt du selbst. TruthLens speichert nur den Namen der Variable.
+erzeugst du mit `truthlens key init`. Die Konfiguration enthält nur den Dateipfad.
 
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -e .
-truthlens setup --agent cursor --root /path/to/local/runs --key-env TRUTHLENS_HMAC_KEY --print
+truthlens key init
+truthlens setup --agent cursor --root /path/to/local/runs --hmac-key-file ~/.config/truthlens/hmac.key --print
 truthlens doctor
 ```
 
 `--print` schreibt keine Datei. `--write` legt vorher eine `.bak` an.
 Frage, bevor eine Konfigurationsdatei geschrieben wird. Ohne
-`TRUTHLENS_HMAC_KEY` bleibt das Urteil unklar. Dieselben Flags gelten für
+verfügbaren Schlüssel bleibt das Urteil unklar. Dieselben Flags gelten für
 `codex`, `claude-code`, `gemini`, `agent-zero` und `mausbot`. Agent Zero und
 Mausbot brauchen `--config`.
+
+Standard: `~/.config/truthlens/hmac.key`, bei `XDG_CONFIG_HOME` entsprechend
+`$XDG_CONFIG_HOME/truthlens/hmac.key`. Verwende den ausgegebenen Pfad.
+`--out PATH` wählt einen anderen Ort; die Datei erhält `0600`, neue Ordner
+`0700`. Ausgegeben werden nur Pfad, ID und Verwendungshinweis, niemals der Schlüssel.
+
+Der Schlüssel muss außerhalb von Agent-Ordnern, Containern, Lauf-Ordnern und
+Repos liegen, z. B. `/etc/truthlens/hmac.key` auf einem Server. Nur der
+TruthLens-Prozessbenutzer darf ihn lesen (`chmod 600`). Agenten bitten
+TruthLens um Signieren/Prüfen und lesen den Schlüssel niemals selbst.
+Ein Agent mit derselben UID braucht eine separate Isolation.
+
+Bei Verlust: `truthlens key init --force`, bei eigenem Pfad zusätzlich
+`--out PATH`. Geplanter Wechsel: `truthlens key rotate --key-file PATH`.
+Alte Schlüsselbytes werden nicht behalten. Alte Läufe sind danach nicht mehr
+prüfbar und zeigen **UNKNOWN / unklar**, bei bekannter ID mit dem Grund
+`signed with retired key <id>; key no longer available`. Die benachbarte
+`.keyring.json` enthält nur IDs; bewahre sie auf. MCP nach dem Wechsel neu starten.
+`run --hmac-key-file PATH` übernimmt die erzeugte ID automatisch;
+`audit RUN_DIR --hmac-key-file PATH --json` prüft die Signatur.
+
+MCP und Setup akzeptieren `--hmac-key-file PATH` und
+`TRUTHLENS_HMAC_KEY_FILE=PATH`, mit Vorrang vor `--hmac-key-env VAR` /
+`TRUTHLENS_HMAC_KEY` (Setup auch `--key-env VAR`). Eine ungültige Datei fällt
+nicht auf den Umgebungswert zurück. `doctor` und `setup --write` empfehlen
+bei fehlendem Schlüssel `truthlens key init`.
 
 Die Kopiervorlagen und der Konfigurations-Prompt stehen auf der
 [Einrichtungsseite](../setup-mcp.md#deutsch).

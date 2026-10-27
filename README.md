@@ -90,24 +90,41 @@ recorder. See [recorded demo provenance](docs/DEMO-RUNS.md).
 ### Set up your own harness
 
 Install from the checkout, then print an MCP entry. The command stores the
-environment variable name, not the key. `<path>` is your runs directory.
+private key file path, not the key bytes. `<path>` is your runs directory.
 `/path/to/local/runs` in the printed entry is a placeholder.
 
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -e .
-truthlens setup --agent cursor --root /path/to/local/runs --key-env TRUTHLENS_HMAC_KEY --print
+truthlens key init
+truthlens setup --agent cursor --root /path/to/local/runs --hmac-key-file ~/.config/truthlens/hmac.key --print
 truthlens doctor
 ```
 
 `pip install` needs network access on a fresh machine. `--print` does not
 write a file. `--write` copies an existing config to `.bak` first. Ask before
-writing. Set `TRUTHLENS_HMAC_KEY` yourself. Without that key, verdicts stay
-`UNKNOWN`. The same flags work for `codex`, `claude-code`, `gemini`,
+writing. `key init` creates `~/.config/truthlens/hmac.key` (or
+`$XDG_CONFIG_HOME/truthlens/hmac.key`), with mode `0600` and new directories
+`0700`; it prints only the path, key ID and usage hint. Use the printed path
+when `XDG_CONFIG_HOME` is set. `--out PATH` selects another location.
+Without an available key, verdicts stay `UNKNOWN`. The same flags work for `codex`, `claude-code`, `gemini`,
 `agent-zero` and `mausbot`. Agent Zero and Mausbot need `--config` because
 TruthLens does not guess their folders. The full copy-paste guide is
 [Set up TruthLens](docs/setup-mcp.md).
+
+Keep the key outside agent folders, containers, run folders and repos,
+for example `/etc/truthlens/hmac.key` on a server. Only the TruthLens process
+user should read it (`chmod 600`). Agents should ask TruthLens to sign/verify,
+never read the key. Same-UID agents require a separate isolation boundary.
+
+Lost key: `truthlens key init --force` creates a replacement. For a custom
+path, add `--out PATH`. Planned replacement: `truthlens key rotate --key-file PATH`.
+Old secrets are not retained; old runs can no longer be verified and show
+**UNKNOWN**, with a retired-key reason when their ID is recorded in the adjacent
+secret-free `.keyring.json` sidecar. Keep this sidecar. Restart MCP after rotation.
+`run --hmac-key-file PATH` automatically uses the generated key ID;
+`audit RUN_DIR --hmac-key-file PATH --json` checks it without exposing the key.
 
 The viewer uses Node. Development setup, capture and screenshot checks are
 in the [reviewer guide](docs/REVIEWER-GUIDE.md).
@@ -120,7 +137,9 @@ It does not open a socket and it does not write. Tools are `list_runs`,
 directory) and `doctor`. `TRUE` / bestätigt and `FALSE` / widerlegt appear
 only when integrity is `hmac`. Hash-only results stay `UNKNOWN` / unklar.
 A file that cannot be checked is `not_checkable`. Integrity is not approval.
-Pass `--hmac-key-env VAR` only when that variable already holds the key.
+Pass `--hmac-key-file PATH` or set `TRUTHLENS_HMAC_KEY_FILE=PATH` for MCP and
+setup. Files take precedence over the legacy `--hmac-key-env VAR` /
+`TRUTHLENS_HMAC_KEY`; invalid files fail closed. Setup also accepts `--key-env`.
 The examples below set no key. `--root` still selects the older human
 evidence tools and is not this catalog.
 

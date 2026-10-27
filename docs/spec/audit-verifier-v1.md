@@ -17,6 +17,16 @@ a fixed `not_checkable` JSON report, without reflecting key contents or paths.
 Argument errors use stderr and exit 2. Without `--json`, only the conclusion is
 printed. Existing verify/report commands retain their behavior.
 
+`truthlens key init` creates a compatible private file and an adjacent
+`.keyring.json` containing only current/retired IDs. Key loading also rejects
+repository, known agent-folder and run-folder locations. Managed files select
+authentication by key ID: an unavailable retired ID is `not_checkable`, with
+`signed with retired key <id>; key no longer available`; an unknown ID is also
+uncheckable. No retired secret is retained. Chain/manifest/evidence checks still
+apply, and a current-ID HMAC mismatch remains contradictory. Pending metadata
+from an interrupted replacement fails closed. The verifier provenance includes
+`keys.py`. No event, manifest or trust-level contract changes.
+
 POSIX descriptor-relative reads reject symlink parents, traversal, nonregular
 files and unstable inputs. The reader opens no output files and performs no
 repair, execution or network call. It hashes every referenced top-level payload
