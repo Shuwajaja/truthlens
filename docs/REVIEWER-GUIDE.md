@@ -1,6 +1,6 @@
 # Reviewer guide
 
-Start with the [README's offline walkthrough](../README.md#try-it-in-1-minute).
+Start with the [README's offline walkthrough](../README.md#quickstart).
 This reference covers development, capture and the deeper CLI surface. Current
 completion evidence belongs in [STATUS](STATUS.md), not the original week plan.
 

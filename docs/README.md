@@ -11,6 +11,7 @@
 | [../integrations/agent-zero-acp/README.md](../integrations/agent-zero-acp/README.md) | Read-only ACP status handler; no identity from chat |
 | [AGENT-SETUP.md](AGENT-SETUP.md) | G2 status CLI, read-only doctor, explicit client snippets and synthetic demo |
 | [setup-mcp.md](setup-mcp.md) | Install TruthLens and add a local MCP entry. German and English |
+| [de/README.md](de/README.md) | German guide: what the check shows, TL-003, and setup |
 | [SELFHOST-MCP.md](SELFHOST-MCP.md) | G1 status-only broker/MCP, threat model and deferred host/client qualification |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Components and data flow |
 | [TRUST-LEVELS.md](TRUST-LEVELS.md) | Trust labels for artifacts |

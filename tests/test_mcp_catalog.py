@@ -245,7 +245,7 @@ def test_example_configs_are_local_stdio_and_not_status_snippets():
 
 def test_readme_mentions_the_catalog():
     readme = (Path(__file__).parent.parent / "README.md").read_text(encoding="utf-8")
-    assert "## Local catalog MCP" in readme
+    assert "## MCP" in readme
     assert "TRUTHLENS_ROOT" in readme
     assert "integrations/agent-zero/mcp-servers.example.json" in readme
     assert "integrations/mausbot/mcp-servers.example.json" in readme
