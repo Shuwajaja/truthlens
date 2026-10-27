@@ -34,6 +34,10 @@ def main(argv: list[str] | None = None) -> int:
 
         write_banner()
         return 0
+    if argv[:1] == ["key"]:
+        from truthlens.keys import main as key_main
+
+        return key_main(argv[1:])
     if argv[0] == "init":
         from truthlens.workspace_cmd import redirect_bare_init
 
@@ -80,6 +84,7 @@ def main(argv: list[str] | None = None) -> int:
         return _audit_status_command(argv[2:])
     ap = argparse.ArgumentParser(prog="truthlens")
     sub = ap.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("key", help="create or rotate your private HMAC signing key")
     p = sub.add_parser("profile", help="read-only operator profile diagnostics (root only)")
     profile_sub = p.add_subparsers(dest="profile_cmd", required=True)
     profile_check = profile_sub.add_parser("check")
@@ -147,6 +152,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     p.add_argument("--root", help="legacy human evidence root; omit to use TRUTHLENS_ROOT")
     p.add_argument("--hmac-key-env", metavar="VAR")
+    p.add_argument("--hmac-key-file", metavar="PATH")
     p = sub.add_parser("request", help="(agent side) ask the running wrapper to execute a gated action")
     p.add_argument("--timeout", type=float, default=30)
     p.add_argument("action", nargs=argparse.REMAINDER)
@@ -200,7 +206,19 @@ def main(argv: list[str] | None = None) -> int:
         return exit_code(report)
 
     if a.cmd == "mcp":
-        key = _key(a.hmac_key_env)
+        from pathlib import Path
+
+        from truthlens.audit_inputs import AuditInputError
+        from truthlens.keys import read_key_file
+
+        key_file = a.hmac_key_file or os.environ.get("TRUTHLENS_HMAC_KEY_FILE")
+        try:
+            key = read_key_file(Path(key_file)) if key_file else _key(
+                a.hmac_key_env or ("TRUTHLENS_HMAC_KEY" if os.environ.get("TRUTHLENS_HMAC_KEY") else None)
+            )
+        except AuditInputError:
+            print("error: unsafe or unreadable HMAC key file", file=sys.stderr)
+            return 2
         if a.root:
             from truthlens.mcp import serve
 
@@ -269,19 +287,31 @@ def main(argv: list[str] | None = None) -> int:
 def _run_key(a) -> bytes | None:
     """HMAC key for a run. A key file must live outside the agent's repo and the run dir (D17)."""
     from pathlib import Path
-    if not a.hmac_key_file:
+
+    from truthlens.audit_inputs import AuditInputError
+    from truthlens.keys import ManagedKey, read_key_file
+
+    key_file = a.hmac_key_file or os.environ.get("TRUTHLENS_HMAC_KEY_FILE")
+    if not key_file:
         print("error: truthlens run requires --hmac-key-file (outside repo and run dir) and --hmac-key-id;"
               " an env var would be readable by the agent via /proc", file=sys.stderr)
         raise SystemExit(2)
-    kf = Path(a.hmac_key_file).resolve()
+    kf = Path(key_file).expanduser().absolute()
     for d in (Path(a.repo).resolve(), Path(a.out).resolve()):
         if kf == d or d in kf.parents:
             print(f"error: hmac key file must be outside {d}", file=sys.stderr)
             raise SystemExit(2)
-    if kf.stat().st_mode & 0o077:
-        print("error: hmac key file must be chmod 600", file=sys.stderr)
+    try:
+        key = read_key_file(kf)
+    except AuditInputError:
+        print("error: unsafe or unreadable HMAC key file; require owner-only chmod 600", file=sys.stderr)
         raise SystemExit(2)
-    return kf.read_bytes().strip()
+    if isinstance(key, ManagedKey):
+        if a.hmac_key_id is not None and a.hmac_key_id != key.key_id:
+            print("error: --hmac-key-id differs from the key file metadata", file=sys.stderr)
+            raise SystemExit(2)
+        a.hmac_key_id = key.key_id
+    return key
 
 
 def _verified_dir(d: str, key: bytes | None):
@@ -300,6 +330,14 @@ def _verified_dir(d: str, key: bytes | None):
         return None, ["manifest.json must contain a UTF-8 JSON object"]
     if not isinstance(mf, dict):
         return None, ["manifest.json must contain a UTF-8 JSON object"]
+    from truthlens.keys import ManagedKey, verification_key
+
+    if isinstance(key, ManagedKey):
+        # Validate structure before trusting any event field for key selection.
+        preliminary = verify(root / "ledger.jsonl", None, mf.get("ledger_last_hash"))
+        if not preliminary.ok:
+            return None, [f"line {n}: {m}" for n, m in preliminary.errors]
+        key, _ = verification_key(key, Ledger(root / "ledger.jsonl").read())
     r = verify(root / "ledger.jsonl", key, mf.get("ledger_last_hash"))
     if not r.ok:
         return None, [f"line {n}: {m}" for n, m in r.errors]

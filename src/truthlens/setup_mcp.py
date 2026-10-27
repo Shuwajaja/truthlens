@@ -1,7 +1,7 @@
 """Write or print a local MCP entry, and check catalog readiness.
 
 The key value is never stored or printed. Config files keep only the env var
-name. ``truthlens doctor`` with no status-doctor flag scans harnesses and
+name or a private key file path. ``truthlens doctor`` with no status-doctor flag scans harnesses and
 does not write. ``truthlens doctor --socket`` stays the isolation doctor.
 """
 
@@ -25,6 +25,8 @@ _MCP_DOCTOR_FLAGS = {
     "--agent",
     "--root",
     "--key-env",
+    "--hmac-key-env",
+    "--hmac-key-file",
     "--agent-zero-settings",
     "--mausbot-config",
 }
@@ -63,38 +65,39 @@ def _toml_string(value: str) -> str:
     return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
-def catalog_entry(root: str, key_env: str) -> dict:
+def catalog_entry(root: str, key_env: str, key_file: str | None = None) -> dict:
     return {
         "command": "truthlens",
-        "args": ["mcp", "--hmac-key-env", key_env],
+        "args": ["mcp", "--hmac-key-file", key_file] if key_file else ["mcp", "--hmac-key-env", key_env],
         "env": {"TRUTHLENS_ROOT": root},
     }
 
 
-def render_codex(root: str, key_env: str) -> str:
-    args = ", ".join(_toml_string(part) for part in ("mcp", "--hmac-key-env", key_env))
+def render_codex(root: str, key_env: str, key_file: str | None = None) -> str:
+    parts = ("mcp", "--hmac-key-file", key_file) if key_file else ("mcp", "--hmac-key-env", key_env)
+    args = ", ".join(_toml_string(part) for part in parts)
     return (
         "[mcp_servers.truthlens]\n"
         'command = "truthlens"\n'
         f"args = [{args}]\n"
-        f"env_vars = [{_toml_string(key_env)}]\n"
-        "\n"
+        + ("" if key_file else f"env_vars = [{_toml_string(key_env)}]\n")
+        + "\n"
         "[mcp_servers.truthlens.env]\n"
         f"TRUTHLENS_ROOT = {_toml_string(root)}\n"
     )
 
 
-def render_json(agent: str, root: str, key_env: str) -> str:
+def render_json(agent: str, root: str, key_env: str, key_file: str | None = None) -> str:
     key = "mcp_servers" if agent == "agent-zero" else "mcpServers"
-    return json.dumps({key: {"truthlens": catalog_entry(root, key_env)}}, indent=2) + "\n"
+    return json.dumps({key: {"truthlens": catalog_entry(root, key_env, key_file)}}, indent=2) + "\n"
 
 
-def render_config(agent: str, root: str, key_env: str) -> str:
+def render_config(agent: str, root: str, key_env: str, key_file: str | None = None) -> str:
     if agent == "codex":
-        return render_codex(root, key_env)
+        return render_codex(root, key_env, key_file)
     if agent not in AGENTS:
         raise SetupError("error: unknown agent")
-    return render_json(agent, root, key_env)
+    return render_json(agent, root, key_env, key_file)
 
 
 def render_prompt(agent: str) -> str:
@@ -189,10 +192,10 @@ def _atomic(path: Path, data: bytes) -> None:
         raise
 
 
-def merge_text(agent: str, existing: str | None, root: str, key_env: str) -> str:
+def merge_text(agent: str, existing: str | None, root: str, key_env: str, key_file: str | None = None) -> str:
     if agent == "codex":
         kept = _strip_toml(existing or "")
-        body = render_codex(root, key_env)
+        body = render_codex(root, key_env, key_file)
         if kept.strip():
             return kept.rstrip() + "\n\n" + body
         return body
@@ -207,7 +210,7 @@ def merge_text(agent: str, existing: str | None, root: str, key_env: str) -> str
     if not isinstance(servers, dict):
         raise SetupError("error: mcp server table is not an object")
     servers = dict(servers)
-    servers["truthlens"] = catalog_entry(root, key_env)
+    servers["truthlens"] = catalog_entry(root, key_env, key_file)
     doc[key] = servers
     return json.dumps(doc, indent=2) + "\n"
 
@@ -290,12 +293,12 @@ def _config_path(agent: str, home: Path, environ: Mapping[str, str], overrides: 
         return None
 
 
-def _inspect(text: str) -> tuple[bool, list[str], list[str]]:
+def _inspect(text: str) -> tuple[bool, list[str], list[str], list[str]]:
     try:
         if text.lstrip().startswith("{"):
             doc = json.loads(text)
             if not isinstance(doc, dict):
-                return False, [], []
+                return False, [], [], []
             block = doc.get("mcpServers")
             if not isinstance(block, dict):
                 block = doc.get("mcp_servers")
@@ -307,9 +310,10 @@ def _inspect(text: str) -> tuple[bool, list[str], list[str]]:
     except (json.JSONDecodeError, tomllib.TOMLDecodeError, UnicodeError, ValueError):
         raise SetupError("unreadable") from None
     if not isinstance(server, dict):
-        return False, [], []
+        return False, [], [], []
     roots: list[str] = []
     keys: list[str] = []
+    files: list[str] = []
     env = server.get("env")
     if isinstance(env, dict) and isinstance(env.get("TRUTHLENS_ROOT"), str):
         roots.append(env["TRUTHLENS_ROOT"])
@@ -318,10 +322,12 @@ def _inspect(text: str) -> tuple[bool, list[str], list[str]]:
         for index, item in enumerate(args):
             if item == "--hmac-key-env" and index + 1 < len(args) and isinstance(args[index + 1], str):
                 keys.append(args[index + 1])
+            if item == "--hmac-key-file" and index + 1 < len(args) and isinstance(args[index + 1], str):
+                files.append(args[index + 1])
     for item in server.get("env_vars") or []:
         if isinstance(item, str) and item not in keys:
             keys.append(item)
-    return True, roots, keys
+    return True, roots, [] if files else keys, files
 
 
 _BINARIES = {
@@ -347,6 +353,17 @@ def _root_state(paths: list[str]) -> str:
     return state
 
 
+def _file_key_present(raw: str) -> bool:
+    from truthlens.audit_inputs import AuditInputError
+    from truthlens.keys import read_key_file
+
+    try:
+        read_key_file(Path(raw))
+        return True
+    except (AuditInputError, OSError, ValueError):
+        return False
+
+
 def _key_state(names: list[str], environ: Mapping[str, str]) -> str:
     if not names:
         return "unconfigured"
@@ -362,6 +379,7 @@ def doctor_report(
     environ: Mapping[str, str],
     root: str | None = None,
     key_env: str | None = None,
+    key_file: str | None = None,
     agent_zero: str | None = None,
     mausbot: str | None = None,
 ) -> tuple[int, str]:
@@ -372,7 +390,8 @@ def doctor_report(
         overrides["mausbot"] = mausbot
     rows: list[str] = []
     roots: list[str] = [root] if root else []
-    keys: list[str] = [key_env] if key_env else []
+    keys: list[str] = [key_env] if key_env and not key_file else []
+    files = [key_file] if key_file else []
     entries = 0
     path_env = environ.get("PATH", "")
     for agent in AGENTS:
@@ -389,19 +408,20 @@ def doctor_report(
                 text = None
             if text is not None:
                 try:
-                    present, found_roots, found_keys = _inspect(text)
+                    present, found_roots, found_keys, found_files = _inspect(text)
                 except SetupError:
                     hint = "config unreadable"
                     present = False
-                    found_roots, found_keys = [], []
+                    found_roots, found_keys, found_files = [], [], []
                 if present:
                     entry = True
                     entries += 1
                     hint = "vorhanden"
                     if root is None:
                         roots.extend(found_roots)
-                    if key_env is None:
+                    if key_env is None and key_file is None:
                         keys.extend(found_keys)
+                        files.extend(found_files)
         if not found:
             entry = False
         rows.append(f"{agent} | {'ja' if found else 'nein'} | {'ja' if entry else 'nein'} | {hint}")
@@ -409,10 +429,15 @@ def doctor_report(
         env_root = environ.get("TRUTHLENS_ROOT", "").strip()
         if env_root:
             roots.append(env_root)
-    if key_env is None and not keys:
+    if not files and environ.get("TRUTHLENS_HMAC_KEY_FILE"):
+        files.append(environ["TRUTHLENS_HMAC_KEY_FILE"])
+        keys = []
+    if key_env is None and not keys and not files:
         keys.append(_DEFAULT_KEY)
     root_state = _root_state(roots)
-    key_state = _key_state(keys, environ)
+    key_state = _key_state(keys, environ) if keys else "present"
+    if files and not all(_file_key_present(path) for path in files):
+        key_state = "missing"
     lines = [
         f"RESULT root={root_state} key={key_state} entries={entries}",
         f"ROOT_{root_state.upper()}",
@@ -420,6 +445,8 @@ def doctor_report(
         "harness | gefunden ja/nein | TruthLens-Eintrag ja/nein | Hinweis",
         *rows,
     ]
+    if key_state != "present":
+        lines.append("No usable key found. Run truthlens key init, then configure --hmac-key-file PATH.")
     ready = root_state == "ok" and key_state == "present" and entries > 0
     return (0 if ready else 1), "\n".join(lines) + "\n"
 
@@ -437,7 +464,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = _Parser(prog="truthlens setup", allow_abbrev=False)
     parser.add_argument("--agent", choices=AGENTS)
     parser.add_argument("--root")
-    parser.add_argument("--key-env")
+    parser.add_argument("--key-env", "--hmac-key-env", dest="key_env")
+    parser.add_argument("--hmac-key-file")
     parser.add_argument("--config")
     parser.add_argument("--print", dest="print_config", action="store_true")
     parser.add_argument("--write", action="store_true")
@@ -451,6 +479,12 @@ def main(argv: list[str] | None = None) -> int:
             sys.stdout.write(render_prompts(args.agent))
             return 0
         agent, root, key_env = args.agent, args.root, args.key_env
+        key_file = args.hmac_key_file or environ.get("TRUTHLENS_HMAC_KEY_FILE")
+        if key_file:
+            key_file = str(Path(key_file).expanduser().absolute())
+            if "\n" in key_file or "\r" in key_file or "\x00" in key_file:
+                raise SetupError("error: invalid key file path")
+        key_env = _DEFAULT_KEY if key_file else key_env or (_DEFAULT_KEY if agent and root else None)
         mode = "write" if args.write else "print" if args.print_config else ""
         if args.write and args.print_config:
             raise SetupError("error: pass only one of --print or --write")
@@ -467,7 +501,7 @@ def main(argv: list[str] | None = None) -> int:
             raise SetupError("error: pass --print or --write")
         _check_values(agent, root, key_env, environ)
         if mode == "print":
-            sys.stdout.write(render_config(agent, root, key_env))
+            sys.stdout.write(render_config(agent, root, key_env, key_file))
             return 0
         path = destination(agent, home=Path.home(), environ=environ, config=args.config)
         current = None
@@ -475,8 +509,10 @@ def main(argv: list[str] | None = None) -> int:
             raise SetupError("error: refusing symlink")
         if path.is_file():
             current = path.read_text(encoding="utf-8")
-        write_config(path, merge_text(agent, current, root, key_env))
+        write_config(path, merge_text(agent, current, root, key_env, key_file))
         sys.stderr.write("config written\n")
+        if (key_file and not _file_key_present(key_file)) or (not key_file and not environ.get(key_env)):
+            sys.stderr.write("No usable key configured. Run truthlens key init, then configure --hmac-key-file PATH.\n")
         return 0
     except SetupError as exc:
         sys.stderr.write(exc.message + "\n")
@@ -491,7 +527,8 @@ def doctor_main(argv: list[str] | None = None) -> int:
     parser.message = "Doctor unavailable."
     parser.add_argument("--agent", choices=AGENTS)
     parser.add_argument("--root")
-    parser.add_argument("--key-env")
+    parser.add_argument("--key-env", "--hmac-key-env", dest="key_env")
+    parser.add_argument("--hmac-key-file")
     parser.add_argument("--agent-zero-settings")
     parser.add_argument("--mausbot-config")
     try:
@@ -501,6 +538,7 @@ def doctor_main(argv: list[str] | None = None) -> int:
             environ=dict(os.environ),
             root=args.root,
             key_env=args.key_env,
+            key_file=args.hmac_key_file,
             agent_zero=args.agent_zero_settings,
             mausbot=args.mausbot_config,
         )
