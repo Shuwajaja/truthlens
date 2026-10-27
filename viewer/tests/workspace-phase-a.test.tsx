@@ -19,30 +19,30 @@ it('never focuses the heading on initial load, but focuses after explicit view n
 it('keeps a single global theme across views and restores only a valid theme name',async()=>{
  localStorage.setItem('truthlens.theme','cool-graphite');load();await screen.findByRole('main');fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}))
  expect(document.documentElement.dataset.viewerTheme).toBe('cool-graphite')
- fireEvent.change(screen.getByRole('combobox',{name:'Theme'}),{target:{value:'petrol-porcelain'}})
+ fireEvent.change(screen.getByRole('combobox',{name:'Thema'}),{target:{value:'petrol-porcelain'}})
  expect(document.documentElement.dataset.viewerTheme).toBe('petrol-porcelain');expect(localStorage.getItem('truthlens.theme')).toBe('petrol-porcelain')
- fireEvent.click(screen.getByRole('button',{name:'Timeline',exact:true}));expect((screen.getByRole('combobox',{name:'Theme'}) as HTMLSelectElement).value).toBe('petrol-porcelain')
+ fireEvent.click(screen.getByRole('button',{name:'Timeline',exact:true}));expect((screen.getByRole('combobox',{name:'Thema'}) as HTMLSelectElement).value).toBe('petrol-porcelain')
  expect(fetch).toHaveBeenCalledTimes(1);expect(fetch).toHaveBeenCalledWith('/run.json')
 })
 it('has independent desktop panels and does not reopen a closed inspector on selection',async()=>{
  load();await screen.findByRole('main');fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}))
- fireEvent.click(screen.getByRole('button',{name:'Inspector',exact:true}));expect(screen.queryByRole('complementary',{name:'Context inspector'})).toBeNull()
- fireEvent.click(screen.getByRole('button',{name:'Navigation',exact:true}));expect(screen.queryByRole('navigation',{name:'Viewer navigation'})).toBeNull()
- fireEvent.click(screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(run.criteria[0].text)}));expect(screen.queryByRole('complementary',{name:'Context inspector'})).toBeNull()
- fireEvent.click(screen.getByRole('button',{name:'Inspector',exact:true}));expect(within(screen.getByRole('complementary',{name:'Context inspector'})).getByText(run.criteria[0].text)).toBeTruthy();expect(screen.queryByRole('dialog')).toBeNull()
+ fireEvent.click(screen.getByRole('button',{name:'Inspektor',exact:true}));expect(screen.queryByRole('complementary',{name:'Kontextinspektor'})).toBeNull()
+ fireEvent.click(screen.getByRole('button',{name:'Navigation',exact:true}));expect(screen.queryByRole('navigation',{name:'Arbeitsbereich'})).toBeNull()
+ fireEvent.click(screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(run.criteria[0].text)}));expect(screen.queryByRole('complementary',{name:'Kontextinspektor'})).toBeNull()
+ fireEvent.click(screen.getByRole('button',{name:'Inspektor',exact:true}));expect(within(screen.getByRole('complementary',{name:'Kontextinspektor'})).getByText(run.criteria[0].text)).toBeTruthy();expect(screen.queryByRole('dialog')).toBeNull()
 })
 it('opens the mobile criterion sheet with actual evidence and restores selection trigger',async()=>{
  load(true);await screen.findByRole('main');fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}));expect(screen.queryByRole('navigation',{name:'Viewer navigation'})).toBeNull()
  const criterion=run.criteria.find(c=>c.status==='unmet')!,trigger=screen.getByRole('button',{name:name=>name.startsWith('Evidence:')&&name.includes(criterion.text)})
  trigger.focus();fireEvent.click(trigger)
- const sheet=screen.getByRole('dialog',{name:'Context inspector'});expect(sheet.getAttribute('aria-modal')).toBe('true');expect(within(sheet).getByText(criterion.text)).toBeTruthy()
+ const sheet=screen.getByRole('dialog',{name:'Kontextinspektor'});expect(sheet.getAttribute('aria-modal')).toBe('true');expect(within(sheet).getByText(criterion.text)).toBeTruthy()
  fireEvent.click(within(sheet).getByRole('button',{name:'Open event record'}));expect(within(sheet).getByText(/Event:/)).toBeTruthy()
  fireEvent.keyDown(document.activeElement!,{key:'Escape'});await waitFor(()=>expect(screen.queryByRole('dialog')).toBeNull());expect(document.activeElement).toBe(trigger)
 })
 it('ignores unknown stored theme and survives unavailable storage',async()=>{
  localStorage.setItem('truthlens.theme','external-url');load();await screen.findByRole('main');fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}));expect(document.documentElement.dataset.viewerTheme).toBe('petrol-porcelain')
  const set=vi.spyOn(Storage.prototype,'setItem').mockImplementation(()=>{throw new Error('Unavailable')})
- fireEvent.change(screen.getByRole('combobox',{name:'Theme'}),{target:{value:'cool-graphite'}});expect(document.documentElement.dataset.viewerTheme).toBe('cool-graphite');set.mockRestore()
+ fireEvent.change(screen.getByRole('combobox',{name:'Thema'}),{target:{value:'cool-graphite'}});expect(document.documentElement.dataset.viewerTheme).toBe('cool-graphite');set.mockRestore()
 })
 it('moves keyboard focus into an opened desktop record and back to the criterion',async()=>{
  load();await screen.findByRole('main');fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}))
@@ -53,8 +53,8 @@ it('moves keyboard focus into an opened desktop record and back to the criterion
 })
 it('returns focus to the persistent Inspector control when its desktop close button unmounts',async()=>{
  load();await screen.findByRole('main');fireEvent.click(screen.getByRole('button',{name:'Details',exact:true}))
- const close=screen.getByRole('button',{name:'Close inspector'});close.focus();fireEvent.click(close)
- expect(document.activeElement).toBe(screen.getByRole('button',{name:'Inspector',exact:true}))
+ const close=screen.getByRole('button',{name:'Inspektor schließen'});close.focus();fireEvent.click(close)
+ expect(document.activeElement).toBe(screen.getByRole('button',{name:'Inspektor',exact:true}))
 })
 
 it('production local workspace never fetches or displays a development fixture',async()=>{

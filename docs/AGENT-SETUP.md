@@ -11,6 +11,26 @@ qualification of installed client versions**. The SDK has synthetic stdio tests;
 actual client versions and Agent Zero's build-specific configuration remain
 unqualified. [Architecture, protocol limits and trust boundary](SELFHOST-MCP.md).
 The old `truthlens mcp --root` is a human evidence API and is not an agent fallback.
+Human report text may show `TRUE` / `FALSE` / `UNKNOWN`. Those words are not
+the tool result. `passed` still requires a qualified separate-UID broker; this
+demo and a green unit test do not provide that.
+
+## Local catalog (not status)
+
+`truthlens mcp` with `TRUTHLENS_ROOT` and without `--root` is a separate
+read-only stdio catalog: `list_runs`, `get_run`, `verify_run`, `doctor`.
+`get_run` returns claims, verdicts and evidence. `TRUE` / `bestätigt` and
+`FALSE` / `widerlegt` require HMAC integrity (`--hmac-key-env VAR`, with the
+key only in that variable). Otherwise the verdict is `UNKNOWN` / `unklar`,
+or `not_checkable` when the file cannot be checked. Integrity is not
+approval. Doctor reports isolation as unverified and does not start a
+service. The catalog does not use the network and does not write.
+
+Example files, with a placeholder root and no key:
+[Agent Zero](../integrations/agent-zero/mcp-servers.example.json) and
+[Mausbot](../integrations/mausbot/mcp-servers.example.json). They are not
+`truthlens mcp-status` snippets. `valid_config` rejects them. They do not
+qualify a client or a host.
 
 ## Try the one-minute synthetic demo
 
@@ -67,7 +87,12 @@ Human-only diagnostic:
 truthlens doctor --socket /run/truthlens/status.sock --client claude-code
 ```
 
-Doctor only checks socket ancestry/type/root ownership/exact `0660` mode,
+The command above is the status-isolation doctor. `truthlens doctor` without
+`--socket` is a separate read-only catalog scan, described in
+[Set up TruthLens](setup-mcp.md). That scan does not print config contents
+or key values.
+
+Doctor, in this socket form, only checks socket ancestry/type/root ownership/exact `0660` mode,
 adapter importability, installed SDK module availability and snippet syntax/content.
 It never connects to a socket, enumerates runs, reads a key/registry, invokes sudo,
 checks docker, starts a service, changes permissions or edits client configs.
@@ -210,6 +235,12 @@ merge/deploy permission or general security guarantee. Errors, invalid arguments
 and `agent-status --help` also produce only `not_checkable` (JSON if `--json` is
 present), without stderr detail. Use this page or `truthlens --help` for human
 usage information. The agent-facing command's help cannot expand D34 output.
+
+`truthlens workspace` and `truthlens runs` are human commands. They are not
+agent tools, not a replacement for `truthlens init LEDGER`, and not a way to
+attach the legacy `truthlens mcp --root` server to an agent. `workspace doctor`
+stays read-only and reports isolation as unverified. A live harness is not
+qualified by writing `workspace.toml`.
 
 Do not use doctor or a model's retelling as evidence of real isolation. Distinct
 UID/key custody, reader-network denial, restricted SSH forced command, actual

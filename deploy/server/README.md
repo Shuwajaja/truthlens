@@ -566,3 +566,14 @@ or remove run/snapshot directories based on this listing. This change supplies
 **no cleanup command** and no automatic abandonment decision. It changes no
 caller mappings, registry authorization, frozen contracts or G1/D34 behavior.
 Integrity is not approval.
+
+
+## Host signer (NOT installed)
+
+`truthlens-signer.service`, `signer-config.example.json` and
+`signer-compose.example.yml` are inactive examples. The signer is a separate
+nonroot service for agent-reported records, not the protected pipeline or G1
+status broker. See [English setup and threat model](../../docs/signer.md) and
+[Deutsch](../../docs/de/signer.md). No account, key, token, permission, container
+or systemd change is applied by these files. Live activation requires separate
+authorization. Integrity is not approval.

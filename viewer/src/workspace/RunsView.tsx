@@ -1,17 +1,17 @@
 import type {WorkspaceSource,RunReference} from './navigation-types.ts'
 import {useId,useMemo} from 'react'
-import {aggregateWorkspaceRuns,criterionTotal,exportIntegrityStates,OVERVIEW_LIMITS,type CriterionCounts} from './cross-run-data.ts'
+import {aggregateWorkspaceRuns,criterionTotal,exportIntegrityStates,OVERVIEW_LIMITS,type OverviewRun} from './cross-run-data.ts'
 import {OverviewIntegrity} from './OverviewIntegrity.tsx'
 import {CriterionText,RunCharts,ScoreRing} from './RunCharts.tsx'
 import {recordedTime,overviewTime} from '../components/overview-data.ts'
 import {overviewCopy} from './overview-copy.ts'
 import {useOverviewLanguage} from './overview-language.ts'
 import './runs-overview.css'
-function criterionStatus(c:CriterionCounts){
- if(c.unmet)return 'Unmet'
- if(!criterionTotal(c)||c.unverified)return 'Unverified'
- if(c.proposed)return 'Proposed'
- return 'Met'
+function listLabel(row:OverviewRun){
+ if(row.integrity!=='signature-checked')return 'Unknown'
+ if(row.criteria.unmet)return 'False'
+ if(!criterionTotal(row.criteria)||row.criteria.unverified||row.criteria.proposed)return 'Unknown'
+ return 'True'
 }
 export function RunsView({sources,onOpenRun,heading=true}:{sources:readonly WorkspaceSource[];heading?:boolean;onOpenRun:(ref:RunReference)=>void}){
  const {language}=useOverviewLanguage(),copy=overviewCopy[language],descriptionId=useId()
@@ -23,14 +23,14 @@ export function RunsView({sources,onOpenRun,heading=true}:{sources:readonly Work
  return <section className="runs-view cross-run-overview" lang={language}>
   <Heading className="sr-only">{copy.overview}</Heading>
   <p className="overview-intro"><span>{copy.intro}</span> <span className="overview-current">{copy.loaded}: {data.totalRuns}.</span></p>
-  {!data.totalRuns?<div className="overview-empty"><h2>{copy.empty}</h2><p>{copy.emptyHelp}</p></div>:<>
+  {!data.totalRuns?<div className="overview-empty"><h2>{copy.empty}</h2><p>{copy.emptyHelp}</p><ol className="overview-steps"><li><h3>{copy.stepSetup}</h3><p>{copy.stepSetupBody}</p><p className="run-identity">{copy.stepSetupCli}</p></li><li><h3>{copy.stepLoad}</h3><p>{copy.stepLoadBody}</p><p><a href="/runs">{copy.stepLoadLink}</a></p></li><li><h3>{copy.stepRead}</h3><p>{copy.stepReadBody}</p></li></ol></div>:<>
    <div className="overview-score-charts">
     <section className="overview-score" aria-label={score}><ScoreRing criteria={data.criteria} label={score} copy={copy}/><h2>{score}</h2>{total>0&&<p className="overview-summary">{data.criteria.unmet} {copy.unmet.toLowerCase()} · {data.criteria.unverified} {copy.unverified.toLowerCase()} · {data.criteria.proposed} {copy.proposed.toLowerCase()}.</p>}<div className="overview-integrity">{exportIntegrityStates.filter(state=>data.integrity[state]>0).map(state=><OverviewIntegrity key={state} integrity={state} copy={copy} count={data.totalRuns>1?data.integrity[state]:undefined}/>)}</div><p className="integrity-scope">{copy.integrityScope}</p></section>
     <RunCharts data={data} copy={copy}/>
    </div>
    <section className="latest-runs"><h2>{copy.latest} <span>· {copy.latestHelp}</span></h2>
     <ul>{data.latest.map((row,index)=>{
-     const status=criterionStatus(row.criteria)
+     const status=listLabel(row)
      return <li key={row.runId}><button type="button" className="latest-run" onClick={()=>onOpenRun({kind:'run',sourceId:row.sourceId,runId:row.runId})} aria-describedby={`${descriptionId}-${index}`}>
       <span className="run-dot" data-status={status} aria-hidden="true"/>
       <span className="latest-run-main"><strong title={row.project}>{row.project||copy.untitled}</strong><span>{row.started?<time dateTime={row.started} title={recordedTime(row.started)}>{overviewTime(row.started,language)}</time>:copy.noStart}</span></span>

@@ -1,6 +1,7 @@
 import {useId,useMemo,useRef,type ReactNode} from 'react'
 import type {Claim,Criterion,RunDoc,RunEvent} from '../types.ts'
 import {integrityBadge} from '../lib/status-badge.ts'
+import {auditWord,criterionWord,exportAuthenticated} from './display-label.ts'
 import {OverviewIntegrity} from './OverviewIntegrity.tsx'
 import {ScoreRing} from './RunCharts.tsx'
 import {criterionStates,type CriterionCounts} from './cross-run-data.ts'
@@ -39,9 +40,12 @@ function StatusIcon({tone}:{tone:ResultTone}){
 function ResultStatus({tone,children,className=''}:{tone:ResultTone;children:ReactNode;className?:string}){
  return <span className={`result-status ${className}`} data-tone={tone}><StatusIcon tone={tone}/><span>{children}</span></span>
 }
-function CriterionStatus({criterion,copy}:{criterion:Criterion;copy:OverviewCopy}){
- const tone=criterion.status==='met'?'ok':criterion.status==='unmet'?'fail':'open'
- return <ResultStatus className="criterion-result" tone={tone}>{copy[criterion.status as keyof CriterionCounts]}</ResultStatus>
+function CriterionStatus({criterion,copy,authenticated}:{criterion:Criterion;copy:OverviewCopy;authenticated:boolean}){
+ const word=criterionWord(criterion.status,authenticated)
+ const tone=word==='TRUE'?'ok':word==='FALSE'?'fail':'open'
+ const label=word==='TRUE'?copy.displayTrue:word==='FALSE'?copy.displayFalse:copy.displayUnknown
+ const explain=word==='TRUE'?copy.explainTrue:word==='FALSE'?copy.explainFalse:copy.explainUnknown
+ return <ResultStatus className="criterion-result" tone={tone}><span data-display={word}>{label}</span><span className="display-scope"> {explain}</span></ResultStatus>
 }
 /** Presentation only: recorded results never imply signature checking or approval. */
 function timelineTone(event:RunEvent):ResultTone|'human'{
@@ -75,6 +79,7 @@ function Reason({entry,copy}:{entry:Entry;copy:OverviewCopy}){
 }
 export function RunDetail({doc,onRuns}:{doc:RunDoc;onRuns:()=>void}){
  const {language}=useOverviewLanguage(),copy=overviewCopy[language],id=useId(),strip=useRef<HTMLDivElement>(null)
+ const authenticated=exportAuthenticated(doc)
  const {rows,criteria}=useMemo(()=>detailEntries(doc),[doc])
  const byCriterion=new Map(rows.flatMap(row=>row.criterion?[[row.criterion.criterion_id,row] as const]:[]))
  const counts:CriterionCounts={met:0,unmet:0,unverified:0,proposed:0}
@@ -84,7 +89,7 @@ export function RunDetail({doc,onRuns}:{doc:RunDoc;onRuns:()=>void}){
  const events=useMemo(()=>doc.events.toSorted((a,b)=>a.seq-b.seq),[doc.events])
  const move=(direction:number)=>{const el=strip.current;if(el)el.scrollBy({left:direction*((el.firstElementChild?.getBoundingClientRect().width??el.clientWidth)+12),behavior:'auto'})}
  const time=(value:string,empty:string)=>value?<time dateTime={value} title={recordedTime(value)}>{overviewTime(value,language)}</time>:empty
- return <div className="run-detail" lang={language}>
+ return <div className="run-detail" lang={language} data-authenticated={authenticated?'true':'false'} data-audit={auditWord()}>
   <button type="button" className="run-back" onClick={onRuns}>← {copy.overview}</button>
   <section className="run-detail-summary" aria-label={score}>
    <ScoreRing criteria={counts} label={score} copy={copy}/>
@@ -96,15 +101,20 @@ export function RunDetail({doc,onRuns}:{doc:RunDoc;onRuns:()=>void}){
    </div>
    <div className="run-detail-boundary"><OverviewIntegrity integrity={integrityBadge(doc).variant} copy={copy}/><p className="integrity-scope">{copy.integrityScope}</p><p>{copy.approval}</p></div>
   </section>
+  <section className="audit-card" aria-labelledby={`${id}-audit`} data-audit={auditWord()}>
+   <h2 id={`${id}-audit`}>{copy.auditTitle}</h2>
+   <ResultStatus tone="open"><span data-display={auditWord()}>{copy.displayUnknown}</span></ResultStatus>
+   <p>{copy.auditMissing}</p><p>{copy.auditScope}</p>
+  </section>
   <section className="run-detail-claims" aria-labelledby={`${id}-claims`}><h2 id={`${id}-claims`}>{copy.claimsTitle}</h2>
    {!rows.length?<p>{copy.noCriteria}</p>:<><div ref={strip} className="claim-cards" role="region" aria-label={copy.claimStrip} tabIndex={0}>
     {rows.map((entry,index)=><article className="claim-card" data-criterion={entry.criterion?.status??'unverified'} key={entry.criterion?`criterion:${entry.criterion.criterion_id}`:`claim:${entry.claims[0].claim_id}`} aria-labelledby={`${id}-card-${index}`}>
      <h3 id={`${id}-card-${index}`}>{entry.criterion?.text??entry.claims[0].text}</h3>
      <p className="claim-label">{copy.agentSays}:</p>
      {!entry.claims.length?<p>{copy.noClaim}</p>:entry.claims.map(claim=><div key={claim.claim_id} className="claim-words"><p>{claim.text}</p>{claim.criterion_ids.some(ref=>!criteria.has(ref))&&<p>{copy.missingCriteria}: {claim.criterion_ids.filter(ref=>!criteria.has(ref)).length}.</p>}</div>)}
-     {(entry.claims.length>0||!entry.criterion)&&<div className="claim-result"><span className="claim-label">{copy.statusLabel}:</span>{entry.criterion?<CriterionStatus criterion={entry.criterion} copy={copy}/>:<p>{copy.noCriterion}</p>}</div>}
+     {(entry.claims.length>0||!entry.criterion)&&<div className="claim-result"><span className="claim-label">{copy.statusLabel}:</span>{entry.criterion?<CriterionStatus criterion={entry.criterion} copy={copy} authenticated={authenticated}/>:<p>{copy.noCriterion}</p>}</div>}
      <p className="claim-label">{copy.evidenceLabel}: {entry.events.length}</p>
-     <details className="claim-why"><summary><span className="claim-results">{entry.claims.length?entry.claims.map(claim=><ResultStatus key={claim.claim_id} tone={claim.finding==='supported'?'ok':'fail'}><Finding claim={claim} copy={copy}/></ResultStatus>):entry.criterion&&<CriterionStatus criterion={entry.criterion} copy={copy}/>}</span><span className="claim-why-label">{copy.why}</span></summary><Reason entry={entry} copy={copy}/></details>
+     <details className="claim-why"><summary><span className="claim-why-row"><span className="claim-results">{entry.claims.length?entry.claims.map(claim=><ResultStatus key={claim.claim_id} tone={claim.finding==='supported'?'ok':'fail'}><Finding claim={claim} copy={copy}/></ResultStatus>):entry.criterion&&<CriterionStatus criterion={entry.criterion} copy={copy} authenticated={authenticated}/>}</span><span className="claim-why-label">{copy.why}</span></span></summary><Reason entry={entry} copy={copy}/></details>
     </article>)}
    </div><div className="claim-strip-controls"><button type="button" onClick={()=>move(-1)} aria-label={copy.previousClaim}>←</button><span>{copy.swipeClaims}</span><button type="button" onClick={()=>move(1)} aria-label={copy.nextClaim}>→</button></div></>}
   </section>
@@ -114,7 +124,7 @@ export function RunDetail({doc,onRuns}:{doc:RunDoc;onRuns:()=>void}){
      {doc.claims.map(claim=>{
       const linked=[...new Set(claim.criterion_ids)].flatMap(ref=>{const row=byCriterion.get(ref);return row?[row]:[]})
       const missing=new Set(claim.criterion_ids.filter(ref=>!criteria.has(ref))).size
-      return <div className="gap-row" data-finding={claim.finding} key={claim.claim_id}><p>{claim.text}</p><span className="gap-connector">{claim.finding==='claim_unwitnessed'&&<span>{copy.gap}</span>}</span><div className="gap-evidence"><ResultStatus tone={claim.finding==='supported'?'ok':'fail'}><Finding claim={claim} copy={copy}/></ResultStatus>{!linked.length&&<p>{copy.noCriterion}</p>}{missing>0&&<p>{copy.missingCriteria}: {missing}.</p>}{linked.map(entry=><div key={entry.criterion!.criterion_id}><p>{entry.criterion!.text} · <CriterionStatus criterion={entry.criterion!} copy={copy}/></p><p>{copy.evidenceLabel}: {entry.events.length}</p>{entry.missing>0&&<p>{copy.missingEvidence}: {entry.missing}.</p>}{!entry.events.length?<p>{copy.noReason}</p>:entry.events.map(event=><p key={event.id}><Fields event={event} copy={copy}/></p>)}</div>)}</div></div>
+      return <div className="gap-row" data-finding={claim.finding} key={claim.claim_id}><p>{claim.text}</p><span className="gap-connector">{claim.finding==='claim_unwitnessed'&&<span>{copy.gap}</span>}</span><div className="gap-evidence"><ResultStatus tone={claim.finding==='supported'?'ok':'fail'}><Finding claim={claim} copy={copy}/></ResultStatus>{!linked.length&&<p>{copy.noCriterion}</p>}{missing>0&&<p>{copy.missingCriteria}: {missing}.</p>}{linked.map(entry=><div key={entry.criterion!.criterion_id}><p>{entry.criterion!.text} · <CriterionStatus criterion={entry.criterion!} copy={copy} authenticated={authenticated}/></p><p>{copy.evidenceLabel}: {entry.events.length}</p>{entry.missing>0&&<p>{copy.missingEvidence}: {entry.missing}.</p>}{!entry.events.length?<p>{copy.noReason}</p>:entry.events.map(event=><p key={event.id}><Fields event={event} copy={copy}/></p>)}</div>)}</div></div>
      })}
     </div></>}
   </section>

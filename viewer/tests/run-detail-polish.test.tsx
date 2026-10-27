@@ -26,8 +26,10 @@ it('puts each recorded finding beside an SVG status icon and the native Why cont
   expect(within(summary as HTMLElement).getByText('Warum?')).toBeTruthy()
   expect(summary.querySelector(`.result-status[data-tone=${tone}] svg[aria-hidden=true]`)).toBeTruthy()
  }
- // The unverified criterion does not erase its unwitnessed claim.
- expect(within(cards[2]).getByText('Nicht prüfbar')).toBeTruthy()
+ // Hash-only unverified stays UNKNOWN. The stored word remains in the details.
+ expect(cards[2].getAttribute('data-criterion')).toBe('unverified')
+ expect(within(cards[2]).getByText('UNKNOWN')).toBeTruthy()
+ expect(cards[2].querySelector('.claim-reason')?.textContent).toMatch(/Status: Nicht prüfbar/)
 })
 
 it('keeps conflicting findings visible rather than promoting a whole card to supported',()=>{
@@ -42,10 +44,12 @@ it('keeps conflicting findings visible rather than promoting a whole card to sup
 it('renders criterion-only not-checkable and proposed states as neutral questions',()=>{
  show(doc=>{doc.claims=[];doc.criteria[0].status='proposed'})
  const cards=screen.getAllByRole('article')
- for(const [index,label] of [[0,'Vorgeschlagen'],[2,'Nicht prüfbar']] as const){
+ for(const [index,stored,recorded] of [[0,'proposed','Vorgeschlagen'],[2,'unverified','Nicht prüfbar']] as const){
   const summary=cards[index].querySelector('.claim-why > summary')!
   expect(summary.querySelector('.result-status[data-tone=open] svg[data-symbol=question]')).toBeTruthy()
-  expect(summary.textContent).toContain(label)
+  expect(summary.textContent).toContain('UNKNOWN')
+  expect(cards[index].getAttribute('data-criterion')).toBe(stored)
+  expect(cards[index].querySelector('.claim-reason')?.textContent).toContain(recorded)
  }
 })
 

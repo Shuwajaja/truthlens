@@ -1,5 +1,127 @@
 # TruthLens Viewer — Workspace design contract
 
+## Human display words, 26 October 2026
+
+Main criterion cards show `TRUE`, `FALSE`, or `UNKNOWN`. Those words are
+presentation. Stored `met` / `unmet` / `unverified` / `proposed` and the D34
+wire `passed` / `failed` / `not_checkable` stay unchanged.
+
+`TRUE` and `FALSE` require `verified === true` and `integrity === 'hmac'`.
+`met` maps to `TRUE` and `unmet` to `FALSE` only in that pair, and only for
+that criterion. Every other criterion state, and every hash-only, failed, or
+unchecked export, is `UNKNOWN`. Recorded counts on the ring and charts stay
+counts. Their green `met` stroke is neutral when the open run is not in that
+HMAC pair, so a hash-only `met` is not a green proof.
+
+The protected audit is a separate card. Run documents do not carry a Phase F
+result, and the browser does not compute one from criteria, claims, or exit
+codes. The audit card stays `UNKNOWN`, including when a loaded object contains
+an extra status field. The same colour on both cards does not merge them.
+Hash-only remains the grey seal. Integrity is not approval stays visible.
+Developer details keep the stored status word.
+
+## Reference runs surface, 26 October 2026
+
+The populated reference surface follows the owner mockups: Läufe (`/runs`),
+Prüfberichte (`/reports`, count of completed audits), Agenten (`/agents`),
+and Quellen (`/sources`). `/checks` and `/records` stay reachable. `/runs/:id`
+opens one task. The breadcrumb is TruthLens / Läufe / run id. The claim
+table is titled Prüfbericht. Recorded claim text is shown in German
+quotation marks; the stored text is not rewritten. A recorded evidence line
+that contains “N passed” is shown as “Alle N Tests” using that N. Other
+evidence stays as recorded. Zeitablauf is an open card, 480px wide, with
+20px between rows. Technical events, the HMAC or hash line, and the source
+line stay in a closed developer disclosure under the report. That disclosure
+is a text control until it is opened. `/settings` and `/doctor` stay footer
+tools. Doctor carries a green dot; its accessible name says isolation is
+not checked. The search control reads Suchen with a ⌘K chip. `/` and `/?view=overview` stay the evidence workspace, including its
+honesty seals and the production “Not connected” state. That workspace is
+not this catalog and does not gain a task store, an orchestration panel, or
+an artifact gallery.
+
+The reference surface is scoped under `.tl-ref` in
+`viewer/src/reference/theme.css`. German chrome lives only in
+`viewer/src/reference/copy.ts`. Recorded task text is data, not chrome.
+The owner mockups replace the green-tinted near-black with a neutral
+background `#0a0a0b`, cards `#111113`, and a 1px border. There is no card
+shadow. The logo square is the only gradient (violet to cyan). The active
+project chip is a violet outline. The demo badge is a dashed amber outline
+and reads “Beispieldaten”; a demo catalog does not name a publish directory
+as its source. Type uses the already vendored Plus Jakarta Sans and
+JetBrains Mono for identifiers and evidence. The runs subtitle is the source label in JetBrains Mono, the same
+weight as a path line. A demo catalog still reads “Beispieldaten (Demo)”
+and never a publish directory. The dashed Beispieldaten badge stays in the
+header. Layout targets: sidebar 228px,
+header 56px, content padding 28px (16px below 768px), timeline 480px. The
+logo square is 32px with an 8px radius. The
+evidence-workspace 12/14/16/20/28px scale still binds that surface; the
+reference theme file is the only place that also uses 13px and 22px.
+
+Honesty rules still bind this surface:
+
+- Demo data is visible only with `?demo=1` and the label “Beispieldaten”.
+- Human words on this surface are display-only: `bestätigt`, `widerlegt`,
+  and `unklar`. `bestätigt` and `widerlegt` appear only when integrity is
+  `hmac`. Hash-only, unknown, and failed integrity display `unklar`,
+  including a stored `confirmed` or `refuted` summary. A `benchmark_missing`
+  reason shows `unklar` even on an HMAC confirmed claim. One refuted claim
+  shows `widerlegt` only when integrity is `hmac`. Zero claims, an unfinished
+  audit, incomplete execution, or unknown integrity stay `unklar`. Stored
+  values and the D34 statuses `passed` / `failed` / `not_checkable` do not
+  change. The evidence workspace and `display_labels.py` keep TRUE, FALSE,
+  and UNKNOWN. Green and red count colours follow the same HMAC rule.
+  The labelled demo catalog is `integrity: hmac` so those colors can be
+  reproduced. It stays marked Beispieldaten. The browser does not check
+  the signature. A hash-only file stays `unklar`. The demo source label
+  stays “Beispieldaten (Demo)” and never a publish path.
+- `integrity=failed`, a bad shape, or counts that disagree with the claims
+  render “Nachweis beschädigt oder inkonsistent”. Confirmed claims from that
+  run are not shown and are not counted.
+- Hash-only evidence shows “Hash only · signature not checked”. “Integrität
+  ist keine Freigabe.” stays in the closed run disclosure, on the start
+  step, and on Nachweise. HMAC text appears only when the projection
+  integrity is `hmac`. The default run view does not show that line.
+- The browser doctor never uses a green confirmed pill. Isolation stays
+  unverified. The browser does not read a ledger and does not run an audit.
+  Without a loaded run-view file and without `?demo=1`, `/runs` is the
+  guided start below, not a bare sentence. A file from `truthlens runs show
+  --json` is labelled as a loaded file, not a live audit. Recheck names
+  `truthlens runs recheck` and does not pretend to start a revision.
+- Filters in the query string apply to the table and the figures above it.
+
+## Start and onboarding, 26 October 2026
+
+An empty `/runs` (no loaded file, no `?demo=1`) is a guided start inside the
+existing reference shell. The welcome block is one bordered card: title,
+what this browser cannot do, and the three steps. It is not a second
+product, a chart, or a decorative splash. The populated Läufe page and the
+run page follow the owner mockups: Plus Jakarta Sans, JetBrains Mono, the
+228px sidebar, and the 1px card border. Spacing follows the same 8/12/16/28
+rhythm. Do not add a second palette, a glow, or a decorative graph.
+
+The three steps may claim only this:
+
+1. Workspace einrichten names `truthlens init LEDGER` and says
+   `truthlens workspace init` still requires `TRUTHLENS_REFERENCE=1`.
+   The browser writes no workspace file. The settings link opens the
+   existing settings page.
+2. Lauf laden oder Demo ansehen keeps the file input and the link to
+   `/runs?demo=1`. The demo badge appears only after that link. A loaded
+   file is labelled “Geladene Datei · kein Live-Audit”.
+3. Ergebnis verstehen states that bestätigt and widerlegt are display words
+   and appear only when integrity is `hmac`. Hash-only, missing evidence, and
+   a doubtful test stay unklar. The words on this step are an explanation.
+   They are not a result, and this step does not use a green confirmed pill.
+   “Integrität ist keine Freigabe.” stays visible.
+
+Once a file or the labelled demo supplies runs, the same shell replaces the
+start with the existing runs table or, for one loaded run, that run. No
+fade implies that an audit ran. Prüfdetails and Nachweise with no loaded
+run use the same limit and link back to the start. The evidence workspace
+at `/` keeps its own empty state: no sample runs, no figures, and no TRUE
+result. Its cards repeat the three ideas and may link to the reference
+start. Opening a local folder remains the only way that overview gains runs.
+
 Derived export headlines describe the presence of recorded claims without
 inventing a quotation or inferring completion. Both Python exports and local-folder
 derived exports say “Your agent made recorded claims.” when claims exist; with

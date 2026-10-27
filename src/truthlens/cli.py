@@ -28,7 +28,26 @@ def _audit_anchor(value: str) -> str:
 
 
 def main(argv: list[str] | None = None) -> int:
-    argv = sys.argv[1:] if argv is None else argv
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if not argv:
+        from truthlens.human_io import write_banner
+
+        write_banner()
+        return 0
+    if argv[:1] == ["signer"]:
+        from truthlens.signer import main as signer_main
+
+        return signer_main(argv[1:])
+    if argv[:1] == ["key"]:
+        from truthlens.keys import main as key_main
+
+        return key_main(argv[1:])
+    if argv[0] == "init":
+        from truthlens.workspace_cmd import redirect_bare_init
+
+        redirected = redirect_bare_init(argv)
+        if redirected is not None:
+            return redirected
     if argv[:2] == ["pipeline", "explain"]:
         from truthlens.pipeline_explain import main as explain_main
 
@@ -41,10 +60,27 @@ def main(argv: list[str] | None = None) -> int:
         from truthlens.agent_status import main as agent_status_main
 
         return agent_status_main(argv[1:])
+    if argv[:1] == ["setup"]:
+        from truthlens.setup_mcp import main as catalog_setup_main
+
+        return catalog_setup_main(argv[1:])
     if argv and argv[0] in {"doctor", "agent-config", "demo-status"}:
+        if argv[0] == "doctor":
+            from truthlens.setup_mcp import doctor_main, mcp_doctor_argv
+
+            if mcp_doctor_argv(argv[1:]):
+                return doctor_main(argv[1:])
         from truthlens.agent_setup import main as setup_main
 
         return setup_main(argv[0], argv[1:])
+    if argv[:1] == ["workspace"]:
+        from truthlens.workspace_cmd import main as workspace_main
+
+        return workspace_main(argv[1:])
+    if argv[:1] == ["runs"]:
+        from truthlens.runs_cmd import main as runs_main
+
+        return runs_main(argv[1:])
     from truthlens.ids import new_id
     from truthlens.ledger import Ledger, LedgerError, repair, verify
 
@@ -52,6 +88,8 @@ def main(argv: list[str] | None = None) -> int:
         return _audit_status_command(argv[2:])
     ap = argparse.ArgumentParser(prog="truthlens")
     sub = ap.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("signer", help="host-owned signing service (not installed)")
+    sub.add_parser("key", help="create or rotate your private HMAC signing key")
     p = sub.add_parser("profile", help="read-only operator profile diagnostics (root only)")
     profile_sub = p.add_subparsers(dest="profile_cmd", required=True)
     profile_check = profile_sub.add_parser("check")
@@ -113,9 +151,14 @@ def main(argv: list[str] | None = None) -> int:
         ("demo-status", "synthetic fake-broker demo; no real verification"),
     ):
         sub.add_parser(command, help=help_text)
-    p = sub.add_parser("mcp", help="legacy evidence MCP; NOT D34 status-only")
-    p.add_argument("--root", required=True)
+    p = sub.add_parser(
+        "mcp",
+        help="local read-only catalog MCP (TRUTHLENS_ROOT); --root keeps the legacy evidence API",
+    )
+    p.add_argument("--root", help="legacy human evidence root; omit to use TRUTHLENS_ROOT")
+    p.add_argument("--signer-socket", metavar="PATH")
     p.add_argument("--hmac-key-env", metavar="VAR")
+    p.add_argument("--hmac-key-file", metavar="PATH")
     p = sub.add_parser("request", help="(agent side) ask the running wrapper to execute a gated action")
     p.add_argument("--timeout", type=float, default=30)
     p.add_argument("action", nargs=argparse.REMAINDER)
@@ -169,8 +212,55 @@ def main(argv: list[str] | None = None) -> int:
         return exit_code(report)
 
     if a.cmd == "mcp":
-        from truthlens.mcp import serve
-        serve(a.root, _key(a.hmac_key_env))
+        from pathlib import Path
+
+        from truthlens.audit_inputs import AuditInputError
+        from truthlens.keys import read_key_file
+
+        signer_socket = a.signer_socket or os.environ.get("TRUTHLENS_SIGNER_SOCKET")
+        if signer_socket:
+            from truthlens.mcp import Server
+            from truthlens.mcp_local import CatalogServer
+            from truthlens.signer_client import Client
+            from truthlens.signer_client import serve as signing_serve
+
+            # Signer mode never loads a host key, even if an ambient key env is present.
+            root = a.root or os.environ.get("TRUTHLENS_ROOT")
+            if root:
+                base = Server(root) if a.root else CatalogServer(root)
+            else:
+                # No catalog configured: retain tool discovery, but reject read calls.
+                class NoCatalog(CatalogServer):
+                    def call(self, name: str, args: dict) -> dict:
+                        raise ValueError("TRUTHLENS_ROOT is unset")
+
+                base = NoCatalog(".")
+            signing_serve(base, Client(signer_socket, os.environ.get("TRUTHLENS_SIGNER_TOKEN_FILE")),
+                          sys.stdin, sys.stdout)
+            return 0
+        key_file = a.hmac_key_file or os.environ.get("TRUTHLENS_HMAC_KEY_FILE")
+        try:
+            key = read_key_file(Path(key_file)) if key_file else _key(
+                a.hmac_key_env or ("TRUTHLENS_HMAC_KEY" if os.environ.get("TRUTHLENS_HMAC_KEY") else None)
+            )
+        except AuditInputError:
+            print("error: unsafe or unreadable HMAC key file", file=sys.stderr)
+            return 2
+        if a.root:
+            from truthlens.mcp import serve
+
+            serve(a.root, key, sys.stdin, sys.stdout)
+        else:
+            root = os.environ.get("TRUTHLENS_ROOT", "")
+            if not root.strip():
+                print(
+                    "error: TRUTHLENS_ROOT is unset (pass --root only for the legacy evidence API)",
+                    file=sys.stderr,
+                )
+                return 2
+            from truthlens.mcp_local import serve
+
+            serve(root, key, sys.stdin, sys.stdout)
         return 0
     if a.cmd == "request":
         from truthlens.gate import request
@@ -224,19 +314,31 @@ def main(argv: list[str] | None = None) -> int:
 def _run_key(a) -> bytes | None:
     """HMAC key for a run. A key file must live outside the agent's repo and the run dir (D17)."""
     from pathlib import Path
-    if not a.hmac_key_file:
+
+    from truthlens.audit_inputs import AuditInputError
+    from truthlens.keys import ManagedKey, read_key_file
+
+    key_file = a.hmac_key_file or os.environ.get("TRUTHLENS_HMAC_KEY_FILE")
+    if not key_file:
         print("error: truthlens run requires --hmac-key-file (outside repo and run dir) and --hmac-key-id;"
               " an env var would be readable by the agent via /proc", file=sys.stderr)
         raise SystemExit(2)
-    kf = Path(a.hmac_key_file).resolve()
+    kf = Path(key_file).expanduser().absolute()
     for d in (Path(a.repo).resolve(), Path(a.out).resolve()):
         if kf == d or d in kf.parents:
             print(f"error: hmac key file must be outside {d}", file=sys.stderr)
             raise SystemExit(2)
-    if kf.stat().st_mode & 0o077:
-        print("error: hmac key file must be chmod 600", file=sys.stderr)
+    try:
+        key = read_key_file(kf)
+    except AuditInputError:
+        print("error: unsafe or unreadable HMAC key file; require owner-only chmod 600", file=sys.stderr)
         raise SystemExit(2)
-    return kf.read_bytes().strip()
+    if isinstance(key, ManagedKey):
+        if a.hmac_key_id is not None and a.hmac_key_id != key.key_id:
+            print("error: --hmac-key-id differs from the key file metadata", file=sys.stderr)
+            raise SystemExit(2)
+        a.hmac_key_id = key.key_id
+    return key
 
 
 def _verified_dir(d: str, key: bytes | None):
@@ -255,7 +357,15 @@ def _verified_dir(d: str, key: bytes | None):
         return None, ["manifest.json must contain a UTF-8 JSON object"]
     if not isinstance(mf, dict):
         return None, ["manifest.json must contain a UTF-8 JSON object"]
+    from truthlens.keys import ManagedKey, verification_key
+
     try:
+        if isinstance(key, ManagedKey):
+            # Validate structure before trusting any event field for key selection.
+            preliminary = verify(root / "ledger.jsonl", None, mf.get("ledger_last_hash"))
+            if not preliminary.ok:
+                return None, [f"line {n}: {m}" for n, m in preliminary.errors]
+            key, _ = verification_key(key, Ledger(root / "ledger.jsonl").read())
         r = verify(root / "ledger.jsonl", key, mf.get("ledger_last_hash"))
         if not r.ok:
             return None, [f"line {n}: {m}" for n, m in r.errors]
@@ -353,11 +463,24 @@ def _w2(a) -> int:
         if a.json:
             print(json.dumps({"criteria": acc, "claims": cl}, indent=2))
             return 0
+        from truthlens.display_labels import criterion_label
+
+        # A supplied key is what made verify() check HMAC. No key is hash-only.
+        authenticated = key is not None
         print(f"VERIFIED {len(events)} events, anchored, manifest consistent")
         for c in acc:
-            print(f"  {c['criterion_id']:<6} {c['status']:<11} {c['text']}  (evidence: {len(c['evidence'])})")
+            label = criterion_label(c["status"], authenticated=authenticated)
+            print(
+                f"  {c['criterion_id']:<6} {c['status']:<11} {label:<7} {c['text']}"
+                f"  (evidence: {len(c['evidence'])})"
+            )
         for c in cl:
             print(f"  claim  {c['finding']:<17} {c['text'][:100]!r} -> {c['criterion_ids']}")
+        print("Display labels are separate from stored statuses. Integrity is not approval.")
+        if authenticated:
+            print("HMAC checked for this report. TRUE and FALSE apply only inside each criterion.")
+        else:
+            print("Hash only: signature not checked. Recorded met is not authenticated proof.")
         return 0
     led = Ledger(a.ledger, key, a.hmac_key_id if key else None)
     try:
@@ -401,7 +524,11 @@ def _audit_status_command(argv: list[str]) -> int:
         args = parser.parse_args(argv)
     except ValueError:
         result = project_status(None, state="error")
-        print(serialize_report(result) if "--json" in argv else "not_checkable · error")
+        if "--json" in argv:
+            print(serialize_report(result))
+        else:
+            print("not_checkable · error")
+            print("Display: UNKNOWN. Integrity is not approval.")
         return 2
     try:
         key = None
@@ -419,7 +546,13 @@ def _audit_status_command(argv: list[str]) -> int:
         result = project_status(None, state="interrupted")
     except (OSError, ValueError, TypeError, RuntimeError):
         result = project_status(None, state="error")
-    print(serialize_report(result) if args.json else f"{result['status']} · {result['reason_code']}")
+    if args.json:
+        print(serialize_report(result))
+    else:
+        from truthlens.display_labels import audit_label
+
+        print(f"{result['status']} · {result['reason_code']}")
+        print(f"Display: {audit_label(result['status'])}. Integrity is not approval.")
     return {"passed": 0, "failed": 1, "not_checkable": 2}[result["status"]]
 
 

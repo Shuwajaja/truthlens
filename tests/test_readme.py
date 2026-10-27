@@ -20,7 +20,7 @@ README = ROOT / "README.md"
 class ReadmeTests(unittest.TestCase):
     def test_powershell_offline_walkthrough_matches_posix_commands(self):
         text = README.read_text(encoding="utf-8")
-        walkthrough = text.split("## Try it in 1 minute\n", 1)[1].split("\n## ", 1)[0]
+        walkthrough = text.split("## Quickstart\n", 1)[1].split("\n## ", 1)[0]
         posix = re.search(r"```bash\n(.*?)\n```", walkthrough, re.DOTALL)
         powershell = re.search(r"```powershell\n(.*?)\n```", walkthrough, re.DOTALL)
         self.assertIsNotNone(posix, "keep the POSIX offline walkthrough")
@@ -107,13 +107,29 @@ class ReadmeTests(unittest.TestCase):
         text = README.read_text(encoding="utf-8")
         first_section = text.index("\n## ")
         opening = text[:first_section]
-        hero = "docs/screenshots/readme/truthlens-overview-desktop.png"
-        self.assertRegex(opening, rf"!\[[^\]]+\]\({re.escape(hero)}\)")
-        image = ROOT / hero
-        self.assertTrue(image.is_file(), "the supplied overview must be published with the README")
-        self.assertEqual(image.read_bytes()[:8], b"\x89PNG\r\n\x1a\n")
+        heroes = (
+            "docs/images/laeufe-overview.png",
+            "docs/images/run-detail.png",
+            "docs/images/terminal-doctor-runs.png",
+        )
+        for hero in heroes:
+            with self.subTest(hero=hero):
+                self.assertRegex(opening, rf"!\[[^\]]+\]\({re.escape(hero)}\)")
+                image = ROOT / hero
+                self.assertTrue(image.is_file(), "the supplied capture must be published with the README")
+                self.assertEqual(image.read_bytes()[:8], b"\x89PNG\r\n\x1a\n")
         sections = re.findall(r"^## (.+)$", text, re.MULTILINE)
-        self.assertEqual(sections[:3], ["Try it in 1 minute", "How it works", "What it does not do"])
+        self.assertEqual(
+            sections[:3],
+            ["Why", "How verification works", "Quickstart"],
+        )
+        self.assertEqual(
+            sections,
+            ["Why", "How verification works", "Quickstart", "MCP", "Architecture", "Roadmap", "License"],
+        )
+        self.assertIn("```mermaid", text)
+        self.assertIn("truthlens setup --agent", text)
+        self.assertIn("docs/de/README.md", text)
         self.assertIn("UI is German", text)
         self.assertIn("Integrity is not approval", text)
 

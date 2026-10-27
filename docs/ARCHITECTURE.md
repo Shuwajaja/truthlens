@@ -4,7 +4,7 @@ TruthLens records what an agent did, checks the recorded evidence, and lets a
 human compare claims with witnessed results. The Python core uses the standard
 library; the viewer uses React, TypeScript and Vite. The optional status MCP
 adapter uses the pinned SDK extra. Start with the
-[offline walkthrough](../README.md#try-it-in-1-minute) for a runnable example;
+[offline walkthrough](../README.md#quickstart) for a runnable example;
 [STATUS](STATUS.md) records measured checks and remaining limits.
 
 ## Capture and evidence
@@ -84,6 +84,21 @@ D34-compatible**, must not be connected to agents, and is never a fallback for
 `mcp-status`. See [SELFHOST-MCP](SELFHOST-MCP.md) for G1's threat model and
 [AGENT-SETUP](AGENT-SETUP.md) for G2 interfaces and synthetic-demo limits.
 
+[mcp_local.py](../src/truthlens/mcp_local.py) is `truthlens mcp` with
+`TRUTHLENS_ROOT` and no `--root`. It lists local runs and returns claims,
+verdicts and evidence. `TRUE` and `FALSE` require integrity `hmac`. It does
+not open a network connection, does not write, and does not replace
+`mcp-status`. The private Artifact Hub tree was not in this checkout; the
+stdio loop matches the existing TruthLens JSON-RPC server rather than an
+imported Hub package. Example client files are in the
+[local catalog section](AGENT-SETUP.md#local-catalog-not-status).
+
+Human text may also show `TRUE`, `FALSE`, or `UNKNOWN`.
+[display_labels.py](../src/truthlens/display_labels.py) maps those words for
+the report and for `truthlens audit status` text. JSON, the ledger, and the
+agent tool stay on the stored and D34 vocabularies. Hash-only report text uses
+`UNKNOWN`. A green unit test or `demo-status` is not a production `passed`.
+
 ## Inspect the CLI offline
 
 From the repository root, with Python 3.12+ and TruthLens installed as described
@@ -105,6 +120,35 @@ working service or qualified MCP client.
 The agent-facing `agent-status` deliberately has no help output: malformed
 arguments return `not_checkable` with exit code 2. Its usage belongs in the
 human-facing [agent setup guide](AGENT-SETUP.md).
+
+## Reference workspace and run views
+
+Human commands `truthlens workspace` and `truthlens runs` project an existing
+ledger into a run view. They do not replace `truthlens init LEDGER`, the
+read-only `truthlens doctor`, or the legacy human tool `truthlens mcp --root`.
+`truthlens workspace doctor` and `truthlens runs list` run without a feature
+flag. `TRUTHLENS_REFERENCE` defaults to off for the other new commands. Only
+the exact value `1` enables workspace init, unlink, test and repair, and
+runs show, recheck and import. Unset, empty, `0` and every other value exit
+2 for those commands and leave ledgers in place. The projection is not a
+second ledger, audit, or D34 status. Human TRUE and FALSE require integrity
+`hmac`; hash-only text stays UNKNOWN.
+
+| Source | Responsibility |
+|---|---|
+| [run_view.py](../src/truthlens/run_view.py) | Fail-closed review summary, claim and timeline projection. |
+| [workspace_store.py](../src/truthlens/workspace_store.py), [workspace_cmd.py](../src/truthlens/workspace_cmd.py) | Project file, init, unlink, read-only doctor, local synthetic test, repair. |
+| [runs_cmd.py](../src/truthlens/runs_cmd.py), [run_catalog.py](../src/truthlens/run_catalog.py) | List, show, recheck and quarantined import. |
+| [capture_lifecycle.py](../src/truthlens/capture_lifecycle.py) | Does not open a ledger and does not read qualification from workspace.toml. |
+| [human_io.py](../src/truthlens/human_io.py) | `--json`, `--quiet` and `--no-color` for the new commands. |
+| [schemas/](../schemas/) | Draft run-view, workspace-config and diagnostic-report schemas. |
+| [view-projections-v1.md](spec/view-projections-v1.md) | Projection rules. Event-schema decisions stay in the frozen spec. |
+| [viewer/src/reference/](../viewer/src/reference/) | Reference routes `/runs`, `/reports`, `/agents`, `/sources`, `/settings`, `/doctor`. |
+
+The viewer route `/` remains the evidence workspace. Reference routes are an
+additional surface. A labelled demo catalog is served only with `?demo=1`.
+Capture qualification for a live Agent Zero, Codex, Claude Code or agy
+harness is not claimed here.
 
 ## Trust and deployment limits
 

@@ -41,7 +41,13 @@ class Server:
         events, errs = _verified_dir(str(d), self.key)
         if events is None:
             return {"verified": False, "integrity": "failed", "errors": errs}
-        return export.build(events, json.loads((d / "manifest.json").read_text()), hmac_key=self.key)
+        from truthlens.keys import verification_key
+
+        key, reason = verification_key(self.key, events)
+        doc = export.build(events, json.loads((d / "manifest.json").read_text()), hmac_key=key)
+        if reason:
+            doc["reason"] = reason
+        return doc
 
     def call(self, name: str, args: dict) -> dict:
         if name == "list_runs":
@@ -50,9 +56,11 @@ class Server:
         if doc.get("integrity") == "failed":
             return doc
         if name == "run_report":
-            return {k: doc[k] for k in ("verified", "integrity", "run", "counts", "criteria", "claims")}
+            return {k: doc[k] for k in ("verified", "integrity", "run", "counts", "criteria", "claims", "reason")
+                    if k in doc}
         if name == "run_events":
             return {"verified": doc["verified"], "integrity": doc["integrity"],
+                    **({"reason": doc["reason"]} if "reason" in doc else {}),
                     "events": [{k: e[k] for k in ("seq", "ts", "type", "actor", "summary")} for e in doc["events"]]}
         raise ValueError(f"unknown tool {name}")
 

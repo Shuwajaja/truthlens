@@ -1,0 +1,120 @@
+{
+  "commit": "9a76d3e2c9f7fcb1ec388683a5ceae79e3173fa6",
+  "dirty": [
+    " M src/truthlens/runs_cmd.py",
+    " M tests/test_reference_commands.py",
+    " M tests/test_reference_demo_fixture.py",
+    " M viewer/DESIGN.md",
+    " M viewer/fixtures/build_reference_demo.py",
+    " M viewer/public/reference-demo.json",
+    " M viewer/src/components/Overview.tsx",
+    " M viewer/src/reference/ReferenceApp.tsx",
+    " M viewer/src/reference/copy.ts",
+    " M viewer/src/reference/model.ts",
+    " M viewer/src/reference/theme.css",
+    " M viewer/src/workspace/RunDetail.tsx",
+    " M viewer/src/workspace/WorkspaceShell.tsx",
+    " M viewer/src/workspace/overview-copy.ts",
+    " M viewer/src/workspace/run-detail.css",
+    " M viewer/tests/mobile-run.test.tsx",
+    " M viewer/tests/reference-surface.test.tsx",
+    " M viewer/tests/run-detail-v3.test.tsx",
+    " M viewer/tests/stitch-flow.test.tsx",
+    " M viewer/tests/workspace-phase-a.test.tsx",
+    "?? docs/screenshots/cursor/reference-start-onboarding-af22/after-detail-1440.png",
+    "?? docs/screenshots/cursor/reference-start-onboarding-af22/after-detail-390.png",
+    "?? docs/screenshots/cursor/reference-start-onboarding-af22/after-runs-1440.png",
+    "?? docs/screenshots/cursor/reference-start-onboarding-af22/after-runs-390.png",
+    "?? docs/screenshots/cursor/reference-start-onboarding-af22/before-detail-1440.png",
+    "?? docs/screenshots/cursor/reference-start-onboarding-af22/before-detail-390.png",
+    "?? docs/screenshots/cursor/reference-start-onboarding-af22/before-runs-1440.png",
+    "?? docs/screenshots/cursor/reference-start-onboarding-af22/before-runs-390.png"
+  ],
+  "scans": [
+    {
+      "file": "after-runs-1440",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1,
+          "targets": [
+            [
+              ".tl-mark"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "after-runs-390",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "file": "after-detail-1440",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1,
+          "targets": [
+            [
+              ".tl-mark"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "after-detail-390",
+      "violations": [],
+      "incomplete": []
+    },
+    {
+      "file": "after-start-1440",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "nodes": 1,
+          "targets": [
+            [
+              ".tl-mark"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "after-start-390",
+      "violations": [],
+      "incomplete": []
+    }
+  ],
+  "checks": [
+    {
+      "file": "after-runs-1440",
+      "nav": "Läufe\n128\nPrüfberichte\n96\nAgenten\n3\nQuellen",
+      "kpi": "Läufe (7 Tage)\n128\n\n+18,5 % zur Vorwoche\n\nBehauptungen geprüft\n1.204\n\nØ 9,4 pro Lauf\n\nBestätigt\n81 %\n\n9 % widerlegt · 10 % unklar\n\nAuffälligster Agent\nA\nAgent Zero\n\n45 widerlegte Behauptungen",
+      "first": "run_8f3a21\t\nREADME & Tests aktualisieren\nMCPDeck\n\t\nA\nAgent Zero\t\n5 bestätigt, 1 widerlegt, 1 unklar\n5 ✓\n·\n1 ✗\n·\n1 ?\n\twiderlegt\tvor 12 Min",
+      "confirmedPills": 1
+    },
+    {
+      "file": "after-detail-1440",
+      "crumb": "TruthLens\n/\nLäufe\n/\nrun_8f3a21\nBeispieldaten",
+      "h1": "README & Tests aktualisieren\nwiderlegt",
+      "meta": "A\nAgent Zero\n·\nProjekt MCPDeck\n·\nheute 16:41\n·\nDauer 6 Min 29 s\n·\nrun_8f3a21",
+      "stats": "Behauptungen\n7\nBestätigt\n5\nWiderlegt\n1\nUnklar\n1",
+      "timeline": "Zeitablauf",
+      "devOpen": false
+    },
+    {
+      "file": "after-start-1440",
+      "start": "Willkommen bei TruthLens",
+      "badge": 0,
+      "confirmed": 0
+    }
+  ],
+  "pageErrors": []
+}

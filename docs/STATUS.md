@@ -1,3 +1,481 @@
+## Host signer — local checks, 27 October 2026
+
+Branch `feat/signer-service`, based on the key-command branch (`e7afe5a`).
+`truthlens signer serve --config PATH` signs host-owned runs over a bounded
+Linux Unix socket, authenticates caller UID/GID and/or private bearer tokens,
+checks harness access, and enforces caller quotas. Submitted content remains
+nested `agent.note` / `agent-reported`, never witnessed tests or human approval.
+Opt-in MCP tools forward reports without loading a key. English/German setup
+and inactive systemd/Compose examples: [signer guide](signer.md).
+
+Witnessed on the source/test contents committed with this entry:
+
+- Final targeted command: `PYTHONDONTWRITEBYTECODE=1 PYTHONPATH="$PWD/src" TMPDIR="$PWD/.truthlens/tmp" /tmp/truthlens-keycmd-venv/bin/python -m pytest -q tests/test_signer.py --basetemp=.truthlens/test-signer-final --tb=short -p no:cacheprovider`: **26 passed**.
+- Before final signer-only path/quota hardening, the same environment and interpreter with `-m pytest -q tests/test_signer.py tests/test_mcp.py tests/test_mcp_catalog.py tests/test_cli.py tests/test_ledger.py tests/test_manifest.py tests/test_audit.py -k 'not test_cli_run_propagates_isolation_failure_125 and not test_capture_failed_exit_code and not test_audit_cli_json_and_private_key_errors' --basetemp=.truthlens/test-final --tb=short -p no:cacheprovider`: **133 passed, 3 deselected**. Unchanged dependency evidence is reused; the final signer tests above cover the subsequent changes.
+- `/tmp/truthlens-keycmd-venv/bin/ruff check src tests`: passed after final code changes.
+- `PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.truthlens/tmp" /tmp/truthlens-keycmd-venv/bin/python -m build --no-isolation --outdir .truthlens/build`: sdist and wheel built after final code changes.
+- Offline linked-file checks, example JSON parse and static systemd settings checks passed. These do not qualify systemd or Docker on a host.
+- Independent reviewer `/root/signer_security_review`: no blocking findings after scoped follow-ups. Combined reviewed source/test digest `71720e4ec1960c1509b1907c27ca0fb5a6b9ec91b56bfb9fe7fa00ccd6f0a0d2` (SHA-256 of textual `sha256sum` lines for signer, signer_client, cli, test_signer, in that order).
+
+The socket round trip produced `authentication=supported` / `integrity=hmac`;
+overall audit stays `not_checkable` (exit 2) for agent-only completion. Finished
+ledger tampering failed authentication. Tests also cover bad tokens/callers,
+peer/harness/run binding, limits, oversized/malformed input, error non-disclosure,
+MCP fake sockets, unsafe paths, exclusive root locking and restart invalidation.
+
+An initial broader run had **125 passed, 4 failed**: three existing key-file
+cases cannot succeed with required in-repository temporary keys, because the
+production reader correctly rejects repository key paths; one subprocess lacked
+`PYTHONPATH` and passed with the corrected environment. The three location-policy
+cases remain deselected, not passed. Their assertions/policy were not relaxed.
+The new signer fixtures explicitly override key location and ancestry solely to
+keep temporary writes inside this group-writable checkout. Real ownership,
+container separation and deployment remain untested. Early setup/path failures
+and an incorrect audit-exit expectation were corrected without changing audit
+semantics. All keys were fake temporary test data; none were printed. No real
+key, external host configuration, service, push, merge or PR was touched.
+Capabilities/status/quotas are memory-only; restart invalidates them. TCP is not
+implemented. Deployment remains separately authorized and **not done**.
+
+## Personal HMAC key commands — local checks, 27 October 2026
+
+Branch `feat/key-command`, base `a86601e`. `truthlens key init` creates a
+private compatible key file; `key rotate` and forced replacement retain only
+retired IDs in an adjacent private sidecar. Unavailable retired IDs remain
+UNKNOWN, with a reason; current-ID bad signatures and broken chains still fail.
+Managed run signing uses the stored ID. MCP/setup accept file flags and
+`TRUTHLENS_HMAC_KEY_FILE`, preferring files over environment secrets. Doctor and
+setup suggest key initialization when missing. See [setup](setup-mcp.md).
+
+Witnessed on the implementation tree committed with this entry:
+
+- `/tmp/truthlens-keycmd-venv/bin/python -m pytest -q tests/test_keys.py tests/test_setup_mcp.py tests/test_audit_inputs.py tests/test_audit.py tests/test_cli.py tests/test_mcp.py tests/test_mcp_catalog.py tests/test_readme.py tests/test_cli_export_errors.py tests/test_cli_manifest_errors.py tests/test_cli_utf8.py tests/test_status_projection.py --tb=short`: **176 passed, 42 subtests passed**. Initial three lifecycle acceptance tests failed before implementation.
+- `/tmp/truthlens-keycmd-venv/bin/ruff check src tests`: passed.
+- `/tmp/truthlens-keycmd-venv/bin/python -m build --no-isolation --outdir /tmp/truthlens-keycmd-build`: sdist and wheel built. The initial attempt lacked setuptools in the temporary venv; installing build tools there resolved it.
+- Independent Codex reviewer `/root/security_review`: a key-read location-policy finding was fixed and covered by seven regressions. Final scoped review found no blockers; combined reviewed-source/test digest `52d850bdc283ed43f70a12b4bd6a4c3b4f0c03baac01b4c0eb33130e6b16a242`.
+
+All generated keys were temporary test data outside the repository. No real
+key, host configuration, service, push, PR or merge was touched. Key files use
+POSIX ownership, permissions and locks; full suites, real clients and OS-level
+isolation were not qualified. An exploratory non-POSIX report probe failed on
+the existing ledger's fcntl dependency; no Windows support is claimed here.
+The new key command's unsupported-locking failure path is tested. Restart MCP
+after rotation/replacement; processes load the key at startup. No old secrets
+are retained, and same-UID agents remain outside the key-custody guarantee.
+
+## Portfolio README — local checks, 26 October 2026
+
+`cursor/readme-portfolio-af22` starts from `origin/main` at `eb41362`.
+The English README is the portfolio entry: wordmark, the one-line pitch,
+CI / Python / license badges, the reference runs captures, a terminal
+capture, Why, verification with the HMAC rule, Quickstart including
+`truthlens setup --agent`, MCP, an architecture diagram, roadmap and license.
+The German guide is [docs/de/README.md](de/README.md). Not merged.
+
+On this tree, before this paragraph:
+
+- `PYTHONPATH=src TZ=UTC /tmp/tl-venv/bin/python -m pytest tests/test_readme.py tests/test_architecture_docs.py tests/test_mcp_catalog.py -q --tb=short` printed **23 passed, 95 subtests passed**.
+- `ruff check tests/test_readme.py tests/test_mcp_catalog.py` passed.
+
+The first terminal image was real stdout. `truthlens doctor` exited 1 with
+`entries=0`. On the pre-#209 tree, `truthlens runs list` exited 0 and
+printed `UNKNOWN` for the hash-only demo ledger. After merging `994c943`,
+the same commands were run again: doctor still exited 1, and `runs list`
+exited 0 and printed `unklar`. The reference UI files in `994c943` match
+`12218b1`, so the runs and detail pictures were kept. The key value is not
+in the README or that capture. CI for the pre-merge head was not part of
+the local run.
+
+After the conflict resolution, before this paragraph was updated:
+
+- `PYTHONPATH=src TZ=UTC /tmp/tl-venv/bin/python -m pytest tests/test_readme.py tests/test_architecture_docs.py tests/test_mcp_catalog.py tests/test_reference_commands.py -q --tb=line` printed **44 passed, 95 subtests passed**.
+- `ruff check tests/test_readme.py tests/test_mcp_catalog.py src/truthlens/runs_cmd.py` passed.
+
+## Reference branch keeps main and the mockup gaps, 26 October 2026
+
+`cursor/reference-start-onboarding-af22` merged `origin/main` at `eb41362`
+(PR #211, which contains PR #210 `c547c61`) and then closed the remaining
+reference gaps on `12218b1`. The catalog MCP, `truthlens setup`, and the
+bare harness doctor stay. The reference redesign stays. Not merged.
+
+On `12218b1`, before this paragraph:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **538 passed (538)**.
+- `node scripts/check-language.mjs`, `check-styles.mjs`, and `check-werk-theme.mjs` passed. `npx oxlint` on the touched reference files exited 0 and still printed the existing `react(set-state-in-effect)` warning at `ReferenceApp.tsx:32`.
+- `npm run build` printed `main-CVHqS4Hn.js` at **260.60 kB**. `tsc -b` passed.
+- `ruff check src tests` passed.
+- `PYTHONPATH=src TZ=UTC /tmp/tl-venv/bin/python -m pytest tests/test_reference_commands.py tests/test_reference_demo_fixture.py tests/test_vnext_acceptance.py tests/test_setup_mcp.py tests/test_mcp_catalog.py tests/test_agent_setup.py tests/test_readme.py tests/test_architecture_docs.py -q --tb=line` printed **128 passed, 108 subtests passed**.
+
+Chrome `/opt/google/chrome/chrome` on `vite preview` of that build: 6 unrestricted axe scans, 0 violations, no page errors, no horizontal overflow at 1440×900 or 390×844. Incomplete `color-contrast` on `.tl-mark` in the three 1440 scans only. The runs subtitle is “Beispieldaten (Demo)” in mono. It does not name `/srv/truthlens-published`. Claim text is quoted. The recorded `42 passed` line shows Alle 42 Tests. Zeitablauf is 480px at 1440. The HMAC line sits in the closed developer disclosure. Doctor in the footer has a green dot and its accessible name says isolation is not checked. `run_8f3a21` stays widerlegt. Screenshots and the real doctor/setup terminal image are under `docs/screenshots/cursor/reference-start-onboarding-af22/`. `/workspace/review-tl/vorlage/` was not on this machine. CI for this head was not watched in that local run.
+
+## Mockup match — local checks, 26 October 2026
+
+The reference surface on this branch now follows the owner Läufe and
+run-detail mockups: sidebar Läufe / Prüfberichte / Agenten / Quellen,
+`bestätigt` / `widerlegt` / `unklar`, and an open Zeitablauf card.
+`bestätigt` and `widerlegt` still require `integrity: hmac`. The labelled
+demo catalog is hmac and stays “Beispieldaten (Demo)”. Hash-only stays
+`unklar`. `runs list` uses the same words and keeps the HMAC gate. Legacy
+`truthlens doctor` and `truthlens init LEDGER` are unchanged. Not merged.
+
+On the working tree after those edits, before this paragraph:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **537 passed (537)**.
+- `npm run build` printed `main-DPPt4yUv.js` at **260.48 kB**. `tsc -b` passed.
+- `node scripts/check-styles.mjs`, `check-language.mjs`, and `check-werk-theme.mjs` passed. `npx oxlint` on the touched viewer files exited 0 and still printed the existing `react(set-state-in-effect)` warning at `ReferenceApp.tsx:32`.
+- `ruff check` on `runs_cmd.py`, `build_reference_demo.py`, `test_reference_commands.py`, and `test_reference_demo_fixture.py` passed.
+- `PYTHONPATH=src TZ=UTC /tmp/tl-venv/bin/python -m pytest tests/test_reference_commands.py tests/test_reference_demo_fixture.py tests/test_vnext_acceptance.py -q` printed **28 passed**. The fixture test was run again after the demo totals changed and passed.
+- Chrome `/opt/google/chrome/chrome` on `vite preview` of that build: 6 unrestricted axe scans, 0 violations, no page errors, no horizontal overflow at 1440×900 or 390×844. Incomplete `color-contrast` on `.tl-mark` in the three 1440 scans only.
+
+`run_8f3a21` displays `widerlegt`, not the mockup’s `unklar` title, because the labelled run is refuted and hmac. Agent Zero’s refuted count is 45, not 14. The CLI screenshot is real `workspace init`, `workspace doctor`, and `runs list` output from `/tmp/tl-cli`; it does not claim a publish host.
+
+Screenshots: `docs/screenshots/cursor/reference-start-onboarding-af22/`.
+
+## Guided empty start — local checks, 26 October 2026
+
+`cursor/reference-start-onboarding-af22` adds a welcome card and three
+steps to empty `/runs`, and the same three ideas to the evidence overview
+that still says “Noch keine geladenen Läufe.” No sample runs are injected
+into that overview. TRUE and FALSE on the start are an explanation; that
+step has no green confirmed pill. The browser does not read a ledger and
+does not run an audit. Not merged.
+
+On `120b39d`, before the mobile filter wrap:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **537 passed (537)**.
+- `npm run lint`, `check:styles`, `check:language`, and `check:theme` passed. Lint printed the existing `react(set-state-in-effect)` warning at `ReferenceApp.tsx:32` and exited 0.
+
+`e7f7b90` only wraps the runs filter row so the demo table stays inside a
+390px viewport. Vitest was not re-run after that CSS change. No Python
+changed, so pytest was not run.
+
+After `e7f7b90`:
+
+- `npm run check:styles` passed.
+- `npm run build` printed `main-BxO56OpM.js` at **257.83 kB**. `tsc -b` passed.
+- Chrome `/opt/google/chrome/chrome` on `vite preview` of that commit: 10 unrestricted axe scans, 0 violations, no page errors, no horizontal overflow at 1440×900 or 390×844. Incomplete `color-contrast` on `.tl-mark` in the four 1440 reference scans only. The script checked the start, the demo transition (no confirmed pill), empty Prüfdetails, a hash-only file showing UNKNOWN, and the workspace empty state with no figure.
+
+Screenshots: `docs/screenshots/cursor/reference-start-onboarding-af22/`.
+
+## Setup command and harness doctor — local checks, 26 October 2026
+
+`cursor/truthlens-setup-mcp-af22` adds `truthlens setup` and turns bare
+`truthlens doctor` into a read-only catalog scan. Setup prints or writes one
+MCP entry for Codex, Claude Code, Gemini/agy, Cursor, Agent Zero, or Mausbot.
+An existing file is copied to `.bak` first. The file stores the env var name,
+not the key value. `truthlens setup --prompt` prints a short config prompt
+with no path and no key. Bare doctor reports root, key-env presence, and a
+harness table. It does not print config contents or secrets.
+`truthlens doctor --socket` remains the isolation doctor and still exits 2.
+Not merged.
+
+On this tree, before this paragraph:
+
+- `/tmp/tl-venv/bin/ruff check src tests` passed.
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m pytest -q tests/test_setup_mcp.py tests/test_reference_commands.py tests/test_readme.py tests/test_architecture_docs.py tests/test_agent_setup.py --tb=line` printed **114 passed, 108 subtests passed**.
+
+Full pytest, CI, separate-UID, and a live harness install were not run.
+
+## Local catalog MCP — local checks, 26 October 2026
+
+`cursor/truthlens-mcp-stdio-af22` adds `truthlens mcp` with `TRUTHLENS_ROOT`.
+Tools are `list_runs`, `get_run`, `verify_run` and `doctor`. `TRUE` /
+`bestätigt` and `FALSE` / `widerlegt` require integrity `hmac`. Hash-only
+stays `UNKNOWN` / `unklar`. A file that cannot be checked is `not_checkable`.
+The server does not open a network connection and does not write.
+`truthlens mcp --root` keeps `list_runs`, `run_report` and `run_events`.
+`truthlens mcp-status` stays the one-tool D34 adapter. Example configs are
+`integrations/agent-zero/mcp-servers.example.json` and
+`integrations/mausbot/mcp-servers.example.json`. The private Artifact Hub
+repository was not readable from this environment, so the stdio loop follows
+the existing TruthLens JSON-RPC server. Not merged.
+
+On this tree, before this paragraph:
+
+- `/tmp/tl-venv/bin/ruff check src/truthlens/mcp_local.py src/truthlens/cli.py tests/test_mcp_catalog.py tests/test_mcp_status.py` passed.
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m pytest -q tests/test_mcp_catalog.py tests/test_mcp.py tests/test_mcp_status.py tests/test_export_integrity.py tests/test_readme.py tests/test_architecture_docs.py tests/test_vnext_acceptance.py tests/test_reference_commands.py --tb=line` printed **102 passed, 107 subtests passed**.
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m pytest -q tests/test_round5.py -k mcp --tb=line` printed **3 passed, 51 deselected**.
+
+Full pytest, separate-UID, live HMAC on a protected host, and Artifact Hub were not run.
+
+## Rebased onto squash-merged main — local checks, 26 October 2026
+
+`origin/main` is `f305f68`, the squash merge of PR #206. This branch merges
+that commit and keeps the reference commands and HMAC display rule from main
+together with `project_status` `not_checkable` / `authentication_unchecked`
+for an unauthenticated contradiction, plus the TRUE / FALSE / UNKNOWN display
+labels. No force-push. Not merged.
+
+On this tree, before this paragraph:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **536 passed (536)**.
+- `npm run build` printed `main-d1EXyPLQ.js` at **252.86 kB**.
+- `npm run lint`, `check:styles`, `check:language`, and `check:theme` passed. Lint printed one existing `react(set-state-in-effect)` warning in `ReferenceApp.tsx` and exited 0.
+- `ruff check src tests` passed.
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m pytest -q tests/test_vnext_acceptance.py tests/test_status_projection.py tests/test_status_broker.py tests/test_status_broker_unit.py tests/test_status_readers.py tests/test_reference_commands.py tests/test_reference_demo_fixture.py tests/test_architecture_docs.py tests/test_cli.py tests/test_mcp_status.py tests/test_agent_setup.py --tb=line` printed **291 passed, 51 subtests passed**.
+
+The projection change remains security-sensitive and is not independently reviewed. Full pytest, separate-UID, and Artifact Hub were not run.
+
+## Merged onto the reference branch — local remeasure, 26 October 2026
+
+`cursor/standalone-mcp-vnext-af22` now contains `cursor/truthlens-reference-ui-af22`
+(`231b49f`). `cli.py` keeps the reference command dispatch and the human
+report / `audit status` display lines. `viewer/DESIGN.md` keeps both the
+evidence-workspace HMAC rule and the reference-surface rule. No force-push.
+Not merged to `main`.
+
+`project_status` still returns `not_checkable` / `authentication_unchecked`
+for a contradictory check that is not authenticated HMAC. That projection
+change is security-sensitive and is not independently reviewed here.
+
+On this merged tree, before this paragraph was added:
+
+- `cd viewer && npx vitest run` printed **54 passed (54)** and **536 passed (536)**.
+- `npm run build` printed `main-d1EXyPLQ.js` at **252.86 kB**. `tsc -b` passed.
+- `node scripts/check-language.mjs src` and `node scripts/check-styles.mjs src` passed.
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m pytest -q tests/test_vnext_acceptance.py tests/test_status_projection.py tests/test_status_broker.py tests/test_status_broker_unit.py tests/test_status_readers.py tests/test_reference_commands.py tests/test_reference_demo_fixture.py tests/test_architecture_docs.py --tb=line` printed **188 passed, 51 subtests passed**.
+- `truthlens audit status demo/runs/demo-2` printed `not_checkable · authentication_unchecked` and `Display: UNKNOWN`, exit 2.
+- `truthlens report demo/runs/demo-2` kept stored `met` / `unmet` / `unverified`, printed `UNKNOWN`, and the hash-only line, exit 0.
+- `truthlens doctor` still exited 2 with `ISOLATION_UNVERIFIED`.
+- `truthlens workspace doctor` with `TRUTHLENS_REFERENCE` unset exited 0 and reported isolation `unverified`.
+
+`viewer/src/workspace` did not change against `0970ed4`, so the earlier
+evidence-workspace screenshots were not retaken. Reference screenshots are
+the ones published on the reference branch. Full pytest, separate-UID,
+Artifact Hub, and host isolation were not run.
+
+## Standalone MCP vNext — local phase 0 and phase 2, 26 October 2026
+
+Branch `cursor/standalone-mcp-vnext-af22`, started from `origin/main`
+`5198b00`. This checkout is not the protected VPS. `/run/truthlens` was not
+present (`SOCKET_UNSAFE_OR_MISSING`). Agent Zero, Mausbot, separate UIDs, and
+the private Artifact Hub repository are not available here. No host permission,
+user, or service was changed. No production `passed` is claimed.
+
+Phase 0, from this tree only: TruthLens already has one agent tool,
+`truthlens_check_status`, returning one of `passed`, `failed`, or
+`not_checkable`. Legacy `truthlens mcp --root` remains the human evidence API.
+`truthlens doctor` still exits 2 with `ISOLATION_UNVERIFIED`. `demo-status`
+is labelled synthetic. Unknown here, and left unknown: the live broker UID,
+whether an agent process is root or in the docker group, whether a `/srv`
+reader is reachable, which Hub mounts exist, and which real runs are
+authenticated.
+
+Phase 1 (Artifact Hub) is not in this repository. AH-A01..A12 were not run.
+
+Phase 2, in this tree: human report text and `truthlens audit status` text add
+`TRUE` / `FALSE` / `UNKNOWN` without changing JSON. Hash-only report text keeps
+the stored `met` / `unmet` / `unverified` word and prints `UNKNOWN`. The
+existing viewer uses the same rule on criterion cards: `TRUE` and `FALSE` only
+when `verified === true` and `integrity === 'hmac'`. The protected-audit card
+stays `UNKNOWN`; the browser does not derive it from criteria. Run-list pills
+use the same authentication rule. Recorded counts stay counts.
+
+`project_status` now returns `not_checkable` / `authentication_unchecked` when
+a check is contradictory but the supplied report is not authenticated HMAC.
+An authenticated contradictory report still returns `failed` /
+`checks_failed`. This is a security-sensitive projection change. It is not
+independently reviewed in this commit, and it is not a host acceptance of
+TL-A03, TL-A04, TL-A07, TL-A08, or TL-A14.
+
+Witnessed on this dirty tree before the publishing commit, parent `5198b00`:
+
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m truthlens demo-status` printed the synthetic transcript and `Real client: not_checkable`, exit 0.
+- `truthlens report demo/runs/demo-2` exit 0. Stored statuses remained `met`, `unmet`, `unverified`; display words were `UNKNOWN`; the hash-only line was present.
+- `truthlens verify demo/runs/demo-2/ledger.jsonl` printed `OK 16 events, anchored`, exit 0. `verify` on the run directory (not the ledger file) exited 1 with the existing path diagnostic.
+- `truthlens audit status demo/runs/demo-2` printed `not_checkable · authentication_unchecked` and `Display: UNKNOWN`, exit 2.
+- `truthlens doctor` printed `SOCKET_UNSAFE_OR_MISSING`, `ADAPTER_IMPORTABLE`, `MCP_SDK_PRESENT`, `CLIENT_CONFIG_VALID`, `ISOLATION_UNVERIFIED`, exit 2.
+- `PYTHONPATH=/workspace/src TZ=UTC /tmp/tl-venv/bin/python -m pytest -q tests/test_vnext_acceptance.py tests/test_status_projection.py tests/test_status_broker.py tests/test_status_broker_unit.py tests/test_status_readers.py --tb=line -p no:cacheprovider` observed **157 passed**.
+- After the new `display_labels.py` link was staged, `tests/test_architecture_docs.py` observed **9 passed, 41 subtests passed**.
+- `cd viewer && node scripts/check-language.mjs` and `node scripts/check-styles.mjs` passed. `npm run build` passed. `npx vitest run` observed **53 files, 520 passed**.
+- `cd viewer && REVIEW_BROWSER_EXECUTABLE=/opt/google/chrome/chrome OVERVIEW_OUTPUT=docs/screenshots/cursor/standalone-mcp-vnext-af22 node scripts/review-overview.mjs` completed with no page errors and no serious or critical axe violations. 29 scans at 1440×900 and 390×844. Incomplete axe items remain, mostly `color-contrast` (overlapped SVG text, background not determined) and `label-content-name-mismatch` (chart summary `⋯` with an accessible name). Those incomplete items were not treated as passes. The script recorded commit `5198b00`, dirty tree, because the implementation was not committed yet.
+
+Not run: full pytest, separate-UID broker, real Agent Zero or Codex handshake, live HMAC tamper on a protected host, Windows, and Artifact Hub. Green unit tests and `demo-status` are not production isolation. Phases 3–6 stay open. No merge.
+
+## Review corrections — HMAC display and open commands, 26 October 2026
+
+Hash-only and any non-HMAC run stay UNKNOWN in the reference viewer and in
+`truthlens runs` text. TRUE and FALSE require `integrity=hmac`. Stored
+`review_summary` values and `--json` stay `confirmed` / `refuted` /
+`unclear`. The browser still does not read a ledger and does not run
+`audit_run`. `/runs` without a loaded file and without `?demo=1` says so.
+A run-view JSON file (`truthlens runs show RUN_ID --json`, a catalog, or a
+list) can be loaded and is labelled `Geladene Datei · kein Live-Audit`.
+`Erneut prüfen` names `truthlens runs recheck` and does not start a revision.
+
+`truthlens workspace doctor` and `truthlens runs list` run when
+`TRUTHLENS_REFERENCE` is unset, empty, or `0`. The other workspace and runs
+commands, and bare `truthlens init` without a ledger path, still exit 2
+unless the variable is exactly `1`. `truthlens init LEDGER` is unchanged.
+The start banner names the two open commands without the variable prefix.
+
+Checks on this tree, before the screenshot pass:
+`cd viewer && npx vitest run` printed **53 passed (53)** and **532 passed
+(532)**. `npx vitest run tests/reference-surface.test.tsx` printed **14
+passed**. `npm run build` printed `main-g2AtOZhy.js` at **250.67 kB**.
+`node scripts/check-language.mjs src` and `node scripts/check-styles.mjs src`
+passed. `PATH="/tmp/tl-venv/bin:$PATH" TZ=UTC /tmp/tl-venv/bin/python -m
+pytest -q tests/test_reference_commands.py tests/test_reference_demo_fixture.py
+tests/test_architecture_docs.py` printed **31 passed, 50 subtests passed**.
+`ruff check` and `ruff format --check` passed on the touched Python files.
+The full pytest suite was not re-run.
+
+Chrome `/opt/google/chrome/chrome` on the Vite dev server, after `e1d42a8`,
+captured 1440×900 and 390×844. Fourteen unrestricted axe scans had **zero
+violations**. Incomplete `color-contrast` remains on the short logo letter
+at desktop width. The hash-only demo detail pill was UNKNOWN. A review file
+with `integrity=hmac` showed TRUE; that file is not a signature check.
+Recheck named `truthlens runs recheck` and did not start a revision. Pictures
+and `axe.json` are under
+`docs/screenshots/cursor/truthlens-reference-ui-af22/`.
+
+## Mockup functions — local checks, 26 October 2026
+
+The reference surface uses the neutral `#0a0a0b` / `#111113` palette from the
+owner frames. The logo square is the only gradient. Demo data stays labelled
+`Beispieldaten` and does not name a publish directory.
+
+`truthlens` with no arguments prints a banner. `truthlens init` without a
+ledger path, when `TRUTHLENS_REFERENCE=1`, writes the workspace and
+`.truthlens/hooks/task-end`. The hook stores an agent report and does not
+open a run. `truthlens init LEDGER` is unchanged. `truthlens runs list`
+prints `ERGEBNIS` and `ZEIT`. `truthlens workspace doctor` prints the banner
+and `N ok · N Warnung · N Fehler`. The legacy `truthlens doctor` output is
+unchanged.
+
+The browser still cannot run `audit_run`. `Erneut prüfen` stays fail-closed
+and names `truthlens runs recheck`. Counts on the runs page stay computed
+from the catalog.
+
+Human words on that surface are display-only. Stored `confirmed` /
+`refuted` / `unclear` render as TRUE / FALSE / UNKNOWN. `benchmark_missing`
+renders UNKNOWN unless the run is refuted. `--json`, the ledger and the
+D34 statuses `passed` / `failed` / `not_checkable` stay unchanged.
+`truthlens_check_status` remains the only status tool and does not return
+evidence. The reference areas are Übersicht, Prüfdetails and Nachweise.
+The evidence workspace at `/` is unchanged.
+
+Local checks on this tree, after those display and area changes:
+`cd viewer && npm test` printed **53 files, 528 tests**. A later edit moved
+the search dialog off the `form` element; `npx vitest run
+tests/reference-surface.test.tsx` then printed **10 passed**. `npm run
+build` printed `main-DveMhl2d.js` at **248.66 kB** before that dialog edit.
+`PATH="/tmp/tl-venv/bin:$PATH" TZ=UTC /tmp/tl-venv/bin/python -m pytest -q
+tests/test_reference_commands.py tests/test_reference_demo_fixture.py
+tests/test_architecture_docs.py` printed **31 passed, 50 subtests**. The
+full pytest suite was not re-run. Chrome screenshots and unrestricted axe
+for the reference routes are under
+`docs/screenshots/cursor/truthlens-reference-ui-af22/`. Fifteen scans had
+no violations. Desktop scans still report one incomplete `color-contrast`
+on the logo mark because its text is too short to judge; dialog scans also
+leave links behind the overlay incomplete because their background is
+covered. That is not a measured contrast failure.
+
+## Review corrections — local checks, 26 October 2026
+
+`TRUTHLENS_REFERENCE` is off unless the value is exactly `1`. Unset, empty,
+`0` and every other value leave `truthlens workspace` and `truthlens runs`
+off with exit 2. Ledgers are not deleted. `truthlens init` still runs when
+the flag is off.
+
+`start_run` does not read `workspace.toml`. `qualified_harness_version =
+"test-fixture"` does not open a ledger. A caller-supplied role string is not
+a capture role. Production `_peer_role` returns None, so the call is
+`START_REFUSED` and no run directory is created. A test may replace
+`_peer_role`. `start_run` still returns `NOT_QUALIFIED` and writes nothing.
+That replacement is not a live Agent Zero launcher. G1 status peers are not
+capture operators.
+
+An imported view does not keep a self-declared `audit_state` or `task`. With
+events, the task comes from the ledger command and the audit state is
+`unavailable`. The demo catalog `source_label` is `Beispieldaten (Demo)`.
+
+`viewer/src/reference/copy.ts` and `viewer/src/reference/theme.css` are
+scanned again. German outside a `copy` dictionary line fails the language
+check. The reference theme may use hex of length 3, 4, 6 or 8 and font sizes
+12, 13, 14, 16, 20, 22 and 28. Named colours, gradients, emoji and other
+sizes still fail. `src/theme.css` and `overview-copy.ts` stay fully skipped,
+as before.
+
+Viewer count. The section below records **53 files, 523 tests** for the
+tree before these corrections. GitHub Actions run `40369449029`, job
+`viewer`, command `npx vitest run` on `98212b3`, printed **53 passed (53)**
+and **523 passed (523)**. The same job's `npm run build` log includes
+`main-….js` at **244.78 kB**. This tree's `cd viewer && npm test` (language,
+style, theme and toolbar gates, then vitest 5.0.5) printed **Test Files 53
+passed (53)** and **Tests 525 passed (525)**. The two added tests check
+reference copy outside its dictionary and the reference theme. A vitest
+total of 244 was not printed here.
+
+The full pytest suite was not re-run after these corrections. The 895-passed
+figure below is from before them. After the corrections,
+`PATH="/tmp/tl-venv/bin:$PATH" TZ=UTC /tmp/tl-venv/bin/python -m pytest -q
+tests/test_reference_commands.py tests/test_reference_demo_fixture.py
+tests/test_architecture_docs.py` observed **26 passed, 50 subtests passed**.
+A second run of the two reference files, after `ruff format`, observed **17
+passed**. `ruff check` and `ruff format --check` passed on the touched
+Python files. `cli.py` was not reformatted.
+
+## Reference workspace and run surface — local checks, 26 October 2026
+
+Branch `cursor/truthlens-reference-ui-af22`, base `5198b00`. Human commands
+`truthlens workspace` and `truthlens runs` project an existing ledger. They do
+not replace `truthlens init LEDGER`, the legacy `truthlens doctor` (still exit
+2), or `truthlens mcp --root`. Those two commands run only when
+`TRUTHLENS_REFERENCE` is exactly `1`. The viewer routes `/runs`, `/runs/:id`,
+`/reports`, `/agents`, `/sources`, `/settings` and `/doctor` are an additional
+surface. `/` stays the evidence workspace.
+
+What is implemented: run-view projection and rejection rules; workspace init,
+unlink, doctor, synthetic test and repair; run list, show, quarantined import
+and recheck; a capture module that does not open a ledger; the reference UI,
+including a labelled demo catalog at `?demo=1`.
+What is not: a qualified Agent Zero, Codex, Claude Code or agy launcher; D34
+broker status from the UI; separate-UID isolation; hub result schema; pixel
+match to the briefing PNGs.
+
+Checks on this tree, before this status paragraph was added. The only source
+edit after the suites was `--tl-primary` `#7c5cff` to `#6846f5`, then a fresh
+axe scan.
+
+`PATH="/tmp/tl-venv/bin:$PATH" TZ=UTC /tmp/tl-venv/bin/python -m pytest -q -ra
+--tb=line --basetemp=/tmp/tl-pytest5` observed **895 passed, 2 skipped, 1
+xfailed, 123 subtests passed**. The skip and xfail are the existing host-only
+and same-UID cases. An earlier run without `python` on `PATH` failed
+`test_r6_gate_config_file_outside_refused_even_if_missing` with “program not
+found”; the same test passed once `/tmp/tl-venv/bin` was on `PATH`. This host
+has no project `.venv` from `python3 -m venv` (ensurepip is absent). The
+passing suite used a temporary venv with an editable install, pytest 9.1.1,
+ruff 0.17.2 and `mcp==2.3.0`.
+
+`/tmp/tl-venv/bin/ruff check` on the new Python modules and
+`tests/test_reference_commands.py` plus `tests/test_reference_demo_fixture.py`
+passed. `src/truthlens/cli.py` was not reformatted; ruff check on that file
+passed and ruff format would still rewrite pre-existing lines, so that rewrite
+was left out.
+
+In `viewer/`: `npm test` on that earlier tree observed language, style, theme
+and toolbar gates passing. Vitest printed **53 files, 523 tests passed**,
+the same line as Actions run `40369449029`. `npm run build` (`tsc -b` and
+`vite build`) completed. `npx oxlint` on the reference app and `App.tsx`
+reported no findings. The recount after the review corrections is in the
+section above (**525** tests).
+
+Unrestricted axe, Playwright against `/opt/google/chrome/chrome`, Vite on
+`127.0.0.1:4179`, timezone Europe/Berlin. Viewports 1440×900 and 390×844 for
+`/runs?demo=1` and `/runs/run_8f3a21?demo=1`, plus 1440×900 for `/runs` and
+`/doctor?demo=1`. After the primary-color change, those states had **0
+violations and 0 incomplete**. The first scan had one serious
+`color-contrast` on the selected project chip. Screenshots and `axe.json` are
+under `docs/screenshots/cursor/truthlens-reference-ui-af22/`. The briefing PNG
+files were not in this checkout, so no side-by-side composite was produced.
+The CLI transcript there is captured stdout from `workspace init`, `workspace
+doctor`, `workspace test`, `runs list` and the legacy `doctor` (exit 2). It is
+not a recreation of the sample run IDs in the briefing image.
+
+No host permission, deployment, or ledger-format change. Capture qualification
+and TL1–TL6 live proofs remain open. Loopback is not host isolation.
+
 ## Init filesystem diagnostics — local checks, 26 October 2026
 
 Branch `improve/loop-24`, base `07864a74`. `truthlens init LEDGER` now handles

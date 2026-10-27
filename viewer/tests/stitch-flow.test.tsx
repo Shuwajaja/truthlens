@@ -59,7 +59,7 @@ it('keeps focus on the returned view after closing a run drawer and immediately 
  vi.stubGlobal('fetch',vi.fn(async()=>({json:async()=>structuredClone(doc)})))
  render(<App/>);await screen.findByRole('main')
  fireEvent.click(within(screen.getByRole('navigation',{name:'Viewer navigation'})).getByRole('button',{name:'Timeline',exact:true}))
- const run=screen.getByRole('button',{name:'Run details',exact:true});run.focus();fireEvent.click(run)
+ const run=screen.getByRole('button',{name:'Laufdetails',exact:true});run.focus();fireEvent.click(run)
  expect(screen.getByRole('region',{name:'Run detail'})).toBeTruthy()
  fireEvent.click(screen.getByRole('button',{name:'Back to criterion'}))
  fireEvent.click(screen.getByRole('button',{name:'Review criteria'}))
