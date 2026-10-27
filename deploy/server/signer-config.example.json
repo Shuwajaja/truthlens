@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "socket": "/run/truthlens-signer/signer.sock",
+  "socket_gid": 12345,
+  "run_root": "/srv/agent-runs/truthlens",
+  "key_file": "/etc/truthlens/hmac.key",
+  "callers": {
+    "agent-zero": {
+      "harnesses": ["agent-zero"],
+      "token_file": "/etc/truthlens/signer/callers/agent-zero.token",
+      "runs_per_hour": 20,
+      "events_per_run": 1000,
+      "bytes_per_run": 4194304,
+      "bytes_per_hour": 16777216
+    },
+    "mausbot": {
+      "harnesses": ["mausbot"],
+      "token_file": "/etc/truthlens/signer/callers/mausbot.token",
+      "runs_per_hour": 20,
+      "events_per_run": 1000,
+      "bytes_per_run": 4194304,
+      "bytes_per_hour": 16777216
+    }
+  }
+}

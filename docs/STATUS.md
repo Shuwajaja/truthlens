@@ -1,3 +1,42 @@
+## Host signer — local checks, 27 October 2026
+
+Branch `feat/signer-service`, based on the key-command branch (`e7afe5a`).
+`truthlens signer serve --config PATH` signs host-owned runs over a bounded
+Linux Unix socket, authenticates caller UID/GID and/or private bearer tokens,
+checks harness access, and enforces caller quotas. Submitted content remains
+nested `agent.note` / `agent-reported`, never witnessed tests or human approval.
+Opt-in MCP tools forward reports without loading a key. English/German setup
+and inactive systemd/Compose examples: [signer guide](signer.md).
+
+Witnessed on the source/test contents committed with this entry:
+
+- Final targeted command: `PYTHONDONTWRITEBYTECODE=1 PYTHONPATH="$PWD/src" TMPDIR="$PWD/.truthlens/tmp" /tmp/truthlens-keycmd-venv/bin/python -m pytest -q tests/test_signer.py --basetemp=.truthlens/test-signer-final --tb=short -p no:cacheprovider`: **26 passed**.
+- Before final signer-only path/quota hardening, the same environment and interpreter with `-m pytest -q tests/test_signer.py tests/test_mcp.py tests/test_mcp_catalog.py tests/test_cli.py tests/test_ledger.py tests/test_manifest.py tests/test_audit.py -k 'not test_cli_run_propagates_isolation_failure_125 and not test_capture_failed_exit_code and not test_audit_cli_json_and_private_key_errors' --basetemp=.truthlens/test-final --tb=short -p no:cacheprovider`: **133 passed, 3 deselected**. Unchanged dependency evidence is reused; the final signer tests above cover the subsequent changes.
+- `/tmp/truthlens-keycmd-venv/bin/ruff check src tests`: passed after final code changes.
+- `PYTHONDONTWRITEBYTECODE=1 TMPDIR="$PWD/.truthlens/tmp" /tmp/truthlens-keycmd-venv/bin/python -m build --no-isolation --outdir .truthlens/build`: sdist and wheel built after final code changes.
+- Offline linked-file checks, example JSON parse and static systemd settings checks passed. These do not qualify systemd or Docker on a host.
+- Independent reviewer `/root/signer_security_review`: no blocking findings after scoped follow-ups. Combined reviewed source/test digest `71720e4ec1960c1509b1907c27ca0fb5a6b9ec91b56bfb9fe7fa00ccd6f0a0d2` (SHA-256 of textual `sha256sum` lines for signer, signer_client, cli, test_signer, in that order).
+
+The socket round trip produced `authentication=supported` / `integrity=hmac`;
+overall audit stays `not_checkable` (exit 2) for agent-only completion. Finished
+ledger tampering failed authentication. Tests also cover bad tokens/callers,
+peer/harness/run binding, limits, oversized/malformed input, error non-disclosure,
+MCP fake sockets, unsafe paths, exclusive root locking and restart invalidation.
+
+An initial broader run had **125 passed, 4 failed**: three existing key-file
+cases cannot succeed with required in-repository temporary keys, because the
+production reader correctly rejects repository key paths; one subprocess lacked
+`PYTHONPATH` and passed with the corrected environment. The three location-policy
+cases remain deselected, not passed. Their assertions/policy were not relaxed.
+The new signer fixtures explicitly override key location and ancestry solely to
+keep temporary writes inside this group-writable checkout. Real ownership,
+container separation and deployment remain untested. Early setup/path failures
+and an incorrect audit-exit expectation were corrected without changing audit
+semantics. All keys were fake temporary test data; none were printed. No real
+key, external host configuration, service, push, merge or PR was touched.
+Capabilities/status/quotas are memory-only; restart invalidates them. TCP is not
+implemented. Deployment remains separately authorized and **not done**.
+
 ## Personal HMAC key commands — local checks, 27 October 2026
 
 Branch `feat/key-command`, base `a86601e`. `truthlens key init` creates a

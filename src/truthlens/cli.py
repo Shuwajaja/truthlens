@@ -34,6 +34,10 @@ def main(argv: list[str] | None = None) -> int:
 
         write_banner()
         return 0
+    if argv[:1] == ["signer"]:
+        from truthlens.signer import main as signer_main
+
+        return signer_main(argv[1:])
     if argv[:1] == ["key"]:
         from truthlens.keys import main as key_main
 
@@ -84,6 +88,7 @@ def main(argv: list[str] | None = None) -> int:
         return _audit_status_command(argv[2:])
     ap = argparse.ArgumentParser(prog="truthlens")
     sub = ap.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("signer", help="host-owned signing service (not installed)")
     sub.add_parser("key", help="create or rotate your private HMAC signing key")
     p = sub.add_parser("profile", help="read-only operator profile diagnostics (root only)")
     profile_sub = p.add_subparsers(dest="profile_cmd", required=True)
@@ -151,6 +156,7 @@ def main(argv: list[str] | None = None) -> int:
         help="local read-only catalog MCP (TRUTHLENS_ROOT); --root keeps the legacy evidence API",
     )
     p.add_argument("--root", help="legacy human evidence root; omit to use TRUTHLENS_ROOT")
+    p.add_argument("--signer-socket", metavar="PATH")
     p.add_argument("--hmac-key-env", metavar="VAR")
     p.add_argument("--hmac-key-file", metavar="PATH")
     p = sub.add_parser("request", help="(agent side) ask the running wrapper to execute a gated action")
@@ -211,6 +217,27 @@ def main(argv: list[str] | None = None) -> int:
         from truthlens.audit_inputs import AuditInputError
         from truthlens.keys import read_key_file
 
+        signer_socket = a.signer_socket or os.environ.get("TRUTHLENS_SIGNER_SOCKET")
+        if signer_socket:
+            from truthlens.mcp import Server
+            from truthlens.mcp_local import CatalogServer
+            from truthlens.signer_client import Client
+            from truthlens.signer_client import serve as signing_serve
+
+            # Signer mode never loads a host key, even if an ambient key env is present.
+            root = a.root or os.environ.get("TRUTHLENS_ROOT")
+            if root:
+                base = Server(root) if a.root else CatalogServer(root)
+            else:
+                # No catalog configured: retain tool discovery, but reject read calls.
+                class NoCatalog(CatalogServer):
+                    def call(self, name: str, args: dict) -> dict:
+                        raise ValueError("TRUTHLENS_ROOT is unset")
+
+                base = NoCatalog(".")
+            signing_serve(base, Client(signer_socket, os.environ.get("TRUTHLENS_SIGNER_TOKEN_FILE")),
+                          sys.stdin, sys.stdout)
+            return 0
         key_file = a.hmac_key_file or os.environ.get("TRUTHLENS_HMAC_KEY_FILE")
         try:
             key = read_key_file(Path(key_file)) if key_file else _key(

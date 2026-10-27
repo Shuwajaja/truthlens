@@ -1,0 +1,40 @@
+# EXAMPLE ONLY — NOT INSTALLED. Merge into the actual services after review.
+# Replace 12345 with the host truthlens-callers GID (account for userns mapping).
+# Install truthlens in each image separately. Never mount the HMAC key or run root.
+services:
+  agent-zero:
+    group_add: ["12345"]
+    volumes:
+      - type: bind
+        source: /run/truthlens-signer
+        target: /run/truthlens-signer
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: /srv/truthlens-client-tokens/agent-zero.token
+        target: /run/secrets/truthlens-signer.token
+        read_only: true
+        bind:
+          create_host_path: false
+    environment:
+      TRUTHLENS_SIGNER_SOCKET: /run/truthlens-signer/signer.sock
+      TRUTHLENS_SIGNER_TOKEN_FILE: /run/secrets/truthlens-signer.token
+  mausbot:
+    group_add: ["12345"]
+    volumes:
+      - type: bind
+        source: /run/truthlens-signer
+        target: /run/truthlens-signer
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: /srv/truthlens-client-tokens/mausbot.token
+        target: /run/secrets/truthlens-signer.token
+        read_only: true
+        bind:
+          create_host_path: false
+    environment:
+      TRUTHLENS_SIGNER_SOCKET: /run/truthlens-signer/signer.sock
+      TRUTHLENS_SIGNER_TOKEN_FILE: /run/secrets/truthlens-signer.token
